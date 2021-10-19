@@ -1,0 +1,136 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use DB;
+use Hash;
+use Session;
+use App\Models\InformativePages;
+use DataTables;
+
+class InformativePagesController extends Controller {
+
+    public function index() {
+        $data['title'] = 'List-Informative-Pages';
+        return view('admin.informativePages.list', ["data" => $data]);
+    }
+
+    public function add() {
+        $data['title'] = 'Add-Informative-Pages';
+        return view('admin.informativePages.add', ["data" => $data]);
+    }
+
+    public function save(Request $request) {
+        DB::table('informative_pages')->insert([
+            'name' => $request->name,
+            'content' => $request->content,
+            'slug' => clean_string($request->slug),
+            'updated_by' => $request->session()->get('loginId'),
+            'is_active' => 1,
+            'date_updated' => date("yy-m-d h:i:s")
+        ]);
+        activity($request,"inserted",'informative-pages');
+        successOrErrorMessage("Data added Successfully", 'success');
+        return redirect('informative-pages');
+    }
+
+    public function list(Request $request) {
+        if ($request->ajax()) {
+            $data = InformativePages::latest()->orderBy('informative_page_id','desc')->get();
+            return Datatables::of($data)
+//                            ->addIndexColumn()
+                            ->addColumn('index', '')
+                            ->editColumn('is_active', function ($row) {
+                                $active_inactive_button = '';
+                                if ($row->is_active == 1) {
+                                    $active_inactive_button = '<span class="badge badge-success">Active</span>';
+                                }
+                                if ($row->is_active == 0) {
+                                    $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
+                                }
+                                return $active_inactive_button;
+                            })
+                            ->addColumn('action', function ($row) {
+                                
+                                 if($row->is_active==1){
+                                    $str='<em class="icon ni ni-cross"></em>';
+                                    $class="btn-danger";
+                                }
+                                if($row->is_active==0){
+                                    $str='<em class="icon ni ni-check-thick"></em>';
+                                    $class="btn-success";
+                                }
+                                
+                                $actionBtn = '<a href="/informative-pages/edit/' . $row->informative_page_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->informative_page_id . '" data-status="' . $row->is_active . '" data-table="informative_pages" data-wherefield="informative_page_id" data-module="informative-pages">'.$str.'</button>';
+                                return $actionBtn;
+                            })
+                            ->escapeColumns([])
+                            ->make(true);
+        }
+    }
+
+    public function edit($id) {
+        $result = DB::table('informative_pages')->where('informative_page_id', $id)->first();
+        $data['title'] = 'Edit-Informative-Pages';
+        $data['result'] = $result;
+        return view('admin.informativePages.edit', ["data" => $data]);
+    }
+
+    public function update(Request $request) {
+        DB::table('informative_pages')->where('informative_page_id', $request->id)->update([
+            'name' => $request->name,
+            'content' => $request->content,
+            'slug' => clean_string($request->slug),
+            'updated_by' => $request->session()->get('loginId'),
+            'is_active' => 1,
+            'date_updated' => date("yy-m-d h:i:s")
+        ]);
+        activity($request,"updated",'informative-pages');
+        successOrErrorMessage("Data updated Successfully", 'success');
+        return redirect('informative-pages');
+    }
+    public function delete(Request $request) {
+        if (isset($_REQUEST['table_id'])) {
+            
+            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
+                'is_deleted' => 1,                                
+                'date_updated' => date("yy-m-d h:i:s")
+            ]); 
+            activity($request,"deleted",$_REQUEST['module']);
+//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            if ($res) {
+                $data = array(
+                    'suceess' => true
+                );
+            } else {
+                $data = array(
+                    'suceess' => false
+                );
+            }
+            return response()->json($data);
+        }
+    }
+    public function status(Request $request) {       
+        if (isset($_REQUEST['table_id'])) {
+            
+            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
+                'is_active' => $_REQUEST['status'],                                
+                'date_updated' => date("yy-m-d h:i:s")
+            ]);                        
+//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            if ($res) {
+                $data = array(
+                    'suceess' => true
+                );
+            } else {
+                $data = array(
+                    'suceess' => false
+                );
+            }
+            activity($request,"updated",$_REQUEST['module']);
+            return response()->json($data);
+        }
+    }
+
+}

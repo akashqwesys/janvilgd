@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/akashs/public_html/janvi/
+    - /bin/cp * $DEPLOYPATH

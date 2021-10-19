@@ -1,0 +1,236 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use DB;
+use Hash;
+use Session;
+use App\Models\Customers;
+use DataTables;
+
+class CustomersController extends Controller {
+
+    public function index() {
+        $data['title'] = 'List-Customers';
+        return view('admin.customers.list', ["data" => $data]);
+    }
+
+    public function add() {
+        $customer_type = DB::table('customer_type')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $designation = DB::table('designation')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $data['designation'] = $designation;
+        $data['customer_type'] = $customer_type;
+        $data['city'] = $city;
+        $data['state'] = $state;
+        $data['country'] = $country;
+        $data['title'] = 'Add-Customers';
+        return view('admin.customers.add', ["data" => $data]);
+    }
+
+    public function save(Request $request) {
+
+        $request->validate([
+            'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:5000',
+        ]);
+        $pan_gst_no_file = time() . '.' . $request->pan_gst_no_file->extension();
+//        echo $pan_gst_no_file;die;
+        $request->pan_gst_no_file->move(public_path('files'), $pan_gst_no_file);
+        DB::table('customer')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'address' => $request->address,
+            'pincode' => $request->pincode,
+            'refCity_id' => $request->refCity_id,
+            'refState_id' => $request->refState_id,
+            'refCountry_id' => $request->refCountry_id,
+            'refCustomerType_id' => $request->refCustomerType_id,
+            'restrict_transactions' => $request->restrict_transactions,
+            'added_by' => $request->session()->get('loginId'),
+            'is_active' => 1,
+            'is_deleted' => 0,
+            'date_added' => date("yy-m-d h:i:s"),
+            'date_updated' => date("yy-m-d h:i:s")
+        ]);
+        $Id = DB::getPdo()->lastInsertId();
+
+        DB::table('customer_company_details')->insert([
+            'refCustomer_id' => $Id,
+            'name' => $request->company_name,
+            'office_no' => $request->office_no,
+            'official_email' => $request->official_email,
+            'refDesignation_id' => $request->designation_id,
+            'designation_name' => 'demo',
+            'office_address' => $request->office_address,
+            'pincode' => $request->office_pincode,
+            'refCountry_id' => $request->office_country_id,
+            'refState_id' => $request->office_state_id,
+            'refCity_id' => $request->office_city_id,
+            'pan_gst_no' => $request->pan_gst_no,
+            'pan_gst_attachment' => $pan_gst_no_file,
+            'approved_by' => $request->session()->get('loginId'),
+            'is_approved' => $request->is_approved,
+            'approved_date_time' => date("yy-m-d h:i:s"),
+        ]);
+        activity($request, "inserted", 'customers');
+        successOrErrorMessage("Data added Successfully", 'success');
+        return redirect('customers');
+    }
+
+    public function list(Request $request) {
+        if ($request->ajax()) {
+            $data = Customers::latest()->orderBy('customer_id','desc')->get();
+            return Datatables::of($data)
+//                            ->addIndexColumn()
+                            ->addColumn('index', '')
+                            ->editColumn('is_active', function ($row) {
+                                $active_inactive_button = '';
+                                if ($row->is_active == 1) {
+                                    $active_inactive_button = '<span class="badge badge-success">Active</span>';
+                                }
+                                if ($row->is_active == 0) {
+                                    $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
+                                }
+                                return $active_inactive_button;
+                            })
+                            ->editColumn('is_deleted', function ($row) {
+                                $delete_button = '';
+                                if ($row->is_deleted == 1) {
+                                    $delete_button = '<span class="badge badge-danger">Deleted</span>';
+                                }
+                                return $delete_button;
+                            })
+                            ->addColumn('action', function ($row) {
+                                if ($row->is_active == 1) {
+                                    $str = '<em class="icon ni ni-cross"></em>';
+                                    $class = "btn-danger";
+                                }
+                                if ($row->is_active == 0) {
+                                    $str = '<em class="icon ni ni-check-thick"></em>';
+                                    $class = "btn-success";
+                                }
+                                $actionBtn = '<a href="/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
+                                return $actionBtn;
+                            })
+                            ->escapeColumns([])
+                            ->make(true);
+        }
+    }
+
+    public function edit($id) {
+
+        $customer_type = DB::table('customer_type')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $designation = DB::table('designation')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $data['designation'] = $designation;
+        $data['customer_type'] = $customer_type;
+        $data['city'] = $city;
+        $data['state'] = $state;
+        $data['country'] = $country;
+        $result = DB::table('customer')->where('customer_id', $id)->first();
+        $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->first();
+        $data['title'] = 'Edit-Customers';
+        $data['result'] = $result;
+        $data['result2'] = $result2;
+        return view('admin.customers.edit', ["data" => $data]);
+    }
+
+    public function update(Request $request) {
+        if (isset($request->image)) {
+            $request->validate([
+                'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
+            ]);
+            $pan_gst_no_file = time() . '.' . $request->pan_gst_no_file->extension();
+            $request->pan_gst_no_file->move(public_path('files'), $pan_gst_no_file);
+            DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
+                'pan_gst_no_file' => $pan_gst_no_file,
+            ]);
+        }
+
+        DB::table('customer')->where('customer_id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'address' => $request->address,
+            'pincode' => $request->pincode,
+            'refCity_id' => $request->refCity_id,
+            'refState_id' => $request->refState_id,
+            'refCountry_id' => $request->refCountry_id,
+            'refCustomerType_id' => $request->refCustomerType_id,
+            'restrict_transactions' => $request->restrict_transactions,
+            'date_updated' => date("yy-m-d h:i:s")
+        ]);
+        DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
+            'refCustomer_id' => $request->id,
+            'name' => $request->company_name,
+            'office_no' => $request->office_no,
+            'official_email' => $request->official_email,
+            'refDesignation_id' => $request->designation_id,
+            'designation_name' => 'demo',
+            'office_address' => $request->office_address,
+            'pincode' => $request->office_pincode,
+            'refCountry_id' => $request->office_country_id,
+            'refState_id' => $request->office_state_id,
+            'refCity_id' => $request->office_city_id,
+            'pan_gst_no' => $request->pan_gst_no,            
+            'approved_by' => $request->session()->get('loginId'),
+            'is_approved' => $request->is_approved,
+            'approved_date_time' => date("yy-m-d h:i:s")
+        ]);
+
+        activity($request, "updated", 'customers');
+        successOrErrorMessage("Data updated Successfully", 'success');
+        return redirect('customers');
+    }
+
+    public function delete(Request $request) {
+        if (isset($_REQUEST['table_id'])) {
+
+            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+                'is_deleted' => 1,
+                'date_updated' => date("yy-m-d h:i:s")
+            ]);
+            activity($request, "deleted", $_REQUEST['module']);
+//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            if ($res) {
+                $data = array(
+                    'suceess' => true
+                );
+            } else {
+                $data = array(
+                    'suceess' => false
+                );
+            }
+            return response()->json($data);
+        }
+    }
+
+    public function status(Request $request) {
+        if (isset($_REQUEST['table_id'])) {
+
+            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+                'is_active' => $_REQUEST['status'],
+                'date_updated' => date("yy-m-d h:i:s")
+            ]);
+//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            if ($res) {
+                $data = array(
+                    'suceess' => true
+                );
+            } else {
+                $data = array(
+                    'suceess' => false
+                );
+            }
+            activity($request, "updated", $_REQUEST['module']);
+            return response()->json($data);
+        }
+    }
+
+}
