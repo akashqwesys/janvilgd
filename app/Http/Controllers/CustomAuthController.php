@@ -24,8 +24,15 @@ class CustomAuthController extends Controller {
     
     public function userLogin(Request $request) {        
         
+        
+        
+        
         $password=md5('123');
         $pass=hash('sha256', $password);
+         DB::table('users')->update([
+            'password' => $pass           
+        ]);
+         die;
 
         $request->validate([
             'email' => 'required|email',
