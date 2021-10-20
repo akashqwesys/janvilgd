@@ -37,8 +37,12 @@
                 top:-4px;
                 right:-4px;                
                 overflow:hidden;                
-            }            
+            } 
+            .d-none{
+                display: none !important;
+            }
         </style>
+
         @yield('css')    
     </head>
     <body class="nk-body bg-lighter npc-default has-sidebar ">
@@ -461,6 +465,11 @@
         @include('admin.userRoles.list_js')
         @include('admin.users.list_js')
         @include('admin.customers.list_js')
+        @include('admin.deliveryCharges.list_js')
+        @include('admin.taxes.list_js')
+        @include('admin.sliders.list_js')
+        @include('admin.attributeGroups.list_js')
+        @include('admin.attributes.list_js')        
         @include('admin.commonjs')
 
         <?php
@@ -469,13 +478,13 @@
         }
         ?>
         <script type="text/javascript">
-        $(document).ready(function () {
-            $('a[href$="#finish"]').attr("class", "submit_customers");
-            $('a[href$="#finish"]').addClass("d-none");
-            $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
-            $(document).on('click', '.submit_btn', function () {
-                $('.submit_btn').get(0).submit();
-            });
+$(document).ready(function () {
+    $('a[href$="#finish"]').attr("class", "submit_customers");
+    $('a[href$="#finish"]').addClass("d-none");
+    $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
+    $(document).on('click', '.submit_btn', function () {
+        $('.submit_btn').get(0).submit();
+    });
     if (<?php
         if (!empty(session()->get('error'))) {
             echo session()->get('error');

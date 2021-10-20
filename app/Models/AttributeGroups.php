@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sliders extends Model
+class AttributeGroups extends Model
 {
     use HasFactory;
     
-    protected $table = 'sliders';
-    protected $primaryKey = 'slider_id';
+    protected $table = 'attribute_groups';
+    protected $primaryKey = 'attribute_group_id';
     protected $fillable = [
-        'slider_id',
-        'title',
-        'image',
-        'video_link',       
+        'attribute_group_id',
+        'name',
+        'image_required',
+        'field_type',       
         'refCategory_id',
+        'is_required',
         'added_by',
         'is_active',
         'is_deleted',

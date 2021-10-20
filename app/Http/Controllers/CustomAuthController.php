@@ -24,24 +24,16 @@ class CustomAuthController extends Controller {
     
     public function userLogin(Request $request) {        
         
-        $user=DB::table('users')->get();
-        echo '<pre>';print_r($user);
-        
         $password=md5('123');
         $pass=hash('sha256', $password);
-//        echo $pass;die;
-        DB::table('users')->update([
-            'password' =>$pass 
-        ]);
-        
-        
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
         $user=DB::table('users')->where('email','=',$request->email)->first();  
         if($user){
-            if($request->password==$user->password){
+            if($pass==$user->password){
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
                 return redirect('dashboard');

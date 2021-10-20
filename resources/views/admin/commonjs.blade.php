@@ -1,4 +1,4 @@
-<?php if ($data['title'] == 'Edit-Blogs' || $data['title'] == 'Edit-Categories' || $data['title'] == 'Edit-Events') {
+<?php if ($data['title'] == 'Edit-Blogs' || $data['title'] == 'Edit-Categories' || $data['title'] == 'Edit-Events' || $data['title'] == 'Edit-Sliders' || $data['title'] == 'Edit-Attributes') {
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -28,6 +28,23 @@
                         }
                     }
                 });
+            });
+        });
+    </script>
+<?php } ?>
+<?php if ($data['title'] == 'Edit-Attributes' || $data['title'] == 'Add-Attributes') {
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function () {            
+             $('#attribute_group_id').on('change', function () {                 
+                var attribute_group_id = $(this).val();
+//                alert(".yes_"+attribute_group_id);
+                if($('option').hasClass("yes_"+attribute_group_id)){                     
+                    $(".image_div").removeClass("d-none");
+                }else{
+                    $(".image_div").removeClass("d-none");
+                    $(".image_div").addClass("d-none");
+                }                               
             });
         });
     </script>

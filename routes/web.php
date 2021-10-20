@@ -21,6 +21,12 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserRolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\DeliveryChargesController;
+use App\Http\Controllers\TaxesController;
+use App\Http\Controllers\SlidersController;
+use App\Http\Controllers\AttributeGroupsController;
+use App\Http\Controllers\AttributeController;
+
 
 
 
@@ -265,7 +271,7 @@ Route::post('users/status', [UsersController::class, 'status'])->name('users.sta
 /***************  Users route end *************/
 
 
-/***************  City route *************/
+/***************  Customers route *************/
 Route::get('customers', [CustomersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('customers/list', [CustomersController::class, 'list'])->name('customers.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('customers/add', [CustomersController::class, 'add'])->name('customers.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -275,7 +281,67 @@ Route::get('customers/edit/{id}', [CustomersController::class, 'edit'])->name('c
 Route::post('customers/delete', [CustomersController::class, 'delete'])->name('customers.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('customers/status', [CustomersController::class, 'status'])->name('customers.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-/***************  City route end *************/
+/***************  Customers route end *************/
+
+/***************  Delivery-charges route *************/
+Route::get('delivery-charges', [DeliveryChargesController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('delivery-charges/list', [DeliveryChargesController::class, 'list'])->name('delivery-charges.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('delivery-charges/add', [DeliveryChargesController::class, 'add'])->name('delivery-charges.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('delivery-charges/save', [DeliveryChargesController::class, 'save'])->name('delivery-charges.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('delivery-charges/update', [DeliveryChargesController::class, 'update'])->name('delivery-charges.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('delivery-charges/edit/{id}', [DeliveryChargesController::class, 'edit'])->name('delivery-charges.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('delivery-charges/delete', [DeliveryChargesController::class, 'delete'])->name('delivery-charges.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('delivery-charges/status', [DeliveryChargesController::class, 'status'])->name('delivery-charges.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  Delivery-charges route end *************/
+
+/***************  Taxes route *************/
+Route::get('taxes', [TaxesController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('taxes/list', [TaxesController::class, 'list'])->name('taxes.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('taxes/add', [TaxesController::class, 'add'])->name('taxes.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('taxes/save', [TaxesController::class, 'save'])->name('taxes.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('taxes/update', [TaxesController::class, 'update'])->name('taxes.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('taxes/edit/{id}', [TaxesController::class, 'edit'])->name('taxes.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('taxes/delete', [TaxesController::class, 'delete'])->name('taxes.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('taxes/status', [TaxesController::class, 'status'])->name('taxes.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  Taxes route end *************/
+
+/***************  sliders route *************/
+Route::get('sliders', [SlidersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('sliders/list', [SlidersController::class, 'list'])->name('sliders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('sliders/add', [SlidersController::class, 'add'])->name('sliders.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('sliders/save', [SlidersController::class, 'save'])->name('sliders.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('sliders/update', [SlidersController::class, 'update'])->name('sliders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('sliders/edit/{id}', [SlidersController::class, 'edit'])->name('sliders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('sliders/delete', [SlidersController::class, 'delete'])->name('sliders.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('sliders/status', [SlidersController::class, 'status'])->name('sliders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  sliders route end *************/
+
+/***************  attribute-groups route *************/
+Route::get('attribute-groups', [AttributeGroupsController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attribute-groups/list', [AttributeGroupsController::class, 'list'])->name('attribute-groups.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attribute-groups/add', [AttributeGroupsController::class, 'add'])->name('attribute-groups.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attribute-groups/save', [AttributeGroupsController::class, 'save'])->name('attribute-groups.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attribute-groups/update', [AttributeGroupsController::class, 'update'])->name('attribute-groups.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attribute-groups/edit/{id}', [AttributeGroupsController::class, 'edit'])->name('attribute-groups.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attribute-groups/delete', [AttributeGroupsController::class, 'delete'])->name('attribute-groups.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attribute-groups/status', [AttributeGroupsController::class, 'status'])->name('attribute-groups.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  attribute-groups route end *************/
+
+/***************  attributes route *************/
+Route::get('attributes', [AttributeController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attributes/list', [AttributeController::class, 'list'])->name('attributes.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attributes/add', [AttributeController::class, 'add'])->name('attributes.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attributes/save', [AttributeController::class, 'save'])->name('attributes.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attributes/update', [AttributeController::class, 'update'])->name('attributes.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('attributes/edit/{id}', [AttributeController::class, 'edit'])->name('attributes.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attributes/delete', [AttributeController::class, 'delete'])->name('attributes.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('attributes/status', [AttributeController::class, 'status'])->name('attributes.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  attributes route end *************/
 
 
 //

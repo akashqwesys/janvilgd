@@ -35,14 +35,14 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
-                                            <label class="form-label float-right" for="refState_id">Country:</label>                                            
+                                            <label class="form-label float-right" for="refState_id">State:</label>                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">                                                                                                  
                                                 <select class="form-select form-control" id="refState_id" name="refState_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
-                                                    <option value="" disabled="" selected="">------ Select Country ------</option>   
+                                                    <option value="" disabled="" selected="">------ Select State ------</option>   
                                                     <?php if(!empty($data['state'])){
                                                         foreach ($data['state'] as $row){
                                                             ?>
