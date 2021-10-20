@@ -22,18 +22,9 @@ class CustomAuthController extends Controller {
         return view('admin.login',["data"=>$data]);
     }
     
-    public function userLogin(Request $request) {        
-        
-        
-        
-        
+    public function userLogin(Request $request) {                
         $password=md5('123');
-        $pass=hash('sha256', $password);
-         DB::table('users')->update([
-            'password' => $pass           
-        ]);
-         die;
-
+        $pass=hash('sha256', $password);      
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
