@@ -23,7 +23,7 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request) {        
         DB::table('attribute_groups')->insert([
             'name' => $request->name,
             'image_required' => $request->image_required,
@@ -124,7 +124,7 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request) {      
         DB::table('attribute_groups')->where('attribute_group_id', $request->id)->update([
             'name' => $request->name,
             'image_required' => $request->image_required,

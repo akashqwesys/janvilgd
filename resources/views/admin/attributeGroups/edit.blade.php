@@ -14,7 +14,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Edit Event</h3>
+                            <h3 class="nk-block-title page-title">Edit Attribute Groups</h3>
                         </div>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
@@ -59,16 +59,16 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
-                                            <label class="form-label float-right" for="filed_type">Filed Type:</label>                                            
+                                            <label class="form-label float-right" for="field_type">Filed Type:</label>                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">                                                                                                  
-                                                <select class="form-select form-control" id="filed_type" name="filed_type" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                <select class="form-select form-control" id="field_type" name="field_type" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
                                                     <option value="">------ Select Filed Type ------</option> 
-                                                    <option value="1" <?php echo set_selected(1,$data['result']->image_required); ?>>SELECT</option> 
-                                                    <option value="0" <?php echo set_selected(0,$data['result']->image_required); ?>>TEXT</option> 
+                                                    <option value="1" <?php echo set_selected(1,$data['result']->field_type); ?>>SELECT</option> 
+                                                    <option value="0" <?php echo set_selected(0,$data['result']->field_type); ?>>TEXT</option> 
                                                 </select>
                                             </div>
                                         </div>

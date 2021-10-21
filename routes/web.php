@@ -26,10 +26,7 @@ use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\AttributeGroupsController;
 use App\Http\Controllers\AttributeController;
-
-
-
-
+use App\Http\Controllers\DiamondsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -331,7 +328,7 @@ Route::post('attribute-groups/status', [AttributeGroupsController::class, 'statu
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  attribute-groups route end *************/
 
-/***************  attributes route *************/
+/***************  Attributes route *************/
 Route::get('attributes', [AttributeController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('attributes/list', [AttributeController::class, 'list'])->name('attributes.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('attributes/add', [AttributeController::class, 'add'])->name('attributes.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -341,7 +338,19 @@ Route::get('attributes/edit/{id}', [AttributeController::class, 'edit'])->name('
 Route::post('attributes/delete', [AttributeController::class, 'delete'])->name('attributes.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('attributes/status', [AttributeController::class, 'status'])->name('attributes.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-/***************  attributes route end *************/
+/***************  Attributes route end *************/
+
+/***************  Diamonds route *************/
+Route::get('diamonds', [DiamondsController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('diamonds/list', [DiamondsController::class, 'list'])->name('diamonds.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('diamonds/add', [DiamondsController::class, 'add'])->name('diamonds.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('diamonds/save', [DiamondsController::class, 'save'])->name('diamonds.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('diamonds/update', [DiamondsController::class, 'update'])->name('diamonds.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('diamonds/edit/{id}', [DiamondsController::class, 'edit'])->name('diamonds.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('diamonds/delete', [DiamondsController::class, 'delete'])->name('diamonds.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('diamonds/status', [DiamondsController::class, 'status'])->name('diamonds.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  Diamonds route end *************/
 
 
 //

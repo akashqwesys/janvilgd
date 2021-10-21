@@ -470,6 +470,7 @@
         @include('admin.sliders.list_js')
         @include('admin.attributeGroups.list_js')
         @include('admin.attributes.list_js')        
+        @include('admin.diamonds.list_js')        
         @include('admin.commonjs')
 
         <?php
