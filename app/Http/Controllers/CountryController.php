@@ -23,14 +23,14 @@ class CountryController extends Controller {
 
     public function save(Request $request) {
         DB::table('country')->insert([
-            'name' => $request->name,           
+            'name' => $request->name,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'country');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('country');
@@ -38,7 +38,7 @@ class CountryController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Country::latest()->orderBy('country_id','desc')->get();
+            $data = Country::select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('country_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -60,7 +60,7 @@ class CountryController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -69,7 +69,7 @@ class CountryController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/country/edit/' . $row->country_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="country" data-id="' . $row->country_id . '" data-table="country" data-wherefield="country_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->country_id . '" data-status="' . $row->is_active . '" data-table="country" data-wherefield="country_id" data-module="country">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -88,7 +88,7 @@ class CountryController extends Controller {
 
     public function update(Request $request) {
         DB::table('country')->where('country_id', $request->id)->update([
-            'name' => $request->name,               
+            'name' => $request->name,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request,"updated",'country');
@@ -96,14 +96,14 @@ class CountryController extends Controller {
         return redirect('country');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -116,14 +116,14 @@ class CountryController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -133,7 +133,7 @@ class CountryController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

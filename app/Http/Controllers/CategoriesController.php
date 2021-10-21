@@ -15,19 +15,21 @@ class CategoriesController extends Controller
         $data['title'] = 'List-Categories';
         return view('admin.categories.list', ["data" => $data]);
     }
+
     public function add() {
         $data['title'] = 'Add-Categories';
         return view('admin.categories.add', ["data" => $data]);
     }
-    public function save(Request $request) {          
+
+    public function save(Request $request) {
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);    
-        $imageName = time().'.'.$request->image->extension();  
-        $request->image->move(public_path('images'), $imageName);         
+        ]);
+        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+        $request->file('image')->storeAs("public/user_blogs", $imageName);
         DB::table('categories')->insert([
             'name' => $request->name,
-            'image' => $imageName,          
+            'image' => $imageName,
             'description' => $request->description,
             'slug' => clean_string($request->slug),
             'added_by' => $request->session()->get('loginId'),
@@ -35,7 +37,7 @@ class CategoriesController extends Controller
             'is_deleted' => 0,
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
-        ]);                
+        ]);
         activity($request,"inserted",'categories');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('categories');
@@ -43,7 +45,7 @@ class CategoriesController extends Controller
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Categories::latest()->orderBy('category_id','desc')->get();
+            $data = Categories::select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('category_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index','')
@@ -65,7 +67,7 @@ class CategoriesController extends Controller
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -73,7 +75,7 @@ class CategoriesController extends Controller
                                 if($row->is_active==0){
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
-                                }                                                                
+                                }
                                 $actionBtn = '<a href="/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -83,31 +85,31 @@ class CategoriesController extends Controller
     }
 
     public function edit($id) {
-        $result = DB::table('categories')->where('category_id', $id)->first();
+        $result = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('category_id', $id)->first();
         $data['title'] = 'Edit-Categories';
         $data['result'] = $result;
         return view('admin.categories.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {        
-        if(isset($request->image)){             
+    public function update(Request $request) {
+        if(isset($request->image)){
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);    
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images'), $imageName);            
+            ]);
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/user_blogs", $imageName);
             DB::table('categories')->where('category_id', $request->id)->update([
                 'name' => $request->name,
-                'image' => $imageName,          
+                'image' => $imageName,
                 'description' => $request->description,
-                'slug' => clean_string($request->slug),                        
+                'slug' => clean_string($request->slug),
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);           
+            ]);
         }else{
             DB::table('categories')->where('category_id', $request->id)->update([
-                'name' => $request->name,                     
+                'name' => $request->name,
                 'description' => $request->description,
-                'slug' => clean_string($request->slug),                        
+                'slug' => clean_string($request->slug),
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
         }
@@ -116,14 +118,14 @@ class CategoriesController extends Controller
         return redirect('categories');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -136,14 +138,14 @@ class CategoriesController extends Controller
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -153,7 +155,7 @@ class CategoriesController extends Controller
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

@@ -9,27 +9,27 @@ use DB;
 class CustomAuthController extends Controller {
 
     public function home() {
-        $data['title']='Home';         
+        $data['title']='Home';
         return view('admin.home',["data"=>$data]);
     }
-    public function accessDenied() {        
-        $data['title']='Access-Denied';         
+
+    public function accessDenied() {
+        $data['title']='Access-Denied';
         return view('admin.accessDenied',["data"=>$data]);
-    } 
-    
+    }
+
     public function loginView() {
-        $data['title']='Login';         
+        $data['title']='Login';
         return view('admin.login',["data"=>$data]);
     }
-    
-    public function userLogin(Request $request) {                
+    public function userLogin(Request $request) {
         $password=md5('123');
-        $pass=hash('sha256', $password);      
+        $pass=hash('sha256', $password);
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        $user=DB::table('users')->where('email','=',$request->email)->first();  
+        $user=DB::table('users')->select('id', 'name', 'mobile', 'email', 'user_type', 'password')->where('email','=',$request->email)->first();
         if($user){
             if($pass==$user->password){
                 $request->session()->put('loginId',$user->id);
@@ -42,10 +42,12 @@ class CustomAuthController extends Controller {
             return back()->with('fail','This email is not exist');
         }
     }
-    public function dashboard() {         
-        $data['title']='Dashboard';         
-        return view('admin.dashboard',["data"=>$data]);                      
+
+    public function dashboard() {
+        $data['title']='Dashboard';
+        return view('admin.dashboard',["data"=>$data]);
     }
+
     public function logout() {
         Session::flush();
         return Redirect('login');

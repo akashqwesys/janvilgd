@@ -33,7 +33,7 @@ class DiscountsController extends Controller {
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'discount');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('discount');
@@ -41,7 +41,7 @@ class DiscountsController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Discounts::latest()->orderBy('discount_id','desc')->get();
+            $data = Discounts::select('discount_id', 'name', 'from_amount', 'to_amount', 'discount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('discount_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -63,7 +63,7 @@ class DiscountsController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -71,7 +71,7 @@ class DiscountsController extends Controller {
                                 if($row->is_active==0){
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
-                                }                                
+                                }
                                 $actionBtn = '<a href="/discount/edit/' . $row->discount_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="discount" data-id="' . $row->discount_id . '" data-table="discounts" data-wherefield="discount_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->discount_id . '" data-status="' . $row->is_active . '" data-table="discounts" data-wherefield="discount_id" data-module="discount">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -81,7 +81,7 @@ class DiscountsController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('discounts')->where('discount_id', $id)->first();
+        $result = DB::table('discounts')->select('discount_id', 'name', 'from_amount', 'to_amount', 'discount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('discount_id', $id)->first();
         $data['title'] = 'Edit-Discounts';
         $data['result'] = $result;
         return view('admin.discount.edit', ["data" => $data]);
@@ -95,20 +95,20 @@ class DiscountsController extends Controller {
             'discount' => $request->discount,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"updated",'discount');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('discount');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -121,14 +121,14 @@ class DiscountsController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -138,7 +138,7 @@ class DiscountsController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

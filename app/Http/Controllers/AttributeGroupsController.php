@@ -17,7 +17,7 @@ class AttributeGroupsController extends Controller {
     }
 
     public function add() {
-        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['category'] = $categories;
         $data['title'] = 'Add-Attribute-Groups';
         return view('admin.attributeGroups.add', ["data" => $data]);
@@ -78,7 +78,7 @@ class AttributeGroupsController extends Controller {
                                     $is_required = '<span class="badge badge-danger">Not Required</span>';
                                 }
                                 return $is_required;
-                            }) 
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
                                 if ($row->is_active == 1) {
@@ -116,7 +116,7 @@ class AttributeGroupsController extends Controller {
     }
 
     public function edit($id) {
-        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['category'] = $categories;
         $result = DB::table('attribute_groups')->where('attribute_group_id', $id)->first();
         $data['title'] = 'Edit-Attribute-Groups';
@@ -130,7 +130,7 @@ class AttributeGroupsController extends Controller {
             'image_required' => $request->image_required,
             'field_type' => $request->field_type,
             'refCategory_id' => $request->refCategory_id,
-            'is_required' => $request->is_required,           
+            'is_required' => $request->is_required,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request, "updated", 'attribute-groups');
@@ -138,13 +138,13 @@ class AttributeGroupsController extends Controller {
         return redirect('attribute-groups');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+        if (isset($request['table_id'])) {
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-            activity($request, "deleted", $_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            activity($request, "deleted", $request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -159,13 +159,13 @@ class AttributeGroupsController extends Controller {
     }
 
     public function status(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-                'is_active' => $_REQUEST['status'],
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -175,7 +175,7 @@ class AttributeGroupsController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request, "updated", $_REQUEST['module']);
+            activity($request, "updated", $request['module']);
             return response()->json($data);
         }
     }

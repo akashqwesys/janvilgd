@@ -33,7 +33,7 @@ class CustomerTypeController extends Controller {
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'customer-type');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('customer-type');
@@ -41,7 +41,7 @@ class CustomerTypeController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = CustomerType::latest()->orderBy('customer_type_id','desc')->get();
+            $data = CustomerType::select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_type_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -63,7 +63,7 @@ class CustomerTypeController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -72,7 +72,7 @@ class CustomerTypeController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -83,7 +83,7 @@ class CustomerTypeController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('customer_type')->where('customer_type_id', $id)->first();
+        $result = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('customer_type_id', $id)->first();
         $data['title'] = 'Edit-Customer-Type';
         $data['result'] = $result;
         return view('admin.customerType.edit', ["data" => $data]);
@@ -94,7 +94,7 @@ class CustomerTypeController extends Controller {
             'name' => $request->name,
             'discount' => $request->discount,
             'allow_credit' => $request->allow_credit,
-            'credit_limit' => $request->credit_limit,           
+            'credit_limit' => $request->credit_limit,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request,"updated",'customer-type');
@@ -102,14 +102,14 @@ class CustomerTypeController extends Controller {
         return redirect('customer-type');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -122,14 +122,14 @@ class CustomerTypeController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -139,7 +139,7 @@ class CustomerTypeController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

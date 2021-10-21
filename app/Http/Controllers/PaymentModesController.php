@@ -37,7 +37,7 @@ class PaymentModesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = PaymentModes::latest()->orderBy('payment_mode_id','desc')->get();
+            $data = PaymentModes::select('payment_mode_id', 'name', 'sort_order', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('payment_mode_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -59,7 +59,7 @@ class PaymentModesController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                 if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -68,7 +68,7 @@ class PaymentModesController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/payment-modes/edit/' . $row->payment_mode_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="payment-modes" data-id="' . $row->payment_mode_id . '" data-table="payment_modes" data-wherefield="payment_mode_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->payment_mode_id . '" data-status="' . $row->is_active . '" data-table="payment_modes" data-wherefield="payment_mode_id" data-module="payment-modes">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -78,7 +78,7 @@ class PaymentModesController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('payment_modes')->where('payment_mode_id', $id)->first();
+        $result = DB::table('payment_modes')->select('payment_mode_id', 'name', 'sort_order', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('payment_mode_id', $id)->first();
         $data['title'] = 'Edit-Payment-Modes';
         $data['result'] = $result;
         return view('admin.paymentModes.edit', ["data" => $data]);
@@ -95,14 +95,14 @@ class PaymentModesController extends Controller {
         return redirect('payment-modes');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -115,14 +115,14 @@ class PaymentModesController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -132,7 +132,7 @@ class PaymentModesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

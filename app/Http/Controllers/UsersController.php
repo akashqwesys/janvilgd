@@ -7,6 +7,7 @@ use DB;
 use Hash;
 use Session;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use DataTables;
 
 class UsersController extends Controller {
@@ -16,11 +17,11 @@ class UsersController extends Controller {
         return view('admin.users.list', ["data" => $data]);
     }
 
-    public function add() {      
-        $user_role = DB::table('user_role')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+    public function add() {
+        $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['user_role'] = $user_role;
         $data['city'] = $city;
         $data['state'] = $state;
@@ -30,19 +31,25 @@ class UsersController extends Controller {
     }
 
     public function save(Request $request) {
-                        
+
         $request->validate([
             'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'id_proof_1' => 'mimes:doc,pdf,docx|max:2048',
             'id_proof_2' => 'mimes:doc,pdf,docx|max:2048',
             'email' => 'required|email|unique:users,email',
         ]);
-        $imageName = time() . '.' . $request->profile_pic->extension();
+        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('profile_pic')->getClientOriginalName());
+        $request->file('profile_pic')->storeAs("public/user_images", $imageName);
+        $id_proof_1 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_1')->getClientOriginalName());
+        $request->file('id_proof_1')->storeAs("public/user_files", $id_proof_1);
+        $id_proof_2 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_2')->getClientOriginalName());
+        $request->file('id_proof_2')->storeAs("public/user_files", $id_proof_2);
+        /* $imageName = time() . '.' . $request->profile_pic->extension();
         $id_proof_1 = time() . '.' . $request->id_proof_1->extension();
         $id_proof_2 = time() . '.' . $request->id_proof_2->extension();
         $request->profile_pic->move(public_path('images'), $imageName);
         $request->id_proof_1->move(public_path('files'), $id_proof_1);
-        $request->id_proof_2->move(public_path('files'), $id_proof_2);
+        $request->id_proof_2->move(public_path('files'), $id_proof_2); */
         DB::table('users')->insert([
             'name' => $request->name,
             'profile_pic' => $imageName,
@@ -74,7 +81,7 @@ class UsersController extends Controller {
         if ($request->ajax()) {
             $data = User::latest()->orderBy('id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
+                            // ->addIndexColumn()
                             ->addColumn('index', '')
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
@@ -111,16 +118,16 @@ class UsersController extends Controller {
     }
 
     public function edit($id) {
-        
-        $user_role = DB::table('user_role')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+
+        $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['user_role'] = $user_role;
         $data['city'] = $city;
         $data['state'] = $state;
-        $data['country'] = $country;      
-                        
+        $data['country'] = $country;
+
         $result = DB::table('users')->where('id', $id)->first();
         $data['title'] = 'Edit-Users';
         $data['result'] = $result;
@@ -128,64 +135,57 @@ class UsersController extends Controller {
     }
 
     public function update(Request $request) {
-//        print_r($_REQUEST);die;
-        if (isset($request->image)) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $request->validate([
-                'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            DB::table('users')->where('id', $request->id)->update([
-                'profile_pic' => $imageName,
-            ]);
-        }
-        if (isset($request->id_proof_1)) {
-            $id_proof_1 = time() . '.' . $request->id_proof_1->extension();
-            $request->id_proof_1->move(public_path('files'), $id_proof_1);
-            $request->validate([
-                'id_proof_1' => 'mimes:doc,pdf,docx|max:2048',
-            ]);
-            DB::table('users')->where('id', $request->id)->update([
-                'id_proof_1' => $id_proof_1,
-            ]);
-        }
-        if (isset($request->id_proof_2)) {
-            $id_proof_2 = time() . '.' . $request->id_proof_2->extension();
-            $request->id_proof_2->move(public_path('files'), $id_proof_2);
-            $request->validate([
-                'id_proof_2' => 'mimes:doc,pdf,docx|max:2048',
-            ]);
-            DB::table('users')->where('id', $request->id)->update([
-                'id_proof_1' => $id_proof_2,
-            ]);
-        }
-        
-        
-        
-        DB::table('users')->where('id', $request->id)->update([
-            'name' => $request->name,           
+        $data = [
+            'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
             'address' => $request->address,
             'city_id' => $request->city_id,
             'state_id' => $request->state_id,
-            'country_id' => $request->country_id,            
+            'country_id' => $request->country_id,
             'role_id' => $request->role_id,
             'date_updated' => date("yy-m-d h:i:s")
-        ]);
+        ];
+        if (isset($request->profile_pic)) {
+            $request->validate([
+                'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('profile_pic')->getClientOriginalName());
+            $request->file('profile_pic')->storeAs("public/user_images", $imageName);
+            $data['profile_pic'] = $imageName;
+        }
+        if (isset($request->id_proof_1)) {
+            $request->validate([
+                'id_proof_1' => 'mimes:doc,pdf,docx|max:2048',
+            ]);
+            $id_proof_1 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_1')->getClientOriginalName());
+            $request->file('id_proof_1')->storeAs("public/user_files", $id_proof_1);
+            $data['id_proof_1'] = $id_proof_1;
+        }
+        if (isset($request->id_proof_2)) {
+            $request->validate([
+                'id_proof_2' => 'mimes:doc,pdf,docx|max:2048',
+            ]);
+            $id_proof_2 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_2')->getClientOriginalName());
+            $request->file('id_proof_2')->storeAs("public/user_files", $id_proof_2);
+            $data['id_proof_2'] = $id_proof_2;
+        }
+
+        DB::table('users')->where('id', $request->id)->update($data);
         activity($request, "updated", 'users');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('users');
     }
-    public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+    public function delete(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-            activity($request, "deleted", $_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            activity($request, "deleted", $request['module']);
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -200,13 +200,13 @@ class UsersController extends Controller {
     }
 
     public function status(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-                'is_active' => $_REQUEST['status'],
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -216,7 +216,7 @@ class UsersController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request, "updated", $_REQUEST['module']);
+            activity($request, "updated", $request['module']);
             return response()->json($data);
         }
     }

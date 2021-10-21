@@ -38,7 +38,7 @@ class LabourChargesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = LabourCharges::latest()->orderBy('labour_charge_id','desc')->get();
+            $data = LabourCharges::select('labour_charge_id', 'name', 'amount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('labour_charge_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -60,7 +60,7 @@ class LabourChargesController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                 if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -69,7 +69,7 @@ class LabourChargesController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/labour-charges/edit/' . $row->labour_charge_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="labour-charges" data-id="' . $row->labour_charge_id . '" data-table="labour_charges" data-wherefield="labour_charge_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->labour_charge_id . '" data-status="' . $row->is_active . '" data-table="labour_charges" data-wherefield="labour_charge_id" data-module="labour-charges">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -79,7 +79,7 @@ class LabourChargesController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('labour_charges')->where('labour_charge_id', $id)->first();
+        $result = DB::table('labour_charges')->select('labour_charge_id', 'name', 'amount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('labour_charge_id', $id)->first();
         $data['title'] = 'Edit-Labour-Charges';
         $data['result'] = $result;
         return view('admin.labourCharges.edit', ["data" => $data]);
@@ -92,20 +92,20 @@ class LabourChargesController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"updated",'labour-charges');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('labour-charges');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -118,14 +118,14 @@ class LabourChargesController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -135,7 +135,7 @@ class LabourChargesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

@@ -22,19 +22,19 @@ class GetMenu {
         if (session()->get('user-type') != 'MASTER_ADMIN') {
             $user_id = session()->get('loginId');
             $user_role_id = DB::table('users')->select('role_id')->where('id', $user_id)->first();
-            $user_roles = DB::table('user_role')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id->role_id)->first();
-            
+            $user_roles = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id->role_id)->first();
+
             if(empty($user_roles)){
                 successOrErrorMessage("Access denied for this module", 'error');
                 return redirect('access-denied');
             }
-            
+
             $access_permission = json_decode($user_roles->access_permission);
-            $module = DB::table('modules')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
 
             if (!empty($module)) {
                 $access_list=array();
-                $menu_array = array();                
+                $menu_array = array();
                 foreach ($module as $row_module) {
                     if ($row_module->parent_id == 0) {
                         $row_module->submenu = array();
@@ -56,32 +56,32 @@ class GetMenu {
                             }
                         }
                     }
-                }                
-                session()->put('access_list',$access_list);                
+                }
+                session()->put('access_list',$access_list);
             }
         }
-        if (session()->get('user-type') == 'MASTER_ADMIN') {            
-            $module = DB::table('modules')->where('is_active', 1)->where('is_deleted', 0)->get();
+        if (session()->get('user-type') == 'MASTER_ADMIN') {
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
 
             if (!empty($module)) {
-               
+
                 $menu_array = array();
                 foreach ($module as $row_module) {
                     if ($row_module->parent_id == 0) {
                         $row_module->submenu = array();
                         array_push($menu_array, $row_module);
-                        
+
                     }
                 }
                 foreach ($menu_array as $row) {
-                    foreach ($module as $row1) {                                              
+                    foreach ($module as $row1) {
                         if ($row->module_id == $row1->parent_id) {
                             array_push($row->submenu, $row1);
-                            
-                        }                       
+
+                        }
                     }
                 }
-                
+
             }
         }
         $columns = array_column($menu_array, 'sort_order');

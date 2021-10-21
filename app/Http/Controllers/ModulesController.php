@@ -17,13 +17,13 @@ class ModulesController extends Controller {
     }
 
     public function add() {
-        $module = DB::table('modules')->where('is_active',1)->where('is_deleted',0)->where('parent_id',0)->get();       
+        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active',1)->where('is_deleted',0)->where('parent_id',0)->get();
         $data['title'] = 'Add-Modules';
         $data['module'] = $module;
         return view('admin.modules.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {        
+    public function save(Request $request) {
         DB::table('modules')->insert([
             'name' => $request->name,
             'icon' => $request->icon,
@@ -34,7 +34,7 @@ class ModulesController extends Controller {
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("yy-m-d h:i:s"),
-            'date_updated' => date("yy-m-d h:i:s")     
+            'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request,"inserted",'modules');
         successOrErrorMessage("Data added Successfully", 'success');
@@ -43,7 +43,7 @@ class ModulesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Modules::latest()->orderBy('module_id','desc')->get();
+            $data = Modules::select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('module_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -65,7 +65,7 @@ class ModulesController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -73,7 +73,7 @@ class ModulesController extends Controller {
                                 if($row->is_active==0){
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
-                                }                                                                
+                                }
                                 $actionBtn = '<a href="/modules/edit/' . $row->module_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="modules" data-id="' . $row->module_id . '" data-table="modules" data-wherefield="module_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->module_id . '" data-status="' . $row->is_active . '" data-table="modules" data-wherefield="module_id" data-module="modules">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -83,8 +83,8 @@ class ModulesController extends Controller {
     }
 
     public function edit($id) {
-        $module  = DB::table('modules')->where('parent_id',0)->get();        
-        $result = DB::table('modules')->where('module_id', $id)->first();
+        $module  = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('parent_id',0)->get();
+        $result = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('module_id', $id)->first();
         $data['title'] = 'Edit-Modules';
         $data['result'] = $result;
         $data['module'] = $module;
@@ -104,14 +104,14 @@ class ModulesController extends Controller {
         return redirect('modules');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -124,14 +124,14 @@ class ModulesController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -141,7 +141,7 @@ class ModulesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

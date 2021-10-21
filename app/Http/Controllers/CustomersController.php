@@ -17,11 +17,11 @@ class CustomersController extends Controller {
     }
 
     public function add() {
-        $customer_type = DB::table('customer_type')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $designation = DB::table('designation')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
         $data['city'] = $city;
@@ -36,9 +36,8 @@ class CustomersController extends Controller {
         $request->validate([
             'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:5000',
         ]);
-        $pan_gst_no_file = time() . '.' . $request->pan_gst_no_file->extension();
-//        echo $pan_gst_no_file;die;
-        $request->pan_gst_no_file->move(public_path('files'), $pan_gst_no_file);
+        $pan_gst_no_file = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
+        $request->file('pan_gst_no_file')->storeAs("public/user_files", $pan_gst_no_file);
         DB::table('customer')->insert([
             'name' => $request->name,
             'email' => $request->email,
@@ -83,7 +82,7 @@ class CustomersController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Customers::latest()->orderBy('customer_id','desc')->get();
+            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -122,12 +121,11 @@ class CustomersController extends Controller {
     }
 
     public function edit($id) {
-
-        $customer_type = DB::table('customer_type')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $designation = DB::table('designation')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
         $data['city'] = $city;
@@ -146,8 +144,8 @@ class CustomersController extends Controller {
             $request->validate([
                 'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
             ]);
-            $pan_gst_no_file = time() . '.' . $request->pan_gst_no_file->extension();
-            $request->pan_gst_no_file->move(public_path('files'), $pan_gst_no_file);
+            $pan_gst_no_file = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
+            $request->file('pan_gst_no_file')->storeAs("public/user_files", $pan_gst_no_file);
             DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
                 'pan_gst_no_file' => $pan_gst_no_file,
             ]);
@@ -178,7 +176,7 @@ class CustomersController extends Controller {
             'refCountry_id' => $request->office_country_id,
             'refState_id' => $request->office_state_id,
             'refCity_id' => $request->office_city_id,
-            'pan_gst_no' => $request->pan_gst_no,            
+            'pan_gst_no' => $request->pan_gst_no,
             'approved_by' => $request->session()->get('loginId'),
             'is_approved' => $request->is_approved,
             'approved_date_time' => date("yy-m-d h:i:s")
@@ -190,14 +188,14 @@ class CustomersController extends Controller {
     }
 
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-            activity($request, "deleted", $_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            activity($request, "deleted", $request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -212,13 +210,13 @@ class CustomersController extends Controller {
     }
 
     public function status(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-                'is_active' => $_REQUEST['status'],
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -228,7 +226,7 @@ class CustomersController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request, "updated", $_REQUEST['module']);
+            activity($request, "updated", $request['module']);
             return response()->json($data);
         }
     }

@@ -17,14 +17,14 @@ class DeliveryChargesController extends Controller {
     }
 
     public function add() {
-        $transport = DB::table('transport')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $transport = DB::table('transport')->select('transport_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['transport']=$transport;
         $data['title'] = 'Add-Delivery-Charges';
         return view('admin.deliveryCharges.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {          
-        $transport=explode('_', $request->reftransport_id);        
+    public function save(Request $request) {
+        $transport=explode('_', $request->reftransport_id);
         DB::table('delivery_charges')->insert([
             'name' => $request->name,
             'reftransport_id' => $transport[0],
@@ -46,7 +46,7 @@ class DeliveryChargesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = DeliveryCharges::latest()->orderBy('delivery_charge_id', 'desc')->get();
+            $data = DeliveryCharges::select('delivery_charge_id', 'name', 'reftransport_id', 'transport_name', 'from_weight', 'to_weight', 'amount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('delivery_charge_id', 'desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -85,9 +85,9 @@ class DeliveryChargesController extends Controller {
     }
 
     public function edit($id) {
-        $transport = DB::table('transport')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $transport = DB::table('transport')->select('transport_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['transport']=$transport;
-                
+
         $result = DB::table('delivery_charges')->where('delivery_charge_id', $id)->first();
         $data['title'] = 'Edit-Delivery-Charges';
         $data['result'] = $result;
@@ -95,14 +95,14 @@ class DeliveryChargesController extends Controller {
     }
 
     public function update(Request $request) {
-        $transport=explode('_', $request->reftransport_id);  
+        $transport=explode('_', $request->reftransport_id);
         DB::table('delivery_charges')->where('delivery_charge_id', $request->id)->update([
             'name' => $request->name,
             'reftransport_id' => $transport[0],
             'transport_name' => $transport[1],
             'from_weight' => $request->from_weight,
             'to_weight' => $request->to_weight,
-            'amount' => $request->amount,                       
+            'amount' => $request->amount,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request, "updated", 'delivery-charges');
@@ -111,14 +111,14 @@ class DeliveryChargesController extends Controller {
     }
 
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-            activity($request, "deleted", $_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            activity($request, "deleted", $request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -133,13 +133,13 @@ class DeliveryChargesController extends Controller {
     }
 
     public function status(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
+        if (isset($request['table_id'])) {
 
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-                'is_active' => $_REQUEST['status'],
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -149,7 +149,7 @@ class DeliveryChargesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request, "updated", $_REQUEST['module']);
+            activity($request, "updated", $request['module']);
             return response()->json($data);
         }
     }

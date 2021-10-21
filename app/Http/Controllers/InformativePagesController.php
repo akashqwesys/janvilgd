@@ -37,7 +37,7 @@ class InformativePagesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = InformativePages::latest()->orderBy('informative_page_id','desc')->get();
+            $data = InformativePages::select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->latest()->orderBy('informative_page_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -52,7 +52,7 @@ class InformativePagesController extends Controller {
                                 return $active_inactive_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -61,7 +61,7 @@ class InformativePagesController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/informative-pages/edit/' . $row->informative_page_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->informative_page_id . '" data-status="' . $row->is_active . '" data-table="informative_pages" data-wherefield="informative_page_id" data-module="informative-pages">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -71,7 +71,7 @@ class InformativePagesController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('informative_pages')->where('informative_page_id', $id)->first();
+        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();
         $data['title'] = 'Edit-Informative-Pages';
         $data['result'] = $result;
         return view('admin.informativePages.edit', ["data" => $data]);
@@ -91,14 +91,14 @@ class InformativePagesController extends Controller {
         return redirect('informative-pages');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -111,14 +111,14 @@ class InformativePagesController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -128,7 +128,7 @@ class InformativePagesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

@@ -30,7 +30,7 @@ class TransportController extends Controller {
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'transport');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('transport');
@@ -38,7 +38,7 @@ class TransportController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Transport::latest()->orderBy('transport_id','desc')->get();
+            $data = Transport::select('transport_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('transport_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -60,7 +60,7 @@ class TransportController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -68,7 +68,7 @@ class TransportController extends Controller {
                                 if($row->is_active==0){
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
-                                }                                                                
+                                }
                                 $actionBtn = '<a href="/transport/edit/' . $row->transport_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="transport" data-id="' . $row->transport_id . '" data-table="transport" data-wherefield="transport_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->transport_id . '" data-status="' . $row->is_active . '" data-table="transport" data-wherefield="transport_id" data-module="transport">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -78,7 +78,7 @@ class TransportController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('transport')->where('transport_id', $id)->first();
+        $result = DB::table('transport')->select('transport_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('transport_id', $id)->first();
         $data['title'] = 'Edit-Transport';
         $data['result'] = $result;
         return view('admin.transport.edit', ["data" => $data]);
@@ -94,14 +94,14 @@ class TransportController extends Controller {
         return redirect('transport');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -114,14 +114,14 @@ class TransportController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -131,7 +131,7 @@ class TransportController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

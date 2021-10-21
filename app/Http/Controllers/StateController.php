@@ -17,7 +17,7 @@ class StateController extends Controller {
     }
 
     public function add() {
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['country'] = $country;
         $data['title'] = 'Add-State';
         return view('admin.state.add', ["data" => $data]);
@@ -25,15 +25,15 @@ class StateController extends Controller {
 
     public function save(Request $request) {
         DB::table('state')->insert([
-            'name' => $request->name, 
-            'refCountry_id' => $request->refCountry_id, 
+            'name' => $request->name,
+            'refCountry_id' => $request->refCountry_id,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("yy-m-d h:i:s"),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'state');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('state');
@@ -63,7 +63,7 @@ class StateController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                  if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -72,7 +72,7 @@ class StateController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/state/edit/' . $row->state_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="state" data-id="' . $row->state_id . '" data-table="state" data-wherefield="state_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->state_id . '" data-status="' . $row->is_active . '" data-table="state" data-wherefield="state_id" data-module="state">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -83,8 +83,8 @@ class StateController extends Controller {
     }
 
     public function edit($id) {
-        $country = DB::table('country')->where('is_active', 1)->where('is_deleted', 0)->get();        
-        $result = DB::table('state')->where('state_id', $id)->first();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $result = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('state_id', $id)->first();
         $data['title'] = 'Edit-State';
         $data['result'] = $result;
         $data['country'] = $country;
@@ -94,7 +94,7 @@ class StateController extends Controller {
     public function update(Request $request) {
         DB::table('state')->where('state_id', $request->id)->update([
             'name' => $request->name,
-            'refCountry_id' => $request->refCountry_id,                    
+            'refCountry_id' => $request->refCountry_id,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request,"updated",'state');
@@ -102,14 +102,14 @@ class StateController extends Controller {
         return redirect('state');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -122,14 +122,14 @@ class StateController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -139,7 +139,7 @@ class StateController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

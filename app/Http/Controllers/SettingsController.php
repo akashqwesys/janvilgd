@@ -25,10 +25,10 @@ class SettingsController extends Controller {
         DB::table('settings')->insert([
             'key' => $request->key,
             'value' => $request->value,
-            'updated_by' => $request->session()->get('loginId'),            
+            'updated_by' => $request->session()->get('loginId'),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'settings');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('settings');
@@ -36,7 +36,7 @@ class SettingsController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Settings::latest()->orderBy('setting_id','desc')->get();
+            $data = Settings::select('setting_id', 'key', 'value', 'updated_by', 'date_updated')->latest()->orderBy('setting_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -57,7 +57,7 @@ class SettingsController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('settings')->where('setting_id', $id)->first();
+        $result = DB::table('settings')->select('setting_id', 'key', 'value', 'updated_by', 'date_updated')->where('setting_id', $id)->first();
         $data['title'] = 'Edit-Settings';
         $data['result'] = $result;
         return view('admin.settings.edit', ["data" => $data]);
@@ -67,23 +67,23 @@ class SettingsController extends Controller {
         DB::table('settings')->where('setting_id', $request->id)->update([
             'key' => $request->key,
             'value' => $request->value,
-            'updated_by' => $request->session()->get('loginId'),            
+            'updated_by' => $request->session()->get('loginId'),
             'date_updated' => date("yy-m-d h:i:s")
         ]);
-        
+
         activity($request,"updated",'settings');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('settings');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -96,14 +96,14 @@ class SettingsController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -113,7 +113,7 @@ class SettingsController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

@@ -15,23 +15,25 @@ class AttributeController extends Controller
         $data['title'] = 'List-Attributes';
         return view('admin.attributes.list', ["data" => $data]);
     }
+
     public function add() {
-        $attribute_groups = DB::table('attribute_groups')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
+        $attribute_groups = DB::table('attribute_groups')->select('attribute_group_id', 'name', 'image_required', 'field_type', 'refCategory_id', 'is_required', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['attribute_groups'] = $attribute_groups;
         $data['title'] = 'Add-Attributes';
         return view('admin.attributes.add', ["data" => $data]);
     }
-    public function save(Request $request) {                
-        if(isset($request->image)){            
+
+    public function save(Request $request) {
+        if(isset($request->image)){
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);    
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images'), $imageName);                        
+            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
             DB::table('attributes')->insert([
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
-                'image' => $imageName,            
+                'image' => $imageName,
                 'added_by' => $request->session()->get('loginId'),
                 'is_active' => 1,
                 'is_deleted' => 0,
@@ -41,24 +43,24 @@ class AttributeController extends Controller
         } else{
             DB::table('attributes')->insert([
                 'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,                         
+                'attribute_group_id' => $request->attribute_group_id,
                 'added_by' => $request->session()->get('loginId'),
                 'is_active' => 1,
                 'is_deleted' => 0,
                 'date_added' => date("yy-m-d h:i:s"),
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-        }   
+        }
         activity($request,"inserted",'attributes');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('attributes');
     }
 
     public function list(Request $request) {
-        if ($request->ajax()) {            
+        if ($request->ajax()) {
             $data = DB::table('attributes')->select('attributes.*', 'attribute_groups.name as attribute_groups_name')->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')->orderBy('attribute_id', 'desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
+                            // ->addIndexColumn()
                             ->addColumn('index','')
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button='';
@@ -76,7 +78,7 @@ class AttributeController extends Controller
                                     $delete_button='<span class="badge badge-danger">Deleted</span>';
                                 }
                                 return $delete_button;
-                            })                            
+                            })
                             ->addColumn('action', function ($row) {
                                 if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
@@ -95,56 +97,57 @@ class AttributeController extends Controller
     }
 
     public function edit($id) {
-        $attribute_groups = DB::table('attribute_groups')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
+        $attribute_groups = DB::table('attribute_groups')->select('attribute_group_id', 'name', 'image_required', 'field_type', 'refCategory_id', 'is_required', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['attribute_groups'] = $attribute_groups;
-        $data['is_image'] = 0;                
+        $data['is_image'] = 0;
         $result = DB::table('attributes')->where('attribute_id', $id)->first();
         foreach ($attribute_groups as $row){
             if($row->attribute_group_id==$result->attribute_group_id){
                 if($row->image_required==1){
-                    $data['is_image'] = 1;  
+                    $data['is_image'] = 1;
                 }
             }
-        }       
+        }
         $data['title'] = 'Edit-Attributes';
         $data['result'] = $result;
         return view('admin.attributes.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {        
-        if(isset($request->image)){            
+    public function update(Request $request) {
+        if(isset($request->image)){
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);    
-            $imageName = time().'.'.$request->image->extension();  
+            ]);
+            $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('images'), $imageName);
 
             DB::table('attributes')->where('attribute_id', $request->id)->update([
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
-                'image' => $imageName,                            
+                'image' => $imageName,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);           
+            ]);
         }else{
             DB::table('attributes')->where('attribute_id', $request->id)->update([
                 'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,                                  
+                'attribute_group_id' => $request->attribute_group_id,
                 'date_updated' => date("yy-m-d h:i:s")
             ]);
-        }        
-        activity($request,"updated",'attributes');               
+        }
+        activity($request,"updated",'attributes');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('attributes');
     }
+
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -157,14 +160,15 @@ class AttributeController extends Controller
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -174,7 +178,7 @@ class AttributeController extends Controller
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }

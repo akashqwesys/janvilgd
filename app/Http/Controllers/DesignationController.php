@@ -35,7 +35,7 @@ class DesignationController extends Controller {
     }
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Designation::latest()->orderBy('id','desc')->get();
+            $data = Designation::select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->latest()->orderBy('id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index','')
@@ -57,7 +57,7 @@ class DesignationController extends Controller {
                                 return $delete_button;
                             })
                             ->addColumn('action', function ($row) {
-                                
+
                                 if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
@@ -66,7 +66,7 @@ class DesignationController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                
+
                                 $actionBtn = '<a href="/designation/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="designation" data-id="' . $row->id . '" data-table="designation" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="designation" data-wherefield="id" data-module="designation">'.$str.'</button>';
                                 return $actionBtn;
                             })
@@ -76,7 +76,7 @@ class DesignationController extends Controller {
     }
 
     public function edit($id) {
-        $designation = DB::table('designation')->where('id', $id)->first();
+        $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('id', $id)->first();
         $data['title'] = 'Edit-Dasignation';
         $data['designation'] = $designation;
         return view('admin.designation.edit_designation', ["data" => $data]);
@@ -87,7 +87,7 @@ class DesignationController extends Controller {
             'name' => $request->name,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
-            'is_deleted' => 0,                       
+            'is_deleted' => 0,
             'date_updated' => date("yy-m-d h:i:s")
         ]);
         activity($request,"updated",'designation');
@@ -95,14 +95,14 @@ class DesignationController extends Controller {
         return redirect('designation');
     }
     public function delete(Request $request) {
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_deleted' => 1,                                
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_deleted' => 1,
                 'date_updated' => date("yy-m-d h:i:s")
-            ]); 
-            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+            activity($request,"deleted",$request['module']);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -115,14 +115,14 @@ class DesignationController extends Controller {
             return response()->json($data);
         }
     }
-    public function status(Request $request) {       
-        if (isset($_REQUEST['table_id'])) {
-            
-            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
-                'is_active' => $_REQUEST['status'],                                
+    public function status(Request $request) {
+        if (isset($request['table_id'])) {
+
+            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_active' => $request['status'],
                 'date_updated' => date("yy-m-d h:i:s")
-            ]);                        
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            ]);
+//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -132,7 +132,7 @@ class DesignationController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$_REQUEST['module']);
+            activity($request,"updated",$request['module']);
             return response()->json($data);
         }
     }
