@@ -45,18 +45,21 @@
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
-                                        <div class="form-group">
-                                            <label class="form-label float-md-right" for="content">Content:</label>
+                                        <div class="form-group">                                            
+                                            <label class="form-label float-right" for="content">Content:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-8">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <textarea name="content" class="form-control form-control-sm" id="cf-default-textarea" placeholder="Enter content">{!! ($data['result']->content) !!}</textarea>
+                                    <div class="col-lg-6">
+                                        <div class="form-control-wrap">
+                                            <div class="card card-bordered">
+                                                <div class="card-inner">
+                                                    <textarea class="summernote-basic-id" name="content"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
@@ -78,23 +81,7 @@
                                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="form-label float-right" for="cases_message">Description:</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="form-control-wrap">
-                                        <div class="card card-bordered">
-                                            <div class="card-inner">
-                                                <textarea class="summernote-basic-id" name="cases_message"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </div>                            
                             </form>
                         </div>
                     </div><!-- card -->
@@ -103,28 +90,6 @@
         </div>
     </div>
 </div>
-include_once '../../../../public/admin_assets/assets/js/editors.php';
 @endsection
 @section('script')
-{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script> --}}
-<script type="text/javascript">
-    /* var editor = new Jodit('#cf-default-textarea', {
-        "defaultMode": "3"
-    }); */
-    $('#cf-default-textarea').summernote({
-        codeviewFilter: false,
-        codeviewIframeFilter: false
-    });
-
-    /* ClassicEditor
-        .create( document.querySelector( '#cf-default-textarea' ), {
-            plugins: [ 'HtmlEmbed', 'Autoformat', 'Bold', 'Italic', 'BlockQuote', 'Heading', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload', 'Link', 'List', 'Paragraph', 'Alignment'],
-            toolbar: [ 'htmlEmbed', 'heading', '|', 'alignment', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'uploadImage', 'blockQuote', 'undo', 'redo' ],
-        } )
-        .catch( error => {
-            console.error( error );
-        } ); */
-</script>
 @endsection

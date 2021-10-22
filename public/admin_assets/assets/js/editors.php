@@ -10,8 +10,8 @@
         $(this).summernote({
           placeholder: 'Hello stand alone ui',
           tabsize: 2,
-          height: 120,
-          toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]]
+          height: 120
+//          toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]]
         });
       });
     }
@@ -23,8 +23,8 @@
       $(_basicid).each(function () {
         $(this).summernote({
           tabsize: 2,
-          height: 120,
-          toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
+          height: 120
+//          toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
         });
       });
     }
@@ -33,17 +33,16 @@
 ?>
 <?php
     if($data['title'] == 'Edit-Informative-Pages'){
-
     ?>
-
+            
         var _basicid = '.summernote-basic-id';
         if ($(_basicid).exists()) {
           $(_basicid).each(function () {
             $(this).summernote({
               tabsize: 2,
-              height: 120,
-              toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
-            }).summernote("code",'<?php echo $data['result']; ?>');
+              height: 120
+//              toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
+            }).summernote("code",'<?php echo $data['result']->content; ?>');
           });
         }
             <?php

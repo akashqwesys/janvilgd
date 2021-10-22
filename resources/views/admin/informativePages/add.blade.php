@@ -29,21 +29,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                                            
+                                </div>
+                                
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">                                            
-                                            <label class="form-label float-md-right" for="content">Content:</label>
+                                            <label class="form-label float-right" for="content">Content:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">                                            
-                                            <div class="form-control-wrap">
-                                                <textarea name="content" class="form-control form-control-sm" id="cf-default-textarea" placeholder="Enter content"></textarea>
+                                    <div class="col-lg-6">
+                                        <div class="form-control-wrap">
+                                            <div class="card card-bordered">
+                                                <div class="card-inner">
+                                                    <textarea class="summernote-basic-id" name="content"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>                                                                                                                           
                                  <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">                                            
@@ -62,7 +65,8 @@
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-1">
                                         <div class="form-group mt-2">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>                                          
+                                            <button class="btn btn-lg btn-primary btn-block summuer_note_button">Submit</button>       
+                                            <button type="submit" class="btn btn-lg btn-primary btn-block d-none summuer_note_submit_button">Submit</button>                                          
                                         </div>
                                     </div>
                                 </div>                            

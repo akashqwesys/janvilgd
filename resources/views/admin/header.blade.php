@@ -440,6 +440,11 @@
         <!-- JavaScript -->
         <script src="{{ asset(check_host().'admin_assets/assets/js/bundle.js?ver=1.9.2') }}"></script>
         <script src="{{ asset(check_host().'admin_assets/assets/js/scripts.js?ver=1.9.2') }}"></script>
+        
+        <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/assets/css/editors/summernote.css')}}">
+        <script type="text/javascript" nonce='S51U26wMQz' src="{{ asset(check_host().'admin_assets/assets/js/libs/editors/summernote.js')}}"></script>
+        <?php include 'admin_assets/assets/js/editors.php'; ?>
+        
         <script src="{{ asset(check_host().'admin_assets/assets/js/charts/chart-ecommerce.js?ver=1.9.2') }}"></script>
         <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
         <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
@@ -472,7 +477,7 @@
         @include('admin.attributes.list_js')
         @include('admin.diamonds.list_js')
         @include('admin.commonjs')
-
+                               
         <?php
         if (!isset($_SESSION['message'])) {
             $_SESSION['message'] = '';
@@ -483,6 +488,13 @@ $(document).ready(function () {
     $('a[href$="#finish"]').attr("class", "submit_customers");
     $('a[href$="#finish"]').addClass("d-none");
     $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
+    
+//    $(document).on('click', '.summuer_note_button', function () {
+//        var content_data=$(".summernote-basic-id").val();        
+//        $("#hiddne_conetent").val(content_data);
+//        $('.summuer_note_submit_button').get(0).submit();
+//    }
+//        
     $(document).on('click', '.submit_btn', function () {
         $('.submit_btn').get(0).submit();
     });

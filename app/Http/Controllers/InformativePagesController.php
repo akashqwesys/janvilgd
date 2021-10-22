@@ -22,6 +22,9 @@ class InformativePagesController extends Controller {
     }
 
     public function save(Request $request) {
+        
+//        echo '<pre>';print_r($_REQUEST);die;
+        
         DB::table('informative_pages')->insert([
             'name' => $request->name,
             'content' => clean_html($request->content),
