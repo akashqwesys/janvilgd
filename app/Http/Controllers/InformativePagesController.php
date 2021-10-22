@@ -22,9 +22,7 @@ class InformativePagesController extends Controller {
     }
 
     public function save(Request $request) {
-        
-//        echo '<pre>';print_r($_REQUEST);die;
-        
+                
         DB::table('informative_pages')->insert([
             'name' => $request->name,
             'content' => clean_html($request->content),
@@ -73,8 +71,13 @@ class InformativePagesController extends Controller {
         }
     }
 
-    public function edit($id) {
-        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();
+    public function edit($id) {        
+        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();                                       
+        if(!empty($result)){
+            $str= str_replace('&lt;','<', $result->content);
+            $str1= str_replace('&gt;','>', $str);
+            $result->content= $str1;
+        }
         $data['title'] = 'Edit-Informative-Pages';
         $data['result'] = $result;
         return view('admin.informativePages.edit', ["data" => $data]);

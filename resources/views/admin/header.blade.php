@@ -488,13 +488,7 @@ $(document).ready(function () {
     $('a[href$="#finish"]').attr("class", "submit_customers");
     $('a[href$="#finish"]').addClass("d-none");
     $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
-    
-//    $(document).on('click', '.summuer_note_button', function () {
-//        var content_data=$(".summernote-basic-id").val();        
-//        $("#hiddne_conetent").val(content_data);
-//        $('.summuer_note_submit_button').get(0).submit();
-//    }
-//        
+          
     $(document).on('click', '.submit_btn', function () {
         $('.submit_btn').get(0).submit();
     });

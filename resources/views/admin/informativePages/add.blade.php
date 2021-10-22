@@ -46,7 +46,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                                                                                                           
+                                </div>                                                                                                                         
                                  <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">                                            
@@ -64,9 +64,8 @@
                                 <hr>                                
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-1">
-                                        <div class="form-group mt-2">
-                                            <button class="btn btn-lg btn-primary btn-block summuer_note_button">Submit</button>       
-                                            <button type="submit" class="btn btn-lg btn-primary btn-block d-none summuer_note_submit_button">Submit</button>                                          
+                                        <div class="form-group mt-2">                                           
+                                            <button type="submit" class="btn btn-lg btn-primary btn-block summuer_note_submit_button">Submit</button>                                          
                                         </div>
                                     </div>
                                 </div>                            
