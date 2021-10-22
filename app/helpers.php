@@ -122,5 +122,47 @@ if (!function_exists('get_client_ip')) {
     }
 
 }
+if (!function_exists('get_rapaport_price')) {
+
+    function get_rapaport_price() {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://technet.rapaport.com/HTTP/JSON/Prices/GetPrice.aspx',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+                "request": {
+                    "header": {
+                        "username": "harshillimbasiya@yahoo.in",
+                        "password": "J@nvi2022"
+                    },
+                    "body": {
+            \'shape\' : \'round\',
+            \'size\' : 2.10,
+            \'color\' : \'E\',
+            \'clarity\' : \'VS2\'
+                    }
+                }
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded',
+                'Cookie: ASP.NET_SessionId=t1pjx2yp4zvmrnckw0ihmlsd'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+    }
+
+}
+
 
 

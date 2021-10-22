@@ -24,7 +24,7 @@ class Diamonds extends Model
         'discount',
         'weight_loss',
         'video_link',
-        'images',
+        'image',
         'refCategory_id',        
         'added_by',
         'is_active',

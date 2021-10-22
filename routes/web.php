@@ -349,6 +349,7 @@ Route::post('diamonds/update', [DiamondsController::class, 'update'])->name('dia
 Route::get('diamonds/edit/{id}', [DiamondsController::class, 'edit'])->name('diamonds.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('diamonds/delete', [DiamondsController::class, 'delete'])->name('diamonds.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('diamonds/status', [DiamondsController::class, 'status'])->name('diamonds.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('diamonds/add/import', [DiamondsController::class, 'fileImport'])->name('diamonds.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Diamonds route end *************/
 
