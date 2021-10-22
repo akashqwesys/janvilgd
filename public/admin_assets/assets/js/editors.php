@@ -14,44 +14,44 @@
           toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]]
         });
       });
-    }            
- <?php 
-    if($title==EMPLOYEE_ADD_CASES_TITLE || $title==EMPLOYEE_VIEW_CASES_TITLE){    
-    ?>   
+    }
+ <?php
+    if($data['title'] == 'Add-Informative-Pages'){
+    ?>
     var _basicid = '.summernote-basic-id';
     if ($(_basicid).exists()) {
       $(_basicid).each(function () {
-        $(this).summernote({         
+        $(this).summernote({
           tabsize: 2,
           height: 120,
           toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
         });
-      });                 
-    }            
+      });
+    }
 <?php
     }
 ?>
-<?php 
-    if($title==EMPLOYEE_EDIT_CASES_TITLE){
-    
-    ?>    
-                
+<?php
+    if($data['title'] == 'Edit-Informative-Pages'){
+
+    ?>
+
         var _basicid = '.summernote-basic-id';
         if ($(_basicid).exists()) {
           $(_basicid).each(function () {
-            $(this).summernote({         
+            $(this).summernote({
               tabsize: 2,
               height: 120,
               toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['view', ['fullscreen']]]
-            }).summernote("code",'<?php echo $cases_res['cases_message']; ?>');
-          });                 
-        }     
+            }).summernote("code",'<?php echo $data['result']; ?>');
+          });
+        }
             <?php
-            }    
-         
-    ?>      
-//    $(document).on('click', '#btnSubmit', function () {   
-//        $('#contentsummer').val($('.note-editable').html());	        
+            }
+
+    ?>
+//    $(document).on('click', '#btnSubmit', function () {
+//        $('#contentsummer').val($('.note-editable').html());
 //    });
 
     var _minimal = '.summernote-minimal';

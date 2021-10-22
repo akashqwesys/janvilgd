@@ -38,7 +38,7 @@ use App\Http\Controllers\DiamondsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [CustomAuthController::class, 'home']);
+// Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 
@@ -132,6 +132,9 @@ Route::get('informative-pages/edit/{id}', [InformativePagesController::class, 'e
 Route::post('informative-pages/delete', [InformativePagesController::class, 'delete'])->name('informative-pages.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('informative-pages/status', [InformativePagesController::class, 'status'])->name('informative-pages.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-informative-pages', [InformativePagesController::class, 'delete'])->name('informative-pages.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+Route::get('/', [InformativePagesController::class, 'frontHome'])->name('front-home');
+
 /***************  Informative-pages route end *************/
 
 /***************  Labour-charges route *************/

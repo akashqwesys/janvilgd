@@ -10,16 +10,16 @@
         <!-- Fav Icon  -->
         <link rel="shortcut icon" href="{{ asset(check_host().'admin_assets/images/favicon.png') }}">
         <!-- Page Title  -->
-        <title><?php echo $data['title']; ?></title>        
-        <!-- StyleSheets  -->       
-        <link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css?ver=1.9.2') }}" rel="stylesheet">     
-        <!--<link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css') }}" rel="stylesheet">--> 
-        <link href="{{ asset(check_host().'admin_assets/assets/css/theme.css?ver=1.9.2') }}" rel="stylesheet">  
+        <title><?php echo $data['title']; ?></title>
+        <!-- StyleSheets  -->
+        <link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css?ver=1.9.2') }}" rel="stylesheet">
+        <!--<link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css') }}" rel="stylesheet">-->
+        <link href="{{ asset(check_host().'admin_assets/assets/css/theme.css?ver=1.9.2') }}" rel="stylesheet">
         <style>
             .removeimg {
                 width:100px;
                 height:100px;
-                position:relative;                
+                position:relative;
             }
             .removeimg img {
                 max-width:100%;
@@ -35,15 +35,15 @@
                 line-height: 50px;
                 position:absolute;
                 top:-4px;
-                right:-4px;                
-                overflow:hidden;                
-            } 
+                right:-4px;
+                overflow:hidden;
+            }
             .d-none{
                 display: none !important;
             }
         </style>
 
-        @yield('css')    
+        @yield('css')
     </head>
     <body class="nk-body bg-lighter npc-default has-sidebar ">
         <div class="nk-app-root">
@@ -67,7 +67,7 @@
                     <div class="nk-sidebar-element">
                         <div class="nk-sidebar-content">
                             <div class="nk-sidebar-menu" data-simplebar>
-                                <ul class="nk-menu"> 
+                                <ul class="nk-menu">
                                     <?php
                                     if (!empty(session('menu'))) {
                                         foreach (session('menu') as $session_row) {
@@ -86,7 +86,7 @@
                                                             <span class="nk-menu-icon"><em class="icon ni <?php echo $submenu->icon; ?>"></em></span>
                                                             <span class="nk-menu-text"><?php echo $submenu->name; ?></span>
                                                         </a>
-                                                    </li><!-- .nk-menu-item -->   
+                                                    </li><!-- .nk-menu-item -->
                                                     <?php
                                                 }
                                             }
@@ -95,7 +95,7 @@
                                     ?>
                                     <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
-                                        ?>                                                
+                                        ?>
                                         <li class="nk-menu-heading">
                                             <h6 class="overline-title text-primary-alt">Modules</h6>
                                         </li><!-- .nk-menu-item -->
@@ -104,7 +104,7 @@
                                                 <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
                                                 <span class="nk-menu-text">Modules</span>
                                             </a>
-                                        </li><!-- .nk-menu-item -->   
+                                        </li><!-- .nk-menu-item -->
                                         <?php
                                     }
                                     ?>
@@ -132,7 +132,7 @@
                                                                                 <li class="nk-menu-item">
                                                                                     <a href="html/user-profile-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Profile - Regular</span></a>
                                                                                 </li>
-                                                                            </ul> .nk-menu-sub 
+                                                                            </ul> .nk-menu-sub
                                                                         </li> .nk-menu-item                                                             -->
                                 </ul><!-- .nk-menu -->
                             </div><!-- .nk-sidebar-menu -->
@@ -409,7 +409,7 @@
                                 </div>
                             </div><!-- .nk-header-wrap -->
                         </div><!-- .container-fliud -->
-                    </div>    
+                    </div>
                     <!-- main header @e -->
                     @yield('content')
 
@@ -469,8 +469,8 @@
         @include('admin.taxes.list_js')
         @include('admin.sliders.list_js')
         @include('admin.attributeGroups.list_js')
-        @include('admin.attributes.list_js')        
-        @include('admin.diamonds.list_js')        
+        @include('admin.attributes.list_js')
+        @include('admin.diamonds.list_js')
         @include('admin.commonjs')
 
         <?php

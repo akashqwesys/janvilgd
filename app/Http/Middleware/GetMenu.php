@@ -62,25 +62,22 @@ class GetMenu {
         }
         if (session()->get('user-type') == 'MASTER_ADMIN') {
             $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
-            if (!empty($module)) {
 
+            if (!empty($module)) {
                 $menu_array = array();
                 foreach ($module as $row_module) {
                     if ($row_module->parent_id == 0) {
                         $row_module->submenu = array();
                         array_push($menu_array, $row_module);
-
                     }
                 }
                 foreach ($menu_array as $row) {
                     foreach ($module as $row1) {
                         if ($row->module_id == $row1->parent_id) {
                             array_push($row->submenu, $row1);
-
                         }
                     }
                 }
-
             }
         }
         $columns = array_column($menu_array, 'sort_order');

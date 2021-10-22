@@ -38,6 +38,25 @@ function check_host() {
     }
 }
 
+function clean_html($body_content) {
+    $search = array(
+        '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
+        '/[^\S ]+\</s',     // strip whitespaces before tags, except space
+        '/(\s)+/s',         // shorten multiple whitespace sequences
+        // '/<!--(.|\s)*?-->/' // Remove HTML comments
+    );
+    $replace = array(
+        '>',
+        '<',
+        '\\1',
+        // ''
+    );
+    $body_content = preg_replace($search, $replace, $body_content);
+    $body_content = stripslashes($body_content);
+    $body_content = htmlspecialchars($body_content);
+    return $body_content;
+}
+
 if (!function_exists('clean_string')) {
 
     function clean_string($string) {
