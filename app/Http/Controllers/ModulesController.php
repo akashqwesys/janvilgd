@@ -17,7 +17,7 @@ class ModulesController extends Controller {
     }
 
     public function add() {
-        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active',1)->where('is_deleted',0)->where('parent_id',0)->get();
+        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active',1)->where('is_deleted',0)->where('parent_id',0)->get();
         $data['title'] = 'Add-Modules';
         $data['module'] = $module;
         return view('admin.modules.add', ["data" => $data]);
@@ -43,7 +43,7 @@ class ModulesController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Modules::select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('module_id','desc')->get();
+            $data = Modules::select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->latest()->orderBy('module_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -83,8 +83,8 @@ class ModulesController extends Controller {
     }
 
     public function edit($id) {
-        $module  = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('parent_id',0)->get();
-        $result = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('module_id', $id)->first();
+        $module  = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('parent_id',0)->get();
+        $result = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('module_id', $id)->first();
         $data['title'] = 'Edit-Modules';
         $data['result'] = $result;
         $data['module'] = $module;

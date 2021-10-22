@@ -11,15 +11,16 @@ class Modules extends Model
     protected $table='modules';
     protected $primaryKey = 'module_id';
     protected $fillable = [
-        'module_id',  
+        'module_id',
         'name',
         'icon',
         'slug',
-        'parent_id',       
+        'parent_id',
         'added_by',
         'is_active',
         'is_deleted' ,
         'date_added',
-        'date_updated'
-    ];        
+        'date_updated',
+        'sort_order'
+    ];
 }

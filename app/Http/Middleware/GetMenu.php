@@ -30,7 +30,7 @@ class GetMenu {
             }
 
             $access_permission = json_decode($user_roles->access_permission);
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
 
             if (!empty($module)) {
                 $access_list=array();
@@ -61,8 +61,7 @@ class GetMenu {
             }
         }
         if (session()->get('user-type') == 'MASTER_ADMIN') {
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
             if (!empty($module)) {
 
                 $menu_array = array();

@@ -16,7 +16,7 @@ class UserRolesController extends Controller {
         return view('admin.userRoles.list', ["data" => $data]);
     }
     public function add() {
-        $module = DB::table('modules')->where('is_active',1)->where('is_deleted',0)->where('parent_id','>',0)->get();
+        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active',1)->where('is_deleted',0)->where('parent_id','>',0)->get();
         $data['module'] = $module;
         $data['title'] = 'Add-User-Roles';
         return view('admin.userRoles.add', ["data" => $data]);
@@ -85,7 +85,7 @@ class UserRolesController extends Controller {
     }
 
     public function edit($id) {
-        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active',1)->where('is_deleted',0)->where('parent_id','>',0)->get();
+        $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active',1)->where('is_deleted',0)->where('parent_id','>',0)->get();
         $result = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('user_role_id', $id)->first();
         $data['module'] = $module;
         $data['title'] = 'Edit-User-Roles';
