@@ -400,7 +400,7 @@
                                                 </div>
                                                 <div class="dropdown-inner">
                                                     <ul class="link-list">
-                                                        <li><a href="logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                        <li><a href="admin/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>

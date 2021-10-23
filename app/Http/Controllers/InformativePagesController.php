@@ -142,8 +142,11 @@ class InformativePagesController extends Controller {
 
     public function frontHome(Request $request)
     {
-        $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', 'index')->first();
-        return view('front.common', ["data" => $data]);
+        if (empty($request->slug)) {
+            $request->slug = 'index';
+        }
+        $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
+        return view('front.common', ["slug" => $data->slug, "data" => $data]);
     }
 
 }

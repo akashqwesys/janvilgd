@@ -39,11 +39,7 @@
                                     </div>
                                     <div class="col-lg-10">
                                         <div class="form-control-wrap">
-                                            <div class="card card-bordered">
-                                                <div class="card-inner">
-                                                    <textarea class="summernote-basic-id" name="content"></textarea>
-                                                </div>
-                                            </div>
+                                            <textarea id="summernote-basic-id" name="content"></textarea>
                                         </div>
                                     </div>
                                 </div>
