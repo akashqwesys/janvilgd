@@ -53,7 +53,7 @@ class AttributeController extends Controller
         }
         activity($request,"inserted",'attributes');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('attributes');
+        return redirect('admin/attributes');
     }
 
     public function list(Request $request) {
@@ -88,7 +88,7 @@ class AttributeController extends Controller
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="blogs" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="blogs" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -136,7 +136,7 @@ class AttributeController extends Controller
         }
         activity($request,"updated",'attributes');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('attributes');
+        return redirect('admin/attributes');
     }
 
     public function delete(Request $request) {

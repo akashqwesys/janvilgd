@@ -31,7 +31,7 @@ class SettingsController extends Controller {
 
         activity($request,"inserted",'settings');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('settings');
+        return redirect('admin/settings');
     }
 
     public function list(Request $request) {
@@ -48,7 +48,7 @@ class SettingsController extends Controller {
 //                                return $delete_button;
 //                            })
                             ->addColumn('action', function ($row) {
-                                $actionBtn = '<a href="/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                                $actionBtn = '<a href="/admin/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -73,7 +73,7 @@ class SettingsController extends Controller {
 
         activity($request,"updated",'settings');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('settings');
+        return redirect('admin/settings');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

@@ -36,7 +36,7 @@ class CustomerTypeController extends Controller {
 
         activity($request,"inserted",'customer-type');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('customer-type');
+        return redirect('admin/customer-type');
     }
 
     public function list(Request $request) {
@@ -73,7 +73,7 @@ class CustomerTypeController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -99,7 +99,7 @@ class CustomerTypeController extends Controller {
         ]);
         activity($request,"updated",'customer-type');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('customer-type');
+        return redirect('admin/customer-type');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

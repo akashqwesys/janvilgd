@@ -32,7 +32,7 @@ class PaymentModesController extends Controller {
         ]);
         activity($request,"inserted",'payment-modes');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('payment-modes');
+        return redirect('admin/payment-modes');
     }
 
     public function list(Request $request) {
@@ -92,7 +92,7 @@ class PaymentModesController extends Controller {
         ]);
         activity($request,"updated",'payment-modes');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('payment-modes');
+        return redirect('admin/payment-modes');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

@@ -36,7 +36,7 @@ class DiscountsController extends Controller {
 
         activity($request,"inserted",'discount');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('discount');
+        return redirect('admin/discount');
     }
 
     public function list(Request $request) {
@@ -72,7 +72,7 @@ class DiscountsController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/discount/edit/' . $row->discount_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="discount" data-id="' . $row->discount_id . '" data-table="discounts" data-wherefield="discount_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->discount_id . '" data-status="' . $row->is_active . '" data-table="discounts" data-wherefield="discount_id" data-module="discount">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/discount/edit/' . $row->discount_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="discount" data-id="' . $row->discount_id . '" data-table="discounts" data-wherefield="discount_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->discount_id . '" data-status="' . $row->is_active . '" data-table="discounts" data-wherefield="discount_id" data-module="discount">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -98,7 +98,7 @@ class DiscountsController extends Controller {
 
         activity($request,"updated",'discount');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('discount');
+        return redirect('admin/discount');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

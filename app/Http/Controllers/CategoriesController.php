@@ -40,7 +40,7 @@ class CategoriesController extends Controller
         ]);
         activity($request,"inserted",'categories');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('categories');
+        return redirect('admin/categories');
     }
 
     public function list(Request $request) {
@@ -76,7 +76,7 @@ class CategoriesController extends Controller
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -115,7 +115,7 @@ class CategoriesController extends Controller
         }
         activity($request,"updated",'categories');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('categories');
+        return redirect('admin/categories');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

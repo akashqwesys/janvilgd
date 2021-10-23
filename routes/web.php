@@ -45,6 +45,7 @@ Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 /*---------------------------------------------------------------------------------------*/
 /************************************  Master Admin Route *******************************/
 /*--------------------------------------------------------------------------------------*/
+Route::prefix('admin')->group(function () {
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
 Route::get('/dashboard', [CustomAuthController::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);
@@ -361,6 +362,7 @@ Route::post('diamonds/add/import', [DiamondsController::class, 'fileImport'])->n
 //Route::post('/delete-data', [CommonController::class, 'delete'])->name('data.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-status', [CommonController::class, 'status'])->name('data.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('/delete-image', [CommonController::class, 'delete_image'])->name('data.image')->middleware(['isLoggedIn','getMenu','accessPermission']);
+});
 /*---------------------------------------------------------------------------------------*/
 /************************************  Master Admin Route End ***************************/
 /*--------------------------------------------------------------------------------------*/

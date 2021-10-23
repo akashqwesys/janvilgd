@@ -43,7 +43,7 @@ class TaxesController extends Controller {
 
         activity($request,"inserted",'taxes');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('taxes');
+        return redirect('admin/taxes');
     }
 
     public function list(Request $request) {
@@ -80,7 +80,7 @@ class TaxesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/taxes/edit/' . $row->tax_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="taxes" data-id="' . $row->tax_id . '" data-table="taxes" data-wherefield="tax_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->tax_id . '" data-status="' . $row->is_active . '" data-table="taxes" data-wherefield="tax_id" data-module="taxes">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/taxes/edit/' . $row->tax_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="taxes" data-id="' . $row->tax_id . '" data-table="taxes" data-wherefield="tax_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->tax_id . '" data-status="' . $row->is_active . '" data-table="taxes" data-wherefield="tax_id" data-module="taxes">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -114,7 +114,7 @@ class TaxesController extends Controller {
         ]);
         activity($request,"updated",'taxes');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('taxes');
+        return redirect('admin/taxes');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

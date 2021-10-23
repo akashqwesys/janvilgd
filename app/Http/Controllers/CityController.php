@@ -36,7 +36,7 @@ class CityController extends Controller {
 
         activity($request,"inserted",'city');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('city');
+        return redirect('admin/city');
     }
 
     public function list(Request $request) {
@@ -73,7 +73,7 @@ class CityController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/city/edit/' . $row->city_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="city" data-id="' . $row->city_id . '" data-table="city" data-wherefield="city_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->city_id . '" data-status="' . $row->is_active . '" data-table="city" data-wherefield="city_id" data-module="city">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/city/edit/' . $row->city_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="city" data-id="' . $row->city_id . '" data-table="city" data-wherefield="city_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->city_id . '" data-status="' . $row->is_active . '" data-table="city" data-wherefield="city_id" data-module="city">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -99,7 +99,7 @@ class CityController extends Controller {
         ]);
         activity($request,"updated",'city');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('city');
+        return redirect('admin/city');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

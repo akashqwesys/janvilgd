@@ -42,7 +42,7 @@ class EventsController extends Controller {
 
         activity($request,"updated",'events');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('events');
+        return redirect('admin/events');
     }
 
     public function list(Request $request) {
@@ -79,7 +79,7 @@ class EventsController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/events/edit/' . $row->event_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="events" data-id="' . $row->event_id . '" data-table="events" data-wherefield="event_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->event_id . '" data-status="' . $row->is_active . '" data-table="events" data-wherefield="event_id" data-module="events">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/events/edit/' . $row->event_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="events" data-id="' . $row->event_id . '" data-table="events" data-wherefield="event_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->event_id . '" data-status="' . $row->is_active . '" data-table="events" data-wherefield="event_id" data-module="events">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -121,7 +121,7 @@ class EventsController extends Controller {
         }
         activity($request,"updated",'events');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('events');
+        return redirect('admin/events');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

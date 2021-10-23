@@ -38,7 +38,7 @@ class ModulesController extends Controller {
         ]);
         activity($request,"inserted",'modules');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('modules');
+        return redirect('admin/modules');
     }
 
     public function list(Request $request) {
@@ -74,7 +74,7 @@ class ModulesController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/modules/edit/' . $row->module_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="modules" data-id="' . $row->module_id . '" data-table="modules" data-wherefield="module_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->module_id . '" data-status="' . $row->is_active . '" data-table="modules" data-wherefield="module_id" data-module="modules">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/modules/edit/' . $row->module_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="modules" data-id="' . $row->module_id . '" data-table="modules" data-wherefield="module_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->module_id . '" data-status="' . $row->is_active . '" data-table="modules" data-wherefield="module_id" data-module="modules">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -101,7 +101,7 @@ class ModulesController extends Controller {
         ]);
         activity($request,"updated",'modules');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('modules');
+        return redirect('admin/modules');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

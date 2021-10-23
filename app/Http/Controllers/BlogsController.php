@@ -44,7 +44,7 @@ class BlogsController extends Controller
 
         activity($request,"inserted",'blogs');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('blogs');
+        return redirect('admin/blogs');
     }
 
     public function list(Request $request) {
@@ -79,7 +79,7 @@ class BlogsController extends Controller
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/blogs/edit/' . $row->blog_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="blogs" data-id="' . $row->blog_id . '" data-table="blogs" data-wherefield="blog_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->blog_id . '" data-status="' . $row->is_active . '" data-table="blogs" data-wherefield="blog_id" data-module="blogs">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/blogs/edit/' . $row->blog_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="blogs" data-id="' . $row->blog_id . '" data-table="blogs" data-wherefield="blog_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->blog_id . '" data-status="' . $row->is_active . '" data-table="blogs" data-wherefield="blog_id" data-module="blogs">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -123,7 +123,7 @@ class BlogsController extends Controller
         }
         activity($request,"updated",'blogs');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('blogs');
+        return redirect('admin/blogs');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

@@ -33,7 +33,7 @@ class TransportController extends Controller {
 
         activity($request,"inserted",'transport');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('transport');
+        return redirect('admin/transport');
     }
 
     public function list(Request $request) {
@@ -69,7 +69,7 @@ class TransportController extends Controller {
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/transport/edit/' . $row->transport_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="transport" data-id="' . $row->transport_id . '" data-table="transport" data-wherefield="transport_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->transport_id . '" data-status="' . $row->is_active . '" data-table="transport" data-wherefield="transport_id" data-module="transport">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/transport/edit/' . $row->transport_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="transport" data-id="' . $row->transport_id . '" data-table="transport" data-wherefield="transport_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->transport_id . '" data-status="' . $row->is_active . '" data-table="transport" data-wherefield="transport_id" data-module="transport">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -91,7 +91,7 @@ class TransportController extends Controller {
         ]);
         activity($request,"updated",'transport');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('transport');
+        return redirect('admin/transport');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

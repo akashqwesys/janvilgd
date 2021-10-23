@@ -33,7 +33,7 @@ class LabourChargesController extends Controller {
         ]);
         activity($request,"inserted",'labour-charges');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('labour-charges');
+        return redirect('admin/labour-charges');
     }
 
     public function list(Request $request) {
@@ -70,7 +70,7 @@ class LabourChargesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/labour-charges/edit/' . $row->labour_charge_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="labour-charges" data-id="' . $row->labour_charge_id . '" data-table="labour_charges" data-wherefield="labour_charge_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->labour_charge_id . '" data-status="' . $row->is_active . '" data-table="labour_charges" data-wherefield="labour_charge_id" data-module="labour-charges">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/labour-charges/edit/' . $row->labour_charge_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="labour-charges" data-id="' . $row->labour_charge_id . '" data-table="labour_charges" data-wherefield="labour_charge_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->labour_charge_id . '" data-status="' . $row->is_active . '" data-table="labour_charges" data-wherefield="labour_charge_id" data-module="labour-charges">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -95,7 +95,7 @@ class LabourChargesController extends Controller {
 
         activity($request,"updated",'labour-charges');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('labour-charges');
+        return redirect('admin/labour-charges');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

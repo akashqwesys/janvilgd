@@ -33,7 +33,7 @@ class CountryController extends Controller {
 
         activity($request,"inserted",'country');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('country');
+        return redirect('admin/country');
     }
 
     public function list(Request $request) {
@@ -70,7 +70,7 @@ class CountryController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/country/edit/' . $row->country_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="country" data-id="' . $row->country_id . '" data-table="country" data-wherefield="country_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->country_id . '" data-status="' . $row->is_active . '" data-table="country" data-wherefield="country_id" data-module="country">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/country/edit/' . $row->country_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="country" data-id="' . $row->country_id . '" data-table="country" data-wherefield="country_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->country_id . '" data-status="' . $row->is_active . '" data-table="country" data-wherefield="country_id" data-module="country">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -93,7 +93,7 @@ class CountryController extends Controller {
         ]);
         activity($request,"updated",'country');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('country');
+        return redirect('admin/country');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

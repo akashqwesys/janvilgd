@@ -43,7 +43,7 @@ class SlidersController extends Controller {
 
         activity($request,"updated",'sliders');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('sliders');
+        return redirect('admin/sliders');
     }
 
     public function list(Request $request) {
@@ -81,7 +81,7 @@ class SlidersController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/sliders/edit/' . $row->slider_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="sliders" data-id="' . $row->slider_id . '" data-table="sliders" data-wherefield="slider_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->slider_id . '" data-status="' . $row->is_active . '" data-table="sliders" data-wherefield="slider_id" data-module="sliders">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/sliders/edit/' . $row->slider_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="sliders" data-id="' . $row->slider_id . '" data-table="sliders" data-wherefield="slider_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->slider_id . '" data-status="' . $row->is_active . '" data-table="sliders" data-wherefield="slider_id" data-module="sliders">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -123,7 +123,7 @@ class SlidersController extends Controller {
         }
         activity($request,"updated",'sliders');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('sliders');
+        return redirect('admin/sliders');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

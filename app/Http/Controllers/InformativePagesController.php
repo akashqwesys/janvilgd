@@ -25,7 +25,7 @@ class InformativePagesController extends Controller {
 
         DB::table('informative_pages')->insert([
             'name' => $request->name,
-            'content' => $request->content,
+            'content' => clean_html($request->content),
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
@@ -33,7 +33,7 @@ class InformativePagesController extends Controller {
         ]);
         activity($request,"inserted",'informative-pages');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('informative-pages');
+        return redirect('admin/informative-pages');
     }
 
     public function list(Request $request) {
@@ -63,7 +63,7 @@ class InformativePagesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/informative-pages/edit/' . $row->informative_page_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->informative_page_id . '" data-status="' . $row->is_active . '" data-table="informative_pages" data-wherefield="informative_page_id" data-module="informative-pages">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/informative-pages/edit/' . $row->informative_page_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->informative_page_id . '" data-status="' . $row->is_active . '" data-table="informative_pages" data-wherefield="informative_page_id" data-module="informative-pages">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -86,7 +86,7 @@ class InformativePagesController extends Controller {
     public function update(Request $request) {
         DB::table('informative_pages')->where('informative_page_id', $request->id)->update([
             'name' => $request->name,
-            'content' => $request->content,
+            'content' => clean_html($request->content),
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
@@ -94,7 +94,7 @@ class InformativePagesController extends Controller {
         ]);
         activity($request,"updated",'informative-pages');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('informative-pages');
+        return redirect('admin/informative-pages');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
@@ -143,7 +143,7 @@ class InformativePagesController extends Controller {
     public function frontHome(Request $request)
     {
         $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', 'index')->first();
-        return view('front.index', ["data" => $data]);
+        return view('front.common', ["data" => $data]);
     }
 
 }

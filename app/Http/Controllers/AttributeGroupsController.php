@@ -23,7 +23,7 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {        
+    public function save(Request $request) {
         DB::table('attribute_groups')->insert([
             'name' => $request->name,
             'image_required' => $request->image_required,
@@ -39,7 +39,7 @@ class AttributeGroupsController extends Controller {
 
         activity($request, "updated", 'attribute-groups');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('attribute-groups');
+        return redirect('admin/attribute-groups');
     }
 
     public function list(Request $request) {
@@ -107,7 +107,7 @@ class AttributeGroupsController extends Controller {
                                     $class = "btn-success";
                                 }
 
-                                $actionBtn = '<a href="/attribute-groups/edit/' . $row->attribute_group_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attribute-groups" data-id="' . $row->attribute_group_id . '" data-table="attribute_groups" data-wherefield="attribute_group_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->attribute_group_id . '" data-status="' . $row->is_active . '" data-table="attribute_groups" data-wherefield="attribute_group_id" data-module="attribute-groups">' . $str . '</button>';
+                                $actionBtn = '<a href="/admin/attribute-groups/edit/' . $row->attribute_group_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attribute-groups" data-id="' . $row->attribute_group_id . '" data-table="attribute_groups" data-wherefield="attribute_group_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->attribute_group_id . '" data-status="' . $row->is_active . '" data-table="attribute_groups" data-wherefield="attribute_group_id" data-module="attribute-groups">' . $str . '</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -124,7 +124,7 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {      
+    public function update(Request $request) {
         DB::table('attribute_groups')->where('attribute_group_id', $request->id)->update([
             'name' => $request->name,
             'image_required' => $request->image_required,
@@ -135,7 +135,7 @@ class AttributeGroupsController extends Controller {
         ]);
         activity($request, "updated", 'attribute-groups');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('attribute-groups');
+        return redirect('admin/attribute-groups');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

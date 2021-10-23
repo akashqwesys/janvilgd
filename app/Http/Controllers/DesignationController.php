@@ -31,7 +31,7 @@ class DesignationController extends Controller {
         ]);
         activity($request,"inserted",'designation');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('designation');
+        return redirect('admin/designation');
     }
     public function list(Request $request) {
         if ($request->ajax()) {
@@ -67,7 +67,7 @@ class DesignationController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/designation/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="designation" data-id="' . $row->id . '" data-table="designation" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="designation" data-wherefield="id" data-module="designation">'.$str.'</button>';
+                                $actionBtn = '<a href="admin/designation/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="designation" data-id="' . $row->id . '" data-table="designation" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="designation" data-wherefield="id" data-module="designation">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -92,7 +92,7 @@ class DesignationController extends Controller {
         ]);
         activity($request,"updated",'designation');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('designation');
+        return redirect('admin/designation');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

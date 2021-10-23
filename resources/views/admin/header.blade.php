@@ -82,7 +82,7 @@
                                                 foreach ($session_row->submenu as $submenu) {
                                                     ?>
                                                     <li class="nk-menu-item">
-                                                        <a href="/<?php echo $submenu->slug; ?>" class="nk-menu-link">
+                                                        <a href="/<?php echo 'admin/' . $submenu->slug; ?>" class="nk-menu-link">
                                                             <span class="nk-menu-icon"><em class="icon ni <?php echo $submenu->icon; ?>"></em></span>
                                                             <span class="nk-menu-text"><?php echo $submenu->name; ?></span>
                                                         </a>
@@ -100,7 +100,7 @@
                                             <h6 class="overline-title text-primary-alt">Modules</h6>
                                         </li><!-- .nk-menu-item -->
                                         <li class="nk-menu-item">
-                                            <a href="{{url('modules')}}" class="nk-menu-link">
+                                            <a href="{{url('admin/modules')}}" class="nk-menu-link">
                                                 <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
                                                 <span class="nk-menu-text">Modules</span>
                                             </a>

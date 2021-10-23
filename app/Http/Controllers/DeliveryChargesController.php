@@ -41,7 +41,7 @@ class DeliveryChargesController extends Controller {
 
         activity($request, "inserted", 'delivery-charges');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('delivery-charges');
+        return redirect('admin/delivery-charges');
     }
 
     public function list(Request $request) {
@@ -76,7 +76,7 @@ class DeliveryChargesController extends Controller {
                                     $str = '<em class="icon ni ni-check-thick"></em>';
                                     $class = "btn-success";
                                 }
-                                $actionBtn = '<a href="/delivery-charges/edit/' . $row->delivery_charge_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="delivery-charges" data-id="' . $row->delivery_charge_id . '" data-table="delivery_charges" data-wherefield="delivery_charge_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->delivery_charge_id . '" data-status="' . $row->is_active . '" data-table="delivery_charges" data-wherefield="delivery_charge_id" data-module="blogs">' . $str . '</button>';
+                                $actionBtn = '<a href="/admin/delivery-charges/edit/' . $row->delivery_charge_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="delivery-charges" data-id="' . $row->delivery_charge_id . '" data-table="delivery_charges" data-wherefield="delivery_charge_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->delivery_charge_id . '" data-status="' . $row->is_active . '" data-table="delivery_charges" data-wherefield="delivery_charge_id" data-module="blogs">' . $str . '</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -107,7 +107,7 @@ class DeliveryChargesController extends Controller {
         ]);
         activity($request, "updated", 'delivery-charges');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('delivery-charges');
+        return redirect('admin/delivery-charges');
     }
 
     public function delete(Request $request) {

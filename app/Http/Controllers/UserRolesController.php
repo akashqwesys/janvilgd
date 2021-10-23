@@ -38,7 +38,7 @@ class UserRolesController extends Controller {
 
         activity($request,"inserted",'user-role');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('user-role');
+        return redirect('admin/user-role');
     }
 
     public function list(Request $request) {
@@ -66,7 +66,7 @@ class UserRolesController extends Controller {
                             })
                             ->addColumn('action', function ($row) {
 
-                                 if($row->is_active==1){
+                                if($row->is_active==1){
                                     $str='<em class="icon ni ni-cross"></em>';
                                     $class="btn-danger";
                                 }
@@ -75,7 +75,7 @@ class UserRolesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/user-role/edit/' . $row->user_role_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="user-role" data-id="' . $row->user_role_id . '" data-table="user_role" data-wherefield="user_role_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->user_role_id . '" data-status="' . $row->is_active . '" data-table="user_role" data-wherefield="user_role_id" data-module="user-role">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/user-role/edit/' . $row->user_role_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="user-role" data-id="' . $row->user_role_id . '" data-table="user_role" data-wherefield="user_role_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->user_role_id . '" data-status="' . $row->is_active . '" data-table="user_role" data-wherefield="user_role_id" data-module="user-role">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -105,7 +105,7 @@ class UserRolesController extends Controller {
         ]);
         activity($request,"updated",'user-role');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('user-role');
+        return redirect('admin/user-role');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

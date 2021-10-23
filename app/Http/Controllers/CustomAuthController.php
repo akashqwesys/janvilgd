@@ -34,7 +34,7 @@ class CustomAuthController extends Controller {
             if($pass==$user->password){
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
-                return redirect('dashboard');
+                return redirect('admin/dashboard');
             }else{
                 return back()->with('fail','Password not matches');
             }
@@ -50,6 +50,6 @@ class CustomAuthController extends Controller {
 
     public function logout() {
         Session::flush();
-        return Redirect('login');
+        return redirect('admin/login');
     }
 }

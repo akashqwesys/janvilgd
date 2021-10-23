@@ -36,7 +36,7 @@ class StateController extends Controller {
 
         activity($request,"inserted",'state');
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('state');
+        return redirect('admin/state');
     }
 
     public function list(Request $request) {
@@ -73,7 +73,7 @@ class StateController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/state/edit/' . $row->state_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="state" data-id="' . $row->state_id . '" data-table="state" data-wherefield="state_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->state_id . '" data-status="' . $row->is_active . '" data-table="state" data-wherefield="state_id" data-module="state">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/state/edit/' . $row->state_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="state" data-id="' . $row->state_id . '" data-table="state" data-wherefield="state_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->state_id . '" data-status="' . $row->is_active . '" data-table="state" data-wherefield="state_id" data-module="state">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -99,7 +99,7 @@ class StateController extends Controller {
         ]);
         activity($request,"updated",'state');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('state');
+        return redirect('admin/state');
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
