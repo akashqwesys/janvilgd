@@ -22,10 +22,10 @@ class InformativePagesController extends Controller {
     }
 
     public function save(Request $request) {
-                
+
         DB::table('informative_pages')->insert([
             'name' => $request->name,
-            'content' => clean_html($request->content),
+            'content' => $request->content,
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
@@ -71,8 +71,8 @@ class InformativePagesController extends Controller {
         }
     }
 
-    public function edit($id) {        
-        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();                                       
+    public function edit($id) {
+        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();
         if(!empty($result)){
             $str= str_replace('&lt;','<', $result->content);
             $str1= str_replace('&gt;','>', $str);
@@ -86,7 +86,7 @@ class InformativePagesController extends Controller {
     public function update(Request $request) {
         DB::table('informative_pages')->where('informative_page_id', $request->id)->update([
             'name' => $request->name,
-            'content' => ($request->content),
+            'content' => $request->content,
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,

@@ -1,11 +1,11 @@
 @extends('admin.header')
 
-@section('content')
 @section('css')
 {{-- <script src="{{ asset(check_host().'assets/js/ckeditor5/build/ckeditor.js') }}"></script> --}}
 {{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.css"> --}}
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+{{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> --}}
 @endsection
+@section('content')
 <div class="nk-content">
     <!--    @if(Session::has('designation_add'))
         <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
@@ -45,17 +45,13 @@
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
-                                        <div class="form-group">                                            
+                                        <div class="form-group">
                                             <label class="form-label float-right" for="content">Content:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-10">
                                         <div class="form-control-wrap">
-                                            <div class="card card-bordered">
-                                                <div class="card-inner">
-                                                    <textarea class="summernote-basic-id" name="content"></textarea>
-                                                </div>
-                                            </div>
+                                            <textarea id="summernote-basic-id" name="content">{!! $data['result']->content !!}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +77,7 @@
                                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
                                         </div>
                                     </div>
-                                </div>                            
+                                </div>
                             </form>
                         </div>
                     </div><!-- card -->
@@ -92,4 +88,21 @@
 </div>
 @endsection
 @section('script')
+{{-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script> --}}
+<script type="text/javascript">
+    /* var editor = new Jodit('#cf-default-textarea', {
+        "defaultMode": "3"
+    }); */
+    $('#summernote-basic-id').summernote();
+
+    /* ClassicEditor
+        .create( document.querySelector( '#cf-default-textarea' ), {
+            plugins: [ 'HtmlEmbed', 'Autoformat', 'Bold', 'Italic', 'BlockQuote', 'Heading', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload', 'Link', 'List', 'Paragraph', 'Alignment'],
+            toolbar: [ 'htmlEmbed', 'heading', '|', 'alignment', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'uploadImage', 'blockQuote', 'undo', 'redo' ],
+        } )
+        .catch( error => {
+            console.error( error );
+        } ); */
+</script>
 @endsection
