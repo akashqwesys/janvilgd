@@ -27,6 +27,7 @@ use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\AttributeGroupsController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DiamondsController;
+use App\Http\Controllers\FrontAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,10 @@ use App\Http\Controllers\DiamondsController;
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [InformativePagesController::class, 'frontHome'])->name('front-home');
+Route::match(['get', 'post'], '/login', [FrontAuthController::class, 'login']);
+Route::match(['get', 'post'], '/signup', [FrontAuthController::class, 'register'])->name('register');
 Route::get('/{slug}', [InformativePagesController::class, 'frontHome'])->name('front-home');
+Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
 /*---------------------------------------------------------------------------------------*/
 /************************************  Master Admin Route *******************************/
