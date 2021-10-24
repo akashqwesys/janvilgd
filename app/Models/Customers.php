@@ -21,11 +21,11 @@ class Customers extends Model
         'refState_id',
         'refCountry_id',
         'refCustomerType_id',
-        'restrict_transactions',      
-        'added_by' ,
+        'restrict_transactions',
+        'added_by',
         'is_active',
-        'is_deleted',               
+        'is_deleted',
         'date_added',
         'date_updated'
-    ]; 
+    ];
 }
