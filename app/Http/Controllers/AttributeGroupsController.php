@@ -124,11 +124,11 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request) {     
         DB::table('attribute_groups')->where('attribute_group_id', $request->id)->update([
             'name' => $request->name,
             'image_required' => $request->image_required,
-            'field_type' => $request->field_type,
+            'field_type' => $request->filed_type,
             'refCategory_id' => $request->refCategory_id,
             'is_required' => $request->is_required,
             'date_updated' => date("yy-m-d h:i:s")

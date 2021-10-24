@@ -24,6 +24,31 @@
                             <form method="POST" action="{{route('diamonds.update')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="<?php echo $data['result']->diamond_id; ?>">
+                                 <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-right" for="refCategory_id">Category:</label>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">                                                                                                  
+                                                <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                    <option value="" disabled="" selected="">------ Select Category ------</option> 
+                                                    <?php
+                                                    if (!empty($data['category'])) {
+                                                        foreach ($data['category'] as $row) {
+                                                            ?>
+                                                            <option value="<?php echo $row->category_id; ?>" <?php echo set_selected($row->category_id,$data['result']->refCategory_id); ?>><?php echo $row->name; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
@@ -229,31 +254,7 @@
                                     </div>                                    
                                 </div>
                                 <?php } ?>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <label class="form-label float-right" for="refCategory_id">Category:</label>                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">                                                                                                  
-                                                <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
-                                                    <option value="" disabled="" selected="">------ Select Category ------</option> 
-                                                    <?php
-                                                    if (!empty($data['category'])) {
-                                                        foreach ($data['category'] as $row) {
-                                                            ?>
-                                                            <option value="<?php echo $row->category_id; ?>" <?php echo set_selected($row->category_id,$data['result']->refCategory_id); ?>><?php echo $row->name; ?></option>
-                                                            <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
 <hr>
                                 <?php
                                 foreach ($data['attribute_groups'] as $row) {

@@ -67,8 +67,8 @@
                                             <div class="form-control-wrap">
                                                 <select class="form-select form-control" id="filed_type" name="filed_type" required="" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select Filed Type ------</option>
-                                                    <option value="1" {{ set_selected(1,$data['result']->image_required) }}>SELECT</option>
-                                                    <option value="0" {{ set_selected(0,$data['result']->image_required) }}>TEXT</option>
+                                                    <option value="1" {{ set_selected(1,$data['result']->field_type) }}>SELECT</option>
+                                                    <option value="0" {{ set_selected(0,$data['result']->field_type) }}>TEXT</option>
                                                 </select>
                                             </div>
                                         </div>
