@@ -232,7 +232,7 @@
                                 <?php
                                 foreach ($data['attribute_groups'] as $row) {
                                     ?>
-                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>" attr_grp_<?php echo $row->attribute_group_id; ?> d-none attr_group">
                                 <?php
                                     if ($row->field_type == 1) {
                                         $is_required='';
@@ -240,7 +240,7 @@
                                             $is_required='required';
                                         }
                                         ?>
-                                        <div class="row g-3 align-center">
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
                                             <div class="col-lg-2">
                                                 <div class="form-group">
                                                     <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
@@ -269,7 +269,7 @@
                                     }
                                     if ($row->field_type == 0) {
                                         ?>
-                                        <div class="row g-3 align-center">
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
                                             <div class="col-lg-2">
                                                 <div class="form-group">                                            
                                                     <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
@@ -312,7 +312,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">                                                                                                  
-                                                <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                <select class="form-select form-control" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
                                                     <option value="" selected="">------ Select Category ------</option> 
                                                     <?php
                                                     if (!empty($data['category'])) {

@@ -20,8 +20,8 @@ class DiamondsController extends Controller {
 
     public function fileImport(Request $request) {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
-//        echo '<pre>';print_r($res);die;
-        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
+//        echo '<pre>';print_r($res);die;        
         $attr_group_array = array();
         if (!empty($res)) {
 //            foreach ($res as $row_1) {
@@ -928,31 +928,6 @@ class DiamondsController extends Controller {
                     }
                 }
 
-
-
-//                stock
-//                availability
-//                shape
-//                weight
-//                clarity
-//                color
-//                cut_grade
-//                polish
-//                symmetry
-//                depth_percent
-//                table_percent
-//                lab
-//                certificate
-//                certificate_url
-//                culet_size
-//                girdle_percent
-//                girdle_condition
-//                measurements
-//                pavilion_depth
-//                crown_height
-//                crown_angle
-//                pavilion_angle
-//                growth_type
 
                 if (isset($row['stock'])) {
                     if (empty($row['stock']) || $row['stock'] != 'TOTAL' || $row['stock'] != 'total' || $row['stock'] != 'Total') {

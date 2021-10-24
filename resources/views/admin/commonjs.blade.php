@@ -49,3 +49,16 @@
         });
     </script>
 <?php } ?>
+<?php if ($data['title'] == 'Edit-Diamonds' || $data['title'] == 'Add-Diamonds') {
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function () {            
+             $('#refCategory_id').on('change', function () {                 
+                var cat_val = $(this).val();
+//                var cat_name = $(this).text();                
+                $(".attr_group").addClass("d-none");
+                $(".attr_grp_"+cat_val).removeClass("d-none");                  
+            });
+        });
+    </script>
+<?php } ?>
