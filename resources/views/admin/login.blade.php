@@ -18,6 +18,7 @@
 
 <body class="nk-body bg-white npc-default pg-auth">
     <div class="nk-app-root">
+        
         <!-- main @s -->
         <div class="nk-main ">
             <!-- wrap @s -->
@@ -73,6 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        
                                         <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
                                     </div>
                                 </form>

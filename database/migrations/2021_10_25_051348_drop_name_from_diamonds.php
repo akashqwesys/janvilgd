@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeDefaultNameTypeDiamonds extends Migration
+class DropNameFromDiamonds extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class ChangeDefaultNameTypeDiamonds extends Migration
     public function up()
     {
         Schema::table('diamonds', function (Blueprint $table) {
-            $table->dropColumn('name');              
+            $table->dropColumn('name');  
         });
     }
 
