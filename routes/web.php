@@ -27,7 +27,8 @@ use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\AttributeGroupsController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DiamondsController;
-use App\Http\Controllers\FrontAuthController;
+use App\Http\Controllers\Front\FrontAuthController;
+use App\Http\Controllers\Front\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +43,10 @@ use App\Http\Controllers\FrontAuthController;
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
-Route::get('/', [InformativePagesController::class, 'frontHome'])->name('front-home');
+Route::get('/', [HomeController::class, 'home'])->name('front-home');
+Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
 Route::match(['get', 'post'], '/login', [FrontAuthController::class, 'login']);
-Route::match(['get', 'post'], '/signup', [FrontAuthController::class, 'register'])->name('register');
-Route::get('/{slug}', [InformativePagesController::class, 'frontHome'])->name('front-home');
+Route::match(['get', 'post'], '/signup', [FrontAuthController::class, 'register']);
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
 /*---------------------------------------------------------------------------------------*/

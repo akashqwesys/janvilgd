@@ -141,23 +141,4 @@ class InformativePagesController extends Controller {
         }
     }
 
-    public function frontHome(Request $request)
-    {
-        if (empty($request->slug)) {
-            $request->slug = 'index';
-        }
-        else if (in_array($request->slug, ['cart', 'wishlist', 'my-account', 'search-for-diamonds', 'rough-diamonds', '4p-diamonds', 'polish-diamonds'])) {
-            if (!Auth::check()) {
-                return redirect ('/');
-            }
-        }
-        $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
-        if ($data) {
-            return view('front.common', ["slug" => $data->slug, "data" => $data]);
-        }
-        else {
-            return abort(404);
-        }
-    }
-
 }

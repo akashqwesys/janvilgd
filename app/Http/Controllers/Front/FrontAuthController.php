@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\APIResponse;
@@ -17,10 +17,11 @@ class FrontAuthController extends Controller
 
     public function login(Request $request)
     {
+        dd(1);
         if ($request->ajax()) {
             try {
                 $rules = [
-                    'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
+                    'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{10,11}$/ix'],
                     'email' => ['nullable', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
                 ];
 
