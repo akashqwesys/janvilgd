@@ -16,7 +16,7 @@ class DiamondsController extends Controller {
     public function index() {
         $data['title'] = 'List-Diamonds';
         return view('admin.diamonds.list', ["data" => $data]);
-    }
+    }   
 
     public function fileImport(Request $request) {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));        
@@ -1034,6 +1034,12 @@ class DiamondsController extends Controller {
         return redirect('admin/diamonds');
     }
 
+    public function addExcel() {
+        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();       
+        $data['category'] = $categories;              
+        $data['title'] = 'Add-Diamonds';
+        return view('admin.diamonds.import', ["data" => $data]);
+    }
     public function add() {
         $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('is_deleted', 0)->get();
@@ -1052,9 +1058,6 @@ class DiamondsController extends Controller {
     }
 
     public function save(Request $request) {
-
-//        echo get_rapaport_price();die;
-
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);

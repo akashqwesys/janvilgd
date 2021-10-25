@@ -15,7 +15,8 @@
                             <div class="nk-block-head-content">                                                
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <h4 style="display: inline;" class="nk-block-title">Diamond list</h4>
-                                    <a style="float: right;" href="{{route('diamonds.add')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Add Diamond<em class="icon ni ni-plus"></em></a>
+                                    <a style="float: right;" href="{{route('diamonds.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>
+                                    <a style="float: right;margin-right: 5px;" href="{{route('diamonds.add')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Add Diamond<em class="icon ni ni-plus"></em></a>
                                 </div>
                             </div><!-- .nk-block-head-content -->                                   
                         </div>                                       
