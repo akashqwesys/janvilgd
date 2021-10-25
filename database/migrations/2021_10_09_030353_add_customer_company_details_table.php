@@ -20,7 +20,7 @@ class AddCustomerCompanyDetailsTable extends Migration
             $table->string('office_no',20);
             $table->string('official_email',30);
             $table->foreignId('refDesignation_id');
-            $table->string('designation_name',30);                        
+            $table->string('designation_name',30);
             $table->text('office_address');
             $table->integer('pincode');
             $table->foreignId('refCity_id');
@@ -31,7 +31,7 @@ class AddCustomerCompanyDetailsTable extends Migration
             $table->tinyInteger('is_approved');
             $table->dateTime('approved_date_time');
             $table->foreignId('approved_by');
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

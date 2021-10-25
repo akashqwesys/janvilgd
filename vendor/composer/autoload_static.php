@@ -730,6 +730,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Models\\Categories' => __DIR__ . '/../..' . '/app/Models/Categories.php',
         'App\\Models\\City' => __DIR__ . '/../..' . '/app/Models/City.php',
         'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
+        'App\\Models\\CustomerCompanyDetail' => __DIR__ . '/../..' . '/app/Models/CustomerCompanyDetail.php',
         'App\\Models\\CustomerType' => __DIR__ . '/../..' . '/app/Models/CustomerType.php',
         'App\\Models\\Customers' => __DIR__ . '/../..' . '/app/Models/Customers.php',
         'App\\Models\\DeliveryCharges' => __DIR__ . '/../..' . '/app/Models/DeliveryCharges.php',

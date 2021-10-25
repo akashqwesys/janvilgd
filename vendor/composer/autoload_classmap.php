@@ -61,6 +61,7 @@ return array(
     'App\\Models\\Categories' => $baseDir . '/app/Models/Categories.php',
     'App\\Models\\City' => $baseDir . '/app/Models/City.php',
     'App\\Models\\Country' => $baseDir . '/app/Models/Country.php',
+    'App\\Models\\CustomerCompanyDetail' => $baseDir . '/app/Models/CustomerCompanyDetail.php',
     'App\\Models\\CustomerType' => $baseDir . '/app/Models/CustomerType.php',
     'App\\Models\\Customers' => $baseDir . '/app/Models/Customers.php',
     'App\\Models\\DeliveryCharges' => $baseDir . '/app/Models/DeliveryCharges.php',

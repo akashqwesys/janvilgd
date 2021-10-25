@@ -45,8 +45,8 @@ Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
-Route::match(['get', 'post'], '/login', [FrontAuthController::class, 'login']);
-Route::match(['get', 'post'], '/signup', [FrontAuthController::class, 'register']);
+Route::match(['get', 'post'], 'a/login', [FrontAuthController::class, 'login']);
+Route::match(['get', 'post'], 'a/signup', [FrontAuthController::class, 'register']);
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
 /*---------------------------------------------------------------------------------------*/

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Database\DBAL\TimestampType;
 
 return [
 
@@ -91,6 +92,12 @@ return [
             'prefix_indexes' => true,
         ],
 
+    ],
+
+    'dbal' => [
+        'types' => [
+            'timestamp' => TimestampType::class,
+        ],
     ],
 
     /*

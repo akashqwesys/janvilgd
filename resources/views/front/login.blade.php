@@ -8,9 +8,9 @@
 
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <link rel="stylesheet" type="text/css" ref="assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" ref="/assets/css/responsive.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 </head>
 
@@ -18,11 +18,11 @@
     <div class="content-wrapper">
         <section class="login-section">
             <div class="login-bg">
-                <img src="assets/images/PSNM.gif" alt="PSNM">
+                <img src="/assets/images/PSNM.gif" alt="PSNM">
             </div>
             <div class="login-container">
                 <div class="login-header">
-                    <a href="index.php"><img src="assets/images/logo.png" class="img-fluid" alt="logo"></a>
+                    <a href="index.php"><img src="/assets/images/logo.png" class="img-fluid" alt="logo"></a>
                 </div>
                 <div class="login-box">
                     <div class="login-form-content">
@@ -30,12 +30,12 @@
                         <form class="login-form bv-form" method="POST">
                             {{-- @csrf --}}
                             <div class="form-group">
-                                <img src="assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
+                                <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Mobile Number" autocomplete="off">
                             </div>
                             <p class="or"><span>And / Or</span></p>
                             <div class="form-group">
-                                <img src="assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="email" name="email" class="form-control" placeholder="Email Address" id="email" autocomplete="off">
                             </div>
                             <p>By continuing, I agree to the <a href="terms-condition.php">Terms of Use</a> & <a
@@ -48,8 +48,8 @@
             </div>
         </section>
     </div>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
     <script type="text/javascript">
         $.ajaxSetup({
