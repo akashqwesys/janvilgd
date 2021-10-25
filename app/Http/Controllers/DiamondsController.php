@@ -19,9 +19,9 @@ class DiamondsController extends Controller {
     }
 
     public function fileImport(Request $request) {
-        $res = Excel::toArray(new DiamondsImport, request()->file('file'));
+        $res = Excel::toArray(new DiamondsImport, request()->file('file'));        
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
-//        echo '<pre>';print_r($res);die;        
+//        echo '<pre>';print_r($attribute_groups);die;        
         $attr_group_array = array();
         if (!empty($res)) {
 //            foreach ($res as $row_1) {
@@ -201,22 +201,20 @@ class DiamondsController extends Controller {
                         }
                     }
                 }
-                if (isset($row['pktno'])) {                
-                    if (empty($row['pktno']) || $row['pktno'] == 'TOTAL' || $row['pktno'] == 'total' || $row['pktno'] == 'Total') {                        
+                if (isset($row['stock'])) {                
+                    if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {                        
                         break;
                     }                    
-                    if (!empty($row['pktno'])) {
+                    if (!empty($row['stock'])) {                        
                         $row['rap'] = str_replace(',', '', $row['rap']);
-                        $row['dis'] = str_replace('-', '', $row['dis']);
+                        $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
                         $row['rap'] = doubleval($row['rap']);
-                        $row['dis'] = doubleval($row['dis']);
-
-                        $data_array = [
-                            'packate_no' => strval($row['pktno']),
-                            'makable_cts' => doubleval($row['org_cts']),
-                            'expected_polish_cts' => doubleval($row['exp_pol']),
-                            'rapaport_price' => $row['rap'],
-                            'discount' => $row['dis'],
+                        $row['discount_percent'] = doubleval($row['discount_percent']);
+                        
+                        $data_array = [                                                                                                                
+                            'discount' => $row['discount_percent'],
+                            'image' => $row['image_link'],
+                            'video_link' => $row['video_link'],
                             'refCategory_id' => $request->refCategory_id,
                             'added_by' => session()->get('loginId'),
                             'is_active' => 1,
@@ -927,22 +925,23 @@ class DiamondsController extends Controller {
                         }
                     }
                 }
-
-
-                if (isset($row['stock'])) {
-                    if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
+                
+                if (isset($row['pktno'])) {
+                    if (empty($row['pktno']) || $row['pktno'] == 'TOTAL' || $row['pktno'] == 'total' || $row['pktno'] == 'Total') {
                         break;
                     }
-                    if (!empty($row['stock'])) {
-//                        $row['rap'] = str_replace(',', '', $row['rap']);
-                        $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
-//                        $row['rap'] = doubleval($row['rap']);
-                        $row['discount_percent'] = doubleval($row['discount_percent']);
+                    if (!empty($row['pktno'])) {
+                        $row['rap'] = str_replace(',', '', $row['rap']);
+                        $row['dis'] = str_replace('-', '', $row['dis']);
+                        $row['rap'] = doubleval($row['rap']);
+                        $row['dis'] = doubleval($row['dis']);
 
                         $data_array = [
-                            'discount' => $row['discount_percent'],
-                            'image' => $row['image_link'],
-                            'video_link' => $row['video_link'],
+                            'packate_no' => strval($row['pktno']),
+                            'makable_cts' => doubleval($row['org_cts']),
+                            'expected_polish_cts' => doubleval($row['exp_pol']),
+                            'rapaport_price' => $row['rap'],
+                            'discount' => $row['dis'],
                             'refCategory_id' => $request->refCategory_id,
                             'added_by' => session()->get('loginId'),
                             'is_active' => 1,
@@ -952,10 +951,11 @@ class DiamondsController extends Controller {
                         ];
                         DB::table('diamonds')->insert($data_array);
                         $Id = DB::getPdo()->lastInsertId();
-
+//                        print_r($attribute_groups);die;
                         foreach ($attribute_groups as $atr_grp_row) {
+                            
                             $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
-                            if ($atr_grp_row->name === "PURITY") {
+                            if ($atr_grp_row->name === "PURITY") {                                
                                 $purity = 0;
                                 foreach ($attribute as $atr_row) {
                                     if ($atr_row->name == $row['purity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
