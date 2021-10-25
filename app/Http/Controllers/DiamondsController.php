@@ -201,10 +201,10 @@ class DiamondsController extends Controller {
                         }
                     }
                 }
-                if (isset($row['pktno'])) {
-                    if (empty($row['barcode']) || $row['pktno'] != 'TOTAL' || $row['pktno'] != 'total' || $row['pktno'] != 'Total') {
+                if (isset($row['pktno'])) {                
+                    if (empty($row['pktno']) || $row['pktno'] == 'TOTAL' || $row['pktno'] == 'total' || $row['pktno'] == 'Total') {                        
                         break;
-                    }
+                    }                    
                     if (!empty($row['pktno'])) {
                         $row['rap'] = str_replace(',', '', $row['rap']);
                         $row['dis'] = str_replace('-', '', $row['dis']);
@@ -930,13 +930,13 @@ class DiamondsController extends Controller {
 
 
                 if (isset($row['stock'])) {
-                    if (empty($row['stock']) || $row['stock'] != 'TOTAL' || $row['stock'] != 'total' || $row['stock'] != 'Total') {
+                    if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
                         break;
                     }
                     if (!empty($row['stock'])) {
-                        $row['rap'] = str_replace(',', '', $row['rap']);
+//                        $row['rap'] = str_replace(',', '', $row['rap']);
                         $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
-                        $row['rap'] = doubleval($row['rap']);
+//                        $row['rap'] = doubleval($row['rap']);
                         $row['discount_percent'] = doubleval($row['discount_percent']);
 
                         $data_array = [
