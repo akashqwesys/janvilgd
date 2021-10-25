@@ -363,7 +363,6 @@ Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])
 /***************  Diamonds route end *************/
 
 
-//
 //Route::post('/delete-data', [CommonController::class, 'delete'])->name('data.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-status', [CommonController::class, 'status'])->name('data.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('/delete-image', [CommonController::class, 'delete_image'])->name('data.image')->middleware(['isLoggedIn','getMenu','accessPermission']);

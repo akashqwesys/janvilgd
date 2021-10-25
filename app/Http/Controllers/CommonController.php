@@ -14,7 +14,7 @@ class CommonController extends Controller
 //            
 //            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
 //                'is_deleted' => 1,                                
-//                'date_updated' => date("yy-m-d h:i:s")
+//                'date_updated' => date("Y-m-d h:i:s")
 //            ]); 
 //            activity($request,"deleted",$_REQUEST['module']);
 ////            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
@@ -35,7 +35,7 @@ class CommonController extends Controller
 //            
 //            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
 //                'is_active' => $_REQUEST['status'],                                
-//                'date_updated' => date("yy-m-d h:i:s")
+//                'date_updated' => date("Y-m-d h:i:s")
 //            ]);                        
 ////            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
 //            if ($res) {
@@ -56,7 +56,7 @@ class CommonController extends Controller
         if (isset($_REQUEST['table_id'])) {            
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([                                              
                 'image' =>'',                                
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);   
 //            activity($request,"deleted",$_REQUEST['module']);
 //            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();

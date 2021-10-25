@@ -52,8 +52,8 @@ class CustomersController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("yy-m-d h:i:s"),
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_added' => date("Y-m-d h:i:s"),
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
 
@@ -73,7 +73,7 @@ class CustomersController extends Controller {
             'pan_gst_attachment' => $pan_gst_no_file,
             'approved_by' => $request->session()->get('loginId'),
             'is_approved' => $request->is_approved,
-            'approved_date_time' => date("yy-m-d h:i:s"),
+            'approved_date_time' => date("Y-m-d h:i:s"),
         ]);
         activity($request, "inserted", 'customers');
         successOrErrorMessage("Data added Successfully", 'success');
@@ -86,6 +86,9 @@ class CustomersController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
+                            ->editColumn('date_added', function ($row) {                                
+                                return date_formate($row->date_added);
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
                                 if ($row->is_active == 1) {
@@ -162,7 +165,7 @@ class CustomersController extends Controller {
             'refCountry_id' => $request->refCountry_id,
             'refCustomerType_id' => $request->refCustomerType_id,
             'restrict_transactions' => $request->restrict_transactions,
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
         DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
             'refCustomer_id' => $request->id,
@@ -179,7 +182,7 @@ class CustomersController extends Controller {
             'pan_gst_no' => $request->pan_gst_no,
             'approved_by' => $request->session()->get('loginId'),
             'is_approved' => $request->is_approved,
-            'approved_date_time' => date("yy-m-d h:i:s")
+            'approved_date_time' => date("Y-m-d h:i:s")
         ]);
 
         activity($request, "updated", 'customers');
@@ -192,7 +195,7 @@ class CustomersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request, "deleted", $request['module']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -214,7 +217,7 @@ class CustomersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

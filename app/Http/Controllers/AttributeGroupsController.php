@@ -24,6 +24,9 @@ class AttributeGroupsController extends Controller {
     }
 
     public function save(Request $request) {
+        if(!isset($request->is_required)){
+            $request->is_required=0;
+        }
         DB::table('attribute_groups')->insert([
             'name' => $request->name,
             'image_required' => $request->image_required,
@@ -33,8 +36,8 @@ class AttributeGroupsController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("yy-m-d h:i:s"),
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_added' => date("Y-m-d h:i:s"),
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
 
         activity($request, "updated", 'attribute-groups');
@@ -49,6 +52,9 @@ class AttributeGroupsController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
+                            ->editColumn('date_added', function ($row) {                                
+                                return date_formate($row->date_added);
+                            })
                             ->editColumn('image_required', function ($row) {
                                 $image_required = '';
                                 if ($row->image_required == 1) {
@@ -124,14 +130,17 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {     
+    public function update(Request $request) {
+        if(!isset($request->is_required)){
+            $request->is_required=0;
+        }
         DB::table('attribute_groups')->where('attribute_group_id', $request->id)->update([
             'name' => $request->name,
             'image_required' => $request->image_required,
             'field_type' => $request->filed_type,
             'refCategory_id' => $request->refCategory_id,
             'is_required' => $request->is_required,
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
         activity($request, "updated", 'attribute-groups');
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -141,7 +150,7 @@ class AttributeGroupsController extends Controller {
         if (isset($request['table_id'])) {
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request, "deleted", $request['module']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -163,7 +172,7 @@ class AttributeGroupsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

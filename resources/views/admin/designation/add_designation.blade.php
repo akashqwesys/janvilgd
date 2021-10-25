@@ -14,7 +14,7 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">                           
-                            <form method="POST" action="{{route('designation.add')}}">
+                            <form method="POST" action="{{route('designation.save')}}">
                             @csrf
                             <div class="row g-3 align-center">
                                 <div class="col-lg-1">

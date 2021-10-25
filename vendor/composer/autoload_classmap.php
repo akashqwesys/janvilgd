@@ -55,6 +55,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Traits\\APIResponse' => $baseDir . '/app/Http/Traits/APIResponse.php',
     'App\\Imports\\DiamondsImport' => $baseDir . '/app/Imports/DiamondsImport.php',
+    'App\\Mail\\EmailVerification' => $baseDir . '/app/Mail/EmailVerification.php',
     'App\\Models\\AttributeGroups' => $baseDir . '/app/Models/AttributeGroups.php',
     'App\\Models\\Attributes' => $baseDir . '/app/Models/Attributes.php',
     'App\\Models\\Blogs' => $baseDir . '/app/Models/Blogs.php',

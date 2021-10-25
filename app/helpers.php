@@ -3,6 +3,20 @@
 use Illuminate\Support\Facades\DB;
 use App\Models\UserActivity;
 
+if (!function_exists('date_formate')) {
+    function date_formate($date) {
+        $Date = "$date";
+        return date('d-m-Y', strtotime($Date));
+    }
+}
+
+if (!function_exists('date_time_formate')) {
+    function date_time_formate($date) {
+        $Date = "$date";
+        return date('d-m-Y h:i:s', strtotime($Date));
+    }
+}
+
 if (!function_exists('successOrErrorMessage')) {
 
     function successOrErrorMessage($message, $type) {

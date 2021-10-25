@@ -43,6 +43,9 @@ class InformativePagesController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
+                            ->editColumn('date_updated', function ($row) {                                
+                                return date_formate($row->date_updated);
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
                                 if ($row->is_active == 1) {
@@ -91,7 +94,7 @@ class InformativePagesController extends Controller {
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
         activity($request,"updated",'informative-pages');
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -102,7 +105,7 @@ class InformativePagesController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request,"deleted",$request['module']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -124,7 +127,7 @@ class InformativePagesController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

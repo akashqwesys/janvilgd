@@ -94,7 +94,7 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-md-11 offset-1">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" data-msg="Required" class="custom-control-input required" name="is_required" id="is_required" required value="1">
+                                            <input type="checkbox" data-msg="Required" class="custom-control-input" name="is_required" id="is_required" value="1">
                                             <label class="custom-control-label" for="is_required">Is Required</label>
                                         </div>
                                     </div>

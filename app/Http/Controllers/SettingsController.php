@@ -26,7 +26,7 @@ class SettingsController extends Controller {
             'key' => $request->key,
             'value' => $request->value,
             'updated_by' => $request->session()->get('loginId'),
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
 
         activity($request,"inserted",'settings');
@@ -40,6 +40,9 @@ class SettingsController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
+                    ->editColumn('date_updated', function ($row) {                                
+                                return date_formate($row->date_updated);
+                            })  
 //                    ->editColumn('is_deleted', function ($row) {
 //                                $delete_button='';
 //                                if($row->is_deleted==1){
@@ -68,7 +71,7 @@ class SettingsController extends Controller {
             'key' => $request->key,
             'value' => $request->value,
             'updated_by' => $request->session()->get('loginId'),
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
 
         activity($request,"updated",'settings');
@@ -80,7 +83,7 @@ class SettingsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request,"deleted",$request['module']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -101,7 +104,7 @@ class SettingsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

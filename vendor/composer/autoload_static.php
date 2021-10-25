@@ -724,6 +724,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Traits\\APIResponse' => __DIR__ . '/../..' . '/app/Http/Traits/APIResponse.php',
         'App\\Imports\\DiamondsImport' => __DIR__ . '/../..' . '/app/Imports/DiamondsImport.php',
+        'App\\Mail\\EmailVerification' => __DIR__ . '/../..' . '/app/Mail/EmailVerification.php',
         'App\\Models\\AttributeGroups' => __DIR__ . '/../..' . '/app/Models/AttributeGroups.php',
         'App\\Models\\Attributes' => __DIR__ . '/../..' . '/app/Models/Attributes.php',
         'App\\Models\\Blogs' => __DIR__ . '/../..' . '/app/Models/Blogs.php',

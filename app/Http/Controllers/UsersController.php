@@ -67,10 +67,10 @@ class UsersController extends Controller {
             'is_active' => 1,
             'is_deleted' => 0,
             'last_login_type' => 'web',
-            'last_login_date_time' => date("yy-m-d h:i:s"),
+            'last_login_date_time' => date("Y-m-d h:i:s"),
             'user_type' => 'USER',
-            'date_added' => date("yy-m-d h:i:s"),
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_added' => date("Y-m-d h:i:s"),
+            'date_updated' => date("Y-m-d h:i:s")
         ]);
         activity($request, "inserted", 'users');
         successOrErrorMessage("Data added Successfully", 'success');
@@ -83,6 +83,12 @@ class UsersController extends Controller {
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index', '')
+                            ->editColumn('date_added', function ($row) {                                
+                                return date_formate($row->date_added);
+                            })
+                            ->editColumn('last_login_date_time', function ($row) {                                
+                                return date_time_formate($row->last_login_date_time);
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
                                 if ($row->is_active == 1) {
@@ -144,7 +150,7 @@ class UsersController extends Controller {
             'state_id' => $request->state_id,
             'country_id' => $request->country_id,
             'role_id' => $request->role_id,
-            'date_updated' => date("yy-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")
         ];
         if (isset($request->profile_pic)) {
             $request->validate([
@@ -182,7 +188,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request, "deleted", $request['module']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -204,7 +210,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

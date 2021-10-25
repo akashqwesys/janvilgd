@@ -37,8 +37,8 @@ class AttributeController extends Controller
                 'added_by' => $request->session()->get('loginId'),
                 'is_active' => 1,
                 'is_deleted' => 0,
-                'date_added' => date("yy-m-d h:i:s"),
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_added' => date("Y-m-d h:i:s"),
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
         } else{
             DB::table('attributes')->insert([
@@ -47,8 +47,8 @@ class AttributeController extends Controller
                 'added_by' => $request->session()->get('loginId'),
                 'is_active' => 1,
                 'is_deleted' => 0,
-                'date_added' => date("yy-m-d h:i:s"),
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_added' => date("Y-m-d h:i:s"),
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
         }
         activity($request,"inserted",'attributes');
@@ -62,6 +62,9 @@ class AttributeController extends Controller
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index','')
+                            ->editColumn('date_added', function ($row) {                                
+                                return date_formate($row->date_added);
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button='';
                                 if($row->is_active==1){
@@ -71,7 +74,7 @@ class AttributeController extends Controller
                                     $active_inactive_button='<span class="badge badge-danger">inActive</span>';
                                 }
                                 return $active_inactive_button;
-                            })
+                            })                            
                             ->editColumn('is_deleted', function ($row) {
                                 $delete_button='';
                                 if($row->is_deleted==1){
@@ -90,7 +93,7 @@ class AttributeController extends Controller
                                 }
                                 $actionBtn = '<a href="/admin/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="blogs" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
                                 return $actionBtn;
-                            })
+                            })                           
                             ->escapeColumns([])
                             ->make(true);
         }
@@ -125,13 +128,13 @@ class AttributeController extends Controller
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
                 'image' => $imageName,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
         }else{
             DB::table('attributes')->where('attribute_id', $request->id)->update([
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
         }
         activity($request,"updated",'attributes');
@@ -144,7 +147,7 @@ class AttributeController extends Controller
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request,"deleted",$request['module']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -166,7 +169,7 @@ class AttributeController extends Controller
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("yy-m-d h:i:s")
+                'date_updated' => date("Y-m-d h:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
