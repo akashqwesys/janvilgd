@@ -38,20 +38,16 @@ $("#msform").validate({
     errorElement: 'div',
     rules: {
         name: {required: true, rangelength: [3,50]},
-        email: {
+        /* email: {
             required: true,
-            email: true,
-            /* remote: {
-                url: "/checkEmailMobile",
-                type: "post",
-                data: {'name': $(this).val(), 'type': $(this).attr('id') == 'email' ? 2 : 1}
-            } */
+            email: true
         },
-        mobile: {required: true, number: true, rangelength: [10,11]},
+        mobile: {required: true, number: true, rangelength: [10,11]}, */
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
         state: {required: true},
         city: {required: true},
+        pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
         company_office_no: {required: true},
         company_email: {required: true, email: true},
@@ -60,6 +56,7 @@ $("#msform").validate({
         company_country: {required: true},
         company_state: {required: true},
         company_city: {required: true},
+        company_pincode: { required: true, number: true},
         id_upload: {required: true},
         privacy_terms: {required: true}
     },
@@ -77,6 +74,7 @@ $("#msform").validate({
         country: {required: "Please select the country"},
         state: {required: "Please select the state/province"},
         city: {required: "Please enter the city name"},
+        pincode: {required: "Please enter the pincode"},
         company_name: {required: "Please enter your company name"},
         company_office_no: {required: "Please enter your company office number"},
         company_email: { required: "Please enter your company email address"},
@@ -85,6 +83,7 @@ $("#msform").validate({
         company_country: {required: "Please select the country"},
         company_state: {required: "Please select the state/province"},
         company_city: {required: "Please enter the city name"},
+        company_pincode: {required: "Please enter the pincode"},
         id_proof: {required: "Please upload your business ID proof"},
         privacy_terms: {required: "Please check-mark/accept our terms of use and privacy policy"}
     },
@@ -96,10 +95,10 @@ $("#msform").validate({
         // form.submit();
         var formData = new FormData(form);
         formData.append('id_upload', $('#id_upload')[0].files);
-        console.log(formData);
+        formData.append('email', gmail );
         $.ajax({
             type: "POST",
-            url: "signup",
+            url: "/customer/signup",
             data: formData,
             // cache: false,
             processData : false,
@@ -107,6 +106,17 @@ $("#msform").validate({
             context: this,
             dataType: 'JSON',
             success: function(response) {
+                if (response.success == 1) {
+                    $.toast({
+                        heading: 'Success',
+                        text: response.message,
+                        icon: 'success',
+                        position: 'top-right'
+                    });
+                    setTimeout(() => {
+                        window.location = response.url;
+                    }, 2000);
+                }
                 if(response.error) {
                     $.toast({
                         heading: 'Error',
@@ -134,10 +144,10 @@ $(document).ready(function () {
     var left, opacity, scale; //fieldset properties which we will animate
     var animating; //flag to prevent quick multi-click glitches
     $(document).on('click', '.next-1, .next-2', function () {
-        if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country').valid() == false) {
+        if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
             return false;
         }
-        else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city').valid() == false) {
+        else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
             return false;
         }
         if(animating) return false;

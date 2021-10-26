@@ -3,11 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>OTP Verification</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
+    <style type="text/css">
+    .otp-box {
+        padding: 55px;
+    }
+    </style>
 </head>
 
 <body>
@@ -27,10 +34,10 @@
                         <p class="mb-0">Sent to 1234567890</p>
                         <form class="otp-form bv-form">
                             <div class="d-flex flex-row">
-                                <input type="text" class="form-control" min="1" max="1">
-                                <input type="text" class="form-control" min="1" max="1">
-                                <input type="text" class="form-control" min="1" max="1">
-                                <input type="text" class="form-control" min="1" max="1">
+                                <input type="text" class="form-control" id="no-1" onfocus="this.value=''">
+                                <input type="text" class="form-control" id="no-2" onfocus="this.value=''">
+                                <input type="text" class="form-control" id="no-3" onfocus="this.value=''">
+                                <input type="text" class="form-control" id="no-4" onfocus="this.value=''">
                             </div>
                         </form>
                         <p class="reset-time">Reset OTP In: <span>00:18</span></p>
@@ -41,7 +48,68 @@
         </section>
     </div>
     <!-- site-footer -->
-    <script src="/assets/js/jquery-3.6.0.slim.min.js"></script>
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
+    <script type="text/javascript">
+        $(document).on('keyup', '#no-1', function() {
+            $('#no-2').focus();
+        });
+        $(document).on('keyup', '#no-2', function() {
+            $('#no-3').focus();
+        });
+        $(document).on('keyup', '#no-3', function() {
+            $('#no-4').focus();
+        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(document).on('keyup', '#no-4', function() {
+            if ($(this).val()) {
+                var otp = $('#no-1').val() + $('#no-2').val() + $('#no-3').val() + $('#no-4').val();
+                $.ajax({
+                    type: "post",
+                    url: "/customer/verify",
+                    data: { 'otp': otp, 'token': '{{ $request->token }}' },
+                    cache: false,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success == 1) {
+                            $.toast({
+                                heading: 'Success',
+                                text: response.message,
+                                icon: 'success',
+                                position: 'top-right'
+                            });
+                            setTimeout(() => {
+                                window.location = response.url;
+                            }, 2000);
+                        }
+                        /* if (response.success == 2) {
+                            window.location = response.url + '?mobile=' + $('#mobile').val() + '&email=' + $('#email').val();
+                        } */
+                        else {
+                            $.toast({
+                                heading: 'Error',
+                                text: response.message,
+                                icon: 'error',
+                                position: 'top-right'
+                            });
+                        }
+                    },
+                    failure: function (response) {
+                        $.toast({
+                            heading: 'Error',
+                            text: 'Oops, something went wrong...!',
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

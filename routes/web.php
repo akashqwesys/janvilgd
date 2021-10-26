@@ -49,10 +49,12 @@ Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
 Route::get('/customer/search-diamonds', [HDiamond::class, 'home']);
 
 // Customer Authentication
-Route::match(['get', 'post'], 'c/login', [FrontAuthController::class, 'login']);
-Route::match(['get', 'post'], 'c/verify/{token}', [FrontAuthController::class, 'otpVerify']);
-Route::post('c/resendOTP', [FrontAuthController::class, 'resendOTP']);
-Route::match(['get', 'post'], 'c/signup', [FrontAuthController::class, 'register']);
+Route::match(['get', 'post'], 'customer/login', [FrontAuthController::class, 'login']);
+Route::get('customer/verify/{token}', [FrontAuthController::class, 'otpVerify']);
+Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
+Route::post('customer/resendOTP', [FrontAuthController::class, 'resendOTP']);
+Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
+Route::post('customer/signup', [FrontAuthController::class, 'register']);
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 // Customer Authentication
 

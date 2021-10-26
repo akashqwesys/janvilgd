@@ -54,12 +54,18 @@ class FrontAuthController extends Controller
                     $email = $exists->email;
                 }
                 else {
-                    $customer = new Customers;
-                    $customer->name = '';
+                    if (empty($request->mobile)) {
+                        return response()->json(['error' => 1, 'message' => 'Please also enter your phone number']);
+                    }
+                    if (empty($request->email)) {
+                        return response()->json(['error' => 1, 'message' => 'Please also enter your email address']);
+                    }
+                    /* $customer = new Customers;
+                    $customer->name = ' ';
                     $customer->mobile = $request->mobile;
                     $customer->email = $request->email;
-                    $customer->address = '';
-                    $customer->pincode = '';
+                    $customer->address = ' ';
+                    $customer->pincode = 0;
                     $customer->refCity_id = 0;
                     $customer->refState_id = 0;
                     $customer->refCountry_id = 0;
@@ -72,8 +78,27 @@ class FrontAuthController extends Controller
                     $customer->date_updated = date('Y-m-d H:i:s');
                     $customer->otp = $otp;
                     $customer->otp_status = 0;
-                    $customer->save();
-                    $email = $customer->email;
+                    $customer->save(); */
+                    DB::table('customer')->insert([
+                        'name' => ' ',
+                        'mobile' => $request->mobile,
+                        'email' => $request->email,
+                        'address' => ' ',
+                        'pincode' => 0,
+                        'refCity_id' => 0,
+                        'refState_id' => 0,
+                        'refCountry_id' => 0,
+                        'refCustomerType_id' => 0,
+                        'restrict_transactions' => 0,
+                        'added_by' => 0,
+                        'is_active' => 0,
+                        'is_deleted' => 0,
+                        'date_added' => date('Y-m-d H:i:s'),
+                        'date_updated' => date('Y-m-d H:i:s'),
+                        'otp' => $otp,
+                        'otp_status' => 0
+                    ]);
+                    $email = $request->email;
                 }
                 Mail::to($email)
                 ->send(
@@ -83,7 +108,7 @@ class FrontAuthController extends Controller
                         'view' => 'emails.codeVerification'
                     ])
                 );
-                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/c/verify/' . Crypt::encryptString($email)]);
+                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($email)]);
             }
             catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
@@ -97,16 +122,16 @@ class FrontAuthController extends Controller
     public function register(Request $request)
     {
         if ($request->ajax()) {
-            dd($request->all());
             try {
                 $rules = [
                     'name' => ['required'],
-                    'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
-                    'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                    // 'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
+                    // 'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                     'address' => ['required'],
                     'country' => ['required'],
                     'state' => ['required'],
                     'city' => ['required'],
+                    'pincode' => ['required', 'digits:6'],
                     'company_name' => ['required'],
                     'company_office_no' => ['required'],
                     'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
@@ -115,14 +140,15 @@ class FrontAuthController extends Controller
                     'company_country' => ['required'],
                     'company_state' => ['required'],
                     'company_city' => ['required'],
+                    'company_pincode' => ['required', 'digits:6'],
                     'id_upload' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
                 ];
 
                 $message = [
-                    'mobile.required' => 'Please enter phone number',
-                    'mobile.regex' => 'Please enter valid 10 digits phone number',
-                    'email.required' => 'Please enter email address',
-                    'email.regex' => 'Please enter valid email address',
+                    // 'mobile.required' => 'Please enter phone number',
+                    // 'mobile.regex' => 'Please enter valid 10 digits phone number',
+                    // 'email.required' => 'Please enter email address',
+                    // 'email.regex' => 'Please enter valid email address',
                     'country.required' => 'Please enter country',
                     'state.required' => 'Please enter state',
                     'city.required' => 'Please enter city',
@@ -145,24 +171,17 @@ class FrontAuthController extends Controller
 
                 $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')->where('mobile', $request->mobile)->orWhere('email', $request->email)->first();
                 if ($exists) {
-                    if ($request->mobile == $exists->mobile) {
-                        return response()->json(['error' => 1, 'message' => 'Please register with new mobile number']);
-                    }
-                    else {
-                        return response()->json(['error' => 1, 'message' => 'Please register with new email address']);
-                    }
-                } else {
-                    $customer = new Customers;
+                    $customer = Customers::where('email', $request->email)->first();
                     $customer->name = $request->name;
-                    $customer->mobile = $request->mobile;
-                    $customer->email = $request->email;
+                    // $customer->mobile = $request->mobile;
+                    // $customer->email = $request->email;
                     $customer->address = $request->address;
-                    // $customer->pincode = $request->pincode;
+                    $customer->pincode = $request->pincode;
                     $customer->refCity_id = $request->city;
                     $customer->refState_id = $request->state;
                     $customer->refCountry_id = $request->country;
-                    // $customer->refCustomerType_id = $request->refCustomerType_id;
-                    // $customer->restrict_transactions = $request->restrict_transactions;
+                    $customer->refCustomerType_id = 0;
+                    $customer->restrict_transactions = 0;
                     $customer->added_by = 0;
                     $customer->is_active = 1;
                     $customer->is_deleted = 0;
@@ -171,34 +190,57 @@ class FrontAuthController extends Controller
                     $customer->save();
 
                     $company = new CustomerCompanyDetail;
-                    $company->refCustomer_id = $customer->id;
+                    $company->refCustomer_id = $customer->customer_id;
                     $company->name = $request->company_name;
                     $company->office_no = $request->company_office_no;
                     $company->official_email = $request->company_email;
-                    // $company->refDesignation_id = $request->refDesignation_id;
-                    // $company->designation_name = $request->designation_name;
+                    $company->refDesignation_id = 1;
+                    $company->designation_name = 'owner';
                     $company->office_address = $request->company_address;
-                    // $company->pincode = $request->pincode;
+                    $company->pincode = $request->pincode;
                     $company->refCity_id = $request->company_city;
                     $company->refState_id = $request->company_state;
                     $company->refCountry_id = $request->company_country;
                     $company->pan_gst_no = $request->company_gst_pan;
-                    // $company->pan_gst_attachment = $request->pan_gst_attachment;
-                    // $company->is_approved = $request->is_approved;
+                    $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                    $request->file('id_upload')->storeAs("public/user_files", $imageName);
+                    $company->pan_gst_attachment = $imageName;
+                    $company->is_approved = 1;
                     $company->approved_date_time = date('Y-m-d H:i:s');
-                    // $company->approved_by = $request->approved_by;
+                    $company->approved_by = 0;
                     $company->save();
 
-                    return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered']);
+                    return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/']);
+                } else {
+                    return response()->json(['error' => 1, 'message' => 'Oops, something went wrong...!']);
                 }
             } catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
             }
         } else {
-            $city = DB::table('city')->select('city_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-            $state = DB::table('state')->select('state_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-            $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-            return view('front.register', compact('request', 'city', 'state', 'country'));
+            if (empty($request->token)) {
+                return redirect('/');
+            } else {
+                try {
+                    $token = explode('---', Crypt::decryptString($request->token));
+                    $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
+                    ->where('email', $token[0])
+                    ->where('mobile', $token[1])
+                    ->first();
+                    if (!$exists) {
+                        return redirect('/');
+                    } else {
+                        $email = $token[0];
+                        $mobile = $token[1];
+                        $city = DB::table('city')->select('city_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
+                        $state = DB::table('state')->select('state_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
+                        $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
+                        return view('front.register', compact('email', 'mobile', 'city', 'state', 'country'));
+                    }
+                } catch (\Throwable $th) {
+                    return redirect('/');
+                }
+            }
         }
     }
 
@@ -229,12 +271,6 @@ class FrontAuthController extends Controller
                 if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 30) {
                     return $this->errorResponse('Wait for 30 seconds');
                 }
-                /*$dt1 = date_create($user->updated_at);
-				$dt2 = date_create(date('Y-m-d H:i:s'));
-				$interval = date_diff($dt1, $dt2);
-    			if ($interval->format('%s') <= 30) {
-    				return $this->errorResponse('Wait for 30 seconds');
-    			}*/
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
@@ -258,8 +294,9 @@ class FrontAuthController extends Controller
     {
         if ($request->isMethod('GET')) {
             if (empty($request->token)) {
-                return redirect('/c/login');
+                return redirect('/customer/login');
             }
+            return view('front.otp_verification', compact('request'));
         } else {
             $rules = [
                 'token' => ['required'],
@@ -271,38 +308,32 @@ class FrontAuthController extends Controller
             $validator = Validator::make($request->all(), $rules, $message);
 
             if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->all()[0]);
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
-            $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'updated_at')
-                ->where('email', Crypt::decryptString($request->token))
-                ->first();
-            if (!$user) {
-                return $this->errorResponse('Not authorized');
-            } else {
-                $dt = new Carbon($user->updated_at);
-                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 30) {
-                    return $this->errorResponse('Wait for 30 seconds');
+            try {
+                $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name')
+                    ->where('email', Crypt::decryptString($request->token))
+                    ->first();
+                if (!$user) {
+                    return response()->json(['error' => 1, 'message' => 'Not authorized', 'url' => '/customer/login']);
+                } else {
+                    if ($request->otp == $user->otp) {
+                        if ($user->name == ' ') {
+                            $user->otp_status = 1;
+                            $user->save();
+                            return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/customer/signup/' . Crypt::encryptString($user->email . '---' . $user->mobile)]);
+                        } else {
+                            $user->otp_status = 1;
+                            $user->save();
+                            return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/']);
+                        }
+                    } else {
+                        return response()->json(['error' => 1, 'message' => 'Incorrect OTP']);
+                    }
                 }
-                /*$dt1 = date_create($user->updated_at);
-                $dt2 = date_create(date('Y-m-d H:i:s'));
-                $interval = date_diff($dt1, $dt2);
-                if ($interval->format('%s') <= 30) {
-                    return $this->errorResponse('Wait for 30 seconds');
-                }*/
+            } catch (\Throwable $th) {
+                return redirect('/');
             }
-            $otp = mt_rand(1111, 9999);
-            $user->otp = $otp;
-            $user->otp_status = 0;
-            Mail::to($request->email)
-                ->send(
-                    new EmailVerification([
-                        'name' => $request->email,
-                        'otp' => $otp,
-                        'view' => 'emails.codeVerification'
-                    ])
-                );
-            $user->update();
-            return $this->successResponse('Verification code has been resent to your registered email address');
         }
     }
 

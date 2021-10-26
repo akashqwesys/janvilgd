@@ -51,14 +51,14 @@
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/phone.svg" alt=""></span>
-                                            <input type="text" name="mobile" id="mobile" class="form-control" value="{{ $request->mobile }}" placeholder="Mobile Number">
+                                            <input type="text" id="mobile" class="form-control" value="{{ $mobile }}" placeholder="Mobile Number" disabled>
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/email.svg" alt=""></span>
-                                            <input type="email" name="email" id="email" class="form-control" value="{{ $request->email }}" placeholder="Email Address">
+                                            <input type="email" id="email" class="form-control" value="{{ $email }}" placeholder="Email Address" disabled>
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
                                             <select class="form-select" id="country" name="country">
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
                                             <select class="form-select" id="state" name="state">
@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/apartment_building_city.svg" alt=""></span>
                                             <select class="form-select" id="city" name="city">
@@ -102,6 +102,13 @@
                                                     <option value="{{ $c->city_id }}">{{ $c->name }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><img src="/assets/images/location.svg" alt=""></span>
+                                            <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Pincode">
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
@@ -147,7 +154,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
                                             <select class="form-select" id="company_country" name="company_country">
@@ -159,7 +166,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
                                             <select class="form-select" id="company_state" name="company_state">
@@ -171,7 +178,7 @@
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/apartment_building_city.svg" alt=""></span>
                                             <select class="form-select" id="company_city" name="company_city">
@@ -180,6 +187,13 @@
                                                     <option value="{{ $c->city_id }}">{{ $c->name }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><img src="/assets/images/location.svg" alt=""></span>
+                                            <input type="text" name="company_pincode" id="company_pincode" class="form-control" placeholder="Pincode">
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
@@ -222,8 +236,10 @@
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
-    <script src="/assets/js/sign-up.js"></script>
     <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        var gmail = '{{ $email }}';
+    </script>
+    <script src="/assets/js/sign-up.js"></script>
 </body>
 </html>
