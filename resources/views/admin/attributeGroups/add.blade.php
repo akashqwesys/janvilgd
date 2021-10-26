@@ -92,6 +92,20 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
+                                    <div class="col-lg-1">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="sort_order">Sort No:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort order number" required="" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
                                     <div class="col-md-11 offset-1">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" data-msg="Required" class="custom-control-input" name="is_required" id="is_required" value="1">

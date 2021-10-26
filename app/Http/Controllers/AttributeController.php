@@ -17,8 +17,8 @@ class AttributeController extends Controller
     }
 
     public function add() {
-        $attribute_groups = DB::table('attribute_groups')->select('attribute_group_id', 'name', 'image_required', 'field_type', 'refCategory_id', 'is_required', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
-        $data['attribute_groups'] = $attribute_groups;
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $data['category'] = $categories;      
         $data['title'] = 'Add-Attributes';
         return view('admin.attributes.add', ["data" => $data]);
     }
@@ -35,6 +35,7 @@ class AttributeController extends Controller
                 'attribute_group_id' => $request->attribute_group_id,
                 'image' => $imageName,
                 'added_by' => $request->session()->get('loginId'),
+                'sort_order' => $request->sort_order,
                 'is_active' => 1,
                 'is_deleted' => 0,
                 'date_added' => date("Y-m-d h:i:s"),
@@ -45,6 +46,7 @@ class AttributeController extends Controller
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
                 'added_by' => $request->session()->get('loginId'),
+                'sort_order' => $request->sort_order,
                 'is_active' => 1,
                 'is_deleted' => 0,
                 'date_added' => date("Y-m-d h:i:s"),
@@ -74,7 +76,14 @@ class AttributeController extends Controller
                                     $active_inactive_button='<span class="badge badge-danger">inActive</span>';
                                 }
                                 return $active_inactive_button;
-                            })                            
+                            }) 
+                             ->editColumn('image', function ($row) {                               
+                                if($row->image==0){
+                                    return '';
+                                }else{
+                                    return '<img src="'.asset(check_host().'images').'/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
+                                }                                                                
+                            }) 
                             ->editColumn('is_deleted', function ($row) {
                                 $delete_button='';
                                 if($row->is_deleted==1){
@@ -100,19 +109,28 @@ class AttributeController extends Controller
     }
 
     public function edit($id) {
-        $attribute_groups = DB::table('attribute_groups')->select('attribute_group_id', 'name', 'image_required', 'field_type', 'refCategory_id', 'is_required', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('field_type', 1)->where('is_active', 1)->where('is_deleted', 0)->get();
-        $data['attribute_groups'] = $attribute_groups;
-        $data['is_image'] = 0;
+
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+                       
         $result = DB::table('attributes')->where('attribute_id', $id)->first();
+        $attribute_cat = DB::table('attribute_groups')->where('attribute_group_id', $result->attribute_group_id)->where('is_active', 1)->where('is_deleted', 0)->first();  
+        
+//        print_r($attribute_cat);die;
+//        echo $attribute_cat->refCategory_id;die;
+        $attribute_groups = DB::table('attribute_groups')->where('refCategory_id', $attribute_cat->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get(); 
+        $data['is_image'] = "d-none";
         foreach ($attribute_groups as $row){
             if($row->attribute_group_id==$result->attribute_group_id){
                 if($row->image_required==1){
-                    $data['is_image'] = 1;
+                    $data['is_image'] = "";
                 }
             }
-        }
+        }                        
+        $data['category'] = $categories;  
+        $data['attribute_groups'] = $attribute_groups;        
         $data['title'] = 'Edit-Attributes';
         $data['result'] = $result;
+        $data['refCategory_id']=$attribute_cat->refCategory_id;
         return view('admin.attributes.edit', ["data" => $data]);
     }
 
@@ -127,6 +145,7 @@ class AttributeController extends Controller
             DB::table('attributes')->where('attribute_id', $request->id)->update([
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
+                'sort_order' => $request->sort_order,
                 'image' => $imageName,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
@@ -134,6 +153,7 @@ class AttributeController extends Controller
             DB::table('attributes')->where('attribute_id', $request->id)->update([
                 'name' => $request->name,
                 'attribute_group_id' => $request->attribute_group_id,
+                'sort_order' => $request->sort_order,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
         }

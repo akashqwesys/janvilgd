@@ -24,20 +24,31 @@
                             <form method="POST" action="{{route('attributes.update')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->attribute_id }}">
+                               
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label class="form-label float-md-right" for="name">Name:</label>
+                                            <label class="form-label float-right" for="refCategory_id">Category:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" required="" autocomplete="off" value="{{ $data['result']->name }}">
+                                                <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                    <option value="" disabled="" selected="">------ Select Category ------</option>
+                                                     @php if(!empty($data['category'])){
+                                                        foreach ($data['category'] as $row){
+                                                            @endphp
+                                                            <option value="{{ $row->category_id }}" {{ set_selected($row->category_id,$data['refCategory_id']) }}> {{ $row->name }}</option>
+                                                    @php
+                                                        }
+                                                    } @endphp
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
 
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
@@ -69,8 +80,36 @@
                                         </div>
                                     </div>
                                 </div>
-                                <?php if ($data['is_image'] == 1) { ?>
-                                    <div class="row g-3 align-center image_div">
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="name">Name:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" required="" autocomplete="off" value="{{ $data['result']->name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="sort_order">Sort No:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort order number" required="" autocomplete="off" value="{{ $data['result']->sort_order }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="row g-3 align-center image_div {{ $data['is_image'] }}">
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="image">Image:</label>
@@ -86,9 +125,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                </div>
                                     <?php if (!empty($data['result']->image)) { ?>
-                                        <div class="row g-3 align-center" id="img_{{ $data['result']->attribute_id }}">
+                                        <div class="row g-3 align-center {{ $data['is_image']}}" id="img_{{ $data['result']->attribute_id }}">
                                             <div class="col-lg-2">
                                                 <div class="form-group">
                                                     &nbsp;
@@ -106,8 +145,7 @@
                                             </div>
                                         </div>
                                         <?php
-                                    }
-                                }
+                                    }                               
                                 ?>
                                 <hr>
                                 <div class="row g-3">

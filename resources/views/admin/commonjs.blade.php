@@ -45,7 +45,33 @@
                     $(".image_div").removeClass("d-none");
                     $(".image_div").addClass("d-none");
                 }                               
-            });
+            });                        
+            $('#refCategory_id').on('change', function () {
+                var refCategory_id = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "{{route('attribute-groups.attributeGroupByCategory')}}",
+                    data: {'refCategory_id': refCategory_id},
+                    success: function (res) {
+                        var result = $.parseJSON(res);
+                        $("#attribute_group_id").empty(); 
+                        $("#attribute_group_id").append(new Option('------ Select Attribute groups ------', ''));
+                        $.each(result, function (index, value) { 
+                            var option_class=0
+                            if(value.image_required===1){
+                                option_class="yes_"+value.attribute_group_id;
+                            }
+                            if(value.image_required===0){
+                                option_class="no_"+value.attribute_group_id;
+                            }
+                            $('#attribute_group_id').append($('<option />').val(value.attribute_group_id).text(value.name).addClass(option_class));
+                            
+//                            $("#attribute_group_id").append(new Option(value.name, value.attribute_group_id));
+                        });
+                    }
+                });
+            });            
         });
     </script>
 <?php } ?>

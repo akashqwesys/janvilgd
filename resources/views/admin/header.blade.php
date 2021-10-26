@@ -70,7 +70,7 @@
                                 <ul class="nk-menu">
                                     <?php
                                     if (!empty(session('menu'))) {
-                                        foreach (session('menu') as $session_row) {
+                                        foreach (session('menu') as $session_row) {                                            
                                             ?>
 
                                             <li class="nk-menu-heading">
@@ -96,6 +96,29 @@
                                     <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
                                         ?>
+                                                    <li class="nk-menu-heading">
+                                            <h6 class="overline-title text-primary-alt">Diamonds</h6>
+                                        </li><!-- .nk-menu-item -->
+                                       <li class="nk-menu-item has-sub">
+                                                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
+                                                                                <span class="nk-menu-text">Diamonds</span>
+                                                                            </a>
+                                                                            <ul class="nk-menu-sub">
+                                                                                <?php if (!empty(session('categories'))) {
+                                                                                    foreach (session('categories') as $cat_row) {  
+                                                                                        ?>
+                                                                                <li class="nk-menu-item">
+                                                                                    <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
+                                                                                </li>
+                                                                                <?php
+                                                                                        
+                                                                                    }
+                                                                                } ?>                                                                                                                                                               
+                                                                            </ul> 
+                                                                        </li>           
+                                                    
+                                                    
                                         <li class="nk-menu-heading">
                                             <h6 class="overline-title text-primary-alt">Modules</h6>
                                         </li><!-- .nk-menu-item -->
@@ -108,32 +131,6 @@
                                         <?php
                                     }
                                     ?>
-
-
-
-                                    <!--                                    <li class="nk-menu-item has-sub">
-                                                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                                                <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
-                                                                                <span class="nk-menu-text">User Manage</span>
-                                                                            </a>
-                                                                            <ul class="nk-menu-sub">
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">User List - Default</span></a>
-                                                                                </li>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="html/user-list-regular.html" class="nk-menu-link"><span class="nk-menu-text">User List - Regular</span></a>
-                                                                                </li>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="html/user-list-compact.html" class="nk-menu-link"><span class="nk-menu-text">User List - Compact</span></a>
-                                                                                </li>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="html/user-details-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Details - Regular</span></a>
-                                                                                </li>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="html/user-profile-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Profile - Regular</span></a>
-                                                                                </li>
-                                                                            </ul> .nk-menu-sub
-                                                                        </li> .nk-menu-item                                                             -->
                                 </ul><!-- .nk-menu -->
                             </div><!-- .nk-sidebar-menu -->
                         </div><!-- .nk-sidebar-content -->

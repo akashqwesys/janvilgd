@@ -52,6 +52,13 @@ class CategoriesController extends Controller
                             ->editColumn('date_added', function ($row) {                                
                                 return date_formate($row->date_added);
                             })
+                            ->editColumn('image', function ($row) {                               
+                                if($row->image==0){
+                                    return '';
+                                }else{
+                                    return '<img src="'.asset(check_host().'images').'/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
+                                }                                                                
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button='';
                                 if($row->is_active==1){

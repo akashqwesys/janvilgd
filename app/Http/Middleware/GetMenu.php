@@ -31,7 +31,7 @@ class GetMenu {
 
             $access_permission = json_decode($user_roles->access_permission);
             $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
-
+            
             if (!empty($module)) {
                 $access_list=array();
                 $menu_array = array();
@@ -80,14 +80,19 @@ class GetMenu {
                 }
             }
         }
+        
+        $categories = DB::table('categories')->select('name','category_id')->get();
+        
         $columns = array_column($menu_array, 'sort_order');
         array_multisort($columns, SORT_ASC, $menu_array);
         if (Session()->has('loginId')) {
             $request->session()->forget('menu');
             $request->session()->forget('module');
+            $request->session()->forget('categories');
         }
         $request->session()->put('module', $module);
         $request->session()->put('menu', $menu_array);
+         $request->session()->put('categories', $categories);
 
         return $next($request);
     }

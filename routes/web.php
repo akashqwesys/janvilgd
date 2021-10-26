@@ -342,6 +342,8 @@ Route::post('attribute-groups/update', [AttributeGroupsController::class, 'updat
 Route::get('attribute-groups/edit/{id}', [AttributeGroupsController::class, 'edit'])->name('attribute-groups.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('attribute-groups/delete', [AttributeGroupsController::class, 'delete'])->name('attribute-groups.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('attribute-groups/status', [AttributeGroupsController::class, 'status'])->name('attribute-groups.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+Route::post('attribute-groups/list/attributes-groups-by-categories', [AttributeGroupsController::class, 'attributeGroupByCategory'])->name('attribute-groups.attributeGroupByCategory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  attribute-groups route end *************/
 
@@ -358,7 +360,7 @@ Route::post('attributes/status', [AttributeController::class, 'status'])->name('
 /***************  Attributes route end *************/
 
 /***************  Diamonds route *************/
-Route::get('diamonds', [DiamondsController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('diamonds/list/{id}', [DiamondsController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('diamonds/list', [DiamondsController::class, 'list'])->name('diamonds.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('diamonds/add', [DiamondsController::class, 'add'])->name('diamonds.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('diamonds/save', [DiamondsController::class, 'save'])->name('diamonds.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

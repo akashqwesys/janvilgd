@@ -89,6 +89,13 @@ class UsersController extends Controller {
                             ->editColumn('last_login_date_time', function ($row) {                                
                                 return date_time_formate($row->last_login_date_time);
                             })
+                            ->editColumn('profile_pic', function ($row) {                               
+                                if($row->profile_pic==0){
+                                    return '';
+                                }else{
+                                    return '<img src="storage/app/public/user_images/'.$row->profile_pic.'" style="border-radius:100%;height:50px;width:50px;">';
+                                }                                                                
+                            })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
                                 if ($row->is_active == 1) {
@@ -175,8 +182,7 @@ class UsersController extends Controller {
             $id_proof_2 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_2')->getClientOriginalName());
             $request->file('id_proof_2')->storeAs("public/user_files", $id_proof_2);
             $data['id_proof_2'] = $id_proof_2;
-        }
-
+        }        
         DB::table('users')->where('id', $request->id)->update($data);
         activity($request, "updated", 'users');
         successOrErrorMessage("Data updated Successfully", 'success');

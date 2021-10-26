@@ -16,6 +16,49 @@
                         <div class="card-inner">
                             <form method="POST" action="{{route('attributes.save')}}" enctype="multipart/form-data">
                                 @csrf
+                                
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-right" for="refCategory_id">Category:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                    <option value="" disabled="" selected="">------ Select Category ------</option>
+                                                    @php
+                                                    if (!empty($data['category'])) {
+                                                        foreach ($data['category'] as $row) {
+                                                            @endphp
+                                                            <option value="{{ $row->category_id }}">{{ $row->name }}</option>
+                                                            @php
+                                                        }
+                                                    }
+                                                    @endphp
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-right" for="attribute_group_id">Attribute groups:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <select class="form-select form-control" id="attribute_group_id" name="attribute_group_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                    <option value="" disabled="" selected="">------ Select Attribute groups ------</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -30,37 +73,20 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label class="form-label float-right" for="attribute_group_id">Attribute groups:</label>
+                                            <label class="form-label float-md-right" for="sort_order">Sort No:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="attribute_group_id" name="attribute_group_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                    <option value="" disabled="" selected="">------ Select Attribute groups ------</option>
-                                                    @php
-                                                    if (!empty($data['attribute_groups'])) {
-                                                        foreach ($data['attribute_groups'] as $row) {
-                                                            if($row->image_required){
-                                                                $class="yes_".$row->attribute_group_id;
-                                                            }else{
-                                                                $class="no_".$row->attribute_group_id;
-                                                            }
-                                                            @endphp
-                                                    <option value="{{ $row->attribute_group_id }}" class="{{ $class }} option_class">{{ $row->name }}</option>
-                                                            @php
-                                                        }
-                                                    }
-                                                    @endphp
-                                                </select>
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort order number" required="" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>                              
                                 <div class="row g-3 align-center image_div d-none">
                                     <div class="col-lg-2">
                                         <div class="form-group">

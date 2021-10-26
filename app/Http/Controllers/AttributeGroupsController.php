@@ -24,8 +24,8 @@ class AttributeGroupsController extends Controller {
     }
 
     public function save(Request $request) {
-        if(!isset($request->is_required)){
-            $request->is_required=0;
+        if (!isset($request->is_required)) {
+            $request->is_required = 0;
         }
         DB::table('attribute_groups')->insert([
             'name' => $request->name,
@@ -33,6 +33,7 @@ class AttributeGroupsController extends Controller {
             'field_type' => $request->field_type,
             'refCategory_id' => $request->refCategory_id,
             'is_required' => $request->is_required,
+            'sort_order' => $request->sort_order,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
@@ -47,12 +48,12 @@ class AttributeGroupsController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = DB::table('attribute_groups')->select('attribute_groups.*', 'categories.name as category_name')->leftJoin('categories', 'attribute_groups.refCategory_id', '=', 'categories.category_id')->orderBy('attribute_group_id', 'desc')->get();
+            $data = DB::table('attribute_groups')->select('attribute_groups.*', 'categories.name as category_name')->leftJoin('categories', 'attribute_groups.refCategory_id', '=', 'categories.category_id')->orderBy('refCategory_id', 'ASC')->orderBy('name', 'ASC')->get();
 //            $data = Sliders::latest()->orderBy('slider_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('image_required', function ($row) {
@@ -130,15 +131,23 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
+    public function attributeGroupByCategory(Request $request) {         
+        if($request->refCategory_id){
+            $result = DB::table('attribute_groups')->where('refCategory_id', $request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();            
+            echo json_encode($result);
+        }
+    }
+
     public function update(Request $request) {
-        if(!isset($request->is_required)){
-            $request->is_required=0;
+        if (!isset($request->is_required)) {
+            $request->is_required = 0;
         }
         DB::table('attribute_groups')->where('attribute_group_id', $request->id)->update([
             'name' => $request->name,
             'image_required' => $request->image_required,
             'field_type' => $request->filed_type,
             'refCategory_id' => $request->refCategory_id,
+            'sort_order' => $request->sort_order,
             'is_required' => $request->is_required,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
@@ -146,6 +155,7 @@ class AttributeGroupsController extends Controller {
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/attribute-groups');
     }
+
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([

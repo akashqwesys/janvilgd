@@ -13,8 +13,9 @@ use App\Imports\DiamondsImport;
 
 class DiamondsController extends Controller {
 
-    public function index() {
+    public function index($cat_id) {
         $data['title'] = 'List-Diamonds';
+        $data['cat_id'] = $cat_id;
         return view('admin.diamonds.list', ["data" => $data]);
     }   
 
@@ -953,8 +954,9 @@ class DiamondsController extends Controller {
     }
 
     public function list(Request $request) {
-        if ($request->ajax()) {
-            $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->orderBy('diamond_id', 'desc')->get();
+//        print_r($request->refCategory_id);die;
+        if ($request->ajax()) {            
+            $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id',$request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')

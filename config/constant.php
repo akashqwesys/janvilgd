@@ -1,4 +1,4 @@
 <?php
 return [
-    'ADMIN_DASHBOARD_TITLE' => 'Dashboard'    
+    'ADMIN_DASHBOARD_TITLE' => 'Dashboard'   
 ];

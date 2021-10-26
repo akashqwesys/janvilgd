@@ -16,9 +16,14 @@
                     }],               
                 "processing": true,
                 "serverSide": true,
-                "pageLength": 10,                                          
-                "paginationType": "full_numbers",
-                ajax: "{{ route('diamonds.list') }}",
+                "pageLength": 10,                                      
+                "paginationType": "full_numbers",                                                                                                     
+                "ajax": {                      
+                        'url': "{{ route('diamonds.list') }}",
+                        'data': {                            
+                            'refCategory_id':<?php echo $data['cat_id']; ?>                           
+                        }
+                    },
                 columns: [                    
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},
