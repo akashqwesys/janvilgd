@@ -63,7 +63,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                 <div class="row g-3 align-center d-none" id="barcode">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="barcode">Barcode:</label>
@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                 <div class="row g-3 align-center d-none" id="packate_no">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="packate_no">Packate No:</label>
@@ -91,7 +91,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="actual_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="actual_pcs">Actual pcs:</label>
@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="available_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="available_pcs">Available pcs:</label>
@@ -119,7 +119,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                 <div class="row g-3 align-center d-none" id="makable_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="makable_cts">Makable cts:</label>
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="expected_polish_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="expected_polish_cts">Expected polish cts:</label>
@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="remarks">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="remarks">Remarks:</label>
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="rapaport_price">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
@@ -176,7 +176,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="discount">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="discount">Discount:</label>
@@ -190,7 +190,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="weight_loss">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
@@ -204,7 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                  <div class="row g-3 align-center">
+                                 <div class="row g-3 align-center d-none " id="video_link">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="video_link">Video link:</label>
@@ -218,7 +218,7 @@
                                         </div>
                                     </div>
                                 </div>                            
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="image">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="image">Image:</label>

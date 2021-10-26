@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="barcode">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="barcode">Barcode:</label>
@@ -64,12 +64,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter barcode" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="barcode"  placeholder="Enter barcode" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="packate_no">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="packate_no">Packate No:</label>
@@ -78,12 +78,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="packate_no" id="packate_no" placeholder="Enter packate no" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="actual_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="actual_pcs">Actual pcs:</label>
@@ -92,12 +92,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="actual_pcs" id="actual_pcs" placeholder="Enter actual pcs" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="available_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="available_pcs">Available pcs:</label>
@@ -106,12 +106,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="available_pcs" id="available_pcs" placeholder="Enter available pcs" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="available_pcs"  placeholder="Enter available pcs" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="makable_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="makable_cts">Makable cts:</label>
@@ -120,12 +120,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="makable_cts" id="makable_cts" placeholder="Enter makable cts" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="makable_cts"  placeholder="Enter makable cts" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="expected_polish_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="expected_polish_cts">Expected polish cts:</label>
@@ -134,12 +134,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts" placeholder="Enter expected polish cts" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="expected_polish_cts"  placeholder="Enter expected polish cts" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="remarks">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="remarks">Remarks:</label>
@@ -148,13 +148,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="remarks" id="remarks" placeholder="Enter remarks" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="remarks"  placeholder="Enter remarks" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="rapaport_price">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
@@ -163,12 +163,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="rapaport_price" id="remarks" placeholder="Enter rapaport price" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="rapaport_price"  placeholder="Enter rapaport price" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="discount">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="discount">Discount:</label>
@@ -177,12 +177,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="discount" id="discount" placeholder="Enter discount" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="discount"  placeholder="Enter discount" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="weight_loss">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
@@ -191,12 +191,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="weight_loss" id="weight_loss" placeholder="Enter weight loss" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="weight_loss"  placeholder="Enter weight loss" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none " id="video_link">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="video_link">Video link:</label>
@@ -205,12 +205,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="url" class="form-control" name="video_link" id="video_link" placeholder="Enter video link" required="" autocomplete="off">                                             
+                                                <input type="url" class="form-control" name="video_link"  placeholder="Enter video link" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>                            
-                                <div class="row g-3 align-center">
+                                <div class="row g-3 align-center d-none" id="image">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="image">Image:</label>
@@ -220,14 +220,13 @@
                                         <div class="form-group">                                           
                                             <div class="form-control-wrap">
                                                 <div class="custom-file">
-                                                    <input type="file" name="image" class="custom-file-input" id="image">
+                                                    <input type="file" name="image" class="custom-file-input" >
                                                     <label class="custom-file-label" for="image">Choose file</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>   
-                               
+                                </div>                                  
                                 <hr>
                                 <?php
                                 foreach ($data['attribute_groups'] as $row) {
