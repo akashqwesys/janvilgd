@@ -283,7 +283,7 @@
                                                                 if ($row->attribute_group_id == $atr_row->attribute_group_id) {
                                                                     
                                                                     foreach ($data['diamond_attributes'] as $d_a_row){
-                                                                    if($d_a_row->refAttribute_group_id==$row->attribute_group_id){                                                                    
+                                                                    if($d_a_row->refAttribute_group_id==$row->attribute_group_id && $d_a_row->refAttribute_id!=0){                                                                    
                                                                     ?>                                                                                                                                         
                                                                     <option value="<?php echo $atr_row->attribute_id.'_'.$row->attribute_group_id; ?>" <?php echo set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id); ?>><?php echo $atr_row->name; ?></option>
                                                                     <?php                                                                        

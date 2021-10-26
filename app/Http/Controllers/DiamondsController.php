@@ -259,7 +259,112 @@ class DiamondsController extends Controller {
                                 array_push($attr_group_array, $insert_array);
                                 }
                             }
-
+                            
+                            
+                             if ($atr_grp_row->name === "DEPTH PERCENT") {                                 
+                                if(!empty($row['depth_percent'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['depth_percent'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                                                 
+                            }
+                            
+                            if ($atr_grp_row->name === "TABLE PERCENT") {
+                                
+                                if(!empty($row['table_percent'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['table_percent'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                                                                                 
+                            }
+                            
+                             if ($atr_grp_row->name === "CERTIFICATE") {
+                                 
+                                  if(!empty($row['certificate'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['certificate'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                 
+                            }
+                            
+                            if ($atr_grp_row->name === "GIRDLE PERCENT") {
+                                
+                                 if(!empty($row['girdle_percent'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['girdle_percent'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                   
+                            }
+                            
+                            
+                            if ($atr_grp_row->name === "PAVILION DEPTH") {
+                                
+                                 if(!empty($row['pavilion_depth'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['pavilion_depth'];
+                                    array_push($attr_group_array, $insert_array);
+                                }   
+                            }
+                            if ($atr_grp_row->name === "CROWN HEIGHT") {
+                                
+                                 if(!empty($row['crown_height'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['crown_height'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                 
+                            }
+                            if ($atr_grp_row->name === "CROWN ANGLE") {
+                                
+                                 if(!empty($row['crown_angle'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['crown_angle'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                 
+                            }
+                            if ($atr_grp_row->name === "PAVILION ANGLE") {
+                                
+                                if(!empty($row['pavilion_angle'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['pavilion_angle'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                 
+                            }
+                            if ($atr_grp_row->name === "GROWTH TYPE") {
+                                
+                                 if(!empty($row['growth_type'])){
+                                    $insert_array = array();
+                                    $insert_array['refDiamond_id'] = $Id;
+                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['growth_type'];
+                                    array_push($attr_group_array, $insert_array);
+                                }                                                                 
+                            }
+                            
                             if ($atr_grp_row->name === "MEASUREMENTS") {
                                  if(!empty($row['measurements'])){
                                 $insert_array = array();
@@ -556,75 +661,9 @@ class DiamondsController extends Controller {
                                 }
                             }
 
-                            if ($atr_grp_row->name === "DEPTH PERCENT") {
-                                if(!empty($row['depth_percent'])){
-                                $depth_percent = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['depth_percent'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $depth_percent = 1;
-                                    }
-                                }
-                                if ($depth_percent == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['depth_percent'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
+                           
 
-                            if ($atr_grp_row->name === "TABLE PERCENT") {
-                                if(!empty($row['table_percent'])){
-                                $table_percent = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['table_percent'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $table_percent = 1;
-                                    }
-                                }
-                                if ($table_percent == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['table_percent'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
+                            
                             
                             if ($atr_grp_row->name === "LAB") {
                                 if(!empty($row['lab'])){
@@ -661,40 +700,7 @@ class DiamondsController extends Controller {
                                 }
                             }
 
-                            if ($atr_grp_row->name === "CERTIFICATE") {
-                                if(!empty($row['certificate'])){
-                                $certificate = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['certificate'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $certificate = 1;
-                                    }
-                                }
-                                if ($certificate == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['certificate'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
+                           
                             
                             
 
@@ -732,42 +738,7 @@ class DiamondsController extends Controller {
                                 }
                                 }
                             }
-
-                            if ($atr_grp_row->name === "GIRDLE PERCENT") {
-                                 if(!empty($row['girdle_percent'])){
-                                $girdle_percent = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['girdle_percent'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $girdle_percent = 1;
-                                    }
-                                }
-                                if ($girdle_percent == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['girdle_percent'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                 }
-                            }
-
+                            
                             if ($atr_grp_row->name === "GRIDLE CONDITION") {
                                 if(!empty($row['girdle_condition'])){
                                 $girdle_condition = 0;
@@ -801,180 +772,8 @@ class DiamondsController extends Controller {
                                     array_push($attr_group_array, $insert_array);
                                 }
                                 }
-                            }
+                            }                                                      
                             
-
-                            if ($atr_grp_row->name === "PAVILION DEPTH") {
-                                if(!empty($row['pavilion_depth'])){
-                                $pavilion_depth = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['pavilion_depth'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $pavilion_depth = 1;
-                                    }
-                                }
-                                if ($pavilion_depth == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['pavilion_depth'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
-                            if ($atr_grp_row->name === "CROWN HEIGHT") {
-                                if(!empty($row['crown_height'])){
-                                $crown_height = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['crown_height'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $crown_height = 1;
-                                    }
-                                }
-                                if ($crown_height == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['crown_height'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
-
-                            if ($atr_grp_row->name === "CROWN ANGLE") {
-                                if(!empty($row['crown_angle'])){
-                                $crown_angle = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['crown_angle'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $crown_angle = 1;
-                                    }
-                                }
-                                if ($crown_angle == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['crown_angle'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
-                            if ($atr_grp_row->name === "PAVILION ANGLE") {
-                                if(!empty($row['pavilion_angle'])){
-                                $pavilion_angle = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['pavilion_angle'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $pavilion_angle = 1;
-                                    }
-                                }
-                                if ($pavilion_angle == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['pavilion_angle'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
-                            if ($atr_grp_row->name === "GROWTH TYPE") {
-                                if(!empty($row['growth_type'])){
-                                $growth_type = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['growth_type'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $growth_type = 1;
-                                    }
-                                }
-                                if ($growth_type == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['growth_type'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
-                                }
-                                }
-                            }
                         }
                     }
                 }
