@@ -257,10 +257,6 @@ class DiamondsController extends Controller {
                                 $insert_array['value'] = $row['certificate_url'];
                                 array_push($attr_group_array, $insert_array);  
                             }
-                            
-                            
-                            
-                            
                            
                             if ($atr_grp_row->name === "STOCK") {
                                 $stock = 0;
@@ -425,35 +421,37 @@ class DiamondsController extends Controller {
                             }
 
                             if ($atr_grp_row->name === "CUT GRADE") {
-                                $cut_grade = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['cut_grade'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                if(!empty($row['cut_grade'])){
+                                    $cut_grade = 0;
+                                    foreach ($attribute as $atr_row) {
+                                        if ($atr_row->name == $row['cut_grade'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                            $insert_array['value'] = 0;
+                                            array_push($attr_group_array, $insert_array);
+                                            $cut_grade = 1;
+                                        }
+                                    }
+                                    if ($cut_grade == 0) {
+                                        DB::table('attributes')->insert([
+                                            'name' => $row['cut_grade'],
+                                            'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                            'added_by' => $request->session()->get('loginId'),
+                                            'is_active' => 1,
+                                            'is_deleted' => 0,
+                                            'date_added' => date("Y-m-d h:i:s"),
+                                            'date_updated' => date("Y-m-d h:i:s")
+                                        ]);
+                                        $attr_id = DB::getPdo()->lastInsertId();
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                        $insert_array['refAttribute_id'] = $attr_id;
                                         $insert_array['value'] = 0;
                                         array_push($attr_group_array, $insert_array);
-                                        $cut_grade = 1;
                                     }
-                                }
-                                if ($cut_grade == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['cut_grade'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
-                                    $insert_array = array();
-                                    $insert_array['refDiamond_id'] = $Id;
-                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
-                                    array_push($attr_group_array, $insert_array);
                                 }
                             }
                             if ($atr_grp_row->name === "POLISH") {
