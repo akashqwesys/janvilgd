@@ -60,7 +60,7 @@
 //                var cat_name = $(this).text(); 
                 
                var cat_name= $("#refCategory_id").children("option").filter(":selected").text();
-                alert(cat_val);
+//                alert(cat_val);
                 $(".attr_group").addClass("d-none");
                 $(".attr_grp_"+cat_val).removeClass("d-none"); 
                  
