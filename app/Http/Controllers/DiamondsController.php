@@ -227,10 +227,14 @@ class DiamondsController extends Controller {
                         $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
 //                        $row['rap'] = doubleval($row['rap']);
                         $row['discount_percent'] = doubleval($row['discount_percent']);
-                        
+                        if(empty($row['image_link'])){
+                            $image=0;
+                        }else{
+                            $image=$row['image_link'];
+                        }
                         $data_array = [                                                                                                                
                             'discount' => $row['discount_percent'],
-                            'image' => $row['image_link'],
+                            'image' => $image,
                             'video_link' => $row['video_link'],
                             'refCategory_id' => $request->refCategory_id,
                             'added_by' => session()->get('loginId'),
