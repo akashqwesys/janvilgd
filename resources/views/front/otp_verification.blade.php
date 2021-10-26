@@ -31,7 +31,7 @@
                 <div class="login-box otp-box">
                     <div class="login-form-content text-center">
                         <h2 class="title">Verify With OTP</h2>
-                        <p class="mb-0">Sent to 1234567890</p>
+                        <p class="mb-0">Sent to {{ decrypt($request->token, false) }}</p>
                         <form class="otp-form bv-form">
                             <div class="d-flex flex-row">
                                 <input type="text" class="form-control" id="no-1" onfocus="this.value=''">
@@ -40,7 +40,10 @@
                                 <input type="text" class="form-control" id="no-4" onfocus="this.value=''">
                             </div>
                         </form>
-                        <p class="reset-time">Reset OTP In: <span>00:18</span></p>
+                        <p class="reset-time">
+                            <button class="btn btn-dark" disabled>Resend OTP</button><br>
+                            <span id="time">01:00</span>
+                        </p>
                         <p class="mb-0">Have trouble logging in? <a href="Javascript:;">Get Help</a></p>
                     </div>
                 </div>
@@ -52,6 +55,33 @@
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
     <script type="text/javascript">
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            var setInterval_ID = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ':' + seconds;
+
+                if (--timer < 0) {
+                    // uncomment below line for infinite loop
+                    // timer = duration;
+                    clearInterval(setInterval_ID);
+                    $('.reset-time button').prop('id', 'resendOTP').attr('disabled', false);
+                }
+            }, 1000);
+        }
+        function countDown() {
+            $('.reset-time button').prop('id', '').attr('disabled', true);
+            var fiveMinutes = 60 * 1,
+                display = document.querySelector('#time');
+            startTimer(fiveMinutes, display);
+        };
+        countDown();
+
         $(document).on('keyup', '#no-1', function() {
             $('#no-2').focus();
         });
@@ -109,6 +139,43 @@
                     }
                 });
             }
+        });
+
+        $(document).on('click', '#resendOTP', function() {
+            $.ajax({
+                type: "post",
+                url: "/customer/resendOTP",
+                data: { 'token': '{{ $request->token }}' },
+                cache: false,
+                dataType: "json",
+                success: function (response) {
+                    if (response.success == 1) {
+                        $.toast({
+                            heading: 'Success',
+                            text: response.message,
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                        countDown();
+                    }
+                    else {
+                        $.toast({
+                            heading: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                    }
+                },
+                failure: function (response) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Oops, something went wrong...!',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+            });
         });
     </script>
 </body>
