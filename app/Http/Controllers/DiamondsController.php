@@ -29,6 +29,7 @@ class DiamondsController extends Controller {
                 if (isset($row['barcode'])) {
                     $barcode=DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                     if (empty($row['barcode'])) {
+                        //update ni query karvani
                         break;
                     }
                     if(empty($barcode)){                       
@@ -38,12 +39,13 @@ class DiamondsController extends Controller {
                         $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
                         $row['rapa'] = doubleval($row['rapa']);
                         $row['discount'] = doubleval($row['discount']);
-                        $row['weight_loss'] = doubleval($row['weight_loss']);
-
+                        $row['weight_loss'] = 100-((doubleval($row['exp_pol_cts'])*100)/doubleval($row['mkbl_cts']));                                                
+                        
                         $data_array = [
                             'barcode' => strval($row['barcode']),
                             'packate_no' => strval($row['main_pktno']),
                             'actual_pcs' => doubleval($row['pcs']),
+                            'available_pcs' => doubleval($row['pcs']),
                             'makable_cts' => doubleval($row['mkbl_cts']),
                             'expected_polish_cts' => doubleval($row['exp_pol_cts']),
                             'remarks' => strval($row['remarks']),
@@ -113,7 +115,7 @@ class DiamondsController extends Controller {
                                  }
                             }
                             if ($atr_grp_row->name === "SHAPE") {
-                                  if(!empty($row['shape'])){
+                                if(!empty($row['shape'])){
                                 $shape = 0;
                                 foreach ($attribute as $atr_row) {
                                     if ($atr_row->name == $row['shape'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
@@ -259,8 +261,7 @@ class DiamondsController extends Controller {
                                 array_push($attr_group_array, $insert_array);
                                 }
                             }
-                            
-                            
+                                                        
                              if ($atr_grp_row->name === "DEPTH PERCENT") {                                 
                                 if(!empty($row['depth_percent'])){
                                     $insert_array = array();
@@ -882,7 +883,7 @@ class DiamondsController extends Controller {
                 array_push($attribute_array, $row->attribute_group_id);
             }
         }
-        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->get();
+        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->get();       
         $data['category'] = $categories;
         $data['attribute_groups'] = $attribute_groups;
         $data['attributes'] = $attributes;
@@ -891,31 +892,36 @@ class DiamondsController extends Controller {
     }
 
     public function save(Request $request) {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
-        DB::table('diamonds')->insert([
-            'name' => $request->name,
-            'barcode' => $request->barcode,
-            'packate_no' => $request->packate_no,
-            'actual_pcs' => $request->actual_pcs,
-            'available_pcs' => $request->available_pcs,
-            'makable_cts' => $request->makable_cts,
-            'expected_polish_cts' => $request->expected_polish_cts,
-            'remarks' => $request->remarks,
-            'rapaport_price' => $request->rapaport_price,
-            'discount' => $request->discount,
-            'weight_loss' => $request->weight_loss,
-            'video_link' => $request->video_link,
+        echo '<pre>';print_r($_REQUEST);die;
+        $imageName=0;
+        if (isset($request->image)) {
+        
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        }
+        DB::table('diamonds')->insert([           
+            'name' => isset($request->name) ? $request->name : 0,
+            'barcode' => isset($request->barcode) ? $request->barcode : 0,
+            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
+            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
+            'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
+            'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
+            'remarks' => isset($request->remarks) ? $request->remarks : 0,
+            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
+            'discount' => isset($request->discount) ? $request->discount : 0,
+            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
+            'video_link' => isset($request->video_link) ? $request->video_link : 0,
             'image' => $imageName,
-            'refCategory_id' => $request->refCategory_id,
+            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d h:i:s")            
         ]);
 
         $Id = DB::getPdo()->lastInsertId();
@@ -990,10 +996,10 @@ class DiamondsController extends Controller {
     }
 
     public function edit($id) {
-
+        $result = DB::table('diamonds')->where('diamond_id', $id)->first();       
         $diamond_attributes = DB::table('diamonds_attributes')->where('refDiamond_id', $id)->get();
         $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $result->refCategory_id)->where('is_deleted', 0)->get();
         $attribute_array = array();
         foreach ($attribute_groups as $row) {
             if ($row->field_type == 1) {
@@ -1006,56 +1012,40 @@ class DiamondsController extends Controller {
         $data['attributes'] = $attributes;
 
         $data['diamond_attributes'] = $diamond_attributes;
-        $result = DB::table('diamonds')->where('diamond_id', $id)->first();
+       
         $data['title'] = 'Edit-Diamonds';
         $data['result'] = $result;
         return view('admin.diamonds.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {
-        if (isset($request->image)) {
+    public function update(Request $request) {         
+        $imageName=0;
+        if (isset($request->image)) {        
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
-
-            DB::table('diamonds')->where('diamond_id', $request->id)->update([
-                'name' => $request->name,
-                'barcode' => $request->barcode,
-                'packate_no' => $request->packate_no,
-                'actual_pcs' => $request->actual_pcs,
-                'available_pcs' => $request->available_pcs,
-                'makable_cts' => $request->makable_cts,
-                'expected_polish_cts' => $request->expected_polish_cts,
-                'remarks' => $request->remarks,
-                'rapaport_price' => $request->rapaport_price,
-                'discount' => $request->discount,
-                'weight_loss' => $request->weight_loss,
-                'video_link' => $request->video_link,
-                'image' => $imageName,
-                'refCategory_id' => $request->refCategory_id,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        } else {
-            DB::table('diamonds')->where('diamond_id', $request->id)->update([
-                'name' => $request->name,
-                'barcode' => $request->barcode,
-                'packate_no' => $request->packate_no,
-                'actual_pcs' => $request->actual_pcs,
-                'available_pcs' => $request->available_pcs,
-                'makable_cts' => $request->makable_cts,
-                'expected_polish_cts' => $request->expected_polish_cts,
-                'remarks' => $request->remarks,
-                'rapaport_price' => $request->rapaport_price,
-                'discount' => $request->discount,
-                'weight_loss' => $request->weight_loss,
-                'video_link' => $request->video_link,
-                'refCategory_id' => $request->refCategory_id,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
         }
 
+        DB::table('diamonds')->where('diamond_id', $request->id)->update([
+            'name' => isset($request->name) ? $request->name : 0,
+            'barcode' => isset($request->barcode) ? $request->barcode : 0,
+            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
+            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
+            'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
+            'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
+            'remarks' => isset($request->remarks) ? $request->remarks : 0,
+            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
+            'discount' => isset($request->discount) ? $request->discount : 0,
+            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
+            'image' => $imageName,
+            'video_link' => isset($request->video_link) ? $request->video_link : 0,           
+            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+            'date_updated' => date("Y-m-d h:i:s")
+        ]);
+//        echo '<pre>';print_r($_REQUEST);die;
         $Id = $request->id;
         $res = DB::table('diamonds_attributes')->where('refDiamond_id', $Id)->delete();
         $batch_array = array();
@@ -1083,7 +1073,7 @@ class DiamondsController extends Controller {
 
         activity($request, "updated", 'diamonds');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('diamonds');
+        return redirect('admin/diamonds');
     }
 
     public function delete(Request $request) {

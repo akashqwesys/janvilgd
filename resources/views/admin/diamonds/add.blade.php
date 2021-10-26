@@ -252,6 +252,9 @@
                                                             <option value="" disabled="" selected="">------ Select ------</option>
                                                             <?php
                                                             foreach ($data['attributes'] as $atr_row) {
+                                                                
+//                                                                echo '<pre>';print_r($atr_row);die;
+                                                                
                                                                 if ($row->attribute_group_id == $atr_row->attribute_group_id) {
                                                                     ?>                                                                                                                                         
                                                                     <option value="<?php echo $atr_row->attribute_id.'_'.$row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
