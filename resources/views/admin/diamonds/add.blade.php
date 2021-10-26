@@ -231,7 +231,7 @@
                                 <?php
                                 foreach ($data['attribute_groups'] as $row) {
                                     ?>
-                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>" attr_grp_<?php echo $row->attribute_group_id; ?> d-none attr_group">
+                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                 <?php
                                     if ($row->field_type == 1) {
                                         $is_required='';

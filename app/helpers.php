@@ -23,7 +23,6 @@ if (!function_exists('successOrErrorMessage')) {
         session([$type => 1]);
         session(['message' => $message]);
     }
-
 }
 
 function set_selected($desired_value, $new_value) {

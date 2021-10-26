@@ -19,6 +19,9 @@ class CustomAuthController extends Controller {
     }
 
     public function loginView() {
+        if(Session()->has('loginId')){
+            return redirect('admin/dashboard');
+        }
         $data['title']='Login';
         return view('admin.login',["data"=>$data]);
     }
@@ -44,7 +47,7 @@ class CustomAuthController extends Controller {
     }
 
     public function dashboard() {
-        $data['title']='Dashboard';
+        $data['title']= config("constants.ADMIN_DASHBOARD_TITLE");
         return view('admin.dashboard',["data"=>$data]);
     }
 

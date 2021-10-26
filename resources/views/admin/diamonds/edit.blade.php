@@ -267,7 +267,7 @@
                                             $is_required='required';
                                         }
                                         ?>
-                                        <div class="row g-3 align-center">
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
                                             <div class="col-lg-2">
                                                 <div class="form-group">
                                                     <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
@@ -283,7 +283,7 @@
                                                                 if ($row->attribute_group_id == $atr_row->attribute_group_id) {
                                                                     
                                                                     foreach ($data['diamond_attributes'] as $d_a_row){
-                                                                    if($d_a_row->refAttribute_group_id==$row->attribute_group_id && $d_a_row->refAttribute_id!=0){                                                                    
+                                                                    if($d_a_row->refAttribute_group_id==$row->attribute_group_id){                                                                    
                                                                     ?>                                                                                                                                         
                                                                     <option value="<?php echo $atr_row->attribute_id.'_'.$row->attribute_group_id; ?>" <?php echo set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id); ?>><?php echo $atr_row->name; ?></option>
                                                                     <?php                                                                        
@@ -303,7 +303,7 @@
                                     }
                                     if ($row->field_type == 0) {
                                         ?>
-                                        <div class="row g-3 align-center">
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
                                             <div class="col-lg-2">
                                                 <div class="form-group">                                            
                                                     <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
@@ -313,7 +313,7 @@
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <?php foreach ($data['diamond_attributes'] as $d_a_row){
-                                                            if($d_a_row->refAttribute_group_id==$row->attribute_group_id && $d_a_row->refAttribute_id==0){
+                                                            if($d_a_row->refAttribute_group_id==$row->attribute_group_id){
                                                             ?>
                                                         <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" required="" autocomplete="off">                                             
                                                         <?php
