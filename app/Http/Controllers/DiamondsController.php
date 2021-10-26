@@ -387,39 +387,15 @@ class DiamondsController extends Controller {
                                  }
                             }
                            
-                            if ($atr_grp_row->name === "STOCK") {
-                                 if(!empty($row['stock'])){
-                                $stock = 0;
-                                foreach ($attribute as $atr_row) {
-                                    if ($atr_row->name == $row['stock'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                        $insert_array['value'] = 0;
-                                        array_push($attr_group_array, $insert_array);
-                                        $stock = 1;
-                                    }
-                                }
-                                if ($stock == 0) {
-                                    DB::table('attributes')->insert([
-                                        'name' => $row['stock'],
-                                        'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                        'added_by' => $request->session()->get('loginId'),
-                                        'is_active' => 1,
-                                        'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s")
-                                    ]);
-                                    $attr_id = DB::getPdo()->lastInsertId();
+                            if ($atr_grp_row->name === "STOCK") {                                
+                                  if(!empty($row['stock'])){
                                     $insert_array = array();
                                     $insert_array['refDiamond_id'] = $Id;
                                     $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                    $insert_array['refAttribute_id'] = $attr_id;
-                                    $insert_array['value'] = 0;
+                                    $insert_array['refAttribute_id'] = 0;
+                                    $insert_array['value'] = $row['stock'];
                                     array_push($attr_group_array, $insert_array);
-                                }
-                            }
+                                }                                                                                              
                             }
                             if ($atr_grp_row->name === "AVAILABILITY") {
                                 if(!empty($row['availability'])){
@@ -558,6 +534,7 @@ class DiamondsController extends Controller {
                             }
 
                             if ($atr_grp_row->name === "CUT GRADE") {
+                                
                                 if(!empty($row['cut_grade'])){
                                     $cut_grade = 0;
                                     foreach ($attribute as $atr_row) {
