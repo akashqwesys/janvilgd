@@ -29,6 +29,7 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DiamondsController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\DiamondController as HDiamond;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +46,15 @@ Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
-Route::match(['get', 'post'], 'a/login', [FrontAuthController::class, 'login']);
-Route::match(['get', 'post'], 'a/signup', [FrontAuthController::class, 'register']);
+Route::get('/customer/search-diamonds', [HDiamond::class, 'home']);
+
+// Customer Authentication
+Route::match(['get', 'post'], 'c/login', [FrontAuthController::class, 'login']);
+Route::match(['get', 'post'], 'c/verify/{token}', [FrontAuthController::class, 'otpVerify']);
+Route::post('c/resendOTP', [FrontAuthController::class, 'resendOTP']);
+Route::match(['get', 'post'], 'c/signup', [FrontAuthController::class, 'register']);
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
+// Customer Authentication
 
 /*---------------------------------------------------------------------------------------*/
 /************************************  Master Admin Route *******************************/

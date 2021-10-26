@@ -80,9 +80,9 @@
                             window.location = response.url;
                         }, 2000);
                     }
-                    if (response.success == 2) {
+                    /* if (response.success == 2) {
                         window.location = response.url + '?mobile=' + $('#mobile').val() + '&email=' + $('#email').val();
-                    }
+                    } */
                     else {
                         $.toast({
                             heading: 'Error',

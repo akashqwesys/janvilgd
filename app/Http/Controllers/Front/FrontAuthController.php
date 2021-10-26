@@ -12,6 +12,9 @@ use App\Models\Customers;
 use App\Models\CustomerCompanyDetail;
 use App\Mail\EmailVerification;
 use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class FrontAuthController extends Controller
 {
@@ -39,22 +42,48 @@ class FrontAuthController extends Controller
                     return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
                 }
 
-                $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')->where('mobile', $request->mobile)->orWhere('email', $request->email)->first();
+                $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
+                    ->where('mobile', $request->mobile)
+                    ->orWhere('email', $request->email)
+                    ->first();
                 $otp = mt_rand(1111, 9999);
                 if ($exists) {
-                    Mail::to($request->email)
-                    ->send(
-                        new EmailVerificationCode([
-                            'name' => $request->email,
-                            'otp' => $otp,
-                            'view' => 'emails.codeVerification'
-                        ])
-                    );
-                    return response()->json(['success' => 1, 'message' => 'You have successfully logged in', 'url' => '/']);
+                    $exists->otp = $otp;
+                    $exists->otp_status = 0;
+                    $exists->save();
+                    $email = $exists->email;
                 }
                 else {
-                    return response()->json(['success' => 2, 'message' => '', 'url' => '/signup']);
+                    $customer = new Customers;
+                    $customer->name = '';
+                    $customer->mobile = $request->mobile;
+                    $customer->email = $request->email;
+                    $customer->address = '';
+                    $customer->pincode = '';
+                    $customer->refCity_id = 0;
+                    $customer->refState_id = 0;
+                    $customer->refCountry_id = 0;
+                    $customer->refCustomerType_id = 0;
+                    $customer->restrict_transactions = 0;
+                    $customer->added_by = 0;
+                    $customer->is_active = 0;
+                    $customer->is_deleted = 0;
+                    $customer->date_added = date('Y-m-d H:i:s');
+                    $customer->date_updated = date('Y-m-d H:i:s');
+                    $customer->otp = $otp;
+                    $customer->otp_status = 0;
+                    $customer->save();
+                    $email = $customer->email;
                 }
+                Mail::to($email)
+                ->send(
+                    new EmailVerification([
+                        'name' => $email,
+                        'otp' => $otp,
+                        'view' => 'emails.codeVerification'
+                    ])
+                );
+                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/c/verify/' . Crypt::encryptString($email)]);
             }
             catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
@@ -170,6 +199,110 @@ class FrontAuthController extends Controller
             $state = DB::table('state')->select('state_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
             $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
             return view('front.register', compact('request', 'city', 'state', 'country'));
+        }
+    }
+
+    public function resendOTP(Request $request)
+    {
+        try {
+            $rules = [
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+            ];
+
+            $message = [
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+            $user = User::select('id', 'name', 'email', 'otp', 'updated_at')
+                ->where('email', $request->email)
+                ->first();
+            if (!$user) {
+                return $this->errorResponse('Not a registered email address');
+            } else {
+                $dt = new Carbon($user->updated_at);
+                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 30) {
+                    return $this->errorResponse('Wait for 30 seconds');
+                }
+                /*$dt1 = date_create($user->updated_at);
+				$dt2 = date_create(date('Y-m-d H:i:s'));
+				$interval = date_diff($dt1, $dt2);
+    			if ($interval->format('%s') <= 30) {
+    				return $this->errorResponse('Wait for 30 seconds');
+    			}*/
+            }
+            $otp = mt_rand(1111, 9999);
+            $user->otp = $otp;
+            $user->otp_status = 0;
+            Mail::to($request->email)
+            ->send(
+                new EmailVerification([
+                    'name' => $request->email,
+                    'otp' => $otp,
+                    'view' => 'emails.codeVerification'
+                ])
+            );
+            $user->update();
+            return $this->successResponse('Verification code has been resent to your registered email address');
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    public function otpVerify(Request $request)
+    {
+        if ($request->isMethod('GET')) {
+            if (empty($request->token)) {
+                return redirect('/c/login');
+            }
+        } else {
+            $rules = [
+                'token' => ['required'],
+                'otp' => ['required', 'digits:4']
+            ];
+
+            $message = [];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+            $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'updated_at')
+                ->where('email', Crypt::decryptString($request->token))
+                ->first();
+            if (!$user) {
+                return $this->errorResponse('Not authorized');
+            } else {
+                $dt = new Carbon($user->updated_at);
+                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 30) {
+                    return $this->errorResponse('Wait for 30 seconds');
+                }
+                /*$dt1 = date_create($user->updated_at);
+                $dt2 = date_create(date('Y-m-d H:i:s'));
+                $interval = date_diff($dt1, $dt2);
+                if ($interval->format('%s') <= 30) {
+                    return $this->errorResponse('Wait for 30 seconds');
+                }*/
+            }
+            $otp = mt_rand(1111, 9999);
+            $user->otp = $otp;
+            $user->otp_status = 0;
+            Mail::to($request->email)
+                ->send(
+                    new EmailVerification([
+                        'name' => $request->email,
+                        'otp' => $otp,
+                        'view' => 'emails.codeVerification'
+                    ])
+                );
+            $user->update();
+            return $this->successResponse('Verification code has been resent to your registered email address');
         }
     }
 
