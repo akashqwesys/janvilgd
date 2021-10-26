@@ -57,8 +57,7 @@
         $(document).ready(function () {            
              $('#refCategory_id').on('change', function () {                 
                 var cat_val = $(this).val();
-//                var cat_name = $(this).text(); 
-                
+//                var cat_name = $(this).text();                 
                var cat_name= $("#refCategory_id").children("option").filter(":selected").text();
 //                alert(cat_val);
                 $(".attr_group").addClass("d-none");
