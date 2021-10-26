@@ -248,45 +248,42 @@ class FrontAuthController extends Controller
     {
         try {
             $rules = [
-                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'token' => ['required'],
             ];
 
-            $message = [
-                'email.required' => 'Please enter email address',
-                'email.regex' => 'Please enter valid email address',
-            ];
+            $message = [];
 
             $validator = Validator::make($request->all(), $rules, $message);
 
             if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->all()[0]);
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
-            $user = User::select('id', 'name', 'email', 'otp', 'updated_at')
-                ->where('email', $request->email)
+            $email = decrypt($request->token, false);
+            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at')
+                ->where('email', $email)
                 ->first();
             if (!$user) {
-                return $this->errorResponse('Not a registered email address');
+                return response()->json(['error' => 1, 'message' => 'Not a registered email address']);
             } else {
                 $dt = new Carbon($user->updated_at);
-                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 30) {
-                    return $this->errorResponse('Wait for 30 seconds');
+                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 60) {
+                    return response()->json(['error' => 1, 'message' => 'Wait for 60 seconds']);
                 }
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
-            $user->otp_status = 0;
-            Mail::to($request->email)
+            Mail::to($email)
             ->send(
                 new EmailVerification([
-                    'name' => $request->email,
+                    'name' => $email,
                     'otp' => $otp,
                     'view' => 'emails.codeVerification'
                 ])
             );
-            $user->update();
-            return $this->successResponse('Verification code has been resent to your registered email address');
+            $user->save();
+            return response()->json(['success' => 1, 'message' => 'Verification code has been resent to your registered email address']);
         } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 500);
+            return response()->json(['error' => 1, 'message' => $e->getMessage()]);
         }
     }
 
