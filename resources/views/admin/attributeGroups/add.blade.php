@@ -106,6 +106,27 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
+                                    <div class="col-lg-1">
+                                        <div class="form-group">
+                                            <label class="form-label float-right" for="is_fix">Is Fix:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <select class="form-select form-control" id="is_fix" name="is_fix" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                    <option value="">------ Select Type ------</option>
+                                                    <option value="1">YES</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                <div class="row g-3 align-center">
                                     <div class="col-md-11 offset-1">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" data-msg="Required" class="custom-control-input" name="is_required" id="is_required" value="1">

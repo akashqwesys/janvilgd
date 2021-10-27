@@ -103,6 +103,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">                                            
+                                            <label class="form-label float-md-right" for="category_type">Category Type Number:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control" name="category_type" id="category_type" placeholder="Enter number" required="" autocomplete="off" value="{{ $data['result']->category_type }}">                                             
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <hr>
                                 <div class="row g-3">

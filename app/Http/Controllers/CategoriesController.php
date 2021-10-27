@@ -31,6 +31,7 @@ class CategoriesController extends Controller
             'name' => $request->name,
             'image' => $imageName,
             'description' => $request->description,
+            'category_type' => $request->category_type,
             'slug' => clean_string($request->slug),
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
@@ -95,7 +96,7 @@ class CategoriesController extends Controller
     }
 
     public function edit($id) {
-        $result = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('category_id', $id)->first();
+        $result = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated','category_type')->where('category_id', $id)->first();
         $data['title'] = 'Edit-Categories';
         $data['result'] = $result;
         return view('admin.categories.edit', ["data" => $data]);
@@ -113,6 +114,7 @@ class CategoriesController extends Controller
                 'image' => $imageName,
                 'description' => $request->description,
                 'slug' => clean_string($request->slug),
+                'category_type' => $request->category_type,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
         }else{
@@ -120,6 +122,7 @@ class CategoriesController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'slug' => clean_string($request->slug),
+                'category_type' => $request->category_type,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
         }

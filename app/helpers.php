@@ -96,7 +96,6 @@ if (!function_exists('activity')) {
             $device = "mobile";
         }
 
-
         if ($module == "modules") {
             $module_id = 0;
             $module_name = $module;
@@ -104,7 +103,6 @@ if (!function_exists('activity')) {
             $module_id = moduleId($module)->module_id;
             $module_name = moduleId($module)->name;
         }
-
 
         DB::table('user_activity')->insert([
             'refUser_id' => $request->session()->get('loginId'),

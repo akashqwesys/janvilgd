@@ -80,8 +80,28 @@
 <?php if ($data['title'] == 'Edit-Diamonds' || $data['title'] == 'Add-Diamonds') {
     ?>
     <script type="text/javascript">
-        $(document).ready(function () {            
-             $('#refCategory_id').on('change', function () {                 
+        $(document).ready(function () {                                                 
+            $('#makable_cts_input').on('keyup', function () { 
+                var makable_cts=$(this).val();
+                var expected_polish_cts=$("#expected_polish_cts_input").val();
+                if(makable_cts!='' && expected_polish_cts!=''){
+                    var weight_loss=100 - ((expected_polish_cts * 100) / makable_cts);
+                    $("#weight_loss_input").val(weight_loss);
+                }else{
+                     $("#weight_loss_input").val('');
+                }
+            });
+            $('#expected_polish_cts_input').on('keyup', function () { 
+                var expected_polish_cts=$(this).val();
+                var makable_cts=$("#makable_cts_input").val();
+                if(makable_cts!='' && expected_polish_cts!=''){
+                    var weight_loss=100 - ((expected_polish_cts * 100) / makable_cts);
+                    $("#weight_loss_input").val(weight_loss);
+                }else{
+                     $("#weight_loss_input").val('');
+                }
+            });
+            $('#refCategory_id').on('change', function () {                 
                 var cat_val = $(this).val();
 //                var cat_name = $(this).text();                 
                var cat_name= $("#refCategory_id").children("option").filter(":selected").text();
@@ -173,9 +193,7 @@
             });
         });
     </script>
-<?php } ?>
-
-    
+<?php } ?>   
     <?php if ($data['title'] == 'Edit-Diamonds') {
     ?>
     <script type="text/javascript">

@@ -2,7 +2,81 @@
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            var table = $('#table').DataTable({
+            var table_columns=[];
+            <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_4P')){
+            ?>
+                    table_columns = [                    
+                    {data: 'index', name: 'index'},
+                    {data: 'name', name: 'name'},
+                    {data: 'barcode', name: 'barcode'},
+                    {data: 'packate_no', name: 'packate_no'},                    
+                    {data: 'available_pcs', name: 'available_pcs'},
+                    {data: 'makable_cts', name: 'makable_cts'},
+                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},                                       
+                    {data: 'discount', name: 'discount'},
+                    {data: 'weight_loss', name: 'weight_loss'}, 
+                    {data: 'total', name: 'total'},  
+                    {data: 'category_name', name: 'category_name'},                    
+                    {data: 'is_active', name: 'is_active',className: "is_active"},
+                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
+                    {data: 'date_added', name: 'date_added'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: true,
+                        searchable: true
+                    }
+                ];
+                    <?php
+            } ?>
+            <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_ROUGH')){
+            ?>                    
+                    table_columns = [                    
+                    {data: 'index', name: 'index'},
+                    {data: 'name', name: 'name'},
+                    {data: 'barcode', name: 'barcode'},
+                    {data: 'packate_no', name: 'packate_no'},                                        
+                    {data: 'makable_cts', name: 'makable_cts'},
+                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},                                       
+                    {data: 'discount', name: 'discount'},                        
+                    {data: 'category_name', name: 'category_name'},                    
+                    {data: 'is_active', name: 'is_active',className: "is_active"},
+                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
+                    {data: 'date_added', name: 'date_added'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: true,
+                        searchable: true
+                    }
+                ];
+                    <?php
+            } ?>
+            <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){
+            ?>
+                    table_columns = [                    
+                    {data: 'index', name: 'index'},
+                    {data: 'name', name: 'name'},
+                    {data: 'barcode', name: 'barcode'},
+                    {data: 'packate_no', name: 'packate_no'},                                       
+                    {data: 'makable_cts', name: 'makable_cts'},
+                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},                                       
+                    {data: 'discount', name: 'discount'},                        
+                    {data: 'category_name', name: 'category_name'},                    
+                    {data: 'is_active', name: 'is_active',className: "is_active"},
+                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
+                    {data: 'date_added', name: 'date_added'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: true,
+                        searchable: true
+                    }
+                    ];
+                    <?php
+            } ?>
+            
+            $('#table').DataTable({
                 responsive: {
                     details: {
                         type: 'column',
@@ -24,32 +98,7 @@
                             'refCategory_id':<?php echo $data['cat_id']; ?>                           
                         }
                     },
-                columns: [                    
-                    {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},
-                    {data: 'barcode', name: 'barcode'},
-                    {data: 'packate_no', name: 'packate_no'},
-                    {data: 'actual_pcs', name: 'actual_pcs'},
-                    {data: 'available_pcs', name: 'available_pcs'},
-                    {data: 'makable_cts', name: 'makable_cts'},
-                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},
-                    {data: 'remarks', name: 'remarks'},
-                    {data: 'rapaport_price', name: 'rapaport_price'},
-                    {data: 'discount', name: 'discount'},
-                    {data: 'weight_loss', name: 'weight_loss'},
-                    {data: 'video_link', name: 'video_link'},
-                    {data: 'image', name: 'image'},
-                    {data: 'category_name', name: 'category_name'},                    
-                    {data: 'is_active', name: 'is_active',className: "is_active"},
-                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
-                    {data: 'date_added', name: 'date_added'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    }
-                ],
+                        columns:table_columns,
                 "createdRow": function (row, data, dataIndex) {                    
                     $(row).addClass('tr_'+data['diamond_id']);                      
                 }

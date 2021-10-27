@@ -83,6 +83,86 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <?php
+                                foreach ($data['attribute_groups'] as $row) {
+                                if($row->is_fix==1){    
+                                    $drop_down_value=0;
+                                    ?>
+                                
+                                <?php
+                                    if ($row->field_type == 1) {
+                                        $is_required='';
+                                        if($row->is_required){
+                                            $is_required='required';
+                                        }
+                                        ?>
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">                                                                                                  
+                                                        <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                            <option value="" disabled="" selected="">------ Select ------</option>
+                                                            <?php
+                                                            foreach ($data['attributes'] as $atr_row) {
+                                                                
+                                                                if ($row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                                    $drop_down_value=1;
+                                                                    ?>                                                                                                                                         
+                                                                    <option value="<?php echo $atr_row->attribute_id.'_'.$row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
+                                                                    <?php                                                                        
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      <?php
+                                if($drop_down_value==1){
+                                    ?>
+                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                <?php
+                                    }                                    
+                                }
+                                    if ($row->field_type == 0) {
+                                        $is_required='';
+                                        if($row->is_required){
+                                            $is_required='required';
+                                        }
+                                        ?>
+                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
+                                            <div class="col-lg-2">
+                                                <div class="form-group">                                            
+                                                    <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">                                             
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                                }
+                                ?>
+                                
+                                
+                                
+                                
+                                
+                                
                                 <div class="row g-3 align-center d-none" id="actual_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
@@ -120,7 +200,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="makable_cts"  placeholder="Enter makable cts" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable cts" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -134,7 +214,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="expected_polish_cts"  placeholder="Enter expected polish cts" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish cts" required="" autocomplete="off">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +271,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="weight_loss"  placeholder="Enter weight loss" required="" autocomplete="off">                                             
+                                                <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss" required="" autocomplete="off" readonly="">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -230,8 +310,10 @@
                                 <hr>
                                 <?php
                                 foreach ($data['attribute_groups'] as $row) {
+                                if($row->is_fix==0){    
+                                    $drop_down_value=0;
                                     ?>
-                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                
                                 <?php
                                     if ($row->field_type == 1) {
                                         $is_required='';
@@ -248,14 +330,13 @@
                                             <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">                                                                                                  
-                                                        <select class="form-select form-control" name="attribute_group_id_value[]" <?php echo $is_required; ?> tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                        <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
                                                             <option value="" disabled="" selected="">------ Select ------</option>
                                                             <?php
                                                             foreach ($data['attributes'] as $atr_row) {
                                                                 
-//                                                                echo '<pre>';print_r($atr_row);die;
-                                                                
                                                                 if ($row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                                    $drop_down_value=1;
                                                                     ?>                                                                                                                                         
                                                                     <option value="<?php echo $atr_row->attribute_id.'_'.$row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
                                                                     <?php                                                                        
@@ -267,10 +348,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php
-                                    }
+                                      <?php
+                                if($drop_down_value==1){
+                                    ?>
+                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                <?php
+                                    }                                    
+                                }
                                     if ($row->field_type == 0) {
+                                        $is_required='';
+                                        if($row->is_required){
+                                            $is_required='required';
+                                        }
                                         ?>
+                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                         <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
                                             <div class="col-lg-2">
                                                 <div class="form-group">                                            
@@ -280,13 +371,14 @@
                                             <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" required="" autocomplete="off">                                             
+                                                        <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">                                             
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <?php
                                     }
+                                }
                                 }
                                 ?>
                                 <hr>                                

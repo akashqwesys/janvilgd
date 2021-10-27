@@ -35,6 +35,7 @@ class AttributeGroupsController extends Controller {
             'is_required' => $request->is_required,
             'sort_order' => $request->sort_order,
             'added_by' => $request->session()->get('loginId'),
+            'is_fix' => $request->is_fix,
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("Y-m-d h:i:s"),
@@ -146,8 +147,9 @@ class AttributeGroupsController extends Controller {
             'name' => $request->name,
             'image_required' => $request->image_required,
             'field_type' => $request->filed_type,
-            'refCategory_id' => $request->refCategory_id,
+            'refCategory_id' => $request->refCategory_id,            
             'sort_order' => $request->sort_order,
+            'is_fix' => $request->is_fix,
             'is_required' => $request->is_required,
             'date_updated' => date("Y-m-d h:i:s")
         ]);

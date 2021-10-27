@@ -23,28 +23,61 @@
                         <div class="card card-preview">                                                                                    
                             <div class="card-inner">                                             
                                 <table id="table" class="table dt-responsive nowrap">
-                                    <thead>
+                                    <thead>                                        
+                                        <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_4P')){
+                                        ?>                                        
                                         <tr>                                           
                                             <th>No</th>
                                             <th>Name</th>
                                             <th>Barcode</th>
-                                            <th>Packate no</th>
-                                            <th>Actual pcs</th>
+                                            <th>Packate no</th>                                            
                                             <th>Available pcs</th>
                                             <th>Makable cts</th>
-                                            <th>Expected Polish cts</th>
-                                            <th>Remarks</th>
-                                            <th>Rapaport Price</th>
+                                            <th>Expected Polish cts</th>                                            
                                             <th>Discount</th>
-                                            <th>Weight loss</th>
-                                            <th>Video_link</th>
-                                            <th>Images</th>
-                                            <th>Categor</th>                                          
+                                            <th>Weight loss</th> 
+                                            <th>Total</th>  
+                                            <th>Category</th>                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           
                                             <th>Action</th>                                                                                                                                                                                                                                              
                                         </tr>
+                                        <?php } ?>
+                                         <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_ROUGH')){
+                                        ?>                                        
+                                        <tr>                                           
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Barcode</th>
+                                            <th>Packate no</th>                                                                                        
+                                            <th>Makable cts</th>
+                                            <th>Expected Polish cts</th>                                            
+                                            <th>Discount</th>                                                                                     
+                                            <th>Category</th>                                          
+                                            <th>isActive</th>
+                                            <th>isDeleted</th>
+                                            <th>Date Added</th>                                           
+                                            <th>Action</th>                                                                                                                                                                                                                                              
+                                        </tr>
+                                        <?php } ?>
+                                           <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_POLISH')){
+                                        ?>                                        
+                                        <tr>                                           
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Barcode</th>
+                                            <th>Packate no</th>                                                                                        
+                                            <th>Makable cts</th>
+                                            <th>Expected Polish cts</th>                                            
+                                            <th>Discount</th>                                                                                     
+                                            <th>Category</th>                                          
+                                            <th>isActive</th>
+                                            <th>isDeleted</th>
+                                            <th>Date Added</th>                                           
+                                            <th>Action</th>                                                                                                                                                                                                                                              
+                                        </tr>
+                                        <?php } ?>
                                     </thead>                                                                                                       
                                 </table>
                             </div>
