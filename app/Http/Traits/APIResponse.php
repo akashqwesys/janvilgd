@@ -27,6 +27,8 @@ trait APIResponse
     */
     protected static function successResponse($message, $result = [], $code = 0, $status_code = 200)
     {
+        // code => 1 indicates redirect to Dashboard screen
+        // code => 2 indicates redirect to Sign up screen
         // code => 11 indicates user's account deleted
         $response = [
             'flag' => true,
