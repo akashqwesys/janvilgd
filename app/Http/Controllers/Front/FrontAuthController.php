@@ -171,46 +171,50 @@ class FrontAuthController extends Controller
 
                 $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')->where('mobile', $request->mobile)->orWhere('email', $request->email)->first();
                 if ($exists) {
-                    $customer = Customers::where('email', $request->email)->first();
-                    $customer->name = $request->name;
-                    // $customer->mobile = $request->mobile;
-                    // $customer->email = $request->email;
-                    $customer->address = $request->address;
-                    $customer->pincode = $request->pincode;
-                    $customer->refCity_id = $request->city;
-                    $customer->refState_id = $request->state;
-                    $customer->refCountry_id = $request->country;
-                    $customer->refCustomerType_id = 0;
-                    $customer->restrict_transactions = 0;
-                    $customer->added_by = 0;
-                    $customer->is_active = 1;
-                    $customer->is_deleted = 0;
-                    $customer->date_added = date('Y-m-d H:i:s');
-                    $customer->date_updated = date('Y-m-d H:i:s');
-                    $customer->save();
+                    if (strlen($exists->name) < 3) {
+                        $customer = Customers::where('email', $request->email)->first();
+                        $customer->name = $request->name;
+                        // $customer->mobile = $request->mobile;
+                        // $customer->email = $request->email;
+                        $customer->address = $request->address;
+                        $customer->pincode = $request->pincode;
+                        $customer->refCity_id = $request->city;
+                        $customer->refState_id = $request->state;
+                        $customer->refCountry_id = $request->country;
+                        $customer->refCustomerType_id = 0;
+                        $customer->restrict_transactions = 0;
+                        $customer->added_by = 0;
+                        $customer->is_active = 1;
+                        $customer->is_deleted = 0;
+                        $customer->date_added = date('Y-m-d H:i:s');
+                        $customer->date_updated = date('Y-m-d H:i:s');
+                        $customer->save();
 
-                    $company = new CustomerCompanyDetail;
-                    $company->refCustomer_id = $customer->customer_id;
-                    $company->name = $request->company_name;
-                    $company->office_no = $request->company_office_no;
-                    $company->official_email = $request->company_email;
-                    $company->refDesignation_id = 1;
-                    $company->designation_name = 'owner';
-                    $company->office_address = $request->company_address;
-                    $company->pincode = $request->pincode;
-                    $company->refCity_id = $request->company_city;
-                    $company->refState_id = $request->company_state;
-                    $company->refCountry_id = $request->company_country;
-                    $company->pan_gst_no = $request->company_gst_pan;
-                    $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
-                    $request->file('id_upload')->storeAs("public/user_files", $imageName);
-                    $company->pan_gst_attachment = $imageName;
-                    $company->is_approved = 1;
-                    $company->approved_date_time = date('Y-m-d H:i:s');
-                    $company->approved_by = 0;
-                    $company->save();
+                        $company = new CustomerCompanyDetail;
+                        $company->refCustomer_id = $customer->customer_id;
+                        $company->name = $request->company_name;
+                        $company->office_no = $request->company_office_no;
+                        $company->official_email = $request->company_email;
+                        $company->refDesignation_id = 1;
+                        $company->designation_name = 'owner';
+                        $company->office_address = $request->company_address;
+                        $company->pincode = $request->pincode;
+                        $company->refCity_id = $request->company_city;
+                        $company->refState_id = $request->company_state;
+                        $company->refCountry_id = $request->company_country;
+                        $company->pan_gst_no = $request->company_gst_pan;
+                        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                        $request->file('id_upload')->storeAs("public/user_files", $imageName);
+                        $company->pan_gst_attachment = $imageName;
+                        $company->is_approved = 1;
+                        $company->approved_date_time = date('Y-m-d H:i:s');
+                        $company->approved_by = 0;
+                        $company->save();
 
-                    return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/']);
+                        return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/']);
+                    } else {
+                        return response()->json(['error' => 1, 'message' => 'You are already registered', 'url' => '/']);
+                    }
                 } else {
                     return response()->json(['error' => 1, 'message' => 'Oops, something went wrong...!']);
                 }
@@ -230,6 +234,9 @@ class FrontAuthController extends Controller
                     if (!$exists) {
                         return redirect('/');
                     } else {
+                        if (strlen($exists->name) >= 3) {
+                            return redirect('/');
+                        }
                         $email = $token[0];
                         $mobile = $token[1];
                         $city = DB::table('city')->select('city_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
@@ -315,7 +322,7 @@ class FrontAuthController extends Controller
                     return response()->json(['error' => 1, 'message' => 'Not authorized', 'url' => '/customer/login']);
                 } else {
                     if ($request->otp == $user->otp) {
-                        if ($user->name == ' ') {
+                        if ($user->name == ' ' || strlen($user->name) < 3) {
                             $user->otp_status = 1;
                             $user->save();
                             return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/customer/signup/' . Crypt::encryptString($user->email . '---' . $user->mobile)]);

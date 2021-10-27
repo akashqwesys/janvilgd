@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     use HasFactory;
-    
+
     protected $table='users';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -22,16 +22,16 @@ class User extends Model
         'country_id',
         'id_proof_1' ,
         'id_proof_2',
-        'profile_pic',        
+        'profile_pic',
         'role_id',
         'username',
         'password',
         'added_by' ,
         'is_active',
-        'is_deleted',        
+        'is_deleted',
         'last_login_type',
         'last_login_date_time',
         'date_added',
         'date_updated'
-    ]; 
+    ];
 }
