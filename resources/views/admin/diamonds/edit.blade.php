@@ -91,88 +91,81 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                 <?php
-                                foreach ($data['attribute_groups'] as $row) { 
-                                    if($row->is_fix==1){    
-                                    $drop_down_value=0;
-                                    ?>                                                                   
-                                    <?php
-                                    if ($row->field_type == 1) {
-                                        $is_required = '';
-                                        if ($row->is_required) {
-                                            $is_required = 'required';
-                                        }
-                                        ?>
-                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
-                                            <div class="col-lg-2">
-                                                <div class="form-group">
-                                                    <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">                                                                                                  
-                                                        <select class="form-select form-control" name="attribute_group_id_value[]" <?php echo $is_required; ?> tabindex="-1" aria-hidden="true" data-search="on">                                                    
-                                                            <!--<option value="" disabled="" selected="">------ Select ------</option>-->
-                                                            <?php
-                                                            foreach ($data['attributes'] as $atr_row) {
-                                                                if ($row->attribute_group_id == $atr_row->attribute_group_id) {
-                                                                    foreach ($data['diamond_attributes'] as $d_a_row) {                                                                        
-                                                                        if ($d_a_row->refAttribute_group_id == $row->attribute_group_id && $d_a_row->refAttribute_id != 0) {
-                                                                            $drop_down_value=1;
-                                                                            ?>                                                                                                                                         
-                                                                            <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>" <?php echo set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id); ?>><?php echo $atr_row->name; ?></option>
-                                                                            <?php
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                        </select>
+
+                                <?php
+                                foreach ($data['attribute_groups'] as $row) {
+                                    if ($row->is_fix == 1) {
+                                        ?>                                                                   
+                                        <?php
+                                        if ($row->field_type == 1) {
+                                            ?>
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
                                                     </div>
                                                 </div>
-                                            </div>                                            
-                                        </div>
-                                <?php
-                                if($drop_down_value==1){
-                                    ?>
-                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                <?php
-                                }                                
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">                                                                                                  
+                                                            <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                                <option value="default">------ Select ------</option>
+                                                                <?php
+                                                                foreach ($data['attributes'] as $atr_row) {
+                                                                    if ($row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                                        $chek = '';
+                                                                        foreach ($data['diamond_attributes'] as $d_a_row) {
+                                                                            if ($d_a_row->refDiamond_id == $data['result']->diamond_id && $d_a_row->refAttribute_group_id == $row->attribute_group_id) {
+                                                                                $chek = set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id);
+                                                                            }
+                                                                        }
+                                                                        ?>                                                                                                                                         
+                                                                        <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>" <?php echo $chek; ?>><?php echo $atr_row->name; ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                            <?php
                                         }
                                         if ($row->field_type == 0) {
                                             ?>
-                                  <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
-                                            <div class="col-lg-2">
-                                                <div class="form-group">                                            
-                                                    <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">                                            
+                                                        <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <?php
-                                                        foreach ($data['diamond_attributes'] as $d_a_row) {
-                                                            if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
-                                                                ?>
-                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" required="" autocomplete="off">                                             
-                                                                <?php
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <?php
+                                                            foreach ($data['diamond_attributes'] as $d_a_row) {
+                                                                if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
+                                                                    ?>
+                                                                    <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" autocomplete="off">                                             
+                                                                    <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                                                    <?php
+                                                                }
                                                             }
-                                                        }
-                                                        ?>                                                        
+                                                            ?>                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <?php
+                                            <?php
+                                        }
                                     }
                                 }
-                                }
                                 ?>
-                                
-                                
+
+
                                 <div class="row g-3 align-center d-none" id="actual_pcs">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
@@ -182,7 +175,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" required="" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">                                             
+                                                <input type="text" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +189,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="available_pcs" placeholder="Enter available pcs" required="" autocomplete="off" value="<?php echo $data['result']->available_pcs; ?>">                                             
+                                                <input type="text" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off" value="<?php echo $data['result']->available_pcs; ?>">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +197,7 @@
                                 <div class="row g-3 align-center d-none" id="makable_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
-                                            <label class="form-label float-md-right" for="makable_cts">Makable cts:</label>
+                                            <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable cts:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -218,7 +211,7 @@
                                 <div class="row g-3 align-center d-none" id="expected_polish_cts">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
-                                            <label class="form-label float-md-right" for="expected_polish_cts">Expected polish cts:</label>
+                                            <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected polish cts:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -238,7 +231,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="remarks"  placeholder="Enter remarks" required="" autocomplete="off" value="<?php echo $data['result']->remarks; ?>">                                             
+                                                <input type="text" class="form-control" name="remarks"  placeholder="Enter remarks" autocomplete="off" value="<?php echo $data['result']->remarks; ?>">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +260,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="discount"  placeholder="Enter discount" required="" autocomplete="off" value="<?php echo $data['result']->discount; ?>">                                              
+                                                <input type="text" class="form-control" name="discount"  placeholder="Enter discount" required="" autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">                                              
                                             </div>
                                         </div>
                                     </div>
@@ -295,7 +288,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="url" class="form-control" name="video_link" placeholder="Enter video link" required="" autocomplete="off" value="<?php echo $data['result']->video_link; ?>">                                             
+                                                <input type="text" class="form-control" name="video_link" placeholder="Enter video link"  autocomplete="off" value="<?php echo $data['result']->video_link; ?>">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -310,111 +303,113 @@
                                         <div class="form-group">                                           
                                             <div class="form-control-wrap">
                                                 <div class="custom-file">
-                                                    <input type="file" name="image" class="custom-file-input">
+                                                    <input type="file" name="image[]" class="custom-file-input" multiple="">
                                                     <label class="custom-file-label" for="image">Choose file</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
-                                <?php if (!empty($data['result']->images)) { ?>
-                                    <div class="row g-3 align-center" id="img_<?php echo $data['result']->diamond_id; ?>">
-                                        <div class="col-lg-2">
-                                            <div class="form-group">                                            
-                                                &nbsp;
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">                                           
-                                                <div class="form-control-wrap">
-                                                    <div class="removeimg">
-                                                        <img src="{{ asset(check_host().'images') }}<?php echo '/' . $data['result']->images; ?>"/>
-                                                        <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-image="<?php echo $data['result']->images; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                                    <div class="form-group">                                            
+                                                        &nbsp;
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>                                    
+                                <?php
+                                if (!empty($data['result']->image)) {
+                                    $image = json_decode($data['result']->image);                                   
+                                    if (!empty($image)) {
+                                        foreach ($image as $img_row) {
+                                            ?>                                                                                            
+                                                <div class="col-lg-1" id="img_<?php echo $data['result']->diamond_id; ?>">
+                                                    <div class="form-group">                                           
+                                                        <div class="form-control-wrap">
+                                                            <div class="removeimg">
+                                                                <img src="{{ asset(check_host().'images') }}<?php echo '/' . $img_row; ?>"/>
+                                                                <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                    
+                                            
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
                                     </div>
-                                <?php } ?>
-
                                 <hr>
                                 <?php
-                                foreach ($data['attribute_groups'] as $row) { 
-                                    if($row->is_fix==0){    
-                                    $drop_down_value=0;
-                                    ?>                                                                   
-                                    <?php
-                                    if ($row->field_type == 1) {
-                                        $is_required = '';
-                                        if ($row->is_required) {
-                                            $is_required = 'required';
-                                        }
-                                        ?>
-                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
-                                            <div class="col-lg-2">
-                                                <div class="form-group">
-                                                    <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">                                                                                                  
-                                                        <select class="form-select form-control" name="attribute_group_id_value[]" <?php echo $is_required; ?> tabindex="-1" aria-hidden="true" data-search="on">                                                    
-                                                            <!--<option value="" disabled="" selected="">------ Select ------</option>-->
-                                                            <?php
-                                                            foreach ($data['attributes'] as $atr_row) {
-                                                                if ($row->attribute_group_id == $atr_row->attribute_group_id) {
-                                                                    foreach ($data['diamond_attributes'] as $d_a_row) {                                                                        
-                                                                        if ($d_a_row->refAttribute_group_id == $row->attribute_group_id && $d_a_row->refAttribute_id != 0) {
-                                                                            $drop_down_value=1;
-                                                                            ?>                                                                                                                                         
-                                                                            <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>" <?php echo set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id); ?>><?php echo $atr_row->name; ?></option>
-                                                                            <?php
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                        </select>
+                                foreach ($data['attribute_groups'] as $row) {
+                                    if ($row->is_fix == 0) {
+                                        ?>                                                                   
+                                        <?php
+                                        if ($row->field_type == 1) {
+                                            ?>
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">
+                                                        <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
                                                     </div>
                                                 </div>
-                                            </div>                                            
-                                        </div>
-                                <?php
-                                if($drop_down_value==1){
-                                    ?>
-                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                <?php
-                                }                                
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">                                                                                                  
+                                                            <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                                <option value="default">------ Select ------</option>
+                                                                <?php
+                                                                foreach ($data['attributes'] as $atr_row) {
+                                                                    if ($row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                                        $chek = '';
+                                                                        foreach ($data['diamond_attributes'] as $d_a_row) {
+                                                                            if ($d_a_row->refDiamond_id == $data['result']->diamond_id && $d_a_row->refAttribute_group_id == $row->attribute_group_id) {
+                                                                                $chek = set_selected($atr_row->attribute_id, $d_a_row->refAttribute_id);
+                                                                            }
+                                                                        }
+                                                                        ?>                                                                                                                                         
+                                                                        <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>" <?php echo $chek; ?>><?php echo $atr_row->name; ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                            <?php
                                         }
                                         if ($row->field_type == 0) {
                                             ?>
-                                  <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                        <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
-                                            <div class="col-lg-2">
-                                                <div class="form-group">                                            
-                                                    <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">                                            
+                                                        <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <?php
-                                                        foreach ($data['diamond_attributes'] as $d_a_row) {
-                                                            if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
-                                                                ?>
-                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" required="" autocomplete="off">                                             
-                                                                <?php
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <?php
+                                                            foreach ($data['diamond_attributes'] as $d_a_row) {
+                                                                if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
+                                                                    ?>
+                                                                    <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" autocomplete="off">                                             
+                                                                    <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                                                    <?php
+                                                                }
                                                             }
-                                                        }
-                                                        ?>                                                        
+                                                            ?>                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <?php
+                                            <?php
+                                        }
                                     }
-                                }
                                 }
                                 ?>
                                 <hr>                                

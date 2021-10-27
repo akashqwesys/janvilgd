@@ -51,9 +51,10 @@
                                             <th>Name</th>
                                             <th>Barcode</th>
                                             <th>Packate no</th>                                                                                        
-                                            <th>Makable cts</th>
+                                            <th>Org cts</th>
                                             <th>Expected Polish cts</th>                                            
-                                            <th>Discount</th>                                                                                     
+                                            <th>Discount</th>
+                                            <th>Total</th>  
                                             <th>Category</th>                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>
@@ -68,9 +69,9 @@
                                             <th>Name</th>
                                             <th>Barcode</th>
                                             <th>Packate no</th>                                                                                        
-                                            <th>Makable cts</th>
-                                            <th>Expected Polish cts</th>                                            
-                                            <th>Discount</th>                                                                                     
+                                            <th>Expected Polish cts</th>                                          
+                                            <th>Discount</th> 
+                                            <th>Total</th>  
                                             <th>Category</th>                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>

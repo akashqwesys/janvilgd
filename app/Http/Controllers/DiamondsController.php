@@ -32,7 +32,10 @@ class DiamondsController extends Controller {
 //            foreach ($res as $row_1) {
             foreach ($res[0] as $row) {
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                    if (isset($row['barcode'])) {
+                    if (isset($row['barcode'])) {                        
+                        if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
+                            break;
+                        }                                                
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();                        
                         if (!empty($row['barcode'])) {                            
                             $row['rapa'] = str_replace(',', '', $row['rapa']);
@@ -230,32 +233,52 @@ class DiamondsController extends Controller {
                     }
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-                    if (isset($row['pktno'])) {
-                        if (empty($row['pktno']) || $row['pktno'] == 'TOTAL' || $row['pktno'] == 'total' || $row['pktno'] == 'Total') {
+                    if (isset($row['barcode'])) {
+                        if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                             break;
                         }
-                        if (!empty($row['pktno'])) {
+                        $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
+                        if (!empty($row['barcode'])) {
                             $row['rap'] = str_replace(',', '', $row['rap']);
                             $row['dis'] = str_replace('-', '', $row['dis']);
                             $row['rap'] = doubleval($row['rap']);
-                            $row['dis'] = doubleval($row['dis']);
+                            $row['dis'] = doubleval($row['dis']);                            
+                            
+                            $price=abs($row['rap']*($row['dis']-1));
+                            $amount=abs($price*doubleval($row['exp_pol']));
+                            $ro_amount=abs($amount/doubleval($row['org_cts']));
+                            $final_price=$ro_amount-$labour_charge->amount;                            
+                            $total=abs($final_price*(doubleval($row['org_cts'])));                            
+                            
 
+                            $image=array();                            
+                            $image[0]=$row['image_link'];
+                            $img_json= json_encode($image);
+                            
                             $data_array = [
+                                'barcode' => strval($row['barcode']),
                                 'packate_no' => strval($row['pktno']),
                                 'makable_cts' => doubleval($row['org_cts']),
                                 'expected_polish_cts' => doubleval($row['exp_pol']),
                                 'rapaport_price' => $row['rap'],
                                 'discount' => $row['dis'],
                                 'refCategory_id' => $request->refCategory_id,
+                                'total' => $total,
+                                'image' => $img_json,
                                 'added_by' => session()->get('loginId'),
                                 'is_active' => 1,
                                 'is_deleted' => 0,
                                 'date_added' => date("Y-m-d h:i:s"),
                                 'date_updated' => date("Y-m-d h:i:s")
-                            ];
-                            DB::table('diamonds')->insert($data_array);
-                            $Id = DB::getPdo()->lastInsertId();
-//                        print_r($attribute_groups);die;
+                            ];                            
+                            if (!empty($barcode)) {
+                                DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
+                                DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
+                                $Id = $barcode->diamond_id;
+                            } else {
+                                DB::table('diamonds')->insert($data_array);
+                                $Id = DB::getPdo()->lastInsertId();
+                            }                            
                             foreach ($attribute_groups as $atr_grp_row) {
 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
@@ -333,47 +356,51 @@ class DiamondsController extends Controller {
                     }
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-                    if (isset($row['stock'])) {
+                    if (isset($row['stock'])) {                        
                         if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
                             break;
                         }
+                        $barcode = DB::table('diamonds')->where('barcode', $row['certificate'])->first();
                         if (!empty($row['stock'])) {
-//                        $row['rap'] = str_replace(',', '', $row['rap']);
-                            $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
-//                        $row['rap'] = doubleval($row['rap']);
+                            $row['price'] = str_replace(',', '', $row['price']);
+                            $row['price'] = doubleval($row['price']);
+                            $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);                            
                             $row['discount_percent'] = doubleval($row['discount_percent']);
-                            if (empty($row['image_link'])) {
-                                $image = 0;
-                            } else {
-                                $image = $row['image_link'];
-                            }
+                            $row['weight'] = doubleval($row['weight']);                                                                                             
+                            $total=$row['price']*$row['weight'];
+                            
+                            $image=array();                            
+                            $image[0]=$row['image_link'];
+                            $img_json= json_encode($image);
+                            
                             $data_array = [
-                                'discount' => $row['discount_percent'],
-                                'image' => $image,
-                                'video_link' => $row['video_link'],
+                                'barcode' => $row['certificate'],
+                                'packate_no' => $row['stock'],
+                                'discount' => $row['discount_percent'],                                
+//                                'weight_loss' => $row['weight'],
+                                'expected_polish_cts' => $row['weight'],
+                                'rapaport_price' => $row['price'],
+                                'image' => $img_json,
+                                'video_link' => $row['video_link'],                                
                                 'refCategory_id' => $request->refCategory_id,
+                                'total' => $total,
                                 'added_by' => session()->get('loginId'),
                                 'is_active' => 1,
                                 'is_deleted' => 0,
                                 'date_added' => date("Y-m-d h:i:s"),
                                 'date_updated' => date("Y-m-d h:i:s")
-                            ];
-                            DB::table('diamonds')->insert($data_array);
-                            $Id = DB::getPdo()->lastInsertId();
+                            ];                            
+                            if (!empty($barcode)) {
+                                DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
+                                DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
+                                $Id = $barcode->diamond_id;
+                            } else {
+                                DB::table('diamonds')->insert($data_array);
+                                $Id = DB::getPdo()->lastInsertId();
+                            }                                                        
 
                             foreach ($attribute_groups as $atr_grp_row) {
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
-
-                                if ($atr_grp_row->name === "WEIGHT") {
-                                    if (!empty($row['weight'])) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['weight'];
-                                        array_push($attr_group_array, $insert_array);
-                                    }
-                                }
 
                                 if ($atr_grp_row->name === "DEPTH PERCENT") {
                                     if (!empty($row['depth_percent'])) {
@@ -446,7 +473,6 @@ class DiamondsController extends Controller {
                                     }
                                 }
                                 if ($atr_grp_row->name === "CROWN ANGLE") {
-
                                     if (!empty($row['crown_angle'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -489,7 +515,6 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-
                                 if ($atr_grp_row->name === "CERTIFICATE URL") {
                                     if (!empty($row['certificate_url'])) {
                                         $insert_array = array();
@@ -499,53 +524,7 @@ class DiamondsController extends Controller {
                                         $insert_array['value'] = $row['certificate_url'];
                                         array_push($attr_group_array, $insert_array);
                                     }
-                                }
-
-                                if ($atr_grp_row->name === "STOCK") {
-                                    if (!empty($row['stock'])) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['stock'];
-                                        array_push($attr_group_array, $insert_array);
-                                    }
-                                }
-                                if ($atr_grp_row->name === "AVAILABILITY") {
-                                    if (!empty($row['availability'])) {
-                                        $availability = 0;
-                                        foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['availability'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
-                                                $insert_array = array();
-                                                $insert_array['refDiamond_id'] = $Id;
-                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $insert_array['refAttribute_id'] = $atr_row->attribute_id;
-                                                $insert_array['value'] = 0;
-                                                array_push($attr_group_array, $insert_array);
-                                                $availability = 1;
-                                            }
-                                        }
-                                        if ($availability == 0) {
-                                            DB::table('attributes')->insert([
-                                                'name' => $row['availability'],
-                                                'attribute_group_id' => $atr_grp_row->attribute_group_id,
-                                                'added_by' => $request->session()->get('loginId'),
-                                                'is_active' => 1,
-                                                'is_deleted' => 0,
-                                                'date_added' => date("Y-m-d h:i:s"),
-                                                'date_updated' => date("Y-m-d h:i:s")
-                                            ]);
-                                            $attr_id = DB::getPdo()->lastInsertId();
-                                            $insert_array = array();
-                                            $insert_array['refDiamond_id'] = $Id;
-                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                            $insert_array['refAttribute_id'] = $attr_id;
-                                            $insert_array['value'] = 0;
-                                            array_push($attr_group_array, $insert_array);
-                                        }
-                                    }
-                                }
-
+                                }                                                            
                                 if ($atr_grp_row->name === "SHAPE") {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
@@ -898,18 +877,41 @@ class DiamondsController extends Controller {
     }
 
     public function save(Request $request) {
+//          echo '<pre>';print_r($_REQUEST);die;     
+        $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();                        
         $labour_charge = DB::table('labour_charges')->where('is_active', 1)->where('is_deleted', 0)->first(); 
-        $discount=((100-$request->discount)/100);
-        $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge->amount; 
-        $discount=abs(($request->discount)/100);       
-        $imageName = 0;
-        if (isset($request->image)) {
+        
+        if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
+            $discount=((100-$request->discount)/100);
+            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge->amount; 
+        }
+        
+        if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
+            $price=abs($request->rapaport_price*($request->discount-1));
+            $amount=abs($price*doubleval($request->expected_polish_cts));
+            $ro_amount=abs($amount/doubleval($request->makable_cts));
+            $final_price=$ro_amount-$labour_charge->amount;                            
+            $total=abs($final_price*(doubleval($request->makable_cts)));
+        }
+        
+        $discount=abs(($request->discount)/100);   
+        
+        $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-        }        
+            $i=0;
+            foreach($request->file('image') as $file)
+            {
+                $imageName = time() .$i. '.' . $file->extension();
+                $file->move(public_path('images'), $imageName);
+                array_push($imgData,$imageName);  
+                $i=$i+1;
+            }                                    
+        }
+        
+        $image=json_encode($imgData);                
         DB::table('diamonds')->insert([
             'name' => isset($request->name) ? $request->name : 0,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
@@ -923,7 +925,7 @@ class DiamondsController extends Controller {
             'discount' => isset($request->discount) ? $discount : 0,
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
             'video_link' => isset($request->video_link) ? $request->video_link : 0,
-            'image' => $imageName,
+            'image' => $image,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
             'added_by' => $request->session()->get('loginId'),
@@ -946,15 +948,16 @@ class DiamondsController extends Controller {
                     $insert_array['refAttribute_id'] = $main_value[0];
                     $insert_array['value'] = 0;
                 }
-            } else {
+            } else {                                                                                          
                 $insert_array['refAttribute_id'] = 0;
                 $insert_array['value'] = $request->attribute_group_id_value[$i];
             }
-            if($request->attribute_group_id_value[$i]!=''){
+            if($request->attribute_group_id_value[$i]!='' && $request->attribute_group_id_value[$i]!='default'){
                 array_push($batch_array, $insert_array);
             }
+            
             $i = $i + 1;
-        }
+        }       
         if (!empty($batch_array)) {
             DB::table('diamonds_attributes')->insert($batch_array);
         }
@@ -1031,15 +1034,43 @@ class DiamondsController extends Controller {
     }
 
     public function update(Request $request) {
-        $imageName = 0;
-        if (isset($request->image)) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+        
+        $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();                        
+        $labour_charge = DB::table('labour_charges')->where('is_active', 1)->where('is_deleted', 0)->first(); 
+        
+        if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
+            $discount=((100-$request->discount)/100);
+            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge->amount; 
         }
-
+        
+        if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
+            $price=abs($request->rapaport_price*($request->discount-1));
+            $amount=abs($price*doubleval($request->expected_polish_cts));
+            $ro_amount=abs($amount/doubleval($request->makable_cts));
+            $final_price=$ro_amount-$labour_charge->amount;                            
+            $total=abs($final_price*(doubleval($request->makable_cts)));
+        }
+        if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
+            $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts));
+        }        
+        $discount=abs(($request->discount)/100);
+        
+        $imgData = array();
+        if($request->hasfile('image')) {
+            $request->validate([
+                'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $i=0;
+            foreach($request->file('image') as $file)
+            {
+                $imageName = time() .$i. '.' . $file->extension();
+                $file->move(public_path('images'), $imageName);
+                array_push($imgData,$imageName);  
+                $i=$i+1;
+            }                                    
+        }
+        $image=json_encode($imgData); 
+        
         DB::table('diamonds')->where('diamond_id', $request->id)->update([
             'name' => isset($request->name) ? $request->name : 0,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
@@ -1050,14 +1081,14 @@ class DiamondsController extends Controller {
             'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
             'remarks' => isset($request->remarks) ? $request->remarks : 0,
             'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-            'discount' => isset($request->discount) ? $request->discount : 0,
+            'discount' => isset($request->discount) ? $discount : 0,
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-            'image' => $imageName,
+            'image' => $image,
             'video_link' => isset($request->video_link) ? $request->video_link : 0,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+            'total'=>$total,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-//        echo '<pre>';print_r($_REQUEST);die;
         $Id = $request->id;
         $res = DB::table('diamonds_attributes')->where('refDiamond_id', $Id)->delete();
         $batch_array = array();
@@ -1075,8 +1106,10 @@ class DiamondsController extends Controller {
             } else {
                 $insert_array['refAttribute_id'] = 0;
                 $insert_array['value'] = $request->attribute_group_id_value[$i];
+            }            
+            if($request->attribute_group_id_value[$i]!='' && $request->attribute_group_id_value[$i]!='default'){
+                array_push($batch_array, $insert_array);
             }
-            array_push($batch_array, $insert_array);
             $i = $i + 1;
         }
         if (!empty($batch_array)) {
@@ -1085,7 +1118,7 @@ class DiamondsController extends Controller {
 
 //        activity($request, "updated", 'diamonds');
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('admin/diamonds');
+        return redirect('admin/diamonds/list/'.$request->refCategory_id);
     }
 
     public function delete(Request $request) {
