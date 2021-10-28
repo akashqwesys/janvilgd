@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\DiamondController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,11 @@ Route::post('resendOTP', [AuthController::class, 'resendOTP']);
 Route::post('register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => ['auth:customer-api']], function() {
+    // Home
     Route::post('dashboard', [DashboardController::class, 'dashboard']);
+
+    // Diamonds
+    Route::post('get-attributes', [DiamondController::class, 'getAttributes']);
+    Route::post('search-diamonds', [DiamondController::class, 'searchDiamonds']);
 
 });

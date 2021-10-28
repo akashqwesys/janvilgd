@@ -58,7 +58,6 @@ Route::post('customer/signup', [FrontAuthController::class, 'register']);
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
 Route::group( ['middleware' => ['auth']], function () {
-    // Authentication
     Route::get('customer/search-diamonds', [HDiamond::class, 'home']);
 });
 
