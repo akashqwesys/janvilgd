@@ -22,16 +22,20 @@ class BlogsController extends Controller
     }
 
     public function save(Request $request) {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        /* $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName); */
-        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-        $request->file('image')->storeAs("public/user_blogs", $imageName);
+        $imgData = array();
+        if($request->hasfile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
+        }
+        $image=json_encode($imgData);
+      
         DB::table('blogs')->insert([
             'title' => $request->title,
-            'image' => $imageName,
+            'image' => $image,
             'video_link' => $request->video_link,
             'description' => $request->description,
             'slug' => clean_string($request->slug),
@@ -98,32 +102,26 @@ class BlogsController extends Controller
     }
 
     public function update(Request $request) {
-        if(isset($request->image)){
+        $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            /* $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName); */
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-            $request->file('image')->storeAs("public/user_blogs", $imageName);
-
-            DB::table('blogs')->where('blog_id', $request->id)->update([
-                'title' => $request->title,
-                'image' => $imageName,
-                'video_link' => $request->video_link,
-                'description' => $request->description,
-                'slug' => clean_string($request->slug),
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        }else{
-            DB::table('blogs')->where('blog_id', $request->id)->update([
-                'title' => $request->title,
-                'video_link' => $request->video_link,
-                'description' => $request->description,
-                'slug' => clean_string($request->slug),
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
         }
+        $image=json_encode($imgData);
+      
+            DB::table('blogs')->where('blog_id', $request->id)->update([
+                'title' => $request->title,
+                'image' => $image,
+                'video_link' => $request->video_link,
+                'description' => $request->description,
+                'slug' => clean_string($request->slug),
+                'date_updated' => date("Y-m-d h:i:s")
+            ]);
+        
         activity($request,"updated",'blogs');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/blogs');

@@ -23,36 +23,29 @@ class AttributeController extends Controller
         return view('admin.attributes.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {
-        if(isset($request->image)){
+    public function save(Request $request) {        
+        $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            DB::table('attributes')->insert([
-                'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,
-                'image' => $imageName,
-                'added_by' => $request->session()->get('loginId'),
-                'sort_order' => $request->sort_order,
-                'is_active' => 1,
-                'is_deleted' => 0,
-                'date_added' => date("Y-m-d h:i:s"),
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        } else{
-            DB::table('attributes')->insert([
-                'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,
-                'added_by' => $request->session()->get('loginId'),
-                'sort_order' => $request->sort_order,
-                'is_active' => 1,
-                'is_deleted' => 0,
-                'date_added' => date("Y-m-d h:i:s"),
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
+            $request->image->move(public_path('images'), $imageName); 
+            array_push($imgData,$imageName); 
         }
+        $image=json_encode($imgData);        
+        DB::table('attributes')->insert([
+            'name' => $request->name,
+            'attribute_group_id' => $request->attribute_group_id,
+            'image' => $image,
+            'added_by' => $request->session()->get('loginId'),
+            'sort_order' => $request->sort_order,
+            'is_active' => 1,
+            'is_deleted' => 0,
+            'date_added' => date("Y-m-d h:i:s"),
+            'date_updated' => date("Y-m-d h:i:s")
+        ]);
+        
         activity($request,"inserted",'attributes');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/attributes');
@@ -135,28 +128,24 @@ class AttributeController extends Controller
     }
 
     public function update(Request $request) {
-        if(isset($request->image)){
+        $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('images'), $imageName);
-
-            DB::table('attributes')->where('attribute_id', $request->id)->update([
-                'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,
-                'sort_order' => $request->sort_order,
-                'image' => $imageName,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        }else{
-            DB::table('attributes')->where('attribute_id', $request->id)->update([
-                'name' => $request->name,
-                'attribute_group_id' => $request->attribute_group_id,
-                'sort_order' => $request->sort_order,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
+            array_push($imgData,$imageName); 
         }
+        $image=json_encode($imgData);
+        DB::table('attributes')->where('attribute_id', $request->id)->update([
+            'name' => $request->name,
+            'attribute_group_id' => $request->attribute_group_id,
+            'sort_order' => $request->sort_order,
+            'image' => $image,
+            'date_updated' => date("Y-m-d h:i:s")
+        ]);
+        
         activity($request,"updated",'attributes');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/attributes');

@@ -143,7 +143,7 @@ class CustomersController extends Controller {
     }
 
     public function update(Request $request) {
-        if (isset($request->image)) {
+        if (isset($request->pan_gst_no_file)) {
             $request->validate([
                 'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
             ]);

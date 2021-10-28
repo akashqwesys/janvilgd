@@ -24,14 +24,19 @@ class SlidersController extends Controller {
     }
 
     public function save(Request $request) {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-        $request->file('image')->storeAs("public/sliders", $imageName);
+        $imgData = array();
+        if($request->hasfile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
+        }
+        $image=json_encode($imgData); 
         DB::table('sliders')->insert([
             'title' => $request->title,
-            'image' => $imageName,
+            'image' => $image,
             'video_link' => $request->video_link,
             'refCategory_id' => $request->refCategory_id,
             'added_by' => $request->session()->get('loginId'),
@@ -102,28 +107,24 @@ class SlidersController extends Controller {
     }
 
     public function update(Request $request) {
-        if (isset($request->image)) {
+          $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-            $request->file('image')->storeAs("public/sliders", $imageName);
-
-            DB::table('sliders')->where('slider_id', $request->id)->update([
-                'title' => $request->title,
-                'image' => $imageName,
-                'video_link' => $request->video_link,
-                'refCategory_id' => $request->refCategory_id,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        } else {
-            DB::table('sliders')->where('slider_id', $request->id)->update([
-                'title' => $request->title,
-                'video_link' => $request->video_link,
-                'refCategory_id' => $request->refCategory_id,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
         }
+        $image=json_encode($imgData); 
+            DB::table('sliders')->where('slider_id', $request->id)->update([
+                'title' => $request->title,
+                'image' => $image,
+                'video_link' => $request->video_link,
+                'refCategory_id' => $request->refCategory_id,
+                'date_updated' => date("Y-m-d h:i:s")
+            ]);
+        
         activity($request,"updated",'sliders');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/sliders');

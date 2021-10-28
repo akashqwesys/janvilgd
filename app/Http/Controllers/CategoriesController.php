@@ -22,14 +22,19 @@ class CategoriesController extends Controller
     }
 
     public function save(Request $request) {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-        $request->file('image')->storeAs("public/user_blogs", $imageName);
+        $imgData = array();
+        if($request->hasfile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
+        }
+        $image=json_encode($imgData);      
         DB::table('categories')->insert([
             'name' => $request->name,
-            'image' => $imageName,
+            'image' => $image,
             'description' => $request->description,
             'category_type' => $request->category_type,
             'slug' => clean_string($request->slug),
@@ -103,29 +108,25 @@ class CategoriesController extends Controller
     }
 
     public function update(Request $request) {
-        if(isset($request->image)){
+          $imgData = array();
+        if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-            $request->file('image')->storeAs("public/user_blogs", $imageName);
-            DB::table('categories')->where('category_id', $request->id)->update([
-                'name' => $request->name,
-                'image' => $imageName,
-                'description' => $request->description,
-                'slug' => clean_string($request->slug),
-                'category_type' => $request->category_type,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        }else{
-            DB::table('categories')->where('category_id', $request->id)->update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'slug' => clean_string($request->slug),
-                'category_type' => $request->category_type,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);   
+            array_push($imgData,$imageName); 
         }
+        $image=json_encode($imgData); 
+            DB::table('categories')->where('category_id', $request->id)->update([
+                'name' => $request->name,
+                'image' => $image,
+                'description' => $request->description,
+                'slug' => clean_string($request->slug),
+                'category_type' => $request->category_type,
+                'date_updated' => date("Y-m-d h:i:s")
+            ]);
+        
         activity($request,"updated",'categories');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/categories');
