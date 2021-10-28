@@ -87,7 +87,8 @@
                     var rapaport_price = $("#rapaport_price_input").val();
                     var discount = $("#discount_input").val();
                     var makable_cts = $("#makable_cts_input").val();
-                    var labour_charge = $("#labour_charge").val();
+                    var labour_charge_4p = $("#labour_charge_4p").val();
+                    var labour_charge_rough = $("#labour_charge_rough").val();
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
@@ -104,7 +105,7 @@
                         $("#display_makable_cts").text(makable_cts);
                     }
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
-                        let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge;
+                        let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge_4p;
                         $("#display_current_price").text(c_price);
                     }
                 }
@@ -132,7 +133,7 @@
                         var price = Math.abs(rapaport_price * (discount));
                         var amount = Math.abs(price * expected_polish_cts);
                         var ro_amount = Math.abs(amount / makable_cts);
-                        var final_price = ro_amount - labour_charge;
+                        var final_price = ro_amount - labour_charge_rough;
                         var total = Math.abs(final_price * makable_cts);
                         $("#display_current_price").text(total.toFixed(2));
                     }

@@ -20,17 +20,18 @@
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">                   
                     <div class="card">
-                        <div class="card-inner">                           
+                        <div class="card-inner row gs">  
+                             <div class="col-md-6">
                             <form method="POST" action="{{route('diamonds.update')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="<?php echo $data['result']->diamond_id; ?>">
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label float-right" for="refCategory_id">Category:</label>                                            
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">                                                                                                  
                                                 <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
@@ -50,12 +51,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="name" placeholder="Enter name" required="" autocomplete="off" value="<?php echo $data['result']->name; ?>">                                             
@@ -64,12 +65,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="barcode">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="barcode">Barcode:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="barcode"  placeholder="Enter barcode" required="" autocomplete="off" value="<?php echo $data['result']->barcode; ?>">                                             
@@ -78,12 +79,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="packate_no">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="packate_no">Packate No:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no" required="" autocomplete="off" value="<?php echo $data['result']->packate_no; ?>">                                             
@@ -100,12 +101,12 @@
                                         if ($row->field_type == 1) {
                                             ?>
                                             <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">                                                                                                  
                                                             <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
@@ -137,12 +138,12 @@
                                             ?>
 
                                             <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-4">
                                                     <div class="form-group">                                            
                                                         <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">
                                                             <?php
@@ -164,15 +165,13 @@
                                     }
                                 }
                                 ?>
-
-
                                 <div class="row g-3 align-center d-none" id="actual_pcs">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="actual_pcs">Actual pcs:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">                                             
@@ -181,12 +180,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="available_pcs">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="available_pcs">Available pcs:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off" value="<?php echo $data['result']->available_pcs; ?>">                                             
@@ -195,12 +194,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="makable_cts">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable cts:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter makable cts" required="" autocomplete="off" value="<?php echo $data['result']->makable_cts; ?>">                                             
@@ -209,12 +208,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="expected_polish_cts">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected polish cts:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter expected polish cts" required="" autocomplete="off" value="<?php echo $data['result']->expected_polish_cts; ?>">                                             
@@ -223,12 +222,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="remarks">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="remarks">Remarks:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="remarks"  placeholder="Enter remarks" autocomplete="off" value="<?php echo $data['result']->remarks; ?>">                                             
@@ -238,40 +237,40 @@
                                 </div>
 
                                 <div class="row g-3 align-center d-none" id="rapaport_price">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="rapaport_price"  placeholder="Enter rapaport price" required="" autocomplete="off" value="<?php echo $data['result']->rapaport_price; ?>">                                             
+                                                <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price" required="" autocomplete="off" value="<?php echo $data['result']->rapaport_price; ?>">                                             
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="discount">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="discount">Discount:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="discount"  placeholder="Enter discount" required="" autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">                                              
+                                                <input type="text" class="form-control" name="discount" id="discount_input"  placeholder="Enter discount" required="" autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">                                              
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none" id="weight_loss">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss" required="" autocomplete="off" value="<?php echo $data['result']->weight_loss; ?>" readonly="">                                             
@@ -280,12 +279,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center d-none " id="video_link">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="video_link">Video link:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <input type="text" class="form-control" name="video_link" placeholder="Enter video link"  autocomplete="off" value="<?php echo $data['result']->video_link; ?>">                                             
@@ -294,12 +293,12 @@
                                     </div>
                                 </div>                            
                                 <div class="row g-3 align-center d-none" id="image">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="image">Image:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group">                                           
                                             <div class="form-control-wrap">
                                                 <div class="custom-file">
@@ -311,7 +310,7 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                                     <div class="form-group">                                            
                                                         &nbsp;
                                                     </div>
@@ -348,12 +347,12 @@
                                         if ($row->field_type == 1) {
                                             ?>
                                             <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                       
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>                                            
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">                                                                                                  
                                                             <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
@@ -385,12 +384,12 @@
                                             ?>
 
                                             <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-4">
                                                     <div class="form-group">                                            
                                                         <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">
                                                             <?php
@@ -421,6 +420,45 @@
                                     </div>
                                 </div>                            
                             </form>
+                             </div>
+                              <div class="col-md-4">
+                                <div class="card bg-lighter text-dark align-items-center">
+                                    <div class="card-inner">
+                                        <div class="align-items-center">
+                                            <div class="card-title">
+                                                <h3 class="title text-center card-title-lg">Current Price</h3>
+                                            </div>                                                
+                                        </div>
+                                        <input type="hidden" id="labour_charge_4p" value="<?php echo $data['labour_charge_4p']; ?>">
+                                        <input type="hidden" id="labour_charge_rough" value="<?php echo $data['labour_charge_rough']; ?>">
+                                        <div class="traffic-channel text-dark">                                                        
+                                            <div class="traffic-channel-group g-2">                                                            
+                                                <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price</span></div>
+                                                    <div class="amount" id="display_rapa"><?php echo $data['result']->rapaport_price; ?></div>
+                                                </div>
+                                                <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Makable cts/Org cts</span></div>
+                                                    <div class="amount" id="display_makable_cts"><?php echo $data['result']->makable_cts; ?></div>
+                                                </div>
+                                                <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Expected polish cts</span></div>
+                                                    <div class="amount" id="display_exp_pol_cts"><?php echo $data['result']->expected_polish_cts; ?></div>
+                                                </div>
+                                                <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
+                                                    <div class="amount" id="display_discount"><?php echo abs(($data['result']->discount) * 100); ?></div>
+                                                </div>                                                
+                                                <div class="traffic-channel-data" style="width:100%">
+                                                    <hr>
+                                                    <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price</h6></span></div>
+                                                    <div class="amount text-center align-center" id="display_current_price"><?php echo $data['result']->total; ?></div>
+                                                </div>  
+                                            </div><!-- .traffic-channel-group -->
+                                        </div><!-- .traffic-channel -->
+                                    </div>
+                                </div><!-- .card -->
+                            </div><!-- .col -->
                         </div>
                     </div><!-- card -->
                 </div><!-- .nk-block -->

@@ -42,7 +42,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center">
+<!--                                    <div class="row g-3 align-center">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
                                                 <label class="form-label float-md-right" for="name">Name:</label>
@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="row g-3 align-center d-none" id="barcode">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
@@ -374,7 +374,8 @@
                                                 <h3 class="title text-center card-title-lg">Current Price</h3>
                                             </div>                                                
                                         </div>
-                                        <input type="hidden" id="labour_charge" value="<?php echo $data['labour_charge']; ?>">
+                                        <input type="hidden" id="labour_charge_4p" value="<?php echo $data['labour_charge_4p']; ?>">
+                                         <input type="hidden" id="labour_charge_rough" value="<?php echo $data['labour_charge_rough']; ?>">
                                         <div class="traffic-channel text-dark">                                                        
                                             <div class="traffic-channel-group g-2">                                                            
                                                 <div class="traffic-channel-data">

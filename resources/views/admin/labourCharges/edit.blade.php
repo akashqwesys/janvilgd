@@ -41,7 +41,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name='amount' id="amount" placeholder="Enter amount" autocomplete="off" value="{{ $data['result']->amoun }}">
+                                                <input type="text" class="form-control" name='amount' id="amount" placeholder="Enter amount" autocomplete="off" value="{{ $data['result']->amount }}">
                                             </div>
                                         </div>
                                     </div>
