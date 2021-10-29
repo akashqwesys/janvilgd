@@ -115,7 +115,8 @@
                     var rapaport_price = $("#rapaport_price_input").val();
                     var discount = $("#discount_input").val();
                     var makable_cts = $("#makable_cts_input").val();
-                    var labour_charge = $("#labour_charge").val();
+                    var labour_charge_4p = $("#labour_charge_4p").val();
+                    var labour_charge_rough = $("#labour_charge_rough").val();
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
@@ -144,7 +145,8 @@
                     var rapaport_price = $("#rapaport_price_input").val();
                     var discount = $("#discount_input").val();
                     var makable_cts = $("#makable_cts_input").val();
-                    var labour_charge = $("#labour_charge").val();
+                    var labour_charge_4p = $("#labour_charge_4p").val();
+                    var labour_charge_rough = $("#labour_charge_rough").val();
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
