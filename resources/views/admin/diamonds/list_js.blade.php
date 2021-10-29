@@ -111,6 +111,7 @@
             $(document).on('click', '.delete_button', function () {
                 var self = $(this);
                 var table = self.attr('data-table');
+                var image = self.attr('data-imahe');
                 var wherefield = self.attr('data-wherefield');
                 var module = self.attr('data-module');
                 if (!confirm('Are you sure want to delete?'))
@@ -118,6 +119,7 @@
                 var data = {
                     'table_id': self.data('id'),
                     'table': table,
+                    'image':image,
                     'module': module,
                     'wherefield': wherefield,
                     '_token': $("input[name=_token]").val()

@@ -319,20 +319,22 @@
                                 if (!empty($data['result']->image)) {
                                     $image = json_decode($data['result']->image);                                   
                                     if (!empty($image)) {
+                                        $i=0;
                                         foreach ($image as $img_row) {
                                             ?>                                                                                            
-                                                <div class="col-lg-1" id="img_<?php echo $data['result']->diamond_id; ?>">
+                                                <div class="col-lg-1" id="img_<?php echo $data['result']->diamond_id.'_'.$i; ?>">
                                                     <div class="form-group">                                           
                                                         <div class="form-control-wrap">
                                                             <div class="removeimg">
                                                                 <img src="{{ asset(check_host().'images') }}<?php echo '/' . $img_row; ?>"/>
-                                                                <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
+                                                                <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>                                    
                                             
                                             <?php
+                                            $i=$i+1;
                                         }
                                     }
                                 }

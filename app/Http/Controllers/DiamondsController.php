@@ -1198,6 +1198,8 @@ class DiamondsController extends Controller {
     public function status(Request $request) {
         if (isset($_REQUEST['table_id'])) {
 
+           
+            
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                 'is_active' => $_REQUEST['status'],
                 'date_updated' => date("Y-m-d h:i:s")
