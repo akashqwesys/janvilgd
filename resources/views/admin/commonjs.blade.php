@@ -161,8 +161,7 @@
                     if (makable_cts !== '' && makable_cts !== 0) {
                         $("#display_makable_cts").text(makable_cts);
                     }
-                    if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
-                        alert('hi');
+                    if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {                       
                         var total = Math.abs(expected_polish_cts * rapaport_price);
                         $("#display_current_price").text(total.toFixed(2));
                     }
