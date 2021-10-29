@@ -331,8 +331,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                    
-                                            
+                                                </div>                                                                                
                                             <?php
                                             $i=$i+1;
                                         }

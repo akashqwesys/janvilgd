@@ -18,6 +18,7 @@ class DiamondsController extends Controller {
         $data['title'] = 'List-Diamonds';
         $data['cat_id'] = $cat_id;
         $data['cat_type'] = $cat_type->category_type;
+        $data['cat_name'] = $cat_type->name;
         return view('admin.diamonds.list', ["data" => $data]);
     }
 
@@ -57,7 +58,7 @@ class DiamondsController extends Controller {
                             $img_json= json_encode($image);                            
                             
                             $name='';
-                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$cat_type->name;
                             
                             $data_array = [
                                 'name' => $name,
@@ -272,7 +273,7 @@ class DiamondsController extends Controller {
 //                            $name='';
                               
                             $name='';
-                            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+                            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$cat_type->name;
                                                         
                             $data_array = [
                                 'name' =>$name,
@@ -396,7 +397,7 @@ class DiamondsController extends Controller {
                             $img_json= json_encode($image);
                             
                             $name='';
-                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$cat_type->name;
                                                         
                             $data_array = [
                                 'name' =>$name,
@@ -915,7 +916,7 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             
         
-        $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+        $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge_4p->amount; 
@@ -924,7 +925,7 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
             
           
-            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $discount=((100-$request->discount)/100);             
             $price=abs($request->rapaport_price*($discount));
@@ -936,7 +937,7 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             
            
-            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS';
+            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts));
         }        
@@ -1022,6 +1023,9 @@ class DiamondsController extends Controller {
                             ->addColumn('index', '')
                             ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
+                            })
+                            ->editColumn('discount', function ($row) {
+                                return ($row->discount*100);
                             })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
