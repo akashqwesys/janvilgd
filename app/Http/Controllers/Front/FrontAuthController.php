@@ -329,6 +329,7 @@ class FrontAuthController extends Controller
                         } else {
                             $user->otp_status = 1;
                             $user->save();
+                            // Auth::loginUsingId($user->customer_id);
                             return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/']);
                         }
                     } else {

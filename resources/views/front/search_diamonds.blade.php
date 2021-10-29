@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="og:type" content="website" />
 	<meta name="twitter:card" content="photo" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $data->name }}</title>
 
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
 
@@ -29,7 +31,7 @@
 				<div class="offcanvas-body">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link active" href="index.php">Home</a>
+							<a class="nav-link active" href="/">Home</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="about.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
