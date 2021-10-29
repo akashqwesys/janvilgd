@@ -322,7 +322,7 @@
                                         $i=0;
                                         foreach ($image as $img_row) {
                                             ?>                                                                                            
-                                                <div class="col-lg-1" id="img_<?php echo $data['result']->diamond_id.'_'.$i; ?>">
+                                                <div class="col-lg-2" id="img_<?php echo $data['result']->diamond_id.'_'.$i; ?>">
                                                     <div class="form-group">                                           
                                                         <div class="form-control-wrap">
                                                             <div class="removeimg">
