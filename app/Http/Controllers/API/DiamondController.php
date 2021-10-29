@@ -68,8 +68,8 @@ class DiamondController extends Controller
 
         $data = DB::table('diamonds_attributes as da')
             ->join('diamonds as d', 'da.refDiamond_id', '=', 'd.diamond_id')
+            ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
             ->whereRaw(rtrim($q, 'or '))
-            ->select('d.diamond_id')
             ->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
             ->groupBy('d.diamond_id')
