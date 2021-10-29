@@ -273,7 +273,7 @@ class DiamondsController extends Controller {
 //                            $name='';
                               
                             $name='';
-                            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$cat_type->name;
+                            $name.=$row['shape'].'-'.$row['exp_pol'].'-'.'CTS'.'-'.$cat_type->name;
                                                         
                             $data_array = [
                                 'name' =>$name,
@@ -397,7 +397,7 @@ class DiamondsController extends Controller {
                             $img_json= json_encode($image);
                             
                             $name='';
-                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$cat_type->name;
+                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['weight'].'-'.'CTS'.'-'.$cat_type->name;
                                                         
                             $data_array = [
                                 'name' =>$name,
