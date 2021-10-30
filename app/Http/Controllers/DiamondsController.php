@@ -936,7 +936,7 @@ class DiamondsController extends Controller {
             $i = $i + 1;
         }
         
-        $categories = DB::table('attributes')->where('attribute_id',)->where('is_active', 1)->where('is_deleted', 0)->first();  
+//        $categories = DB::table('attributes')->where('attribute_id')->where('is_active', 1)->where('is_deleted', 0)->first();  
         
 //        0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
 
