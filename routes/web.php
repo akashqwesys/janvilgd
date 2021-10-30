@@ -31,6 +31,7 @@ use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 
+use App\Http\Controllers\Front\TestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,9 @@ use App\Http\Controllers\Front\DiamondController as HDiamond;
 |
 */
 // Route::get('/', [CustomAuthController::class, 'home']);
+Route::get('/test-query', [TestController::class, 'index']);
+
+
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
