@@ -97,14 +97,14 @@ class AuthController extends Controller
                 ]); */
                 $email = $request->email;
             }
-            Mail::to($email)
+            /* Mail::to($email)
                 ->send(
                     new EmailVerification([
                         'name' => $email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
                     ])
-                );
+                ); */
             return $this->successResponse('OTP sent successfully');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
@@ -196,14 +196,14 @@ class AuthController extends Controller
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
-            Mail::to($user->email)
+            /* Mail::to($user->email)
                 ->send(
                     new EmailVerification([
                         'name' => $user->email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
                     ])
-                );
+                ); */
             $user->save();
             return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {

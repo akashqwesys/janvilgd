@@ -32,6 +32,7 @@
             /* $.each(array, function(k, v) {
                 selected_values.push(v.attribute_id);
             }); */
+            const filteredArray = array.filter(value => array2.includes(value));
             console.log(array);
             return false;
 
