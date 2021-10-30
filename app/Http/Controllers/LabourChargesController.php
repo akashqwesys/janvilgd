@@ -89,7 +89,12 @@ class LabourChargesController extends Controller {
     }
 
     public function update(Request $request) {
-        DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([
+        $labour_charge = LabourCharges::select('amount')->where('labour_charge_id',$request->id)->first();
+        if($request->id==1){            
+            $cat_id = DB::table('categories')->select('category_id')->where('category_type',1)->first();            
+            DB::table('diamonds')->where('refCategory_id', $cat_id->category_id)->update(['total' => "total+intval($labour_charge->amount - $request->amount)"]);
+        }
+        DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([            
             'name' => $request->name,
             'amount' => $request->amount,
             'added_by' => $request->session()->get('loginId'),

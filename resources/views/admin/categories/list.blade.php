@@ -15,7 +15,7 @@
                             <div class="nk-block-head-content">                                                
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <h4 style="display: inline;" class="nk-block-title">Categories list</h4>
-                                    <a style="float: right;" href="{{route('categories.add')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Add Category<em class="icon ni ni-plus"></em></a>
+                                    <!--<a style="float: right;" href="{{route('categories.add')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Add Category<em class="icon ni ni-plus"></em></a>-->
                                 </div>
                             </div><!-- .nk-block-head-content -->                                   
                         </div>                                       

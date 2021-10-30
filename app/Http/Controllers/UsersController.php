@@ -80,6 +80,13 @@ class UsersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
             $data = User::latest()->orderBy('id','desc')->get();
+            
+//            $data = DB::table('users')->select('users.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
+//                    ->leftJoin('city', 'city.city_id', '=', 'users.city_id')
+//                    ->leftJoin('state', 'state.state_id', '=', 'users.state_id')
+//                    ->leftJoin('country', 'country.country_id', '=', 'users.country_id')
+//                    ->get();            
+            
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index', '')

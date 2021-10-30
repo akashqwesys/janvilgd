@@ -18,9 +18,8 @@
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
-                        <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Edit Informative Pages</h3>
-                        </div>
+                             <h3 class="nk-block-title page-title" style="display: inline;">Edit Informative Pages</h3>
+                        <a style="float: right;" href="/admin/informative-pages" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
@@ -55,7 +54,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
@@ -70,8 +68,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-1">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="slug">Slug:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <button type="button" class="btn btn-lg btn-primary btn-block">Back to defautl</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                                                               
                                 <hr>
-                                <div class="row g-3">
+                                <div class="row g-3">                                 
                                     <div class="col-sm-12 col-md-2 offset-md-1">
                                         <div class="form-group mt-2">
                                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>

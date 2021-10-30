@@ -13,9 +13,8 @@
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
-                        <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Edit Category</h3>
-                        </div>
+                                     <h3 class="nk-block-title page-title" style="display: inline;">Edit Category</h3>
+                        <a style="float: right;" href="/admin/categories" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
@@ -114,7 +113,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">                                            
+                                            <label class="form-label float-md-right" for="sort_order">Sort order:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort oreder" required="" autocomplete="off" value="{{ $data['result']->sort_order }}">                                             
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                                
+<!--                                <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
                                             <label class="form-label float-md-right" for="category_type">Category Type Number:</label>
@@ -127,7 +142,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <hr>
                                 <div class="row g-3">

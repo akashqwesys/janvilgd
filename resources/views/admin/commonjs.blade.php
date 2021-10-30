@@ -82,6 +82,7 @@
         $(document).ready(function () {
 
             function calculate_current_price() {
+                $("#display_current_price").html('');
                 var cat_name = $("#refCategory_id").children("option").filter(":selected").text();
                 if (cat_name == '4P Diamonds') {
                     var expected_polish_cts = $("#expected_polish_cts_input").val();
@@ -162,42 +163,17 @@
                         $("#display_makable_cts").text(makable_cts);
                     }
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {                       
-                        var total = Math.abs(expected_polish_cts * rapaport_price);
+                        var total = Math.abs(expected_polish_cts * rapaport_price*discount);
                         $("#display_current_price").text(total.toFixed(2));
                     }
                 }
             }
-
-
-            $('#rapaport_price_input,#discount_input').on('keyup', function () {
-                calculate_current_price();
-            });
-
-            $('#makable_cts_input').on('keyup', function () {
-                calculate_current_price();
-                var makable_cts = $(this).val();
-                var expected_polish_cts = $("#expected_polish_cts_input").val();
-                if (makable_cts != '' && expected_polish_cts != '') {
-                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
-                    $("#weight_loss_input").val(weight_loss);
-                } else {
-                    $("#weight_loss_input").val('');
-                }
-            });
-            $('#expected_polish_cts_input').on('keyup', function () {
-                calculate_current_price();
-                var expected_polish_cts = $("#expected_polish_cts_input").val();
-                var makable_cts = $("#makable_cts_input").val();
-                if (makable_cts != '' && expected_polish_cts != '') {
-                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
-                    $("#weight_loss_input").val(weight_loss);
-                } else {
-                    $("#weight_loss_input").val('');
-                }
-            });
-            $('#refCategory_id').on('change', function () {
-                var cat_val = $(this).val();
+            function show_diamond_form_field(){
+                var cat_val = $("#refCategory_id").children("option").filter(":selected").val();
                 var cat_name = $("#refCategory_id").children("option").filter(":selected").text();
+
+                var labour_charge_4p = $("#labour_charge_4p").val();
+                var labour_charge_rough = $("#labour_charge_rough").val();
 
                 $(".attr_group").addClass("d-none");
                 $(".attr_grp_" + cat_val).removeClass("d-none");
@@ -205,6 +181,8 @@
                 if (cat_name == '4P Diamonds') {
                     $("#makable_cts_label").html('');
                     $("#makable_cts_label").text('Makable cts:');
+                    $("#display_labour_charges").html('');
+                    $("#display_labour_charges").text(labour_charge_4p);
 
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Expected polish cts:');
@@ -236,8 +214,11 @@
                     $("#image").removeClass("d-none");
                 }
                 if (cat_name == 'Polish Diamonds') {
+                    
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Weight:');
+                    
+                    $("#display_labour_charges").html('');                    
 
                     $("#barcode").addClass("d-none");
                     $("#packate_no").addClass("d-none");
@@ -252,7 +233,7 @@
                     $("#video_link").addClass("d-none");
                     $("#image").addClass("d-none");
 
-
+                    $("#barcode").removeClass("d-none");
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                     $("#expected_polish_cts").removeClass("d-none");
@@ -261,7 +242,9 @@
                 }
                 if (cat_name == 'Rough Diamonds') {
                     $("#makable_cts_label").html('');
-                    $("#makable_cts_label").text('Org cts:');
+                    $("#makable_cts_label").text('Org cts:');                    
+                    $("#display_labour_charges").html('');
+                    $("#display_labour_charges").text(labour_charge_rough);
 
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Expected polish cts:');
@@ -286,102 +269,39 @@
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                 }
+            }
+            show_diamond_form_field();
+            $('#rapaport_price_input').on('keyup', function () {
+                calculate_current_price();
+            });
+            $('#discount_input').on('keyup', function () {
+                calculate_current_price();
+            });
+            $('#makable_cts_input').on('keyup', function () {
+                calculate_current_price();
+                var makable_cts = $(this).val();
+                var expected_polish_cts = $("#expected_polish_cts_input").val();
+                if (makable_cts != '' && expected_polish_cts != '') {
+                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
+                    $("#weight_loss_input").val(weight_loss);
+                } else {
+                    $("#weight_loss_input").val('');
+                }
+            });
+            $('#expected_polish_cts_input').on('keyup', function () {
+                calculate_current_price();
+                var expected_polish_cts = $("#expected_polish_cts_input").val();
+                var makable_cts = $("#makable_cts_input").val();
+                if (makable_cts != '' && expected_polish_cts != '') {
+                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
+                    $("#weight_loss_input").val(weight_loss);
+                } else {
+                    $("#weight_loss_input").val('');
+                }
+            });
+            $('#refCategory_id').on('change', function () {
+                show_diamond_form_field();
             });
         });
     </script>
 <?php } ?>   
-<?php if ($data['title'] == 'Edit-Diamonds') {
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var cat_val = $("#refCategory_id").val();
-            var cat_name = $("#refCategory_id").children("option").filter(":selected").text();
-            $(".attr_group").addClass("d-none");
-            $(".attr_grp_" + cat_val).removeClass("d-none");
-            if (cat_name == '4P Diamonds') {
-                $("#makable_cts_label").html('');
-                $("#makable_cts_label").text('Makable cts:');
-
-                $("#expected_polish_cts_label").html('');
-                $("#expected_polish_cts_label").text('Expected polish cts:');
-
-                $("#barcode").addClass("d-none");
-                $("#packate_no").addClass("d-none");
-                $("#actual_pcs").addClass("d-none");
-                $("#available_pcs").addClass("d-none");
-                $("#makable_cts").addClass("d-none");
-                $("#expected_polish_cts").addClass("d-none");
-                $("#remarks").addClass("d-none");
-                $("#rapaport_price").addClass("d-none");
-                $("#discount").addClass("d-none");
-                $("#weight_loss").addClass("d-none");
-                $("#video_link").addClass("d-none");
-                $("#image").addClass("d-none");
-
-                $("#barcode").removeClass("d-none");
-                $("#packate_no").removeClass("d-none");
-                $("#actual_pcs").removeClass("d-none");
-                $("#available_pcs").removeClass("d-none");
-                $("#makable_cts").removeClass("d-none");
-                $("#expected_polish_cts").removeClass("d-none");
-                $("#remarks").removeClass("d-none");
-                $("#rapaport_price").removeClass("d-none");
-                $("#discount").removeClass("d-none");
-                $("#weight_loss").removeClass("d-none");
-                $("#video_link").removeClass("d-none");
-                $("#image").removeClass("d-none");
-            }
-            if (cat_name == 'Polish Diamonds') {
-                $("#expected_polish_cts_label").html('');
-                $("#expected_polish_cts_label").text('Weight:');
-
-                $("#barcode").addClass("d-none");
-                $("#packate_no").addClass("d-none");
-                $("#actual_pcs").addClass("d-none");
-                $("#available_pcs").addClass("d-none");
-                $("#makable_cts").addClass("d-none");
-                $("#expected_polish_cts").addClass("d-none");
-                $("#remarks").addClass("d-none");
-                $("#rapaport_price").addClass("d-none");
-                $("#discount").addClass("d-none");
-                $("#weight_loss").addClass("d-none");
-                $("#video_link").addClass("d-none");
-                $("#image").addClass("d-none");
-
-
-                $("#rapaport_price").removeClass("d-none");
-                $("#discount").removeClass("d-none");
-                $("#expected_polish_cts").removeClass("d-none");
-                $("#video_link").removeClass("d-none");
-                $("#image").removeClass("d-none");
-            }
-            if (cat_name == 'Rough Diamonds') {
-                $("#makable_cts_label").html('');
-                $("#makable_cts_label").text('Org cts:');
-
-                $("#expected_polish_cts_label").html('');
-                $("#expected_polish_cts_label").text('Expected polish cts:');
-
-                $("#barcode").addClass("d-none");
-                $("#packate_no").addClass("d-none");
-                $("#actual_pcs").addClass("d-none");
-                $("#available_pcs").addClass("d-none");
-                $("#makable_cts").addClass("d-none");
-                $("#expected_polish_cts").addClass("d-none");
-                $("#remarks").addClass("d-none");
-                $("#rapaport_price").addClass("d-none");
-                $("#discount").addClass("d-none");
-                $("#weight_loss").addClass("d-none");
-                $("#video_link").addClass("d-none");
-                $("#image").addClass("d-none");
-
-                $("#barcode").removeClass("d-none");
-                $("#packate_no").removeClass("d-none");
-                $("#makable_cts").removeClass("d-none");
-                $("#expected_polish_cts").removeClass("d-none");
-                $("#rapaport_price").removeClass("d-none");
-                $("#discount").removeClass("d-none");
-            }
-        });
-    </script>
-<?php } ?>

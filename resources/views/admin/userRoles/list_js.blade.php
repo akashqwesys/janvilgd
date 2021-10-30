@@ -23,8 +23,7 @@
                 columns: [                    
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},
-                    {data: 'access_permission', name: 'access_permission'},
-                    {data: 'modify_permission', name: 'modify_permission'},                   
+                    
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
                     {data: 'date_added', name: 'date_added'},

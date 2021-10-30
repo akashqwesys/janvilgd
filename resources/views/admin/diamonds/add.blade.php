@@ -6,9 +6,8 @@
             <div class="nk-content-body">   
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
-                        <div class="nk-block-head-content">
-                            <h3 class="nk-block-title page-title">Add Diamonds</h3>
-                        </div>
+                                <h3 class="nk-block-title page-title" style="display: inline;">Add Diamonds</h3>
+                        <a style="float: right;" href="/admin/diamonds" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">                   
@@ -26,13 +25,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">                                                                                                  
-                                                    <select class="form-select form-control" id="refCategory_id" name="refCategory_id" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                    <select class="form-select form-control" id="refCategory_id" name="refCategory_id"  tabindex="-1" aria-hidden="true" data-search="on">                                                    
                                                         <option value="0" selected="">------ Select Category ------</option> 
                                                         <?php
                                                         if (!empty($data['category'])) {
                                                             foreach ($data['category'] as $row) {
                                                                 ?>
-                                                                <option value="<?php echo $row->category_id; ?>"><?php echo $row->name; ?></option>
+                                                                <option value="<?php echo $row->category_id; ?>" <?php echo set_selected($row->category_id,session('add_category')); ?>><?php echo $row->name; ?></option>
                                                                 <?php
                                                             }
                                                         }
@@ -51,7 +50,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -65,7 +64,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="barcode"  placeholder="Enter barcode" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="barcode"  placeholder="Enter barcode"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -79,7 +78,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -182,7 +181,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable cts" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable cts"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -196,7 +195,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish cts" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish cts"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -225,7 +224,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +238,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="discount" id="discount_input"  placeholder="Enter discount" required="" autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="discount" id="discount_input"  placeholder="Enter discount"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -253,7 +252,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss" required="" autocomplete="off" readonly="">                                             
+                                                    <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -366,7 +365,7 @@
                                     </div>                            
                                 </form>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card bg-lighter text-dark align-items-center">
                                     <div class="card-inner">
                                         <div class="align-items-center">
@@ -393,7 +392,11 @@
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
                                                     <div class="amount" id="display_discount"></div>
-                                                </div>                                                
+                                                </div> 
+                                                <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
+                                                    <div class="amount" id="display_labour_charges"></div>
+                                                </div> 
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price</h6></span></div>
