@@ -21,9 +21,24 @@ class DiamondController extends Controller
 
     public function getAttributes(Request $request)
     {
+        $rules = [
+            'category' => ['required', 'integer']
+        ];
+
+        $message = [
+            'category.required' => 'Please select diamond category',
+            'category.integer' => 'Please select valid diamond category'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
         $data = DB::table('attributes as a')
             ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
             ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image')
+            ->where('ag.refCategory_id', $request->category)
             ->orderBy('attribute_group_id')
             ->get()
             ->toArray();
@@ -54,6 +69,10 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
+        /* if ($request->session()->all()) {
+            echo 'ok';
+        } */
+        dd($response);
         $attribute_groups = array_keys($response);
 
         $attr = [];
@@ -97,7 +116,7 @@ class DiamondController extends Controller
             ->get()
             // ->pluck('diamond_id')
             ->toArray();
-        // dd($diamond_ids);
+
         $final_d = [];
         $final_d2 = [];
         $k=0;
@@ -111,6 +130,31 @@ class DiamondController extends Controller
         $final_d[0]=$diamond_ids[0];
 
         foreach ($diamond_ids as $v_row) {
+            foreach ($diamond_id_array as $dim_row) {
+                if ($dim_row == $v_row->diamond_id) {
+                    $i = 0;
+                    // $v_row->{$v_row->ag_name} = $v_row->name;
+                    if (!empty($final_d)) {
+                        foreach ($final_d as $f_row) {
+                            if ($f_row->diamond_id == $dim_row) {
+                                // $f_row->{$v_row->ag_name} = $v_row->name;
+                                $f_row->attribute_groups[] = [
+                                    'name' => $v_row->ag_name,
+                                    'image' => $v_row->image,
+                                    'value' => $v_row->name
+                                ];
+                                $i = 1;
+                            }
+                        }
+                    }
+                    if ($i == 0) {
+                        array_push($final_d, $v_row);
+                    }
+                }
+            }
+        }
+
+        /* foreach ($diamond_ids as $v_row) {
             foreach ($diamond_id_array as $dim_row) {
                 if($dim_row==$v_row->diamond_id){
                     $i=0;
@@ -128,8 +172,8 @@ class DiamondController extends Controller
                     }
                 }
             }
-        }
-        // die;
+        } */
+
         // dd($final_d);
 
         /* $data = DB::table('diamonds as d')

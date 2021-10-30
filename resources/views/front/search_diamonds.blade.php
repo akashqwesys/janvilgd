@@ -6,15 +6,104 @@
 	<meta name="og:type" content="website" />
 	<meta name="twitter:card" content="photo" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $data->name }}</title>
+    <title>{{ $title }}</title>
 
 	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
 
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+    <script src="/assets/js/rSlider.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).on('click', '.diamond-shape .item img', function () {
+            if ($(this).attr('data-selected') == 1) {
+                $(this).css('border', '4px solid #00000000');
+                $(this).attr('data-selected', 0);
+            } else {
+                $(this).css('border', '4px solid #D2AB66');
+                $(this).attr('data-selected', 1);
+            }
+        });
+        function getAttributeValues(values, array, group_id) {
+            var selected_values = [];
+            /* $.each(array, function(k, v) {
+                selected_values.push(v.attribute_id);
+            }); */
+            console.log(array);
+            return false;
 
+            $.ajax({
+                type: "post",
+                url: "/api/search-diamonds",
+                data: {'attribute_values': selected_values, 'group_id': group_id},
+                cache: false,
+                dataType: "json",
+                success: function (response) {
+                    if (response.success == 1) {
+                        $.toast({
+                            heading: 'Success',
+                            text: response.message,
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                    }
+                    else {
+                        $.toast({
+                            heading: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                    }
+                },
+                failure: function (response) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Oops, something went wrong...!',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+            });
+        }
+
+        $(document).on('change')
+    </script>
+    <style>
+        /* CSS for input range sliders */
+        .range-sliders {
+            width: 100%;
+        }
+        .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+            content: unset;
+        }
+        .rs-container .rs-pointer {
+            background-color: #D2AB66;
+            border-radius: 50%;
+            height: 18px;
+            width: 18px;
+            border: none;
+            box-shadow: unset;
+        }
+        .rs-container .rs-bg, .rs-container .rs-selected {
+            height: 7px;
+            background-color: #fff;
+        }
+        .rs-container .rs-selected {
+            background-color: #D2AB66;
+            border: 1px solid #D2AB66;
+        }
+        .rs-tooltip {
+            border: none;
+        }
+
+        .diamond-shape .item img {
+            border: 4px solid #00000000;
+        }
+    </style>
 </head>
 <body>
 	<header class="header-style-2">
@@ -67,93 +156,7 @@
             <div class="diamond-cut-filter">
                 <div class="filter-content">
                     <div class="row">
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-shape filter-item align-items-center">
-                                <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <ul class="list-unstyled mb-0 diamond_shape">
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large1.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large2.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large3.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large4.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large5.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large6.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large7.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                    <li class="item"><a href="Javascript:;"><img src="/assets/images/Diamond_Shapes_large4.png" class="img-fluid d-block" alt="diamond-shape"></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-cut filter-item">
-                                <label>Cut<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="min-max-slider" data-legendnum="1">
-                                    <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                    <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                    <ul class="list-unstyled mb-0 cut-slider-data slider-data">
-                                        <li>Fair</li>
-                                        <li>Good</li>
-                                        <li>Very Good</li>
-                                        <li>Ideal</li>
-                                        <li>Super Ideal</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-color filter-item">
-                                <label>Color<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="min-max-slider" data-legendnum="1">
-                                    <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                    <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                    <ul class="list-unstyled mb-0 color-slider-data slider-data">
-                                        <li>J</li>
-                                        <li>I</li>
-                                        <li>H</li>
-                                        <li>G</li>
-                                        <li>F</li>
-                                        <li>E</li>
-                                        <li>D</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-clarity filter-item">
-                                <label>Clarity<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="min-max-slider" data-legendnum="1">
-                                    <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                    <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                    <ul class="clarity-slider-data list-unstyled mb-0 slider-data">
-                                        <li>SI2</li>
-                                        <li>SI1</li>
-                                        <li>VS2</li>
-                                        <li>VS1</li>
-                                        <li>VVS2</li>
-                                        <li>VVS1</li>
-                                        <li>IF</li>
-                                        <li>FL</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-cart filter-item">
-                                <label>Cart<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="min-max-slider" data-legendnum="2">
-                                    <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                    <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-sm-12 col-lg-6">
-                            <div class="diamond-price filter-item">
-                                <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="min-max-slider" data-legendnum="1">
-                                    <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000"/>
-                                    <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        {!! $html !!}
                     <div class="filter-toggle">
                         <div class="row">
                             <div class="col col-12 col-sm-12 col-md-12">
@@ -914,16 +917,10 @@
 $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 // echo $file;
 ?>
-<script src="/assets/js/jquery-3.6.0.min.js"></script>
-<?php if( $file == 'gallery' ) { ?>
-<script src="/assets/js/jquery-migrate-1.4.1.min.js"></script>
-<?php } ?>
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/parallax.js"></script>
 <script src="/assets/js/slick.min.js"></script>
 <script src="/assets/js/custom.js"></script>
-<?php if( $file == 'gallery' ) { ?>
-<script src="/assets/js/gallery.js"></script>
-<?php } ?>
+{{-- <script src="/assets/js/custom-rSlider.js"></script> --}}
 </body>
 </html>
