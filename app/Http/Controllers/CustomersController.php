@@ -82,7 +82,15 @@ class CustomersController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
+            
+                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
+                    ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
+                    ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
+                    ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
+                    ->latest()->orderBy('customer_id','desc')->get();
+            
+            
+//            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')

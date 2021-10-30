@@ -22,9 +22,15 @@ class SettingsController extends Controller {
     }
 
     public function save(Request $request) {
+        $attachment=0;
+        if($request->hasfile('attachment')){          
+            $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
+            $request->file('attachment')->storeAs("public/user_files", $attachment);
+        }        
         DB::table('settings')->insert([
             'key' => $request->key,
             'value' => $request->value,
+            'attachment' => $attachment,
             'updated_by' => $request->session()->get('loginId'),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
@@ -66,14 +72,25 @@ class SettingsController extends Controller {
         return view('admin.settings.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {
-        DB::table('settings')->where('setting_id', $request->id)->update([
-            'key' => $request->key,
-            'value' => $request->value,
-            'updated_by' => $request->session()->get('loginId'),
-            'date_updated' => date("Y-m-d h:i:s")
-        ]);
-
+    public function update(Request $request) {               
+        if($request->hasfile('attachment')){          
+            $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
+            $request->file('attachment')->storeAs("public/user_files", $attachment);                 
+            DB::table('settings')->where('setting_id', $request->id)->update([
+                'key' => $request->key,
+                'value' => $request->value,
+                'attachment' => $attachment,
+                'updated_by' => $request->session()->get('loginId'),
+                'date_updated' => date("Y-m-d h:i:s")
+            ]);
+        }else{
+            DB::table('settings')->where('setting_id', $request->id)->update([
+                'key' => $request->key,
+                'value' => $request->value,
+                'updated_by' => $request->session()->get('loginId'),
+                'date_updated' => date("Y-m-d h:i:s")
+            ]);
+        }
         activity($request,"updated",'settings');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/settings');

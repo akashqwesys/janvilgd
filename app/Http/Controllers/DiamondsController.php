@@ -14,6 +14,7 @@ use App\Imports\DiamondsImport;
 class DiamondsController extends Controller {
 
     public function index($cat_id) {
+        session()->put('add_category',$cat_id);
         $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $cat_id)->where('is_deleted', 0)->first();
         $data['title'] = 'List-Diamonds';
         $data['cat_id'] = $cat_id;
@@ -266,9 +267,12 @@ class DiamondsController extends Controller {
                             
                             $image=array();
                             if(isset($row['image_link'])){
-                                $image[0]=$row['image_link'];
+                               $image[0]=$row['image_1'];
+                                $image[1]=$row['image_2'];
+                                $image[2]=$row['image_3'];
+                                $image[3]=$row['image_4'];
                             }
-                            $img_json= json_encode($image);
+                            $img_json= json_encode($image); 
                             
 //                            $name='';
                               
@@ -392,9 +396,12 @@ class DiamondsController extends Controller {
                             
                             $image=array();
                             if(isset($row['image_link'])){
-                                $image[0]=$row['image_link'];
+                               $image[0]=$row['image_1'];
+                                $image[1]=$row['image_2'];
+                                $image[2]=$row['image_3'];
+                                $image[3]=$row['image_4'];
                             }
-                            $img_json= json_encode($image);
+                            $img_json= json_encode($image); 
                             
                             $name='';
                             $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['weight'].'-'.'CTS'.'-'.$cat_type->name;
@@ -879,7 +886,7 @@ class DiamondsController extends Controller {
     }
 
     public function addExcel() {
-        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $data['category'] = $categories;
         $data['title'] = 'Add-Diamonds';
         return view('admin.diamonds.import', ["data" => $data]);
@@ -889,7 +896,7 @@ class DiamondsController extends Controller {
         
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first(); 
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();     
-        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order', 'asc')->get();
         $attribute_array = array();
         foreach ($attribute_groups as $row) {
@@ -912,10 +919,38 @@ class DiamondsController extends Controller {
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();                        
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first(); 
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();  
+        
+        
+        
+        
+        $batch_array1 = array();
+        $i = 0;
+        foreach ($request->attribute_group_id as $row) {                            
+            $main_value = explode('_', $request->attribute_group_id_value[$i]);
+            if (isset($main_value[1])) {
+                if ($main_value[1] == $row) {
+                    $refAttribute_id = $main_value[0];                   
+                    array_push($batch_array1, $refAttribute_id);
+                }                
+            }            
+            $i = $i + 1;
+        }
+        
+//        $categories = DB::table('attributes')->where('attribute_id')->where('is_active', 1)->where('is_deleted', 0)->first();  
+        
+//        0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
+
+
+        
+        
+        
+        
         $name='';
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             
         
+        $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();      
+            
         $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $discount=((100-$request->discount)/100);
@@ -936,10 +971,10 @@ class DiamondsController extends Controller {
         }
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             
-           
+            $discount=((100-$request->discount)/100);     
             $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
-            $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts));
+            $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
         }        
         $discount=abs(($request->discount)/100);   
         
@@ -960,8 +995,7 @@ class DiamondsController extends Controller {
         $image=json_encode($imgData);                
                 
         
-        DB::table('diamonds')->insert([
-            'name' =>  $name,
+        DB::table('diamonds')->insert([           
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
@@ -1066,7 +1100,7 @@ class DiamondsController extends Controller {
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();  
         $result = DB::table('diamonds')->where('diamond_id', $id)->first();
         $diamond_attributes = DB::table('diamonds_attributes')->where('refDiamond_id', $id)->get();
-        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $result->refCategory_id)->where('is_deleted', 0)->get();
         $attribute_array = array();
         foreach ($attribute_groups as $row) {

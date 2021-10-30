@@ -17,7 +17,7 @@ class AttributeGroupsController extends Controller {
     }
 
     public function add() {
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $data['category'] = $categories;
         $data['title'] = 'Add-Attribute-Groups';
         return view('admin.attributeGroups.add', ["data" => $data]);
@@ -115,7 +115,11 @@ class AttributeGroupsController extends Controller {
                                     $class = "btn-success";
                                 }
 
-                                $actionBtn = '<a href="/admin/attribute-groups/edit/' . $row->attribute_group_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attribute-groups" data-id="' . $row->attribute_group_id . '" data-table="attribute_groups" data-wherefield="attribute_group_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->attribute_group_id . '" data-status="' . $row->is_active . '" data-table="attribute_groups" data-wherefield="attribute_group_id" data-module="attribute-groups">' . $str . '</button>';
+                                $actionBtn = '<a href="/admin/attribute-groups/edit/' . $row->attribute_group_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> ';
+                                if($row->is_fix==0){        
+                                    $actionBtn.= ' <button class="btn btn-xs btn-danger delete_button" data-module="attribute-groups" data-id="' . $row->attribute_group_id . '" data-table="attribute_groups" data-wherefield="attribute_group_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button>';
+                                    $actionBtn.= ' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->attribute_group_id . '" data-status="' . $row->is_active . '" data-table="attribute_groups" data-wherefield="attribute_group_id" data-module="attribute-groups">' . $str . '</button>';
+                                }
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -124,7 +128,7 @@ class AttributeGroupsController extends Controller {
     }
 
     public function edit($id) {
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $data['category'] = $categories;
         $result = DB::table('attribute_groups')->where('attribute_group_id', $id)->first();
         $data['title'] = 'Edit-Attribute-Groups';

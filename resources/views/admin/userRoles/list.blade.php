@@ -26,8 +26,7 @@
                                         <tr> 
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Access Permission</th>
-                                            <th>Modify Permission</th>
+                                            
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           

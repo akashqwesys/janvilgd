@@ -42,8 +42,12 @@ class UserRolesController extends Controller {
     }
 
     public function list(Request $request) {
-        if ($request->ajax()) {
+        if ($request->ajax()) {              
+//            $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();                        
+//            $data = DB::table('user_role')->select('user_role.*', 'users.role_id')->leftJoin('users', 'user_role.user_role_id', '=', 'users.role_id')->get();            
             $data = UserRoles::select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('user_role_id','desc')->get();
+            
+//            print_r($data);die;
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -78,7 +82,13 @@ class UserRolesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/admin/user-role/edit/' . $row->user_role_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="user-role" data-id="' . $row->user_role_id . '" data-table="user_role" data-wherefield="user_role_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->user_role_id . '" data-status="' . $row->is_active . '" data-table="user_role" data-wherefield="user_role_id" data-module="user-role">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/user-role/edit/' . $row->user_role_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> ';
+//                                if(in_array($row->user_role_id,$array_data)){
+//                                    
+//                                }else{
+                                    $actionBtn.= '<button class="btn btn-xs btn-danger delete_button" data-module="user-role" data-id="' . $row->user_role_id . '" data-table="user_role" data-wherefield="user_role_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button>';
+                                    $actionBtn.= ' <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->user_role_id . '" data-status="' . $row->is_active . '" data-table="user_role" data-wherefield="user_role_id" data-module="user-role">'.$str.'</button>';
+//                                }
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])

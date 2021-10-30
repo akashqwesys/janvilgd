@@ -17,7 +17,7 @@ class SlidersController extends Controller {
     }
 
     public function add() {
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $data['category'] = $categories;
         $data['title'] = 'Add-Sliders';
         return view('admin.sliders.add', ["data" => $data]);
@@ -98,7 +98,7 @@ class SlidersController extends Controller {
     }
 
     public function edit($id) {
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
         $data['category'] = $categories;
         $result = DB::table('sliders')->where('slider_id', $id)->first();
         $data['title'] = 'Edit-Sliders';

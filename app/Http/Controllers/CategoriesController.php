@@ -37,6 +37,7 @@ class CategoriesController extends Controller
             'image' => $image,
             'description' => $request->description,
             'category_type' => $request->category_type,
+            'sort_order' => $request->sort_order,
             'slug' => clean_string($request->slug),
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
@@ -51,7 +52,7 @@ class CategoriesController extends Controller
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Categories::select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('category_id','desc')->get();
+            $data = Categories::select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated','sort_order')->latest()->orderBy('sort_order','asc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index','')
@@ -92,7 +93,9 @@ class CategoriesController extends Controller
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/admin/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+//                                        . '<button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> '
+//                                        . '<button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -101,7 +104,7 @@ class CategoriesController extends Controller
     }
 
     public function edit($id) {
-        $result = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated','category_type')->where('category_id', $id)->first();
+        $result = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated','category_type','sort_order')->where('category_id', $id)->first();
         $data['title'] = 'Edit-Categories';
         $data['result'] = $result;
         return view('admin.categories.edit', ["data" => $data]);
@@ -124,6 +127,7 @@ class CategoriesController extends Controller
                 'description' => $request->description,
                 'slug' => clean_string($request->slug),
                 'category_type' => $request->category_type,
+                'sort_order' => $request->sort_order,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
         

@@ -31,7 +31,7 @@
                                                     if (!empty($data['category'])) {
                                                         foreach ($data['category'] as $row) {
                                                             ?>
-                                                            <option value="<?php echo $row->category_id; ?>"><?php echo $row->name; ?></option>
+                                                            <option value="<?php echo $row->category_id; ?>" <?php echo set_selected($row->category_id,session('add_category')); ?>><?php echo $row->name; ?></option>
                                                             <?php
                                                         }
                                                     }
@@ -57,7 +57,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                               
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">                                            
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">                                           
+                                            <div class="form-control-wrap bg-lighter">
+                                                <br>
+                                                <h6>&nbsp;&nbsp;&nbsp;Sample Sheet</h6>                                                
+                                                &nbsp;&nbsp;&nbsp;<a href="{{ asset(check_host().'admin_assets/sample/Rough-Diamonds.xlsx') }}" download="" style="text-decoration: underline;text-decoration-color: blue;">Rough Diamond Sheet</a>
+                                                <br>&nbsp;&nbsp;&nbsp;<a href="{{ asset(check_host().'admin_assets/sample/4P-Diamonds.xlsx') }}" download="" style="text-decoration: underline;text-decoration-color: blue;">4P Diamond Sheet</a>
+                                                <br>&nbsp;&nbsp;&nbsp;<a href="{{ asset(check_host().'admin_assets/sample/Polish-Diamonds.xlsx') }}" download="" style="text-decoration: underline;text-decoration-color: blue;">Polish Diamond Sheet</a>
+                                                <br>&nbsp;
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
                                 <hr>                                
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-2">

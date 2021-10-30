@@ -29,15 +29,9 @@
                                             <th>Profile</th>
                                             <th>Mobile</th>
                                             <th>Email</th>
-                                            <th>Address</th>
-                                            <th>City</th>
-                                            <th>State</th>
-                                            <th>Country</th>
-                                            <th>Id proof 1</th>
-                                            <th>Id proof 2</th>
+                                            <th>Address</th>                                           
                                             <th>Role</th>
-                                            <th>Username</th>
-                                            <th>Added by</th>
+                                            <th>Username</th>                                            
                                             <th>last login type</th>
                                             <th>last login date-time</th>                                            
                                             <th>isActive</th>

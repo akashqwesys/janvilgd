@@ -17,7 +17,7 @@ class AttributeController extends Controller
     }
 
     public function add() {
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order', 'ASC')->get();
         $data['category'] = $categories;      
         $data['title'] = 'Add-Attributes';
         return view('admin.attributes.add', ["data" => $data]);
@@ -103,7 +103,7 @@ class AttributeController extends Controller
 
     public function edit($id) {
 
-        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
                        
         $result = DB::table('attributes')->where('attribute_id', $id)->first();
         $attribute_cat = DB::table('attribute_groups')->where('attribute_group_id', $result->attribute_group_id)->where('is_active', 1)->where('is_deleted', 0)->first();  
