@@ -1014,7 +1014,8 @@ class DiamondsController extends Controller {
         $image=json_encode($imgData);                
                 
         
-        DB::table('diamonds')->insert([           
+        DB::table('diamonds')->insert([
+            'name'=>$name,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
