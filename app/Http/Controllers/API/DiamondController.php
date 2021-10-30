@@ -97,7 +97,7 @@ class DiamondController extends Controller
             ->get()
             // ->pluck('diamond_id')
             ->toArray();
-        dd($diamond_ids);
+        // dd($diamond_ids);
         $final_d = [];
         $final_d2 = [];
         $k=0;
@@ -130,7 +130,7 @@ class DiamondController extends Controller
             }
         }
         // die;
-        dd($diamond_ids);
+        // dd($final_d);
 
         /* $data = DB::table('diamonds as d')
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
@@ -144,7 +144,7 @@ class DiamondController extends Controller
             ->get()
             ->toArray(); */
 
-        $data = [];
+        /* $data = [];
         foreach ($diamond_ids as $k => $v) {
             $data[] = DB::table('diamonds as d')
                 ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
@@ -182,9 +182,8 @@ class DiamondController extends Controller
                     }
                 }
             }
-        }
-        dd($diamonds);
-        return $this->successResponse('Success', $data);
+        } */
+        return $this->successResponse('Success', $final_d);
     }
 
     /* public function searchDiamonds(Request $request)
