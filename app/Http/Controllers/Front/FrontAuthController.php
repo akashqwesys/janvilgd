@@ -330,7 +330,7 @@ class FrontAuthController extends Controller
                             $user->otp_status = 1;
                             $user->save();
                             // Auth::loginUsingId($user->customer_id);
-                            return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/']);
+                            return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/', 'token' => encrypt($user->email, false)]);
                         }
                     } else {
                         return response()->json(['error' => 1, 'message' => 'Incorrect OTP']);
