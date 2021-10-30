@@ -32,13 +32,13 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
 		        <li class="nav-item">
-		          <a class="nav-link active" href="login">Rough Diamonds</a>
+		          <a class="nav-link active" href="/customer/login">Rough Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="login">4P Diamonds</a>
+		          <a class="nav-link active" href="/customer/login">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="login">Polish Diamonds</a>
+		          <a class="nav-link active" href="/customer/login">Polish Diamonds</a>
 		        </li>
 
 		      </ul>
@@ -49,7 +49,7 @@
 		    			<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="assets/images/menu-icon.svg" data-pagespeed-url-hash="1515657107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
 		    		</li>
 		    		<li class="nav-item">
-		    			<a class="nav-link active" aria-current="page" href="login"><img src="assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+		    			<a class="nav-link active" aria-current="page" href="/customer/login"><img src="assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
 		    		</li>
 		    	</ul>
 		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -64,9 +64,9 @@
 		    				<li><a class="nav-link" aria-current="page" href="contact">Contact</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="login">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="login">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="login">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/login">Rough Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/login">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/login">Polish Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="diamonds">What we have?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="event">Events</a></li>
