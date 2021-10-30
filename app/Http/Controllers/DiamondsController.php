@@ -936,22 +936,41 @@ class DiamondsController extends Controller {
             $i = $i + 1;
         }
         
-//        $categories = DB::table('attributes')->where('attribute_id')->where('is_active', 1)->where('is_deleted', 0)->first();  
-        
+       $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
+               ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
+               ->whereIn('attributes.attribute_id',$batch_array1)->get();  
+       
 //        0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
 
 
         
         
         
+        $shape='';
+        $color='';
+        $clarity='';
         
-        $name='';
+        if(!empty($name_data)){
+            foreach ($name_data as $row){
+                if($row->ag_name=='SHAPE'){
+                    $shape=$row->at_name;
+                }
+                if($row->ag_name=='COLOR'){
+                    $color=$row->at_name;
+                }
+                if($row->ag_name=='CLARITY'){
+                    $clarity=$row->at_name;
+                }
+            }
+        }
+        $name=$request->expected_polish_cts.' Carat '.$shape.' Shape  • '.$color.' Color  • '.$clarity.' Clarity :: '.$categories->name;
+        
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             
         
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();      
             
-        $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
+//        $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge_4p->amount; 
@@ -960,7 +979,7 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
             
           
-            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
+//            $name.=$row['shape'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $discount=((100-$request->discount)/100);             
             $price=abs($request->rapaport_price*($discount));
@@ -972,7 +991,7 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             
             $discount=((100-$request->discount)/100);     
-            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
+//            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['exp_pol_cts'].'-'.'CTS'.'-'.$categories->name;
             
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
         }        
