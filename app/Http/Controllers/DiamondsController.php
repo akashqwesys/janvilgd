@@ -919,6 +919,32 @@ class DiamondsController extends Controller {
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();                        
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first(); 
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();  
+        
+        
+        
+        
+        $batch_array1 = array();
+        $i = 0;
+        foreach ($request->attribute_group_id as $row) {                            
+            $main_value = explode('_', $request->attribute_group_id_value[$i]);
+            if (isset($main_value[1])) {
+                if ($main_value[1] == $row) {
+                    $refAttribute_id = $main_value[0];                   
+                    array_push($batch_array1, $refAttribute_id);
+                }                
+            }            
+            $i = $i + 1;
+        }
+        
+        $categories = DB::table('attributes')->where('attribute_id',)->where('is_active', 1)->where('is_deleted', 0)->first();  
+        
+//        0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
+
+
+        
+        
+        
+        
         $name='';
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             
@@ -969,8 +995,7 @@ class DiamondsController extends Controller {
         $image=json_encode($imgData);                
                 
         
-        DB::table('diamonds')->insert([
-            'name' =>  $name,
+        DB::table('diamonds')->insert([           
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
