@@ -27,13 +27,33 @@
                 $(this).attr('data-selected', 1);
             }
         });
+        // Generic helper function that can be used for the three operations:
+        function operation(list1, list2, isUnion = true) {
+            var result = [];
+
+            for (var i = 0; i < list1.length; i++) {
+                var item1 = list1[i],
+                    found = false;
+                for (var j = 0; j < list2.length && !found; j++) {
+                    found = item1.name === list2[j];
+                }
+                if (found === !!isUnion) { // isUnion is coerced to boolean
+                    result.push(item1);
+                }
+            }
+            return result;
+        }
         function getAttributeValues(values, array, group_id) {
             var selected_values = [];
+            var strArray = values.split(",");
             /* $.each(array, function(k, v) {
                 selected_values.push(v.attribute_id);
             }); */
-            const filteredArray = array.filter(value => array2.includes(value));
-            console.log(array);
+            if (group_id != 'price' && group_id != 'carat') {
+
+                var intersect = operation(array, strArray);
+                console.log(intersect.slice(0,2));
+            }
             return false;
 
             $.ajax({
