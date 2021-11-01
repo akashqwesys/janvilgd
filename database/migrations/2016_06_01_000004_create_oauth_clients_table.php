@@ -7,23 +7,6 @@ use Illuminate\Support\Facades\Schema;
 class CreateOauthClientsTable extends Migration
 {
     /**
-     * The database schema.
-     *
-     * @var \Illuminate\Database\Schema\Builder
-     */
-    protected $schema;
-
-    /**
-     * Create a new migration instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->schema = Schema::connection($this->getConnection());
-    }
-
-    /**
      * Get the migration connection name.
      *
      * @return string|null
@@ -40,7 +23,7 @@ class CreateOauthClientsTable extends Migration
      */
     public function up()
     {
-        $this->schema->create('oauth_clients', function (Blueprint $table) {
+        Schema::create('oauth_clients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('name');
@@ -61,6 +44,6 @@ class CreateOauthClientsTable extends Migration
      */
     public function down()
     {
-        $this->schema->dropIfExists('oauth_clients');
+        Schema::dropIfExists('oauth_clients');
     }
 }

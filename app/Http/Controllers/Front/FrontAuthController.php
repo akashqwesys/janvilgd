@@ -100,14 +100,14 @@ class FrontAuthController extends Controller
                     ]);
                     $email = $request->email;
                 }
-                /* Mail::to($email)
+                Mail::to($email)
                 ->send(
                     new EmailVerification([
                         'name' => $email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
                     ])
-                ); */
+                );
                 return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($email)]);
             }
             catch (\Exception $e) {
@@ -321,8 +321,7 @@ class FrontAuthController extends Controller
                 if (!$user) {
                     return response()->json(['error' => 1, 'message' => 'Not authorized', 'url' => '/customer/login']);
                 } else {
-                    // if ($request->otp == $user->otp) {
-                    if ($request->otp == 1111) {
+                    if ($request->otp == $user->otp) {
                         if ($user->name == ' ' || strlen($user->name) < 3) {
                             $user->otp_status = 1;
                             $user->save();
