@@ -52,10 +52,10 @@ class AuthController extends Controller
                 $email = $exists->email;
             } else {
                 if (empty($request->mobile)) {
-                    return response()->json(['error' => 1, 'message' => 'Please also enter your phone number']);
+                    return $this->errorResponse('Please also enter your phone number');
                 }
                 if (empty($request->email)) {
-                    return response()->json(['error' => 1, 'message' => 'Please also enter your email address']);
+                    return $this->errorResponse('Please also enter your email address');
                 }
                 $customer = new Customers;
                 $customer->name = ' ';
