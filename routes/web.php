@@ -30,6 +30,7 @@ use App\Http\Controllers\DiamondsController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
+use App\Http\Controllers\RapaortController;
 
 use App\Http\Controllers\Front\TestController;
 /*
@@ -382,6 +383,21 @@ Route::post('diamonds/delete', [DiamondsController::class, 'delete'])->name('dia
 Route::post('diamonds/status', [DiamondsController::class, 'status'])->name('diamonds.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('diamonds/add/import', [DiamondsController::class, 'fileImport'])->name('diamonds.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])->name('diamonds.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+/***************  Diamonds route end *************/
+
+
+/***************  Diamonds route *************/
+Route::get('rapaport', [RapaortController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('rapaport/list', [RapaortController::class, 'list'])->name('rapaport.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('rapaport/add', [RapaortController::class, 'add'])->name('rapaport.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('rapaport/save', [RapaortController::class, 'save'])->name('rapaport.save')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('rapaport/update', [RapaortController::class, 'update'])->name('rapaport.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('rapaport/edit/{id}', [RapaortController::class, 'edit'])->name('rapaport.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('rapaport/add/import', [RapaortController::class, 'fileImport'])->name('rapaport.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('rapaport/add/import-excel', [RapaortController::class, 'addExcel'])->name('rapaport.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+Route::post('rapaport/update/price', [RapaortController::class, 'update_price'])->name('rapaport.updatePrice')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Diamonds route end *************/
 

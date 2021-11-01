@@ -7,6 +7,7 @@ use DB;
 use Hash;
 use Session;
 use App\Models\LabourCharges;
+use App\Models\Diamonds;
 use DataTables;
 
 class LabourChargesController extends Controller {
@@ -91,8 +92,9 @@ class LabourChargesController extends Controller {
     public function update(Request $request) {
         $labour_charge = LabourCharges::select('amount')->where('labour_charge_id',$request->id)->first();
         if($request->id==1){            
-            $cat_id = DB::table('categories')->select('category_id')->where('category_type',1)->first();            
-            DB::table('diamonds')->where('refCategory_id', $cat_id->category_id)->update(['total' => "total+intval($labour_charge->amount - $request->amount)"]);
+            $cat_id = DB::table('categories')->select('category_id')->where('category_type',1)->first();
+            $charge=$labour_charge->amount-$request->amount;
+            Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+$charge")]);
         }
         DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([            
             'name' => $request->name,

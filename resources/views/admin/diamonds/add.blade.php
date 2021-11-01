@@ -214,21 +214,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="row g-3 align-center d-none" id="rapaport_price">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row g-3 align-center d-none" id="discount">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
@@ -243,6 +228,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row g-3 align-center d-none" id="rapaport_price">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">                                            
+                                                <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off">                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
                                     <div class="row g-3 align-center d-none" id="weight_loss">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
@@ -253,6 +253,23 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+<div class="row g-3 align-center d-none" id="image">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">                                            
+                                                <label class="form-label float-md-right" for="image">Image:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">                                           
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="image[]" class="custom-file-input" multiple="">
+                                                        <label class="custom-file-label" for="image">Choose file</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,23 +288,7 @@
                                             </div>
                                         </div>
                                     </div>                            
-                                    <div class="row g-3 align-center d-none" id="image">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="image">Image:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">                                           
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-file">
-                                                        <input type="file" name="image[]" class="custom-file-input" multiple="">
-                                                        <label class="custom-file-label" for="image">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                  
+                                                                      
                                     <hr>
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {
@@ -374,33 +375,37 @@
                                             </div>                                                
                                         </div>
                                         <input type="hidden" id="labour_charge_4p" value="<?php echo $data['labour_charge_4p']; ?>">
-                                         <input type="hidden" id="labour_charge_rough" value="<?php echo $data['labour_charge_rough']; ?>">
+                                        <input type="hidden" id="labour_charge_rough" value="<?php echo $data['labour_charge_rough']; ?>">
                                         <div class="traffic-channel text-dark">                                                        
                                             <div class="traffic-channel-group g-2">                                                            
                                                 <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price/CT</span></div>
                                                     <div class="amount" id="display_rapa"></div>
-                                                </div>
-                                                <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Makable cts/Org cts</span></div>
-                                                    <div class="amount" id="display_makable_cts"></div>
-                                                </div>
-                                                <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Expected polish cts</span></div>
-                                                    <div class="amount" id="display_exp_pol_cts"></div>
-                                                </div>
+                                                </div>                                                                                                                                                                                                                                             
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
                                                     <div class="amount" id="display_discount"></div>
                                                 </div> 
+                                                <div class="traffic-channel-data price_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>
+                                                    <div class="amount" id="display_price"></div>
+                                                </div>
                                                 <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_exp_pol_cts_text">Expected polish cts</span></div>
+                                                    <div class="amount" id="display_exp_pol_cts"></div>
+                                                </div>
+                                                <div class="traffic-channel-data makable_cts_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable cts</span></div>
+                                                    <div class="amount" id="display_makable_cts"></div>
+                                                </div>  
+                                                <div class="traffic-channel-data labour_charges_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
                                                 </div> 
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
-                                                    <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price</h6></span></div>
-                                                    <div class="amount text-center align-center" id="display_current_price"></div>
+                                                    <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
+                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price"></div>
                                                 </div>  
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->

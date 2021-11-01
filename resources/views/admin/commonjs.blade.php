@@ -91,54 +91,72 @@
                     var makable_cts = $("#makable_cts_input").val();
                     var labour_charge_4p = $("#labour_charge_4p").val();
                     var labour_charge_rough = $("#labour_charge_rough").val();
+                    
+                    $("#display_exp_pol_cts").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
+                    
+                    $("#display_rapa").text('');
                     if (rapaport_price !== '' && rapaport_price !== 0) {
                         $("#display_rapa").text(rapaport_price);
                     }
-                    if (discount === '') {
-                        discont = 0;
+                    
+                    $("#display_discount").text('0%');
+                    if (discount >=1) {
+                        $("#display_discount").text(discount+'%');
                     }
-                    $("#display_discount").text(discount);
                     discount = (100 - discount) / 100;
 
-                    if (makable_cts !== '' && makable_cts !== 0) {
+                    $("#display_makable_cts").text('');
+                    if (makable_cts !== '' && makable_cts !== 0) {                        
                         $("#display_makable_cts").text(makable_cts);
                     }
+                    
+                    $("#display_current_price").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
                         let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge_4p;
-                        $("#display_current_price").text(c_price);
+                        $("#display_current_price").text('$'+c_price);
                     }
                 }
-                if (cat_name == 'Rough Diamonds') {
-                    var expected_polish_cts = $("#expected_polish_cts_input").val();
+                if (cat_name == 'Rough Diamonds') {                    
+                   
+                    var expected_polish_cts = $("#expected_polish_cts_input").val();                    
                     var rapaport_price = $("#rapaport_price_input").val();
                     var discount = $("#discount_input").val();
                     var makable_cts = $("#makable_cts_input").val();
                     var labour_charge_4p = $("#labour_charge_4p").val();
                     var labour_charge_rough = $("#labour_charge_rough").val();
+                    
+                    $("#display_exp_pol_cts").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
+                    
+                    $("#display_rapa").text('');
                     if (rapaport_price !== '' && rapaport_price !== 0) {
-                        $("#display_rapa").text(rapaport_price);
+                        $("#display_rapa").text(rapaport_price+'/CT');
                     }
-                    if (discount === '') {
-                        discont = 0;
-                    }
-                    $("#display_discount").text(discount);
+                    
+                    $("#display_discount").text('0%');
+                    if (discount >=1) {
+                        $("#display_discount").text(discount+'%');
+                    }                    
                     discount = (100 - discount) / 100;
+                    
+                    $("#display_makable_cts").text('');
                     if (makable_cts !== '' && makable_cts !== 0) {
                         $("#display_makable_cts").text(makable_cts);
                     }
+                    
+                    $("#display_current_price").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0 && makable_cts !== '' && makable_cts !== 0) {
                         var price = Math.abs(rapaport_price * (discount));
                         var amount = Math.abs(price * expected_polish_cts);
                         var ro_amount = Math.abs(amount / makable_cts);
                         var final_price = ro_amount - labour_charge_rough;
                         var total = Math.abs(final_price * makable_cts);
-                        $("#display_current_price").text(total.toFixed(2));
+                        $("#display_current_price").text('$'+total.toFixed(2));
                     }
                 }
                 if (cat_name == 'Polish Diamonds') {
@@ -148,27 +166,44 @@
                     var makable_cts = $("#makable_cts_input").val();
                     var labour_charge_4p = $("#labour_charge_4p").val();
                     var labour_charge_rough = $("#labour_charge_rough").val();
+                    
+                    $("#display_exp_pol_cts").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
                         $("#display_exp_pol_cts").text(expected_polish_cts);
                     }
+                    
+                    $("#display_rapa").text('');
                     if (rapaport_price !== '' && rapaport_price !== 0) {
-                        $("#display_rapa").text(rapaport_price);
+                        $("#display_rapa").text(rapaport_price+'/CT');
                     }
-                    if (discount === '') {
-                        discont = 0;
+                    
+                    $("#display_discount").text('');
+                    if (discount >=1) {
+                        $("#display_discount").text(discount+'%');
                     }
-                    $("#display_discount").text(discount);
+                    
                     discount = (100 - discount) / 100;
+                    
+                    $("#display_makable_cts").text('');
                     if (makable_cts !== '' && makable_cts !== 0) {
                         $("#display_makable_cts").text(makable_cts);
-                    }
+                    }  
+                    
+                    $("#display_price").text('');
+                    if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
+                        $("#display_price").text((rapaport_price*discount)+'/CT');
+                    }   
+                    
+                    $("#display_current_price").text('');
                     if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {                       
                         var total = Math.abs(expected_polish_cts * rapaport_price*discount);
-                        $("#display_current_price").text(total.toFixed(2));
+                        
+                        $("#display_current_price").text('$'+total.toFixed(2));
                     }
                 }
             }
             function show_diamond_form_field(){
+                                
                 var cat_val = $("#refCategory_id").children("option").filter(":selected").val();
                 var cat_name = $("#refCategory_id").children("option").filter(":selected").text();
 
@@ -179,10 +214,19 @@
                 $(".attr_grp_" + cat_val).removeClass("d-none");
 
                 if (cat_name == '4P Diamonds') {
+                    $(".makable_cts_div").removeClass("d-none");
+                    $(".labour_charges_div").removeClass("d-none"); 
+                    $(".price_div").addClass("d-none"); 
+                    $("#display_exp_pol_cts_text").html('');
+                    $("#display_exp_pol_cts_text").text("Expected polish cts");
+                    $("#display_makable_cts_text").html('');
+                    $("#display_makable_cts_text").text("Makable cts");
+                    
+                    
                     $("#makable_cts_label").html('');
                     $("#makable_cts_label").text('Makable cts:');
                     $("#display_labour_charges").html('');
-                    $("#display_labour_charges").text(labour_charge_4p);
+                    $("#display_labour_charges").text('$'+labour_charge_4p);
 
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Expected polish cts:');
@@ -213,13 +257,19 @@
                     $("#video_link").removeClass("d-none");
                     $("#image").removeClass("d-none");
                 }
-                if (cat_name == 'Polish Diamonds') {
-                    
+                if (cat_name == 'Polish Diamonds') {  
+                    $("#display_labour_charges").html('');                    
+                    $(".labour_charges_div").addClass("d-none");
+                    $(".price_div").removeClass("d-none"); 
+                    $(".makable_cts_div").addClass("d-none");
+                      
+                    $("#display_exp_pol_cts_text").html('');
+                    $("#display_exp_pol_cts_text").text("Carat weight");  
+                                                                  
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Weight:');
                     
-                    $("#display_labour_charges").html('');                    
-
+                   
                     $("#barcode").addClass("d-none");
                     $("#packate_no").addClass("d-none");
                     $("#actual_pcs").addClass("d-none");
@@ -241,10 +291,21 @@
                     $("#image").removeClass("d-none");
                 }
                 if (cat_name == 'Rough Diamonds') {
+                                                                                
+                    $(".makable_cts_div").removeClass("d-none");
+                    $(".labour_charges_div").removeClass("d-none");  
+                    $(".price_div").addClass("d-none"); 
+                     
+                    $("#display_exp_pol_cts_text").html('');
+                    $("#display_exp_pol_cts_text").text("Expected polish cts");
+                    $("#display_makable_cts_text").html('');
+                    $("#display_makable_cts_text").text("Original cts"); 
+                    
+                    
                     $("#makable_cts_label").html('');
                     $("#makable_cts_label").text('Org cts:');                    
                     $("#display_labour_charges").html('');
-                    $("#display_labour_charges").text(labour_charge_rough);
+                    $("#display_labour_charges").text('$'+labour_charge_rough);
 
                     $("#expected_polish_cts_label").html('');
                     $("#expected_polish_cts_label").text('Expected polish cts:');

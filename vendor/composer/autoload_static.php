@@ -220,6 +220,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         ),
         'I' => 
         array (
+            'Ixudra\\Curl\\' => 12,
             'Illuminate\\Support\\' => 19,
             'Illuminate\\' => 11,
         ),
@@ -584,6 +585,10 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         array (
             0 => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src',
         ),
+        'Ixudra\\Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ixudra/curl/src',
+        ),
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Macroable',
@@ -769,10 +774,12 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Http\\Controllers\\Front\\DiamondController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/DiamondController.php',
         'App\\Http\\Controllers\\Front\\FrontAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/FrontAuthController.php',
         'App\\Http\\Controllers\\Front\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/HomeController.php',
+        'App\\Http\\Controllers\\Front\\TestController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/TestController.php',
         'App\\Http\\Controllers\\InformativePagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/InformativePagesController.php',
         'App\\Http\\Controllers\\LabourChargesController' => __DIR__ . '/../..' . '/app/Http/Controllers/LabourChargesController.php',
         'App\\Http\\Controllers\\ModulesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ModulesController.php',
         'App\\Http\\Controllers\\PaymentModesController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaymentModesController.php',
+        'App\\Http\\Controllers\\RapaortController' => __DIR__ . '/../..' . '/app/Http/Controllers/RapaortController.php',
         'App\\Http\\Controllers\\SettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/SettingsController.php',
         'App\\Http\\Controllers\\SlidersController' => __DIR__ . '/../..' . '/app/Http/Controllers/SlidersController.php',
         'App\\Http\\Controllers\\StateController' => __DIR__ . '/../..' . '/app/Http/Controllers/StateController.php',
@@ -817,6 +824,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Models\\LabourCharges' => __DIR__ . '/../..' . '/app/Models/LabourCharges.php',
         'App\\Models\\Modules' => __DIR__ . '/../..' . '/app/Models/Modules.php',
         'App\\Models\\PaymentModes' => __DIR__ . '/../..' . '/app/Models/PaymentModes.php',
+        'App\\Models\\Rapaport' => __DIR__ . '/../..' . '/app/Models/Rapaport.php',
         'App\\Models\\Settings' => __DIR__ . '/../..' . '/app/Models/Settings.php',
         'App\\Models\\Sliders' => __DIR__ . '/../..' . '/app/Models/Sliders.php',
         'App\\Models\\State' => __DIR__ . '/../..' . '/app/Models/State.php',
@@ -3468,6 +3476,10 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Ixudra\\Curl\\Builder' => __DIR__ . '/..' . '/ixudra/curl/src/Builder.php',
+        'Ixudra\\Curl\\CurlService' => __DIR__ . '/..' . '/ixudra/curl/src/CurlService.php',
+        'Ixudra\\Curl\\CurlServiceProvider' => __DIR__ . '/..' . '/ixudra/curl/src/CurlServiceProvider.php',
+        'Ixudra\\Curl\\Facades\\Curl' => __DIR__ . '/..' . '/ixudra/curl/src/Facades/Curl.php',
         'Jaybizzle\\CrawlerDetect\\CrawlerDetect' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/CrawlerDetect.php',
         'Jaybizzle\\CrawlerDetect\\Fixtures\\AbstractProvider' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/AbstractProvider.php',
         'Jaybizzle\\CrawlerDetect\\Fixtures\\Crawlers' => __DIR__ . '/..' . '/jaybizzle/crawler-detect/src/Fixtures/Crawlers.php',

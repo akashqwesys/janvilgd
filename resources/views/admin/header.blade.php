@@ -473,6 +473,7 @@
         @include('admin.attributeGroups.list_js')
         @include('admin.attributes.list_js')
         @include('admin.diamonds.list_js')
+        @include('admin.rapaport.list_js')
         @include('admin.commonjs')
 
         <?php
@@ -489,6 +490,29 @@ $(document).ready(function () {
     $(document).on('click', '.submit_btn', function () {
         $('.submit_btn').get(0).submit();
     });
+    
+    
+    
+     if (<?php
+        if (!empty(session()->get('request_check'))) {
+            echo session()->get('request_check');
+        } else {
+            echo 0;
+        }
+        ?> === 1)
+    {
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "{{ route('rapaport.updatePrice') }}",
+                    success: function (res) {
+                        
+                    }
+                });
+<?php session(['request_check' => 0]); ?>
+    }
+    
+    
     if (<?php
         if (!empty(session()->get('error'))) {
             echo session()->get('error');
