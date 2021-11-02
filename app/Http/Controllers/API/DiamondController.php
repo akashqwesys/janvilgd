@@ -69,10 +69,19 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-        /* if ($request->session()->all()) {
-            echo 'ok';
-        } */
-        dd($response);
+        if ($request->web == 'web') {
+            $request->session()->forget('diamond_filters');
+            if ($request->session()->has('diamond_filters')) {
+            } else {
+                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                $new[$request->group_id] = $response;
+                $request->session()->push('diamond_filters', $new);
+            }
+            dd($request->session()->get('diamond_filters'));
+        } else {
+            dd($response);
+        }
+        die;
         $attribute_groups = array_keys($response);
 
         $attr = [];

@@ -27,39 +27,29 @@
                 $(this).attr('data-selected', 1);
             }
         });
-        // Generic helper function that can be used for the three operations:
-        function operation(list1, list2, isUnion = true) {
-            var result = [];
 
-            for (var i = 0; i < list1.length; i++) {
-                var item1 = list1[i],
-                    found = false;
-                for (var j = 0; j < list2.length && !found; j++) {
-                    found = item1.name === list2[j];
-                }
-                if (found === !!isUnion) { // isUnion is coerced to boolean
-                    result.push(item1);
-                }
-            }
-            return result;
-        }
         function getAttributeValues(values, array, group_id) {
             var selected_values = [];
             var strArray = values.split(",");
-            /* $.each(array, function(k, v) {
-                selected_values.push(v.attribute_id);
-            }); */
             if (group_id != 'price' && group_id != 'carat') {
-
-                var intersect = operation(array, strArray);
-                console.log(intersect.slice(0,2));
+                var first_index = array.map(function (e) {
+                    return e.name;
+                }).indexOf(strArray[0]);
+                var last_index = array.map(function (e) {
+                    return e.name;
+                }).indexOf(strArray[1]);
+                for (let i = first_index; i <= last_index; i++) {
+                    selected_values.push(array[i]);
+                }
+            } else {
+                selected_values = strArray;
             }
-            return false;
+            // console.log(selected_values);
 
             $.ajax({
                 type: "post",
                 url: "/api/search-diamonds",
-                data: {'attribute_values': selected_values, 'group_id': group_id},
+                data: {'attribute_values': selected_values, 'group_id': group_id, 'web': 'web'},
                 cache: false,
                 dataType: "json",
                 success: function (response) {
