@@ -53,6 +53,7 @@ class DiamondController extends Controller
                 } else {
                     $j++;
                     $final_attr_fix[$attr_groups[$j]]['name'] = $v->ag_name;
+                    $final_attr_fix[$attr_groups[$j]]['is_fix'] = $v->is_fix;
                     $final_attr_fix[$attr_groups[$j]]['attributes'][] = [
                         'attribute_id' => $v->attribute_id,
                         'name' => $v->name,
@@ -66,7 +67,7 @@ class DiamondController extends Controller
         foreach ($final_attr_fix as $k => $v) {
             if ($v['name'] == 'SHAPE') {
                 foreach ($v['attributes'] as $v1)  {
-                    $list .= '<li class="item"><a href="javascript:void(0);"><img src="'. $v1['image'].'" class="img-fluid d-block" alt="diamond-shape" data-selected="0"></a></li>';
+                    $list .= '<li class="item"><a href="javascript:void(0);"><img src="'. $v1['image']. '" class="img-fluid d-block" alt="diamond-shape" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="'. $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                 }
                 $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-shape filter-item align-items-center">
@@ -172,6 +173,7 @@ class DiamondController extends Controller
                 } else {
                     $j++;
                     $final_attr_none_fix[$attr_groups[$j]]['name'] = $v->ag_name;
+                    $final_attr_none_fix[$attr_groups[$j]]['is_fix'] = $v->is_fix;
                     $final_attr_none_fix[$attr_groups[$j]]['attributes'][] = [
                         'attribute_id' => $v->attribute_id,
                         'name' => $v->name,
@@ -181,7 +183,46 @@ class DiamondController extends Controller
             }
         }
 
+        $none_fix = null;
+        foreach ($final_attr_none_fix as $k => $v) {
+            $values = [];
+            $default_values = [];
+            $i = 0;
+            foreach ($v['attributes'] as $v1) {
+                $values[] = $v1['name'];
+                $default_values[$i]['attribute_id'] = $v1['attribute_id'];
+                $default_values[$i]['name'] = $v1['name'];
+                $i++;
+            }
+            $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                    <div class="diamond-cut filter-item">
+                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <div class="range-sliders">
+                            <input type="text" id="Slider' . $k . '"/>
+                        </div>
+                    </div>
+                </div>';
+            $none_fix .= "<script type='text/javascript'>
+                var Slider" . $k . " = new rSlider({
+                    target: '#Slider" . $k . "',
+                    values: ['" . implode("','", $values) . "'],
+                    range: true,
+                    tooltip: false,
+                    scale: true,
+                    labels: true,
+                    set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
+                    onChange: function (vals) {
+                        var array = " . json_encode($default_values) . ";
+                        getAttributeValues(vals, array, " . $k . ");
+                    }
+            });
+            </script>";
+        }
+        $recently_viewed = DB::table('recently_view_diamonds')
+            ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
+            ->orderBy('id', 'desc')
+            ->get();
         $title = 'Search Diamonds';
-        return view('front.search_diamonds', compact('title', 'html'));
+        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
     }
 }

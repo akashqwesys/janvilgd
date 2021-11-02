@@ -13,6 +13,12 @@ class RecentlyViewDiamond extends Model
         'refCustomer_id',
         'refDiamond_id',
         'refAttribute_group_id',
-        'refAttribute_id'
+        'refAttribute_id',
+        'carat',
+        'price',
+        'shape',
+        'cut',
+        'color',
+        'clarity'
     ];
 }

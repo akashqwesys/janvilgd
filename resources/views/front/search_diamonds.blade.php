@@ -14,11 +14,13 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+    <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
     <script src="/assets/js/rSlider.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(document).on('click', '.diamond-shape .item img', function () {
+            var group_id = $(this).attr('data-group_id');
             if ($(this).attr('data-selected') == 1) {
                 $(this).css('border', '4px solid #00000000');
                 $(this).attr('data-selected', 0);
@@ -26,12 +28,22 @@
                 $(this).css('border', '4px solid #D2AB66');
                 $(this).attr('data-selected', 1);
             }
+            var values = [];
+            $('.diamond-shape .item img').each(function(index, element) {
+                if ($(this).attr('data-selected') == 1) {
+                    values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+                }
+            });
+            getAttributeValues(values, [], group_id);
         });
 
         function getAttributeValues(values, array, group_id) {
+            $('.cs-loader').show();
             var selected_values = [];
-            var strArray = values.split(",");
-            if (group_id != 'price' && group_id != 'carat') {
+            if (values.length > 1) {
+                var strArray = values.split(",");
+            }
+            if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
                 var first_index = array.map(function (e) {
                     return e.name;
                 }).indexOf(strArray[0]);
@@ -41,6 +53,8 @@
                 for (let i = first_index; i <= last_index; i++) {
                     selected_values.push(array[i]);
                 }
+            } else if (array.length === 0) {
+                selected_values = values;
             } else {
                 selected_values = strArray;
             }
@@ -50,9 +64,10 @@
                 type: "post",
                 url: "/api/search-diamonds",
                 data: {'attribute_values': selected_values, 'group_id': group_id, 'web': 'web'},
-                cache: false,
+                // cache: false,
                 dataType: "json",
                 success: function (response) {
+                    $('.cs-loader').hide();
                     if (response.success == 1) {
                         $.toast({
                             heading: 'Success',
@@ -60,6 +75,8 @@
                             icon: 'success',
                             position: 'top-right'
                         });
+                        // return false;
+                        $('#result-table tbody').html(response.data);
                     }
                     else {
                         $.toast({
@@ -71,6 +88,7 @@
                     }
                 },
                 failure: function (response) {
+                    $('.cs-loader').hide();
                     $.toast({
                         heading: 'Error',
                         text: 'Oops, something went wrong...!',
@@ -80,8 +98,15 @@
                 }
             });
         }
-
-        $(document).on('change')
+        $(document).on('click', '#result-table .diamond-checkbox', function() {
+            $(this).attr('checked', true);
+            $('#compare-table tbody').append('<tr>'+$(this).closest('tr').html()+'</tr>');
+            $(this).closest('tr').remove();
+        });
+        $(document).on('click', '#compare-table .diamond-checkbox', function() {
+            $('#result-table tbody').append('<tr>'+$(this).closest('tr').html()+'</tr>');
+            $(this).closest('tr').remove();
+        });
     </script>
     <style>
         /* CSS for input range sliders */
@@ -117,49 +142,7 @@
     </style>
 </head>
 <body>
-	<header class="header-style-2">
-		<nav class="navbar navbar-expand-lg">
-		  <div class="container">
-		    <a class="navbar-brand" href="/"><img src="/assets/images/logo.png" class="img-fluid"></a>
-		   	<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
-				<img src="/assets/images/menu-icon.svg">
-			</button>
-			<div class="navbar-collapse offcanvas-collapse offcanvas-style-2" id="navbarsExampleDefault">
-				<div class="offcanvas-header">
-					<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-				</div>
-				<div class="offcanvas-body">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link active" href="/">Home</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="about.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								About Us
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="gallery.php">Gallery</a></li>
-								<li><a class="dropdown-item" href="media.php">Media</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="blog.php">Blog</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="contact.php">Contact</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		    <ul class="header-icon-menu">
-		      	<li><a class="nav-link active" href="search-for-diamonds.php"><img src="/assets/images/theme_search.svg"></a></li>
-		      	<li><a class="nav-link active" href="cart.php"><img src="/assets/images/shopping-cart.svg"></a></li>
-		      	<li><a class="nav-link active" href="wishlist.php"><img src="/assets/images/theme_heart_icon.svg"></a></li>
-		      	<li><a class="nav-link active" href="login.php"><img src="/assets/images/user.svg"></a></li>
-		      </ul>
-		  </div>
-		</nav>
-	</header>
+
 
     <section class="diamond-cut-section">
         <div class="container">
@@ -169,161 +152,7 @@
                     <div class="row">
                         {!! $html !!}
                     <div class="filter-toggle">
-                        <div class="row">
-                            <div class="col col-12 col-sm-12 col-md-12">
-                                <div class="">
-                                    <label class="custom-check-box">Real View Avilable
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="custom-check-box">Quick Ship Diamonds
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="custom-check-box">Hearts and arrows
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <hr>
-                                <div class="">
-                                    <label class="custom-check-box">Blockchain Enabled
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="custom-check-box">GIA Origin Report
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-origin filter-item">
-                                    <label>Origin<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="">
-                                        <label class="custom-check-box">Canada
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="custom-check-box">Bostwana Sort
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="custom-check-box">Russia
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="custom-check-box">Recycled
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-report filter-item">
-                                    <label>Report<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="">
-                                        <label class="custom-check-box">Gia
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="custom-check-box">IGI
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label class="custom-check-box">HSB
-                                            <input type="checkbox">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-lw-ratio filter-item">
-                                    <label>Lw Ratio<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="1">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000"/>
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-flour filter-item">
-                                    <label>flour<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="2">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                        <ul class="list-unstyled mb-0 flour-slider-data slider-data">
-                                            <li>Very Good</li>
-                                            <li>Strong</li>
-                                            <li>Medium</li>
-                                            <li>Faint</li>
-                                            <li>None</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-polish filter-item">
-                                    <label>Polish<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="1">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                        <ul class="list-unstyled mb-0 polish-slider-data slider-data">
-                                            <li>Good</li>
-                                            <li>Very Good</li>
-                                            <li>Excellent</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-summary filter-item">
-                                    <label>Summary<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="1">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                        <ul class="list-unstyled mb-0  summary-slider-data slider-data">
-                                            <li>Good</li>
-                                            <li>Very Good</li>
-                                            <li>Excellent</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-table filter-item">
-                                    <label>Table%<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="1">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-depth filter-item">
-                                    <label>Depth<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="min-max-slider" data-legendnum="1">
-                                        <input id="min" class="min" name="min" type="range" step="1" min="0" max="3000" />
-                                        <input id="max" class="max" name="max" type="range" step="1" min="0" max="3000" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-delivery filter-item align-items-center mb-0">
-                                    <label>Delivery</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>On or before</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                        {!! $none_fix !!}
                     </div>
                 </div>
                 <div class="filter-btn text-center">
@@ -334,13 +163,13 @@
             <div class="search-diamond-view">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results(200)</button>
+                        <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viwed(20)</button>
+                        <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Comparision(4)</button>
+                        <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Comparision </button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -363,241 +192,19 @@
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                     <div class="search-diamond-table">
                                         <div class="table-responsive">
-                                            <table class="table mb-0">
+                                            <table class="table mb-0" id="result-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Shape</th>
-                                                        <th scope="col" class="text-center">Price</th>
                                                         <th scope="col" class="text-center">Carat</th>
+                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-center">Shape</th>
                                                         <th scope="col" class="text-center">Cut</th>
                                                         <th scope="col" class="text-center">Color</th>
                                                         <th scope="col" class="text-center">Clarity</th>
-                                                        <th scope="col" class="text-center">Report</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -625,7 +232,7 @@
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                     <div class="search-diamond-table">
                                         <div class="table-responsive">
-                                            <table class="table mb-0">
+                                            <table class="table mb-0" id="recent-view">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">Shape</th>
@@ -634,62 +241,28 @@
                                                         <th scope="col" class="text-center">Cut</th>
                                                         <th scope="col" class="text-center">Color</th>
                                                         <th scope="col" class="text-center">Clarity</th>
-                                                        <th scope="col" class="text-center">Report</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($recently_viewed as $rv)
                                                     <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
+                                                        <td scope="col" class="text-center">{{ $rv->carat }}</td>
+                                                        <td scope="col" class="text-center">{{ $rv->price }}</td>
+                                                        <td scope="col" class="text-center">{{ $rv->shape }}</td>
+                                                        <td scope="col" class="text-center">{{ $rv->cut }}</td>
+                                                        <td scope="col" class="text-center">{{ $rv->color }}</td>
+                                                        <td scope="col" class="text-center">{{ $rv->clarity }}</td>
                                                         <td scope="col" class="text-center">
                                                             <div class="compare-checkbox">
                                                                 <label class="custom-check-box">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" class="diamond-checkbox">
                                                                     <span class="checkmark"></span>
                                                                 </label>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -717,7 +290,7 @@
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                     <div class="search-diamond-table">
                                         <div class="table-responsive">
-                                            <table class="table mb-0">
+                                            <table class="table mb-0" id="compare-table">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">Shape</th>
@@ -726,62 +299,10 @@
                                                         <th scope="col" class="text-center">Cut</th>
                                                         <th scope="col" class="text-center">Color</th>
                                                         <th scope="col" class="text-center">Clarity</th>
-                                                        <th scope="col" class="text-center">Report</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="col" class="text-center">Round</td>
-                                                        <td scope="col" class="text-center">$520.00</td>
-                                                        <td scope="col" class="text-center">4.5</td>
-                                                        <td scope="col" class="text-center">Ideal</td>
-                                                        <td scope="col" class="text-center">D</td>
-                                                        <td scope="col" class="text-center">VS1</td>
-                                                        <td scope="col" class="text-center">IGI</td>
-                                                        <td scope="col" class="text-center">
-                                                            <div class="compare-checkbox">
-                                                                <label class="custom-check-box">
-                                                                    <input type="checkbox">
-                                                                    <span class="checkmark"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -932,6 +453,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/assets/js/parallax.js"></script>
 <script src="/assets/js/slick.min.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/assets/js/custom-rSlider.js"></script> --}}
 </body>
 </html>

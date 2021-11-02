@@ -99,6 +99,7 @@
         $(document).on('keyup', '#no-4', function() {
             if ($(this).val()) {
                 var otp = $('#no-1').val() + $('#no-2').val() + $('#no-3').val() + $('#no-4').val();
+                $('.cs-loader').show();
                 $.ajax({
                     type: "post",
                     url: "/customer/verify",
@@ -106,6 +107,7 @@
                     cache: false,
                     dataType: "json",
                     success: function (response) {
+                        $('.cs-loader').hide();
                         if (response.success == 1) {
                             $.toast({
                                 heading: 'Success',
@@ -130,6 +132,7 @@
                         }
                     },
                     failure: function (response) {
+                        $('.cs-loader').hide();
                         $.toast({
                             heading: 'Error',
                             text: 'Oops, something went wrong...!',
@@ -142,6 +145,7 @@
         });
 
         $(document).on('click', '#resendOTP', function() {
+            $('.cs-loader').show();
             $.ajax({
                 type: "post",
                 url: "/customer/resendOTP",
@@ -149,6 +153,7 @@
                 cache: false,
                 dataType: "json",
                 success: function (response) {
+                    $('.cs-loader').hide();
                     if (response.success == 1) {
                         $.toast({
                             heading: 'Success',
@@ -168,6 +173,7 @@
                     }
                 },
                 failure: function (response) {
+                    $('.cs-loader').hide();
                     $.toast({
                         heading: 'Error',
                         text: 'Oops, something went wrong...!',

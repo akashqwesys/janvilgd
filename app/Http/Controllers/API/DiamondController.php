@@ -69,20 +69,60 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-        if ($request->web == 'web') {
-            $request->session()->forget('diamond_filters');
-            if ($request->session()->has('diamond_filters')) {
-            } else {
-                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                $new[$request->group_id] = $response;
-                $request->session()->push('diamond_filters', $new);
-            }
-            dd($request->session()->get('diamond_filters'));
-        } else {
-            dd($response);
+        // dd($request->all());
+        if (empty($response) || count($response) <= 1 ) {
+            return $this->errorResponse('No response found');
         }
-        die;
-        $attribute_groups = array_keys($response);
+        if ($request->web == 'web') {
+            // $request->session()->forget('diamond_filters');
+
+            if ($request->session()->has('diamond_filters')) {
+                $arr = $request->session()->get('diamond_filters');
+                /* if (isset($response['attribute_values'])) {
+                    if (is_array($response['attribute_values'])) {
+                        $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                        $arr[$request->group_id] = $response;
+                        $request->session()->put('diamond_filters', $arr);
+                    } else {
+                        if ($response['group_id'] == 'price') {
+                            $price_min = explode(',', $response['attribute_values'])[0];
+                            $price_max = explode(',', $response['attribute_values'])[1];
+                        } else {
+                            $carat_min = explode(',', $response['attribute_values'])[0];
+                            $carat_max = explode(',', $response['attribute_values'])[1];
+                        }
+                    }
+                } */
+                // return response()->json(['success' => 1, 'session' => $request->session()->all()]);
+            }
+            // else {
+                if (isset($response['attribute_values'])) {
+                    if (is_array($response['attribute_values'])) {
+                        $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                        $arr[$request->group_id] = $response;
+                        $request->session()->put('diamond_filters', $arr);
+                    } else {
+                        if ($response['group_id'] == 'price') {
+                            $price_min = explode(',', $response['attribute_values'])[0];
+                            $price_max = explode(',', $response['attribute_values'])[1];
+                        } else {
+                            $carat_min = explode(',', $response['attribute_values'])[0];
+                            $carat_max = explode(',', $response['attribute_values'])[1];
+                        }
+                    }
+                }
+                // return response()->json(['success' => 2, 'session' => $request->session()->all()]);
+            // }
+            $response = $request->session()->get('diamond_filters');
+            // $response = [25 => [1,4,6], 30 => [5], 24 => [2,3]];
+        }
+
+        // die;
+        if (is_array($response)) {
+            $attribute_groups = array_keys($response);
+        } else {
+            $attribute_groups = [];
+        }
 
         $attr = [];
         foreach ($attribute_groups as $a) {
@@ -95,12 +135,14 @@ class DiamondController extends Controller
         }
 
         $attrg_attr = [];
-        foreach ($response as $k => $v) {
-            foreach ($v as $v_row) {
-                $dummy_array=array();
-                $dummy_array['ag']=$k;
-                $dummy_array['atr']=$v_row;
-                array_push($attrg_attr, $dummy_array);
+        if (is_array($response)) {
+            foreach ($response as $k => $v) {
+                foreach ($v as $v_row) {
+                    $dummy_array=array();
+                    $dummy_array['ag']=$k;
+                    $dummy_array['atr']=$v_row;
+                    array_push($attrg_attr, $dummy_array);
+                }
             }
         }
 
@@ -115,10 +157,18 @@ class DiamondController extends Controller
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
-            ->whereRaw(rtrim($q, 'or '))
-            ->where('da.refAttribute_id', '<>', 0)
-            ->where('d.is_active', 1)
+            ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name');
+        if (!empty($q)) {
+            $diamond_ids = $diamond_ids->whereRaw(rtrim($q, 'or '));
+        }
+        $diamond_ids = $diamond_ids->where('da.refAttribute_id', '<>', 0);
+        if (isset($price_min) && isset($price_max)) {
+            $diamond_ids = $diamond_ids->where('d.total', '<=', $price_max)->where('d.total', '>=', $price_min);
+        }
+        if (isset($carat_min) && isset($carat_max)) {
+            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '>=', $carat_max)->where('d.expected_polish_cts', '<=', $carat_min);
+        }
+        $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
             // ->groupBy('d.diamond_id')
             ->orderBy('d.diamond_id', 'desc')
@@ -148,6 +198,7 @@ class DiamondController extends Controller
                             if ($f_row->diamond_id == $dim_row) {
                                 // $f_row->{$v_row->ag_name} = $v_row->name;
                                 $f_row->attribute_groups[] = [
+                                    'attribute_group_id' => $v_row->attribute_group_id,
                                     'name' => $v_row->ag_name,
                                     'image' => $v_row->image,
                                     'value' => $v_row->name
@@ -161,6 +212,78 @@ class DiamondController extends Controller
                     }
                 }
             }
+        }
+        if ($request->web == 'web') {
+            $html = '';
+            foreach ($final_d as $k => $v) {
+                $html .= '<tr>
+                            <td scope="col" class="text-center">'.$v->carat.'</td>
+                            <td scope="col" class="text-center">'.round($v->price, 2).'</td>
+                        ';
+                if (isset($v->attribute_groups) && count($v->attribute_groups)) {
+                    $i=0;
+                    foreach ($v->attribute_groups as $k1 => $v1) {
+                        if ($v1['name'] == 30) {
+                            $html .= '<td scope="col" class="text-center">'.$v1['value'].'</td>';
+                            $i=1;
+                        }
+                    }
+                    if ($i == 0) {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
+
+                    $k=0;
+                    foreach ($v->attribute_groups as $k1 => $v1) {
+                        if ($v1['name'] == 'CUT_GRADE') {
+                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
+                            $k=1;
+                        }
+                    }
+                    if ($k == 0) {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
+
+                    $l=0;
+                    foreach ($v->attribute_groups as $k1 => $v1) {
+
+                        if ($v1['name'] == 'COLOR') {
+                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
+                            $l=1;
+                        }
+
+                    }
+                    if ($l == 0) {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
+
+                    $m=0;
+                    foreach ($v->attribute_groups as $k1 => $v1) {
+                        if ($v1['name'] == 'CLARITY') {
+                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
+                            $m=1;
+                        }
+                    }
+                    if ($m == 0) {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
+
+                } else {
+                    $html .= '<td scope="col" class="text-center"> - </td>
+                        <td scope="col" class="text-center"> - </td>
+                        <td scope="col" class="text-center"> - </td>
+                        <td scope="col" class="text-center"> - </td>';
+                }
+                $html .= '<td scope="col" class="text-center">
+                            <div class="compare-checkbox">
+                                <label class="custom-check-box">
+                                    <input type="checkbox" class="diamond-checkbox" data-id="' . $v->diamond_id . '" data-attribute_id="' . $v->attribute_id . '" data-attribute_group_id="' . $v->attribute_group_id . '">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>';
+            }
+            return response()->json(['success' => 1, 'message' => 'Success', 'data' => $html]);
         }
 
         /* foreach ($diamond_ids as $v_row) {

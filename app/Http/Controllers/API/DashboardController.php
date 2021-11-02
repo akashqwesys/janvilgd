@@ -58,6 +58,6 @@ class DashboardController extends Controller
             'offer_sale' => $offer_sale,
             'latest_collection' => $latest,
         ];
-        return $this->successResponse('Congrats, you are now successfully registered', $data);
+        return $this->successResponse('Success', $data);
     }
 }

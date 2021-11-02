@@ -11,10 +11,16 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" ref="/assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" ref="/assets/css/custom.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 </head>
 
 <body>
+    <div class="overlay cs-loader">
+      <div class="overlay__inner">
+        <div class="overlay__content"><span class="spinner"></span></div>
+      </div>
+    </div>
     <div class="content-wrapper">
         <section class="login-section">
             <div class="login-bg">
@@ -38,8 +44,8 @@
                                 <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="email" name="email" class="form-control" placeholder="Email Address" id="email" autocomplete="off">
                             </div>
-                            <p>By continuing, I agree to the <a href="terms-condition.php">Terms of Use</a> & <a
-                                    href="privacy-policy.php">Privacy Policy</a></p>
+                            <p>By continuing, I agree to the <a href="/customer/terms-condition">Terms of Use</a> & <a
+                                    href="/customer/privacy-policy">Privacy Policy</a></p>
                             <button type="submit" id="login_btn" class="btn btn-primary">Continue</button>
                             <p class="mb-0">Have trouble logging in? <a href="Javascript:;">Get Help</a></p>
                         </form>
@@ -58,6 +64,7 @@
             }
         });
         $(document).on('click', '#login_btn', function (e) {
+            $('.cs-loader').show();
             e.preventDefault();
             $.ajax({
                 type: "post",
@@ -69,6 +76,7 @@
                 cache: false,
                 dataType: "json",
                 success: function (response) {
+                    $('.cs-loader').hide();
                     if (response.success == 1) {
                         $.toast({
                             heading: 'Success',

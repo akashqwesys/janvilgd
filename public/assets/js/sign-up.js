@@ -5,6 +5,7 @@ $.ajaxSetup({
     }
 });
 $(document).on('change', '#email, #mobile', function () {
+    $('.cs-loader').show();
     $.ajax({
         type: "POST",
         url: "/checkEmailMobile",
@@ -13,6 +14,7 @@ $(document).on('change', '#email, #mobile', function () {
         context: this,
         dataType: 'JSON',
         success: function(response) {
+            $('.cs-loader').hide();
             if(response.error) {
                 $.toast({
                     heading: 'Error',
@@ -93,6 +95,7 @@ $("#msform").validate({
     submitHandler: function(form) {
         // do other things for a valid form
         // form.submit();
+        $('.cs-loader').show();
         var formData = new FormData(form);
         formData.append('id_upload', $('#id_upload')[0].files);
         formData.append('email', gmail );
@@ -106,6 +109,7 @@ $("#msform").validate({
             context: this,
             dataType: 'JSON',
             success: function(response) {
+                $('.cs-loader').hide();
                 if (response.success == 1) {
                     $.toast({
                         heading: 'Success',
