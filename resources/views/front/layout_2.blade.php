@@ -8,25 +8,25 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
 
-	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/rSlider.min.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
-    <script src="/assets/js/rSlider.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/{{ check_host() }}assets/js/rSlider.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
+    <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
     @yield('css')
 </head>
 <body>
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
 		  <div class="container">
-		    <a class="navbar-brand" href="/"><img src="/assets/images/logo.png" class="img-fluid"></a>
+		    <a class="navbar-brand" href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid"></a>
 		   	<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
-				<img src="/assets/images/menu-icon.svg">
+				<img src="/{{ check_host() }}assets/images/menu-icon.svg">
 			</button>
 			<div class="navbar-collapse offcanvas-collapse offcanvas-style-2" id="navbarsExampleDefault">
 				<div class="offcanvas-header">
@@ -56,37 +56,40 @@
 				</div>
 			</div>
 		    <ul class="header-icon-menu">
-		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/assets/images/theme_search.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/cart"><img src="/assets/images/shopping-cart.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/wishlist"><img src="/assets/images/theme_heart_icon.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/login"><img src="/assets/images/user.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/cart"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/wishlist"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg"></a></li>
 		      </ul>
 		  </div>
 		</nav>
 	</header>
-    <div class="live-chat">
-	<button class="live-chat-btn" onclick="openForm()">
-		<img src="/assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid">
-	</button>
 
-	<div class="chat-popup" id="myForm">
-		<div class="chat-header">
-			<a href="index.php"><img src="/assets/images/logo.png" class="img-fluid" alt="logo"></a>
-			<button type="button" class="btn cancel" onclick="closeForm()"><img src="/assets/images/close.svg" alt="close" class="img-fluid"></button>
-		</div>
-		<div class="chat-body">
-			<div class="chat-container">
-				<div class="sender">
-					<div class="chat-content">
-						<p class="">ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua.</p>
+	@yield('content')
+
+	<div class="live-chat">
+		<button class="live-chat-btn" onclick="openForm()">
+			<img src="/{{ check_host() }}assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid">
+		</button>
+
+		<div class="chat-popup" id="myForm">
+			<div class="chat-header">
+				<a href="index.php"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
+				<button type="button" class="btn cancel" onclick="closeForm()"><img src="/{{ check_host() }}assets/images/close.svg" alt="close" class="img-fluid"></button>
+			</div>
+			<div class="chat-body">
+				<div class="chat-container">
+					<div class="sender">
+						<div class="chat-content">
+							<p class="">ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-</div>
+		</div>
 
 <!-- site-footer -->
 
@@ -94,7 +97,7 @@
 	<div class="container">
 		<div class="footer-form">
 			<div class="d-flex align-items-center">
-				<img src="assets/images/envelope.svg" class="img-fluid" data-pagespeed-url-hash="650960932" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"><p class="mb-0">Signup Newsletter</p></div>
+				<img src="/{{ check_host() }}assets/images/envelope.svg" class="img-fluid" data-pagespeed-url-hash="650960932" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"><p class="mb-0">Signup Newsletter</p></div>
 				<form class="footer_form">
 					<div class="input-group">
 						<input type="email" class="form-control" placeholder="Enter your email" aria-label="Enter your email" aria-describedby="button-addon">
@@ -148,7 +151,7 @@
 								<ul class="country_address_links">
 									<li>
 										<span class="flag-icon">
-											<img src="assets/images/india.png" alt="" data-pagespeed-url-hash="4082821628" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+											<img src="/{{ check_host() }}assets/images/india.png" alt="" data-pagespeed-url-hash="4082821628" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
 										</span>
 										<span class="location">India</span>
 										<div class="location-address">
@@ -161,7 +164,7 @@
 									</li>
 									<li>
 										<span class="flag-icon">
-											<img src="assets/images/usa.png" alt="" data-pagespeed-url-hash="3750728368" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+											<img src="/{{ check_host() }}assets/images/usa.png" alt="" data-pagespeed-url-hash="3750728368" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
 										</span>
 										<span class="location">USA</span>
 										<div class="location-address">
@@ -176,11 +179,11 @@
 
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
-									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="assets/images/facebook.svg" class="img-fluid" data-pagespeed-url-hash="2544917430" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="assets/images/instagram.svg" class="img-fluid" data-pagespeed-url-hash="126262214" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="assets/images/twitter.svg" class="img-fluid" data-pagespeed-url-hash="1661735711" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="assets/images/youtube.svg" class="img-fluid" data-pagespeed-url-hash="3510677315" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
-									<li class="link-item"><a href="javascript:;" target="_blank"><img src="assets/images/whatsapp.svg" class="img-fluid" data-pagespeed-url-hash="577652750" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
+									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" data-pagespeed-url-hash="2544917430" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" data-pagespeed-url-hash="126262214" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
+									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/{{ check_host() }}assets/images/twitter.svg" class="img-fluid" data-pagespeed-url-hash="1661735711" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
+									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/{{ check_host() }}assets/images/youtube.svg" class="img-fluid" data-pagespeed-url-hash="3510677315" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
+									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" data-pagespeed-url-hash="577652750" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -197,11 +200,12 @@
 $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 // echo $file;
 ?>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/parallax.js"></script>
-<script src="/assets/js/slick.min.js"></script>
-<script src="/assets/js/custom.js"></script>
+<script src="/{{ check_host() }}assets/js/bootstrap.bundle.min.js"></script>
+<script src="/{{ check_host() }}assets/js/parallax.js"></script>
+<script src="/{{ check_host() }}assets/js/slick.min.js"></script>
+<script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
-{{-- <script src="/assets/js/custom-rSlider.js"></script> --}}
+{{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
+@yield('js')
 </body>
 </html>

@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="og:type" content="website" />
-	<meta name="twitter:card" content="photo" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title }}</title>
-
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
-
-	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
-    <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
-    <script src="/assets/js/rSlider.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+@extends('front.layout_2')
+@section('title', $title)
+@section('css')
     <script type="text/javascript">
         $(document).on('click', '.diamond-shape .item img', function () {
             var group_id = $(this).attr('data-group_id');
@@ -140,13 +123,11 @@
             border: 4px solid #00000000;
         }
     </style>
-</head>
-<body>
-
-
+@endsection
+@section('content')
     <section class="diamond-cut-section">
         <div class="container">
-            <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt=""> Search for Princess Cut Diamonds</h2></div>
+            <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt=""> Search for Princess Cut Diamonds</h2></div>
             <div class="diamond-cut-filter">
                 <div class="filter-content">
                     <div class="row">
@@ -180,7 +161,7 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img">
-                                                <img src="/assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
                                             <p class="diamond-short-note">lorem Ipsum</p>
@@ -220,7 +201,7 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img">
-                                                <img src="/assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
                                             <p class="diamond-short-note">lorem Ipsum</p>
@@ -278,7 +259,7 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img">
-                                                <img src="/assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
                                             <p class="diamond-short-note">lorem Ipsum</p>
@@ -315,145 +296,4 @@
             </div>
         </div>
     </section>
-
-<div class="live-chat">
-	<button class="live-chat-btn" onclick="openForm()">
-		<img src="/assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid">
-	</button>
-
-	<div class="chat-popup" id="myForm">
-		<div class="chat-header">
-			<a href="index.php"><img src="/assets/images/logo.png" class="img-fluid" alt="logo"></a>
-			<button type="button" class="btn cancel" onclick="closeForm()"><img src="/assets/images/close.svg" alt="close" class="img-fluid"></button>
-		</div>
-		<div class="chat-body">
-			<div class="chat-container">
-				<div class="sender">
-					<div class="chat-content">
-						<p class="">ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-</div>
-
-<!-- site-footer -->
-
-<footer class="site-footer">
-	<div class="container">
-		<div class="footer-form">
-			<div class="d-flex align-items-center">
-				<img src="/assets/images/envelope.svg" class="img-fluid"><p class="mb-0">Signup Newsletter</p></div>
-				<form class="footer_form">
-					<div class="input-group">
-						<input type="email" class="form-control" placeholder="Enter your email" aria-label="Enter your email" aria-describedby="button-addon">
-						<button class="btn btn-primary" type="button" id="button-addon">Subscribe</button>
-					</div>
-				</form>
-			</div>
-			<div class="footer-content">
-				<div class="row">
-					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
-						<div class="quick-link-content">
-							<h4 class="title">About Janvi</h4>
-							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="about.php">About us</a></li>
-								<li class="item"><a href="gallery.php">Gallery</a></li>
-								<li class="item"><a href="media.php">Media</a></li>
-								<li class="item"><a href="event.php">Events</a></li>
-								<li class="item"><a href="business-policy.php">Business Policy</a></li>
-								<li class="item"><a href="blog.php">Blogs</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
-						<div class="quick-link-content">
-							<h4 class="title">Information</h4>
-							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="order-details.php">Order Details</a></li>
-								<li class="item"><a href="privacy-policy.php"> Privacy Policy </a></li>
-								<li class="item"><a href="terms-condition.php"> Terms & Conditions </a></li>
-								<li class="item"><a href="Javascript:;">Support Now</a></li>
-								<li class="item"><a href="manufacturing.php">Manufacturing</a></li>
-								<li class="item"><a href="grading.php">Grading</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
-						<div class="quick-link-content">
-							<h4 class="title">My Account</h4>
-							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="my-account.php">My Account</a></li>
-								<li class="item"><a href="wishlist.php">Wishlist</a></li>
-								<li class="item"><a href="checkout.php">Checkout</a></li>
-								<li class="item"><a href="cart.php">Cart</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
-						<div class="quick-link-content">
-							<h4 class="title">Contact Us</h4>
-							<div class="footer-info">
-								<ul class="country_address_links">
-									<li>
-										<span class="flag-icon">
-											<img src="/assets/images/india.png" alt="">
-										</span>
-										<span class="location">India</span>
-										<div class="location-address">
-											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-											</div>
-										</div>
-									</li>
-									<li>
-										<span class="flag-icon">
-											<img src="/assets/images/usa.png" alt="">
-										</span>
-										<span class="location">USA</span>
-										<div class="location-address">
-											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-											</div>
-										</div>
-									</li>
-								</ul>
-
-								<p class="social-media-link"><span>Connect With :</span></p>
-								<ul class="list-unstyled social-link mb-0">
-									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/assets/images/facebook.svg" class="img-fluid"></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/assets/images/instagram.svg" class="img-fluid"></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/assets/images/twitter.svg" class="img-fluid"></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/assets/images/youtube.svg" class="img-fluid"></a></li>
-									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/assets/images/whatsapp.svg" class="img-fluid"></a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGE</a>. All Rights Reserved.</p>
-		</div>
-	</div>
-</footer>
-<?php
-$file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
-// echo $file;
-?>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/parallax.js"></script>
-<script src="/assets/js/slick.min.js"></script>
-<script src="/assets/js/custom.js"></script>
-<script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
-{{-- <script src="/assets/js/custom-rSlider.js"></script> --}}
-</body>
-</html>
+@endsection
