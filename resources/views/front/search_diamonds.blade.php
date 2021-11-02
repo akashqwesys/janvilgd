@@ -58,8 +58,6 @@
                             icon: 'success',
                             position: 'top-right'
                         });
-                        // return false;
-                        $('#result-table tbody').html(response.data);
                     }
                     else {
                         $.toast({
@@ -69,6 +67,7 @@
                             position: 'top-right'
                         });
                     }
+                    $('#result-table tbody').html(response.data);
                 },
                 failure: function (response) {
                     $('.cs-loader').hide();

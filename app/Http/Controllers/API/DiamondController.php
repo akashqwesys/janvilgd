@@ -166,7 +166,7 @@ class DiamondController extends Controller
             $diamond_ids = $diamond_ids->where('d.total', '<=', $price_max)->where('d.total', '>=', $price_min);
         }
         if (isset($carat_min) && isset($carat_max)) {
-            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '>=', $carat_max)->where('d.expected_polish_cts', '<=', $carat_min);
+            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '<=', $carat_max)->where('d.expected_polish_cts', '>=', $carat_min);
         }
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
@@ -175,6 +175,10 @@ class DiamondController extends Controller
             ->get()
             // ->pluck('diamond_id')
             ->toArray();
+
+        if (!count($diamond_ids) && $request->web == 'web') {
+            return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
+        }
 
         $final_d = [];
         $final_d2 = [];
@@ -283,7 +287,7 @@ class DiamondController extends Controller
                         </td>
                     </tr>';
             }
-            return response()->json(['success' => 1, 'message' => 'Success', 'data' => $html]);
+            return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html]);
         }
 
         /* foreach ($diamond_ids as $v_row) {

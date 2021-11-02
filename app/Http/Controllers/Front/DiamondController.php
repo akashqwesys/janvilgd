@@ -19,6 +19,10 @@ class DiamondController extends Controller
 {
     public function home(Request $request)
     {
+        $category = DB::table('categories')->select('category_id')->where('category_id', $request->category)->first();
+        if (!$category) {
+            abort(404, 'NO SUCH CATEGORY FOUND');
+        }
         $data = DB::table('attributes as a')
             ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
             ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix')
