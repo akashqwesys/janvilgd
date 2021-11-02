@@ -398,7 +398,7 @@ class DiamondsController extends Controller {
                             $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);                            
                             $row['discount_percent'] = doubleval($row['discount_percent']);
                             $row['weight'] = doubleval($row['weight']);                                                                                             
-                            $total=$row['price']*$row['weight'];
+                            $total=$row['price']*$row['weight']*$row['discount_percent'];
                             
                             $image=array();
                             if(isset($row['image_link'])){
@@ -948,13 +948,7 @@ class DiamondsController extends Controller {
        $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
                ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
                ->whereIn('attributes.attribute_id',$batch_array1)->get();  
-       
-//        0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
-
-
-        
-        
-        
+ 
         $shape='';
         $color='';
         $clarity='';
