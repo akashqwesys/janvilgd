@@ -229,4 +229,11 @@ class DiamondController extends Controller
         $title = 'Search Diamonds';
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
     }
+
+    public function clearDiamondsFromDB()
+    {
+        DB::table('attributes')->truncate();
+        DB::table('diamonds')->truncate();
+        DB::table('diamonds_attributes')->truncate();
+    }
 }

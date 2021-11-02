@@ -65,6 +65,7 @@ Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 // Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
+Route::get('admin/clearDiamondsFromDB', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
 Route::group( ['middleware' => ['auth']], function () {
 });
