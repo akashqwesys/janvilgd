@@ -25,16 +25,16 @@ class DiamondController extends Controller
         }
         $data = DB::table('attributes as a')
             ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
-            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix')
+            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
             ->where('ag.refCategory_id', $request->category)
             ->where('ag.field_type', 1)
             ->orderBy('a.attribute_group_id')
             ->orderBy('ag.sort_order')
             ->get()
             ->toArray();
-
-        $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
         dd($data);
+        $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
+
         $attr_groups_fix = collect($data)->where('is_fix', 1)->all();
 
         $attr_groups_none_fix = collect($data)->where('is_fix', 0)->all();
