@@ -24,7 +24,7 @@ class DiamondController extends Controller
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
         $data = DB::table('attribute_groups as ag')
-            ->Join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
+            ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
             ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
             ->where('ag.refCategory_id', $request->category)
             ->where('ag.field_type', 1)
@@ -32,9 +32,9 @@ class DiamondController extends Controller
             ->where('ag.is_deleted', 0)
             ->orderBy('a.attribute_group_id')
             ->orderBy('ag.sort_order')
-            // ->get()
-            ->dd();
-        dd($data);
+            ->get()
+            ->toArray();
+        // dd($data);
         $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
 
         $attr_groups_fix = collect($data)->where('is_fix', 1)->all();
