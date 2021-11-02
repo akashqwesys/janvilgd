@@ -34,7 +34,7 @@ class DiamondController extends Controller
             ->orderBy('ag.sort_order')
             ->get()
             ->toArray();
-        // dd($data);
+
         $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
 
         $attr_groups_fix = collect($data)->where('is_fix', 1)->all();
@@ -68,7 +68,7 @@ class DiamondController extends Controller
                 }
             }
         }
-
+        dd($final_attr_fix);
         $list = null;
         foreach ($final_attr_fix as $k => $v) {
             if ($v['name'] == 'SHAPE') {
