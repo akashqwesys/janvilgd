@@ -23,11 +23,13 @@ class DiamondController extends Controller
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
-        $data = DB::table('attributes as a')
-            ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
+        $data = DB::table('attribute_groups as ag')
+            ->Join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
             ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
             ->where('ag.refCategory_id', $request->category)
             ->where('ag.field_type', 1)
+            ->where('ag.is_active', 1)
+            ->where('ag.is_deleted', 0)
             ->orderBy('a.attribute_group_id')
             ->orderBy('ag.sort_order')
             ->get()
