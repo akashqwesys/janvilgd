@@ -34,7 +34,7 @@ class DiamondController extends Controller
             ->toArray();
 
         $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
-
+        dd($data);
         $attr_groups_fix = collect($data)->where('is_fix', 1)->all();
 
         $attr_groups_none_fix = collect($data)->where('is_fix', 0)->all();
