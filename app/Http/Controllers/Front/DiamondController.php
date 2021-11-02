@@ -32,8 +32,8 @@ class DiamondController extends Controller
             ->where('ag.is_deleted', 0)
             ->orderBy('a.attribute_group_id')
             ->orderBy('ag.sort_order')
-            ->get()
-            ->toArray();
+            // ->get()
+            ->dd();
         dd($data);
         $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
 
