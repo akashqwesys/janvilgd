@@ -1473,6 +1473,7 @@ span.value.lower::before, span.value.upper::before {
 .filter-item .diamond_shape {
     display: flex;
     align-items: center;
+    overflow-x: auto;
 }
 .filter-item .diamond_shape .item {
     margin: 0 10px;

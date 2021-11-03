@@ -93,7 +93,7 @@ class DiamondController extends Controller
                 }
                 $request->session()->put('diamond_filters', $arr);
             }
-            return response()->json(['success' => 2, 'session' => $request->session()->all()]);
+            // return response()->json(['success' => 2, 'session' => $request->session()->all()]);
 
             $response = $request->session()->get('diamond_filters');
             // $response = [25 => [1,4,6], 30 => [5], 24 => [2,3]];
