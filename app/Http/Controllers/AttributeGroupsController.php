@@ -142,7 +142,6 @@ class AttributeGroupsController extends Controller {
             echo json_encode($result);
         }
     }
-
     public function update(Request $request) {
         if (!isset($request->is_required)) {
             $request->is_required = 0;
@@ -153,7 +152,7 @@ class AttributeGroupsController extends Controller {
             'field_type' => $request->filed_type,
             'refCategory_id' => $request->refCategory_id,            
             'sort_order' => $request->sort_order,
-            'is_fix' => $request->is_fix,
+//            'is_fix' => $request->is_fix,
             'is_required' => $request->is_required,
             'date_updated' => date("Y-m-d h:i:s")
         ]);

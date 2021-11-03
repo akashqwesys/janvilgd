@@ -351,6 +351,7 @@ class DiamondController extends Controller
 
     public function detailshDiamonds($diamond_id)
     {
+        $response_array=array();
         $diamonds = DB::table('diamonds as d')
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
@@ -358,15 +359,15 @@ class DiamondController extends Controller
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
             ->where('diamond_id',$diamond_id)
             ->get();
-        if(!empty($diamonds)){
-            $response_array=array();
+//    print_r($diamonds);die;
+        
+        if(!empty($diamonds)){             
             $response_array['data']=$diamonds[0];
             $response_array['attribute']=[];
             foreach ($diamonds as $value){
                 $newArray=array();
                 $newArray['ag_name']=$value->ag_name;
                 $newArray['at_name']=$value->name;
-//                $diamonds[0]->{$value->ag_name}=$value->name;
                 array_push($response_array['attribute'],$newArray);
             }
         }

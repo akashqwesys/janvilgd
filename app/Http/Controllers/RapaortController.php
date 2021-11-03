@@ -36,17 +36,17 @@ class RapaortController extends Controller {
                         ->where(
                                 [['diamonds.expected_polish_cts', '<=', $row->to_range]]
                         )
-                        ->where(
-                                [['attribute_groups.name', '=', 'COLOR'],
-                                    ['attributes.name', '=', $row->color]]
+                        ->whereRaw(
+                                [['attribute_groups.name = ?', 'COLOR'],
+                                    ['lower(attributes.name) = ?', strtolower($row->color)]]
                         )
-                        ->orWhere(
-                                [['attribute_groups.name', '=', 'CLARITY'],
-                                    ['attributes.name', '=', $row->clarity]]
+                        ->orWhereRaw(
+                                [['attribute_groups.name = ?', 'CLARITY'],
+                                    ['lower(attributes.name) = ?', strtolower($row->clarity)]]
                         )
-                        ->orWhere(
-                                [['attribute_groups.name', '=', 'SHAPE'],
-                                    ['attributes.name', '=', $row->shape]]
+                        ->orWhereRaw(
+                                [['attribute_groups.name = ?', 'SHAPE'],
+                                    ['lower(attributes.name) = ?', strtolower($row->shape)]]
                         )
                         ->get();             
                 if (!empty($diamond_ids)) {
@@ -130,10 +130,11 @@ class RapaortController extends Controller {
         if($request->cat_type==1 || $request->cat_type==3){
             
             if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){                   
-                $rapa_price = DB::table('rapaport')                
-                    ->where('shape', $request->shape)                
-                    ->where('color', $request->color)               
-                    ->where('clarity', $request->clarity)                       
+                $rapa_price = DB::table('rapaport')
+//                    ->select(DB::raw('count(*) as user_count, status'))
+                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                
+                    ->whereRaw('lower(color) = ?', strtolower($request->color))               
+                    ->whereRaw('lower(clarity) = ?', strtolower($request->clarity))                       
                     ->where('from_range','<=',$request->expected_polish_cts)
                     ->where('to_range','>=',$request->expected_polish_cts)                    
                     ->first();      
@@ -142,7 +143,7 @@ class RapaortController extends Controller {
         if($request->cat_type==2){
             if(isset($request->shape) && isset($request->expected_polish_cts)){
                 $rapa_price = DB::table('rapaport')                
-                    ->where('shape', $request->shape)                                           
+                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                                       
                     ->where('from_range','<=',$request->expected_polish_cts)
                     ->where('to_range','>=',$request->expected_polish_cts)               
                     ->first();      

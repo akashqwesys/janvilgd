@@ -202,6 +202,17 @@ class DiamondController extends Controller
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
     }
 
+    public function diamondDetails($diamond_id)
+    {    
+        $diamond_api_controller = new DiamondApi;        
+        $result=$diamond_api_controller->detailshDiamonds($diamond_id); 
+        
+        $response=$result->original['data']['data'];
+        $attributes=$result->original['data']['attribute'];
+        $title = 'Diamond Details';
+        return view('front.diamond-details', compact('title','response','attributes'));
+    }
+
     public function clearDiamondsFromDB()
     {
         DB::table('attributes')->truncate();
