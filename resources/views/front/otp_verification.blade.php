@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>OTP Verification</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
 
-    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
     <style type="text/css">
     .otp-box {
@@ -22,11 +22,11 @@
 
         <section class="login-section">
             <div class="login-bg">
-                <img src="/assets/images/PSNM.gif" alt="PSNM">
+                <img src="/{{ check_host() }}assets/images/PSNM.gif" alt="PSNM">
             </div>
             <div class="login-container">
                 <div class="login-header">
-                    <img src="/assets/images/logo.png" class="img-fluid" alt="logo">
+                    <img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo">
                 </div>
                 <div class="login-box otp-box">
                     <div class="login-form-content text-center">
@@ -51,8 +51,8 @@
         </section>
     </div>
     <!-- site-footer -->
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/{{ check_host() }}assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
     <script type="text/javascript">
         function startTimer(duration, display) {
