@@ -73,7 +73,7 @@ class DiamondController extends Controller
         if (empty($response) || count($response) <= 1 ) {
             return $this->errorResponse('No response found');
         }
-        if ($request->web == 'web') {
+        /* if ($request->web == 'web') {
             if ($request->session()->has('diamond_filters')) {
                 $arr = $request->session()->get('diamond_filters');
             }
@@ -96,8 +96,7 @@ class DiamondController extends Controller
             // return response()->json(['success' => 2, 'session' => $request->session()->all()]);
 
             $response = $request->session()->get('diamond_filters');
-            // $response = [25 => [1,4,6], 30 => [5], 24 => [2,3]];
-        }
+        } */
 
         if (is_array($response)) {
             $attribute_groups = array_keys($response);
@@ -359,7 +358,8 @@ class DiamondController extends Controller
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
             ->where('diamond_id',$diamond_id)
             ->get();
-        if(!empty($diamonds) && isset($diamonds[0])){             
+
+        if(!empty($diamonds) && isset($diamonds[0])){
             $response_array['data']=$diamonds[0];
             $response_array['attribute']=[];
             foreach ($diamonds as $value){
@@ -375,17 +375,17 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $response_array);
     }
 
-    
+
     public function getCart()
     {
-        $customer_id=Auth::id(); 
+        $customer_id=Auth::id();
         $response_array=array();
         $diamonds = DB::table('customer_cart as c')
-            ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')                       
+            ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
             ->get();
-        if(!empty($diamonds) && isset($diamonds[0])){                        
-            foreach ($diamonds as $value){                
+        if(!empty($diamonds) && isset($diamonds[0])){
+            foreach ($diamonds as $value){
                 array_push($response_array,$value);
             }
         }
@@ -394,7 +394,7 @@ class DiamondController extends Controller
         }
         return $this->successResponse('Success', $response_array);
     }
-        
+
     public function addToCart(Request $request)
     {
         $customer_id=Auth::id();
@@ -404,22 +404,22 @@ class DiamondController extends Controller
                 ->first();
         if(empty($exist_cart)){
             $data_array = [
-                'refCustomer_id' => $customer_id,    
-                'refDiamond_id' => $request->diamond_id,    
-                'date_added' => date("Y-m-d h:i:s")           
+                'refCustomer_id' => $customer_id,
+                'refDiamond_id' => $request->diamond_id,
+                'date_added' => date("Y-m-d h:i:s")
             ];
-            $res=DB::table('customer_cart')->insert($data_array);        
-            $Id = DB::getPdo()->lastInsertId();   
+            $res=DB::table('customer_cart')->insert($data_array);
+            $Id = DB::getPdo()->lastInsertId();
             if (empty($res)) {
                 return $this->errorResponse('Data not inserted');
             }
             return $this->successResponse('Success', $Id);
         }else{
             return $this->errorResponse('Data allready in cart');
-        }                
+        }
     }
-    
-    
+
+
     /* public function searchDiamonds(Request $request)
     {
         $response = $request->all();

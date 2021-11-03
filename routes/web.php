@@ -66,13 +66,17 @@ Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 // Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 
 Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+
 Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
 
 //required middlewere
 Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
 Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
 Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
+
 Route::group( ['middleware' => ['auth']], function () {
+    Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);
 });
 
 // ---------------- Customer  --------------------

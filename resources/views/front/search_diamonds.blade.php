@@ -2,6 +2,11 @@
 @section('title', $title)
 @section('css')
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).on('click', '.diamond-shape .item img', function () {
             var group_id = $(this).attr('data-group_id');
             if ($(this).attr('data-selected') == 1) {
@@ -45,7 +50,7 @@
 
             $.ajax({
                 type: "post",
-                url: "/api/search-diamonds",
+                url: "/customer/search-diamonds",
                 data: {'attribute_values': selected_values, 'group_id': group_id, 'web': 'web'},
                 // cache: false,
                 dataType: "json",

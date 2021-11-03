@@ -15,6 +15,7 @@ use App\Mail\EmailVerification;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\API\DiamondController as APIDiamond;
 
 class DiamondController extends Controller {
 
@@ -203,7 +204,7 @@ class DiamondController extends Controller {
 
     public function addToCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
-        $result = $diamond_api_controller->addToCart($request);       
+        $result = $diamond_api_controller->addToCart($request);
         if (!empty($result->original['data'])) {
             $data = array(
                 'suceess' => true
@@ -216,7 +217,37 @@ class DiamondController extends Controller {
         return response()->json($data);
     }
 
-    public function getCart() {
+    public function searchDiamonds(Request $request)
+    {
+        $response = $request->all();
+        $user = Auth::user();
+        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id)) {
+            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id);
+            $arr = json_decode($arr, true);
+        }
+        if (isset($response['attribute_values'])) {
+            if (is_array($response['attribute_values'])) {
+                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                $arr[$request->group_id] = $response;
+            } else {
+                if ($response['group_id'] == 'price') {
+                    $arr['price_min'] = explode(',', $response['attribute_values'])[0];
+                    $arr['price_max'] = explode(',', $response['attribute_values'])[1];
+                } else {
+                    $arr['carat_min'] = explode(',', $response['attribute_values'])[0];
+                    $arr['carat_max'] = explode(',', $response['attribute_values'])[1];
+                }
+            }
+            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($arr, JSON_PRETTY_PRINT));
+        }
+        $aa = new APIDiamond;
+        $request->request->replace($arr);
+        $request->request->add(['web' => 'web']);
+        return $aa->searchDiamonds($request);
+        // return response()->json(['success' => 2, 'session' => $arr]);
+    }
+    public function getCart()
+    {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getCart();
         if (!empty($result->original['data'])) {

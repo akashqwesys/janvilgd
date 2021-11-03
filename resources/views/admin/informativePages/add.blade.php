@@ -6,10 +6,10 @@
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
-                       
+
                             <h3 class="nk-block-title page-title" style="display: inline;">Add Informative Pages</h3>
                         <a style="float: right;" href="/admin/informative-pages" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
-                        
+
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
@@ -20,7 +20,7 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
-                                            <label class="form-label float-md-right" for="name">Nane:</label>
+                                            <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

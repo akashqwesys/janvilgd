@@ -37,7 +37,7 @@ class InformativePagesController extends Controller {
                 $data_array['default_content']=clean_html($request->content);
             }
         }
-//        echo '<pre>';print_r($data_array);die;
+
         DB::table('informative_pages')->insert($data_array);
         activity($request,"inserted",'informative-pages');
         successOrErrorMessage("Data added Successfully", 'success');
