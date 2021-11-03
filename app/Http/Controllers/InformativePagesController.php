@@ -31,12 +31,12 @@ class InformativePagesController extends Controller {
             'is_active' => 1,
             'date_updated' => date("Y-m-d h:i:s")
         ];
-                        
+
         if(isset($request->is_default)){
             if($request->is_default==1){
                 $data_array['default_content']=clean_html($request->content);
             }
-        } 
+        }
 //        echo '<pre>';print_r($data_array);die;
         DB::table('informative_pages')->insert($data_array);
         activity($request,"inserted",'informative-pages');
@@ -50,7 +50,7 @@ class InformativePagesController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_updated', function ($row) {                                
+                            ->editColumn('date_updated', function ($row) {
                                 return date_formate($row->date_updated);
                             })
                             ->editColumn('is_active', function ($row) {

@@ -203,20 +203,20 @@ class DiamondController extends Controller
     }
 
     public function diamondDetails($diamond_id)
-    {    
-        $diamond_api_controller = new DiamondApi;        
-        $result=$diamond_api_controller->detailshDiamonds($diamond_id); 
-        
+    {
+        $diamond_api_controller = new DiamondApi;
+        $result=$diamond_api_controller->detailshDiamonds($diamond_id);
+
         $response=$result->original['data']['data'];
         $attributes=$result->original['data']['attribute'];
         $title = 'Diamond Details';
         return view('front.diamond-details', compact('title','response','attributes'));
     }
 
-    public function clearDiamondsFromDB()
+    public function clearDiamondsFromDB(Request $request)
     {
-        DB::table('attributes')->truncate();
-        DB::table('diamonds')->truncate();
-        DB::table('diamonds_attributes')->truncate();
+        DB::table($request->table)->truncate();
+        // DB::table('diamonds')->truncate();
+        // DB::table('diamonds_attributes')->truncate();
     }
 }
