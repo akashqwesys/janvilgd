@@ -1452,7 +1452,7 @@ span.value.lower::before, span.value.upper::before {
     padding-right: 10px;
 }
 .filter-content .row .col:nth-child(even) .filter-item {
-    padding-left: 10px;
+    /* padding-left: 10px; */
 }
 .filter-item > label {
     max-width: 80px;

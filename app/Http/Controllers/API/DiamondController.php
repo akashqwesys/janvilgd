@@ -74,50 +74,31 @@ class DiamondController extends Controller
             return $this->errorResponse('No response found');
         }
         if ($request->web == 'web') {
-            // $request->session()->forget('diamond_filters');
-
             if ($request->session()->has('diamond_filters')) {
                 $arr = $request->session()->get('diamond_filters');
-                /* if (isset($response['attribute_values'])) {
-                    if (is_array($response['attribute_values'])) {
-                        $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                        $arr[$request->group_id] = $response;
-                        $request->session()->put('diamond_filters', $arr);
-                    } else {
-                        if ($response['group_id'] == 'price') {
-                            $price_min = explode(',', $response['attribute_values'])[0];
-                            $price_max = explode(',', $response['attribute_values'])[1];
-                        } else {
-                            $carat_min = explode(',', $response['attribute_values'])[0];
-                            $carat_max = explode(',', $response['attribute_values'])[1];
-                        }
-                    }
-                } */
-                // return response()->json(['success' => 1, 'session' => $request->session()->all()]);
             }
-            // else {
-                if (isset($response['attribute_values'])) {
-                    if (is_array($response['attribute_values'])) {
-                        $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                        $arr[$request->group_id] = $response;
-                        $request->session()->put('diamond_filters', $arr);
+            if (isset($response['attribute_values'])) {
+                if (is_array($response['attribute_values'])) {
+                    $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                    $arr[$request->group_id] = $response;
+
+                } else {
+                    if ($response['group_id'] == 'price') {
+                        $arr['price_min'] = explode(',', $response['attribute_values'])[0];
+                        $arr['price_max'] = explode(',', $response['attribute_values'])[1];
                     } else {
-                        if ($response['group_id'] == 'price') {
-                            $price_min = explode(',', $response['attribute_values'])[0];
-                            $price_max = explode(',', $response['attribute_values'])[1];
-                        } else {
-                            $carat_min = explode(',', $response['attribute_values'])[0];
-                            $carat_max = explode(',', $response['attribute_values'])[1];
-                        }
+                        $arr['carat_min'] = explode(',', $response['attribute_values'])[0];
+                        $arr['carat_max'] = explode(',', $response['attribute_values'])[1];
                     }
                 }
-                // return response()->json(['success' => 2, 'session' => $request->session()->all()]);
-            // }
+                $request->session()->put('diamond_filters', $arr);
+            }
+            return response()->json(['success' => 2, 'session' => $request->session()->all()]);
+
             $response = $request->session()->get('diamond_filters');
             // $response = [25 => [1,4,6], 30 => [5], 24 => [2,3]];
         }
 
-        // die;
         if (is_array($response)) {
             $attribute_groups = array_keys($response);
         } else {
@@ -137,11 +118,13 @@ class DiamondController extends Controller
         $attrg_attr = [];
         if (is_array($response)) {
             foreach ($response as $k => $v) {
-                foreach ($v as $v_row) {
-                    $dummy_array=array();
-                    $dummy_array['ag']=$k;
-                    $dummy_array['atr']=$v_row;
-                    array_push($attrg_attr, $dummy_array);
+                if (is_array($v)) {
+                    foreach ($v as $v_row) {
+                        $dummy_array=array();
+                        $dummy_array['ag']=$k;
+                        $dummy_array['atr']=$v_row;
+                        array_push($attrg_attr, $dummy_array);
+                    }
                 }
             }
         }
@@ -162,11 +145,11 @@ class DiamondController extends Controller
             $diamond_ids = $diamond_ids->whereRaw(rtrim($q, 'or '));
         }
         $diamond_ids = $diamond_ids->where('da.refAttribute_id', '<>', 0);
-        if (isset($price_min) && isset($price_max)) {
-            $diamond_ids = $diamond_ids->where('d.total', '<=', $price_max)->where('d.total', '>=', $price_min);
+        if (isset($response['price_min']) && isset($response['price_max'])) {
+            $diamond_ids = $diamond_ids->where('d.total', '<=', $response['price_max'])->where('d.total', '>=', $response['price_min']);
         }
-        if (isset($carat_min) && isset($carat_max)) {
-            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '<=', $carat_max)->where('d.expected_polish_cts', '>=', $carat_min);
+        if (isset($response['carat_min']) && isset($response['carat_max'])) {
+            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '<=', $response['carat_max'])->where('d.expected_polish_cts', '>=', $response['carat_min']);
         }
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
@@ -227,7 +210,7 @@ class DiamondController extends Controller
                 if (isset($v->attribute_groups) && count($v->attribute_groups)) {
                     $i=0;
                     foreach ($v->attribute_groups as $k1 => $v1) {
-                        if ($v1['name'] == 30) {
+                        if ($v1['name'] == 'SHAPE') {
                             $html .= '<td scope="col" class="text-center">'.$v1['value'].'</td>';
                             $i=1;
                         }
@@ -365,7 +348,7 @@ class DiamondController extends Controller
         } */
         return $this->successResponse('Success', $final_d);
     }
-    
+
     public function detailshDiamonds($diamond_id)
     {
         $diamonds = DB::table('diamonds as d')
@@ -374,7 +357,7 @@ class DiamondController extends Controller
             ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
             ->where('diamond_id',$diamond_id)
-            ->get();                       
+            ->get();
         if(!empty($diamonds)){
             $response_array=array();
             $response_array['data']=$diamonds[0];
@@ -385,11 +368,11 @@ class DiamondController extends Controller
                 $newArray['at_name']=$value->name;
 //                $diamonds[0]->{$value->ag_name}=$value->name;
                 array_push($response_array['attribute'],$newArray);
-            }            
-        }       
+            }
+        }
         if (!count($response_array)) {
             return $this->errorResponse('Data not found');
-        }        
+        }
         return $this->successResponse('Success', $response_array);
     }
 
