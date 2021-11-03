@@ -58,6 +58,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-md-11 offset-1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="is_default" id="is_default" value="1">
+                                            <label class="custom-control-label" for="is_default">Is Default Content</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-1">

@@ -23,15 +23,22 @@ class InformativePagesController extends Controller {
     }
 
     public function save(Request $request) {
-
-        DB::table('informative_pages')->insert([
+        $data_array=[
             'name' => $request->name,
             'content' => clean_html($request->content),
             'slug' => clean_string($request->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'date_updated' => date("Y-m-d h:i:s")
-        ]);
+        ];
+                        
+        if(isset($request->is_default)){
+            if($request->is_default==1){
+                $data_array['default_content']=clean_html($request->content);
+            }
+        } 
+//        echo '<pre>';print_r($data_array);die;
+        DB::table('informative_pages')->insert($data_array);
         activity($request,"inserted",'informative-pages');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/informative-pages');
