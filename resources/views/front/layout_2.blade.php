@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="og:type" content="website" />
 	<meta name="twitter:card" content="photo" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">    
     <title>@yield('title')</title>
 
 	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
@@ -57,7 +57,7 @@
 			</div>
 		    <ul class="header-icon-menu">
 		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/cart"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/wishlist"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg"></a></li>
 		      </ul>
@@ -206,6 +206,41 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.add-to-cart', function () {
+                var self = $(this);
+                var diamond_id = self.data('id');               
+                var data = {
+                    'diamond_id': diamond_id                   
+                };
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "{{ route('add-to-cart') }}",
+                    data: data,
+                    success: function (res) {
+                        if (res.suceess) {   
+                            $.toast({
+                                    heading: 'Success',
+                                    text: 'Diamond added in cart.',
+                                    icon: 'success',
+                                    position: 'top-right'
+                            });
+                        }else{
+                            $.toast({
+                                    heading: 'Error',
+                                    text: 'Oops, something went wrong...!',
+                                    icon: 'error',
+                                    position: 'top-right'
+                            });
+                        }    
+                    }
+                });
+            });
+        });
+    </script>
 @yield('js')
 </body>
 </html>

@@ -37,3 +37,4 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
 });
 Route::post('search-diamonds', [DiamondController::class, 'searchDiamonds']);
 Route::get('diamonds-details/{id}', [DiamondController::class, 'detailshDiamonds']);
+Route::get('cart', [DiamondController::class, 'getCart']);

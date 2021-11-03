@@ -67,7 +67,11 @@ Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails']);
+
+//required middlewere
+Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
+Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
+Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
 Route::group( ['middleware' => ['auth']], function () {
 });
 

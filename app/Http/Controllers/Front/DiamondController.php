@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\APIResponse;
+use App\Http\Controllers\API\DiamondController as DiamondApi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,28 +16,26 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
-class DiamondController extends Controller
-{
-    public function home(Request $request)
-    {
+class DiamondController extends Controller {
+
+    public function home(Request $request) {
         $category = DB::table('categories')->select('category_id')->where('category_id', $request->category)->first();
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
         $data = DB::table('attribute_groups as ag')
-            ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
-            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
-            ->where('ag.refCategory_id', $request->category)
-            ->where('ag.field_type', 1)
-            ->where('ag.is_active', 1)
-            ->where('ag.is_deleted', 0)
-            ->orderBy('a.attribute_group_id')
-            ->orderBy('ag.sort_order')
-            ->get()
-            ->toArray();
+                ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
+                ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
+                ->where('ag.refCategory_id', $request->category)
+                ->where('ag.field_type', 1)
+                ->where('ag.is_active', 1)
+                ->where('ag.is_deleted', 0)
+                ->orderBy('a.attribute_group_id')
+                ->orderBy('ag.sort_order')
+                ->get()
+                ->toArray();
 
         $html = null;
-
         $temp_grp_id = 0;
         $temp_var = 0;
         $final_attribute_groups_with_att = array();
@@ -195,28 +194,53 @@ class DiamondController extends Controller
             }
         }
         $recently_viewed = DB::table('recently_view_diamonds')
-            ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
-            ->orderBy('id', 'desc')
-            ->get();
+                ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
+                ->orderBy('id', 'desc')
+                ->get();
         $title = 'Search Diamonds';
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
     }
 
-    public function diamondDetails($diamond_id)
-    {
+    public function addToCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
-        $result=$diamond_api_controller->detailshDiamonds($diamond_id);
-
-        $response=$result->original['data']['data'];
-        $attributes=$result->original['data']['attribute'];
-        $title = 'Diamond Details';
-        return view('front.diamond-details', compact('title','response','attributes'));
+        $result = $diamond_api_controller->addToCart($request);       
+        if (!empty($result->original['data'])) {
+            $data = array(
+                'suceess' => true
+            );
+        } else {
+            $data = array(
+                'suceess' => false
+            );
+        }
+        return response()->json($data);
     }
 
-    public function clearDiamondsFromDB(Request $request)
-    {
+    public function getCart() {
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->getCart();
+        if (!empty($result->original['data'])) {
+            $response = $result->original['data'];
+        }
+        $title = 'Diamond Details';
+        return view('front.cart', compact('title', 'response'));
+    }
+
+    public function diamondDetails($diamond_id) {
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->detailshDiamonds($diamond_id);
+        if (!empty($result->original['data'])) {
+            $response = $result->original['data']['data'];
+            $attributes = $result->original['data']['attribute'];
+        }
+        $title = 'Diamond Details';
+        return view('front.diamond-details', compact('title', 'response', 'attributes'));
+    }
+
+    public function clearDiamondsFromDB(Request $request) {
         DB::table($request->table)->truncate();
         // DB::table('diamonds')->truncate();
         // DB::table('diamonds_attributes')->truncate();
     }
+
 }

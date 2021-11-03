@@ -52,7 +52,7 @@
                         <p class="price">{{$response->total}}$</p>
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         <div class="cart-buy-btn">
-                            <a href="Javascript:;" class="btn btn-primary">Add To Cart</a>
+                            <button class="btn btn-primary add-to-cart" data-id="{{$response->diamond_id}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
                             <a href="Javascript:;" class="btn like"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
                         </div>
