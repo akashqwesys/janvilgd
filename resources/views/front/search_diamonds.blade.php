@@ -51,7 +51,7 @@
                 dataType: "json",
                 success: function (response) {
                     $('.cs-loader').hide();
-                    if (response.success == 1) {
+                    /* if (response.success == 1) {
                         $.toast({
                             heading: 'Success',
                             text: response.message,
@@ -66,7 +66,7 @@
                             icon: 'error',
                             position: 'top-right'
                         });
-                    }
+                    } */
                     $('#result-table tbody').html(response.data);
                 },
                 failure: function (response) {
