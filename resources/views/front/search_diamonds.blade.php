@@ -94,6 +94,9 @@
             $('#result-table tbody').append('<tr>'+$(this).closest('tr').html()+'</tr>');
             $(this).closest('tr').remove();
         });
+        $(document).on('mouseover', '#result-table tr', function() {
+            $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-diamond'));
+        });
     </script>
     <style>
         /* CSS for input range sliders */
@@ -169,7 +172,7 @@
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
                                             <p class="diamond-short-note">lorem Ipsum</p>
                                             <p class="diamond-cost">$456.00</p>
-                                            <a href="diamond-details.php" class="btn btn-primary">View Diamond</a>
+                                            <a href="#" class="btn btn-primary">View Diamond</a>
                                         </div>
                                     </div>
                                 </div>
@@ -219,9 +222,9 @@
                                             <table class="table mb-0" id="recent-view">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Shape</th>
-                                                        <th scope="col" class="text-center">Price</th>
                                                         <th scope="col" class="text-center">Carat</th>
+                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-center">Shape</th>
                                                         <th scope="col" class="text-center">Cut</th>
                                                         <th scope="col" class="text-center">Color</th>
                                                         <th scope="col" class="text-center">Clarity</th>
@@ -277,9 +280,9 @@
                                             <table class="table mb-0" id="compare-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Shape</th>
-                                                        <th scope="col" class="text-center">Price</th>
                                                         <th scope="col" class="text-center">Carat</th>
+                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-center">Shape</th>
                                                         <th scope="col" class="text-center">Cut</th>
                                                         <th scope="col" class="text-center">Color</th>
                                                         <th scope="col" class="text-center">Clarity</th>

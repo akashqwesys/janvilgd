@@ -202,7 +202,7 @@ class DiamondController extends Controller
         if ($request->web == 'web') {
             $html = '';
             foreach ($final_d as $k => $v) {
-                $html .= '<tr>
+                $html .= '<tr data-diamond="'.$v->diamond_id.'">
                             <td scope="col" class="text-center">'.$v->carat.'</td>
                             <td scope="col" class="text-center">'.round($v->price, 2).'</td>
                         ';
