@@ -52,6 +52,7 @@
                                         <div class="form-control-wrap">
                                             <textarea id="summernote-basic-id" name="content">{!! $data['result']->content !!}</textarea>
                                         </div>
+                                        <input type="hidden" name="default_content" id="default_content_hidden_input" value="{!! $data['result']->default_content !!}">
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
@@ -72,13 +73,13 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
-                                            <label class="form-label float-md-right" for="slug">Slug:</label>
+                                            <label class="form-label float-md-right" for="default">Default Content:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <button type="button" class="btn btn-lg btn-primary btn-block">Back to defautl</button>
+                                                <button type="button" class="btn btn-xs btn-warning" id="back_to_default">Back to defautl</button>
                                             </div>
                                         </div>
                                     </div>

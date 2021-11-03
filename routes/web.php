@@ -67,6 +67,7 @@ Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 Route::get('admin/clearDiamondsFromDB', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails']);
 Route::group( ['middleware' => ['auth']], function () {
 });
 
@@ -406,6 +407,7 @@ Route::post('rapaport/update/price', [RapaortController::class, 'update_price'])
 //Route::post('/delete-data', [CommonController::class, 'delete'])->name('data.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-status', [CommonController::class, 'status'])->name('data.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('/delete-image', [CommonController::class, 'delete_image'])->name('data.image')->middleware(['isLoggedIn','getMenu','accessPermission']);
+Route::post('/rapaport/price', [RapaortController::class, 'rapaportPrice'])->name('rapaport.price')->middleware(['isLoggedIn','getMenu','accessPermission']);
 });
 /*---------------------------------------------------------------------------------------*/
 /************************************  Master Admin Route End ***************************/

@@ -58,7 +58,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="name" placeholder="Enter name"  autocomplete="off" value="<?php echo $data['result']->name; ?>">                                             
+                                                    <input type="text" class="form-control" name="name" placeholder="Enter name"  autocomplete="off" value="<?php echo $data['result']->name; ?>" readonly="">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">                                                                                                  
-                                                                <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                                <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on" id='<?php echo $row->name.'_'.$row->category_type; ?>'>                                                    
                                                                     <option value="default">------ Select ------</option>
                                                                     <?php
                                                                     foreach ($data['attributes'] as $atr_row) {

@@ -125,7 +125,41 @@ class RapaortController extends Controller {
             }            
         }
     }
-
+    public function rapaportPrice(Request $request) {
+        $rapa_price=array();
+        if($request->cat_type==1 || $request->cat_type==3){
+            
+            if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){                   
+                $rapa_price = DB::table('rapaport')                
+                    ->where('shape', $request->shape)                
+                    ->where('color', $request->color)               
+                    ->where('clarity', $request->clarity)                       
+                    ->where('from_range','<=',$request->expected_polish_cts)
+                    ->where('to_range','>=',$request->expected_polish_cts)                    
+                    ->first();      
+            }  
+        }
+        if($request->cat_type==2){
+            if(isset($request->shape) && isset($request->expected_polish_cts)){
+                $rapa_price = DB::table('rapaport')                
+                    ->where('shape', $request->shape)                                           
+                    ->where('from_range','<=',$request->expected_polish_cts)
+                    ->where('to_range','>=',$request->expected_polish_cts)               
+                    ->first();      
+            }
+        }
+        if (!empty($rapa_price)) {
+            $data = array(
+                'suceess' => true,
+                'rapa_price' => $rapa_price->rapaport_price
+            );
+        } else {
+            $data = array(
+                'fail' => false
+            );
+        }
+        return response()->json($data);
+    }
     public function fileImport(Request $request) {
         $request->session()->put("import_refRapaport_type_id", $request->rapaport_type_id); 
         $rapa_type = DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->first();        

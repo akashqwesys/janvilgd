@@ -76,7 +76,7 @@ class InformativePagesController extends Controller {
     }
 
     public function edit($id) {
-        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('informative_page_id', $id)->first();
+        $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated','default_content')->where('informative_page_id', $id)->first();
         if(!empty($result)){
             $str= str_replace('&lt;','<', $result->content);
             $str1= str_replace('&gt;','>', $str);

@@ -85,13 +85,14 @@
                                     </div>
 
                                     <?php
+                                    $ag_i=0;
                                     foreach ($data['attribute_groups'] as $row) {
+                                        $ag_i=$ag_i+1;
                                         if ($row->is_fix === 1) {
                                             ?>                                
                                             <?php
                                             if ($row->field_type === 1) {
-                                                ?>
-
+                                                ?>                                                
                                                 <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">                                           
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
@@ -101,7 +102,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">                                                                                                  
-                                                                <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">                                                    
+                                                                <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on" id='<?php echo $row->name.'_'.$row->category_type; ?>'>                                                    
                                                                     <option value="default" selected="">------ Select ------</option>
                                                                     <?php
                                                                     foreach ($data['attributes'] as $atr_row) {

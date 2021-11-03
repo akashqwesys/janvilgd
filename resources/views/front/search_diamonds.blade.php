@@ -117,7 +117,6 @@
         .rs-tooltip {
             border: none;
         }
-
         .diamond-shape .item img {
             border: 4px solid #00000000;
         }

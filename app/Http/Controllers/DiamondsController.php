@@ -38,14 +38,26 @@ class DiamondsController extends Controller {
                             break;
                         }                                                
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();                        
-                        if (!empty($row['barcode'])) {                            
+                        if (!empty($row['barcode'])) {
+                            
                             $row['rapa'] = str_replace(',', '', $row['rapa']);
-                            $row['discount'] = str_replace('-', '', $row['discount']);
-                            $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
                             $row['rapa'] = doubleval($row['rapa']);
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                
+                            ->where('color', $row['color'])               
+                            ->where('clarity', $row['clarity'])                       
+                            ->where('from_range','<=',$row['exp_pol_cts'])
+                            ->where('to_range','>=',$row['exp_pol_cts'])                    
+                            ->first();  
+                            if(!empty($rapa_price)){
+                                $row['rapa']=$rapa_price->rapaport_price;
+                            }
+                                                       
+                            $row['discount'] = str_replace('-', '', $row['discount']);
+                            $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);                            
                             $row['discount'] = doubleval($row['discount']);
-                            
-                            
+                                                        
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));                             
                             $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - $labour_charge_4p->amount;   
                             
@@ -58,11 +70,8 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);                            
                             
-                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';                                                     
-//                          0.30 Carat Round Shape  • H Color  • SI1 Clarity :: Polish Diamond
-                            
-                            
-                            
+                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
+                                                                                    
                             $data_array = [
                                 'name' => $name,
                                 'barcode' => strval($row['barcode']),
@@ -256,10 +265,22 @@ class DiamondsController extends Controller {
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                         if (!empty($row['barcode'])) {
-                            $row['rap'] = str_replace(',', '', $row['rap']);
-                            $row['dis'] = str_replace('-', '', $row['dis']);
+                            
+                            $row['rap'] = str_replace(',', '', $row['rap']);                            
                             $row['rap'] = doubleval($row['rap']);
-                            $row['dis'] = doubleval($row['dis']);                            
+                            
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                                                           
+                            ->where('from_range','<=',$row['exp_pol'])
+                            ->where('to_range','>=',$row['exp_pol'])                    
+                            ->first();  
+                            if(!empty($rapa_price)){
+                                $row['rap']=$rapa_price->rapaport_price;
+                            }
+                                                                                    
+                            $row['dis'] = doubleval($row['dis']);   
+                            $row['dis'] = str_replace('-', '', $row['dis']);
                             
                             $price=abs($row['rap']*($row['dis']-1));
                             $amount=abs($price*doubleval($row['exp_pol']));
@@ -393,8 +414,22 @@ class DiamondsController extends Controller {
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['certificate'])->first();
                         if (!empty($row['stock'])) {
+                           
+                            
                             $row['price'] = str_replace(',', '', $row['price']);
                             $row['price'] = doubleval($row['price']);
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                
+                            ->where('color', $row['color'])               
+                            ->where('clarity', $row['clarity'])                       
+                            ->where('from_range','<=',$row['weight'])
+                            ->where('to_range','>=',$row['weight'])                    
+                            ->first();  
+                            if(!empty($rapa_price)){
+                                $row['price']=$rapa_price->rapaport_price;
+                            }
+                                                                                    
                             $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);                            
                             $row['discount_percent'] = doubleval($row['discount_percent']);
                             $row['weight'] = doubleval($row['weight']);                                                                                             
@@ -906,7 +941,13 @@ class DiamondsController extends Controller {
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first(); 
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();     
         $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
-        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order', 'asc')->get();
+        $attribute_groups = DB::table('attribute_groups')
+                ->select('attribute_groups.*','categories.category_type')
+                ->join('categories', 'attribute_groups.refCategory_id', '=', 'categories.category_id')
+                ->where('attribute_groups.is_active', 1)
+                ->where('attribute_groups.is_deleted', 0)
+                ->orderBy('attribute_groups.sort_order', 'asc')
+                ->get();
         $attribute_array = array();
         foreach ($attribute_groups as $row) {
             if ($row->field_type == 1) {
@@ -1115,7 +1156,13 @@ class DiamondsController extends Controller {
         $result = DB::table('diamonds')->where('diamond_id', $id)->first();
         $diamond_attributes = DB::table('diamonds_attributes')->where('refDiamond_id', $id)->get();
         $categories = DB::table('categories')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
-        $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $result->refCategory_id)->where('is_deleted', 0)->get();
+        $attribute_groups = DB::table('attribute_groups')
+                ->select('attribute_groups.*','categories.category_type')
+                ->join('categories', 'attribute_groups.refCategory_id', '=', 'categories.category_id')
+                ->where('attribute_groups.is_active', 1)
+                ->where('attribute_groups.is_deleted', 0)
+                ->orderBy('attribute_groups.sort_order', 'asc')
+                ->get();
         $attribute_array = array();
         foreach ($attribute_groups as $row) {
             if ($row->field_type == 1) {

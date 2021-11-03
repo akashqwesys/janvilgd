@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Controllers\API\DiamondController as DiamondApi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Traits\APIResponse;
@@ -231,7 +232,19 @@ class DiamondController extends Controller
         $title = 'Search Diamonds';
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
     }
-
+       
+    public function diamondDetails($diamond_id)
+    {           
+        $diamond_api_controller = new DiamondApi;        
+        $result=$diamond_api_controller->detailshDiamonds($diamond_id); 
+        
+        $response=$result->original['data']['data'];
+        $attributes=$result->original['data']['attribute'];
+        $title = 'Diamond Details';
+        return view('front.diamond-details', compact('title','response','attributes'));
+    }
+    
+    
     public function clearDiamondsFromDB()
     {
         DB::table('attributes')->truncate();
