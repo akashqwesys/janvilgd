@@ -134,15 +134,15 @@ class AuthController extends Controller
             return $this->errorResponse($validator->errors()->all()[0]);
         }
         try {
-            $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name')
+            $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
                 ->where('email', $request->email)
                 ->orWhere('mobile', $request->mobile)
                 ->first();
             if (!$user) {
                 return $this->errorResponse('Not authorized');
             } else {
-                // if ($request->otp == $user->otp) {
-                if ($request->otp == 1111) {
+                if ($request->otp == $user->otp && $user->otp_status === 0) {
+                // if ($request->otp == 1111) {
                     if ($user->name == ' ' || strlen($user->name) < 3) {
                         $user->otp_status = 1;
                         $user->save();
@@ -150,8 +150,9 @@ class AuthController extends Controller
                     } else {
                         $user->otp_status = 1;
                         $user->save();
-                        $token = $user->createToken($request->email)->accessToken;
-                        return $this->successResponse('Verified successfully', ['token' => $token], 1);
+
+                        $all = $this->getUserData($user);
+                        return $this->successResponse('Verified successfully', $all, 1);
                     }
                 } else {
                     return $this->errorResponse('Incorrect OTP');
@@ -279,7 +280,6 @@ class AuthController extends Controller
                     $customer->date_added = date('Y-m-d H:i:s');
                     $customer->date_updated = date('Y-m-d H:i:s');
                     $customer->save();
-                    $token = $customer->createToken($request->email)->accessToken;
 
                     $company = new CustomerCompanyDetail;
                     $company->refCustomer_id = $customer->customer_id;
@@ -302,7 +302,9 @@ class AuthController extends Controller
                     $company->approved_by = 0;
                     $company->save();
 
-                    return $this->successResponse('Congrats, you are now successfully registered', ['token' => $token]);
+                    $all = $this->getUserData($customer);
+
+                    return $this->successResponse('Congrats, you are now successfully registered', $all);
                 } else {
                     return $this->errorResponse('You are already registered');
                 }
@@ -312,5 +314,55 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
+    }
+
+    public function getUserData($user)
+    {
+        $data = new \stdClass;
+        $data->email = $user->email;
+        $data->mobile = $user->mobile;
+        $data->name = $user->name;
+        $data->address = $user->address;
+        $data->pincode = $user->pincode;
+        $csc = DB::table('country as c')
+            ->join('state as s', 'c.country_id', '=', 's.refCountry_id')
+            ->join('city as ct', 's.state_id', '=', 'ct.refState_id')
+            ->select('c.name as country', 's.name as state', 'ct.name as city')
+            ->where('ct.city_id', $user->refCity_id)
+            ->first();
+        $data->city = $csc->city;
+        $data->state = $csc->state;
+        $data->country = $csc->country;
+        $data->cart = DB::table('customer_cart')->select('id')->where('refCustomer_id')->count();
+        $data->token = $user->createToken($user->email)->accessToken;
+
+        $company = DB::table('customer_company_details')
+            ->select('customer_company_id', 'name', 'office_no', 'official_email', 'designation_name', 'office_address', 'pincode', 'refCity_id', 'pan_gst_no', 'pan_gst_attachment', 'is_approved')
+            ->where('refCustomer_id', $user->customer_id)
+            ->first();
+        $business = new \stdClass;
+        if ($company) {
+            $business->company_email = $company->official_email;
+            $business->company_mobile = $company->office_no;
+            $business->company_name = $company->name;
+            $business->designation_name = $company->designation_name;
+            $business->company_address = $company->office_address;
+            $business->company_pincode = $company->pincode;
+            $csc_2 = DB::table('country as c')
+                ->join('state as s', 'c.country_id', '=', 's.refCountry_id')
+                ->join('city as ct', 's.state_id', '=', 'ct.refState_id')
+                ->select('c.name as country', 's.name as state', 'ct.name as city')
+                ->where('ct.city_id', $company->refCity_id)
+                ->first();
+            $business->company_city = $csc_2->city;
+            $business->company_state = $csc_2->state;
+            $business->company_country = $csc_2->country;
+            $business->pan_gst_no = $company->pan_gst_no;
+            $business->pan_gst_attachment = '/storage/user_files/' . $company->pan_gst_attachment;
+        }
+        return [
+            'personal' => $data,
+            'business' => $business
+        ];
     }
 }

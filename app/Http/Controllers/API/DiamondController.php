@@ -158,8 +158,11 @@ class DiamondController extends Controller
             // ->pluck('diamond_id')
             ->toArray();
 
-        if (!count($diamond_ids) && $request->web == 'web') {
-            return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
+        if (!count($diamond_ids)) {
+            if ($request->web == 'web') {
+                return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
+            }
+            return $this->successResponse('No diamond found');
         }
 
         $final_d = [];
