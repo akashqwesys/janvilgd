@@ -60,7 +60,7 @@
 		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li>
 		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/wishlist"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/user.svg"></a></li>
 		      </ul>
 		  </div>
 		</nav>
@@ -112,10 +112,10 @@
 						<div class="quick-link-content">
 							<h4 class="title">About Janvi</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="about">About us</a></li>
+								<li class="item"><a href="about-us">About us</a></li>
 								<li class="item"><a href="gallery">Gallery</a></li>
 								<li class="item"><a href="media">Media</a></li>
-								<li class="item"><a href="event">Events</a></li>
+								<li class="item"><a href="events">Events</a></li>
 								<li class="item"><a href="business-policy">Business Policy</a></li>
 								<li class="item"><a href="blog">Blogs</a></li>
 							</ul>
@@ -127,7 +127,7 @@
 							<ul class="list-unstyled footer-link mb-0">
 								<li class="item"><a href="order-details">Order Details</a></li>
 								<li class="item"><a href="privacy-policy"> Privacy Policy </a></li>
-								<li class="item"><a href="terms-condition"> Terms & Conditions </a></li>
+								<li class="item"><a href="terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="Javascript:;">Support Now</a></li>
 								<li class="item"><a href="manufacturing">Manufacturing</a></li>
 								<li class="item"><a href="grading">Grading</a></li>

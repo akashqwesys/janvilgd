@@ -40,11 +40,16 @@ class DiamondController extends Controller {
         $temp_grp_id = 0;
         $temp_var = 0;
         $final_attribute_groups_with_att = array();
+
+        $user = Auth::user();
+        $file_arr = [];
+
         foreach ($data as $row_data) {
             if ($temp_grp_id != $row_data->attribute_group_id) {
                 $temp_grp_id = $row_data->attribute_group_id;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['name'] = $row_data->ag_name;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['is_fix'] = $row_data->is_fix;
+
             } else {
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['attribute_id'] = $row_data->attribute_id;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['name'] = $row_data->name;
@@ -52,7 +57,9 @@ class DiamondController extends Controller {
 
                 $temp_var++;
             }
+            $file_arr[$row_data->attribute_group_id][] = $row_data->attribute_id;
         }
+        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($file_arr, JSON_PRETTY_PRINT));
 
         $list = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
@@ -193,6 +200,18 @@ class DiamondController extends Controller {
                     </script>";
                 }
             }
+        }
+        $user = Auth::user();
+        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id)) {
+            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id);
+            $arr = json_decode($arr, true);
+        }
+        if (isset($response['attribute_values'])) {
+            if (is_array($response['attribute_values'])) {
+                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
+                $arr[$request->group_id] = $response;
+            }
+            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($arr, JSON_PRETTY_PRINT));
         }
         $recently_viewed = DB::table('recently_view_diamonds')
                 ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')

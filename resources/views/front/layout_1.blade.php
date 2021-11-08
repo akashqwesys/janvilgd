@@ -50,7 +50,12 @@
 		    			<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" data-pagespeed-url-hash="1515657107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
 		    		</li>
 		    		<li class="nav-item">
+						@auth
+						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+						@endauth
+						@guest
 		    			<a class="nav-link active" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+						@endguest
 		    		</li>
 		    	</ul>
 		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -60,22 +65,22 @@
 		    		<div class="offcanvas-body">
 		    			<ul class="list-unstyled">
 		    				<li><a class="nav-link" aria-current="page" href="index">Home</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="about">About Us</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="about-us">About Us</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="blog">Blog</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="contact">Contact</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/3">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/2">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/23">Rough Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/24">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/22">Polish Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="diamonds">What we have?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="event">Events</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="events">Events</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="media">Media</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="gallery">Gallery</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="blog">Blogs</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="business-policy">Business Policy</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="terms-condition">Terms & Condition</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="terms-conditions">Terms & Condition</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="privacy-policy">Privacy Policy</a></li>
 		    			</ul>
 		    		</div>
@@ -130,10 +135,10 @@
 						<div class="quick-link-content">
 							<h4 class="title">About Janvi</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="about">About us</a></li>
+								<li class="item"><a href="about-us">About us</a></li>
 								<li class="item"><a href="gallery">Gallery</a></li>
 								<li class="item"><a href="media">Media</a></li>
-								<li class="item"><a href="event">Events</a></li>
+								<li class="item"><a href="events">Events</a></li>
 								<li class="item"><a href="business-policy">Business Policy</a></li>
 								<li class="item"><a href="blog">Blogs</a></li>
 							</ul>
@@ -145,7 +150,7 @@
 							<ul class="list-unstyled footer-link mb-0">
 								<li class="item"><a href="order-details">Order Details</a></li>
 								<li class="item"><a href="privacy-policy"> Privacy Policy </a></li>
-								<li class="item"><a href="terms-condition"> Terms & Conditions </a></li>
+								<li class="item"><a href="terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="Javascript:;">Support Now</a></li>
 								<li class="item"><a href="manufacturing">Manufacturing</a></li>
 								<li class="item"><a href="grading">Grading</a></li>

@@ -189,7 +189,7 @@ class DiamondController extends Controller
                                 $f_row->attribute_groups[] = [
                                     'attribute_group_id' => $v_row->attribute_group_id,
                                     'name' => $v_row->ag_name,
-                                    'image' => $v_row->image,
+                                    'image' => json_decode($v_row->image),
                                     'value' => $v_row->name
                                 ];
                                 $i = 1;
@@ -294,8 +294,6 @@ class DiamondController extends Controller
                 }
             }
         } */
-
-        // dd($final_d);
 
         /* $data = DB::table('diamonds as d')
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
