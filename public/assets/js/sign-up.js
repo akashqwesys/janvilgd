@@ -2,6 +2,9 @@
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    },
+    beforeSend: function (xhr) {
+        $(".cs-loader").show();
     }
 });
 $(document).on('change', '#email, #mobile', function () {

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
     <style type="text/css">
         .errTxt {
@@ -20,6 +21,11 @@
     </style>
 </head>
 <body>
+    <div class="overlay cs-loader">
+      <div class="overlay__inner">
+        <div class="overlay__content"><span class="spinner"></span></div>
+      </div>
+    </div>
     <div class="content-wrapper">
         <section class="signup-section">
             <div class="login-bg">

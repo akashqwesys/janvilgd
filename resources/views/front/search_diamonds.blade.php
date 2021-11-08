@@ -5,6 +5,9 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function( xhr ) {
+                $( ".cs-loader" ).show();
             }
         });
         $(document).on('click', '.diamond-shape .item img', function () {
@@ -26,7 +29,6 @@
         });
 
         function getAttributeValues(values, array, group_id) {
-            $('.cs-loader').show();
             var selected_values = [];
             if (values.length > 1) {
                 var strArray = values.split(",");
@@ -131,6 +133,11 @@
     </style>
 @endsection
 @section('content')
+    <div class="overlay cs-loader">
+      <div class="overlay__inner">
+        <div class="overlay__content"><span class="spinner"></span></div>
+      </div>
+    </div>
     <section class="diamond-cut-section">
         <div class="container">
             <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt=""> Search for Princess Cut Diamonds</h2></div>

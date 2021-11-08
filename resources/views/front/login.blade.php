@@ -10,8 +10,8 @@
 
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
-    <link rel="stylesheet" type="text/css" ref="/{{ check_host() }}assets/css/responsive.css">
-    <link rel="stylesheet" type="text/css" ref="/{{ check_host() }}assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 </head>
 
@@ -61,6 +61,9 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function( xhr ) {
+                $( ".cs-loader" ).show();
             }
         });
         $(document).on('click', '#login_btn', function (e) {

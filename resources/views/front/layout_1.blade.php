@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
-
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
     @yield('css')
 </head>

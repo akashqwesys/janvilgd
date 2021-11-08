@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="og:type" content="website" />
 	<meta name="twitter:card" content="photo" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
 	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
     <script src="/{{ check_host() }}assets/js/rSlider.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
     <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
     @yield('css')
 </head>
@@ -211,9 +212,9 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
         $(document).ready(function () {
             $(document).on('click', '.add-to-cart', function () {
                 var self = $(this);
-                var diamond_id = self.data('id');               
+                var diamond_id = self.data('id');
                 var data = {
-                    'diamond_id': diamond_id                   
+                    'diamond_id': diamond_id
                 };
                 $.ajax({
                     type: "POST",
@@ -221,7 +222,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
                     url: "{{ route('add-to-cart') }}",
                     data: data,
                     success: function (res) {
-                        if (res.suceess) {   
+                        if (res.suceess) {
                             $.toast({
                                     heading: 'Success',
                                     text: 'Diamond added in cart.',
@@ -235,7 +236,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
                                     icon: 'error',
                                     position: 'top-right'
                             });
-                        }    
+                        }
                     }
                 });
             });
