@@ -26,6 +26,14 @@ class DashboardController extends Controller
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->get();
+        foreach ($sliders as $v) {
+            $v->image = json_decode($v->image);
+            $a = [];
+            foreach ($v->image as $v1) {
+                $a[] = '/storage/sliders/' . $v1;
+            }
+            $v->image = $a;
+        }
 
         $latest = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
@@ -46,7 +54,7 @@ class DashboardController extends Controller
             ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->where('is_recommended', 1)
+            // ->where('is_recommended', 1)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
             ->get();
