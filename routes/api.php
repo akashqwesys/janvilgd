@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DiamondController;
+use App\Http\Controllers\API\DropdownController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('verifyOTP', [AuthController::class, 'verifyOTP']);
 Route::post('resendOTP', [AuthController::class, 'resendOTP']);
 Route::post('register', [AuthController::class, 'register']);
+
+// Dropdowns
+Route::post('dropdowns', [DropdownController::class, 'index']);
 
 Route::group(['middleware' => ['auth:customer-api']], function() {
     // Home
