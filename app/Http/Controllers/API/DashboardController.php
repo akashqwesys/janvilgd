@@ -30,27 +30,34 @@ class DashboardController extends Controller
         $latest = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
-            ->select('diamond_id', 'expected_polish_cts', 'total', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
             ->get();
+        foreach ($latest as $v) {
+            $v->image = json_decode($v->image);
+        }
 
         $recommended = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
-            ->select('diamond_id', 'expected_polish_cts', 'total', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            // ->where('is_recommended', 1)
+            ->where('is_recommended', 1)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
             ->get();
+        foreach ($recommended as $v) {
+            $v->image = json_decode($v->image);
+        }
 
         $offer_sale = DB::table('settings')
+            ->select('key', 'value', 'attachment')
             ->where('key', 'offer_sale')
-            ->get();
+            ->first();
 
         $data = [
             'sliders' => $sliders,

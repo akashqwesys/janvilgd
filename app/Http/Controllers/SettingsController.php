@@ -23,10 +23,10 @@ class SettingsController extends Controller {
 
     public function save(Request $request) {
         $attachment=0;
-        if($request->hasfile('attachment')){          
+        if($request->hasfile('attachment')){
             $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
             $request->file('attachment')->storeAs("public/user_files", $attachment);
-        }        
+        }
         DB::table('settings')->insert([
             'key' => $request->key,
             'value' => $request->value,
@@ -46,9 +46,9 @@ class SettingsController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                    ->editColumn('date_updated', function ($row) {                                
+                    ->editColumn('date_updated', function ($row) {
                                 return date_formate($row->date_updated);
-                            })  
+                            })
 //                    ->editColumn('is_deleted', function ($row) {
 //                                $delete_button='';
 //                                if($row->is_deleted==1){
@@ -72,10 +72,10 @@ class SettingsController extends Controller {
         return view('admin.settings.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {               
-        if($request->hasfile('attachment')){          
+    public function update(Request $request) {
+        if($request->hasfile('attachment')){
             $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
-            $request->file('attachment')->storeAs("public/user_files", $attachment);                 
+            $request->file('attachment')->storeAs("public/user_files", $attachment);
             DB::table('settings')->where('setting_id', $request->id)->update([
                 'key' => $request->key,
                 'value' => $request->value,

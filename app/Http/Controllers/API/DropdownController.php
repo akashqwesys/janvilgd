@@ -35,7 +35,14 @@ class DropdownController extends Controller
             ->where('is_deleted', 0)
             ->get();
 
+        $categories = DB::table('categories')
+            ->select('category_id', 'name')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
         $data = [
+            'diamond_categories' => $categories,
             'country' => $country,
             'state' => $state,
             'city' => $city
