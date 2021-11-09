@@ -5,42 +5,51 @@
 @section('content')
 <section class="diamond-info-section" style="padding-top: 130px;">
     <div class="container">
+        @php
+            if(!empty($response)){
+            @endphp
         <div class="diamond-carat main-box">
+            
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
                         <div class="product--slider">
-                            @php
-                            $i=0;
-                            foreach(json_decode($response->image) as $rv) {
-                            $i=$i+1;
+                            @php                                                        
+                                $i=0;
+                                $image=json_decode($response->image);                             
+                                if(!empty($image)){
+                                    foreach(json_decode($response->image) as $rv) {
+                                    $i=$i+1;
                             @endphp
-                            <div>
-                                <div class="item" data-hash="slide{{$i}}">
-                                    <div class="carousel-slide-pic">
-                                        <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                <<div>
+                                    <div class="item" data-hash="slide{{$i}}">
+                                        <div class="carousel-slide-pic">
+                                            <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>  
+                                </div>  
                             @php
-                            }
+                                    }
+                                }                           
                             @endphp
                         </div>
                         <div class="product--slider-thumb">
-                            @php
-                            $i=0;
-                            foreach(json_decode($response->image) as $rv) {
-                            $i=$i+1;
+                            @php                                                        
+                                $i=0;
+                                if(!empty($image)){
+                                    foreach(json_decode($response->image) as $rv) {
+                                    $i=$i+1;
                             @endphp
-                            <div>
-                                <div class="thumb">
-                                    <div class="thumb-pic">
-                                        <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                    <div>
+                                        <div class="thumb">
+                                            <div class="thumb-pic">
+                                                <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                             @php
-                            }
+                                    }
+                                }                            
                             @endphp                        
                         </div>
                     </div>
@@ -48,8 +57,9 @@
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
                         <h3 class="title">{{$response->diamond_name}}</h3>
-                        <p>Ideal Cut • I Color • SI1 Clarity</p>
-                        <p class="price">{{$response->total}}$</p>
+                        <p>&nbsp;</p>
+                        <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
+                        <p class="price">${{$response->total}}</p>
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response->diamond_id}}">Add To Cart</button>
@@ -92,6 +102,9 @@
                 </div>
             </div>
         </div>
+            @php
+            }
+            @endphp
         <div class="four-diamond-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> The Four C’s of Your Diamond</h2>
             <div class="row">

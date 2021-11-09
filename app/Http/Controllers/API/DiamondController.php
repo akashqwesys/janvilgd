@@ -353,9 +353,9 @@ class DiamondController extends Controller
     {
         $response_array=array();
         $diamonds = DB::table('diamonds as d')
-            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+            ->leftJoin('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+            ->leftJoin('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
             ->where('diamond_id',$diamond_id)
             ->get();
@@ -376,7 +376,6 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $response_array);
     }
 
-
     public function getCart()
     {
         $customer_id=Auth::id();
@@ -384,6 +383,7 @@ class DiamondController extends Controller
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
+            ->where('refCustomer_id',$customer_id)
             ->get();
         if(!empty($diamonds) && isset($diamonds[0])){
             foreach ($diamonds as $value){
@@ -395,10 +395,10 @@ class DiamondController extends Controller
         }
         return $this->successResponse('Success', $response_array);
     }
-
     public function addToCart(Request $request)
     {
         $customer_id=Auth::id();
+//        echo $customer_id;die;    
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -419,7 +419,25 @@ class DiamondController extends Controller
             return $this->errorResponse('Data allready in cart');
         }
     }
-
+    public function removeFromCart(Request $request)
+    {        
+        $customer_id=Auth::id();   
+        $exist_cart = DB::table('customer_cart')
+                ->where('refDiamond_id',$request->diamond_id)
+                ->where('refCustomer_id',$customer_id)
+                ->first();
+        if(empty($exist_cart)){
+            return $this->errorResponse('Data not found');                       
+        }else{
+            DB::table('customer_cart')
+            ->where('refDiamond_id',$request->diamond_id)
+            ->where('refCustomer_id',$customer_id)
+            ->delete();                      
+            return $this->successResponse('Success',1);
+        }                
+    }
+    
+    
 
     /* public function searchDiamonds(Request $request)
     {

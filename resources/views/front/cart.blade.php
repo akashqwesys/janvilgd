@@ -16,40 +16,43 @@
                     @php
                     
                     $total=0;
-                    
+                    if(!empty($response)){
                     foreach($response as $rv) {                      
                     @endphp  
-                    <tr>
+                    <tr id="diamond_{{$rv->diamond_id}}">
                         <td>
                             @php
                             $i=0;
-                            foreach(json_decode($rv->image) as $v) {                            
-                            if($i==0){
+                            $image=json_decode($rv->image);                            
+                            if(!empty($image)){
+                                foreach($image as $v) {                            
+                                    if($i==0){
                             @endphp 
                             
                             <a href="single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>                              
                             @php
-                            }
-                            $i=$i+1;
+                                    }
+                                    $i=$i+1;
+                                }
                             }
                             @endphp    
-                            <a class="close" href="Javascript:;">
+                            <a class="close removeFromCart" href="Javascript:;" data-id="{{$rv->diamond_id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
                                 </svg>
                             </a>
                         </td>
                         <td>
-                            <h5>{{$rv->diamond_name}}</h5>
-                            <p>Ideal Cut • I Color • SI1 Clarity</p>
-                            <p>345678</p>
-                            <h4 class="cart-price">{{$rv->total}}$</h4>
+                            <h5>{{$rv->diamond_name}}</h5>                            
+<!--                            <p>345678</p>-->
+                            <h4 class="cart-price">${{$rv->total}}</h4>
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
                         </td>
                     </tr>
                     @php
                     
                     $total=$total+$rv->total;                    
+                        }
                         }
                     @endphp                  
                 </table>
@@ -62,7 +65,7 @@
                             <tbody>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td>${{$total}}</td>
+                                    <td id="sub-total-td">${{$total}}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping charge</td>
@@ -74,7 +77,7 @@
                                 </tr>
                                 <tr>
                                     <th>Total</th>
-                                    <th>${{$total}}</td>
+                                    <th id="final-total-th">${{$total}}</td>
                                 </tr>
                             </tbody>
                         </table>

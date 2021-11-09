@@ -225,6 +225,29 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
+    
+    public function removeFromCart(Request $request) {
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->removeFromCart($request);         
+        if (!empty($result->original['data'])) {            
+            $total=0;
+            $result_cart = $diamond_api_controller->getCart();
+            if (!empty($result_cart->original['data'])) {
+                foreach($result_cart->original['data'] as $row) {   
+                    $total=$total+$row->total;
+                }
+            }            
+            $data = array(
+                'suceess' => true,
+                'total' => $total
+            );
+        } else {
+            $data = array(
+                'suceess' => false
+            );
+        }
+        return response()->json($data);
+    }
 
     public function searchDiamonds(Request $request)
     {
@@ -255,8 +278,9 @@ class DiamondController extends Controller {
         return $aa->searchDiamonds($request);
         // return response()->json(['success' => 2, 'session' => $arr]);
     }
-    public function getCart()
-    {
+
+    public function getCart() {
+        $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getCart();
         if (!empty($result->original['data'])) {
@@ -267,6 +291,8 @@ class DiamondController extends Controller {
     }
 
     public function diamondDetails($diamond_id) {
+        $response=array();
+        $attributes=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->detailshDiamonds($diamond_id);
         if (!empty($result->original['data'])) {

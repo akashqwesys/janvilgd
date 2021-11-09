@@ -72,6 +72,7 @@ Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
 //required middlewere
 Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
 Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
+Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
 Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
 
 Route::group( ['middleware' => ['auth']], function () {

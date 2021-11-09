@@ -240,6 +240,40 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
                     }
                 });
             });
+                        
+            $(document).on('click', '.removeFromCart', function () {
+                var self = $(this);
+                var diamond_id = self.data('id');               
+                var data = {
+                    'diamond_id': diamond_id                   
+                };
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "{{ route('remove-from-cart') }}",
+                    data: data,
+                    success: function (res) {
+                        if (res.suceess) {   
+                            $.toast({
+                                    heading: 'Success',
+                                    text: 'Diamond removed from cart.',
+                                    icon: 'success',
+                                    position: 'top-right'
+                            });
+                            $("#sub-total-td").text("$"+res.total);
+                            $("#final-total-th").text("$"+res.total);
+                            $("#diamond_"+diamond_id).remove();
+                        }else{
+                            $.toast({
+                                    heading: 'Error',
+                                    text: 'Oops, something went wrong...!',
+                                    icon: 'error',
+                                    position: 'top-right'
+                            });
+                        }    
+                    }
+                });
+            });
         });
     </script>
 @yield('js')
