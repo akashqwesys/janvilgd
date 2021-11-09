@@ -272,6 +272,9 @@ class DiamondController extends Controller {
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
+        
+//        print_r($response);die;
+        
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $request->category;
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
@@ -294,16 +297,21 @@ class DiamondController extends Controller {
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
         $aa = new APIDiamond;
-        $request->request->replace($arr);
-        $request->request->add(['web' => 'web']);
+        $request->request->replace($arr); 
+
+//        print_r($response);die;
         
-        if(isset($request->export)){
-            $pdf = PDF::loadView('front.export-pdf'); 
+        if(isset($response['export'])){             
+            $final_d=$aa->searchDiamonds($request); 
+            $diamonds=$final_d->original['data'];
+            $pdf = PDF::loadView('front.export-pdf',compact('diamonds')); 
             $path = public_path('pdf/'); 
-            $fileName =  time().'.'. 'pdf' ; 
+            $fileName =  time().'.'. 'pdf'; 
             $pdf->save($path . '/' . $fileName); 
             $pdf = public_path('pdf/'.$fileName); 
             return response()->download($pdf); 
+        }else{
+            $request->request->add(['web' => 'web']);
         }                
         return $aa->searchDiamonds($request);
     }

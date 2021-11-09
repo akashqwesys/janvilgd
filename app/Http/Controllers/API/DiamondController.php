@@ -126,8 +126,7 @@ class DiamondController extends Controller
 
         foreach ($diamond_ids as $v_row) {
             if ($temp_diamond_id != $v_row->diamond_id) {
-                $temp_diamond_id = $v_row->diamond_id;
-                $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
+                $temp_diamond_id = $v_row->diamond_id;                
                 $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
                 $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
                 $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;

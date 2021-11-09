@@ -134,8 +134,27 @@
                 });
             }
         });
-                             
+                    
+        $(document).on('click', '#export-search-diamond', function () {
+            var group_id = $(this).attr('data-group_id');
+            if ($(this).attr('data-selected') == 1) {
+                $(this).css('border', '4px solid #00000000');
+                $(this).attr('data-selected', 0);
+            } else {
+                $(this).css('border', '4px solid #D2AB66');
+                $(this).attr('data-selected', 1);
+            }
+            var values = [];
+            $('.diamond-shape .item img').each(function(index, element) {
+                if ($(this).attr('data-selected') == 1) {
+                    values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+                }
+            });
+            exportDiamondTables(values, [], group_id);
+        });  
+          
         function exportDiamondTables(values, array, group_id) {
+            
             var selected_values = [];
             if (values.length > 1) {
                 var strArray = values.split(",");
@@ -159,7 +178,6 @@
             $.ajax({ 
                 type: 'post', 
                 url: '/customer/search-diamonds', 
-
                 data: {
                     'attribute_values': selected_values,
                     'group_id': group_id,                    
@@ -168,9 +186,8 @@
                 }, 
                 xhrFields: { 
                     responseType: 'blob' 
-                }, 
-                success: function(response){ 
-
+                },                
+                success: function(response){                    
                     var blob = new Blob([response]); 
 
                     var link = document.createElement('a'); 
