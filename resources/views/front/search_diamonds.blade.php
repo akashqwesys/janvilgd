@@ -134,6 +134,58 @@
                 });
             }
         });
+                             
+        function exportDiamondTables(values, array, group_id) {
+            var selected_values = [];
+            if (values.length > 1) {
+                var strArray = values.split(",");
+            }
+            if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
+                var first_index = array.map(function (e) {
+                    return e.name;
+                }).indexOf(strArray[0]);
+                var last_index = array.map(function (e) {
+                    return e.name;
+                }).indexOf(strArray[1]);
+                for (let i = first_index; i <= last_index; i++) {
+                    selected_values.push(array[i]);
+                }
+            } else if (array.length === 0) {
+                selected_values = values;
+            } else {
+                selected_values = strArray;
+            }
+            
+            $.ajax({ 
+                type: 'post', 
+                url: '/customer/search-diamonds', 
+
+                data: {
+                    'attribute_values': selected_values,
+                    'group_id': group_id,                    
+                    'category': global_category,
+                    'export': 'export'
+                }, 
+                xhrFields: { 
+                    responseType: 'blob' 
+                }, 
+                success: function(response){ 
+
+                    var blob = new Blob([response]); 
+
+                    var link = document.createElement('a'); 
+
+                    link.href = window.URL.createObjectURL(blob); 
+
+                    link.download = "Sample.pdf"; 
+
+                    link.click(); 
+                }, 
+                error: function(blob){ 
+                    console.log(blob); 
+                } 
+            });         
+        }        
     </script>
     <style>
         /* CSS for input range sliders */
@@ -186,6 +238,7 @@
                 </div>
                 <div class="filter-btn text-center">
                     <a href="#" class="btn btn-primary" id="filter-toggle">Filters <i class="fas fa-chevron-up ms-2"></i></a>
+                    <a href="javascript:;" class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export</a>
                     <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
                 </div>
             </div>

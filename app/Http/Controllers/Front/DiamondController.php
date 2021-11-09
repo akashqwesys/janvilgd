@@ -16,6 +16,7 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
+use PDF;
 
 class DiamondController extends Controller {
 
@@ -266,7 +267,8 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-
+           
+    
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
@@ -294,9 +296,22 @@ class DiamondController extends Controller {
         $aa = new APIDiamond;
         $request->request->replace($arr);
         $request->request->add(['web' => 'web']);
+        
+        if(isset($request->export)){
+            $pdf = PDF::loadView('front.export-pdf'); 
+            $path = public_path('pdf/'); 
+            $fileName =  time().'.'. 'pdf' ; 
+            $pdf->save($path . '/' . $fileName); 
+            $pdf = public_path('pdf/'.$fileName); 
+            return response()->download($pdf); 
+        }                
         return $aa->searchDiamonds($request);
     }
-
+    public function pdfpreview() 
+    { 
+        return view('front.export-pdf'); 
+    }
+    
     public function getCart() {
         $response=array();
         $diamond_api_controller = new DiamondApi;

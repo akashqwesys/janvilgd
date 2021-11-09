@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -235,6 +236,7 @@ return [
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Curl' => Ixudra\Curl\Facades\Curl::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

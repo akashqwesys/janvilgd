@@ -81,8 +81,9 @@ Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wis
 
 Route::group( ['middleware' => ['auth']], function () {
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);
+    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);         
 });
+Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']); 
 
 // ---------------- Customer  --------------------
 
