@@ -69,26 +69,6 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-        // dd($request->all());
-        /* if (empty($response) || count($response) <= 1 ) {
-            return $this->errorResponse('No response found');
-        }
-
-        if (is_array($response)) {
-            $attribute_groups = array_keys($response);
-        } else {
-            $attribute_groups = [];
-        }
-
-        $attr = [];
-        foreach ($attribute_groups as $a) {
-            $attr[$a] = collect($response[$a])->values()->all();
-        }
-
-        $attribute_ids = [];
-        foreach ($attr as $a) {
-            $attribute_ids = array_merge($attribute_ids, array_values($a));
-        } */
 
         $attrg_attr = [];
         if (is_array($response)) {
@@ -144,19 +124,12 @@ class DiamondController extends Controller
         $final_d = [];
         $temp_diamond_id = null;
 
-        /* foreach ($diamond_ids as $v_row) {
-            array_push($diamond_id_array, $v_row->diamond_id);
-        }
-        $diamond_id_array = array_unique($diamond_id_array);
-
-        $final_d[0]=$diamond_ids[0]; */
-
         foreach ($diamond_ids as $v_row) {
             if ($temp_diamond_id != $v_row->diamond_id) {
                 $temp_diamond_id = $v_row->diamond_id;
                 $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
                 $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
-                $final_d[$v_row->diamond_id]['image'] = $v_row->image;
+                $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
                 $final_d[$v_row->diamond_id]['price'] = $v_row->price;
                 $final_d[$v_row->diamond_id]['attributes'] = [];
             } else {
@@ -203,77 +176,6 @@ class DiamondController extends Controller
             return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html]);
         }
 
-        /* foreach ($diamond_ids as $v_row) {
-            foreach ($diamond_id_array as $dim_row) {
-                if($dim_row==$v_row->diamond_id){
-                    $i=0;
-                    $v_row->{$v_row->ag_name} = $v_row->name;
-                    if(!empty($final_d)){
-                        foreach ($final_d as $f_row) {
-                            if($f_row->diamond_id == $dim_row){
-                                $f_row->{$v_row->ag_name} = $v_row->name;
-                                $i=1;
-                            }
-                        }
-                    }
-                    if($i==0){
-                        array_push($final_d, $v_row);
-                    }
-                }
-            }
-        } */
-
-        /* $data = DB::table('diamonds as d')
-            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->select('da.refAttribute_id', 'd.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-            ->whereRaw(rtrim($q, 'or '))
-            ->where('da.refAttribute_id', '<>', 0)
-            ->where('d.is_active', 1)
-            ->where('d.is_deleted', 0)
-            ->groupBy('d.diamond_id', 'da.refAttribute_id')
-            ->orderBy('d.diamond_id', 'desc')
-            ->get()
-            ->toArray(); */
-
-        /* $data = [];
-        foreach ($diamond_ids as $k => $v) {
-            $data[] = DB::table('diamonds as d')
-                ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-                ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
-                ->select('da.refAttribute_id', 'd.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-                ->where('d.diamond_id', $v)
-                ->whereIn('da.refAttribute_id', $attribute_ids)
-                ->where('da.refAttribute_id', '<>', 0)
-                ->orderBy('d.diamond_id', 'desc')
-                ->get()
-                ->toArray();
-        }
-        // dd($data);
-
-        $attr_grp_data = DB::table('attributes as a')
-            ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
-            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image')
-            ->whereIn('a.attribute_id', $attribute_ids)
-            ->orderBy('attribute_group_id')
-            ->get()
-            ->toArray();
-        dd($attr_grp_data);
-        $diamonds = [];
-        for ($i = 0; $i < count($data); $i++) {
-            for ($j = 0; $j < count($data[$i]); $j++) {
-                for ($k = 0; $k < count($attr_grp_data); $k++) {
-                    if ($attr_grp_data[$k]->attribute_id == $data[$i][$j]->refAttribute_id) {
-                        if ($data[$i][$j]->diamond_id == $data[$i][$j]->diamond_id) {
-                            $diamonds[] = [
-                                'diamond_id' => $data[$i][$j]->diamond_id,
-                                $attr_grp_data[$k]->ag_name => $attr_grp_data[$k]->name,
-                                'image' => $data[$i][$j]->image
-                            ];
-                        }
-                    }
-                }
-            }
-        } */
         return $this->successResponse('Success', $final_d);
     }
 
@@ -299,7 +201,7 @@ class DiamondController extends Controller
             }
         }
         if (!count($response_array)) {
-            return $this->errorResponse('Data not found');
+            return $this->errorResponse('No such diamond found');
         }
         return $this->successResponse('Success', $response_array);
     }
@@ -326,8 +228,21 @@ class DiamondController extends Controller
 
     public function addToCart(Request $request)
     {
-        $customer_id=Auth::id();
-//        echo $customer_id;die;
+        $rules = [
+            'diamond_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'diamond_id.required' => 'Please select diamond',
+            'diamond_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $customer_id = Auth::id();
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -341,34 +256,49 @@ class DiamondController extends Controller
             $res=DB::table('customer_cart')->insert($data_array);
             $Id = DB::getPdo()->lastInsertId();
             if (empty($res)) {
-                return $this->errorResponse('Data not inserted');
+                return $this->errorResponse('Sorry, we are not able to add this diamond to your cart');
             }
             return $this->successResponse('Success', $Id);
-        }else{
-            return $this->errorResponse('Data allready in cart');
+        } else{
+            return $this->errorResponse('Selected diamond is already in the cart');
         }
     }
+
     public function removeFromCart(Request $request)
     {
-        $customer_id=Auth::id();
+        $rules = [
+            'diamond_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'diamond_id.required' => 'Please select diamond',
+            'diamond_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $customer_id = Auth::id();
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
                 ->first();
         if(empty($exist_cart)){
-            return $this->errorResponse('Data not found');
+            return $this->errorResponse('No such diamond in your cart');
         }else{
             DB::table('customer_cart')
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
-            return $this->successResponse('Success',1);
+            return $this->successResponse('Success');
         }
     }
 
     public function getWishlist()
     {
-        $customer_id=Auth::id();
+        $customer_id = Auth::id();
         $response_array=array();
         $diamonds = DB::table('customer_whishlist as cw')
             ->join('diamonds as d', 'cw.refdiamond_id', '=', 'd.diamond_id')
@@ -381,14 +311,29 @@ class DiamondController extends Controller
             }
         }
         if (!count($response_array)) {
-            return $this->errorResponse('Data not found');
+            return $this->errorResponse('Your wishlist is empty');
         }
         return $this->successResponse('Success', $response_array);
     }
 
     public function addToWishlist(Request $request)
     {
-        $customer_id=Auth::id();
+        $rules = [
+            'diamond_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'diamond_id.required' => 'Please select diamond',
+            'diamond_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+
+        $customer_id = Auth::id();
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -402,23 +347,38 @@ class DiamondController extends Controller
             $res=DB::table('customer_whishlist')->insert($data_array);
             $Id = DB::getPdo()->lastInsertId();
             if (empty($res)) {
-                return $this->errorResponse('Data not inserted');
+                return $this->errorResponse('Sorry, we are not able to add this diamond to your wishlist');
             }
             return $this->successResponse('Success', $Id);
-        }else{
-            return $this->errorResponse('Data allready in wishlist');
+        } else {
+            return $this->errorResponse('Selected diamond is already there in your wishlist');
         }
     }
+
     public function removeFromWishlist(Request $request)
     {
-        $customer_id=Auth::id();
+        $rules = [
+            'diamond_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'diamond_id.required' => 'Please select diamond',
+            'diamond_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $customer_id = Auth::id();
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
                 ->first();
         if(empty($exist_wishlist)){
             return $this->errorResponse('Data not found');
-        }else{
+        } else {
             DB::table('customer_whishlist')
             ->where('refdiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
@@ -426,85 +386,4 @@ class DiamondController extends Controller
             return $this->successResponse('Success',1);
         }
     }
-
-
-    /* public function searchDiamonds(Request $request)
-    {
-        $response = $request->all();
-        $attribute_groups = array_keys($response);
-
-        $attr = [];
-        foreach ($attribute_groups as $a) {
-            $attr[$a] = collect($response[$a]['attributes'])->pluck('attribute_id')->values()->all();
-        }
-
-        $attribute_ids = [];
-        foreach ($attr as $a) {
-            $attribute_ids = array_merge($attribute_ids, array_values($a));
-        }
-
-        $q = null;
-        foreach ($attr as $k => $v) {
-            $q .= '("da"."refAttribute_group_id" = ' . $k . ' and "da"."refAttribute_id" in ('.implode(',', $v).')) or ';
-        }
-
-        $diamond_ids = DB::table('diamonds as d')
-            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-            ->whereRaw(rtrim($q, 'or '))
-            ->where('da.refAttribute_id', '<>', 0)
-            ->where('d.is_active', 1)
-            ->where('d.is_deleted', 0)
-            ->groupBy('d.diamond_id')
-            ->orderBy('d.diamond_id', 'desc')
-            ->pluck('diamond_id')
-            ->toArray();
-
-        // $data = DB::table('diamonds as d')
-        //     ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-        //     ->select('da.refAttribute_id', 'd.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-        //     ->whereRaw(rtrim($q, 'or '))
-        //     ->where('da.refAttribute_id', '<>', 0)
-        //     ->where('d.is_active', 1)
-        //     ->where('d.is_deleted', 0)
-        //     ->groupBy('d.diamond_id', 'da.refAttribute_id')
-        //     ->orderBy('d.diamond_id', 'desc')
-        //     ->get()
-        //     ->toArray();
-
-        $data = [];
-        foreach ($diamond_ids as $k => $v) {
-            $data[] = DB::table('diamonds as d')
-                ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-                ->select('da.refAttribute_id', 'd.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-                ->where('d.diamond_id', $v)
-                ->orderBy('d.diamond_id', 'desc')
-                ->get()
-                ->toArray();
-        }
-
-        $diamonds = [];
-        $i = 0;
-        foreach ($data as $k => $v) {
-            foreach ($response as $k1 => $v1) {
-                if ($response[$k1]['attributes'][$i]['attribute_id'] == $v->refAttribute_id) {
-                    $data[$k]['attributes'][] = [
-                        'ag_name' => $v->ag_name,
-                        'attribute_id' => $v->attribute_id,
-                        'name' => $v->name,
-                        'image' => $v->image
-                    ];
-                } else {
-                    $j++;
-                    $attr[$attr_groups[$j]][] = [
-                        'ag_name' => $v->ag_name,
-                        'attribute_id' => $v->attribute_id,
-                        'name' => $v->name,
-                        'image' => $v->image
-                    ];
-                }
-            }
-        }
-        return $this->successResponse('Success', $data);
-    } */
 }
