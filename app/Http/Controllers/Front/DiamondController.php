@@ -57,9 +57,7 @@ class DiamondController extends Controller {
 
                 $temp_var++;
             }
-            $file_arr[$row_data->attribute_group_id][] = $row_data->attribute_id;
         }
-        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($file_arr, JSON_PRETTY_PRINT));
 
         $list = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
@@ -67,7 +65,8 @@ class DiamondController extends Controller {
                 if ($v['name'] == 'SHAPE') {
                     if (isset($v['attributes']) && count($v['attributes']) > 1) {
                         foreach ($v['attributes'] as $v1) {
-                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $v1['image'] . '" class="img-fluid d-block" alt="diamond-shape" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $v1['image'] . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                            $file_arr[$k][] = $v1['attribute_id'];
                         }
                         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                             <div class="diamond-shape filter-item align-items-center">
@@ -88,6 +87,7 @@ class DiamondController extends Controller {
                             $default_values[$i]['attribute_id'] = $v1['attribute_id'];
                             $default_values[$i]['name'] = $v1['name'];
                             $i++;
+                            $file_arr[$k][] = $v1['attribute_id'];
                         }
                         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                                 <div class="diamond-cut filter-item">
@@ -174,6 +174,7 @@ class DiamondController extends Controller {
                         $default_values[$i]['attribute_id'] = $v1['attribute_id'];
                         $default_values[$i]['name'] = $v1['name'];
                         $i++;
+                        $file_arr[$k][] = $v1['attribute_id'];
                     }
                     $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                             <div class="diamond-cut filter-item">
@@ -201,18 +202,7 @@ class DiamondController extends Controller {
                 }
             }
         }
-        $user = Auth::user();
-        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id)) {
-            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id);
-            $arr = json_decode($arr, true);
-        }
-        if (isset($response['attribute_values'])) {
-            if (is_array($response['attribute_values'])) {
-                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                $arr[$request->group_id] = $response;
-            }
-            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($arr, JSON_PRETTY_PRINT));
-        }
+        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($file_arr, JSON_PRETTY_PRINT));
         $recently_viewed = DB::table('recently_view_diamonds')
                 ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
                 ->orderBy('id', 'desc')

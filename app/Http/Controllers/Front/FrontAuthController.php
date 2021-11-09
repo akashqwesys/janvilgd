@@ -211,7 +211,7 @@ class FrontAuthController extends Controller
                         $company->approved_by = 0;
                         $company->save();
 
-                        return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/']);
+                        return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/customer/authenticate/' . encrypt($exists->email, false)]);
                     } else {
                         return response()->json(['error' => 1, 'message' => 'You are already registered', 'url' => '/']);
                     }
