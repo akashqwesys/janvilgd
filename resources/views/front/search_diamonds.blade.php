@@ -95,11 +95,11 @@
         }
         $(document).on('click', '#result-table .diamond-checkbox', function() {
             $(this).attr('checked', true);
-            $('#compare-table tbody').append('<tr>'+$(this).closest('tr').html()+'</tr>');
+            $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
             $(this).closest('tr').remove();
         });
         $(document).on('click', '#compare-table .diamond-checkbox', function() {
-            $('#result-table tbody').append('<tr>'+$(this).closest('tr').html()+'</tr>');
+            $('#result-table tbody').append($(this).closest('tr')[0].outerHTML);
             $(this).closest('tr').remove();
         });
         $(document).on('mouseover', '#result-table tr', function() {
