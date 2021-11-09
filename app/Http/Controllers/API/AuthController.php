@@ -309,7 +309,7 @@ class AuthController extends Controller
                     return $this->errorResponse('You are already registered');
                 }
             } else {
-                return $this->errorResponse('Oops, something went wrong...!');
+                return $this->errorResponse('You are already registered...!');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());

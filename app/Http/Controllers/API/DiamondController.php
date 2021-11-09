@@ -95,7 +95,7 @@ class DiamondController extends Controller
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name');
+            ->select('d.diamond_id', 'd.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name');
         if (!empty($q)) {
             $diamond_ids = $diamond_ids->whereRaw('(' . rtrim($q, 'or ') . ')');
         }
@@ -128,6 +128,7 @@ class DiamondController extends Controller
             if ($temp_diamond_id != $v_row->diamond_id) {
                 $temp_diamond_id = $v_row->diamond_id;
                 $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+                $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
                 $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
                 $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
                 $final_d[$v_row->diamond_id]['price'] = $v_row->price;
@@ -140,7 +141,12 @@ class DiamondController extends Controller
         if ($request->web == 'web') {
             $html = '';
             foreach ($final_d as $v) {
-                $html .= '<tr data-diamond="' . $v['diamond_id'] . '">
+                if (count($v['image'])) {
+                    $img_src = $v['image'][0];
+                } else {
+                    $img_src = '/assets/images/No-Preview-Available.jpg';
+                }
+                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . round($v['price'], 2) . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '">
                             <td scope="col" class="text-center">' . $v['carat'] . '</td>
                             <td scope="col" class="text-center">' . round($v['price'], 2) . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
@@ -287,7 +293,7 @@ class DiamondController extends Controller
                 ->first();
         if(empty($exist_cart)){
             return $this->errorResponse('No such diamond in your cart');
-        }else{
+        } else {
             DB::table('customer_cart')
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)

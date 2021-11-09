@@ -243,18 +243,18 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-    
+
     public function removeFromCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
-        $result = $diamond_api_controller->removeFromCart($request);         
-        if (!empty($result->original['data'])) {            
+        $result = $diamond_api_controller->removeFromCart($request);
+        if (!empty($result->original['data'])) {
             $total=0;
             $result_cart = $diamond_api_controller->getCart();
             if (!empty($result_cart->original['data'])) {
-                foreach($result_cart->original['data'] as $row) {   
+                foreach($result_cart->original['data'] as $row) {
                     $total=$total+$row->total;
                 }
-            }            
+            }
             $data = array(
                 'suceess' => true,
                 'total' => $total
@@ -335,13 +335,13 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-    
+
     public function removeFromWishlist(Request $request) {
         $diamond_api_controller = new DiamondApi;
-        $result = $diamond_api_controller->removeFromWishlist($request);         
-        if (!empty($result->original['data'])) {                                   
+        $result = $diamond_api_controller->removeFromWishlist($request);
+        if (!empty($result->original['data'])) {
             $data = array(
-                'suceess' => true,                
+                'suceess' => true,
             );
         } else {
             $data = array(
@@ -361,7 +361,7 @@ class DiamondController extends Controller {
         $title = 'Wishlist';
         return view('front.wishlist', compact('title', 'response'));
     }
- 
+
     public function clearDiamondsFromDB(Request $request) {
         DB::table($request->table)->truncate();
         // DB::table('diamonds')->truncate();

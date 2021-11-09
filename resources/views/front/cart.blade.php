@@ -7,7 +7,7 @@
     <div class="container">
         <div class="section-content">
             <div>
-                <h2 class="title bread-crumb-title">View Cart</h2>					
+                <h2 class="title bread-crumb-title">View Cart</h2>
             </div>
         </div>
     </div>
@@ -26,25 +26,25 @@
 
                     $total=0;
                     if(!empty($response)){
-                    foreach($response as $rv) {                      
-                    @endphp  
+                    foreach($response as $rv) {
+                    @endphp
                     <tr id="diamond_{{$rv->diamond_id}}">
                         <td>
                             @php
                             $i=0;
-                            $image=json_decode($rv->image);                            
+                            $image=json_decode($rv->image);
                             if(!empty($image)){
-                            foreach($image as $v) {                            
+                            foreach($image as $v) {
                             if($i==0){
-                            @endphp 
+                            @endphp
 
-                            <a href="single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>                              
+                            <a href="single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
                             @php
                             }
                             $i=$i+1;
                             }
                             }
-                            @endphp    
+                            @endphp
                             <a class="close removeFromCart" href="Javascript:;" data-id="{{$rv->diamond_id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
@@ -52,7 +52,7 @@
                             </a>
                         </td>
                         <td>
-                            <h5>{{$rv->diamond_name}}</h5>                            
+                            <h5>{{$rv->diamond_name}}</h5>
 <!--                            <p>345678</p>-->
                             <h4 class="cart-price">${{$rv->total}}</h4>
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
@@ -60,10 +60,10 @@
                     </tr>
                     @php
 
-                    $total=$total+$rv->total;                    
+                    $total=$total+$rv->total;
                     }
                     }
-                    @endphp                  
+                    @endphp
                 </table>
             </div>
             <div class="col col-12 col-md-12 col-lg-4">

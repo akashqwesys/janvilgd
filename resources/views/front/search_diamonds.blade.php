@@ -104,6 +104,21 @@
         });
         $(document).on('mouseover', '#result-table tr', function() {
             $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-diamond'));
+            $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
+            $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
+            $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+        });
+        $(document).on('mouseover', '#recent-view tr', function() {
+            $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-diamond'));
+            $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
+            $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
+            $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+        });
+        $(document).on('mouseover', '#compare-table tr', function() {
+            $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-diamond'));
+            $('.compare-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
+            $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
+            $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
         });
         $(document).on('click', '#filter-toggle', function() {
             if ($('.filter-toggle').height() > 1) {
@@ -193,11 +208,11 @@
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
-                                            <div class="diamond-img">
+                                            <div class="diamond-img mb-2">
                                                 <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
-                                            <p class="diamond-short-note">lorem Ipsum</p>
+                                            <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                             <p class="diamond-cost">$456.00</p>
                                             <a href="#" class="btn btn-primary">View Diamond</a>
                                         </div>
@@ -228,7 +243,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="recently-viwed" role="tabpanel" aria-labelledby="recently-viwed-tab">
-                        <div class="result-tab-content">
+                        <div class="recent-tab-content">
                             <div class="row">
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
                                     <div class="selected-diamonds">
@@ -237,7 +252,7 @@
                                                 <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
-                                            <p class="diamond-short-note">lorem Ipsum</p>
+                                            <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                             <p class="diamond-cost">$456.00</p>
                                             <a href="#" class="btn btn-primary">View Diamond</a>
                                         </div>
@@ -286,7 +301,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="comparision" role="tabpanel" aria-labelledby="comparision-tab">
-                        <div class="result-tab-content">
+                        <div class="compare-tab-content">
                             <div class="row">
                                 <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
                                     <div class="selected-diamonds">
@@ -295,7 +310,7 @@
                                                 <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
                                             </div>
                                             <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
-                                            <p class="diamond-short-note">lorem Ipsum</p>
+                                            <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                             <p class="diamond-cost">$456.00</p>
                                             <a href="#" class="btn btn-primary">View Diamond</a>
                                         </div>
