@@ -21,7 +21,7 @@
                                     foreach(json_decode($response->image) as $rv) {
                                     $i=$i+1;
                             @endphp
-                                <<div>
+                                <div>
                                     <div class="item" data-hash="slide{{$i}}">
                                         <div class="carousel-slide-pic">
                                             <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
@@ -64,7 +64,7 @@
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response->diamond_id}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
-                            <a href="Javascript:;" class="btn like"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
+                            <a href="Javascript:;" class="btn like add-to-wishlist" data-id="{{$response->diamond_id}}"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
                         </div>
                         <div class="mail-phone">
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>

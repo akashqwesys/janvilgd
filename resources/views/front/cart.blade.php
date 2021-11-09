@@ -3,6 +3,15 @@
 @section('css')
 @endsection
 @section('content')
+<section class="sub-header">
+    <div class="container">
+        <div class="section-content">
+            <div>
+                <h2 class="title bread-crumb-title">View Cart</h2>					
+            </div>
+        </div>
+    </div>
+</section>
 <div class="cart-page">
     <div class="container">
         <div class="row">
@@ -12,9 +21,9 @@
             </div>
             <div class="col col-12 col-md-12 col-lg-8">
                 <table class="cart-table">
-                   
+
                     @php
-                    
+
                     $total=0;
                     if(!empty($response)){
                     foreach($response as $rv) {                      
@@ -25,15 +34,15 @@
                             $i=0;
                             $image=json_decode($rv->image);                            
                             if(!empty($image)){
-                                foreach($image as $v) {                            
-                                    if($i==0){
+                            foreach($image as $v) {                            
+                            if($i==0){
                             @endphp 
-                            
+
                             <a href="single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>                              
                             @php
-                                    }
-                                    $i=$i+1;
-                                }
+                            }
+                            $i=$i+1;
+                            }
                             }
                             @endphp    
                             <a class="close removeFromCart" href="Javascript:;" data-id="{{$rv->diamond_id}}">
@@ -50,10 +59,10 @@
                         </td>
                     </tr>
                     @php
-                    
+
                     $total=$total+$rv->total;                    
-                        }
-                        }
+                    }
+                    }
                     @endphp                  
                 </table>
             </div>
