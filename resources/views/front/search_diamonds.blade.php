@@ -194,7 +194,7 @@
 
                     link.href = window.URL.createObjectURL(blob); 
 
-                    link.download = "Sample.pdf"; 
+                    link.download = "Diamonds-data.pdf"; 
 
                     link.click(); 
                 }, 
