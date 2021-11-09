@@ -130,9 +130,9 @@ class DiamondController extends Controller
             ->where('d.is_deleted', 0)
             // ->groupBy('d.diamond_id')
             ->orderBy('d.diamond_id', 'desc')
-            // ->get()
+            ->get()
             // ->pluck('diamond_id')
-            ->dd();
+            ->toArray();
 
         if (!count($diamond_ids)) {
             if ($request->web == 'web') {
@@ -327,7 +327,7 @@ class DiamondController extends Controller
     public function addToCart(Request $request)
     {
         $customer_id=Auth::id();
-//        echo $customer_id;die;    
+//        echo $customer_id;die;
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -349,25 +349,23 @@ class DiamondController extends Controller
         }
     }
     public function removeFromCart(Request $request)
-    {        
-        $customer_id=Auth::id();   
+    {
+        $customer_id=Auth::id();
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
                 ->first();
         if(empty($exist_cart)){
-            return $this->errorResponse('Data not found');                       
+            return $this->errorResponse('Data not found');
         }else{
             DB::table('customer_cart')
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
-            ->delete();                      
+            ->delete();
             return $this->successResponse('Success',1);
-        }                
+        }
     }
-    
-    
-    
+
     public function getWishlist()
     {
         $customer_id=Auth::id();
@@ -390,7 +388,7 @@ class DiamondController extends Controller
 
     public function addToWishlist(Request $request)
     {
-        $customer_id=Auth::id();   
+        $customer_id=Auth::id();
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -412,23 +410,23 @@ class DiamondController extends Controller
         }
     }
     public function removeFromWishlist(Request $request)
-    {        
-        $customer_id=Auth::id();   
+    {
+        $customer_id=Auth::id();
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
                 ->first();
         if(empty($exist_wishlist)){
-            return $this->errorResponse('Data not found');                       
+            return $this->errorResponse('Data not found');
         }else{
             DB::table('customer_whishlist')
             ->where('refdiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
-            ->delete();                      
+            ->delete();
             return $this->successResponse('Success',1);
-        }                
+        }
     }
-    
+
 
     /* public function searchDiamonds(Request $request)
     {
