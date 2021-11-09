@@ -171,7 +171,7 @@ $(document).ready(function () {
 	// ******* filter-input-slider *******
 	var count = 1;
 	jQuery( "#filter-toggle" ).click(function() {
-		jQuery('.filter-toggle').toggle();
+		// jQuery('.filter-toggle').toggle();
 		var sliders = document.querySelectorAll('.min-max-slider');
 		sliders.forEach( function(slider) {
 			init(slider,count,'click');
@@ -212,7 +212,7 @@ $(document).ready(function () {
 		if(max.value>(rangemax - 1)) max.setAttribute('data-value',rangemax);
 
 		/* write value and labels */
-		max.value = max.getAttribute('data-value'); 
+		max.value = max.getAttribute('data-value');
 		min.value = min.getAttribute('data-value');
 		lower.innerHTML = min.getAttribute('data-value');
 		upper.innerHTML = max.getAttribute('data-value');
@@ -235,9 +235,9 @@ $(document).ready(function () {
 			max.setAttribute('data-value',rangemax);
 
 			/* set data vars */
-			slider.setAttribute('data-rangemin',rangemin); 
-			slider.setAttribute('data-rangemax',rangemax); 
-			slider.setAttribute('data-thumbsize',thumbsize); 
+			slider.setAttribute('data-rangemin',rangemin);
+			slider.setAttribute('data-rangemax',rangemax);
+			slider.setAttribute('data-thumbsize',thumbsize);
 			slider.setAttribute('data-rangewidth',slider.offsetWidth);
 
 			/* write labels */
@@ -245,7 +245,7 @@ $(document).ready(function () {
 			var upper = document.createElement('span');
 			lower.classList.add('lower','value');
 			upper.classList.add('upper','value');
-			if(action != "click"){			
+			if(action != "click"){
 			lower.appendChild(document.createTextNode(rangemin));
 			upper.appendChild(document.createTextNode(rangemax));
 			slider.insertBefore(lower,min.previousElementSibling);
@@ -260,7 +260,7 @@ $(document).ready(function () {
 				var val = Math.round(rangemin+(i/(legendnum-1))*(rangemax - rangemin));
 				legendvalues[i].appendChild(document.createTextNode(val));
 				legend.appendChild(legendvalues[i]);
-			} 
+			}
 			slider.appendChild(legend);
 			/* draw */
 			draw(slider,avgvalue);
@@ -294,7 +294,7 @@ $(document).ready(function () {
 
 
 
-	
+
 
 
 });

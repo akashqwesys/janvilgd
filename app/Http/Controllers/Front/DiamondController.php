@@ -20,7 +20,7 @@ use App\Http\Controllers\API\DiamondController as APIDiamond;
 class DiamondController extends Controller {
 
     public function home(Request $request) {
-        $category = DB::table('categories')->select('category_id')->where('category_id', $request->category)->first();
+        $category = DB::table('categories')->select('category_id', 'name')->where('category_id', $request->category)->first();
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
@@ -165,50 +165,68 @@ class DiamondController extends Controller {
         $none_fix = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] === 0 && $v['name'] != 'GRIDLE CONDITION') {
-                if (isset($v['attributes']) && count($v['attributes']) > 1) {
-                    $values = [];
-                    $default_values = [];
-                    $i = 0;
-                    foreach ($v['attributes'] as $v1) {
-                        $values[] = $v1['name'];
-                        $default_values[$i]['attribute_id'] = $v1['attribute_id'];
-                        $default_values[$i]['name'] = $v1['name'];
-                        $i++;
-                        $file_arr[$k][] = $v1['attribute_id'];
-                    }
-                    $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
-                            <div class="diamond-cut filter-item">
-                                <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <div class="range-sliders">
-                                    <input type="text" id="Slider' . $k . '"/>
-                                </div>
+                if ($v['name'] == 'SHAPE') {
+                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                        foreach ($v['attributes'] as $v1) {
+                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $v1['image'] . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                            $file_arr[$k][] = $v1['attribute_id'];
+                        }
+                        $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
+                            <div class="diamond-shape filter-item align-items-center">
+                                <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                <ul class="list-unstyled mb-0 diamond_shape">
+                                    ' . $list . '
+                                </ul>
                             </div>
                         </div>';
-                    $none_fix .= "<script type='text/javascript'>
-                        var Slider" . $k . " = new rSlider({
-                            target: '#Slider" . $k . "',
-                            values: ['" . implode("','", $values) . "'],
-                            range: true,
-                            tooltip: false,
-                            scale: true,
-                            labels: true,
-                            set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
-                            onChange: function (vals) {
-                                var array = " . json_encode($default_values) . ";
-                                getAttributeValues(vals, array, " . $k . ");
-                            }
-                    });
-                    </script>";
+                    }
+                } else {
+                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                        $values = [];
+                        $default_values = [];
+                        $i = 0;
+                        foreach ($v['attributes'] as $v1) {
+                            $values[] = $v1['name'];
+                            $default_values[$i]['attribute_id'] = $v1['attribute_id'];
+                            $default_values[$i]['name'] = $v1['name'];
+                            $i++;
+                            $file_arr[$k][] = $v1['attribute_id'];
+                        }
+                        $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
+                                <div class="diamond-cut filter-item">
+                                    <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <div class="range-sliders">
+                                        <input type="text" id="Slider' . $k . '"/>
+                                    </div>
+                                </div>
+                            </div>';
+                        $none_fix .= "<script type='text/javascript'>
+                            var Slider" . $k . " = new rSlider({
+                                target: '#Slider" . $k . "',
+                                values: ['" . implode("','", $values) . "'],
+                                range: true,
+                                tooltip: false,
+                                scale: true,
+                                labels: true,
+                                set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
+                                onChange: function (vals) {
+                                    var array = " . json_encode($default_values) . ";
+                                    getAttributeValues(vals, array, " . $k . ");
+                                }
+                        });
+                        </script>";
+                    }
                 }
             }
         }
-        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($file_arr, JSON_PRETTY_PRINT));
+        $file_name = $user->customer_id . '-' . $category->category_id;
+        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
         $recently_viewed = DB::table('recently_view_diamonds')
                 ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
                 ->orderBy('id', 'desc')
                 ->get();
         $title = 'Search Diamonds';
-        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed'));
+        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category'));
     }
 
     public function addToCart(Request $request) {
@@ -253,8 +271,9 @@ class DiamondController extends Controller {
     {
         $response = $request->all();
         $user = Auth::user();
-        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id)) {
-            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id);
+        $file_name = $user->customer_id . '-' . $request->category;
+        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
+            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
             $arr = json_decode($arr, true);
         }
         if (isset($response['attribute_values'])) {
@@ -270,13 +289,12 @@ class DiamondController extends Controller {
                     $arr['carat_max'] = explode(',', $response['attribute_values'])[1];
                 }
             }
-            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $user->customer_id, json_encode($arr, JSON_PRETTY_PRINT));
+            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
         $aa = new APIDiamond;
         $request->request->replace($arr);
         $request->request->add(['web' => 'web']);
         return $aa->searchDiamonds($request);
-        // return response()->json(['success' => 2, 'session' => $arr]);
     }
 
     public function getCart() {

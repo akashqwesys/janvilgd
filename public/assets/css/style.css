@@ -1399,7 +1399,9 @@ a {
     border-bottom: 1px solid #D1D1D1;
 }
 .filter-toggle {
-    display: none;
+    /* display: none; */
+    visibility: hidden;
+    height: 0;
 }
 .filter-item .min-max-slider {
     padding-top: 25px;

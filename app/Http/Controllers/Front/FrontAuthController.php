@@ -353,7 +353,7 @@ class FrontAuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        redirect('/');
+        return redirect('/');
     }
 
     public function checkEmailMobile(Request $request)

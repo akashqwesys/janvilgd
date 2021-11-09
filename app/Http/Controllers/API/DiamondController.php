@@ -70,33 +70,9 @@ class DiamondController extends Controller
     {
         $response = $request->all();
         // dd($request->all());
-        if (empty($response) || count($response) <= 1 ) {
+        /* if (empty($response) || count($response) <= 1 ) {
             return $this->errorResponse('No response found');
         }
-        /* if ($request->web == 'web') {
-            if ($request->session()->has('diamond_filters')) {
-                $arr = $request->session()->get('diamond_filters');
-            }
-            if (isset($response['attribute_values'])) {
-                if (is_array($response['attribute_values'])) {
-                    $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                    $arr[$request->group_id] = $response;
-
-                } else {
-                    if ($response['group_id'] == 'price') {
-                        $arr['price_min'] = explode(',', $response['attribute_values'])[0];
-                        $arr['price_max'] = explode(',', $response['attribute_values'])[1];
-                    } else {
-                        $arr['carat_min'] = explode(',', $response['attribute_values'])[0];
-                        $arr['carat_max'] = explode(',', $response['attribute_values'])[1];
-                    }
-                }
-                $request->session()->put('diamond_filters', $arr);
-            }
-            // return response()->json(['success' => 2, 'session' => $request->session()->all()]);
-
-            $response = $request->session()->get('diamond_filters');
-        } */
 
         if (is_array($response)) {
             $attribute_groups = array_keys($response);
@@ -112,7 +88,7 @@ class DiamondController extends Controller
         $attribute_ids = [];
         foreach ($attr as $a) {
             $attribute_ids = array_merge($attribute_ids, array_values($a));
-        }
+        } */
 
         $attrg_attr = [];
         if (is_array($response)) {
@@ -130,9 +106,9 @@ class DiamondController extends Controller
 
         $q = null;
         foreach ($attrg_attr as $v) {
-            $q .= '("da"."refAttribute_group_id" = ' . $v['ag'] . ' and "da"."refAttribute_id" = ' . $v['atr'] . ' and ';
-            $q .= '"ag"."attribute_group_id" = ' . $v['ag'] . ' and ';
-            $q .= '"a"."attribute_id" = ' . $v['atr'] . ') or ';
+            $q .= '("da"."refAttribute_group_id" = ' . $v['ag'] . ' and "da"."refAttribute_id" = ' . $v['atr'] . ') or ';
+            // $q .= '"ag"."attribute_group_id" = ' . $v['ag'] . ' and ';
+            // $q .= '"a"."attribute_id" = ' . $v['atr'] . ') or ';
         }
 
         $diamond_ids = DB::table('diamonds as d')
@@ -141,7 +117,7 @@ class DiamondController extends Controller
             ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             ->select('d.diamond_id', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name');
         if (!empty($q)) {
-            $diamond_ids = $diamond_ids->whereRaw(rtrim($q, 'or '));
+            $diamond_ids = $diamond_ids->whereRaw('(' . rtrim($q, 'or ') . ')');
         }
         $diamond_ids = $diamond_ids->where('da.refAttribute_id', '<>', 0);
         if (isset($response['price_min']) && isset($response['price_max'])) {
@@ -154,9 +130,9 @@ class DiamondController extends Controller
             ->where('d.is_deleted', 0)
             // ->groupBy('d.diamond_id')
             ->orderBy('d.diamond_id', 'desc')
-            ->get()
+            // ->get()
             // ->pluck('diamond_id')
-            ->toArray();
+            ->dd();
 
         if (!count($diamond_ids)) {
             if ($request->web == 'web') {
@@ -166,106 +142,58 @@ class DiamondController extends Controller
         }
 
         $final_d = [];
-        $final_d2 = [];
-        $k=0;
+        $temp_diamond_id = null;
 
-        $diamond_id_array=array();
-        foreach ($diamond_ids as $v_row) {
+        /* foreach ($diamond_ids as $v_row) {
             array_push($diamond_id_array, $v_row->diamond_id);
         }
         $diamond_id_array = array_unique($diamond_id_array);
 
-        $final_d[0]=$diamond_ids[0];
+        $final_d[0]=$diamond_ids[0]; */
 
         foreach ($diamond_ids as $v_row) {
-            foreach ($diamond_id_array as $dim_row) {
-                if ($dim_row == $v_row->diamond_id) {
-                    $i = 0;
-                    // $v_row->{$v_row->ag_name} = $v_row->name;
-                    if (!empty($final_d)) {
-                        foreach ($final_d as $f_row) {
-                            if ($f_row->diamond_id == $dim_row) {
-                                // $f_row->{$v_row->ag_name} = $v_row->name;
-                                $f_row->attribute_groups[] = [
-                                    'attribute_group_id' => $v_row->attribute_group_id,
-                                    'name' => $v_row->ag_name,
-                                    'image' => json_decode($v_row->image),
-                                    'value' => $v_row->name
-                                ];
-                                $i = 1;
-                            }
-                        }
-                    }
-                    if ($i == 0) {
-                        array_push($final_d, $v_row);
-                    }
-                }
+            if ($temp_diamond_id != $v_row->diamond_id) {
+                $temp_diamond_id = $v_row->diamond_id;
+                $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+                $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
+                $final_d[$v_row->diamond_id]['image'] = $v_row->image;
+                $final_d[$v_row->diamond_id]['price'] = $v_row->price;
+                $final_d[$v_row->diamond_id]['attributes'] = [];
+            } else {
+                $final_d[$v_row->diamond_id]['attributes'][$v_row->ag_name] = $v_row->name;
             }
         }
+
         if ($request->web == 'web') {
             $html = '';
-            foreach ($final_d as $k => $v) {
-                $html .= '<tr data-diamond="'.$v->diamond_id.'">
-                            <td scope="col" class="text-center">'.$v->carat.'</td>
-                            <td scope="col" class="text-center">'.round($v->price, 2).'</td>
-                        ';
-                if (isset($v->attribute_groups) && count($v->attribute_groups)) {
-                    $i=0;
-                    foreach ($v->attribute_groups as $k1 => $v1) {
-                        if ($v1['name'] == 'SHAPE') {
-                            $html .= '<td scope="col" class="text-center">'.$v1['value'].'</td>';
-                            $i=1;
-                        }
-                    }
-                    if ($i == 0) {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-
-                    $k=0;
-                    foreach ($v->attribute_groups as $k1 => $v1) {
-                        if ($v1['name'] == 'CUT_GRADE') {
-                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
-                            $k=1;
-                        }
-                    }
-                    if ($k == 0) {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-
-                    $l=0;
-                    foreach ($v->attribute_groups as $k1 => $v1) {
-
-                        if ($v1['name'] == 'COLOR') {
-                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
-                            $l=1;
-                        }
-
-                    }
-                    if ($l == 0) {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-
-                    $m=0;
-                    foreach ($v->attribute_groups as $k1 => $v1) {
-                        if ($v1['name'] == 'CLARITY') {
-                            $html .= '<td scope="col" class="text-center">' . $v1['value'] . '</td>';
-                            $m=1;
-                        }
-                    }
-                    if ($m == 0) {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-
+            foreach ($final_d as $v) {
+                $html .= '<tr data-diamond="' . $v['diamond_id'] . '">
+                            <td scope="col" class="text-center">' . $v['carat'] . '</td>
+                            <td scope="col" class="text-center">' . round($v['price'], 2) . '</td>';
+                if (isset($v['attributes']['SHAPE'])) {
+                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
                 } else {
-                    $html .= '<td scope="col" class="text-center"> - </td>
-                        <td scope="col" class="text-center"> - </td>
-                        <td scope="col" class="text-center"> - </td>
-                        <td scope="col" class="text-center"> - </td>';
+                    $html .= '<td scope="col" class="text-center"> - </td>';
+                }
+                if (isset($v['attributes']['CUT GRADE'])) {
+                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT GRADE'] . '</td>';
+                } else {
+                    $html .= '<td scope="col" class="text-center"> - </td>';
+                }
+                if (isset($v['attributes']['COLOR'])) {
+                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
+                } else {
+                    $html .= '<td scope="col" class="text-center"> - </td>';
+                }
+                if (isset($v['attributes']['CLARITY'])) {
+                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
+                } else {
+                    $html .= '<td scope="col" class="text-center"> - </td>';
                 }
                 $html .= '<td scope="col" class="text-center">
                             <div class="compare-checkbox">
                                 <label class="custom-check-box">
-                                    <input type="checkbox" class="diamond-checkbox" data-id="' . $v->diamond_id . '" data-attribute_id="' . $v->attribute_id . '" data-attribute_group_id="' . $v->attribute_group_id . '">
+                                    <input type="checkbox" class="diamond-checkbox" data-id="' . $v['diamond_id'] . '" >
                                     <span class="checkmark"></span>
                                 </label>
                             </div>

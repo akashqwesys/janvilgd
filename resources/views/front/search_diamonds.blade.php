@@ -2,12 +2,13 @@
 @section('title', $title)
 @section('css')
     <script type="text/javascript">
+        var global_category = {{ $category->category_id }};
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
             },
             beforeSend: function( xhr ) {
-                $( ".cs-loader" ).show();
+                // $( ".cs-loader" ).show();
             }
         });
         $(document).on('click', '.diamond-shape .item img', function () {
@@ -53,7 +54,12 @@
             $.ajax({
                 type: "post",
                 url: "/customer/search-diamonds",
-                data: {'attribute_values': selected_values, 'group_id': group_id, 'web': 'web'},
+                data: {
+                    'attribute_values': selected_values,
+                    'group_id': group_id,
+                    'web': 'web',
+                    'category': global_category
+                },
                 // cache: false,
                 dataType: "json",
                 success: function (response) {
@@ -99,6 +105,20 @@
         $(document).on('mouseover', '#result-table tr', function() {
             $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-diamond'));
         });
+        $(document).on('click', '#filter-toggle', function() {
+            if ($('.filter-toggle').height() > 1) {
+                $('.filter-toggle').css({
+                    'height': 0,
+                    'visibility': 'collapse'
+                });
+            }
+            else {
+                $('.filter-toggle').css({
+                    'height': 'auto',
+                    'visibility': 'visible'
+                });
+            }
+        });
     </script>
     <style>
         /* CSS for input range sliders */
@@ -140,14 +160,14 @@
     </div>
     <section class="diamond-cut-section">
         <div class="container">
-            <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt=""> Search for Princess Cut Diamonds</h2></div>
+            <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
             <div class="diamond-cut-filter">
                 <div class="filter-content">
                     <div class="row">
                         {!! $html !!}
-                    <div class="filter-toggle">
+                    {{-- <div class="filter-toggle"> --}}
                         {!! $none_fix !!}
-                    </div>
+                    {{-- </div> --}}
                 </div>
                 <div class="filter-btn text-center">
                     <a href="#" class="btn btn-primary" id="filter-toggle">Filters <i class="fas fa-chevron-up ms-2"></i></a>
