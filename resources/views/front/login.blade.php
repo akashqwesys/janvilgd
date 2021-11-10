@@ -46,7 +46,6 @@
                                 <img src="/{{ check_host() }}assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Mobile Number" autocomplete="off">
                             </div>
-                            <div class="errTxt"></div>
                             <p class="or"><span>And / Or</span></p>
                             <div class="form-group">
                                 <img src="/{{ check_host() }}assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
@@ -78,8 +77,14 @@
             }
         });
         $(document).on('click', '#login_btn', function (e) {
-            $('.cs-loader').show();
             e.preventDefault();
+            if ($('#mobile').val() == '' && $('#email').val() == '') {
+                $('.errTxt').text('Please enter email address or mobile number');
+                return false;
+            }
+            else {
+                $('.errTxt').text('');
+            }
             $.ajax({
                 type: "post",
                 url: "login",

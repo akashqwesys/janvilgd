@@ -8,7 +8,7 @@
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
             },
             beforeSend: function( xhr ) {
-                $( ".cs-loader" ).show();
+                // $( ".cs-loader" ).show();
             }
         });
         $(document).on('click', '.diamond-shape .item img', function () {
@@ -258,12 +258,12 @@
                     @php
                         if(Session::has('loginId') && Session::has('user-type')){
                             if(session('user-type') == "MASTER_ADMIN"){
-                    @endphp 
+                    @endphp
                     <a href="javascript:;" class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export</a>
                     @php
                             }
                         }
-                    @endphp                                             
+                    @endphp
                     <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
                 </div>
             </div>
