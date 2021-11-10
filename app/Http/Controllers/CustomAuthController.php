@@ -26,7 +26,7 @@ class CustomAuthController extends Controller {
         return view('admin.login',["data"=>$data]);
     }
     public function userLogin(Request $request) {
-        $password=md5('123');
+        $password=md5($request->password);
         $pass=hash('sha256', $password);
         $request->validate([
             'email' => 'required|email',

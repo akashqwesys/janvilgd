@@ -85,7 +85,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Wishlist
     Route::post('customer/add-to-wishlist', [HDiamond::class, 'addToWishlist'])->name('add-to-wishlist');
     Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
-    Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
+
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 
