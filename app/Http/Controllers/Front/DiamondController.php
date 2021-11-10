@@ -327,6 +327,60 @@ class DiamondController extends Controller {
         $title = 'Cart';
         return view('front.cart', compact('title', 'response'));
     }
+    
+    public function createShareCartLink(Request $request) {
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->createShareCartLink($request);       
+        if (!empty($result->original['data'])) {            
+            $data = array(
+                'suceess' => true,
+                'link_id'=> $result->original['data']
+            );
+        } else {
+            $data = array(
+                'suceess' => false
+            );
+        }
+        return response()->json($data);
+    }  
+    
+    
+    public function createShareWishlistLink(Request $request) {
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->createShareWishlistLink($request);       
+        if (!empty($result->original['data'])) {            
+            $data = array(
+                'suceess' => true,
+                'link_id'=> $result->original['data']
+            );
+        } else {
+            $data = array(
+                'suceess' => false
+            );
+        }
+        return response()->json($data);
+    }         
+    public function getSharableCart($share_cart_id) {
+        $response=array();
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->getSharableCart($share_cart_id);
+        if (!empty($result->original['data'])) {
+            $response = $result->original['data'];
+        }
+        $title = 'Sharable-Cart';        
+        return view('front.sharable-cart', compact('title', 'response'));
+    }
+    
+    public function getSharableWishlist($share_wishlist_id) {
+        $response=array();
+        $diamond_api_controller = new DiamondApi;
+        $result = $diamond_api_controller->getSharableWishlist($share_wishlist_id);
+        if (!empty($result->original['data'])) {
+            $response = $result->original['data'];
+        }
+        $title = 'Sharable-Wishlist';        
+        return view('front.sharable-wishlist', compact('title', 'response'));
+    }
 
     public function diamondDetails($diamond_id) {
         $response=array();

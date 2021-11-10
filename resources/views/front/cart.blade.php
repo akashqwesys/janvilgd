@@ -1,6 +1,46 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
+
+<script type="text/javascript">
+ $(document).ready(function () {
+     $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function( xhr ) {
+            $( ".cs-loader" ).show();
+        }
+    });     
+    $(document).on('click', '#share-cart', function () {        
+        $.ajax({
+            type: "POST",            
+            url: "{{ route('generate-share-cart-link') }}",            
+            success: function (res) {
+                $('.cs-loader').hide();
+                if (res.suceess==1) {
+                    navigator.clipboard.writeText('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
+                    $.toast({
+                        heading: 'Success',
+                        text: "Link is copied",
+                        icon: 'success',
+                        position: 'top-right'
+                    });
+                }else{
+                    $.toast({
+                        heading: 'Error',
+                        text: "Your cart is empty",
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+            }
+        });
+    });
+ });
+ </script>
+
+
 @endsection
 @section('content')
 <section class="sub-header">
@@ -17,13 +57,12 @@
         <div class="row">
             <div class="d-flex align-items-center mb-5">
                 <h2 class="me-auto mb-0">Shopping Bag</h2>
-                <a href="javascript:;" class="btn btn-primary">Share your cart</a>
+                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart</a>
             </div>
             <div class="col col-12 col-md-12 col-lg-8">
                 <table class="cart-table">
 
                     @php
-
                     $total=0;
                     if(!empty($response)){
                     foreach($response as $rv) {

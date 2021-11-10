@@ -231,6 +231,50 @@ class DiamondController extends Controller
         }
         return $this->successResponse('Success', $response_array);
     }
+    
+    public function getSharableCart($share_cart_id)
+    {
+        $diamond_id=DB::table('share_cart')->where('share_cart_id',$share_cart_id)->first();
+        $response_array=array();
+        if(!empty($diamond_id)){
+            $dimond_id_1= json_decode($diamond_id->refDiamond_id);
+            $diamonds = DB::table('diamonds as d')                
+                ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
+                ->whereIn('d.diamond_id', $dimond_id_1)
+                ->get();
+            if(!empty($diamonds) && isset($diamonds[0])){
+                foreach ($diamonds as $value){
+                    array_push($response_array,$value);
+                }
+            }
+        }                
+        if (!count($response_array)) {
+            return $this->errorResponse('This link is not valid');
+        }
+        return $this->successResponse('Success', $response_array);
+    }
+    
+    public function getSharableWishlist($share_wishlist_id)
+    {
+        $diamond_id=DB::table('share_wishlist')->where('share_wishlist_id',$share_wishlist_id)->first();
+        $response_array=array();
+        if(!empty($diamond_id)){
+            $dimond_id_1= json_decode($diamond_id->refDiamond_id);
+            $diamonds = DB::table('diamonds as d')                
+                ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
+                ->whereIn('d.diamond_id', $dimond_id_1)
+                ->get();
+            if(!empty($diamonds) && isset($diamonds[0])){
+                foreach ($diamonds as $value){
+                    array_push($response_array,$value);
+                }
+            }
+        }                
+        if (!count($response_array)) {
+            return $this->errorResponse('This link is not valid');
+        }
+        return $this->successResponse('Success', $response_array);
+    }
 
     public function addToCart(Request $request)
     {
@@ -301,6 +345,59 @@ class DiamondController extends Controller
             return $this->successResponse('Success',[],3);
         }
     }
+    
+    public function createShareCartLink(Request $request)
+    {        
+        $customer_id = Auth::id();        
+        $cart_data = DB::table('customer_cart')               
+                ->where('refCustomer_id',$customer_id)
+                ->get();        
+        if(!empty($cart_data)){            
+            $refDiamond_id_array=array();
+            foreach ($cart_data as $row){
+                array_push($refDiamond_id_array,$row->refDiamond_id);
+            }            
+            $data_array = [                
+                'refDiamond_id' => json_encode($refDiamond_id_array)              
+            ];
+            $res=DB::table('share_cart')->insert($data_array);
+            $Id = DB::getPdo()->lastInsertId();
+            if (empty($Id)) {
+                return $this->errorResponse('Sorry, we are not able to generate link');
+            }
+            return $this->successResponse('Success', $Id);
+        } else {
+            return $this->errorResponse('Your Cart is empty');
+        }
+    }
+    
+    public function createShareWishlistLink(Request $request)
+    {        
+        $customer_id = Auth::id();        
+        $wishlist_data = DB::table('customer_whishlist')               
+                ->where('refCustomer_id',$customer_id)
+                ->get();        
+        if(!empty($wishlist_data)){            
+            $refDiamond_id_array=array();
+            foreach ($wishlist_data as $row){
+                array_push($refDiamond_id_array,$row->refdiamond_id);
+            }            
+            $data_array = [                
+                'refDiamond_id' => json_encode($refDiamond_id_array)              
+            ];
+            $res=DB::table('share_wishlist')->insert($data_array);
+            $Id = DB::getPdo()->lastInsertId();
+            if (empty($Id)) {
+                return $this->errorResponse('Sorry, we are not able to generate link');
+            }
+            return $this->successResponse('Success', $Id);
+        } else {
+            return $this->errorResponse('Your Wishlist is empty');
+        }
+    }
+    
+    
+    
 
     public function getWishlist()
     {

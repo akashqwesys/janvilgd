@@ -7,6 +7,7 @@
     <div class="container">
         @php
             if(!empty($response)){
+          
             @endphp
         <div class="diamond-carat main-box">
             
@@ -78,6 +79,41 @@
                             <img src="{{ asset(check_host().'assets/images') }}/book_calendar.svg" class="img-fluid me-2">
                             <p>Order loose diamond and your order ships by <br><span>Fri, Oct 15.</span></p>
                         </div>
+                        
+                        
+                        
+                        
+                        @php
+                            $color='-';
+                            $cut='-';
+                            $size='-';
+                            $clarity='-'; 
+                            $certificate=' Not Available'; 
+                            $certificate_url=' Not Available';
+                        if(!empty($attributes)){
+                            
+                            foreach($attributes as $row){
+                                if($row['ag_name']=="COLOR"){
+                                    $color=$row['at_name'];
+                                }
+                                if($row['ag_name']=="EXP POL SIZE"){
+                                    $size=$row['at_name'];
+                                } 
+                                if($row['ag_name']=="CUT GRADE"){
+                                    $cut=$row['at_name'];
+                                }  
+                                if($row['ag_name']=="CLARITY"){
+                                    $clarity=$row['at_name'];
+                                }
+                                if($row['ag_name']=="CERTIFICATE"){
+                                    $certificate=$row['at_name'];
+                                }
+                                if($row['ag_name']=="CERTIFICATE URL"){
+                                    $certificate_url=$row['at_name'];
+                                }
+                            }
+                        }
+                        @endphp                        
                         <div class="product-details-collapse">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
@@ -92,6 +128,8 @@
                                     <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
                                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
+                                            <strong>Certificate No :</strong>{{$certificate}}<br>
+                                            <strong>Certificate URL :</strong>{{$certificate_url}}<br>
                                             <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
                                         </div>
                                     </div>
@@ -109,8 +147,8 @@
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> The Four C’s of Your Diamond</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6">
-                    <div class="about-four_c">
-                        <h6 class="title">Diamond Size: 0.50 Ct</h6>
+                    <div class="about-four_c">                        
+                        <h6 class="title">Diamond Size: {{$size}} Ct</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -123,7 +161,7 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Cut: Ideal</h6>
+                        <h6 class="title">Cut: {{$cut}}</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -136,7 +174,7 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Color: J</h6>
+                        <h6 class="title">Color: {{$color}}</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -149,7 +187,7 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Clarity: SI1</h6>
+                        <h6 class="title">Clarity: {{$clarity}}</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">

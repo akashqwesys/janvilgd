@@ -82,12 +82,17 @@ Route::group( ['middleware' => ['auth']], function () {
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
     Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
+    
+    Route::post('customer/generate-share-cart-link', [HDiamond::class, 'createShareCartLink'])->name('generate-share-cart-link');
     Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
+    Route::get('customer/sharable-cart/{id}', [HDiamond::class, 'getSharableCart'])->name('get-sharable-cart');
 
     // Wishlist
+    Route::post('customer/generate-share-wishlist-link', [HDiamond::class, 'createShareWishlistLink'])->name('generate-share-wishlist-link');
     Route::post('customer/add-to-wishlist', [HDiamond::class, 'addToWishlist'])->name('add-to-wishlist');
     Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
     Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
+    Route::get('customer/sharable-wishlist/{id}', [HDiamond::class, 'getSharableWishlist'])->name('get-sharable-wishlist');
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
