@@ -69,10 +69,13 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-
+        // dd($response);
         $attrg_attr = [];
-        if (is_array($response)) {
+
+        /* if (is_array($response)) {
             foreach ($response as $k => $v) {
+                if ($temp_attr_id != $v->attr_id) {}
+                    $temp_diamond_id = $v_row->diamond_id;
                 if (is_array($v)) {
                     foreach ($v as $v_row) {
                         $dummy_array=array();
@@ -82,30 +85,43 @@ class DiamondController extends Controller
                     }
                 }
             }
-        }
+        } */
 
         $q = null;
-        foreach ($attrg_attr as $v) {
-            $q .= '("da"."refAttribute_group_id" = ' . $v['ag'] . ' and "da"."refAttribute_id" = ' . $v['atr'] . ') or ';
-            // $q .= '"ag"."attribute_group_id" = ' . $v['ag'] . ' and ';
-            // $q .= '"a"."attribute_id" = ' . $v['atr'] . ') or ';
+        $ag_names = null;
+        $diamond_ids = DB::table('diamonds as d');
+        $ij = 0;
+        foreach ($response as $k => $v) {
+            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web') {
+                continue;
+            }
+            $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
+
+            $diamond_ids = $diamond_ids->join('diamonds_attributes as da'.$k, 'd.diamond_id', '=', 'da'.$k.'.refDiamond_id')
+                ->join('attribute_groups as ag'.$k, 'da'.$k.'.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id')
+                ->join('attributes as a'.$k, 'da'.$k.'.refAttribute_id', '=', 'a' . $k . '.attribute_id');
+
+            $ag_names .= 'a'.$k.'.name as name_'.$ij. ', ag' . $k . '.name as ag_name_'.$ij.', ';
+            $ij++;
         }
 
-        $diamond_ids = DB::table('diamonds as d')
-            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name');
+        $diamond_ids = $diamond_ids
+            /* ->join('attribute_groups as ag', 'da'.$temp.'.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->join('attributes as a', 'da'.$temp.'.refAttribute_id', '=', 'a.attribute_id') */
+            ->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
+            ->selectRaw(rtrim($ag_names, ', '));
+
         if (!empty($q)) {
-            $diamond_ids = $diamond_ids->whereRaw('(' . rtrim($q, 'or ') . ')');
+            $diamond_ids = $diamond_ids->whereRaw(rtrim($q, 'and '));
         }
-        $diamond_ids = $diamond_ids->where('da.refAttribute_id', '<>', 0);
+
         if (isset($response['price_min']) && isset($response['price_max'])) {
             $diamond_ids = $diamond_ids->where('d.total', '<=', $response['price_max'])->where('d.total', '>=', $response['price_min']);
         }
         if (isset($response['carat_min']) && isset($response['carat_max'])) {
             $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '<=', $response['carat_max'])->where('d.expected_polish_cts', '>=', $response['carat_min']);
         }
+
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
             // ->groupBy('d.diamond_id')
@@ -122,20 +138,15 @@ class DiamondController extends Controller
         }
 
         $final_d = [];
-        $temp_diamond_id = null;
-
         foreach ($diamond_ids as $v_row) {
-            if ($temp_diamond_id != $v_row->diamond_id) {
-                $temp_diamond_id = $v_row->diamond_id;
-                $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
-                $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
-                $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
-                $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
-                $final_d[$v_row->diamond_id]['price'] = $v_row->price;
-                $final_d[$v_row->diamond_id]['attributes'] = [];
-            } else {
-                $final_d[$v_row->diamond_id]['attributes'][$v_row->ag_name] = $v_row->name;
+            for ($i=0; $i < $ij - 1; $i++) {
+                $final_d[$v_row->diamond_id]['attributes'][$v_row->{'ag_name_'.$i}] = $v_row->{'name_'.$i};
             }
+            $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+            $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
+            $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
+            $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
+            $final_d[$v_row->diamond_id]['price'] = $v_row->price;
         }
 
         if ($request->web == 'web') {
