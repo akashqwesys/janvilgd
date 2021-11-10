@@ -21,14 +21,14 @@ use PDF;
 class DiamondController extends Controller {
 
     public function home(Request $request) {
-        $category = DB::table('categories')->select('category_id', 'name')->where('category_id', $request->category)->first();
+        $category = DB::table('categories')->select('category_id', 'name')->where('slug', $request->category)->first();
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
         $data = DB::table('attribute_groups as ag')
                 ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
                 ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
-                ->where('ag.refCategory_id', $request->category)
+                ->where('ag.refCategory_id', $category->category_id)
                 ->where('ag.field_type', 1)
                 ->where('ag.is_active', 1)
                 ->where('ag.is_deleted', 0)
@@ -267,14 +267,12 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-           
-    
+
+
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-        
-//        print_r($response);die;
-        
+
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $request->category;
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
@@ -297,29 +295,28 @@ class DiamondController extends Controller {
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
         $aa = new APIDiamond;
-        $request->request->replace($arr); 
+        $request->request->replace($arr);
 
-//        print_r($response);die;
-        
-        if(isset($response['export'])){             
-            $final_d=$aa->searchDiamonds($request); 
+        if (isset($response['export'])) {
+            $final_d=$aa->searchDiamonds($request);
             $diamonds=$final_d->original['data'];
-            $pdf = PDF::loadView('front.export-pdf',compact('diamonds')); 
-            $path = public_path('pdf/'); 
-            $fileName =  time().'.'. 'pdf'; 
-            $pdf->save($path . '/' . $fileName); 
-            $pdf = public_path('pdf/'.$fileName); 
-            return response()->download($pdf); 
-        }else{
+            $pdf = PDF::loadView('front.export-pdf', compact('diamonds'));
+            $path = public_path('pdf/');
+            $fileName =  time() . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+            $pdf = public_path('pdf/' . $fileName);
+            return response()->download($pdf);
+        } else {
             $request->request->add(['web' => 'web']);
-        }                
+        }
         return $aa->searchDiamonds($request);
     }
-    public function pdfpreview() 
-    { 
-        return view('front.export-pdf'); 
+
+    public function pdfpreview()
+    {
+        return view('front.export-pdf');
     }
-    
+
     public function getCart() {
         $response=array();
         $diamond_api_controller = new DiamondApi;

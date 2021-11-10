@@ -345,7 +345,7 @@ class FrontAuthController extends Controller
     {
         $user = DB::table('customer')->select('customer_id')->where('email', decrypt($request->token, false))->first();
         Auth::loginUsingId($user->customer_id);
-        return redirect('/');
+        return redirect('/customer/dashboard');
     }
 
     public function customer_logout(Request $request)

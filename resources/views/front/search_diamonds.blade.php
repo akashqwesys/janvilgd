@@ -8,7 +8,7 @@
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
             },
             beforeSend: function( xhr ) {
-                // $( ".cs-loader" ).show();
+                $( ".cs-loader" ).show();
             }
         });
         $(document).on('click', '.diamond-shape .item img', function () {
@@ -134,7 +134,7 @@
                 });
             }
         });
-                    
+
         $(document).on('click', '#export-search-diamond', function () {
             var group_id = $(this).attr('data-group_id');
             if ($(this).attr('data-selected') == 1) {
@@ -151,10 +151,10 @@
                 }
             });
             exportDiamondTables(values, [], group_id);
-        });  
-          
+        });
+
         function exportDiamondTables(values, array, group_id) {
-            
+
             var selected_values = [];
             if (values.length > 1) {
                 var strArray = values.split(",");
@@ -174,35 +174,35 @@
             } else {
                 selected_values = strArray;
             }
-            
-            $.ajax({ 
-                type: 'post', 
-                url: '/customer/search-diamonds', 
+
+            $.ajax({
+                type: 'post',
+                url: '/customer/search-diamonds',
                 data: {
                     'attribute_values': selected_values,
-                    'group_id': group_id,                    
+                    'group_id': group_id,
                     'category': global_category,
                     'export': 'export'
-                }, 
-                xhrFields: { 
-                    responseType: 'blob' 
-                },                
-                success: function(response){                    
-                    var blob = new Blob([response]); 
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response){
+                    var blob = new Blob([response]);
 
-                    var link = document.createElement('a'); 
+                    var link = document.createElement('a');
 
-                    link.href = window.URL.createObjectURL(blob); 
+                    link.href = window.URL.createObjectURL(blob);
 
-                    link.download = "Diamonds-data.pdf"; 
+                    link.download = "Diamonds-data.pdf";
 
-                    link.click(); 
-                }, 
-                error: function(blob){ 
-                    console.log(blob); 
-                } 
-            });         
-        }        
+                    link.click();
+                },
+                error: function(blob){
+                    console.log(blob);
+                }
+            });
+        }
     </script>
     <style>
         /* CSS for input range sliders */

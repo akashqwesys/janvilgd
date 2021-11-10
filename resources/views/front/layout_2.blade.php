@@ -66,7 +66,7 @@
 		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li>
 		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      	<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/user.svg"></a></li>
+		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg"></a></li>
 		      </ul>
 		  </div>
 		</nav>
@@ -81,7 +81,7 @@
 
 		<div class="chat-popup" id="myForm">
 			<div class="chat-header">
-				<a href="index.php"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
+				<a href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
 				<button type="button" class="btn cancel" onclick="closeForm()"><img src="/{{ check_host() }}assets/images/close.svg" alt="close" class="img-fluid"></button>
 			</div>
 			<div class="chat-body">

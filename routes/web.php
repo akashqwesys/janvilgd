@@ -27,6 +27,7 @@ use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\AttributeGroupsController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DiamondsController;
+use App\Http\Controllers\Front\DashboardController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
@@ -67,23 +68,26 @@ Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
-Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-
-//required middlewere
-Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
-Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
-Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
-Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
-
-Route::post('customer/add-to-wishlist', [HDiamond::class, 'addToWishlist'])->name('add-to-wishlist');
-Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
-Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
-
 Route::group( ['middleware' => ['auth']], function () {
+
+    Route::get('customer/dashboard', [DashboardController::class, 'dashboard']);
+
+    // Diamonds
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);         
+    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);
+    Route::get('customer/single-diamonds/{id}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
+
+    // Cart
+    Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
+    Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
+    Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
+
+    // Wishlist
+    Route::post('customer/add-to-wishlist', [HDiamond::class, 'addToWishlist'])->name('add-to-wishlist');
+    Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
+    Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
 });
-Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']); 
+Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 
 // ---------------- Customer  --------------------
 

@@ -28,7 +28,7 @@
             </div>
             <div class="login-container">
                 <div class="login-header">
-                    <a href="index.php"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
+                    <a href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
                 </div>
                 <div class="login-box">
                     <div class="login-form-content">

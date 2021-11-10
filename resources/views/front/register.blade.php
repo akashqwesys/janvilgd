@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col col-12 col-md-10 col-lg-7 m-auto">
                         <div class="form-header text-center">
-                            <a href="index.php"><img src="/{{ check_host() }}assets/images/logo.png" alt="logo" class="img-fluid"></a>
+                            <a href="/"><img src="/{{ check_host() }}assets/images/logo.png" alt="logo" class="img-fluid"></a>
                         </div>
                         <form id="msform" class="msform">
 
