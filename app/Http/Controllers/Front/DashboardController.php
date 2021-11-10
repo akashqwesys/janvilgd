@@ -42,6 +42,47 @@ class DashboardController extends Controller {
             )
             ->first();
 
-        return view('front.dashboard', compact('title', 'diamond'));
+        $recently_viewed = DB::table('recently_view_diamonds as r')
+            ->join('diamonds as d', 'r.refDiamond_id', '=', 'd.diamond_id')
+            ->select('d.name', 'd.diamond_id', 'r.created_at')
+            ->orderBy('r.id', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('front.dashboard', compact('title', 'diamond', 'recently_viewed'));
+    }
+
+    public function latest_diamonds(Request $request)
+    {
+        $title = 'Latest Diamonds';
+        $diamonds = DB::table('diamonds as d')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('diamond_id', 'desc')
+            ->limit(8)
+            ->get();
+        foreach ($diamonds as $v) {
+            $v->image = json_decode($v->image);
+        }
+
+        return view('front.latest_diamond', compact('title', 'diamonds'));
+    }
+
+    public function recommended_diamonds(Request $request)
+    {
+        $title = 'Recommended Diamonds';
+        $diamonds = DB::table('diamonds as d')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            // ->where('is_recommended', 1)
+            ->orderBy('diamond_id', 'desc')
+            ->limit(8)
+            ->get();
+        foreach ($diamonds as $v) {
+            $v->image = json_decode($v->image);
+        }
+        return view('front.latest_diamond', compact('title', 'diamonds'));
     }
 }

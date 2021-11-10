@@ -71,6 +71,8 @@ Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamonds
 Route::group( ['middleware' => ['auth']], function () {
 
     Route::get('customer/dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('customer/latest-diamonds', [DashboardController::class, 'latest_diamonds']);
+    Route::get('customer/recommended-diamonds', [DashboardController::class, 'recommended_diamonds']);
 
     // Diamonds
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
