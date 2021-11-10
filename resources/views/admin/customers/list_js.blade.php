@@ -1,8 +1,20 @@
 <?php if ($data['title'] == 'List-Customers') {
     ?>
     <script type="text/javascript">
-        $(document).ready(function () {           
-            var table = $('#table').DataTable({
+        $(document).ready(function () { 
+            list_customers(2);
+            $('#is_approved').on('change', function () {
+                var is_approved = $("#is_approved").children("option").filter(":selected").val();
+                $('#table').DataTable().destroy();                   
+                list_customers(is_approved);
+            });
+            
+            function list_customers(is_approved){
+                
+                var data = {
+                    'is_approved': is_approved
+                };                
+                var table = $('#table').DataTable({
                 responsive: {
                     details: {
                         type: 'column',
@@ -18,7 +30,12 @@
                 "serverSide": true,
                 "pageLength": 10,
                 "paginationType": "full_numbers",
-                ajax: "{{ route('customers.list') }}",
+                
+                "ajax": {                    
+                    'url': "{{ route('customers.list') }}",
+                    'data': data
+                },                                             
+//                ajax: "{{ route('customers.list') }}",
                 columns: [                    
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},                   
@@ -34,6 +51,7 @@
                     {data: 'added_by', name: 'added_by'},                                       
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
+                    {data: 'is_approved', name: 'is_approved',className: "is_approved"},
                     {data: 'date_added', name: 'date_added'},
                     {
                         data: 'action',
@@ -46,6 +64,8 @@
                     $(row).addClass('tr_'+data['customer_id']);                      
                 }
             });
+            }
+            
         });
     </script>
     <script type="text/javascript">
@@ -68,7 +88,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('blogs.delete') }}",
+                    url: "{{ route('customers.delete') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
@@ -106,21 +126,31 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('blogs.status') }}",
+                    url: "{{ route('customers.status') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
-                            if(status==1){
-                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');     
+                            if(status==1){                                
+                                if(table==="customer_company_details"){
+                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-danger">Unverified</span>');
+                                    self.html('Verify');
+                                }else{                                
+                                    $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');  
+                                    self.html('<em class="icon ni ni-check-thick"></em>');
+                                }                                                                
                                 self.attr("data-status",0);
-                                self.html('<em class="icon ni ni-check-thick"></em>');
                                 self.removeClass('btn-danger');
                                 self.addClass('btn-success');
                             }
                             if(status==0){
-                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>'); 
-                                self.attr("data-status",1);
-                                self.html('<em class="icon ni ni-cross"></em>');
+                                if(table==="customer_company_details"){
+                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-success">Verified</span>'); 
+                                    self.html('UnVerify');
+                                }else{
+                                   $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>'); 
+                                   self.html('<em class="icon ni ni-cross"></em>');
+                                }
+                                self.attr("data-status",1);                                
                                 self.removeClass('btn-success');
                                 self.addClass('btn-danger');
                             }                            

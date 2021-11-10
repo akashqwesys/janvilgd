@@ -63,7 +63,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('city.delete') }}",
+                    url: "{{ route('taxes.delete') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
@@ -101,7 +101,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('city.status') }}",
+                    url: "{{ route('taxes.status') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {

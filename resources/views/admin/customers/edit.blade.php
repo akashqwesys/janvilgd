@@ -441,7 +441,7 @@
                                     <div class="row g-3 align-center">
                                     <div class="col-md-11 offset-1">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" data-msg="Required" class="custom-control-input required" name="is_approved" id="is_approved" required value="1" {{ set_cheked(1, $data['result2']->is_approved) ?>>
+                                            <input type="checkbox" data-msg="Required" class="custom-control-input required" name="is_approved" id="is_approved" required value="1" {{ set_cheked(1, $data['result2']->is_approved)}}>
                                             <label class="custom-control-label" for="is_approved">Is Approved</label>
                                         </div>
                                     </div>

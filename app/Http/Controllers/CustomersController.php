@@ -82,14 +82,17 @@ class CustomersController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            
-                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
+                            
+                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name','customer_company_details.is_approved')
                     ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
                     ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
                     ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
-                    ->latest()->orderBy('customer_id','desc')->get();
-            
-            
+                    ->join('customer_company_details', 'customer_company_details.refCustomer_id', '=', 'customer.customer_id');
+                    if ($request->is_approved==1 || $request->is_approved==0) {
+                        $data = $data->where('customer_company_details.is_approved',$request->is_approved);
+                    }                                    
+                    $data = $data->latest()->orderBy('customer_id','desc')->get();
+                        
 //            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
@@ -104,6 +107,16 @@ class CustomersController extends Controller {
                                 }
                                 if ($row->is_active == 0) {
                                     $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
+                                }
+                                return $active_inactive_button;
+                            })
+                            ->editColumn('is_approved', function ($row) {
+                                $active_inactive_button = '';
+                                if ($row->is_approved == 1) {
+                                    $active_inactive_button = '<span class="badge badge-success">Verified</span>';
+                                }
+                                if ($row->is_approved == 0) {
+                                    $active_inactive_button = '<span class="badge badge-danger">UnVerified</span>';
                                 }
                                 return $active_inactive_button;
                             })
@@ -123,7 +136,18 @@ class CustomersController extends Controller {
                                     $str = '<em class="icon ni ni-check-thick"></em>';
                                     $class = "btn-success";
                                 }
+                                                                
                                 $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
+                                
+                                if ($row->is_approved == 1) {
+                                    $str = 'UnVerify';
+                                    $class = "btn-danger";
+                                }
+                                if ($row->is_approved == 0) {
+                                    $str = 'Verify';
+                                    $class = "btn-success";
+                                }
+                                $actionBtn.=' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_approved . '" data-table="customer_company_details" data-wherefield="refCustomer_id" data-module="customers">' . $str . '</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -145,7 +169,7 @@ class CustomersController extends Controller {
         $result = DB::table('customer')->where('customer_id', $id)->first();
         $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->first();
         $data['title'] = 'Edit-Customers';
-        $data['result'] = $result;
+        $data['result'] = $result;        
         $data['result2'] = $result2;
         return view('admin.customers.edit', ["data" => $data]);
     }
@@ -222,11 +246,17 @@ class CustomersController extends Controller {
 
     public function status(Request $request) {
         if (isset($request['table_id'])) {
-
-            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
-                'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+            if($request['table']=="customer_company_details"){
+                $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                'is_approved' => $request['status'],
+                'approved_by' => $request->session()->get('loginId')                
             ]);
+            }else{
+                $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                    'is_active' => $request['status'],
+                    'date_updated' => date("Y-m-d h:i:s")
+                ]);
+            }
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(

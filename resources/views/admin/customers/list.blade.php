@@ -14,8 +14,17 @@
                         <div class="nk-block-head">                                            
                             <div class="nk-block-head-content">                                                
                                 <div class="toggle-wrap nk-block-tools-toggle">
-                                    <h4 style="display: inline;" class="nk-block-title">Customers list</h4>
+                                    <h4 style="display: inline;" class="nk-block-title">Customers list</h4>                                    
                                     <a style="float: right;" href="{{route('customers.add')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Add Customer<em class="icon ni ni-plus"></em></a>
+                                    <div class="form-group col-2" style="float: right;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-control" id="is_approved" tabindex="-1" aria-hidden="true">
+                                                <option value="2" selected="">All</option>
+                                                <option value="1">Verified</option>
+                                                <option value="0">UnVerified</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .nk-block-head-content -->                                   
                         </div>                                       
@@ -38,6 +47,7 @@
                                             <th>Added by</th>                                                                                  
                                             <th>isActive</th>
                                             <th>isDeleted</th>
+                                            <th>isApproved</th>
                                             <th>Date Added</th>                                           
                                             <th>Action</th>                                                                                                                                                                                                                                              
                                         </tr>

@@ -128,7 +128,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('blogs.delete') }}",
+                    url: "{{ route('diamonds.delete') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
@@ -166,7 +166,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('blogs.status') }}",
+                    url: "{{ route('diamonds.status') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
