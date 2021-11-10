@@ -13,6 +13,13 @@
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/responsive.css">
     <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
+    <style type="text/css">
+        .errTxt {
+            color: red;
+            text-align: center;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,13 +46,15 @@
                                 <img src="/{{ check_host() }}assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Mobile Number" autocomplete="off">
                             </div>
+                            <div class="errTxt"></div>
                             <p class="or"><span>And / Or</span></p>
                             <div class="form-group">
                                 <img src="/{{ check_host() }}assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="email" name="email" class="form-control" placeholder="Email Address" id="email" autocomplete="off">
                             </div>
-                            <p>By continuing, I agree to the <a href="/customer/terms-condition">Terms of Use</a> & <a
-                                    href="/customer/privacy-policy">Privacy Policy</a></p>
+                            <div class="errTxt"></div>
+                            <p>By continuing, I agree to the <a href="/terms-conditions">Terms of Use</a> & <a
+                                    href="/privacy-policy">Privacy Policy</a></p>
                             <button type="submit" id="login_btn" class="btn btn-primary">Continue</button>
                             <p class="mb-0">Have trouble logging in? <a href="Javascript:;">Get Help</a></p>
                         </form>
@@ -55,6 +64,8 @@
         </section>
     </div>
     <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
     <script src="/{{ check_host() }}assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
     <script type="text/javascript">

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailVerification extends Mailable
+class CommonEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,8 +32,7 @@ class EmailVerification extends Mailable
         return $this->subject($this->data['subject'])
             ->view($this->data['view'])
             ->with([
-                'name' => $this->data['name'],
-                'otp' => $this->data['otp']
+                'data' => $this->data
             ]);
     }
 }

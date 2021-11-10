@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Customers;
 use App\Models\CustomerCompanyDetail;
 use App\Mail\EmailVerification;
+use App\Mail\CommonEmail;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -100,6 +101,7 @@ class AuthController extends Controller
             Mail::to($email)
                 ->send(
                     new EmailVerification([
+                        'subject' => 'Email Verification from Janvi LGE',
                         'name' => $email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
@@ -141,8 +143,8 @@ class AuthController extends Controller
             if (!$user) {
                 return $this->errorResponse('Not authorized');
             } else {
-                // if ($request->otp == $user->otp && $user->otp_status === 0) {
-                if ($request->otp == 1111) {
+                if ($request->otp == $user->otp && $user->otp_status === 0) {
+                // if ($request->otp == 1111) {
                     if ($user->name == ' ' || strlen($user->name) < 3) {
                         $user->otp_status = 1;
                         $user->save();
@@ -198,14 +200,15 @@ class AuthController extends Controller
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
-            /* Mail::to($user->email)
+            Mail::to($user->email)
                 ->send(
                     new EmailVerification([
+                        'subject' => 'Email Verification from Janvi LGE',
                         'name' => $user->email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
                     ])
-                ); */
+                );
             $user->save();
             return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {
@@ -301,6 +304,23 @@ class AuthController extends Controller
                     $company->approved_date_time = date('Y-m-d H:i:s');
                     $company->approved_by = 0;
                     $company->save();
+
+                    $admin_email = DB::table('settings')
+                        ->select('value')
+                        ->where('key', 'admin_email')
+                        ->pluck('value')
+                        ->first();
+                    Mail::to($admin_email)
+                        ->send(
+                            new CommonEmail([
+                                'subject' => 'Email Verification from Janvi LGE',
+                                'data' => [
+                                    'time' => date('Y-m-d H:i:s'),
+                                    'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                                ],
+                                'view' => 'emails.commonEmail'
+                            ])
+                        );
 
                     $all = $this->getUserData($customer);
 

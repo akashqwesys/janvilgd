@@ -38,7 +38,7 @@
                             if($i==0){
                             @endphp
 
-                            <a href="single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
+                            <a href="/customer/single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
                             @php
                             }
                             $i=$i+1;
@@ -90,7 +90,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="checkout.html" class="btn btn-primary d-block">Checkout</a>
+                        <a href="/customer/checkout" class="btn btn-primary d-block">Checkout</a>
                     </div>
                 </div>
 

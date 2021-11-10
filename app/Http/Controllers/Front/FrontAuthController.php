@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Customers;
 use App\Models\CustomerCompanyDetail;
 use App\Mail\EmailVerification;
+use App\Mail\CommonEmail;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
@@ -103,6 +104,7 @@ class FrontAuthController extends Controller
                 Mail::to($email)
                 ->send(
                     new EmailVerification([
+                        'subject' => 'Email Verification from Janvi LGE',
                         'name' => $email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
@@ -211,6 +213,23 @@ class FrontAuthController extends Controller
                         $company->approved_by = 0;
                         $company->save();
 
+                        $admin_email = DB::table('settings')
+                            ->select('value')
+                            ->where('key', 'admin_email')
+                            ->pluck('value')
+                            ->first();
+                        Mail::to($admin_email)
+                        ->send(
+                            new CommonEmail([
+                                'subject' => 'Email Verification from Janvi LGE',
+                                'data' => [
+                                    'time' => date('Y-m-d H:i:s'),
+                                    'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                                ],
+                                'view' => 'emails.commonEmail'
+                            ])
+                        );
+
                         return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/customer/authenticate/' . encrypt($exists->email, false)]);
                     } else {
                         return response()->json(['error' => 1, 'message' => 'You are already registered', 'url' => '/']);
@@ -282,6 +301,7 @@ class FrontAuthController extends Controller
             Mail::to($email)
             ->send(
                 new EmailVerification([
+                    'subject' => 'Email Verification from Janvi LGE',
                     'name' => $email,
                     'otp' => $otp,
                     'view' => 'emails.codeVerification'

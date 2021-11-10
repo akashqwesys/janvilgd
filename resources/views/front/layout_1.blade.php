@@ -33,13 +33,13 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/3">Rough Diamonds</a>
+		          <a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/2">4P Diamonds</a>
+		          <a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/4">Polish Diamonds</a>
+		          <a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
 
 		      </ul>
@@ -64,24 +64,24 @@
 		    		</div>
 		    		<div class="offcanvas-body">
 		    			<ul class="list-unstyled">
-		    				<li><a class="nav-link" aria-current="page" href="index">Home</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="about-us">About Us</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="blog">Blog</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="contact">Contact</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="manufacturing">Manufacturing</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/23">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/24">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/22">Polish Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="why-to-order-online">Why to Order Online?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="diamonds">What we have?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="events">Events</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="media">Media</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="gallery">Gallery</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="blog">Blogs</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="business-policy">Business Policy</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="terms-conditions">Terms & Condition</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="privacy-policy">Privacy Policy</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/contact">Contact</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
 		    			</ul>
 		    		</div>
 		    	</div>
@@ -100,7 +100,7 @@
 
 		<div class="chat-popup" id="myForm">
 			<div class="chat-header">
-				<a href="index"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo" data-pagespeed-url-hash="2992076708" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+				<a href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo" data-pagespeed-url-hash="2992076708" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
 				<button type="button" class="btn cancel" onclick="closeForm()"><img src="/{{ check_host() }}assets/images/close.svg" alt="close" class="img-fluid" data-pagespeed-url-hash="1261900648" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></button>
 			</div>
 			<div class="chat-body">
@@ -135,12 +135,12 @@
 						<div class="quick-link-content">
 							<h4 class="title">About Janvi</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="about-us">About us</a></li>
-								<li class="item"><a href="gallery">Gallery</a></li>
-								<li class="item"><a href="media">Media</a></li>
-								<li class="item"><a href="events">Events</a></li>
-								<li class="item"><a href="business-policy">Business Policy</a></li>
-								<li class="item"><a href="blog">Blogs</a></li>
+								<li class="item"><a href="/about-us">About us</a></li>
+								<li class="item"><a href="/gallery">Gallery</a></li>
+								<li class="item"><a href="/media">Media</a></li>
+								<li class="item"><a href="/events">Events</a></li>
+								<li class="item"><a href="/business-policy">Business Policy</a></li>
+								<li class="item"><a href="/blog">Blogs</a></li>
 							</ul>
 						</div>
 					</div>
@@ -148,12 +148,12 @@
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="order-details">Order Details</a></li>
-								<li class="item"><a href="privacy-policy"> Privacy Policy </a></li>
-								<li class="item"><a href="terms-conditions"> Terms & Conditions </a></li>
+								<li class="item"><a href="/order-details">Order Details</a></li>
+								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
+								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="Javascript:;">Support Now</a></li>
-								<li class="item"><a href="manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="grading">Grading</a></li>
+								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
+								<li class="item"><a href="/grading">Grading</a></li>
 							</ul>
 						</div>
 					</div>
@@ -161,10 +161,10 @@
 						<div class="quick-link-content">
 							<h4 class="title">My Account</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="my-account">My Account</a></li>
-								<li class="item"><a href="wishlist">Wishlist</a></li>
-								<li class="item"><a href="checkout">Checkout</a></li>
-								<li class="item"><a href="cart">Cart</a></li>
+								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
+								<li class="item"><a href="/customer/checkout">Checkout</a></li>
+								<li class="item"><a href="/customer/cart">Cart</a></li>
 							</ul>
 						</div>
 					</div>

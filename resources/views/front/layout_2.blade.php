@@ -45,25 +45,25 @@
 							<a class="nav-link active" href="/">Home</a>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="about" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<a class="nav-link dropdown-toggle" href="/about-us" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								About Us
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="gallery">Gallery</a></li>
-								<li><a class="dropdown-item" href="media">Media</a></li>
+								<li><a class="dropdown-item" href="/gallery">Gallery</a></li>
+								<li><a class="dropdown-item" href="/media">Media</a></li>
 							</ul>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="blog">Blog</a>
+							<a class="nav-link" href="/blog">Blog</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="contact">Contact</a>
+							<a class="nav-link" href="/contact">Contact</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		    <ul class="header-icon-menu">
-		      	<li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li>
+		      	<!-- <li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li> -->
 		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      	<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg"></a></li>
@@ -118,12 +118,12 @@
 						<div class="quick-link-content">
 							<h4 class="title">About Janvi</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="about-us">About us</a></li>
-								<li class="item"><a href="gallery">Gallery</a></li>
-								<li class="item"><a href="media">Media</a></li>
-								<li class="item"><a href="events">Events</a></li>
-								<li class="item"><a href="business-policy">Business Policy</a></li>
-								<li class="item"><a href="blog">Blogs</a></li>
+								<li class="item"><a href="/about-us">About us</a></li>
+								<li class="item"><a href="/gallery">Gallery</a></li>
+								<li class="item"><a href="/media">Media</a></li>
+								<li class="item"><a href="/events">Events</a></li>
+								<li class="item"><a href="/business-policy">Business Policy</a></li>
+								<li class="item"><a href="/blog">Blogs</a></li>
 							</ul>
 						</div>
 					</div>
@@ -131,12 +131,12 @@
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="order-details">Order Details</a></li>
-								<li class="item"><a href="privacy-policy"> Privacy Policy </a></li>
-								<li class="item"><a href="terms-conditions"> Terms & Conditions </a></li>
+								<li class="item"><a href="/customer/order-details">Order Details</a></li>
+								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
+								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="Javascript:;">Support Now</a></li>
-								<li class="item"><a href="manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="grading">Grading</a></li>
+								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
+								<li class="item"><a href="/grading">Grading</a></li>
 							</ul>
 						</div>
 					</div>
@@ -144,10 +144,10 @@
 						<div class="quick-link-content">
 							<h4 class="title">My Account</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="my-account">My Account</a></li>
-								<li class="item"><a href="wishlist">Wishlist</a></li>
-								<li class="item"><a href="checkout">Checkout</a></li>
-								<li class="item"><a href="cart">Cart</a></li>
+								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
+								<li class="item"><a href="/customer/checkout">Checkout</a></li>
+								<li class="item"><a href="/customer/cart">Cart</a></li>
 							</ul>
 						</div>
 					</div>
