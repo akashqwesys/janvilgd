@@ -30,6 +30,7 @@ trait APIResponse
         // code => 1 indicates redirect to Dashboard screen
         // code => 2 indicates redirect to Sign up screen
         // code => 11 indicates user's account deleted
+        // code => 3 indicates success response
         $response = [
             'flag' => true,
             'code' => $code,

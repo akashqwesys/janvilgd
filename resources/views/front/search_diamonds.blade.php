@@ -255,7 +255,15 @@
                 </div>
                 <div class="filter-btn text-center">
                     <a href="#" class="btn btn-primary" id="filter-toggle">Filters <i class="fas fa-chevron-up ms-2"></i></a>
+                    @php
+                        if(Session::has('loginId') && Session::has('user-type')){
+                            if(session('user-type') == "MASTER_ADMIN"){
+                    @endphp 
                     <a href="javascript:;" class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export</a>
+                    @php
+                            }
+                        }
+                    @endphp                                             
                     <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
                 </div>
             </div>

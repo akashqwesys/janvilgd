@@ -97,14 +97,14 @@ class AuthController extends Controller
                 ]); */
                 $email = $request->email;
             }
-            /* Mail::to($email)
+            Mail::to($email)
                 ->send(
                     new EmailVerification([
                         'name' => $email,
                         'otp' => $otp,
                         'view' => 'emails.codeVerification'
                     ])
-                ); */
+                );
             return $this->successResponse('OTP sent successfully');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());

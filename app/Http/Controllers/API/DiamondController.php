@@ -298,7 +298,7 @@ class DiamondController extends Controller
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
-            return $this->successResponse('Success');
+            return $this->successResponse('Success',[],3);
         }
     }
 
@@ -389,7 +389,7 @@ class DiamondController extends Controller
             ->where('refdiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
-            return $this->successResponse('Success',1);
+            return $this->successResponse('Success', [], 3);
         }
     }
 }

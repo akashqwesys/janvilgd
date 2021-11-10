@@ -248,7 +248,7 @@ class DiamondController extends Controller {
     public function removeFromCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->removeFromCart($request);
-        if (!empty($result->original['data'])) {
+        if (!empty($result->original['code']) && $result->original['code']==3) {
             $total=0;
             $result_cart = $diamond_api_controller->getCart();
             if (!empty($result_cart->original['data'])) {
@@ -362,7 +362,7 @@ class DiamondController extends Controller {
     public function removeFromWishlist(Request $request) {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->removeFromWishlist($request);
-        if (!empty($result->original['data'])) {
+        if (!empty($result->original['code']) && $result->original['code']==3) {
             $data = array(
                 'suceess' => true,
             );
