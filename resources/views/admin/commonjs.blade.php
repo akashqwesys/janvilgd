@@ -60,8 +60,8 @@
                     $(".image_div").addClass("d-none");
                 }
             });
-            $('#refCategory_id').on('change', function () {
-                var refCategory_id = $(this).val();
+            $('#refCategory_id').on('change', function () {                
+                var refCategory_id = $(this).val();                           
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -92,10 +92,7 @@
 <?php if ($data['title'] == 'Edit-Diamonds' || $data['title'] == 'Add-Diamonds') {
     ?>
     <script type="text/javascript">
-        $(document).ready(function () {
-
-            
-            
+        $(document).ready(function () {                       
             function getRapaport(diamondType){
                 if(diamondType==1 || diamondType==3){
                     var shape = $("#SHAPE_"+diamondType).children("option").filter(":selected").text();
@@ -443,7 +440,10 @@
                     $("#weight_loss_input").val('');
                 }
             });
-            $('#refCategory_id').on('change', function () {
+            $('#refCategory_id').on('change', function () {                 
+                var refCategory_id = $(this).val();                
+                $("#add-diamond-form")[0].reset();                
+                $("#refCategory_id").val(refCategory_id);  
                 show_diamond_form_field();
             });
         });

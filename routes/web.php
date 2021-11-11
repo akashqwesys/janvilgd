@@ -47,7 +47,6 @@ use App\Http\Controllers\Front\TestController;
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/test-query', [TestController::class, 'index']);
 
-
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');

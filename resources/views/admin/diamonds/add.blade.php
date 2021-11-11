@@ -14,7 +14,7 @@
                     <div class="card">
                         <div class="card-inner row gs">
                             <div class="col-md-6">
-                                <form method="POST" action="{{route('diamonds.save')}}" enctype="multipart/form-data">
+                                <form method="POST" action="{{route('diamonds.save')}}" enctype="multipart/form-data" id="add-diamond-form">
                                     @csrf
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-4">

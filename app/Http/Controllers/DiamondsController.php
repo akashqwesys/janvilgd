@@ -965,23 +965,29 @@ class DiamondsController extends Controller {
     }
 
     public function save(Request $request) {
-//          echo '<pre>';print_r($_REQUEST);die;     
+//        echo '<pre>';print_r($_REQUEST);die;     
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();                        
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first(); 
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();  
-        
-        
-        
+        $refAttribute_grp = DB::table('attribute_groups')->where('refCategory_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();  
         
         $batch_array1 = array();
         $i = 0;
-        foreach ($request->attribute_group_id as $row) {                            
+        foreach ($request->attribute_group_id as $row) {
+            $sts=0;
+            foreach ($refAttribute_grp as $row_ag){
+                if($row_ag->attribute_group_id==$row){
+                    $sts=1;
+                }
+            }
+            if($sts=1){
             $main_value = explode('_', $request->attribute_group_id_value[$i]);
-            if (isset($main_value[1])) {
-                if ($main_value[1] == $row) {
-                    $refAttribute_id = $main_value[0];                   
-                    array_push($batch_array1, $refAttribute_id);
-                }                
+                if (isset($main_value[1])) {
+                    if ($main_value[1] == $row) {
+                        $refAttribute_id = $main_value[0];                   
+                        array_push($batch_array1, $refAttribute_id);
+                    }                
+                }
             }            
             $i = $i + 1;
         }
@@ -989,7 +995,6 @@ class DiamondsController extends Controller {
        $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
                ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
                ->whereIn('attributes.attribute_id',$batch_array1)->get();  
- 
         $shape='';
         $color='';
         $clarity='';
@@ -1025,8 +1030,7 @@ class DiamondsController extends Controller {
             $final_price=$ro_amount-$labour_charge_rough->amount;                            
             $total=abs($final_price*(doubleval($request->makable_cts)));
         }
-        if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
-            
+        if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){            
             $discount=((100-$request->discount)/100);     
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
         }        
@@ -1076,25 +1080,34 @@ class DiamondsController extends Controller {
         $batch_array = array();
         $i = 0;
         foreach ($request->attribute_group_id as $row) {
-            $insert_array = array();
-            $insert_array['refDiamond_id'] = $Id;
-            $insert_array['refAttribute_group_id'] = $row;
-            $main_value = explode('_', $request->attribute_group_id_value[$i]);
-            if (isset($main_value[1])) {
-                if ($main_value[1] == $row) {
-                    $insert_array['refAttribute_id'] = $main_value[0];
-                    $insert_array['value'] = 0;
-                }
-            } else {                                                                                          
-                $insert_array['refAttribute_id'] = 0;
-                $insert_array['value'] = $request->attribute_group_id_value[$i];
-            }
-            if($request->attribute_group_id_value[$i]!='' && $request->attribute_group_id_value[$i]!='default'){
-                array_push($batch_array, $insert_array);
-            }
             
+            $sts=0;
+            foreach ($refAttribute_grp as $row_ag){
+                if($row_ag->attribute_group_id==$row){
+                    $sts=1;
+                }
+            }
+            if($sts=1){
+
+                $insert_array = array();
+                $insert_array['refDiamond_id'] = $Id;
+                $insert_array['refAttribute_group_id'] = $row;
+                $main_value = explode('_', $request->attribute_group_id_value[$i]);
+                if (isset($main_value[1])) {
+                    if ($main_value[1] == $row) {
+                        $insert_array['refAttribute_id'] = $main_value[0];
+                        $insert_array['value'] = 0;
+                    }
+                } else {                                                                                          
+                    $insert_array['refAttribute_id'] = 0;
+                    $insert_array['value'] = $request->attribute_group_id_value[$i];
+                }
+                if($request->attribute_group_id_value[$i]!='' && $request->attribute_group_id_value[$i]!='default'){
+                    array_push($batch_array, $insert_array);
+                }
+            }
             $i = $i + 1;
-        }       
+        }         
         if (!empty($batch_array)) {
             DB::table('diamonds_attributes')->insert($batch_array);
         }

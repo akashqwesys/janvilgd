@@ -7,9 +7,7 @@
 	<meta name="twitter:card" content="photo" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-
 	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
-
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
@@ -203,6 +201,26 @@
 		</div>
 	</div>
 </footer>
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Share</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">  
+          <img src="/{{ check_host() }}assets/flaticon/whatsapp.png" id="click-whatsapp-link">
+          <img src="/{{ check_host() }}assets/flaticon/link.png" id="click-copy-link" data-bs-dismiss="modal" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">
+      </div>     
+    </div>
+  </div>
+</div>
 <?php
 $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 // echo $file;
@@ -213,9 +231,19 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
-<script type="text/javascript">
+<script type="text/javascript">    
 	$(document).ready(function () {
-		$(document).on('click', '.add-to-cart', function () {
+            $(document).on('click', '#click-whatsapp-link', function () {                
+                var w_link=$("#watsapplink").val();
+                window.open(w_link, '_blank');
+//                window.location.href = w_link;
+            });
+            $(document).on('click', '#click-copy-link', function () {
+                var c_link=$("#copylink").val();
+                navigator.clipboard.writeText(c_link);                                                
+            });
+            
+            $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {

@@ -19,17 +19,19 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    navigator.clipboard.writeText('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
-                    $.toast({
-                        heading: 'Success',
-                        text: "Link is copied",
-                        icon: 'success',
-                        position: 'top-right'
-                    });
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));   
+                    $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
+//                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
+//                    $.toast({
+//                        heading: 'Success',
+//                        text: "Link is copied",
+//                        icon: 'success',
+//                        position: 'top-right'
+//                    });
                 }else{
                     $.toast({
                         heading: 'Error',
-                        text: "Your cart is empty",
+                        text: "Your wishlist is empty link is not generated",
                         icon: 'error',
                         position: 'top-right'
                     });
@@ -51,14 +53,15 @@
     </div>
 </section>
 <!-- CART SECTION -->
-
 <section class="cart-page mb-5">
     <div class="container">
         <div class="row">
             <div class="col col-12">
                 <div class="d-sm-flex d-block align-items-center mb-4">
                     <h2 class="me-auto mb-3 mb-dm-0">Diamonds</h2>
-                    <a href="javascript:;" class="btn btn-primary" id="share-wishlist">Share your wishlist</a>
+                    <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="share-wishlist">Share your wishlist <i class="fa fa-share-alt"></i></a>
+                    <input type="hidden" id="watsapplink" value="">
+                    <input type="hidden" id="copylink" value="">
                 </div>
             </div>
         </div>

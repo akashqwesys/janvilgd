@@ -19,17 +19,13 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    navigator.clipboard.writeText('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
-                    $.toast({
-                        heading: 'Success',
-                        text: "Link is copied",
-                        icon: 'success',
-                        position: 'top-right'
-                    });
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id));   
+                    $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
+//                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-cart/"); ?>/'+res.link_id);                   
                 }else{
                     $.toast({
                         heading: 'Error',
-                        text: "Your cart is empty",
+                        text: "Your cart is empty link is not generated",
                         icon: 'error',
                         position: 'top-right'
                     });
@@ -56,8 +52,10 @@
     <div class="container">
         <div class="row">
             <div class="d-flex align-items-center mb-5">
-                <h2 class="me-auto mb-0">Shopping Bag</h2>
-                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart</a>
+                <h2 class="me-auto mb-0">Shopping Bag</h2>                
+                <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
+                <input type="hidden" id="watsapplink" value="">
+                <input type="hidden" id="copylink" value="">
             </div>
             <div class="col col-12 col-md-12 col-lg-8">
                 <table class="cart-table">

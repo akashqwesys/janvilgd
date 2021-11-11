@@ -10,7 +10,7 @@ use DB;
 class HomeController extends Controller
 {
     public function home(Request $request)
-    {
+    {        
         $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', 'index')->orWhere('slug', 'home')->first();
         if ($data) {
             return view('front.common', ["slug" => $data->slug, "data" => $data]);
