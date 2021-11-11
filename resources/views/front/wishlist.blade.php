@@ -60,7 +60,6 @@
             <div class="col col-12">
                 <div class="d-sm-flex d-block align-items-center mb-4">
                     <h2 class="me-auto mb-3 mb-dm-0">Diamonds</h2>
-
                     @if(!empty($response))
                     <a href="javascript:;" class="btn btn-primary" id="share-wishlist">Share your wishlist <i class="fa fa-share-alt"></i></a>
                     <input type="hidden" id="watsapplink" value="">
