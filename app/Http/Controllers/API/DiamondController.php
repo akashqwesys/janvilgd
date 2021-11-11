@@ -87,6 +87,13 @@ class DiamondController extends Controller
             $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
             $ij++;
         }
+        if (empty($q)) {
+            $diamond_ids = $diamond_ids->join('diamonds_attributes as da' , 'd.diamond_id', '=', 'da.refDiamond_id')
+            ->join('attribute_groups as ag' , 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->join('attributes as a' , 'da.refAttribute_id', '=', 'a.attribute_id');
+            $ag_names = 'a.name as name_0, ag.name as ag_name_0, ';
+            $ij = 1;
+        }
 
         $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
             ->selectRaw(rtrim($ag_names, ', '));

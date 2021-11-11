@@ -51,7 +51,7 @@
 		    		</li>
 		    		<li class="nav-item">
 						@auth
-						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
 						@endauth
 						@guest
 		    			<a class="nav-link active" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
