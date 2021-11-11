@@ -11,8 +11,8 @@
 		<div style="padding: 0 2vw;">
 			<div><p style="padding: 0.5vh 0">Hello Sir,</p></div>
 			<div style="">
-				<p style="padding: 0.5vh 0">This is to inform you that a new customer has joined us on {{ $data['time'] }}. Please have a look here.</p>
-                <p style="padding: 0.5vh 0">Click <a href="{{ $data['link'] }}" target="_blank">here</a></p>
+				<p style="padding: 0.5vh 0">This is to inform you that a new customer has joined us on {{ $data['data']['time'] }}. Please have a look here.</p>
+                <p style="padding: 0.5vh 0">Click <a href="{{ $data['data']['link'] }}" target="_blank">here</a></p>
 			</div>
 			<div>
 				<p style="padding: 0.5vh 0">

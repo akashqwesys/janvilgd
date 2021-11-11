@@ -218,10 +218,10 @@ class FrontAuthController extends Controller
                             ->where('key', 'admin_email')
                             ->pluck('value')
                             ->first();
-                        Mail::to($admin_email)
+                        Mail::to('sgpatel1996@gmail.com')
                         ->send(
                             new CommonEmail([
-                                'subject' => 'Email Verification from Janvi LGE',
+                                'subject' => 'New User on Janvi LGE',
                                 'data' => [
                                     'time' => date('Y-m-d H:i:s'),
                                     'link' => url("/admin/customers/edit/{$customer->customer_id}")
