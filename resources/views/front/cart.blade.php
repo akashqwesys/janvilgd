@@ -11,17 +11,17 @@
         beforeSend: function( xhr ) {
             $( ".cs-loader" ).show();
         }
-    });     
-    $(document).on('click', '#share-cart', function () {        
+    });
+    $(document).on('click', '#share-cart', function () {
         $.ajax({
-            type: "POST",            
-            url: "{{ route('generate-share-cart-link') }}",            
+            type: "POST",
+            url: "{{ route('generate-share-cart-link') }}",
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id));   
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id));
                     $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
-//                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-cart/"); ?>/'+res.link_id);                   
+//                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-cart/"); ?>/'+res.link_id);
                 }else{
                     $.toast({
                         heading: 'Error',
@@ -52,10 +52,12 @@
     <div class="container">
         <div class="row">
             <div class="d-flex align-items-center mb-5">
-                <h2 class="me-auto mb-0">Shopping Bag</h2>                
+                @if(!empty($response))
+                <h2 class="me-auto mb-0">Shopping Bag</h2>
                 <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
                 <input type="hidden" id="copylink" value="">
+                @endif
             </div>
             <div class="col col-12 col-md-12 col-lg-8">
                 <table class="cart-table">

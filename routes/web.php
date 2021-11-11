@@ -27,6 +27,7 @@ use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\AttributeGroupsController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DiamondsController;
+use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DashboardController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
@@ -51,6 +52,7 @@ Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
+Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
 
 // ---------------- Customer  --------------------
 // Authentication
@@ -81,7 +83,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
     Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
-    
+
     Route::post('customer/generate-share-cart-link', [HDiamond::class, 'createShareCartLink'])->name('generate-share-cart-link');
     Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
     Route::get('customer/sharable-cart/{id}', [HDiamond::class, 'getSharableCart'])->name('get-sharable-cart');
