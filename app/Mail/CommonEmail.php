@@ -32,7 +32,7 @@ class CommonEmail extends Mailable
         return $this->subject($this->data['subject'])
             ->view($this->data['view'])
             ->with([
-                'data' => $this->data
+                'data' => $this->data['data']
             ]);
     }
 }
