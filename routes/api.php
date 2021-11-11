@@ -44,11 +44,13 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('generate-share-cart-link', [DiamondController::class, 'createShareCartLink']);
     Route::get('sharable-cart/{id}', [DiamondController::class, 'getSharableCart']);
     Route::post('add-to-cart', [DiamondController::class, 'addToCart']);
+    Route::post('add-all-to-cart', [DiamondController::class, 'addAllToCart']);
     Route::post('remove-from-cart', [DiamondController::class, 'removeFromCart']);
 
     Route::post('generate-share-wishlist-link', [DiamondController::class, 'createShareWishlistLink']);
     Route::get('wishlist', [DiamondController::class, 'getWishlist']);
     Route::post('add-to-wishlist', [DiamondController::class, 'addToWishlist']);
+    Route::post('add-all-to-wishlist', [DiamondController::class, 'addAllToWishlist']);
     Route::post('remove-from-wishlist', [DiamondController::class, 'removeFromWishlist']);
 });
 

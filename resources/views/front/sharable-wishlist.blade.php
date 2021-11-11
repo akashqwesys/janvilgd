@@ -20,7 +20,8 @@
             <div class="col col-12">
                 <div class="d-sm-flex d-block align-items-center mb-4">
                     <h2 class="me-auto mb-3 mb-dm-0">Diamonds</h2>
-                    <a href="javascript:;" class="btn btn-primary">Add all to my wishlist</a>
+                    <a href="javascript:;" class="btn btn-primary" id="add-all-to-wishlist">Add all to my wishlist</a>                    
+                    <input type="hidden" id="share_wishlist_id" value="{{$share_wishlist_id}}">
                 </div>
             </div>
         </div>
@@ -48,7 +49,7 @@
                             @endphp
                             <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
                             <p class="price">${{$row->total}}</p>
-                            <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
+                            <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart </a>                           
                     </div>
                 </div>
             </div>

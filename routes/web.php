@@ -48,6 +48,9 @@ use App\Http\Controllers\Front\TestController;
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/test-query', [TestController::class, 'index']);
 
+
+Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup');
+
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
@@ -82,6 +85,7 @@ Route::group( ['middleware' => ['auth']], function () {
 
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
+    Route::post('customer/add-all-to-cart', [HDiamond::class, 'addAllToCart'])->name('add-all-to-cart');
     Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
 
     Route::post('customer/generate-share-cart-link', [HDiamond::class, 'createShareCartLink'])->name('generate-share-cart-link');
@@ -91,6 +95,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Wishlist
     Route::post('customer/generate-share-wishlist-link', [HDiamond::class, 'createShareWishlistLink'])->name('generate-share-wishlist-link');
     Route::post('customer/add-to-wishlist', [HDiamond::class, 'addToWishlist'])->name('add-to-wishlist');
+    Route::post('customer/add-all-to-wishlist', [HDiamond::class, 'addAllToWishlist'])->name('add-all-to-wishlist');
     Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
     Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
     Route::get('customer/sharable-wishlist/{id}', [HDiamond::class, 'getSharableWishlist'])->name('get-sharable-wishlist');

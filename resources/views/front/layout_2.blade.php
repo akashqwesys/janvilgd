@@ -233,7 +233,8 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
 <script type="text/javascript">    
 	$(document).ready(function () {
-            $(document).on('click', '#click-whatsapp-link', function () {                
+            $(document).on('click', '#click-whatsapp-link', function () { 
+//                staticBackdrop                
                 var w_link=$("#watsapplink").val();
                 window.open(w_link, '_blank');
 //                window.location.href = w_link;
@@ -241,8 +242,68 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
             $(document).on('click', '#click-copy-link', function () {
                 var c_link=$("#copylink").val();
                 navigator.clipboard.writeText(c_link);                                                
-            });
-            
+            });                        
+            $(document).on('click', '#add-all-to-cart', function () {			
+			var share_cart_id = $("#share_cart_id").val();
+			var data = {
+				'share_cart_id': share_cart_id
+			};
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "{{ route('add-all-to-cart') }}",
+				data: data,
+				success: function (res) {
+					if (res.suceess) {
+						$.toast({
+							heading: 'Success',
+							text: 'Diamond added in cart.',
+							icon: 'success',
+							position: 'top-right'
+						});
+					}else{
+						$.toast({
+							heading: 'Error',
+							text: 'Oops, something went wrong...!',
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		});  
+            $(document).on('click', '#add-all-to-wishlist', function () {                
+                      var share_wishlist_id = $("#share_wishlist_id").val();
+                      var data = {
+                              'share_wishlist_id': share_wishlist_id
+                      };
+                      $.ajax({
+                              type: "POST",
+                              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                              url: "{{ route('add-all-to-wishlist') }}",
+                              data: data,
+                              success: function (res) {
+                                      if (res.suceess) {
+                                              $.toast({
+                                                      heading: 'Success',
+                                                      text: 'Diamond added in wishlist.',
+                                                      icon: 'success',
+                                                      position: 'top-right'
+                                              });
+                                      }else{
+                                              $.toast({
+                                                      heading: 'Error',
+                                                      text: 'Oops, something went wrong...!',
+                                                      icon: 'error',
+                                                      position: 'top-right'
+                                              });
+                                      }
+                              }
+                      });
+              });    
+                
+                
+                
             $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
@@ -273,7 +334,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
-		$(document).on('click', '.removeFromCart', function () {
+            $(document).on('click', '.removeFromCart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -306,6 +367,9 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
+
+
+              
 
 		$(document).on('click', '.add-to-wishlist', function () {
 			var self = $(this);

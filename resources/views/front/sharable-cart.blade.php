@@ -20,7 +20,8 @@
             <div class="col col-12">
                 <div class="d-sm-flex d-block align-items-center mb-4">
                     <h2 class="me-auto mb-3 mb-dm-0">Diamonds</h2>
-                    <a href="javascript:;" class="btn btn-primary">Add all to my cart</a>
+                    <a href="javascript:;" class="btn btn-primary" id="add-all-to-cart">Add all to my cart</a>
+                    <input type="hidden" id="share_cart_id" value="{{$share_cart_id}}">
                 </div>
             </div>
         </div>

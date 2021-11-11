@@ -219,7 +219,7 @@ class DiamondController extends Controller
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
             ->where('c.refCustomer_id',$customer_id)
             ->get();
-        if(!empty($diamonds) && isset($diamonds[0])){
+        if(!empty($diamonds[0]) && isset($diamonds[0])){
             foreach ($diamonds as $value){
                 array_push($response_array,$value);
             }
@@ -274,6 +274,111 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $response_array);
     }
 
+    
+    public function addAllToCart(Request $request)
+    {
+        $rules = [
+            'share_cart_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'share_cart_id.required' => 'Please select diamond',
+            'share_cart_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $customer_id = Auth::id();
+        $share_cart = DB::table('share_cart')
+                ->where('share_cart_id',$request->share_cart_id)
+                ->first();
+        if(!empty($share_cart)){
+            $diamond_id= json_decode($share_cart->refDiamond_id);
+            $i=0;
+            foreach ($diamond_id as $d_row){
+                $exist_cart = DB::table('customer_cart')
+                        ->where('refDiamond_id',$d_row)
+                        ->where('refCustomer_id',$customer_id)
+                        ->first();
+                if(empty($exist_cart)){
+                    $data_array = [
+                        'refCustomer_id' => $customer_id,
+                        'refDiamond_id' => $d_row,
+                        'date_added' => date("Y-m-d h:i:s")
+                    ];
+                    $res=DB::table('customer_cart')->insert($data_array);
+                    $Id = DB::getPdo()->lastInsertId();
+                    if (!empty($Id)) {
+                        $i=1;
+                    }
+                }
+            }
+            if($i==0){
+                return $this->errorResponse('All diamonds is already in your cart');
+            }
+            if($i==1){
+                return $this->successResponse('Success',[],3);
+            }
+        }
+        return $this->errorResponse('No data found');
+    }
+    public function addAllToWishlist(Request $request)
+    {
+        $rules = [
+            'share_wishlist_id' => ['required', 'integer']
+        ];
+
+        $message = [
+            'share_wishlist_id.required' => 'Please select diamond',
+            'share_wishlist_id.integer' => 'Please select valid diamond'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $customer_id = Auth::id();
+        $share_wishlist = DB::table('share_wishlist')
+                ->where('share_wishlist_id',$request->share_wishlist_id)
+                ->first();
+        if(!empty($share_wishlist)){
+            $diamond_id= json_decode($share_wishlist->refDiamond_id);
+            $i=0;
+            foreach ($diamond_id as $d_row){
+                $exist_wishlist = DB::table('customer_whishlist')
+                        ->where('refdiamond_id',$d_row)
+                        ->where('refCustomer_id',$customer_id)
+                        ->first();
+                if(empty($exist_wishlist)){
+                    $data_array = [
+                        'refCustomer_id' => $customer_id,
+                        'refdiamond_id' => $d_row,
+                        'date_added' => date("Y-m-d h:i:s")
+                    ];
+                    $res=DB::table('customer_whishlist')->insert($data_array);
+                    $Id = DB::getPdo()->lastInsertId();
+                    if (!empty($Id)) {
+                        $i=1;
+                    }
+                }
+            }
+            if($i==0){
+                return $this->errorResponse('All diamonds is already in your wishlist');
+            }
+            if($i==1){
+                return $this->successResponse('Success',[],3);
+            }
+        }
+        return $this->errorResponse('No data found');
+    }
+    
+    
+    
+    
     public function addToCart(Request $request)
     {
         $rules = [
@@ -306,7 +411,7 @@ class DiamondController extends Controller
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your cart');
             }
-            return $this->successResponse('Success', $Id);
+            return $this->successResponse('Success',[],3);
         } else{
             return $this->errorResponse('Selected diamond is already in the cart');
         }
@@ -349,8 +454,8 @@ class DiamondController extends Controller
         $customer_id = Auth::id();
         $cart_data = DB::table('customer_cart')
                 ->where('refCustomer_id',$customer_id)
-                ->get();
-        if(!empty($cart_data)){
+                ->get();        
+        if(!empty($cart_data[0])){            
             $refDiamond_id_array=array();
             foreach ($cart_data as $row){
                 array_push($refDiamond_id_array,$row->refDiamond_id);
@@ -375,7 +480,7 @@ class DiamondController extends Controller
         $wishlist_data = DB::table('customer_whishlist')
                 ->where('refCustomer_id',$customer_id)
                 ->get();
-        if(!empty($wishlist_data)){
+        if(!empty($wishlist_data[0])){
             $refDiamond_id_array=array();
             foreach ($wishlist_data as $row){
                 array_push($refDiamond_id_array,$row->refdiamond_id);
@@ -394,9 +499,6 @@ class DiamondController extends Controller
         }
     }
 
-
-
-
     public function getWishlist()
     {
         $customer_id = Auth::id();
@@ -406,7 +508,7 @@ class DiamondController extends Controller
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
             ->where('cw.refCustomer_id',$customer_id)
             ->get();
-        if(!empty($diamonds) && isset($diamonds[0])){
+        if(!empty($diamonds[0]) && isset($diamonds[0])){
             foreach ($diamonds as $value){
                 array_push($response_array,$value);
             }
@@ -450,7 +552,7 @@ class DiamondController extends Controller
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your wishlist');
             }
-            return $this->successResponse('Success', $Id);
+            return $this->successResponse('Success',[],3);
         } else {
             return $this->errorResponse('Selected diamond is already there in your wishlist');
         }

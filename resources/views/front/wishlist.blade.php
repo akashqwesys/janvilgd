@@ -19,8 +19,9 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));
-                    $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));   
+                    $("#copylink").val('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);                    
+                    $("#staticBackdrop").modal("show");
 //                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
 //                    $.toast({
 //                        heading: 'Success',
@@ -59,8 +60,9 @@
             <div class="col col-12">
                 <div class="d-sm-flex d-block align-items-center mb-4">
                     <h2 class="me-auto mb-3 mb-dm-0">Diamonds</h2>
+
                     @if(!empty($response))
-                    <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="share-wishlist">Share your wishlist <i class="fa fa-share-alt"></i></a>
+                    <a href="javascript:;" class="btn btn-primary" id="share-wishlist">Share your wishlist <i class="fa fa-share-alt"></i></a>
                     <input type="hidden" id="watsapplink" value="">
                     <input type="hidden" id="copylink" value="">
                     @endif

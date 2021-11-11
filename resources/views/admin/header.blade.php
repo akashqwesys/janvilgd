@@ -127,10 +127,14 @@
                                                 <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
                                                 <span class="nk-menu-text">Modules</span>
                                             </a>
-                                        </li><!-- .nk-menu-item -->
+                                        </li><!-- .nk-menu-item -->                                        
                                         <?php
                                     }
                                     ?>
+                                        
+                                        <li class="nk-menu-heading">
+                                            <a href="/project-setup"><h6 class="overline-title text-primary-alt">Project Setup</h6></a>
+                                        </li><!-- .nk-menu-item -->
                                 </ul><!-- .nk-menu -->
                             </div><!-- .nk-sidebar-menu -->
                         </div><!-- .nk-sidebar-content -->
