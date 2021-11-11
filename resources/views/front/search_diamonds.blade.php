@@ -20,18 +20,26 @@
                 $(this).css('border', '4px solid #D2AB66');
                 $(this).attr('data-selected', 1);
             }
-            var values = [];
+            var values = [], values_all = [];
+            var cnt = 0;
             $('.diamond-shape .item img').each(function(index, element) {
                 if ($(this).attr('data-selected') == 1) {
                     values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+                } else {
+                    values_all.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+                    cnt++;
                 }
             });
-            getAttributeValues(values, [], group_id);
+            if (cnt == $('.diamond-shape .item img').length) {
+                getAttributeValues(values_all, [], group_id);
+            } else {
+                getAttributeValues(values, [], group_id);
+            }
         });
 
         function getAttributeValues(values, array, group_id) {
             var selected_values = [];
-            if (values.length > 1) {
+            if (values.length > 1 && typeof values == 'string') {
                 var strArray = values.split(",");
             }
             if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {

@@ -51,7 +51,7 @@
                                 <img src="/{{ check_host() }}assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
                                 <input type="email" name="email" class="form-control" placeholder="Email Address" id="email" autocomplete="off">
                             </div>
-                            <div class="errTxt"></div>
+                            <div class="errTxt mt-2"></div>
                             <p>By continuing, I agree to the <a href="/terms-conditions">Terms of Use</a> & <a
                                     href="/privacy-policy">Privacy Policy</a></p>
                             <button type="submit" id="login_btn" class="btn btn-primary">Continue</button>
@@ -83,6 +83,13 @@
                 return false;
             }
             else {
+                if ($('#mobile').val() != '' && !$('#mobile').val().match(/^[7-9][0-9]{9}$/)) {
+                    $('.errTxt').text('Please enter valid mobile number');
+                    return false;
+                } else if ($('#email').val() != '' && !$('#email').val().match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+                    $('.errTxt').text('Please enter valid email address');
+                    return false;
+                }
                 $('.errTxt').text('');
             }
             $.ajax({
