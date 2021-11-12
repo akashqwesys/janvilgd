@@ -52,16 +52,16 @@ class AuthController extends Controller
                 $exists->save();
                 $email = $exists->email;
             } else {
-                if (empty($request->mobile)) {
+                /* if (empty($request->mobile)) {
                     return $this->errorResponse('Please also enter your phone number');
                 }
                 if (empty($request->email)) {
                     return $this->errorResponse('Please also enter your email address');
-                }
+                } */
                 $customer = new Customers;
                 $customer->name = ' ';
-                $customer->mobile = $request->mobile;
-                $customer->email = $request->email;
+                $customer->mobile = $request->mobile ?? ' ';
+                $customer->email = $request->email ?? ' ';
                 $customer->address = ' ';
                 $customer->pincode = 0;
                 $customer->refCity_id = 0;

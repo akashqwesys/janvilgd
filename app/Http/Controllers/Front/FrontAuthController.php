@@ -55,12 +55,12 @@ class FrontAuthController extends Controller
                     $email = $exists->email;
                 }
                 else {
-                    if (empty($request->mobile)) {
+                    /* if (empty($request->mobile)) {
                         return response()->json(['error' => 1, 'message' => 'Please also enter your phone number']);
                     }
                     if (empty($request->email)) {
                         return response()->json(['error' => 1, 'message' => 'Please also enter your email address']);
-                    }
+                    } */
                     /* $customer = new Customers;
                     $customer->name = ' ';
                     $customer->mobile = $request->mobile;
@@ -82,8 +82,8 @@ class FrontAuthController extends Controller
                     $customer->save(); */
                     DB::table('customer')->insert([
                         'name' => ' ',
-                        'mobile' => $request->mobile,
-                        'email' => $request->email,
+                        'mobile' => $request->mobile ?? ' ',
+                        'email' => $request->email ?? ' ',
                         'address' => ' ',
                         'pincode' => 0,
                         'refCity_id' => 0,
