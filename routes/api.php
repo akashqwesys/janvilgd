@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('search-diamonds', [DiamondController::class, 'searchDiamonds']);
     Route::get('diamonds-details/{barcode}', [DiamondController::class, 'detailshDiamonds']);
 
+    // Cart
     Route::get('cart', [DiamondController::class, 'getCart']);
     Route::post('generate-share-cart-link', [DiamondController::class, 'createShareCartLink']);
     Route::get('sharable-cart/{id}', [DiamondController::class, 'getSharableCart']);
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('add-all-to-cart', [DiamondController::class, 'addAllToCart']);
     Route::post('remove-from-cart', [DiamondController::class, 'removeFromCart']);
 
+    // Wishlist
     Route::post('generate-share-wishlist-link', [DiamondController::class, 'createShareWishlistLink']);
     Route::get('wishlist', [DiamondController::class, 'getWishlist']);
     Route::post('add-to-wishlist', [DiamondController::class, 'addToWishlist']);

@@ -202,25 +202,26 @@ class DiamondController extends Controller
                 $newArray=array();
                 $newArray['ag_name']=$value->ag_name;
                 $newArray['at_name']=$value->name;
+                $newArray['attribute_id']=$value->attribute_id;
                 array_push($response_array['attribute'],$newArray);
             }
         }
         if (!count($response_array)) {
             return $this->errorResponse('No such diamond found');
         }
-        if(!empty($response_array)){
+        else {
             $recent=array();
             $recent['refCustomer_id']=Auth::id();
-            $recent['refDiamond_id']=$diamond_id;
-            $recent['updated_at']=date("Y-m-d h:i:s"); 
+            $recent['refDiamond_id']= $diamonds[0]->diamond_id;
+            $recent['updated_at']=date("Y-m-d h:i:s");
             $recent['price']=$response_array['data']->price;
             $recent['carat']=$response_array['data']->carat;
             $recent['refAttribute_group_id']=0;
             $recent['refAttribute_id']=0;
-                        
-            $shape='-';  
+
+            $shape='-';
             $cut='-';
-            $color='-';                                    
+            $color='-';
             $clarity='-';
             if(!empty($response_array['attribute'])){
                 foreach($response_array['attribute'] as $row){
@@ -232,20 +233,56 @@ class DiamondController extends Controller
                     }
                     if($row['ag_name']=="COLOR"){
                         $color=$row['at_name'];
-                    }                                   
+                    }
                     if($row['ag_name']=="CLARITY"){
                         $clarity=$row['at_name'];
-                    }                  
+                    }
                 }
-            }                
-            $recent['shape']=$shape;        
+            }
+            $recent['shape']=$shape;
             $recent['cut']=$cut;
             $recent['color']=$color;
             $recent['clarity']=$clarity;
-            
+
             DB::table('recently_view_diamonds')->insert($recent);
-            
         }
+
+        $recommended = DB::table('diamonds')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->where('is_recommended', 1)
+            ->orderBy('diamond_id', 'desc')
+            ->limit(5)
+            ->get();
+        foreach ($recommended as $v) {
+            $v->image = json_decode($v->image);
+        }
+        $similar_ids = collect($response_array['attribute'])
+            ->whereIn('ag_name', ['COLOR', 'CUT GRADE', 'CLARITY'])
+            ->pluck('attribute_id')
+            ->all();
+        $raw_attr = null;
+        foreach ($similar_ids as $v) {
+            $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' and ';
+        }
+        $similar = DB::table('diamonds as d')
+            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+            ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image')
+            ->where('d.is_active', 1)
+            ->where('d.is_deleted', 0)
+            ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
+            ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+1) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-1))')
+            ->whereRaw(rtrim($raw_attr, ' and '))
+            ->orderBy('d.diamond_id', 'desc')
+            ->limit(5)
+            ->get();
+        foreach ($similar as $v) {
+            $v->image = json_decode($v->image);
+        }
+        $response_array['recommended'] = $recommended;
+        $response_array['similar'] = $similar;
+
         return $this->successResponse('Success', $response_array);
     }
 
@@ -255,7 +292,7 @@ class DiamondController extends Controller
         $response_array=array();
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
+            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp')
             ->where('c.refCustomer_id',$customer_id)
             ->get();
         if(!empty($diamonds[0]) && isset($diamonds[0])){
@@ -313,7 +350,6 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $response_array);
     }
 
-
     public function addAllToCart(Request $request)
     {
         $rules = [
@@ -364,6 +400,7 @@ class DiamondController extends Controller
         }
         return $this->errorResponse('No data found');
     }
+
     public function addAllToWishlist(Request $request)
     {
         $rules = [
@@ -414,9 +451,6 @@ class DiamondController extends Controller
         }
         return $this->errorResponse('No data found');
     }
-
-
-
 
     public function addToCart(Request $request)
     {
@@ -544,7 +578,7 @@ class DiamondController extends Controller
         $response_array=array();
         $diamonds = DB::table('customer_whishlist as cw')
             ->join('diamonds as d', 'cw.refdiamond_id', '=', 'd.diamond_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
+            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp')
             ->where('cw.refCustomer_id',$customer_id)
             ->get();
         if(!empty($diamonds[0]) && isset($diamonds[0])){
