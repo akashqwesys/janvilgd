@@ -42,8 +42,8 @@ class AuthController extends Controller
             }
 
             $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                ->where('mobile', $request->mobile)
-                ->orWhere('email', $request->email)
+                ->where('email', $request->email)
+                ->orWhere('mobile', $request->mobile)
                 ->first();
             $otp = mt_rand(1111, 9999);
             if ($exists) {
@@ -98,15 +98,17 @@ class AuthController extends Controller
                 ]); */
                 $email = $request->email;
             }
-            Mail::to($email)
-                ->send(
-                    new EmailVerification([
-                        'subject' => 'Email Verification from Janvi LGE',
-                        'name' => $email,
-                        'otp' => $otp,
-                        'view' => 'emails.codeVerification'
-                    ])
-                );
+            if ($email) {
+                Mail::to($email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGE',
+                            'name' => $email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+            }
             return $this->successResponse('OTP sent successfully');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
