@@ -20,7 +20,7 @@
                                  <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label class="form-label float-md-right" for="name">name:</label>
+                                            <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -45,21 +45,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <div class="row g-3 align-center">
+                                
+                                <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label class="form-label float-md-right" for="allow_credit">Allow Credit:</label>
+                                            <label class="form-label float-right" for="allow_credit">Allow Credit:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name='allow_credit' id="allow_credit" placeholder="Enter allow credit" autocomplete="off" value="{{ $data['result']->allow_credit }}">
+                                                <select class="form-control" id="allow_credit" name="allow_credit" required="" tabindex="-1" aria-hidden="true">
+                                                   <option value="" selected>------ Select Type ------</option>                                                                                                      
+                                                   <option value="1" {{ set_selected(1,$data['result']->allow_credit) }}>YES</option>
+                                                   <option value="0" {{ set_selected(0,$data['result']->allow_credit) }}>No</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                </div>                             
                                  <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">

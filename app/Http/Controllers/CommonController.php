@@ -97,19 +97,6 @@ class CommonController extends Controller
                     array_push($modules_array,$data_array);
 
                     $data_array=array();
-                    $data_array['name']='Diamonds';
-                    $data_array['icon']='ni ni-centos';
-                    $data_array['slug']=clean_string('diamonds');
-                    $data_array['parent_id']=$row->module_id;
-                    $data_array['sort_order']=0;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($modules_array,$data_array);
-
-                    $data_array=array();
                     $data_array['name']='Attributes';
                     $data_array['icon']='ni-behance-fill';
                     $data_array['slug']=clean_string('attributes');
@@ -369,18 +356,6 @@ class CommonController extends Controller
                     $data_array['date_updated']=date("Y-m-d h:i:s");
                     array_push($modules_array,$data_array);
 
-                    $data_array=array();
-                    $data_array['name']='Settings';
-                    $data_array['icon']='ni-setting-fill';
-                    $data_array['slug']=clean_string('settings');
-                    $data_array['parent_id']=$row->module_id;
-                    $data_array['sort_order']=0;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($modules_array,$data_array);
                 }
                 if($row->name=="Website Modules"){
                     $data_array=array();
@@ -629,8 +604,10 @@ class CommonController extends Controller
 
         DB::table('informative_pages')->insert($informative_pages_array);
         //******************* Informative Pages Entry End *******************//
+        
 
-
+        
+        //******************* Atttribute groups Entry start *******************//
         $delete = DB::table('attribute_groups')->truncate();
         $attribute_groups_array=array();
         $categories = DB::table('categories')->where('is_active',1)->where('is_deleted',0)->get();
@@ -1119,8 +1096,38 @@ class CommonController extends Controller
                 $data_array['date_updated']=date("Y-m-d h:i:s");
                 array_push($attribute_groups_array,$data_array);
             }
-        }
+        }        
         DB::table('attribute_groups')->insert($attribute_groups_array);
+        //******************* Atttribute groups Entry end *******************//
+        
+        
+        //******************* labour charges Entry start *******************//
+        $delete = DB::table('labour_charges')->delete();
+        $labour_charges_array=array();
+        
+            $data_array=array();            
+            $data_array['labour_charge_id']=1;
+            $data_array['name']='4P diamonds';
+            $data_array['amount']=25;                   
+            $data_array['added_by']=1;           
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;     
+            $data_array['date_added']=date("Y-m-d h:i:s"); 
+            $data_array['date_updated']=date("Y-m-d h:i:s"); 
+            array_push($labour_charges_array,$data_array); 
+            
+            $data_array=array();
+            $data_array['labour_charge_id']=2;
+            $data_array['name']='Rough Diamonds';
+            $data_array['amount']=65;                   
+            $data_array['added_by']=1;           
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;     
+            $data_array['date_added']=date("Y-m-d h:i:s"); 
+            $data_array['date_updated']=date("Y-m-d h:i:s"); 
+            array_push($labour_charges_array,$data_array); 
+            
+            DB::table('labour_charges')->insert($labour_charges_array);
 
         successOrErrorMessage("Project Setup Done", 'success');
         return redirect('admin/dashboard');

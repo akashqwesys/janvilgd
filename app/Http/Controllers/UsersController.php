@@ -72,21 +72,17 @@ class UsersController extends Controller {
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request, "inserted", 'users');
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request, "inserted", 'users',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/users');
     }
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = User::latest()->orderBy('id','desc')->get();
-
-//            $data = DB::table('users')->select('users.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
-//                    ->leftJoin('city', 'city.city_id', '=', 'users.city_id')
-//                    ->leftJoin('state', 'state.state_id', '=', 'users.state_id')
-//                    ->leftJoin('country', 'country.country_id', '=', 'users.country_id')
-//                    ->get();
-
+            $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
+                    ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
+                    ->get();                        
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index', '')
@@ -138,7 +134,6 @@ class UsersController extends Controller {
     }
 
     public function edit($id) {
-
         $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
@@ -147,14 +142,13 @@ class UsersController extends Controller {
         $data['city'] = $city;
         $data['state'] = $state;
         $data['country'] = $country;
-
         $result = DB::table('users')->where('id', $id)->first();
         $data['title'] = 'Edit-Users';
         $data['result'] = $result;
         return view('admin.users.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request) {        
         $data = [
             'name' => $request->name,
             'email' => $request->email,
@@ -163,7 +157,7 @@ class UsersController extends Controller {
             'city_id' => $request->city_id,
             'state_id' => $request->state_id,
             'country_id' => $request->country_id,
-            'role_id' => $request->role_id,
+            'role_id' => isset($request->role_id) ? $request->role_id : 0,
             'date_updated' => date("Y-m-d h:i:s")
         ];
         $exist_file = DB::table('users')->where('id', $request->id)->first();
@@ -201,7 +195,7 @@ class UsersController extends Controller {
             }
         }
         DB::table('users')->where('id', $request->id)->update($data);
-        activity($request, "updated", 'users');
+        activity($request, "updated", 'users',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/users');
     }
@@ -213,7 +207,7 @@ class UsersController extends Controller {
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request, "deleted", $request['module']);
+            activity($request, "deleted", $request['module'],$request['table_id']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -245,7 +239,7 @@ class UsersController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request, "updated", $request['module']);
+            activity($request, "updated", $request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

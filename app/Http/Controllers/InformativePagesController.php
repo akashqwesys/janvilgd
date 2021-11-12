@@ -39,7 +39,9 @@ class InformativePagesController extends Controller {
         }
 
         DB::table('informative_pages')->insert($data_array);
-        activity($request,"inserted",'informative-pages');
+        $Id = DB::getPdo()->lastInsertId();
+        
+        activity($request,"inserted",'informative-pages',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/informative-pages');
     }
@@ -103,7 +105,7 @@ class InformativePagesController extends Controller {
             'is_active' => 1,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request,"updated",'informative-pages');
+        activity($request,"updated",'informative-pages',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/informative-pages');
     }
@@ -114,7 +116,7 @@ class InformativePagesController extends Controller {
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request,"deleted",$request['module']);
+            activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -146,7 +148,7 @@ class InformativePagesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$request['module']);
+            activity($request,"updated",$request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

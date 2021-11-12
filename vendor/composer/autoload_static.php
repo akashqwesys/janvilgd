@@ -799,6 +799,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Http\\Controllers\\DiamondsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiamondsController.php',
         'App\\Http\\Controllers\\DiscountsController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiscountsController.php',
         'App\\Http\\Controllers\\EventsController' => __DIR__ . '/../..' . '/app/Http/Controllers/EventsController.php',
+        'App\\Http\\Controllers\\Front\\ContactController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/ContactController.php',
         'App\\Http\\Controllers\\Front\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/DashboardController.php',
         'App\\Http\\Controllers\\Front\\DiamondController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/DiamondController.php',
         'App\\Http\\Controllers\\Front\\FrontAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Front/FrontAuthController.php',

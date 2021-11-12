@@ -197,6 +197,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                if($data['result']->role_id>=1){
+                                @endphp
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -220,6 +223,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                }
+                                @endphp
+                                
+                                @php
+                                if($data['result']->user_type>!="MASTER_ADMIN"){
+                                @endphp                                
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -238,6 +248,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                }
+                                @endphp
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-2">

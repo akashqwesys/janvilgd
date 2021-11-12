@@ -83,7 +83,7 @@ if (!function_exists('clean_string')) {
 
 if (!function_exists('activity')) {
 
-    function activity($request, $activity, $module) {
+    function activity($request, $activity, $module,$id=0) {
         $agent = new \Jenssegers\Agent\Agent;
         $device = 'None';
         if ($agent->isDesktop()) {
@@ -99,16 +99,21 @@ if (!function_exists('activity')) {
         if ($module == "modules") {
             $module_id = 0;
             $module_name = $module;
-        } else {
+        }
+        else if($module == "diamonds"){
+            $module_id = 0;
+            $module_name = $module;
+        }
+        else {
             $module_id = moduleId($module)->module_id;
             $module_name = moduleId($module)->name;
         }
 
         DB::table('user_activity')->insert([
             'refUser_id' => $request->session()->get('loginId'),
-            'refModule_id' => $module_id,
+            'refModule_id' => $module_id,            
             'activity' => $activity,
-            'subject' => $module_name . ' ' . $activity,
+            'subject' => $module_name . ' ' . $activity." (id:$id)",
             'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
             'device' => $device,
             'ip_address' => get_client_ip(),

@@ -28,8 +28,7 @@
                                             <th>Name</th>
                                             <th>Profile</th>
                                             <th>Mobile</th>
-                                            <th>Email</th>
-                                            <th>Address</th>                                           
+                                            <th>Email</th>                                                                                  
                                             <th>Role</th>
                                             <th>Username</th>                                            
                                             <th>last login type</th>

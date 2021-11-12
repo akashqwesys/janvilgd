@@ -35,6 +35,21 @@ class CustomAuthController extends Controller {
         $user=DB::table('users')->select('id', 'name', 'mobile', 'email', 'user_type', 'password')->where('email','=',$request->email)->first();
         if($user){
             if($pass==$user->password){
+                
+                $agent = new \Jenssegers\Agent\Agent;
+                $logintype='web';
+                if($agent->isMobile()){
+                    $logintype="Mobile";
+                }
+                if($agent->isDesktop()){
+                    $logintype="web";
+                }
+                
+                DB::table('users')->where('id', $user->id)->update([
+                    'last_login_type' => $logintype,                
+                    'last_login_date_time' => date("Y-m-d h:i:s")
+                ]);
+                                                
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
                 return redirect('admin/dashboard');

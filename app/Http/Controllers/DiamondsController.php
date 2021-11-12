@@ -43,10 +43,15 @@ class DiamondsController extends Controller {
                             $row['rapa'] = str_replace(',', '', $row['rapa']);
                             $row['rapa'] = doubleval($row['rapa']);
 
-                            $rapa_price = DB::table('rapaport')
-                            ->where('shape', $row['shape'])
-                            ->where('color', $row['color'])
-                            ->where('clarity', $row['clarity'])
+                            $row['shape']=trim($row['shape']);
+                            $row['color']=trim($row['color']);
+                            $row['clarity']=trim($row['clarity']);
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                
+                            ->where('color', $row['color'])               
+                            ->where('clarity', $row['clarity'])                       
+
                             ->where('from_range','<=',$row['exp_pol_cts'])
                             ->where('to_range','>=',$row['exp_pol_cts'])
                             ->first();
@@ -107,6 +112,9 @@ class DiamondsController extends Controller {
 
 
                             foreach ($attribute_groups as $atr_grp_row) {
+                                
+                                $atr_grp_row->name=trim($atr_grp_row->name);
+                                
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
                                 if ($atr_grp_row->name === "HALF-CUT DIA") {
                                     if (!empty($row['half_cut_dia'])) {
@@ -114,7 +122,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['half_cut_dia'];
+                                        $insert_array['value'] = trim($row['half_cut_dia']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -124,7 +132,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['po_diameter'];
+                                        $insert_array['value'] = trim($row['po_diameter']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -134,7 +142,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['half_cut_hgt'];
+                                        $insert_array['value'] = trim($row['half_cut_hgt']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -144,7 +152,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['exp_pol_size'];
+                                        $insert_array['value'] = trim($row['exp_pol_size']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -269,9 +277,12 @@ class DiamondsController extends Controller {
                             $row['rap'] = str_replace(',', '', $row['rap']);
                             $row['rap'] = doubleval($row['rap']);
 
-
-                            $rapa_price = DB::table('rapaport')
-                            ->where('shape', $row['shape'])
+                            
+                            $row['shape']=trim($row['shape']);
+                            $row['purity']=trim($row['purity']);
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                                                           
                             ->where('from_range','<=',$row['exp_pol'])
                             ->where('to_range','>=',$row['exp_pol'])
                             ->first();
@@ -332,7 +343,9 @@ class DiamondsController extends Controller {
                                 $Id = DB::getPdo()->lastInsertId();
                             }
                             foreach ($attribute_groups as $atr_grp_row) {
-
+                                
+                                $atr_grp_row->name=trim($atr_grp_row->name);
+                                
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
                                 if ($atr_grp_row->name === "PURITY") {
                                     if (!empty($row['purity'])) {
@@ -419,10 +432,20 @@ class DiamondsController extends Controller {
                             $row['price'] = str_replace(',', '', $row['price']);
                             $row['price'] = doubleval($row['price']);
 
-                            $rapa_price = DB::table('rapaport')
-                            ->where('shape', $row['shape'])
-                            ->where('color', $row['color'])
-                            ->where('clarity', $row['clarity'])
+                            $row['shape']=trim($row['shape']);
+                            $row['color']=trim($row['color']);
+                            $row['clarity']=trim($row['clarity']);
+                            $row['cut_grade']=trim($row['cut_grade']);
+                            $row['polish']=trim($row['polish']);
+                            $row['symmetry']=trim($row['symmetry']);
+                            $row['lab']=trim($row['lab']);
+                            $row['culet_size']=trim($row['culet_size']);
+                            $row['girdle_condition']=trim($row['girdle_condition']);                                                                                                                
+                            
+                            $rapa_price = DB::table('rapaport')                
+                            ->where('shape', $row['shape'])                
+                            ->where('color', $row['color'])               
+                            ->where('clarity', $row['clarity'])                       
                             ->where('from_range','<=',$row['weight'])
                             ->where('to_range','>=',$row['weight'])
                             ->first();
@@ -477,6 +500,9 @@ class DiamondsController extends Controller {
                             }
 
                             foreach ($attribute_groups as $atr_grp_row) {
+                                
+                                $atr_grp_row->name=trim($atr_grp_row->name);
+                                
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
                                 if ($atr_grp_row->name === "DEPTH PERCENT") {
@@ -485,7 +511,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['depth_percent'];
+                                        $insert_array['value'] = trim($row['depth_percent']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -497,7 +523,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['table_percent'];
+                                        $insert_array['value'] = trim($row['table_percent']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -509,7 +535,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['certificate'];
+                                        $insert_array['value'] = trim($row['certificate']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -521,7 +547,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['girdle_percent'];
+                                        $insert_array['value'] = trim($row['girdle_percent']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -534,7 +560,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['pavilion_depth'];
+                                        $insert_array['value'] = trim($row['pavilion_depth']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -545,7 +571,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['crown_height'];
+                                        $insert_array['value'] = trim($row['crown_height']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -555,7 +581,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['crown_angle'];
+                                        $insert_array['value'] = trim($row['crown_angle']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -566,7 +592,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['pavilion_angle'];
+                                        $insert_array['value'] = trim($row['pavilion_angle']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -577,7 +603,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['growth_type'];
+                                        $insert_array['value'] = trim($row['growth_type']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -588,7 +614,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['measurements'];
+                                        $insert_array['value'] = trim($row['measurements']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -598,7 +624,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = $row['certificate_url'];
+                                        $insert_array['value'] = trim($row['certificate_url']);
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -703,8 +729,7 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-                                }
-
+                                }                                                               
                                 if ($atr_grp_row->name === "CUT GRADE") {
 
                                     if (!empty($row['cut_grade'])) {
@@ -924,7 +949,7 @@ class DiamondsController extends Controller {
             DB::table('diamonds_attributes')->insert($attr_group_array);
         }
 
-//        activity($request, "inserted", 'diamonds');
+        activity($request, "inserted", 'diamonds');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/diamonds/list/'.$request->refCategory_id);
     }
@@ -1110,7 +1135,7 @@ class DiamondsController extends Controller {
         if (!empty($batch_array)) {
             DB::table('diamonds_attributes')->insert($batch_array);
         }
-//        activity($request, "inserted", 'diamonds');
+        activity($request, "inserted", 'diamonds',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/diamonds/list/'.$request->refCategory_id);
     }
@@ -1288,7 +1313,7 @@ class DiamondsController extends Controller {
             DB::table('diamonds_attributes')->insert($batch_array);
         }
 
-//        activity($request, "updated", 'diamonds');
+        activity($request, "updated", 'diamonds',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/diamonds/list/'.$request->refCategory_id);
     }
@@ -1300,7 +1325,7 @@ class DiamondsController extends Controller {
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-//            activity($request, "deleted", $_REQUEST['module']);
+            activity($request, "deleted", $_REQUEST['module'],$_REQUEST['table_id']);
 //            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -1318,8 +1343,6 @@ class DiamondsController extends Controller {
     public function status(Request $request) {
         if (isset($_REQUEST['table_id'])) {
 
-
-
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                 'is_active' => $_REQUEST['status'],
                 'date_updated' => date("Y-m-d h:i:s")
@@ -1334,7 +1357,7 @@ class DiamondsController extends Controller {
                     'suceess' => false
                 );
             }
-//            activity($request, "updated", $_REQUEST['module']);
+            activity($request, "updated",$_REQUEST['module'],$_REQUEST['table_id']);
             return response()->json($data);
         }
     }

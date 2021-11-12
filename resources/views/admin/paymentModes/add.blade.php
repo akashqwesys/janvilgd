@@ -18,7 +18,7 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">                                            
-                                            <label class="form-label float-md-right" for="name">name:</label>
+                                            <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -37,11 +37,8 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <div class="form-control-wrap">                                                                                                  
-                                                <select class="form-select form-control" id="sort_order" name="sort_order" required="" tabindex="-1" aria-hidden="true" data-search="on">                                                    
-                                                    <option value="ASC">Ascending</option>      
-                                                    <option value="DESC">Descending</option>                                                         
-                                                </select>
+                                            <div class="form-control-wrap">                                                 
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort order" required="" autocomplete="off">                                                                                             
                                             </div>
                                         </div>
                                     </div>

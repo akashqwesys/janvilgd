@@ -29,6 +29,7 @@ return array(
     'App\\Http\\Controllers\\DiamondsController' => $baseDir . '/app/Http/Controllers/DiamondsController.php',
     'App\\Http\\Controllers\\DiscountsController' => $baseDir . '/app/Http/Controllers/DiscountsController.php',
     'App\\Http\\Controllers\\EventsController' => $baseDir . '/app/Http/Controllers/EventsController.php',
+    'App\\Http\\Controllers\\Front\\ContactController' => $baseDir . '/app/Http/Controllers/Front/ContactController.php',
     'App\\Http\\Controllers\\Front\\DashboardController' => $baseDir . '/app/Http/Controllers/Front/DashboardController.php',
     'App\\Http\\Controllers\\Front\\DiamondController' => $baseDir . '/app/Http/Controllers/Front/DiamondController.php',
     'App\\Http\\Controllers\\Front\\FrontAuthController' => $baseDir . '/app/Http/Controllers/Front/FrontAuthController.php',

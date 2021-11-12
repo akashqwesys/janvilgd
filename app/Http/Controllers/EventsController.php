@@ -44,8 +44,8 @@ class EventsController extends Controller {
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-
-        activity($request,"updated",'events');
+         $Id = DB::getPdo()->lastInsertId();
+        activity($request,"updated",'events',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/events');
     }
@@ -129,8 +129,9 @@ class EventsController extends Controller {
                 'description' => $request->description,
                 'slug' => clean_string($request->slug),
                 'date_updated' => date("Y-m-d h:i:s")
-            ]);
-        activity($request,"updated",'events');
+            ]);        
+        activity($request,"updated",'events',$request->id);
+
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/events');
     }
@@ -141,7 +142,7 @@ class EventsController extends Controller {
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request,"deleted",$request['module']);
+            activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -172,7 +173,7 @@ class EventsController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$request['module']);
+            activity($request,"updated",$request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

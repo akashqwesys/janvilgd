@@ -47,7 +47,8 @@ class AttributeController extends Controller
             'date_updated' => date("Y-m-d h:i:s")
         ]);
 
-        activity($request,"inserted",'attributes');
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request,"inserted",'attributes',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/attributes');
     }
@@ -94,7 +95,7 @@ class AttributeController extends Controller
                                     $str='<em class="icon ni ni-check-thick"></em>';
                                     $class="btn-success";
                                 }
-                                $actionBtn = '<a href="/admin/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="blogs" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="attributes" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -156,7 +157,7 @@ class AttributeController extends Controller
             'date_updated' => date("Y-m-d h:i:s")
         ]);
 
-        activity($request,"updated",'attributes');
+        activity($request,"updated",'attributes',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/attributes');
     }
@@ -168,7 +169,7 @@ class AttributeController extends Controller
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request,"deleted",$request['module']);
+            activity($request,"deleted",$request['module'],$request['table_id']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -200,7 +201,7 @@ class AttributeController extends Controller
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$request['module']);
+            activity($request,"updated",$request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

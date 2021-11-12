@@ -45,8 +45,8 @@ class BlogsController extends Controller
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-
-        activity($request,"inserted",'blogs');
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request,"inserted",'blogs',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/blogs');
     }
@@ -131,7 +131,7 @@ class BlogsController extends Controller
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
 
-        activity($request,"updated",'blogs');
+        activity($request,"updated",'blogs',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/blogs');
     }
@@ -142,7 +142,7 @@ class BlogsController extends Controller
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request,"deleted",$request['module']);
+            activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -173,7 +173,7 @@ class BlogsController extends Controller
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$request['module']);
+            activity($request,"updated",$request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

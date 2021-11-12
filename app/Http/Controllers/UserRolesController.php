@@ -35,8 +35,8 @@ class UserRolesController extends Controller {
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-
-        activity($request,"inserted",'user-role');
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request,"inserted",'user-role',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/user-role');
     }
@@ -107,7 +107,7 @@ class UserRolesController extends Controller {
     }
 
     public function update(Request $request) {
-//        echo json_encode($request->access_permission);die;
+//       echo json_encode($request->access_permission);die;
         $access_permission= json_encode($request->access_permission);
         $modify_permission= json_encode($request->modify_permission);
         DB::table('user_role')->where('user_role_id', $request->id)->update([
@@ -116,7 +116,7 @@ class UserRolesController extends Controller {
             'modify_permission' => $modify_permission,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request,"updated",'user-role');
+        activity($request,"updated",'user-role',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/user-role');
     }
@@ -127,7 +127,7 @@ class UserRolesController extends Controller {
                 'is_deleted' => 1,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            activity($request,"deleted",$request['module']);
+            activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
@@ -158,7 +158,7 @@ class UserRolesController extends Controller {
                     'suceess' => false
                 );
             }
-            activity($request,"updated",$request['module']);
+            activity($request,"updated",$request['module'],$request['table_id']);
             return response()->json($data);
         }
     }

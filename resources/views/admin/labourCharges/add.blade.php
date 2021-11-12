@@ -18,7 +18,7 @@
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">                                            
-                                            <label class="form-label float-md-right" for="name">name:</label>
+                                            <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

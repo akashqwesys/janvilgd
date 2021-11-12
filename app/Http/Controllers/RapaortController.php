@@ -166,7 +166,7 @@ class RapaortController extends Controller {
         $rapa_type = DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->first();        
         DB::table('rapaport')->where('refRapaport_type_id',$request->rapaport_type_id)->delete();         
         $res=Excel::import(new RapaportImport, request()->file('file'));                
-         $date=date("Y-m-d h:i:s");
+        $date=date("Y-m-d h:i:s");
         if ($rapa_type->rapaport_category == 1) {                                   
                 DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated'=>$date]);            
                 $request->session()->put("request_check", 1);
@@ -203,8 +203,8 @@ class RapaortController extends Controller {
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-
-        activity($request, "inserted", 'rapaport');
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request, "inserted", 'rapaport',$Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/rapaport');
     }
@@ -236,7 +236,7 @@ class RapaortController extends Controller {
             'rapaport_category' => $request->rapaport_category,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request, "updated", 'rapaport');
+        activity($request, "updated", 'rapaport',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/rapaport');
     }
