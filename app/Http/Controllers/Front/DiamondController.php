@@ -63,7 +63,26 @@ class DiamondController extends Controller {
                 if ($v['name'] == 'SHAPE') {
                     if (isset($v['attributes']) && count($v['attributes']) > 1) {
                         foreach ($v['attributes'] as $v1) {
-                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $v1['image'] . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                            if ($v1['name'] == 'Round Brilliant') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                            } else if ($v1['name'] == 'Heart Brilliant') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                            } else if ($v1['name'] == 'Pear Brilliant') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                            } else if ($v1['name'] == 'Oval Brilliant') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                            } else if ($v1['name'] == 'Princess Cut') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Princess_Cut.png';
+                            } else if ($v1['name'] == 'Cushion') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Cushion.png';
+                            } else if ($v1['name'] == 'Emerald') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Emerald.png';
+                            } else if ($v1['name'] == 'Marquise') {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Marquise.png';
+                            } else {
+                                $src_img = '/public/assets/images/Diamond_Shapes_Marquise.png';
+                            }
+                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
                         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
@@ -241,8 +260,8 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-    
-    
+
+
     public function addAllToCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->addAllToCart($request);
@@ -271,7 +290,7 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-    
+
 
     public function removeFromCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
@@ -390,7 +409,7 @@ class DiamondController extends Controller {
     public function getSharableCart($share_cart_id) {
         $response=array();
         $diamond_api_controller = new DiamondApi;
-        $result = $diamond_api_controller->getSharableCart($share_cart_id);        
+        $result = $diamond_api_controller->getSharableCart($share_cart_id);
         if (!empty($result->original['data'])) {
             $response = $result->original['data'];
         }
