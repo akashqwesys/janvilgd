@@ -218,7 +218,7 @@ class FrontAuthController extends Controller
                             ->where('key', 'admin_email')
                             ->pluck('value')
                             ->first();
-                        Mail::to('sgpatel1996@gmail.com')
+                        Mail::to($admin_email)
                         ->send(
                             new CommonEmail([
                                 'subject' => 'New User on Janvi LGE',
