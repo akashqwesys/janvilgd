@@ -89,6 +89,7 @@ final class Versions
   'phenx/php-font-lib' => '0.5.2@ca6ad461f032145fff5971b5985e5af9e7fa88d8',
   'phenx/php-svg-lib' => '0.3.4@f627771eb854aa7f45f80add0f23c6c4d67ea0f2',
   'php-http/message-factory' => 'v1.0.2@a478cb11f66a6ac48d8954216cfed9aa06a501a1',
+  'phpmailer/phpmailer' => 'v6.5.1@dd803df5ad7492e1b40637f7ebd258fee5ca7355',
   'phpoffice/phpspreadsheet' => '1.18.0@418cd304e8e6b417ea79c3b29126a25dc4b1170c',
   'phpoption/phpoption' => '1.8.0@5455cb38aed4523f99977c4a12ef19da4bfe2a28',
   'phpseclib/phpseclib' => '3.0.10@62fcc5a94ac83b1506f52d7558d828617fac9187',
@@ -179,7 +180,7 @@ final class Versions
   'sebastian/type' => '2.3.4@b8cd8a1c753c90bc1a0f5372170e3e489136f914',
   'sebastian/version' => '3.0.2@c6c1022351a901512170118436c764e473f6de8c',
   'theseer/tokenizer' => '1.2.1@34a41e998c2183e22995f158c581e7b5e755ab9e',
-  'laravel/laravel' => 'dev-main@ad963c192c7b39579739107bffa2986757064c3c',
+  'laravel/laravel' => 'dev-main@154d34ba40b40025a002bd2076a2bd6473ee6152',
 );
 
     private function __construct()

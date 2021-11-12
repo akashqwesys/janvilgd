@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\UserActivity;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 if (!function_exists('date_formate')) {
     function date_formate($date) {
@@ -111,7 +113,7 @@ if (!function_exists('activity')) {
 
         DB::table('user_activity')->insert([
             'refUser_id' => $request->session()->get('loginId'),
-            'refModule_id' => $module_id,            
+            'refModule_id' => $module_id,
             'activity' => $activity,
             'subject' => $module_name . ' ' . $activity." (id:$id)",
             'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
@@ -199,5 +201,47 @@ if (!function_exists('get_rapaport_price')) {
 
 }
 
+function send_email($to, $subject)
+{
+    // Create an instance of PHPMailer class
+    $mail = new PHPMailer;
 
+    // SMTP configurations
+    $mail->isSMTP();
+    $mail->Host         = 'mail.akashs.in';
+    $mail->SMTPAuth     = true;
+    $mail->Username     = 'contact@akashs.in';
+    $mail->Password     = '5yF*5k*M#dp*';
+    $mail->SMTPSecure   = 'ssl';
+    $mail->Port         = 465;
 
+    // Sender info
+    $mail->setFrom('contact@akashs.in', 'JANVI LGD');
+
+    // Add a recipient
+    $mail->addAddress($to);
+
+    // Add cc or bcc
+    // $mail->addCC('cc@example.com');
+    // $mail->addBCC('bcc@example.com');
+
+    // Email subject
+    $mail->Subject = $subject;
+
+    // Set email format to HTML
+    $mail->isHTML(true);
+
+    // Email body content
+    $mailContent = '
+    <h2>Send HTML Email using SMTP Server in Laravel</h2>
+    <p>It is a test email by CodexWorld, sent via SMTP server with PHPMailer in Laravel.</p>
+    <p>Read the tutorial and download this script from <a href="https://www.codexworld.com/">CodexWorld</a>.</p>';
+    $mail->Body = $mailContent;
+
+    // Send email
+    if (!$mail->send()) {
+        return ['success' => true, 'message' => $mail->ErrorInfo];
+    } else {
+        return ['success' => true, 'message' => null];
+    }
+}

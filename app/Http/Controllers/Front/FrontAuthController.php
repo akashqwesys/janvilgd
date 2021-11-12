@@ -101,15 +101,15 @@ class FrontAuthController extends Controller
                     ]);
                     $email = $request->email;
                 }
-//                Mail::to($email)
-//                ->send(
-//                    new EmailVerification([
-//                        'subject' => 'Email Verification from Janvi LGE',
-//                        'name' => $email,
-//                        'otp' => $otp,
-//                        'view' => 'emails.codeVerification'
-//                    ])
-//                );
+               Mail::to($email)
+               ->send(
+                   new EmailVerification([
+                       'subject' => 'Email Verification from Janvi LGE',
+                       'name' => $email,
+                       'otp' => $otp,
+                       'view' => 'emails.codeVerification'
+                   ])
+               );
                 return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($email)]);
             }
             catch (\Exception $e) {
