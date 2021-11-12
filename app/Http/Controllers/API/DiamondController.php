@@ -208,6 +208,44 @@ class DiamondController extends Controller
         if (!count($response_array)) {
             return $this->errorResponse('No such diamond found');
         }
+        if(!empty($response_array)){
+            $recent=array();
+            $recent['refCustomer_id']=Auth::id();
+            $recent['refDiamond_id']=$diamond_id;
+            $recent['updated_at']=date("Y-m-d h:i:s"); 
+            $recent['price']=$response_array['data']->price;
+            $recent['carat']=$response_array['data']->carat;
+            $recent['refAttribute_group_id']=0;
+            $recent['refAttribute_id']=0;
+                        
+            $shape='-';  
+            $cut='-';
+            $color='-';                                    
+            $clarity='-';
+            if(!empty($response_array['attribute'])){
+                foreach($response_array['attribute'] as $row){
+                    if($row['ag_name']=="SHAPE"){
+                        $shape=$row['at_name'];
+                    }
+                    if($row['ag_name']=="CUT GRADE"){
+                        $cut=$row['at_name'];
+                    }
+                    if($row['ag_name']=="COLOR"){
+                        $color=$row['at_name'];
+                    }                                   
+                    if($row['ag_name']=="CLARITY"){
+                        $clarity=$row['at_name'];
+                    }                  
+                }
+            }                
+            $recent['shape']=$shape;        
+            $recent['cut']=$cut;
+            $recent['color']=$color;
+            $recent['clarity']=$clarity;
+            
+            DB::table('recently_view_diamonds')->insert($recent);
+            
+        }
         return $this->successResponse('Success', $response_array);
     }
 

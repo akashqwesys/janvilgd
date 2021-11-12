@@ -289,7 +289,17 @@
                                             </div>
                                         </div>
                                     </div>                            
-                                                                      
+                                      
+                                    <div class="row g-3 align-center">
+                                    <div class="col-md-6 offset-4">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" data-msg="Required" class="custom-control-input" name="is_recommended" id="is_recommended" value="1">
+                                            <label class="custom-control-label" for="is_recommended">Is Recommended</label>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                        
                                     <hr>
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {

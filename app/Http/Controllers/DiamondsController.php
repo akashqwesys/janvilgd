@@ -1079,7 +1079,7 @@ class DiamondsController extends Controller {
 
         DB::table('diamonds')->insert([
             'name'=>$name,
-            'barcode' => isset($request->barcode) ? $request->barcode : 0,
+            'barcode' => isset($request->barcode) ? $request->barcode : 0,            
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
             'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
@@ -1094,6 +1094,7 @@ class DiamondsController extends Controller {
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
             'added_by' => $request->session()->get('loginId'),
+            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("Y-m-d h:i:s"),
@@ -1281,6 +1282,7 @@ class DiamondsController extends Controller {
             'discount' => isset($request->discount) ? $discount : 0,
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
             'image' => $image,
+            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
             'video_link' => isset($request->video_link) ? $request->video_link : 0,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
