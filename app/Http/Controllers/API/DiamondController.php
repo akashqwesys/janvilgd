@@ -95,7 +95,7 @@ class DiamondController extends Controller
             $ij = 1;
         }
 
-        $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
+        $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.barcode')
             ->selectRaw(rtrim($ag_names, ', '));
 
         if (!empty($q)) {
@@ -130,6 +130,7 @@ class DiamondController extends Controller
                 $final_d[$v_row->diamond_id]['attributes'][$v_row->{'ag_name_'.$i}] = $v_row->{'name_'.$i};
             }
             $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+            $final_d[$v_row->diamond_id]['barcode'] = $v_row->barcode;
             $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
             $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
             $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
@@ -144,7 +145,7 @@ class DiamondController extends Controller
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . round($v['price'], 2) . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '">
+                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . round($v['price'], 2) . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
                             <td scope="col" class="text-center">' . $v['carat'] . '</td>
                             <td scope="col" class="text-center">' . round($v['price'], 2) . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
@@ -183,7 +184,7 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $final_d);
     }
 
-    public function detailshDiamonds($diamond_id)
+    public function detailshDiamonds($barcode)
     {
         $response_array=array();
         $diamonds = DB::table('diamonds as d')
@@ -191,7 +192,7 @@ class DiamondController extends Controller
             ->leftJoin('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name')
-            ->where('diamond_id',$diamond_id)
+            ->where('d.barcode',$barcode)
             ->get();
 
         if(!empty($diamonds) && isset($diamonds[0])){

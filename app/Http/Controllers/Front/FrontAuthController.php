@@ -285,7 +285,7 @@ class FrontAuthController extends Controller
                 return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
             $email = decrypt($request->token, false);
-            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at')
+            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at', 'otp_status')
                 ->where('email', $email)
                 ->first();
             if (!$user) {
@@ -298,6 +298,7 @@ class FrontAuthController extends Controller
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
+            $user->otp_status = 0;
             Mail::to($email)
             ->send(
                 new EmailVerification([
@@ -341,7 +342,7 @@ class FrontAuthController extends Controller
                 if (!$user) {
                     return response()->json(['error' => 1, 'message' => 'Not authorized', 'url' => '/customer/login']);
                 } else {
-                    if ($request->otp == $user->otp) {
+                    if ($request->otp == $user->otp && $user->otp_status === 0) {
                         if ($user->name == ' ' || strlen($user->name) < 3) {
                             $user->otp_status = 1;
                             $user->save();

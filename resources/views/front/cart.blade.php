@@ -78,7 +78,7 @@
                             if($i==0){
                             @endphp
 
-                            <a href="/customer/single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
+                            <a href="/customer/single-diamonds/{{$rv->barcode}}"><img class="img-fluid cart-product-img" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
                             @php
                             }
                             $i=$i+1;

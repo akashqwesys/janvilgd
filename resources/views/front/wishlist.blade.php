@@ -88,7 +88,7 @@
                                     foreach($image as $v) {
                                         if($i==0){
                         @endphp
-                        <a href="/customer/single-diamonds/{{$row->diamond_id}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
+                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
                         @php
                                     }
                                     $i=$i+1;

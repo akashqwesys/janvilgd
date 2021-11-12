@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     // Diamonds
     Route::post('get-attributes', [DiamondController::class, 'getAttributes']);
     Route::post('search-diamonds', [DiamondController::class, 'searchDiamonds']);
-    Route::get('diamonds-details/{id}', [DiamondController::class, 'detailshDiamonds']);
+    Route::get('diamonds-details/{barcode}', [DiamondController::class, 'detailshDiamonds']);
 
     Route::get('cart', [DiamondController::class, 'getCart']);
     Route::post('generate-share-cart-link', [DiamondController::class, 'createShareCartLink']);

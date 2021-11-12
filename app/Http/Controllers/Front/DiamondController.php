@@ -447,11 +447,11 @@ class DiamondController extends Controller {
         return view('front.sharable-wishlist', compact('title', 'response','share_wishlist_id'));
     }
 
-    public function diamondDetails($diamond_id) {
+    public function diamondDetails($barcode) {
         $response=array();
         $attributes=array();
         $diamond_api_controller = new DiamondApi;
-        $result = $diamond_api_controller->detailshDiamonds($diamond_id);
+        $result = $diamond_api_controller->detailshDiamonds($barcode);
         if (!empty($result->original['data'])) {
             $response = $result->original['data']['data'];
             $attributes = $result->original['data']['attribute'];

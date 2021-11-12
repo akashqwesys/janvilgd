@@ -200,6 +200,7 @@ class AuthController extends Controller
             }
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
+            $user->otp_status = 0;
             Mail::to($user->email)
                 ->send(
                     new EmailVerification([
