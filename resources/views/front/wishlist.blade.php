@@ -19,8 +19,8 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));   
-                    $("#copylink").val('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);                    
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));
+                    $("#copylink").val('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
                     $("#staticBackdrop").modal("show");
 //                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
 //                    $.toast({
@@ -88,7 +88,7 @@
                                     foreach($image as $v) {
                                         if($i==0){
                         @endphp
-                        <a href="/customer/single-diamonds/{{$row->diamond_id}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
+                        <a href="/customer/single-diamonds/{{$row->diamond_id}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
                         @php
                                     }
                                     $i=$i+1;
