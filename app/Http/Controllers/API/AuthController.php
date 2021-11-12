@@ -42,8 +42,12 @@ class AuthController extends Controller
             }
 
             $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                ->where('email', $request->email)
-                // ->orWhere('mobile', $request->mobile)
+                ->when($request->email, function ($q) use($request) {
+                    $q->where('email', $request->email);
+                })
+                ->when($request->email, function ($q) use($request) {
+                    $q->where('mobile', $request->mobile);
+                })
                 ->first();
             $otp = mt_rand(1111, 9999);
             if ($exists) {
@@ -357,7 +361,7 @@ class AuthController extends Controller
         $data->state = $csc->state;
         $data->country = $csc->country;
         $data->cart = DB::table('customer_cart')->select('id')->where('refCustomer_id')->count();
-        $data->token = $user->createToken($user->email)->accessToken;
+        $data->token = $user->createToken((strlen($user->email) > 3) ? $user->email : $user->mobile)->accessToken;
 
         $company = DB::table('customer_company_details')
             ->select('customer_company_id', 'name', 'office_no', 'official_email', 'designation_name', 'office_address', 'pincode', 'refCity_id', 'pan_gst_no', 'pan_gst_attachment', 'is_approved')
