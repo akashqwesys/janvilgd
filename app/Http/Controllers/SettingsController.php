@@ -76,6 +76,10 @@ class SettingsController extends Controller {
         if($request->hasfile('attachment')){
             $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
             $request->file('attachment')->storeAs("public/user_files", $attachment);
+            $exist_file = DB::table('settings')->where('setting_id', $request->id)->first();
+            if ($exist_file) {
+                unlink(base_path('/storage/app/public/user_files/' . $exist_file->attachment));
+            }
             DB::table('settings')->where('setting_id', $request->id)->update([
                 'key' => $request->key,
                 'value' => $request->value,

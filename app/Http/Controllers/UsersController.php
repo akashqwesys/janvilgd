@@ -80,28 +80,28 @@ class UsersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
             $data = User::latest()->orderBy('id','desc')->get();
-            
+
 //            $data = DB::table('users')->select('users.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
 //                    ->leftJoin('city', 'city.city_id', '=', 'users.city_id')
 //                    ->leftJoin('state', 'state.state_id', '=', 'users.state_id')
 //                    ->leftJoin('country', 'country.country_id', '=', 'users.country_id')
-//                    ->get();            
-            
+//                    ->get();
+
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
-                            ->editColumn('last_login_date_time', function ($row) {                                
+                            ->editColumn('last_login_date_time', function ($row) {
                                 return date_time_formate($row->last_login_date_time);
                             })
-                            ->editColumn('profile_pic', function ($row) {                               
+                            ->editColumn('profile_pic', function ($row) {
                                 if($row->profile_pic==0){
                                     return '';
                                 }else{
-                                    return '<img src="storage/app/public/user_images/'.$row->profile_pic.'" style="border-radius:100%;height:50px;width:50px;">';
-                                }                                                                
+                                    return '<img src="/storage/user_images/'.$row->profile_pic.'" style="border-radius:100%;height:50px;width:50px;">';
+                                }
                             })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
@@ -166,6 +166,7 @@ class UsersController extends Controller {
             'role_id' => $request->role_id,
             'date_updated' => date("Y-m-d h:i:s")
         ];
+        $exist_file = DB::table('users')->where('id', $request->id)->first();
         if (isset($request->profile_pic)) {
             $request->validate([
                 'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -173,6 +174,9 @@ class UsersController extends Controller {
             $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('profile_pic')->getClientOriginalName());
             $request->file('profile_pic')->storeAs("public/user_images", $imageName);
             $data['profile_pic'] = $imageName;
+            if ($exist_file) {
+                unlink(base_path('/storage/app/public/user_images/' . $exist_file->profile_pic));
+            }
         }
         if (isset($request->id_proof_1)) {
             $request->validate([
@@ -181,6 +185,9 @@ class UsersController extends Controller {
             $id_proof_1 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_1')->getClientOriginalName());
             $request->file('id_proof_1')->storeAs("public/user_files", $id_proof_1);
             $data['id_proof_1'] = $id_proof_1;
+            if ($exist_file) {
+                unlink(base_path('/storage/app/public/user_images/' . $exist_file->id_proof_1));
+            }
         }
         if (isset($request->id_proof_2)) {
             $request->validate([
@@ -189,7 +196,10 @@ class UsersController extends Controller {
             $id_proof_2 = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_proof_2')->getClientOriginalName());
             $request->file('id_proof_2')->storeAs("public/user_files", $id_proof_2);
             $data['id_proof_2'] = $id_proof_2;
-        }        
+            if ($exist_file) {
+                unlink(base_path('/storage/app/public/user_images/' . $exist_file->id_proof_2));
+            }
+        }
         DB::table('users')->where('id', $request->id)->update($data);
         activity($request, "updated", 'users');
         successOrErrorMessage("Data updated Successfully", 'success');

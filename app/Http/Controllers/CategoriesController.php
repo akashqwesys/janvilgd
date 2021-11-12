@@ -27,11 +27,11 @@ class CategoriesController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);   
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+            array_push($imgData,$imageName);
         }
-        $image=json_encode($imgData);      
+        $image=json_encode($imgData);
         DB::table('categories')->insert([
             'name' => $request->name,
             'image' => $image,
@@ -56,15 +56,15 @@ class CategoriesController extends Controller
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index','')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
-                            ->editColumn('image', function ($row) {                               
+                            ->editColumn('image', function ($row) {
                                 if($row->image==0){
                                     return '';
                                 }else{
-                                    return '<img src="'.asset(check_host().'images').'/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
-                                }                                                                
+                                    return '<img src="/storage/other_images/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
+                                }
                             })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button='';
@@ -116,11 +116,20 @@ class CategoriesController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);   
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+            $exist_file = DB::table('categories')->where('category_id', $request->id)->first();
+            if ($exist_file) {
+                $arr_imgs = json_decode($exist_file->image);
+                if (count($arr_imgs)) {
+                    foreach ($arr_imgs as $v) {
+                        unlink(base_path('/storage/app/public/other_images/' . $v));
+                    }
+                }
+            }
+            array_push($imgData,$imageName);
         }
-        $image=json_encode($imgData); 
+        $image=json_encode($imgData);
             DB::table('categories')->where('category_id', $request->id)->update([
                 'name' => $request->name,
                 'image' => $image,
@@ -130,7 +139,7 @@ class CategoriesController extends Controller
                 'sort_order' => $request->sort_order,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-        
+
         activity($request,"updated",'categories');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/categories');

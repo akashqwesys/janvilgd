@@ -18,22 +18,23 @@ class AttributeController extends Controller
 
     public function add() {
         $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order', 'ASC')->get();
-        $data['category'] = $categories;      
+        $data['category'] = $categories;
         $data['title'] = 'Add-Attributes';
         return view('admin.attributes.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {        
+    public function save(Request $request) {
         $imgData = array();
         if($request->hasfile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName); 
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+
+            array_push($imgData,$imageName);
         }
-        $image=json_encode($imgData);        
+        $image=json_encode($imgData);
         DB::table('attributes')->insert([
             'name' => $request->name,
             'attribute_group_id' => $request->attribute_group_id,
@@ -45,7 +46,7 @@ class AttributeController extends Controller
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        
+
         activity($request,"inserted",'attributes');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/attributes');
@@ -57,7 +58,7 @@ class AttributeController extends Controller
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index','')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -69,14 +70,14 @@ class AttributeController extends Controller
                                     $active_inactive_button='<span class="badge badge-danger">inActive</span>';
                                 }
                                 return $active_inactive_button;
-                            }) 
-                             ->editColumn('image', function ($row) {                               
+                            })
+                             ->editColumn('image', function ($row) {
                                 if($row->image==0){
                                     return '';
                                 }else{
-                                    return '<img src="'.asset(check_host().'images').'/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
-                                }                                                                
-                            }) 
+                                    return '<img src="/storage/other_images/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
+                                }
+                            })
                             ->editColumn('is_deleted', function ($row) {
                                 $delete_button='';
                                 if($row->is_deleted==1){
@@ -95,7 +96,7 @@ class AttributeController extends Controller
                                 }
                                 $actionBtn = '<a href="/admin/attributes/edit/' . $row->attribute_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="attributes" data-id="' . $row->attribute_id . '" data-table="blogs" data-wherefield="attribute_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->attribute_id . '" data-status="' . $row->is_active . '" data-table="attributes" data-wherefield="attribute_id" data-module="attributes">'.$str.'</button>';
                                 return $actionBtn;
-                            })                           
+                            })
                             ->escapeColumns([])
                             ->make(true);
         }
@@ -104,13 +105,13 @@ class AttributeController extends Controller
     public function edit($id) {
 
         $categories = DB::table('categories')->select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'created_at', 'updated_at')->where('is_active', 1)->where('is_deleted', 0)->orderBy('sort_order','asc')->get();
-                       
+
         $result = DB::table('attributes')->where('attribute_id', $id)->first();
-        $attribute_cat = DB::table('attribute_groups')->where('attribute_group_id', $result->attribute_group_id)->where('is_active', 1)->where('is_deleted', 0)->first();  
-        
+        $attribute_cat = DB::table('attribute_groups')->where('attribute_group_id', $result->attribute_group_id)->where('is_active', 1)->where('is_deleted', 0)->first();
+
 //        print_r($attribute_cat);die;
 //        echo $attribute_cat->refCategory_id;die;
-        $attribute_groups = DB::table('attribute_groups')->where('refCategory_id', $attribute_cat->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get(); 
+        $attribute_groups = DB::table('attribute_groups')->where('refCategory_id', $attribute_cat->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['is_image'] = "d-none";
         foreach ($attribute_groups as $row){
             if($row->attribute_group_id==$result->attribute_group_id){
@@ -118,9 +119,9 @@ class AttributeController extends Controller
                     $data['is_image'] = "";
                 }
             }
-        }                        
-        $data['category'] = $categories;  
-        $data['attribute_groups'] = $attribute_groups;        
+        }
+        $data['category'] = $categories;
+        $data['attribute_groups'] = $attribute_groups;
         $data['title'] = 'Edit-Attributes';
         $data['result'] = $result;
         $data['refCategory_id']=$attribute_cat->refCategory_id;
@@ -133,9 +134,18 @@ class AttributeController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+            $exist_file = DB::table('attributes')->where('attribute_id', $request->id)->first();
+            if ($exist_file) {
+                $arr_imgs = json_decode($exist_file->image);
+                if (count($arr_imgs)) {
+                    foreach ($arr_imgs as $v) {
+                        unlink(base_path('/storage/app/public/other_images/' . $v));
+                    }
+                }
+            }
+            array_push($imgData,$imageName);
         }
         $image=json_encode($imgData);
         DB::table('attributes')->where('attribute_id', $request->id)->update([
@@ -145,7 +155,7 @@ class AttributeController extends Controller
             'image' => $image,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        
+
         activity($request,"updated",'attributes');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/attributes');

@@ -56,35 +56,35 @@
                                 </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-4">
-                                                    <div class="form-group">                                            
+                                                    <div class="form-group">
                                                         &nbsp;
                                                     </div>
                                                 </div>
                                 <?php
                                 if (!empty($data['result']->image)) {
-                                    $image = json_decode($data['result']->image);                                   
+                                    $image = json_decode($data['result']->image);
                                     if (!empty($image)) {
                                         $i=0;
                                         foreach ($image as $img_row) {
-                                            ?>                                                                                            
+                                            ?>
                                                 <div class="col-lg-2" id="img_<?php echo $data['result']->category_id.'_'.$i; ?>">
-                                                    <div class="form-group">                                           
+                                                    <div class="form-group">
                                                         <div class="form-control-wrap">
                                                             <div class="removeimg">
-                                                                <img src="{{ asset(check_host().'images') }}<?php echo '/' . $img_row; ?>"/>
+                                                                <img src="/storage/other_images/{{ $img_row }}"/>
                                                                 <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->category_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="categories" data-wherefield="category_id"></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                                                                
+                                                </div>
                                             <?php
                                             $i=$i+1;
                                         }
                                     }
                                 }
                                 ?>
-                                    </div> 
-                               
+                                    </div>
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -113,32 +113,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
-                                        <div class="form-group">                                            
+                                        <div class="form-group">
                                             <label class="form-label float-md-right" for="sort_order">Sort order:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort oreder" required="" autocomplete="off" value="{{ $data['result']->sort_order }}">                                             
+                                                <input type="text" class="form-control" name="sort_order" id="sort_order" placeholder="Enter sort oreder" required="" autocomplete="off" value="{{ $data['result']->sort_order }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                                                
+
 <!--                                <div class="row g-3 align-center">
                                     <div class="col-lg-2">
-                                        <div class="form-group">                                            
+                                        <div class="form-group">
                                             <label class="form-label float-md-right" for="category_type">Category Type Number:</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="category_type" id="category_type" placeholder="Enter number" required="" autocomplete="off" value="{{ $data['result']->category_type }}">                                             
+                                                <input type="text" class="form-control" name="category_type" id="category_type" placeholder="Enter number" required="" autocomplete="off" value="{{ $data['result']->category_type }}">
                                             </div>
                                         </div>
                                     </div>

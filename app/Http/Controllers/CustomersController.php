@@ -82,7 +82,7 @@ class CustomersController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-                            
+
                     $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name','customer_company_details.is_approved')
                     ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
                     ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
@@ -90,14 +90,14 @@ class CustomersController extends Controller {
                     ->join('customer_company_details', 'customer_company_details.refCustomer_id', '=', 'customer.customer_id');
                     if ($request->is_approved==1 || $request->is_approved==0) {
                         $data = $data->where('customer_company_details.is_approved',$request->is_approved);
-                    }                                    
+                    }
                     $data = $data->latest()->orderBy('customer_id','desc')->get();
-                        
+
 //            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -136,9 +136,9 @@ class CustomersController extends Controller {
                                     $str = '<em class="icon ni ni-check-thick"></em>';
                                     $class = "btn-success";
                                 }
-                                                                
+
                                 $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
-                                
+
                                 if ($row->is_approved == 1) {
                                     $str = 'UnVerify';
                                     $class = "btn-danger";
@@ -169,7 +169,7 @@ class CustomersController extends Controller {
         $result = DB::table('customer')->where('customer_id', $id)->first();
         $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->first();
         $data['title'] = 'Edit-Customers';
-        $data['result'] = $result;        
+        $data['result'] = $result;
         $data['result2'] = $result2;
         return view('admin.customers.edit', ["data" => $data]);
     }
@@ -179,6 +179,10 @@ class CustomersController extends Controller {
             $request->validate([
                 'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
             ]);
+            $exist_file = DB::table('customer')->where('customer_id', $request->id)->first();
+            if ($exist_file) {
+                unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_no_file));
+            }
             $pan_gst_no_file = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
             $request->file('pan_gst_no_file')->storeAs("public/user_files", $pan_gst_no_file);
             DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
@@ -249,7 +253,7 @@ class CustomersController extends Controller {
             if($request['table']=="customer_company_details"){
                 $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_approved' => $request['status'],
-                'approved_by' => $request->session()->get('loginId')                
+                'approved_by' => $request->session()->get('loginId')
             ]);
             }else{
                 $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([

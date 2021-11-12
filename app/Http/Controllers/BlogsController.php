@@ -27,12 +27,12 @@ class BlogsController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);   
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+            array_push($imgData,$imageName);
         }
         $image=json_encode($imgData);
-      
+
         DB::table('blogs')->insert([
             'title' => $request->title,
             'image' => $image,
@@ -57,7 +57,7 @@ class BlogsController extends Controller
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index','')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -107,12 +107,21 @@ class BlogsController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);   
-            array_push($imgData,$imageName); 
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+            $request->file('image')->storeAs("public/other_images", $imageName);
+            $exist_file = DB::table('blogs')->where('blog_id', $request->id)->first();
+            if ($exist_file) {
+                $arr_imgs = json_decode($exist_file->image);
+                if (count($arr_imgs)) {
+                    foreach ($arr_imgs as $v) {
+                        unlink(base_path('/storage/app/public/other_images/' . $v));
+                    }
+                }
+            }
+            array_push($imgData,$imageName);
         }
         $image=json_encode($imgData);
-      
+
             DB::table('blogs')->where('blog_id', $request->id)->update([
                 'title' => $request->title,
                 'image' => $image,
@@ -121,7 +130,7 @@ class BlogsController extends Controller
                 'slug' => clean_string($request->slug),
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-        
+
         activity($request,"updated",'blogs');
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/blogs');

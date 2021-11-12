@@ -122,6 +122,15 @@ class SlidersController extends Controller {
             ]);
             $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
             $request->file('image')->storeAs("public/sliders", $imageName);
+            $exist_file = DB::table('sliders')->where('slider_id', $request->id)->first();
+            if ($exist_file) {
+                $arr_imgs = json_decode($exist_file->image);
+                if (count($arr_imgs)) {
+                    foreach ($arr_imgs as $v) {
+                        unlink(base_path('/storage/app/public/sliders/' . $v));
+                    }
+                }
+            }
             array_push($imgData, $imageName);
         }
         $image=json_encode($imgData);

@@ -23,7 +23,7 @@
                             <form method="POST" action="{{route('attributes.update')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->attribute_id }}">
-                               
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="row g-3 align-center image_div {{ $data['is_image'] }}">
                                         <div class="col-lg-2">
                                             <div class="form-group">
@@ -125,39 +125,39 @@
                                             </div>
                                         </div>
                                 </div>
-                                
-                                
-                                
+
+
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-4">
-                                                    <div class="form-group">                                            
+                                                    <div class="form-group">
                                                         &nbsp;
                                                     </div>
                                                 </div>
                                 <?php
                                 if (!empty($data['result']->image)) {
-                                    $image = json_decode($data['result']->image);                                   
+                                    $image = json_decode($data['result']->image);
                                     if (!empty($image)) {
                                         $i=0;
                                         foreach ($image as $img_row) {
-                                            ?>                                                                                            
+                                            ?>
                                                 <div class="col-lg-2 {{ $data['is_image']}}" id="img_<?php echo $data['result']->attribute_id.'_'.$i; ?>">
-                                                    <div class="form-group">                                           
+                                                    <div class="form-group">
                                                         <div class="form-control-wrap">
                                                             <div class="removeimg">
-                                                                <img src="{{ asset(check_host().'images') }}<?php echo '/' . $img_row; ?>"/>
+                                                                <img src="/storage/other_images/{{ $img_row }}"/>
                                                                 <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->attribute_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="attributes" data-wherefield="attribute_id"></span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                                                                
+                                                </div>
                                             <?php
                                             $i=$i+1;
                                         }
                                     }
                                 }
                                 ?>
-                                    </div>                             
+                                    </div>
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-2">
