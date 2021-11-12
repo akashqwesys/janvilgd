@@ -21,7 +21,7 @@
                 if (res.suceess==1) {
                     $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id));
                     $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
-                    $("#staticBackdrop").modal("show");                  
+                    $("#staticBackdrop").modal("show");
                 }else{
                     $.toast({
                         heading: 'Error',
@@ -48,13 +48,13 @@
         </div>
     </div>
 </section>
-<div class="cart-page">
+<div class="cart-page mb-5">
     <div class="container">
         <div class="row">
             <div class="d-flex align-items-center mb-5">
 
                 @if(!empty($response))
-                <h2 class="me-auto mb-0">Shopping Bag</h2>                
+                <h2 class="me-auto mb-0">Shopping Bag</h2>
                 <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
                 <input type="hidden" id="copylink" value="">
@@ -78,7 +78,7 @@
                             if($i==0){
                             @endphp
 
-                            <a href="/customer/single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
+                            <a href="/customer/single-diamonds/{{$rv->diamond_id}}"><img class="img-fluid cart-product-img" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
                             @php
                             }
                             $i=$i+1;

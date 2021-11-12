@@ -140,7 +140,7 @@ class DiamondController extends Controller
             $html = '';
             foreach ($final_d as $v) {
                 if (count($v['image'])) {
-                    $img_src = $v['image'][0];
+                    $img_src = '/storage/other_images/' . $v['image'][0];
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
@@ -274,7 +274,7 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $response_array);
     }
 
-    
+
     public function addAllToCart(Request $request)
     {
         $rules = [
@@ -375,10 +375,10 @@ class DiamondController extends Controller
         }
         return $this->errorResponse('No data found');
     }
-    
-    
-    
-    
+
+
+
+
     public function addToCart(Request $request)
     {
         $rules = [
@@ -454,8 +454,8 @@ class DiamondController extends Controller
         $customer_id = Auth::id();
         $cart_data = DB::table('customer_cart')
                 ->where('refCustomer_id',$customer_id)
-                ->get();        
-        if(!empty($cart_data[0])){            
+                ->get();
+        if(!empty($cart_data[0])){
             $refDiamond_id_array=array();
             foreach ($cart_data as $row){
                 array_push($refDiamond_id_array,$row->refDiamond_id);

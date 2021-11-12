@@ -7,17 +7,17 @@
     <div class="container">
         @php
             if(!empty($response)){
-          
+
             @endphp
         <div class="diamond-carat main-box">
-            
+
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
                         <div class="product--slider">
-                            @php                                                        
+                            @php
                                 $i=0;
-                                $image=json_decode($response->image);                             
+                                $image=json_decode($response->image);
                                 if(!empty($image)){
                                     foreach(json_decode($response->image) as $rv) {
                                     $i=$i+1;
@@ -25,17 +25,17 @@
                                 <div>
                                     <div class="item" data-hash="slide{{$i}}">
                                         <div class="carousel-slide-pic">
-                                            <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                            <img src="{{ '/storage/other_images/' . $rv }}" alt="{{ $rv }}">
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                             @php
                                     }
-                                }                           
+                                }
                             @endphp
                         </div>
                         <div class="product--slider-thumb">
-                            @php                                                        
+                            @php
                                 $i=0;
                                 if(!empty($image)){
                                     foreach(json_decode($response->image) as $rv) {
@@ -44,14 +44,14 @@
                                     <div>
                                         <div class="thumb">
                                             <div class="thumb-pic">
-                                                <img src="{{ asset(check_host().'images') }}<?php echo '/' . $rv; ?>" alt="{{ $rv }}">
+                                                <img src="{{ '/storage/other_images/' . $rv }}" alt="{{ $rv }}">
                                             </div>
                                         </div>
                                     </div>
                             @php
                                     }
-                                }                            
-                            @endphp                        
+                                }
+                            @endphp
                         </div>
                     </div>
                 </div>
@@ -79,29 +79,29 @@
                             <img src="{{ asset(check_host().'assets/images') }}/book_calendar.svg" class="img-fluid me-2">
                             <p>Order loose diamond and your order ships by <br><span>Fri, Oct 15.</span></p>
                         </div>
-                        
-                        
-                        
-                        
+
+
+
+
                         @php
                             $color='-';
                             $cut='-';
                             $size='-';
-                            $clarity='-'; 
-                            $certificate=' Not Available'; 
+                            $clarity='-';
+                            $certificate=' Not Available';
                             $certificate_url=' Not Available';
                         if(!empty($attributes)){
-                            
+
                             foreach($attributes as $row){
                                 if($row['ag_name']=="COLOR"){
                                     $color=$row['at_name'];
                                 }
                                 if($row['ag_name']=="EXP POL SIZE"){
                                     $size=$row['at_name'];
-                                } 
+                                }
                                 if($row['ag_name']=="CUT GRADE"){
                                     $cut=$row['at_name'];
-                                }  
+                                }
                                 if($row['ag_name']=="CLARITY"){
                                     $clarity=$row['at_name'];
                                 }
@@ -113,7 +113,7 @@
                                 }
                             }
                         }
-                        @endphp                        
+                        @endphp
                         <div class="product-details-collapse">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
@@ -147,7 +147,7 @@
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> The Four C’s of Your Diamond</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6">
-                    <div class="about-four_c">                        
+                    <div class="about-four_c">
                         <h6 class="title">Diamond Size: {{$size}} Ct</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
