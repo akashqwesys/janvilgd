@@ -68,7 +68,7 @@ class DiamondsController extends Controller {
 
                             $image=array();
                             if(isset($row['image_link'])){
-                               $image[0]=$row['image_1'];
+                                $image[0]=$row['image_1'];
                                 $image[1]=$row['image_2'];
                                 $image[2]=$row['image_3'];
                                 $image[3]=$row['image_4'];

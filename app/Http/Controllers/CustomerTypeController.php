@@ -26,7 +26,7 @@ class CustomerTypeController extends Controller {
             'name' => $request->name,
             'discount' => $request->discount,
             'allow_credit' => $request->allow_credit,
-            'credit_limit' => $request->credit_limit,
+            'credit_limit' => isset($request->credit_limit) ? $request->credit_limit : 0,
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
@@ -55,6 +55,16 @@ class CustomerTypeController extends Controller {
                                 }
                                 if($row->is_active==0){
                                     $active_inactive_button='<span class="badge badge-danger">inActive</span>';
+                                }
+                                return $active_inactive_button;
+                            })
+                            ->editColumn('allow_credit', function ($row) {
+                                $active_inactive_button='';
+                                if($row->allow_credit==1){
+                                    $active_inactive_button='<span class="badge badge-success">Allowed</span>';
+                                }
+                                if($row->allow_credit==0){
+                                    $active_inactive_button='<span class="badge badge-danger">Not Allowed</span>';
                                 }
                                 return $active_inactive_button;
                             })
@@ -97,7 +107,7 @@ class CustomerTypeController extends Controller {
             'name' => $request->name,
             'discount' => $request->discount,
             'allow_credit' => $request->allow_credit,
-            'credit_limit' => $request->credit_limit,
+            'credit_limit' => isset($request->credit_limit) ? $request->credit_limit : 0,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
         activity($request,"updated",'customer-type');

@@ -29,8 +29,7 @@
                                             <th>Transport Name</th>
                                             <th>From weight</th>
                                             <th>To weight</th>
-                                            <th>Amount</th>                                           
-                                            <th>Added By</th>
+                                            <th>Amount</th>                                                                                       
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           

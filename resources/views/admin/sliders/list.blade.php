@@ -25,8 +25,7 @@
                                     <thead>
                                         <tr> 
                                             <th>No</th>
-                                            <th>Title</th>
-                                            <th>Image</th>
+                                            <th>Title</th>                                          
                                             <th>Video link</th>
                                             <th>Category</th>
                                             <th>isActive</th>

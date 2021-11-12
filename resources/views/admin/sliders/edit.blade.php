@@ -56,34 +56,34 @@
                                 </div>
 
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        &nbsp;
-                                                    </div>
-                                                </div>
-                                <?php
-                                if (!empty($data['result']->image)) {
-                                    $image = json_decode($data['result']->image);
-                                    if (!empty($image)) {
-                                        $i=0;
-                                        foreach ($image as $img_row) {
-                                            ?>
-                                                <div class="col-lg-2" id="img_<?php echo $data['result']->slider_id.'_'.$i; ?>">
-                                                    <div class="form-group">
-                                                        <div class="form-control-wrap">
-                                                            <div class="removeimg">
-                                                                <img src="/storage/sliders/{{ $img_row }}"/>
-                                                                <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->slider_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="sliders" data-wherefield="slider_id"></span>
+                                        <div class="col-lg-1">
+                                            <div class="form-group">                                            
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <?php
+                                        if (!empty($data['result']->image)) {
+                                            $image = json_decode($data['result']->image);
+                                            if (!empty($image)) {
+                                                $i = 0;
+                                                foreach ($image as $img_row) {
+                                                    ?>                                                                                            
+                                                    <div class="col-lg-2" id="img_<?php echo $data['result']->slider_id . '_' . $i; ?>">
+                                                        <div class="form-group">                                           
+                                                            <div class="form-control-wrap">
+                                                                <div class="removeimg">
+                                                                    <img src="<?php echo '/storage/sliders/' . $img_row; ?>"/>
+                                                                    <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->slider_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="sliders" data-wherefield="slider_id"></span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            <?php
-                                            $i=$i+1;
+                                                    </div>                                                                                
+                                                    <?php
+                                                    $i = $i + 1;
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                                ?>
+                                        ?>
                                     </div>
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
@@ -99,7 +99,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">

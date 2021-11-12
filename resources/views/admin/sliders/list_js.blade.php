@@ -22,7 +22,7 @@
                 columns: [                    
                     {data: 'index', name: 'index'},
                     {data: 'title', name: 'title'},
-                    {data: 'image', name: 'image'},
+//                    {data: 'image', name: 'image'},
                     {data: 'video_link', name: 'video_link'},
                     {data: 'category_name', name: 'category_name'},
                     {data: 'is_active', name: 'is_active',className: "is_active"},

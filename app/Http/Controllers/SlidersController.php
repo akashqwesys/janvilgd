@@ -124,8 +124,8 @@ class SlidersController extends Controller {
             $request->file('image')->storeAs("public/sliders", $imageName);
             $exist_file = DB::table('sliders')->where('slider_id', $request->id)->first();
             if ($exist_file) {
-                $arr_imgs = json_decode($exist_file->image);
-                if (count($arr_imgs)) {
+                $arr_imgs = json_decode($exist_file->image);                
+                if (!empty($arr_imgs)) {
                     foreach ($arr_imgs as $v) {
                         unlink(base_path('/storage/app/public/sliders/' . $v));
                     }

@@ -321,8 +321,8 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-                    $("#video_link").addClass("d-none");
-                    $("#image").addClass("d-none");
+//                    $("#video_link").addClass("d-none");
+//                    $("#image").addClass("d-none");
 
                     $("#barcode").removeClass("d-none");
                     $("#packate_no").removeClass("d-none");
@@ -334,8 +334,8 @@
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                     $("#weight_loss").removeClass("d-none");
-                    $("#video_link").removeClass("d-none");
-                    $("#image").removeClass("d-none");
+//                    $("#video_link").removeClass("d-none");
+//                    $("#image").removeClass("d-none");
                 }
                 if (cat_name == 'Polish Diamonds') {  
                     $("#display_labour_charges").html('');                    
@@ -360,15 +360,15 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-                    $("#video_link").addClass("d-none");
-                    $("#image").addClass("d-none");
+//                    $("#video_link").addClass("d-none");
+//                    $("#image").addClass("d-none");
 
                     $("#barcode").removeClass("d-none");
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                     $("#expected_polish_cts").removeClass("d-none");
-                    $("#video_link").removeClass("d-none");
-                    $("#image").removeClass("d-none");
+//                    $("#video_link").removeClass("d-none");
+//                    $("#image").removeClass("d-none");
                 }
                 if (cat_name == 'Rough Diamonds') {
                                                                                 
@@ -400,8 +400,8 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-                    $("#video_link").addClass("d-none");
-                    $("#image").addClass("d-none");
+//                    $("#video_link").addClass("d-none");
+//                    $("#image").addClass("d-none");
 
                     $("#barcode").removeClass("d-none");
                     $("#packate_no").removeClass("d-none");

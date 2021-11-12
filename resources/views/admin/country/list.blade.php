@@ -25,8 +25,7 @@
                                     <thead>
                                         <tr> 
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Added By</th>
+                                            <th>Name</th>                                            
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           

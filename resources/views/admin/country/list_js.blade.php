@@ -21,8 +21,7 @@
                 ajax: "{{ route('country.list') }}",
                 columns: [                    
                     {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},
-                    {data: 'added_by', name: 'added_by'},                   
+                    {data: 'name', name: 'name'},                               
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
                     {data: 'date_added', name: 'date_added'},

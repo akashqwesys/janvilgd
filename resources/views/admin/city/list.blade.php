@@ -24,10 +24,10 @@
                                 <table id="table" class="table dt-responsive nowrap">
                                     <thead>
                                         <tr> 
-                                           <th>No</th>
+                                            <th>No</th>
                                             <th>Name</th>
-                                            <th>State</th>
-                                            <th>Added By</th>
+                                            <th>State</th> 
+                                            <th>Country</th> 
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           

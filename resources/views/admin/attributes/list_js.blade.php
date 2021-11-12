@@ -22,7 +22,7 @@
                 columns: [                    
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},
-                    {data: 'image', name: 'image'},
+//                    {data: 'image', name: 'image'},
                     {data: 'attribute_groups_name', name: 'attribute_groups_name'},                    
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},

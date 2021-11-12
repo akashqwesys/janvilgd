@@ -258,7 +258,7 @@
                                             </div>
                                         </div>
                                     </div>
-<div class="row g-3 align-center d-none" id="image">
+                                    <div class="row g-3 align-center" id="image">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
                                                 <label class="form-label float-md-right" for="image">Image:</label>
@@ -275,7 +275,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none " id="video_link">
+                                    <div class="row g-3 align-center" id="video_link">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
                                                 <label class="form-label float-md-right" for="video_link">Video link:</label>

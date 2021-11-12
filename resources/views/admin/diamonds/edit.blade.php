@@ -277,7 +277,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="row g-3 align-center d-none" id="image">
+                                    <div class="row g-3 align-center" id="image">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="image">Image:</label>
@@ -308,7 +308,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -338,7 +337,21 @@
                                             }
                                         }
                                         ?>
-                                    </div>
+                                    </div>                                                                                                            
+                                    <div class="row g-3 align-center" id="video_link">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">                                            
+                                                <label class="form-label float-md-right" for="video_link">Video link:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" name="video_link" placeholder="Enter video link"  autocomplete="off" value="<?php echo $data['result']->video_link; ?>">                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                                                                                  
                                     <hr>
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {

@@ -44,7 +44,7 @@
                                                      <?php if(!empty($data['state'])){
                                                         foreach ($data['state'] as $row){
                                                             ?>
-                                                            <option value="{{ $row->state_id }}">{{ $row->name }}</option>
+                                                            <option value="{{ $row->state_id }}">{{ $row->name }} - {{ $row->country_name }}</option>
                                                     <?php
                                                         }
                                                     } ?>

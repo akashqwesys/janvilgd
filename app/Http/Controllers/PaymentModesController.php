@@ -73,7 +73,7 @@ class PaymentModesController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/payment-modes/edit/' . $row->payment_mode_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="payment-modes" data-id="' . $row->payment_mode_id . '" data-table="payment_modes" data-wherefield="payment_mode_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->payment_mode_id . '" data-status="' . $row->is_active . '" data-table="payment_modes" data-wherefield="payment_mode_id" data-module="payment-modes">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/payment-modes/edit/' . $row->payment_mode_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="payment-modes" data-id="' . $row->payment_mode_id . '" data-table="payment_modes" data-wherefield="payment_mode_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->payment_mode_id . '" data-status="' . $row->is_active . '" data-table="payment_modes" data-wherefield="payment_mode_id" data-module="payment-modes">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])

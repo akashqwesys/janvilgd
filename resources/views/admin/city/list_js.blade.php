@@ -22,8 +22,8 @@
                 columns: [
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},
-                    {data: 'state_name', name: 'state_name'},
-                    {data: 'added_by', name: 'added_by'},                   
+                    {data: 'state_name', name: 'state_name'},   
+                    {data: 'country_name', name: 'country_name'},      
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
                     {data: 'date_added', name: 'date_added'},

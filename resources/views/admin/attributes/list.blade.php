@@ -26,7 +26,7 @@
                                         <tr> 
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Image</th>
+                                            <!--<th>Image</th>-->
                                             <th>Attribute Group</th>
                                             <th>isActive</th>
                                             <th>isDeleted</th>

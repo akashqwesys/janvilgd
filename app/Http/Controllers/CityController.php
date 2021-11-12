@@ -17,7 +17,16 @@ class CityController extends Controller {
     }
 
     public function add() {
-        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        
+        $state = DB::table('state')
+                ->select('state.*','country.name as country_name')
+                ->join('country', 'country.country_id', '=', 'state.refCountry_id')
+                ->where('state.is_active', 1)
+                ->where('state.is_deleted', 0)               
+                ->get();
+        
+        
+//        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['state'] = $state;
         $data['title'] = 'Add-City';
         return view('admin.city.add', ["data" => $data]);
@@ -41,7 +50,7 @@ class CityController extends Controller {
 
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = DB::table('city')->select('city.*','state.name as state_name')->leftJoin('state', 'city.refState_id', '=', 'state.state_id')->orderBy('city_id','desc')->get();
+            $data = DB::table('city')->select('city.*','state.name as state_name','country.name as country_name')->leftJoin('state', 'city.refState_id', '=', 'state.state_id')->leftJoin('country', 'state.refCountry_id', '=', 'country.country_id')->orderBy('city_id','desc')->get();
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
@@ -65,6 +74,9 @@ class CityController extends Controller {
                                 }
                                 return $delete_button;
                             })
+                            ->editColumn('state_name', function ($row) {                                
+                                return $row->state_name.' - '.$row->country_name;
+                            })
                             ->addColumn('action', function ($row) {
 
                                  if($row->is_active==1){
@@ -86,7 +98,13 @@ class CityController extends Controller {
     }
 
     public function edit($id) {
-        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $state = DB::table('state')
+                ->select('state.*','country.name as country_name')
+                ->join('country', 'country.country_id', '=', 'state.refCountry_id')
+                ->where('state.is_active', 1)
+                ->where('state.is_deleted', 0)               
+                ->get();
+//        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $result = DB::table('city')->where('city_id', $id)->first();
         $data['title'] = 'Edit-City';
         $data['result'] = $result;
