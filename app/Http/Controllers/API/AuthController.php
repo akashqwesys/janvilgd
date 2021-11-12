@@ -45,7 +45,7 @@ class AuthController extends Controller
                 ->when($request->email, function ($q) use($request) {
                     $q->where('email', $request->email);
                 })
-                ->when($request->email, function ($q) use($request) {
+                ->when($request->mobile, function ($q) use($request) {
                     $q->where('mobile', $request->mobile);
                 })
                 ->first();
@@ -146,7 +146,7 @@ class AuthController extends Controller
                 ->when($request->email, function ($q) use ($request) {
                     $q->where('email', $request->email);
                 })
-                ->when($request->email, function ($q) use ($request) {
+                ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
                 })
                 ->first();
@@ -200,7 +200,7 @@ class AuthController extends Controller
                 ->when($request->email, function ($q) use ($request) {
                     $q->where('email', $request->email);
                 })
-                ->when($request->email, function ($q) use ($request) {
+                ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
                 })
                 ->first();
