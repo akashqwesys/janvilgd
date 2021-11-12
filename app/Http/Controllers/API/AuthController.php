@@ -43,7 +43,7 @@ class AuthController extends Controller
 
             $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
                 ->where('email', $request->email)
-                ->orWhere('mobile', $request->mobile)
+                // ->orWhere('mobile', $request->mobile)
                 ->first();
             $otp = mt_rand(1111, 9999);
             if ($exists) {
