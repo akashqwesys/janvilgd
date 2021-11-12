@@ -143,8 +143,12 @@ class AuthController extends Controller
         }
         try {
             $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
-                ->where('email', $request->email)
-                ->orWhere('mobile', $request->mobile)
+                ->when($request->email, function ($q) use ($request) {
+                    $q->where('email', $request->email);
+                })
+                ->when($request->email, function ($q) use ($request) {
+                    $q->where('mobile', $request->mobile);
+                })
                 ->first();
             if (!$user) {
                 return $this->errorResponse('Not authorized');
@@ -193,8 +197,12 @@ class AuthController extends Controller
             }
 
             $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at')
-                ->where('email', $request->email)
-                ->orWhere('mobile', $request->mobile)
+                ->when($request->email, function ($q) use ($request) {
+                    $q->where('email', $request->email);
+                })
+                ->when($request->email, function ($q) use ($request) {
+                    $q->where('mobile', $request->mobile);
+                })
                 ->first();
             if (!$user) {
                 return $this->errorResponse('Not a registered email address');
