@@ -239,18 +239,18 @@ class AuthController extends Controller
                 // 'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
                 'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'address' => ['required'],
-                'country' => ['required', 'integer'],
-                'state' => ['required', 'integer'],
-                'city' => ['required', 'integer'],
+                'country' => ['required', 'integer', 'exists:country,country_id'],
+                'state' => ['required', 'integer', 'exists:state,state_id'],
+                'city' => ['required', 'integer', 'exists:city,city_id'],
                 'pincode' => ['required', 'digits:6'],
                 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'company_gst_pan' => ['required', 'between:10,15'],
                 'company_address' => ['required'],
-                'company_country' => ['required', 'integer'],
-                'company_state' => ['required', 'integer'],
-                'company_city' => ['required', 'integer'],
+                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                'company_state' => ['required', 'integer', 'exists:state,state_id'],
+                'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required', 'digits:6'],
                 'id_upload' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
@@ -280,7 +280,14 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')->where('mobile', $request->mobile)->orWhere('email', $request->email)->first();
+            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
+                ->when($request->email, function ($q) use ($request) {
+                    $q->where('email', $request->email);
+                })
+                ->when($request->mobile, function ($q) use ($request) {
+                    $q->where('mobile', $request->mobile);
+                })
+                ->first();
             if ($exists) {
                 if (strlen($exists->name) < 3) {
                     $customer = Customers::where('email', $request->email)->first();
