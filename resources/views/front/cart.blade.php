@@ -53,7 +53,7 @@
         <div class="row">
             <div class="d-flex align-items-center mb-5">
 
-                @if(!empty($response))
+                @if(!empty($response['diamonds']))
                 <h2 class="me-auto mb-0">Shopping Bag</h2>
                 <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
@@ -65,8 +65,8 @@
 
                     @php
                     $total=0;
-                    if(!empty($response)){
-                    foreach($response as $k => $rv) {
+                    if(!empty($response['diamonds'])){
+                    foreach($response['diamonds'] as $k => $rv) {
                         if ($k == 'summary') {
                             continue;
                         }
@@ -102,7 +102,6 @@
                     </tr>
                     @php
 
-                    $total=$total+$rv->total;
                     }
                     }
                     @endphp

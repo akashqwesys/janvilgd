@@ -400,14 +400,16 @@ class DiamondController extends Controller
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $tax = !empty($tax) ? (($subtotal * $tax) / 100) : 0;
         $shipping = !empty($shipping) ? $shipping : 0;
-        $response_array['summary']['subtotal'] = round($subtotal, 2);
-        $response_array['summary']['discount'] = round($discount, 2);
-        $response_array['summary']['additional_discount'] = round($additional_discount, 2);
-        $response_array['summary']['tax'] = round($tax, 2);
-        $response_array['summary']['shipping'] = round($shipping, 2);
+        $summary['subtotal'] = round($subtotal, 2);
+        $summary['discount'] = round($discount, 2);
+        $summary['additional_discount'] = round($additional_discount, 2);
+        $summary['tax'] = round($tax, 2);
+        $summary['shipping'] = round($shipping, 2);
         $total = $subtotal - $discount - $additional_discount + $tax + $shipping;
-        $response_array['summary']['total'] = round($total, 2);
-        return $this->successResponse('Success', $response_array);
+        $summary['total'] = round($total, 2);
+        $data['diamonds'] = $response_array;
+        $data['summary'] = $summary;
+        return $this->successResponse('Success', $data);
     }
 
     public function getSharableCart($share_cart_id)
