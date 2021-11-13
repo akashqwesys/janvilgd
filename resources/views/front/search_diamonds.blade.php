@@ -128,14 +128,19 @@
             $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
         });
+        $(document).on('click', '.reset-btn', function() {
+            location.reload();
+        });
         $(document).on('click', '#filter-toggle', function() {
             if ($('.filter-toggle').height() > 1) {
+                $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
                 $('.filter-toggle').css({
                     'height': 0,
                     'visibility': 'collapse'
                 });
             }
             else {
+                $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
                 $('.filter-toggle').css({
                     'height': 'auto',
                     'visibility': 'visible'
@@ -164,7 +169,7 @@
         function exportDiamondTables(values, array, group_id) {
 
             var selected_values = [];
-            if (values.length > 1) {
+            if (values.length > 1 && typeof values == 'string') {
                 var strArray = values.split(",");
             }
             if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {

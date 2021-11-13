@@ -5,18 +5,59 @@
 @section('content')
 <section class="diamond-info-section" style="padding-top: 130px;">
     <div class="container">
+        @if(!empty($response))
         @php
-            if(!empty($response)){
+            $color='-';
+            $cut='-';
+            $size='-';
+            $clarity='-';
+            $certificate='';
+            $certificate_url='';
+        if(!empty($attributes)){
 
-            @endphp
+            foreach($attributes as $row){
+                if($row['ag_name']=="COLOR"){
+                    $color=$row['at_name'];
+                }
+                if($row['ag_name']=="EXP POL SIZE"){
+                    $size=$row['at_name'];
+                }
+                if($row['ag_name']=="CUT GRADE"){
+                    $cut=$row['at_name'];
+                }
+                if($row['ag_name']=="CLARITY"){
+                    $clarity=$row['at_name'];
+                }
+                if($row['ag_name']=="CERTIFICATE"){
+                    $certificate=$row['at_name'];
+                }
+                if($row['ag_name']=="CERTIFICATE URL"){
+                    $certificate_url=$row['at_name'];
+                }
+            }
+        }
+        @endphp
         <div class="diamond-carat main-box">
 
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
                         <div class="product--slider">
+                            @if($response->video_link)
+                            <div class="item" data-hash="slide1">
+                                <div class="carousel-slide-pic">
+                                    <div class="slider-video">
+                                        @if(strpos($response->video_link, 'http') !== 0)
+                                            <iframe width="100%" height="100%" src="http://{{ $response->video_link }}"></iframe>
+                                        @else
+                                            <iframe width="100%" height="100%" src="{{ $response->video_link }}"></iframe>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @php
-                                $i=0;
+                                $i=1;
                                 $image=json_decode($response->image);
                                 if(!empty($image)){
                                     foreach(json_decode($response->image) as $rv) {
@@ -33,8 +74,26 @@
                                     }
                                 }
                             @endphp
+                            @if ($certificate)
+                                <div>
+                                    <div class="item" data-hash="slide{{ ++$i }}">
+                                        <div class="carousel-slide-pic">
+                                            <img src="{{ $certificate_url }}" alt="Certificate">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <div class="product--slider-thumb">
+                            @if($response->video_link)
+                            <div>
+                                <div class="thumb">
+                                    <div class="thumb-pic">
+                                        <i class="fa fa-play-circle" style="font-size: 70px"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @php
                                 $i=0;
                                 if(!empty($image)){
@@ -52,6 +111,15 @@
                                     }
                                 }
                             @endphp
+                            @if ($certificate)
+                                <div>
+                                    <div class="thumb">
+                                        <div class="thumb-pic">
+                                            <img src="{{ $certificate_url }}" alt="Certificate">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -80,40 +148,6 @@
                             <p>Order loose diamond and your order ships by <br><span>Fri, Oct 15.</span></p>
                         </div>
 
-
-
-
-                        @php
-                            $color='-';
-                            $cut='-';
-                            $size='-';
-                            $clarity='-';
-                            $certificate=' Not Available';
-                            $certificate_url=' Not Available';
-                        if(!empty($attributes)){
-
-                            foreach($attributes as $row){
-                                if($row['ag_name']=="COLOR"){
-                                    $color=$row['at_name'];
-                                }
-                                if($row['ag_name']=="EXP POL SIZE"){
-                                    $size=$row['at_name'];
-                                }
-                                if($row['ag_name']=="CUT GRADE"){
-                                    $cut=$row['at_name'];
-                                }
-                                if($row['ag_name']=="CLARITY"){
-                                    $clarity=$row['at_name'];
-                                }
-                                if($row['ag_name']=="CERTIFICATE"){
-                                    $certificate=$row['at_name'];
-                                }
-                                if($row['ag_name']=="CERTIFICATE URL"){
-                                    $certificate_url=$row['at_name'];
-                                }
-                            }
-                        }
-                        @endphp
                         <div class="product-details-collapse">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
@@ -124,31 +158,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($certificate)
                                 <div class="accordion-item">
                                     <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
                                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
                                             <strong>Certificate No :</strong>{{$certificate}}<br>
-                                            <strong>Certificate URL :</strong>{{$certificate_url}}<br>
-                                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                            <strong>Certificate URL :</strong>{{$certificate_url}}
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            @php
-            }
-            @endphp
+        @endif
         <div class="four-diamond-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> The Four C’s of Your Diamond</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Diamond Size: {{$size}} Ct</h6>
+                        <h6 class="title">Diamond Size: {{$response->carat}} Ct</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -161,7 +194,7 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Cut: {{$cut}}</h6>
+                        <h6 class="title">Cut: {{ $response->category == 'rough-diamonds' ? 'As per your requirement' : $cut }}</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">

@@ -14,7 +14,7 @@
 }
  th, td {
   border-color: #96D4D4;
- 
+
 }
 .col1{
    width:100px;
@@ -40,10 +40,10 @@
         <div class = "row">
             <div class = "col-md-12">
                 <table class = "table">
-                    <caption> Diamond List </caption>                    
+                    <caption> Diamond List </caption>
                     <thead>
                       <tr>
-                        <th scope = "col" class="col1"> Name </th>  
+                        <th scope = "col" class="col1"> Name </th>
                         <th scope = "col" class="col1"> Carat </th>
                         <th scope = "col" class="col1"> Price </th>
                         <th scope = "col" class="col1"> Shape </th>
@@ -57,8 +57,8 @@
                         <tr>
                             <td  class="col1"> {{$row->diamond_name}} </td>
                             <td class="col1" > {{$row->carat}} </td>
-                            <td class="col1" > {{$row->price}} </td>                            
-                            <td class="col1" > 
+                            <td class="col1" > {{$row->price}} </td>
+                            <td class="col1" >
                                 @php
                                 if (isset($row['attributes']['SHAPE'])) {
                                     echo $v['attributes']['SHAPE'];
@@ -67,7 +67,7 @@
                                 }
                                 @endphp
                             </td>
-                            <td class="col1" > 
+                            <td class="col1" >
                                 @php
                                 if (isset($row['attributes']['CUT GRADE'])) {
                                     echo $v['attributes']['CUT GRADE'];
@@ -76,7 +76,7 @@
                                 }
                                 @endphp
                             </td>
-                            <td class="col1" > 
+                            <td class="col1" >
                                 @php
                                 if (isset($row['attributes']['COLOR'])) {
                                     echo $v['attributes'][COLOR'];
@@ -85,7 +85,7 @@
                                 }
                                 @endphp
                             </td>
-                            <td class="col1" > 
+                            <td class="col1" >
                                 @php
                                 if (isset($row['attributes']['CLARITY'])) {
                                     echo $v['attributes'][CLARITY'];
@@ -94,7 +94,7 @@
                                 }
                                 @endphp
                             </td>
-                           
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -102,13 +102,13 @@
             </div>
         </div>
     </div>
-   
+
     <script src = "https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity = "sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KinkN" crossorigin="anonymous"></script>
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"> </script>
-   
+
 </body>
 </html>

@@ -455,6 +455,12 @@ class DiamondController extends Controller {
         if (!empty($result->original['data'])) {
             $response = $result->original['data']['data'];
             $attributes = $result->original['data']['attribute'];
+            $category = DB::table('categories')
+                ->select('slug')
+                ->where('category_id', $result->original['data']['data']->refCategory_id)
+                ->first();
+            $response->category = $category->slug;
+            dd($response);
         }
         $title = 'Diamond Details';
         return view('front.diamond-details', compact('title', 'response', 'attributes'));
