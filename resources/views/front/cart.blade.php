@@ -116,27 +116,27 @@
                             <tbody>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td id="sub-total-td">${{$response['summary']['subtotal']}}</td>
+                                    <td align="right" id="sub-total-td">${{ round($response['summary']['subtotal'], 2) ?? 0}}</td>
                                 </tr>
                                 <tr>
                                     <td>Discount</td>
-                                    <td>{{ $response['summary']['discount'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Tax</td>
-                                    <td>{{ $response['summary']['tax'] }}</td>
+                                    <td align="right">${{ round($response['summary']['discount'], 2) ?? 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Additional Discount</td>
-                                    <td>{{ $response['summary']['additional_discount'] }}</td>
+                                    <td align="right">${{ round($response['summary']['additional_discount'], 2) ?? 0 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tax</td>
+                                    <td align="right">${{ round($response['summary']['tax'], 2) ?? 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping charge</td>
-                                    <td>{{ $response['summary']['shipping'] }}</td>
+                                    <td align="right">${{ round($response['summary']['shipping'], 2) ?? 0 }}</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
-                                    <th id="final-total-th">${{$response['summary']['total']}}</td>
+                                    <th id="final-total-th"><div class="text-right">${{round($response['summary']['total'], 2) ?? 0}}</div></td>
                                 </tr>
                             </tbody>
                         </table>

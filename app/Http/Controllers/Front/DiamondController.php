@@ -257,10 +257,12 @@ class DiamondController extends Controller {
         }
         $file_name = $user->customer_id . '-' . $category->category_id;
         file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
-        $recently_viewed = DB::table('recently_view_diamonds')
-                ->select('refCustomer_id', 'refDiamond_id', 'refAttribute_group_id', 'refAttribute_id', 'carat', 'price', 'shape', 'cut', 'color', 'clarity')
-                ->orderBy('id', 'desc')
-                ->get();
+        $recently_viewed = DB::table('recently_view_diamonds as rvd')
+            ->join('diamonds as d', 'rvd.refDiamond_id', '=', 'd.diamond_id')
+            ->select('rvd.refCustomer_id', 'rvd.refDiamond_id', 'rvd.refAttribute_group_id', 'rvd.refAttribute_id', 'rvd.carat', 'rvd.price', 'rvd.shape', 'rvd.cut', 'rvd.color', 'rvd.clarity')
+            ->where('d.refCategory_id', $category->category_id)
+            ->orderBy('rvd.updated_at', 'desc')
+            ->get();
         $title = 'Search Diamonds';
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category'));
     }
@@ -273,8 +275,10 @@ class DiamondController extends Controller {
                 'suceess' => true
             );
         } else {
+            // $res = json_decode();
             $data = array(
-                'suceess' => false
+                'suceess' => false,
+                'message' => $result->original['message']
             );
         }
         return response()->json($data);
@@ -358,6 +362,7 @@ class DiamondController extends Controller {
             }
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
+        $arr['category'] = $request->category;
         $aa = new APIDiamond;
         $request->request->replace($arr);
 

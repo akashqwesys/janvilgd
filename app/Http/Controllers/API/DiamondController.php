@@ -75,7 +75,7 @@ class DiamondController extends Controller
         $diamond_ids = DB::table('diamonds as d');
         $ij = 0;
         foreach ($response as $k => $v) {
-            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web') {
+            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category') {
                 continue;
             }
             $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
@@ -111,6 +111,7 @@ class DiamondController extends Controller
 
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
+            ->where('d.refCategory_id', $response['category'])
             // ->groupBy('d.diamond_id')
             ->orderBy('d.diamond_id', 'desc')
             ->get()
@@ -267,7 +268,22 @@ class DiamondController extends Controller
             $recent['color']=$color;
             $recent['clarity']=$clarity;
 
-            DB::table('recently_view_diamonds')->insert($recent);
+            $exists = DB::table('recently_view_diamonds')
+                ->select('id')
+                ->where('refCustomer_id', $recent['refCustomer_id'])
+                ->where('refDiamond_id', $recent['refDiamond_id'])
+                ->pluck('id')
+                ->first();
+            if ($exists) {
+                DB::table('recently_view_diamonds')
+                ->where('refCustomer_id', $recent['refCustomer_id'])
+                ->where('refDiamond_id', $recent['refDiamond_id'])
+                ->update([
+                    'updated_at' => $recent['updated_at']
+                ]);
+            } else {
+                DB::table('recently_view_diamonds')->insert($recent);
+            }
         }
 
         $recommended = DB::table('diamonds')
@@ -286,32 +302,37 @@ class DiamondController extends Controller
             }
             $v->image = $a;
         }
+
         $similar_ids = collect($response_array['attribute'])
             ->whereIn('ag_name', ['COLOR', 'CUT GRADE', 'CLARITY'])
             ->pluck('attribute_id')
             ->all();
         $raw_attr = null;
-        foreach ($similar_ids as $v) {
-            $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' and ';
-        }
-        $similar = DB::table('diamonds as d')
-            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image')
-            ->where('d.is_active', 1)
-            ->where('d.is_deleted', 0)
-            ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
-            ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+1) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-1))')
-            ->whereRaw(rtrim($raw_attr, ' and '))
-            ->orderBy('d.diamond_id', 'desc')
-            ->limit(5)
-            ->get();
-        foreach ($similar as $v) {
-            $v->image = json_decode($v->image);
-            $a = [];
-            foreach ($v->image as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
+        if (count($similar_ids)) {
+            foreach ($similar_ids as $v) {
+                $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' and ';
             }
-            $v->image = $a;
+            $similar = DB::table('diamonds as d')
+                ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+                ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image')
+                ->where('d.is_active', 1)
+                ->where('d.is_deleted', 0)
+                ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
+                ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+1) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-1))')
+                ->whereRaw(rtrim($raw_attr, ' and '))
+                ->orderBy('d.diamond_id', 'desc')
+                ->limit(5)
+                ->get();
+            foreach ($similar as $v) {
+                $v->image = json_decode($v->image);
+                $a = [];
+                foreach ($v->image as $v1) {
+                    $a[] = '/storage/other_images/' . $v1;
+                }
+                $v->image = $a;
+            }
+        } else {
+            $similar = [];
         }
         $response_array['recommended'] = $recommended;
         $response_array['similar'] = $similar;
@@ -328,6 +349,8 @@ class DiamondController extends Controller
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp')
             ->where('c.refCustomer_id',$customer_id)
             ->get();
+            // ->toArray();
+
         if(!empty($diamonds[0]) && isset($diamonds[0])){
             $subtotal = 0;
             $weight = 0;
@@ -340,9 +363,11 @@ class DiamondController extends Controller
                 $value->image = $a;
                 $subtotal += $value->price;
                 $weight += $value->carat;
+                // $response_array[] = (array) $value;
                 array_push($response_array, $value);
             }
         }
+
         if (!count($response_array)) {
             return $this->errorResponse('Data not found');
         }
@@ -371,17 +396,16 @@ class DiamondController extends Controller
             ->where('to_weight', '<=', $weight)
             ->pluck('amount')
             ->first();
-        $discount = !empty($discount) ? (($subtotal * 100) / $discount) : 0;
-        $additional_discount = !empty($additional_discount) ? (($subtotal * 100) / $additional_discount) : 0;
-        $tax = !empty($tax) ? (($subtotal * 100) / $tax) : 0;
+        $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
+        $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
+        $tax = !empty($tax) ? (($subtotal * $tax) / 100) : 0;
         $shipping = !empty($shipping) ? $shipping : 0;
-        $response_array['summary']['subtotal'] = $subtotal;
-        $response_array['summary']['discount'] = $discount;
-        $response_array['summary']['additional_discount'] = $additional_discount;
-        $response_array['summary']['tax'] = $tax;
-        $response_array['summary']['shipping'] = $shipping;
-        $response_array['summary']['total'] = $subtotal - $discount - $additional_discount - $tax - $shipping;
-
+        $response_array['summary']['subtotal'] = round($subtotal, 2);
+        $response_array['summary']['discount'] = round($discount, 2);
+        $response_array['summary']['additional_discount'] = round($additional_discount, 2);
+        $response_array['summary']['tax'] = round($tax, 2);
+        $response_array['summary']['shipping'] = round($shipping, 2);
+        $response_array['summary']['total'] = $subtotal - $discount - $additional_discount + $tax + $shipping;
         return $this->successResponse('Success', $response_array);
     }
 
@@ -563,7 +587,7 @@ class DiamondController extends Controller
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your cart');
             }
-            return $this->successResponse('Success',[],3);
+            return $this->successResponse('Success', [], 3);
         } else{
             return $this->errorResponse('Selected diamond is already in the cart');
         }

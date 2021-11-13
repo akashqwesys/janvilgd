@@ -367,7 +367,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}else{
 						$.toast({
 							heading: 'Error',
-							text: 'Oops, something went wrong...!',
+							text: res.message,
 							icon: 'error',
 							position: 'top-right'
 						});
@@ -395,7 +395,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							position: 'top-right'
 						});
 						$("#sub-total-td").text("$"+res.total);
-						$("#final-total-th").text("$"+res.total);
+						$("#final-total-th div").text("$"+res.total);
 						$("#diamond_"+diamond_id).remove();
 					}else{
 						$.toast({
