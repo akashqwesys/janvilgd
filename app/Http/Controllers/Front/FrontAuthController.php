@@ -188,7 +188,7 @@ class FrontAuthController extends Controller
                     ->first();
                 if ($exists) {
                     if (strlen($exists->name) < 3) {
-                        $customer = Customers::where('email', $request->email)->first();
+                        $customer = Customers::where('customer_id', $exists->customer_id)->first();
                         $customer->name = $request->name;
                         // $customer->mobile = $request->mobile;
                         // $customer->email = $request->email;
