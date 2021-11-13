@@ -287,7 +287,7 @@ class DiamondController extends Controller
         }
 
         $recommended = DB::table('diamonds')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->where('is_recommended', 1)
@@ -314,7 +314,7 @@ class DiamondController extends Controller
             }
             $similar = DB::table('diamonds as d')
                 ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-                ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image')
+                ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image', 'd.barcode')
                 ->where('d.is_active', 1)
                 ->where('d.is_deleted', 0)
                 ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
@@ -405,7 +405,8 @@ class DiamondController extends Controller
         $response_array['summary']['additional_discount'] = round($additional_discount, 2);
         $response_array['summary']['tax'] = round($tax, 2);
         $response_array['summary']['shipping'] = round($shipping, 2);
-        $response_array['summary']['total'] = $subtotal - $discount - $additional_discount + $tax + $shipping;
+        $total = $subtotal - $discount - $additional_discount + $tax + $shipping;
+        $response_array['summary']['total'] = round($total, 2);
         return $this->successResponse('Success', $response_array);
     }
 
