@@ -47,6 +47,41 @@ class DropdownController extends Controller
             'state' => $state,
             'city' => $city
         ];
+
         return $this->successResponse('Success', $data);
+    }
+
+    public function getStates(Request $request)
+    {
+        $states = DB::table('state')
+            ->select('state_id', 'name')
+            ->where('refCountry_id', $request->id)
+            ->get();
+        $data = '<option value=""> Select State </option>';
+        if (count($states)) {
+            foreach ($states as $v) {
+                $data .= '<option value="'.$v->state_id.'">'.$v->name.'</option>';
+            }
+        } else {
+            $data .= '<option value=""> No data found </option>';
+        }
+        return response()->json(['success' => 1, 'data' => $data]);
+    }
+
+    public function getCities(Request $request)
+    {
+        $cities = DB::table('city')
+            ->select('city_id', 'name')
+            ->where('refState_id', $request->id)
+            ->get();
+        $data = '<option value=""> Select City </option>';
+        if (count($cities)) {
+            foreach ($cities as $v) {
+                $data .= '<option value="' . $v->city_id . '">' . $v->name . '</option>';
+            }
+        } else {
+            $data .= '<option value=""> No data found </option>';
+        }
+        return response()->json(['success' => 1, 'data' => $data]);
     }
 }

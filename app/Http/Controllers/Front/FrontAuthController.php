@@ -44,8 +44,12 @@ class FrontAuthController extends Controller
                 }
 
                 $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                    ->where('mobile', $request->mobile)
-                    ->orWhere('email', $request->email)
+                    ->when($request->email, function ($q) use ($request) {
+                        $q->where('email', $request->email);
+                    })
+                    ->when($request->mobile, function ($q) use ($request) {
+                        $q->where('mobile', $request->mobile);
+                    })
                     ->first();
                 $otp = mt_rand(1111, 9999);
                 if ($exists) {
@@ -101,16 +105,19 @@ class FrontAuthController extends Controller
                     ]);
                     $email = $request->email;
                 }
-               Mail::to($email)
-               ->send(
-                   new EmailVerification([
-                       'subject' => 'Email Verification from Janvi LGE',
-                       'name' => $email,
-                       'otp' => $otp,
-                       'view' => 'emails.codeVerification'
-                   ])
-               );
-                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($email)]);
+                if ($email) {
+                    Mail::to($email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGE',
+                            'name' => $email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+                }
+                $em_token = !empty(trim($request->email)) ? $request->email : $request->mobile;
+                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($em_token)]);
             }
             catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
@@ -171,7 +178,14 @@ class FrontAuthController extends Controller
                     return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
                 }
 
-                $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')->where('mobile', $request->mobile)->orWhere('email', $request->email)->first();
+                $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
+                    ->when($request->email, function ($q) use ($request) {
+                        $q->where('email', $request->email);
+                    })
+                    ->when($request->mobile, function ($q) use ($request) {
+                        $q->where('mobile', $request->mobile);
+                    })
+                    ->first();
                 if ($exists) {
                     if (strlen($exists->name) < 3) {
                         $customer = Customers::where('email', $request->email)->first();
@@ -286,7 +300,12 @@ class FrontAuthController extends Controller
             }
             $email = decrypt($request->token, false);
             $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at', 'otp_status')
-                ->where('email', $email)
+                ->when($request->email, function ($q) use ($email) {
+                        $q->where('email', $email);
+                    })
+                    ->when($request->mobile, function ($q) use ($email) {
+                        $q->where('mobile', $email);
+                    })
                 ->first();
             if (!$user) {
                 return response()->json(['error' => 1, 'message' => 'Not a registered email address']);
@@ -299,15 +318,17 @@ class FrontAuthController extends Controller
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
             $user->otp_status = 0;
-            Mail::to($email)
-            ->send(
-                new EmailVerification([
-                    'subject' => 'Email Verification from Janvi LGE',
-                    'name' => $email,
-                    'otp' => $otp,
-                    'view' => 'emails.codeVerification'
-                ])
-            );
+            if ($user->email) {
+                Mail::to($user->email)
+                ->send(
+                    new EmailVerification([
+                        'subject' => 'Email Verification from Janvi LGE',
+                        'name' => $user->email,
+                        'otp' => $otp,
+                        'view' => 'emails.codeVerification'
+                    ])
+                );
+            }
             $user->save();
             return response()->json(['success' => 1, 'message' => 'Verification code has been resent to your registered email address']);
         } catch (\Exception $e) {
@@ -338,6 +359,7 @@ class FrontAuthController extends Controller
             try {
                 $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name')
                     ->where('email', Crypt::decryptString($request->token))
+                    ->orWhere('mobile', Crypt::decryptString($request->token))
                     ->first();
                 if (!$user) {
                     return response()->json(['error' => 1, 'message' => 'Not authorized', 'url' => '/customer/login']);

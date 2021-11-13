@@ -92,9 +92,9 @@
                                             <span class="input-group-text"><img src="/{{ check_host() }}assets/images/country.svg" alt=""></span>
                                             <select class="form-select" id="state" name="state">
                                                 <option selected value="">Select State</option>
-                                                @foreach ($state as $c)
+                                                {{-- @foreach ($state as $c)
                                                     <option value="{{ $c->state_id }}">{{ $c->name }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="errTxt"></div>
@@ -104,9 +104,9 @@
                                             <span class="input-group-text"><img src="/{{ check_host() }}assets/images/apartment_building_city.svg" alt=""></span>
                                             <select class="form-select" id="city" name="city">
                                                 <option selected value="">Select City</option>
-                                                @foreach ($city as $c)
+                                                {{-- @foreach ($city as $c)
                                                     <option value="{{ $c->city_id }}">{{ $c->name }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="errTxt"></div>

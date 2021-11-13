@@ -38,16 +38,144 @@ $(document).on('change', '#email, #mobile', function () {
         }
     });
 });
+$(document).on('change', '#country', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getStates",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#state').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$(document).on('change', '#state', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getCities",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#city').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$(document).on('change', '#company_country', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getStates",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#company_state').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$(document).on('change', '#company_state', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getCities",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#company_city').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
 $("#msform").validate({
     errorClass: 'red-error',
     errorElement: 'div',
     rules: {
         name: {required: true, rangelength: [3,50]},
-        /* email: {
-            required: true,
+        email: {
+            // required: true,
             email: true
         },
-        mobile: {required: true, number: true, rangelength: [10,11]}, */
+        mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
         state: {required: true},

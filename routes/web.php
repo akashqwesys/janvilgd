@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\API\DropdownController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DesignationController;
@@ -68,7 +70,9 @@ Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
 Route::post('customer/signup', [FrontAuthController::class, 'register']);
 Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
-// Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
+Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
+Route::post('/getStates', [DropdownController::class, 'getStates']);
+Route::post('/getCities', [DropdownController::class, 'getCities']);
 
 Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
