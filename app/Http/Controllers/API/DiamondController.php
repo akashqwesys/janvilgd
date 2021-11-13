@@ -196,7 +196,30 @@ class DiamondController extends Controller
             ->get();
 
         if(!empty($diamonds) && isset($diamonds[0])){
-            $response_array['data']=$diamonds[0];
+
+            $diamonds[0]->image = json_decode($diamonds[0]->image);
+            $a = [];
+            foreach ($diamonds[0]->image as $v1) {
+                $a[] = '/storage/other_images/' . $v1;
+            }
+            $diamonds[0]->image = $a;
+
+            $response_array['diamond_id'] = $diamonds[0]->diamond_id;
+            $response_array['total'] = $diamonds[0]->total;
+            $response_array['diamond_name'] = $diamonds[0]->diamond_name;
+            $response_array['barcode'] = $diamonds[0]->barcode;
+            $response_array['rapaport_price'] = $diamonds[0]->rapaport_price;
+            $response_array['carat'] = $diamonds[0]->carat;
+            $response_array['image'] = $diamonds[0]->image;
+            $response_array['video_link'] = $diamonds[0]->video_link;
+            $response_array['price'] = $diamonds[0]->price;
+            $response_array['attribute_id'] = $diamonds[0]->attribute_id;
+            $response_array['attribute_group_id'] = $diamonds[0]->attribute_group_id;
+            $response_array['name'] = $diamonds[0]->name;
+            $response_array['ag_name'] = $diamonds[0]->ag_name;
+            $response_array['refCategory_id'] = $diamonds[0]->refCategory_id;
+            // $response_array['data']=$diamonds[0];
+
             $response_array['attribute']=[];
             foreach ($diamonds as $value){
                 $newArray=array();
@@ -214,8 +237,8 @@ class DiamondController extends Controller
             $recent['refCustomer_id']=Auth::id();
             $recent['refDiamond_id']= $diamonds[0]->diamond_id;
             $recent['updated_at']=date("Y-m-d h:i:s");
-            $recent['price']=$response_array['data']->price;
-            $recent['carat']=$response_array['data']->carat;
+            $recent['price']=$response_array['price'];
+            $recent['carat']=$response_array['carat'];
             $recent['refAttribute_group_id']=0;
             $recent['refAttribute_id']=0;
 
@@ -257,6 +280,11 @@ class DiamondController extends Controller
             ->get();
         foreach ($recommended as $v) {
             $v->image = json_decode($v->image);
+            $a = [];
+            foreach ($v->image as $v1) {
+                $a[] = '/storage/other_images/' . $v1;
+            }
+            $v->image = $a;
         }
         $similar_ids = collect($response_array['attribute'])
             ->whereIn('ag_name', ['COLOR', 'CUT GRADE', 'CLARITY'])
@@ -279,6 +307,11 @@ class DiamondController extends Controller
             ->get();
         foreach ($similar as $v) {
             $v->image = json_decode($v->image);
+            $a = [];
+            foreach ($v->image as $v1) {
+                $a[] = '/storage/other_images/' . $v1;
+            }
+            $v->image = $a;
         }
         $response_array['recommended'] = $recommended;
         $response_array['similar'] = $similar;
@@ -296,13 +329,59 @@ class DiamondController extends Controller
             ->where('c.refCustomer_id',$customer_id)
             ->get();
         if(!empty($diamonds[0]) && isset($diamonds[0])){
+            $subtotal = 0;
+            $weight = 0;
             foreach ($diamonds as $value){
-                array_push($response_array,$value);
+                $value->image = json_decode($value->image);
+                $a = [];
+                foreach ($value->image as $v1) {
+                    $a[] = '/storage/other_images/' . $v1;
+                }
+                $value->image = $a;
+                $subtotal += $value->price;
+                $weight += $value->carat;
+                array_push($response_array, $value);
             }
         }
         if (!count($response_array)) {
             return $this->errorResponse('Data not found');
         }
+        $discount = DB::table('discounts')
+            ->select('discount')
+            ->where('from_amount', '>=', $subtotal)
+            ->where('to_amount', '<=', $subtotal)
+            ->pluck('discount')
+            ->first();
+        $additional_discount = DB::table('customer as c')
+            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+            ->select('ct.discount')
+            ->where('c.customer_id', $customer_id)
+            ->pluck('discount')
+            ->first();
+        $tax = DB::table('customer as c')
+            ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+            ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+            ->select('t.amount')
+            ->where('c.customer_id', $customer_id)
+            ->pluck('amount')
+            ->first();
+        $shipping = DB::table('delivery_charges')
+            ->select('amount')
+            ->where('from_weight', '>=', $weight)
+            ->where('to_weight', '<=', $weight)
+            ->pluck('amount')
+            ->first();
+        $discount = !empty($discount) ? (($subtotal * 100) / $discount) : 0;
+        $additional_discount = !empty($additional_discount) ? (($subtotal * 100) / $additional_discount) : 0;
+        $tax = !empty($tax) ? (($subtotal * 100) / $tax) : 0;
+        $shipping = !empty($shipping) ? $shipping : 0;
+        $response_array['summary']['subtotal'] = $subtotal;
+        $response_array['summary']['discount'] = $discount;
+        $response_array['summary']['additional_discount'] = $additional_discount;
+        $response_array['summary']['tax'] = $tax;
+        $response_array['summary']['shipping'] = $shipping;
+        $response_array['summary']['total'] = $subtotal - $discount - $additional_discount - $tax - $shipping;
+
         return $this->successResponse('Success', $response_array);
     }
 
@@ -583,6 +662,12 @@ class DiamondController extends Controller
             ->get();
         if(!empty($diamonds[0]) && isset($diamonds[0])){
             foreach ($diamonds as $value){
+                $value->image = json_decode($value->image);
+                $a = [];
+                foreach ($value->image as $v1) {
+                    $a[] = '/storage/other_images/' . $v1;
+                }
+                $value->image = $a;
                 array_push($response_array,$value);
             }
         }

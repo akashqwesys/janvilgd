@@ -280,7 +280,6 @@ class DiamondController extends Controller {
         return response()->json($data);
     }
 
-
     public function addAllToCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->addAllToCart($request);
@@ -295,6 +294,7 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
+
     public function addAllToWishlist(Request $request) {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->addAllToWishlist($request);
@@ -309,7 +309,6 @@ class DiamondController extends Controller {
         }
         return response()->json($data);
     }
-
 
     public function removeFromCart(Request $request) {
         $diamond_api_controller = new DiamondApi;
@@ -390,6 +389,7 @@ class DiamondController extends Controller {
             $response = $result->original['data'];
         }
         $title = 'Cart';
+
         return view('front.cart', compact('title', 'response'));
     }
 
@@ -453,14 +453,13 @@ class DiamondController extends Controller {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->detailshDiamonds($barcode);
         if (!empty($result->original['data'])) {
-            $response = $result->original['data']['data'];
+            $response = $result->original['data'];
             $attributes = $result->original['data']['attribute'];
             $category = DB::table('categories')
                 ->select('slug')
-                ->where('category_id', $result->original['data']['data']->refCategory_id)
+                ->where('category_id', $result->original['data']['refCategory_id'])
                 ->first();
-            $response->category = $category->slug;
-            dd($response);
+            $response['category'] = $category->slug;
         }
         $title = 'Diamond Details';
         return view('front.diamond-details', compact('title', 'response', 'attributes'));

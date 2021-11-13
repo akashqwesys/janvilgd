@@ -126,7 +126,10 @@ class FrontAuthController extends Controller
             }
         }
         else {
-            return view('front.login');
+            if (Auth::check())
+                return redirect('/customer/dashboard');
+            else
+                return view('front.login');
         }
     }
 

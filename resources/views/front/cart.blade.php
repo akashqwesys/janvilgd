@@ -66,19 +66,22 @@
                     @php
                     $total=0;
                     if(!empty($response)){
-                    foreach($response as $rv) {
+                    foreach($response as $k => $rv) {
+                        if ($k == 'summary') {
+                            continue;
+                        }
                     @endphp
                     <tr id="diamond_{{$rv->diamond_id}}">
                         <td>
                             @php
                             $i=0;
-                            $image=json_decode($rv->image);
+                            $image=($rv->image);
                             if(!empty($image)){
                             foreach($image as $v) {
                             if($i==0){
                             @endphp
 
-                            <a href="/customer/single-diamonds/{{$rv->barcode}}"><img class="img-fluid cart-product-img" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
+                            <a href="/customer/single-diamonds/{{$rv->barcode}}"><img class="img-fluid cart-product-img" src="{{ $v }}" alt="{{ $v }}">  </a>
                             @php
                             }
                             $i=$i+1;
@@ -93,7 +96,6 @@
                         </td>
                         <td>
                             <h5>{{$rv->diamond_name}}</h5>
-<!--                            <p>345678</p>-->
                             <h4 class="cart-price">${{$rv->total}}</h4>
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
                         </td>
@@ -114,19 +116,27 @@
                             <tbody>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td id="sub-total-td">${{$total}}</td>
+                                    <td id="sub-total-td">${{$response['summary']['subtotal']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td>{{ $response['summary']['discount'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tax</td>
+                                    <td>{{ $response['summary']['tax'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Additional Discount</td>
+                                    <td>{{ $response['summary']['additional_discount'] }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping charge</td>
-                                    <td>Free</td>
-                                </tr>
-                                <tr>
-                                    <td>Sales tax estimate</td>
-                                    <td>TBD</td>
+                                    <td>{{ $response['summary']['shipping'] }}</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
-                                    <th id="final-total-th">${{$total}}</td>
+                                    <th id="final-total-th">${{$response['summary']['total']}}</td>
                                 </tr>
                             </tbody>
                         </table>

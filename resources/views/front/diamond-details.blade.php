@@ -43,14 +43,14 @@
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
                         <div class="product--slider">
-                            @if($response->video_link)
+                            @if($response['video_link'])
                             <div class="item" data-hash="slide1">
                                 <div class="carousel-slide-pic">
                                     <div class="slider-video">
-                                        @if(strpos($response->video_link, 'http') !== 0)
-                                            <iframe width="100%" height="100%" src="http://{{ $response->video_link }}"></iframe>
+                                        @if(strpos($response['video_link'], 'http') !== 0)
+                                            <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
                                         @else
-                                            <iframe width="100%" height="100%" src="{{ $response->video_link }}"></iframe>
+                                            <iframe width="100%" height="100%" src="{{ $response['video_link'] }}"></iframe>
                                         @endif
                                     </div>
                                 </div>
@@ -58,15 +58,15 @@
                             @endif
                             @php
                                 $i=1;
-                                $image=json_decode($response->image);
+                                $image=($response['image']);
                                 if(!empty($image)){
-                                    foreach(json_decode($response->image) as $rv) {
+                                    foreach(($response['image']) as $rv) {
                                     $i=$i+1;
                             @endphp
                                 <div>
                                     <div class="item" data-hash="slide{{$i}}">
                                         <div class="carousel-slide-pic">
-                                            <img src="{{ '/storage/other_images/' . $rv }}" alt="{{ $rv }}">
+                                            <img src="{{ $rv }}" alt="{{ $rv }}">
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                             @endif
                         </div>
                         <div class="product--slider-thumb">
-                            @if($response->video_link)
+                            @if($response['video_link'])
                             <div>
                                 <div class="thumb">
                                     <div class="thumb-pic">
@@ -97,13 +97,13 @@
                             @php
                                 $i=0;
                                 if(!empty($image)){
-                                    foreach(json_decode($response->image) as $rv) {
+                                    foreach(($response['image']) as $rv) {
                                     $i=$i+1;
                             @endphp
                                     <div>
                                         <div class="thumb">
                                             <div class="thumb-pic">
-                                                <img src="{{ '/storage/other_images/' . $rv }}" alt="{{ $rv }}">
+                                                <img src="{{ $rv }}" alt="{{ $rv }}">
                                             </div>
                                         </div>
                                     </div>
@@ -125,15 +125,15 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
-                        <h3 class="title">{{$response->diamond_name}}</h3>
+                        <h3 class="title">{{$response['diamond_name']}}</h3>
                         <p>&nbsp;</p>
                         <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
-                        <p class="price">${{$response->total}}</p>
+                        <p class="price">${{$response['total']}}</p>
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         <div class="cart-buy-btn">
-                            <button class="btn btn-primary add-to-cart" data-id="{{$response->diamond_id}}">Add To Cart</button>
+                            <button class="btn btn-primary add-to-cart" data-id="{{$response['diamond_id']}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
-                            <a href="Javascript:;" class="btn like add-to-wishlist" data-id="{{$response->diamond_id}}"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
+                            <a href="Javascript:;" class="btn like add-to-wishlist" data-id="{{$response['diamond_id']}}"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
                         </div>
                         <div class="mail-phone">
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
@@ -181,7 +181,7 @@
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Diamond Size: {{$response->carat}} Ct</h6>
+                        <h6 class="title">Diamond Size: {{$response['carat']}} Ct</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -194,7 +194,7 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6">
                     <div class="about-four_c">
-                        <h6 class="title">Cut: {{ $response->category == 'rough-diamonds' ? 'As per your requirement' : $cut }}</h6>
+                        <h6 class="title">Cut: {{ $response['category'] == 'rough-diamonds' ? 'As per your requirement' : $cut }}</h6>
                         <p class="description">The carat is the unit of weight of a diamond. Carat is often confused with size even though it is actually a measure of weight. One carat equals 200 milligrams or 0.2 grams. The scale below illustrates the typical size relationship between diamonds of increasing carat weights. Remember that while the measurements below are typical, every diamond is unique.</p>
                         <div class="video-link d-flex align-items-center">
                             <img src="{{ asset(check_host().'assets/images') }}/viedo-recorder.svg" alt="video-link" class="img-fluid me-2">
@@ -256,7 +256,8 @@
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Estimates ships by: <span>20 june, Friday</span></button>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Estimates ships by:
+                                        <span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
                                     <div class="accordion-body">

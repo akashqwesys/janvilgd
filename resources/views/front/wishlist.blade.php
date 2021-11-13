@@ -83,12 +83,12 @@
                         </a>
                         @php
                             $i=0;
-                            $image=json_decode($row->image);
+                            $image=($row->image);
                                 if(!empty($image)){
                                     foreach($image as $v) {
                                         if($i==0){
                         @endphp
-                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ '/storage/other_images/' . $v }}" alt="{{ $v }}">  </a>
+                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ $v }}" alt="{{ $v }}">  </a>
                         @php
                                     }
                                     $i=$i+1;

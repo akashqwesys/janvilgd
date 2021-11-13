@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $latest = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('diamond_id', 'desc')
@@ -46,12 +46,17 @@ class DashboardController extends Controller
             ->get();
         foreach ($latest as $v) {
             $v->image = json_decode($v->image);
+            $a = [];
+            foreach ($v->image as $v1) {
+                $a[] = '/storage/other_images/' . $v1;
+            }
+            $v->image = $a;
         }
 
         $recommended = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->where('is_recommended', 1)
@@ -60,6 +65,11 @@ class DashboardController extends Controller
             ->get();
         foreach ($recommended as $v) {
             $v->image = json_decode($v->image);
+            $a = [];
+            foreach ($v->image as $v1) {
+                $a[] = '/storage/other_images/' . $v1;
+            }
+            $v->image = $a;
         }
 
         $offer_sale = DB::table('settings')
