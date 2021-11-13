@@ -41,7 +41,6 @@
 		        <li class="nav-item">
 		          <a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
-
 		      </ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">

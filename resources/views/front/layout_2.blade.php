@@ -38,7 +38,7 @@
 					<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
-					<ul class="navbar-nav">
+					{{-- <ul class="navbar-nav">
 						<li class="nav-item">
 							<a class="nav-link active" href="/">Home</a>
 						</li>
@@ -57,11 +57,25 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/contact">Contact</a>
 						</li>
+					</ul> --}}
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+						</li>
 					</ul>
 				</div>
 			</div>
 		    <ul class="header-icon-menu">
 		      	<!-- <li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li> -->
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" data-pagespeed-url-hash="1515657107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+				</li>
 		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      	<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg"></a></li>
@@ -214,10 +228,10 @@
         <h5 class="modal-title" id="staticBackdropLabel">Share</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body text-center">  
+      <div class="modal-body text-center">
           <img src="/{{ check_host() }}assets/flaticon/whatsapp.png" id="click-whatsapp-link">
           <img src="/{{ check_host() }}assets/flaticon/link.png" id="click-copy-link" data-bs-dismiss="modal" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">
-      </div>     
+      </div>
     </div>
   </div>
 </div>
@@ -231,19 +245,19 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
-<script type="text/javascript">    
+<script type="text/javascript">
 	$(document).ready(function () {
-            $(document).on('click', '#click-whatsapp-link', function () { 
-//                staticBackdrop                
+            $(document).on('click', '#click-whatsapp-link', function () {
+//                staticBackdrop
                 var w_link=$("#watsapplink").val();
                 window.open(w_link, '_blank');
 //                window.location.href = w_link;
             });
             $(document).on('click', '#click-copy-link', function () {
                 var c_link=$("#copylink").val();
-                navigator.clipboard.writeText(c_link);                                                
-            });                        
-            $(document).on('click', '#add-all-to-cart', function () {			
+                navigator.clipboard.writeText(c_link);
+            });
+            $(document).on('click', '#add-all-to-cart', function () {
 			var share_cart_id = $("#share_cart_id").val();
 			var data = {
 				'share_cart_id': share_cart_id
@@ -271,8 +285,8 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}
 				}
 			});
-		});  
-            $(document).on('click', '#add-all-to-wishlist', function () {                
+		});
+            $(document).on('click', '#add-all-to-wishlist', function () {
                       var share_wishlist_id = $("#share_wishlist_id").val();
                       var data = {
                               'share_wishlist_id': share_wishlist_id
@@ -300,10 +314,10 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
                                       }
                               }
                       });
-              });    
-                
-                
-                
+              });
+
+
+
             $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
@@ -369,7 +383,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 		});
 
 
-              
+
 
 		$(document).on('click', '.add-to-wishlist', function () {
 			var self = $(this);
