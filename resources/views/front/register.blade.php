@@ -57,14 +57,14 @@
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/{{ check_host() }}assets/images/phone.svg" alt=""></span>
-                                            <input type="text" id="mobile" class="form-control" value="{{ $mobile }}" placeholder="Mobile Number" disabled>
+                                            <input type="text" id="mobile" class="form-control" value="{{ empty(trim($mobile)) ? '' : $mobile }}" placeholder="Mobile Number" {{ empty(trim($mobile)) ? '' : 'disabled' }}>
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/{{ check_host() }}assets/images/email.svg" alt=""></span>
-                                            <input type="email" id="email" class="form-control" value="{{ $email }}" placeholder="Email Address" disabled>
+                                            <input type="email" id="email" class="form-control" value="{{ empty(trim($email)) ? '' : $email }}" placeholder="Email Address" {{ empty(trim($email)) ? '' : 'disabled' }}>
                                         </div>
                                         <div class="errTxt"></div>
                                     </div>
