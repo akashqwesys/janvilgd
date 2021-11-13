@@ -80,6 +80,33 @@
 		      	<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg"></a></li>
 		      </ul>
+			  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+				<div class="offcanvas-header">
+					<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<ul class="list-unstyled">
+						<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
+						<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
+						<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
+						<li><a class="nav-link" aria-current="page" href="/contact">Contact</a></li>
+						<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
+						<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
+						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
+						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
+						<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
+						<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
+						<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
+						<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
+						<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
+						<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
+						<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
+						<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
+						<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
+					</ul>
+				</div>
+			</div>
 		  </div>
 		</nav>
 	</header>
