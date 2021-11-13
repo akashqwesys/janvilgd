@@ -101,7 +101,9 @@ class FrontAuthController extends Controller
                         'date_added' => date('Y-m-d H:i:s'),
                         'date_updated' => date('Y-m-d H:i:s'),
                         'otp' => $otp,
-                        'otp_status' => 0
+                        'otp_status' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
                     ]);
                     $email = $request->email;
                 }
@@ -299,7 +301,7 @@ class FrontAuthController extends Controller
                 return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
             $email = decrypt($request->token, false);
-            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at', 'otp_status')
+            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'created_at', 'updated_at', 'otp_status')
                 ->when($request->email, function ($q) use ($email) {
                         $q->where('email', $email);
                     })
