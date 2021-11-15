@@ -86,7 +86,7 @@
                                         @if (count($recently_viewed))
                                         @foreach ($recently_viewed as $r)
 										<tr>
-                                            <td>{{ $r->created_at }}</td>
+                                            <td>{{ $r->updated_at }}</td>
 											<td>{{ $r->name }}</td>
 										</tr>
                                         @endforeach

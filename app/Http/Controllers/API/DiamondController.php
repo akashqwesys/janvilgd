@@ -91,7 +91,7 @@ class DiamondController extends Controller
             $diamond_ids = $diamond_ids->join('diamonds_attributes as da' , 'd.diamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag' , 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->join('attributes as a' , 'da.refAttribute_id', '=', 'a.attribute_id');
-            $ag_names = 'a.name as name_0, ag.name as ag_name_0, ';
+            $ag_names = '"a"."name" as "name_0", "ag"."name" as "ag_name_0", ';
             $ij = 1;
         }
 
@@ -127,7 +127,7 @@ class DiamondController extends Controller
 
         $final_d = [];
         foreach ($diamond_ids as $v_row) {
-            for ($i=0; $i < $ij - 1; $i++) {
+            for ($i=0; $i < $ij; $i++) {
                 $final_d[$v_row->diamond_id]['attributes'][$v_row->{'ag_name_'.$i}] = $v_row->{'name_'.$i};
             }
             $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;

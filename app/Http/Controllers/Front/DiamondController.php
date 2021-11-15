@@ -61,74 +61,82 @@ class DiamondController extends Controller {
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] == 1 && $v['name'] != 'GRIDLE CONDITION') {
                 if ($v['name'] == 'SHAPE') {
-                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                    if (isset($v['attributes'])) {
                         foreach ($v['attributes'] as $v1) {
-                            if ($v1['name'] == 'Round Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                            } else if ($v1['name'] == 'Heart Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                            } else if ($v1['name'] == 'Pear Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-                            } else if ($v1['name'] == 'Oval Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                            } else if ($v1['name'] == 'Princess Cut') {
-                                $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-                            } else if ($v1['name'] == 'Cushion') {
-                                $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
-                            } else if ($v1['name'] == 'Emerald') {
-                                $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
-                            } else if ($v1['name'] == 'Marquise') {
-                                $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
-                            } else {
-                                $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                            if (count($v['attributes']) > 1) {
+                                if ($v1['name'] == 'Round Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                } else if ($v1['name'] == 'Heart Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else if ($v1['name'] == 'Pear Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                                } else if ($v1['name'] == 'Oval Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                                } else if ($v1['name'] == 'Princess Cut') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                                } else if ($v1['name'] == 'Cushion') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
+                                } else if ($v1['name'] == 'Emerald') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
+                                } else if ($v1['name'] == 'Marquise') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                }
+                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
-                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
-                        $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
-                            <div class="diamond-shape filter-item align-items-center">
-                                <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <ul class="list-unstyled mb-0 diamond_shape">
-                                    ' . $list . '
-                                </ul>
-                            </div>
-                        </div>';
+                        if (count($v['attributes']) > 1) {
+                            $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                                <div class="diamond-shape filter-item align-items-center">
+                                    <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <ul class="list-unstyled mb-0 diamond_shape">
+                                        ' . $list . '
+                                    </ul>
+                                </div>
+                            </div>';
+                        }
                     }
                 } else {
-                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                    if (isset($v['attributes'])) {
                         $values = [];
                         $default_values = [];
                         $i = 0;
                         foreach ($v['attributes'] as $v1) {
-                            $values[] = $v1['name'];
-                            $default_values[$i]['attribute_id'] = $v1['attribute_id'];
-                            $default_values[$i]['name'] = $v1['name'];
-                            $i++;
+                            if (count($v['attributes']) > 1) {
+                                $values[] = $v1['name'];
+                                $default_values[$i]['attribute_id'] = $v1['attribute_id'];
+                                $default_values[$i]['name'] = $v1['name'];
+                                $i++;
+                            }
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
-                        $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
-                                <div class="diamond-cut filter-item">
-                                    <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="range-sliders">
-                                        <input type="text" id="Slider' . $k . '"/>
+                        if (count($v['attributes']) > 1) {
+                            $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                                    <div class="diamond-cut filter-item">
+                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <div class="range-sliders">
+                                            <input type="text" id="Slider' . $k . '"/>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>';
-                        $html .= "<script type='text/javascript'>
-                            var Slider" . $k . " = new rSlider({
-                                target: '#Slider" . $k . "',
-                                values: ['" . implode("','", $values) . "'],
-                                range: true,
-                                tooltip: false,
-                                scale: true,
-                                labels: true,
-                                set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
-                                onChange: function (vals) {
-                                    var array = " . json_encode($default_values) . ";
-                                    getAttributeValues(vals, array, " . $k . ");
-                                }
-                        });
-                        </script>";
+                                </div>';
+                            $html .= "<script type='text/javascript'>
+                                var Slider" . $k . " = new rSlider({
+                                    target: '#Slider" . $k . "',
+                                    values: ['" . implode("','", $values) . "'],
+                                    range: true,
+                                    tooltip: false,
+                                    scale: true,
+                                    labels: true,
+                                    set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
+                                    onChange: function (vals) {
+                                        var array = " . json_encode($default_values) . ";
+                                        getAttributeValues(vals, array, " . $k . ");
+                                    }
+                            });
+                            </script>";
+                        }
                     }
                 }
             }
@@ -183,74 +191,82 @@ class DiamondController extends Controller {
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] === 0 && $v['name'] != 'GRIDLE CONDITION') {
                 if ($v['name'] == 'SHAPE') {
-                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                    if (isset($v['attributes'])) {
                         foreach ($v['attributes'] as $v1) {
-                            if ($v1['name'] == 'Round Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                            } else if ($v1['name'] == 'Heart Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                            } else if ($v1['name'] == 'Pear Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-                            } else if ($v1['name'] == 'Oval Brilliant') {
-                                $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                            } else if ($v1['name'] == 'Princess Cut') {
-                                $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-                            } else if ($v1['name'] == 'Cushion') {
-                                $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
-                            } else if ($v1['name'] == 'Emerald') {
-                                $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
-                            } else if ($v1['name'] == 'Marquise') {
-                                $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
-                            } else {
-                                $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                            if (count($v['attributes']) > 1) {
+                                if ($v1['name'] == 'Round Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                } else if ($v1['name'] == 'Heart Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else if ($v1['name'] == 'Pear Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                                } else if ($v1['name'] == 'Oval Brilliant') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                                } else if ($v1['name'] == 'Princess Cut') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                                } else if ($v1['name'] == 'Cushion') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
+                                } else if ($v1['name'] == 'Emerald') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
+                                } else if ($v1['name'] == 'Marquise') {
+                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                }
+                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
-                            $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
-                        $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
-                            <div class="diamond-shape filter-item align-items-center">
-                                <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                <ul class="list-unstyled mb-0 diamond_shape">
-                                    ' . $list . '
-                                </ul>
-                            </div>
-                        </div>';
+                        if (count($v['attributes']) > 1) {
+                            $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
+                                <div class="diamond-shape filter-item align-items-center">
+                                    <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <ul class="list-unstyled mb-0 diamond_shape">
+                                        ' . $list . '
+                                    </ul>
+                                </div>
+                            </div>';
+                        }
                     }
                 } else {
-                    if (isset($v['attributes']) && count($v['attributes']) > 1) {
+                    if (isset($v['attributes'])) {
                         $values = [];
                         $default_values = [];
                         $i = 0;
                         foreach ($v['attributes'] as $v1) {
-                            $values[] = $v1['name'];
-                            $default_values[$i]['attribute_id'] = $v1['attribute_id'];
-                            $default_values[$i]['name'] = $v1['name'];
-                            $i++;
+                            if (count($v['attributes']) > 1) {
+                                $values[] = $v1['name'];
+                                $default_values[$i]['attribute_id'] = $v1['attribute_id'];
+                                $default_values[$i]['name'] = $v1['name'];
+                                $i++;
+                            }
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
-                        $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
-                                <div class="diamond-cut filter-item">
-                                    <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <div class="range-sliders">
-                                        <input type="text" id="Slider' . $k . '"/>
+                        if (count($v['attributes']) > 1) {
+                            $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
+                                    <div class="diamond-cut filter-item">
+                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <div class="range-sliders">
+                                            <input type="text" id="Slider' . $k . '"/>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>';
-                        $none_fix .= "<script type='text/javascript'>
-                            var Slider" . $k . " = new rSlider({
-                                target: '#Slider" . $k . "',
-                                values: ['" . implode("','", $values) . "'],
-                                range: true,
-                                tooltip: false,
-                                scale: true,
-                                labels: true,
-                                set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
-                                onChange: function (vals) {
-                                    var array = " . json_encode($default_values) . ";
-                                    getAttributeValues(vals, array, " . $k . ");
-                                }
-                        });
-                        </script>";
+                                </div>';
+                            $none_fix .= "<script type='text/javascript'>
+                                var Slider" . $k . " = new rSlider({
+                                    target: '#Slider" . $k . "',
+                                    values: ['" . implode("','", $values) . "'],
+                                    range: true,
+                                    tooltip: false,
+                                    scale: true,
+                                    labels: true,
+                                    set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
+                                    onChange: function (vals) {
+                                        var array = " . json_encode($default_values) . ";
+                                        getAttributeValues(vals, array, " . $k . ");
+                                    }
+                            });
+                            </script>";
+                        }
                     }
                 }
             }
