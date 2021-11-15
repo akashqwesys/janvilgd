@@ -44,7 +44,7 @@ class DashboardController extends Controller {
 
         $recently_viewed = DB::table('recently_view_diamonds as r')
             ->join('diamonds as d', 'r.refDiamond_id', '=', 'd.diamond_id')
-            ->select('d.name', 'd.diamond_id', 'r.created_at')
+            ->select('d.name', 'd.diamond_id', 'r.created_at', 'r.updated_at')
             ->orderBy('r.id', 'desc')
             ->limit(3)
             ->get();
