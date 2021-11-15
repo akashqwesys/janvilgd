@@ -96,7 +96,7 @@
                             }
                             @endphp
                             <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
-                            <p class="price">${{$row->total}}</p>
+                            <p class="price">${{number_format(round($row->total, 2), 2, '.', ',')}}</p>
                             <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
                     </div>
                 </div>

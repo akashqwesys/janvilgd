@@ -3,12 +3,18 @@
 @section('css')
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
+        var global_category_slug = '{{ $category->slug }}';
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
             },
             beforeSend: function( xhr ) {
-                // $( ".cs-loader" ).show();
+                $( ".cs-loader" ).show();
+            }
+        });
+        $(document).ready(function () {
+            if ($('.filter-toggle').length === 0) {
+                $('#filter-toggle').attr('disabled', true);
             }
         });
         $(document).on('click', '.diamond-shape .item img', function () {
@@ -66,7 +72,8 @@
                     'attribute_values': selected_values,
                     'group_id': group_id,
                     'web': 'web',
-                    'category': global_category
+                    'category': global_category,
+                    'category_slug': global_category_slug
                 },
                 // cache: false,
                 dataType: "json",
@@ -116,17 +123,17 @@
             $('#result-table tbody').append($(this).closest('tr')[0].outerHTML);
             $(this).closest('tr').remove();
         });
-        $(document).on('mouseover', '#result-table tbody tr', function() {
-            $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
-            $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
-            $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
-            $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
-        });
         $(document).on('mouseover', '#recent-view tbody tr', function() {
             $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
             $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
             $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+        });
+        $(document).on('mouseover', '#result-table tbody tr', function() {
+            $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
+            $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
+            $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
+            $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
         });
         $(document).on('mouseover', '#compare-table tbody tr', function() {
             $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
@@ -273,7 +280,9 @@
                     {{-- </div> --}}
                 </div>
                 <div class="filter-btn text-center">
-                    <a href="#" class="btn btn-primary" id="filter-toggle">Filters <i class="fas fa-chevron-up ms-2"></i></a>
+                    <button class="btn btn-primary" id="filter-toggle">Filters
+                        <i class="fas fa-chevron-up ms-2"></i>
+                    </button>
                     @php
                         if(Session::has('loginId') && Session::has('user-type')){
                             if(session('user-type') == "MASTER_ADMIN"){
@@ -321,12 +330,16 @@
                                             <table class="table mb-0" id="result-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Carat</th>
-                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-right">Carat</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
+                                                        @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
+                                                        @endif
+                                                        @if ($category->slug != 'rough-diamonds')
                                                         <th scope="col" class="text-center">Color</th>
-                                                        <th scope="col" class="text-center">Clarity</th>
+                                                        @endif
+                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
@@ -361,12 +374,16 @@
                                             <table class="table mb-0" id="recent-view">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Carat</th>
-                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-right">Carat</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
+                                                        @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
+                                                        @endif
+                                                        @if ($category->slug != 'rough-diamonds')
                                                         <th scope="col" class="text-center">Color</th>
-                                                        <th scope="col" class="text-center">Clarity</th>
+                                                        @endif
+                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
@@ -419,12 +436,16 @@
                                             <table class="table mb-0" id="compare-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Carat</th>
-                                                        <th scope="col" class="text-center">Price</th>
+                                                        <th scope="col" class="text-right">Carat</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
+                                                        @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
+                                                        @endif
+                                                        @if ($category->slug != 'rough-diamonds')
                                                         <th scope="col" class="text-center">Color</th>
-                                                        <th scope="col" class="text-center">Clarity</th>
+                                                        @endif
+                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>

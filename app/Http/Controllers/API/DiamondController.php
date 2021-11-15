@@ -75,7 +75,7 @@ class DiamondController extends Controller
         $diamond_ids = DB::table('diamonds as d');
         $ij = 0;
         foreach ($response as $k => $v) {
-            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category') {
+            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug') {
                 continue;
             }
             $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
@@ -146,26 +146,32 @@ class DiamondController extends Controller
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . round($v['price'], 2) . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
-                            <td scope="col" class="text-center">' . $v['carat'] . '</td>
-                            <td scope="col" class="text-center">' . round($v['price'], 2) . '</td>';
+                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['price'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
+                            <td scope="col" class="text-right">' . $v['carat'] . '</td>
+                            <td scope="col" class="text-right">$' . number_format(round($v['price'], 2), 2, '.', ',') . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
                 } else {
                     $html .= '<td scope="col" class="text-center"> - </td>';
                 }
-                if (isset($v['attributes']['CUT GRADE'])) {
-                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT GRADE'] . '</td>';
-                } else {
-                    $html .= '<td scope="col" class="text-center"> - </td>';
+                if ($response['category_slug'] == 'polish-diamonds') {
+                    if (isset($v['attributes']['CUT GRADE'])) {
+                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT GRADE'] . '</td>';
+                    } else {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
                 }
-                if (isset($v['attributes']['COLOR'])) {
-                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
-                } else {
-                    $html .= '<td scope="col" class="text-center"> - </td>';
+                if ($response['category_slug'] != 'rough-diamonds') {
+                    if (isset($v['attributes']['COLOR'])) {
+                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
+                    } else {
+                        $html .= '<td scope="col" class="text-center"> - </td>';
+                    }
                 }
                 if (isset($v['attributes']['CLARITY'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
+                } else if (isset($v['attributes']['PURITY'])) {
+                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['PURITY'] . '</td>';
                 } else {
                     $html .= '<td scope="col" class="text-center"> - </td>';
                 }
@@ -400,13 +406,13 @@ class DiamondController extends Controller
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $tax = !empty($tax) ? (($subtotal * $tax) / 100) : 0;
         $shipping = !empty($shipping) ? $shipping : 0;
-        $summary['subtotal'] = round($subtotal, 2);
-        $summary['discount'] = round($discount, 2);
-        $summary['additional_discount'] = round($additional_discount, 2);
-        $summary['tax'] = round($tax, 2);
-        $summary['shipping'] = round($shipping, 2);
+        $summary['subtotal'] = number_format(round($subtotal, 2), 2, '.', ',');
+        $summary['discount'] = number_format(round($discount, 2), 2, '.', ',');
+        $summary['additional_discount'] = number_format(round($additional_discount, 2), 2, '.', ',');
+        $summary['tax'] = number_format(round($tax, 2), 2, '.', ',');
+        $summary['shipping'] = number_format(round($shipping, 2), 2, '.', ',');
         $total = $subtotal - $discount - $additional_discount + $tax + $shipping;
-        $summary['total'] = round($total, 2);
+        $summary['total'] = number_format(round($total, 2), 2, '.', ',');
         $data['diamonds'] = $response_array;
         $data['summary'] = $summary;
         return $this->successResponse('Success', $data);
@@ -624,7 +630,7 @@ class DiamondController extends Controller
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
-            return $this->successResponse('Success',[],3);
+            return $this->successResponse('Success', [] ,3);
         }
     }
 

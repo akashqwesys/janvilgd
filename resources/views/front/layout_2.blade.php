@@ -394,8 +394,12 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
-						$("#sub-total-td").text("$"+res.total);
-						$("#final-total-th div").text("$"+res.total);
+						$("#sub-total-td").text("$"+res.data['subtotal']);
+						$("#discount").text("$"+res.data['discount']);
+						$("#additional_discount").text("$"+res.data['additional_discount']);
+						$("#tax").text("$"+res.data['tax']);
+						$("#shipping").text("$"+res.data['shipping']);
+						$("#final-total-th div").text("$"+res.data['total']);
 						$("#diamond_"+diamond_id).remove();
 					}else{
 						$.toast({
@@ -434,7 +438,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}else{
 						$.toast({
 							heading: 'Error',
-							text: 'Oops, something went wrong...!',
+							text: res.message,
 							icon: 'error',
 							position: 'top-right'
 						});

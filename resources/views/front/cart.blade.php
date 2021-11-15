@@ -96,7 +96,7 @@
                         </td>
                         <td>
                             <h5>{{$rv->diamond_name}}</h5>
-                            <h4 class="cart-price">${{$rv->total}}</h4>
+                            <h4 class="cart-price">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
                         </td>
                     </tr>
@@ -107,35 +107,36 @@
                     @endphp
                 </table>
             </div>
+
             <div class="col col-12 col-md-12 col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="text-center mb-4">Order summary</h5>
+                        <h5 class="text-center mb-4">Order Summary</h5>
                         <table class="table summary-table">
                             <tbody>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td align="right" id="sub-total-td">${{ round($response['summary']['subtotal'], 2) ?? 0}}</td>
+                                    <td align="right" id="sub-total-td">${{ isset($response['summary']) ? $response['summary']['subtotal'] : 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Discount</td>
-                                    <td align="right">${{ round($response['summary']['discount'], 2) ?? 0 }}</td>
+                                    <td align="right" id="discount">${{ isset($response['summary']) ? $response['summary']['discount'] : 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Additional Discount</td>
-                                    <td align="right">${{ round($response['summary']['additional_discount'], 2) ?? 0 }}</td>
+                                    <td align="right" id="additional_discount">${{ isset($response['summary']) ? $response['summary']['additional_discount'] : 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td align="right">${{ round($response['summary']['tax'], 2) ?? 0 }}</td>
+                                    <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping charge</td>
-                                    <td align="right">${{ round($response['summary']['shipping'], 2) ?? 0 }}</td>
+                                    <td align="right" id="shipping">${{ isset($response['summary']) ? $response['summary']['shipping'] : 0 }}</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
-                                    <th id="final-total-th"><div class="text-right">${{round($response['summary']['total'], 2) ?? 0}}</div></td>
+                                    <th id="final-total-th"><div class="text-right">${{isset($response['summary']) ? $response['summary']['total'] : 0 }}</div></td>
                                 </tr>
                             </tbody>
                         </table>

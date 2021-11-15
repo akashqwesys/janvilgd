@@ -21,7 +21,7 @@ use PDF;
 class DiamondController extends Controller {
 
     public function home(Request $request) {
-        $category = DB::table('categories')->select('category_id', 'name')->where('slug', $request->category)->first();
+        $category = DB::table('categories')->select('category_id', 'name', 'slug')->where('slug', $request->category)->first();
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
@@ -115,7 +115,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                                     <div class="diamond-cut filter-item">
-                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <label>' . ucfirst(strtolower($v['name'])) . '<span class=""><i class="fas fa-question-circle"></i></span></label>
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>
@@ -144,7 +144,7 @@ class DiamondController extends Controller {
 
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
-                        <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <label style="justify-content: space-between;">Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <input type="text" id="caratSlider" />
                         </div>
@@ -152,7 +152,7 @@ class DiamondController extends Controller {
                 </div>
                 <div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-price filter-item">
-                        <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <label style="justify-content: space-between;">Price<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <input type="text" id="priceSlider" />
                         </div>
@@ -245,7 +245,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
                                     <div class="diamond-cut filter-item">
-                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <label>' . ucfirst(strtolower($v['name'])) . '<span class=""><i class="fas fa-question-circle"></i></span></label>
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>
@@ -337,13 +337,14 @@ class DiamondController extends Controller {
             $total=0;
             $result_cart = $diamond_api_controller->getCart();
             if (!empty($result_cart->original['data'])) {
-                foreach($result_cart->original['data'] as $row) {
+                /* foreach($result_cart->original['data'] as $row) {
                     $total=$total+$row->total;
-                }
+                } */
+                $data = $result_cart->original['data']['summary'];
             }
             $data = array(
                 'suceess' => true,
-                'total' => $total
+                'data' => $data
             );
         } else {
             $data = array(
@@ -379,6 +380,7 @@ class DiamondController extends Controller {
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
         $arr['category'] = $request->category;
+        $arr['category_slug'] = $request->category_slug;
         $aa = new APIDiamond;
         $request->request->replace($arr);
 
@@ -495,7 +497,8 @@ class DiamondController extends Controller {
             );
         } else {
             $data = array(
-                'suceess' => false
+                'suceess' => false,
+                'message' => $result->original['message']
             );
         }
         return response()->json($data);

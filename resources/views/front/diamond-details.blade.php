@@ -25,7 +25,7 @@
                 if($row['ag_name']=="CUT GRADE"){
                     $cut=$row['at_name'];
                 }
-                if($row['ag_name']=="CLARITY"){
+                if($row['ag_name']=="CLARITY" || $row['ag_name']=="PURITY"){
                     $clarity=$row['at_name'];
                 }
                 if($row['ag_name']=="CERTIFICATE"){
@@ -128,7 +128,7 @@
                         <h3 class="title">{{$response['diamond_name']}}</h3>
                         <p>&nbsp;</p>
                         <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
-                        <p class="price">${{$response['total']}}</p>
+                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}}</p>
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response['diamond_id']}}">Add To Cart</button>
