@@ -182,7 +182,7 @@ $("#msform").validate({
         city: {required: true},
         pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
-        company_office_no: {required: true},
+        company_office_no: { required: true, rangelength: [2, 10]},
         company_email: {required: true, email: true},
         company_gst_pan: {required: true, minlength: 10, maxlength: 15},
         company_address: {required: true, rangelength: [10,200]},
