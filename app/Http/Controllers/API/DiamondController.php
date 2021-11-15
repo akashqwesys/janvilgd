@@ -227,13 +227,13 @@ class DiamondController extends Controller
             $response_array['refCategory_id'] = $diamonds[0]->refCategory_id;
             // $response_array['data']=$diamonds[0];
 
-            $response_array['attribute']=[];
+            $response_array['attribute'] = [];
             foreach ($diamonds as $value){
-                $newArray=array();
-                $newArray['ag_name']=$value->ag_name;
-                $newArray['at_name']=$value->name;
-                $newArray['attribute_id']=$value->attribute_id;
-                array_push($response_array['attribute'],$newArray);
+                $newArray = array();
+                $newArray['ag_name'] = $value->ag_name;
+                $newArray['at_name'] = $value->name;
+                $newArray['attribute_id'] = $value->attribute_id;
+                array_push($response_array['attribute'], $newArray);
             }
         }
         if (!count($response_array)) {
@@ -241,38 +241,38 @@ class DiamondController extends Controller
         }
         else {
             $recent=array();
-            $recent['refCustomer_id']=Auth::id();
-            $recent['refDiamond_id']= $diamonds[0]->diamond_id;
-            $recent['updated_at']=date("Y-m-d h:i:s");
-            $recent['price']=$response_array['price'];
-            $recent['carat']=$response_array['carat'];
-            $recent['refAttribute_group_id']=0;
-            $recent['refAttribute_id']=0;
+            $recent['refCustomer_id'] = Auth::id();
+            $recent['refDiamond_id'] =  $diamonds[0]->diamond_id;
+            $recent['updated_at'] = date("Y-m-d h:i:s");
+            $recent['price'] = $response_array['price'];
+            $recent['carat'] = $response_array['carat'];
+            $recent['refAttribute_group_id'] = 0;
+            $recent['refAttribute_id'] = 0;
 
-            $shape='-';
-            $cut='-';
-            $color='-';
-            $clarity='-';
+            $shape = '-';
+            $cut = '-';
+            $color = '-';
+            $clarity = '-';
             if(!empty($response_array['attribute'])){
                 foreach($response_array['attribute'] as $row){
-                    if($row['ag_name']=="SHAPE"){
-                        $shape=$row['at_name'];
+                    if($row['ag_name'] == "SHAPE"){
+                        $shape = $row['at_name'];
                     }
-                    if($row['ag_name']=="CUT GRADE"){
-                        $cut=$row['at_name'];
+                    if($row['ag_name'] == "CUT GRADE"){
+                        $cut = $row['at_name'];
                     }
-                    if($row['ag_name']=="COLOR"){
-                        $color=$row['at_name'];
+                    if($row['ag_name'] == "COLOR"){
+                        $color = $row['at_name'];
                     }
-                    if($row['ag_name']=="CLARITY"){
-                        $clarity=$row['at_name'];
+                    if($row['ag_name'] == "CLARITY" || $row['ag_name'] == "PURITY"){
+                        $clarity = $row['at_name'];
                     }
                 }
             }
-            $recent['shape']=$shape;
-            $recent['cut']=$cut;
-            $recent['color']=$color;
-            $recent['clarity']=$clarity;
+            $recent['shape'] = $shape;
+            $recent['cut'] = $cut;
+            $recent['color'] = $color;
+            $recent['clarity'] = $clarity;
 
             $exists = DB::table('recently_view_diamonds')
                 ->select('id')

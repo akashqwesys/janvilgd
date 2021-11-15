@@ -42,3 +42,6 @@
 .text-right {
 	text-align: right;
 }
+#filter-toggle:disabled:hover{
+	cursor: not-allowed;
+}

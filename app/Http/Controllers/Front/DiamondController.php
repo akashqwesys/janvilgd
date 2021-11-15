@@ -275,7 +275,7 @@ class DiamondController extends Controller {
         file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
         $recently_viewed = DB::table('recently_view_diamonds as rvd')
             ->join('diamonds as d', 'rvd.refDiamond_id', '=', 'd.diamond_id')
-            ->select('rvd.refCustomer_id', 'rvd.refDiamond_id', 'rvd.refAttribute_group_id', 'rvd.refAttribute_id', 'rvd.carat', 'rvd.price', 'rvd.shape', 'rvd.cut', 'rvd.color', 'rvd.clarity')
+            ->select('rvd.refCustomer_id', 'rvd.refDiamond_id', 'rvd.refAttribute_group_id', 'rvd.refAttribute_id', 'rvd.carat', 'rvd.price', 'rvd.shape', 'rvd.cut', 'rvd.color', 'rvd.clarity', 'd.name', 'd.image', 'd.barcode')
             ->where('d.refCategory_id', $category->category_id)
             ->orderBy('rvd.updated_at', 'desc')
             ->get();

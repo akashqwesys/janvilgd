@@ -125,6 +125,7 @@
         });
         $(document).on('mouseover', '#recent-view tbody tr', function() {
             $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
+            // document.querySelector('.recent-tab-content .select-diamond a').href = $(this).attr('data-barcode');
             $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
             $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
@@ -389,9 +390,9 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($recently_viewed as $rv)
-                                                    <tr>
+                                                    <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="/storage/other_images/{{ json_decode($rv->image)[0] }}" data-barcode="{{ $rv->barcode }}">
                                                         <td scope="col" class="text-center">{{ $rv->carat }}</td>
-                                                        <td scope="col" class="text-center">{{ $rv->price }}</td>
+                                                        <td scope="col" class="text-center">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->cut }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->color }}</td>
@@ -421,12 +422,11 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img">
-                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="" class="img-fluid">
                                             </div>
-                                            <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
-                                            <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
-                                            <p class="diamond-cost">$456.00</p>
-                                            <a href="#" class="btn btn-primary">View Diamond</a>
+                                            <h6 class="diamond-name"></h6>
+                                            <p class="diamond-cost"></p>
+                                            <a href="#" class="btn btn-primary"></a>
                                         </div>
                                     </div>
                                 </div>

@@ -32,7 +32,7 @@
             @endphp
             <div class="col col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" id="diamond_{{$row->diamond_id}}">
                 <div class="card wish-card">
-                    <div class="card-body">                        
+                    <div class="card-body">
                         @php
                             $i=0;
                             $image=json_decode($row->image);
@@ -40,7 +40,7 @@
                                     foreach($image as $v) {
                                         if($i==0){
                         @endphp
-                        <a href="/customer/single-diamonds/{{$row->diamond_id}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ asset(check_host().'images') }}<?php echo '/' . $v; ?>" alt="{{ $v }}">  </a>
+                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" style="height:200px;" src="/storage/other_images/{{ $v }}" alt="{{ $v }}">  </a>
                         @php
                                     }
                                     $i=$i+1;
@@ -48,7 +48,7 @@
                             }
                             @endphp
                             <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
-                            <p class="price">${{$row->total}}</p>
+                            <p class="price">${{number_format(round($row->total, 2), 2, '.', ',')}}</p>
                             <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
                     </div>
                 </div>
