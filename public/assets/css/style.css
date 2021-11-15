@@ -2551,7 +2551,7 @@ span.value.lower::before, span.value.upper::before {
   border-radius: 50px;
 }
 .signup-section label[for="id_upload"]:before {
-  content: "Drag and Drop a file here";
+  content: attr(data-content);
   display: block;
   position: absolute;
   top: 70%;

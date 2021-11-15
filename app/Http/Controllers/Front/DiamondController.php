@@ -277,6 +277,7 @@ class DiamondController extends Controller {
             ->join('diamonds as d', 'rvd.refDiamond_id', '=', 'd.diamond_id')
             ->select('rvd.refCustomer_id', 'rvd.refDiamond_id', 'rvd.refAttribute_group_id', 'rvd.refAttribute_id', 'rvd.carat', 'rvd.price', 'rvd.shape', 'rvd.cut', 'rvd.color', 'rvd.clarity', 'd.name', 'd.image', 'd.barcode')
             ->where('d.refCategory_id', $category->category_id)
+            ->where('rvd.refCustomer_id', $user->customer_id)
             ->orderBy('rvd.updated_at', 'desc')
             ->get();
         $title = 'Search Diamonds';

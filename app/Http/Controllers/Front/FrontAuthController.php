@@ -23,6 +23,9 @@ class FrontAuthController extends Controller
 
     public function login(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/customer/dashboard');
+        }
         if ($request->ajax()) {
             try {
                 $rules = [
@@ -135,6 +138,9 @@ class FrontAuthController extends Controller
 
     public function register(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/customer/dashboard');
+        }
         if ($request->ajax()) {
             try {
                 $rules = [
@@ -343,6 +349,9 @@ class FrontAuthController extends Controller
 
     public function otpVerify(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/customer/dashboard');
+        }
         if ($request->isMethod('GET')) {
             if (empty($request->token)) {
                 return redirect('/customer/login');

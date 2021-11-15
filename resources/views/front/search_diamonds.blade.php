@@ -96,12 +96,6 @@
                         });
                     } */
                     $('#result-table tbody').html(response.data);
-                    setTimeout(() => {
-                        $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$('#result-table tbody tr').eq(0).attr('data-barcode'));
-                        $('.result-tab-content .select-diamond .diamond-name').text($('#result-table tbody tr').eq(0).attr('data-name'));
-                        $('.result-tab-content .select-diamond .diamond-cost').text($('#result-table tbody tr').eq(0).attr('data-price'));
-                        $('.result-tab-content .select-diamond .diamond-img img').attr('src', $('#result-table tbody tr').eq(0).attr('data-image'));
-                    }, 1000);
                 },
                 failure: function (response) {
                     $('.cs-loader').hide();
@@ -120,24 +114,25 @@
             $(this).closest('tr').remove();
         });
         $(document).on('click', '#compare-table .diamond-checkbox', function() {
+            $(this).attr('checked', false);
             $('#result-table tbody').append($(this).closest('tr')[0].outerHTML);
             $(this).closest('tr').remove();
         });
         $(document).on('mouseover', '#recent-view tbody tr', function() {
-            $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
+            $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
             // document.querySelector('.recent-tab-content .select-diamond a').href = $(this).attr('data-barcode');
             $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
             $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
         });
         $(document).on('mouseover', '#result-table tbody tr', function() {
-            $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
+            $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
             $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
             $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
         });
         $(document).on('mouseover', '#compare-table tbody tr', function() {
-            $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode'));
+            $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
             $('.compare-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
             $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
             $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
@@ -316,12 +311,12 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img mb-2">
-                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="" class="img-fluid">
                                             </div>
-                                            <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
+                                            <h6 class="diamond-name"></h6>
                                             <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
-                                            <p class="diamond-cost">$456.00</p>
-                                            <a href="#" class="btn btn-primary">View Diamond</a>
+                                            <p class="diamond-cost"></p>
+                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>
@@ -360,12 +355,11 @@
                                     <div class="selected-diamonds">
                                         <div class="select-diamond">
                                             <div class="diamond-img">
-                                                <img src="/{{ check_host() }}assets/images/Opalescentwhitediamond.png" class="img-fluid">
+                                                <img src="" class="img-fluid">
                                             </div>
-                                            <h6 class="diamond-name">0.30 Carat Pear Diamond</h6>
-                                            <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
-                                            <p class="diamond-cost">$456.00</p>
-                                            <a href="#" class="btn btn-primary">View Diamond</a>
+                                            <h6 class="diamond-name"></h6>
+                                            <p class="diamond-cost"></p>
+                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>
@@ -394,8 +388,12 @@
                                                         <td scope="col" class="text-center">{{ $rv->carat }}</td>
                                                         <td scope="col" class="text-center">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
+                                                        @if ($category->slug == 'polish-diamonds')
                                                         <td scope="col" class="text-center">{{ $rv->cut }}</td>
+                                                        @endif
+                                                        @if ($category->slug != 'rough-diamonds')
                                                         <td scope="col" class="text-center">{{ $rv->color }}</td>
+                                                        @endif
                                                         <td scope="col" class="text-center">{{ $rv->clarity }}</td>
                                                         <td scope="col" class="text-center">
                                                             <div class="compare-checkbox">
@@ -426,7 +424,7 @@
                                             </div>
                                             <h6 class="diamond-name"></h6>
                                             <p class="diamond-cost"></p>
-                                            <a href="#" class="btn btn-primary"></a>
+                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>

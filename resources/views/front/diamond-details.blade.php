@@ -145,7 +145,7 @@
                         </div>
                         <div class="order-shiped d-flex align-items-baseline">
                             <img src="{{ asset(check_host().'assets/images') }}/book_calendar.svg" class="img-fluid me-2">
-                            <p>Order loose diamond and your order ships by <br><span>Fri, Oct 15.</span></p>
+                            <p>Order loose diamond and your order ships by <br><span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
                         </div>
 
                         <div class="product-details-collapse">
@@ -154,7 +154,11 @@
                                     <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
                                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
-                                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                            <ul>
+                                            @foreach ($attributes as $a)
+                                            <li>{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
+                                            @endforeach
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

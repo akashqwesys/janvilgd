@@ -211,11 +211,11 @@
                                     <div class="col-md-12">
                                         <h5>Business Identity Proof</h5>
                                         <div class="form-group custom-file-field">
-                                            <label for="id_upload" class="et_pb_contact_form_label">Enter</label>
+                                            <label for="id_upload" class="et_pb_contact_form_label" data-content="Drag and Drop a file here">Enter</label>
                                             <input type="file" id="id_upload" name="id_upload" class="id_upload" accept="image/jpeg,image/png,application/pdf">
                                         </div>
                                         <div class="errTxt"></div>
-                                        <p>Business Card (Upload only .jpg, .jpeg, .png and .pdf files)</p>
+                                        <p>Business Identity Proof (Upload only .jpg, .jpeg, .png and .pdf files)</p>
                                     </div>
                                 </div>
                                 <div class="row">

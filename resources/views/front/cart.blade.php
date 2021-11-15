@@ -61,16 +61,16 @@
                 @endif
             </div>
             <div class="col col-12 col-md-12 col-lg-8">
-                <table class="cart-table">
+                <?php
+                $total=0;
+                if(!empty($response['diamonds'])){
+                    echo '<table class="cart-table">';
 
-                    @php
-                    $total=0;
-                    if(!empty($response['diamonds'])){
                     foreach($response['diamonds'] as $k => $rv) {
                         if ($k == 'summary') {
                             continue;
                         }
-                    @endphp
+                    ?>
                     <tr id="diamond_{{$rv->diamond_id}}">
                         <td>
                             @php
@@ -100,12 +100,13 @@
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
                         </td>
                     </tr>
-                    @php
-
+                    <?php
                     }
-                    }
-                    @endphp
-                </table>
+                    echo '</table>';
+                } else {
+                    echo '<h3> No Items yet</h3>';
+                }
+                ?>
             </div>
 
             <div class="col col-12 col-md-12 col-lg-4">

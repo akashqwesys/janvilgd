@@ -272,6 +272,9 @@ $("#msform").validate({
         });
     }
 });
+$(document).on('change', '#id_upload', function () {
+    $(this).prev('.et_pb_contact_form_label').attr('data-content', $(this)[0].files[0].name);
+});
 
 $(document).ready(function () {
 	// Sing US js
@@ -280,10 +283,15 @@ $(document).ready(function () {
     var animating; //flag to prevent quick multi-click glitches
     $(document).on('click', '.next-1, .next-2', function () {
         if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
-            return false;
+                return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
             return false;
+        }
+        else {
+            setTimeout(() => {
+                $('.errTxt').html('');
+            }, 5);
         }
         if(animating) return false;
         animating = true;

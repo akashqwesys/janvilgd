@@ -15,8 +15,8 @@
 		<div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
-                    <a href="/customer/search-diamonds/polish-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt="" data-pagespeed-url-hash="1281385418" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Polish Diamonds
+                    <a href="/customer/search-diamonds/rough-diamonds" class="btn btn-primary grown-diamonds-btn">
+                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt="" data-pagespeed-url-hash="2917607242" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Rough Diamonds
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
@@ -25,8 +25,8 @@
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
-                    <a href="/customer/search-diamonds/rough-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt="" data-pagespeed-url-hash="2917607242" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Rough Diamonds
+                    <a href="/customer/search-diamonds/polish-diamonds" class="btn btn-primary grown-diamonds-btn">
+                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt="" data-pagespeed-url-hash="1281385418" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Polish Diamonds
                     </a>
                 </div>
             </div>

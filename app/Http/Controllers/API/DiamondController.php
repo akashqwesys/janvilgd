@@ -278,7 +278,6 @@ class DiamondController extends Controller
                 ->select('id')
                 ->where('refCustomer_id', $recent['refCustomer_id'])
                 ->where('refDiamond_id', $recent['refDiamond_id'])
-                ->pluck('id')
                 ->first();
             if ($exists) {
                 DB::table('recently_view_diamonds')
