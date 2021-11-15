@@ -33,7 +33,6 @@ class CustomerTypeController extends Controller {
             'date_added' => date("Y-m-d h:i:s"),
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-
         activity($request,"inserted",'customer-type');
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/customer-type');
@@ -45,7 +44,7 @@ class CustomerTypeController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                    ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {                                
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -86,7 +85,7 @@ class CustomerTypeController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/admin/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';
+                                $actionBtn = '<a href="/admin/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';                                
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])

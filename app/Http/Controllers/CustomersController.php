@@ -148,6 +148,7 @@ class CustomersController extends Controller {
                                     $class = "btn-success";
                                 }
                                 $actionBtn.=' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_approved . '" data-table="customer_company_details" data-wherefield="refCustomer_id" data-module="customers">' . $str . '</button>';
+                                $actionBtn.=' <a href="/admin/customer-login-by-admin/'. encrypt($row->email,false).'" class="btn btn-xs text-white btn-primary">Login</a>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
