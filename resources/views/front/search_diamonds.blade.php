@@ -391,8 +391,8 @@
                                                 <tbody>
                                                     @foreach ($recently_viewed as $rv)
                                                     <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="/storage/other_images/{{ json_decode($rv->image)[0] }}" data-barcode="{{ $rv->barcode }}">
-                                                        <td scope="col" class="text-center">{{ $rv->carat }}</td>
-                                                        <td scope="col" class="text-center">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
+                                                        <td scope="col" class="text-right">{{ $rv->carat }}</td>
+                                                        <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
                                                         @if ($category->slug == 'polish-diamonds')
                                                         <td scope="col" class="text-center">{{ $rv->cut }}</td>
