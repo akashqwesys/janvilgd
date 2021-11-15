@@ -32,8 +32,8 @@ class DiamondController extends Controller {
                 ->where('ag.field_type', 1)
                 ->where('ag.is_active', 1)
                 ->where('ag.is_deleted', 0)
-                ->orderBy('a.attribute_group_id')
                 ->orderBy('ag.sort_order')
+                ->orderBy('a.attribute_group_id')
                 ->get()
                 ->toArray();
 
@@ -50,13 +50,14 @@ class DiamondController extends Controller {
                 $temp_grp_id = $row_data->attribute_group_id;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['name'] = $row_data->ag_name;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['is_fix'] = $row_data->is_fix;
+                $temp_var = 0;
             }
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['attribute_id'] = $row_data->attribute_id;
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['name'] = $row_data->name;
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = $row_data->image;
             $temp_var++;
         }
-
+        // echo '<pre>'; print_r($final_attribute_groups_with_att);die;
         $list = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] == 1 && $v['name'] != 'GRIDLE CONDITION') {
@@ -144,7 +145,7 @@ class DiamondController extends Controller {
 
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
-                        <label style="justify-content: space-between;">Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <input type="text" id="caratSlider" />
                         </div>
@@ -152,7 +153,7 @@ class DiamondController extends Controller {
                 </div>
                 <div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-price filter-item">
-                        <label style="justify-content: space-between;">Price<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <input type="text" id="priceSlider" />
                         </div>

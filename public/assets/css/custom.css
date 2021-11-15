@@ -45,3 +45,6 @@
 #filter-toggle:disabled:hover{
 	cursor: not-allowed;
 }
+.diamond-cart.filter-item label, .diamond-cut.filter-item label{
+	justify-content: space-between !important;
+}

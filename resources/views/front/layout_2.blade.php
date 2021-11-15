@@ -23,89 +23,74 @@
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
 		  <div class="container">
-                      <script data-pagespeed-no-defer>
+		    <a class="navbar-brand" href="/">
+			<script data-pagespeed-no-defer>
 			//<![CDATA[
 				(function(){for(var g="function"==typeof Object.defineProperties?Object.defineProperty:function(b,c,a){if(a.get||a.set)throw new TypeError("ES3 does not support getters and setters.");b!=Array.prototype&&b!=Object.prototype&&(b[c]=a.value)},h="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this,k=["String","prototype","repeat"],l=0;l<k.length-1;l++){var m=k[l];m in h||(h[m]={});h=h[m]}var n=k[k.length-1],p=h[n],q=p?p:function(b){var c;if(null==this)throw new TypeError("The 'this' value for String.prototype.repeat must not be null or undefined");c=this+"";if(0>b||1342177279<b)throw new RangeError("Invalid count value");b|=0;for(var a="";b;)if(b&1&&(a+=c),b>>>=1)c+=c;return a};q!=p&&null!=q&&g(h,n,{configurable:!0,writable:!0,value:q});var t=this;function u(b,c){var a=b.split("."),d=t;a[0]in d||!d.execScript||d.execScript("var "+a[0]);for(var e;a.length&&(e=a.shift());)a.length||void 0===c?d[e]?d=d[e]:d=d[e]={}:d[e]=c};function v(b){var c=b.length;if(0<c){for(var a=Array(c),d=0;d<c;d++)a[d]=b[d];return a}return[]};function w(b){var c=window;if(c.addEventListener)c.addEventListener("load",b,!1);else if(c.attachEvent)c.attachEvent("onload",b);else{var a=c.onload;c.onload=function(){b.call(this);a&&a.call(this)}}};var x;function y(b,c,a,d,e){this.h=b;this.j=c;this.l=a;this.f=e;this.g={height:window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,width:window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth};this.i=d;this.b={};this.a=[];this.c={}}function z(b,c){var a,d,e=c.getAttribute("data-pagespeed-url-hash");if(a=e&&!(e in b.c))if(0>=c.offsetWidth&&0>=c.offsetHeight)a=!1;else{d=c.getBoundingClientRect();var f=document.body;a=d.top+("pageYOffset"in window?window.pageYOffset:(document.documentElement||f.parentNode||f).scrollTop);d=d.left+("pageXOffset"in window?window.pageXOffset:(document.documentElement||f.parentNode||f).scrollLeft);f=a.toString()+","+d;b.b.hasOwnProperty(f)?a=!1:(b.b[f]=!0,a=a<=b.g.height&&d<=b.g.width)}a&&(b.a.push(e),b.c[e]=!0)}y.prototype.checkImageForCriticality=function(b){b.getBoundingClientRect&&z(this,b)};u("pagespeed.CriticalImages.checkImageForCriticality",function(b){x.checkImageForCriticality(b)});u("pagespeed.CriticalImages.checkCriticalImages",function(){A(x)});function A(b){b.b={};for(var c=["IMG","INPUT"],a=[],d=0;d<c.length;++d)a=a.concat(v(document.getElementsByTagName(c[d])));if(a.length&&a[0].getBoundingClientRect){for(d=0;c=a[d];++d)z(b,c);a="oh="+b.l;b.f&&(a+="&n="+b.f);if(c=!!b.a.length)for(a+="&ci="+encodeURIComponent(b.a[0]),d=1;d<b.a.length;++d){var e=","+encodeURIComponent(b.a[d]);131072>=a.length+e.length&&(a+=e)}b.i&&(e="&rd="+encodeURIComponent(JSON.stringify(B())),131072>=a.length+e.length&&(a+=e),c=!0);C=a;if(c){d=b.h;b=b.j;var f;if(window.XMLHttpRequest)f=new XMLHttpRequest;else if(window.ActiveXObject)try{f=new ActiveXObject("Msxml2.XMLHTTP")}catch(r){try{f=new ActiveXObject("Microsoft.XMLHTTP")}catch(D){}}f&&(f.open("POST",d+(-1==d.indexOf("?")?"?":"&")+"url="+encodeURIComponent(b)),f.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),f.send(a))}}}function B(){var b={},c;c=document.getElementsByTagName("IMG");if(!c.length)return{};var a=c[0];if(!("naturalWidth"in a&&"naturalHeight"in a))return{};for(var d=0;a=c[d];++d){var e=a.getAttribute("data-pagespeed-url-hash");e&&(!(e in b)&&0<a.width&&0<a.height&&0<a.naturalWidth&&0<a.naturalHeight||e in b&&a.width>=b[e].o&&a.height>=b[e].m)&&(b[e]={rw:a.width,rh:a.height,ow:a.naturalWidth,oh:a.naturalHeight})}return b}var C="";u("pagespeed.CriticalImages.getBeaconData",function(){return C});u("pagespeed.CriticalImages.Run",function(b,c,a,d,e,f){var r=new y(b,c,a,e,f);x=r;d&&w(function(){window.setTimeout(function(){A(r)},0)})});})();pagespeed.CriticalImages.Run('/mod_pagespeed_beacon','https://janvi.qwesys.com/','82dtZm2p5Q',true,false,'dYYqEfCyjKg');
 				//]]>
 				</script>
-
-		    <a class="navbar-brand" href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid"></a>
-		   	<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
-				<img src="/{{ check_host() }}assets/images/menu-icon.svg">
-			</button>
-			<div class="navbar-collapse offcanvas-collapse offcanvas-style-2" id="navbarsExampleDefault">
-				<div class="offcanvas-header">
-					<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-				</div>
-				<div class="offcanvas-body">
-					{{-- <ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link active" href="/">Home</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="/about-us" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								About Us
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" href="/gallery">Gallery</a></li>
-								<li><a class="dropdown-item" href="/media">Media</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/blog">Blog</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/contact">Contact</a>
-						</li>
-					</ul> --}}
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		    <ul class="header-icon-menu">
-		      	<!-- <li><a class="nav-link active" href="/customer/search-diamonds"><img src="/{{ check_host() }}assets/images/theme_search.svg"></a></li> -->
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" data-pagespeed-url-hash="1515657107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
-				</li>
-		      	<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
-		      	<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
-		      	<li><a class="nav-link active" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg"></a></li>
+				<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" data-pagespeed-url-hash="2992076708" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+			</a>
+		    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
+		    </button> -->
+		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		      <ul class="navbar-nav">
+		        <li class="nav-item">
+		          <a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+		        </li>
 		      </ul>
-			  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-				<div class="offcanvas-header">
-					<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-				</div>
-				<div class="offcanvas-body">
-					<ul class="list-unstyled">
-						<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
-						<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
-						<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
-						<li><a class="nav-link" aria-current="page" href="/contact">Contact</a></li>
-						<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
-						<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
-						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
-						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
-						<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
-						<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
-						<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
-						<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
-						<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
-						<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
-						<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
-						<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
-						<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
-						<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
-					</ul>
-				</div>
+		    </div>
+		    <div class="ms-auto header-right-menu">
+		    	<ul class="navbar-nav ms-auto">
+		    		<li class="nav-item">
+		    			<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" data-pagespeed-url-hash="1515657107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+		    		</li>
+					<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+		      		<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
+		    		<li class="nav-item">
+						@auth
+						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+						@endauth
+						@guest
+		    			<a class="nav-link active" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" data-pagespeed-url-hash="4116119723" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a>
+						@endguest
+		    		</li>
+		    	</ul>
+		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		    		<div class="offcanvas-header">
+		    			<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		    		</div>
+		    		<div class="offcanvas-body">
+		    			<ul class="list-unstyled">
+		    				<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/contact">Contact</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
+		    			</ul>
+		    		</div>
+		    	</div>
+		    </div>
 			</div>
 		  </div>
 		</nav>
