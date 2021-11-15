@@ -378,8 +378,8 @@ class DiamondController extends Controller
         }
         $discount = DB::table('discounts')
             ->select('discount')
-            ->where('from_amount', '>=', $subtotal)
-            ->where('to_amount', '<=', $subtotal)
+            ->where('from_amount', '>=', intval($subtotal))
+            ->where('to_amount', '<=', intval($subtotal))
             ->pluck('discount')
             ->first();
         $additional_discount = DB::table('customer as c')
