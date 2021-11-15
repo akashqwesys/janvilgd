@@ -156,7 +156,9 @@
                                         <div class="accordion-body">
                                             <ul>
                                             @foreach ($attributes as $a)
-                                            <li>{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
+                                            @if (!empty($a['at_name']))
+                                                <li>{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
+                                            @endif
                                             @endforeach
                                             </ul>
                                         </div>
