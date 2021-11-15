@@ -96,6 +96,12 @@
                         });
                     } */
                     $('#result-table tbody').html(response.data);
+                    setTimeout(() => {
+                        $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$('#result-table tbody tr').eq(0).attr('data-barcode')).text('View Diamond');
+                        $('.result-tab-content .select-diamond .diamond-name').text($('#result-table tbody tr').eq(0).attr('data-name'));
+                        $('.result-tab-content .select-diamond .diamond-cost').text($('#result-table tbody tr').eq(0).attr('data-price'));
+                        $('.result-tab-content .select-diamond .diamond-img img').attr('src', $('#result-table tbody tr').eq(0).attr('data-image'));
+                    }, 1000);
                 },
                 failure: function (response) {
                     $('.cs-loader').hide();
