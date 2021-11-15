@@ -37,7 +37,7 @@ class DiamondController extends Controller
         }
         $data = DB::table('attributes as a')
             ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
-            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image')
+            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix')
             ->where('ag.refCategory_id', $request->category)
             ->orderBy('attribute_group_id')
             ->get()
@@ -48,22 +48,30 @@ class DiamondController extends Controller
         foreach ($data as $v) {
             if ($attr_groups[$j] == $v->attribute_group_id) {
                 $attr[$attr_groups[$j]]['name'] = $v->ag_name;
+                $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
+                $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
                 $attr[$attr_groups[$j]]['attributes'][] = [
                     'attribute_id' => $v->attribute_id,
                     'name' => $v->name,
-                    'image' => $v->image
+                    'image' => $v->image == 0 ? null : $v->image
                 ];
             } else {
                 $j++;
                 $attr[$attr_groups[$j]]['name'] = $v->ag_name;
+                $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
+                $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
                 $attr[$attr_groups[$j]]['attributes'][] = [
                     'attribute_id' => $v->attribute_id,
                     'name' => $v->name,
-                    'image' => $v->image
+                    'image' => $v->image == 0 ? null : $v->image
                 ];
             }
         }
-        return $this->successResponse('Success', $attr);
+        $main_data['attribute_groups'] = array_values($attr);
+        $main_data['price'] = ['min' => 0, 'max' => 3000];
+        $main_data['carat'] = ['min' => 0, 'max' => 24];
+
+        return $this->successResponse('Success', $main_data);
     }
 
     public function searchDiamonds(Request $request)
@@ -75,7 +83,7 @@ class DiamondController extends Controller
         $diamond_ids = DB::table('diamonds as d');
         $ij = 0;
         foreach ($response as $k => $v) {
-            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug') {
+            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway') {
                 continue;
             }
             $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
@@ -125,10 +133,17 @@ class DiamondController extends Controller
             return $this->successResponse('No diamond found');
         }
 
-        $final_d = [];
+        $final_d = $final_api = [];
         foreach ($diamond_ids as $v_row) {
             for ($i=0; $i < $ij; $i++) {
+                // FOR WEB
                 $final_d[$v_row->diamond_id]['attributes'][$v_row->{'ag_name_'.$i}] = $v_row->{'name_'.$i};
+
+                // FOR API
+                $final_api[$v_row->diamond_id]['attributes'][] = [
+                    'key' => $v_row->{'ag_name_'.$i},
+                    'value' => $v_row->{'name_'.$i}
+                ];
             }
             $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
             $final_d[$v_row->diamond_id]['barcode'] = $v_row->barcode;
@@ -136,6 +151,13 @@ class DiamondController extends Controller
             $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
             $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
             $final_d[$v_row->diamond_id]['price'] = $v_row->price;
+
+            $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+            $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
+            $final_api[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
+            $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
+            $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
+            $final_api[$v_row->diamond_id]['price'] = $v_row->price;
         }
 
         if ($request->web == 'web') {
@@ -187,8 +209,11 @@ class DiamondController extends Controller
             }
             return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html]);
         }
-
-        return $this->successResponse('Success', $final_d);
+        if ($response['gateway'] == 'api') {
+            return $this->successResponse('Success', array_values($final_api));
+        } else {
+            return $this->successResponse('Success', $final_d);
+        }
     }
 
     public function detailshDiamonds($barcode)

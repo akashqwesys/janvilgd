@@ -36,7 +36,7 @@ class DropdownController extends Controller
             ->get();
 
         $categories = DB::table('categories')
-            ->select('category_id', 'name')
+            ->select('category_id', 'name', 'slug')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->get();

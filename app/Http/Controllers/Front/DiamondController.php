@@ -383,6 +383,7 @@ class DiamondController extends Controller {
         }
         $arr['category'] = $request->category;
         $arr['category_slug'] = $request->category_slug;
+        $arr['gateway'] = 'web';
         $aa = new APIDiamond;
         $request->request->replace($arr);
 
