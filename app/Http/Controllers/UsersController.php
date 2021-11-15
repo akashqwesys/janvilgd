@@ -125,7 +125,7 @@ class UsersController extends Controller {
                                     $str = '<em class="icon ni ni-check-thick"></em>';
                                     $class = "btn-success";
                                 }
-                                $actionBtn = '<a href="/admin/users/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="users" data-id="' . $row->id . '" data-table="users" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="users" data-wherefield="id" data-module="users">' . $str . '</button>';
+                                $actionBtn = '<a href="/admin/users/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="users" data-id="' . $row->id . '" data-table="users" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="users" data-wherefield="id" data-module="users">' . $str . '</button>';                                
                                 return $actionBtn;
                             })
                             ->escapeColumns([])

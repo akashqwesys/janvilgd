@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;    
 use Hash;
 use Session;
 use App\Models\User;
@@ -18,7 +19,14 @@ class CustomAuthController extends Controller {
         $data['title']='Access-Denied';
         return view('admin.accessDenied',["data"=>$data]);
     }
-
+    
+    public function auth_admin_customer($token)
+    {
+        $user = DB::table('customer')->select('customer_id')->where('email', decrypt($token, false))->first();
+        Auth::loginUsingId($user->customer_id);                
+        return redirect('/customer/dashboard');
+    }    
+    
     public function loginView() {
         if(Session()->has('loginId')){
             return redirect('/admin/dashboard');

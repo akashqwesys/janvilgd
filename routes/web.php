@@ -118,6 +118,8 @@ Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('al
 Route::get('/dashboard', [CustomAuthController::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 
+Route::get('/customer-login-by-admin/{token}', [CustomAuthController::class, 'auth_admin_customer'])->name('customer-login-by-admin')->middleware('isLoggedIn');
+
 /***************  Designation route *************/
 Route::get('designation', [DesignationController::class, 'index'])->middleware('isLoggedIn','getMenu','accessPermission','modifyPermission');
 Route::get('designation/list', [DesignationController::class, 'list'])->name('designation.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
