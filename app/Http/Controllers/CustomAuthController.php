@@ -47,7 +47,7 @@ class CustomAuthController extends Controller {
                 $agent = new \Jenssegers\Agent\Agent;
                 $logintype='web';
                 if($agent->isMobile()){
-                    $logintype="Mobile";
+                    $logintype="mobile";
                 }
                 if($agent->isDesktop()){
                     $logintype="web";
