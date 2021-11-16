@@ -272,8 +272,12 @@ class FrontAuthController extends Controller
                 try {
                     $token = explode('---', Crypt::decryptString($request->token));
                     $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                    ->where('email', $token[0])
-                    ->where('mobile', $token[1])
+                    ->when($token[0], function ($q) use ($token) {
+                        $q->where('email', $token[0]);
+                    })
+                    ->when($token[1], function ($q) use ($token) {
+                        $q->where('mobile', $token[1]);
+                    })
                     ->first();
                     if (!$exists) {
                         return redirect('/');
@@ -380,8 +384,8 @@ class FrontAuthController extends Controller
                 } else {
                     if ($request->otp == $user->otp && $user->otp_status === 0) {
                         if ($user->name == ' ' || strlen($user->name) < 3) {
-                            $user->otp_status = 1;
-                            $user->save();
+                            /* $user->otp_status = 1;
+                            $user->save(); */
                             return response()->json(['success' => 1, 'message' => 'Verified successfully', 'url' => '/customer/signup/' . Crypt::encryptString($user->email . '---' . $user->mobile)]);
                         } else {
                             $user->otp_status = 1;
