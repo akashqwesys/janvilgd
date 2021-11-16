@@ -26,6 +26,9 @@ class DiamondsController extends Controller {
     public function fileImport(Request $request) {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
+        
+        $rapaport = DB::table('rapaport')->get();
+        
         $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $request->refCategory_id)->where('is_deleted', 0)->first();
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -42,23 +45,26 @@ class DiamondsController extends Controller {
 
                             $row['rapa'] = str_replace(',', '', $row['rapa']);
                             $row['rapa'] = doubleval($row['rapa']);
-
+                           
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
-                            $row['clarity']=trim($row['clarity']);
+                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));
+                             
                             
-                            $rapa_price = DB::table('rapaport')                
-                            ->where('shape', $row['shape'])                
-                            ->where('color', $row['color'])               
-                            ->where('clarity', $row['clarity'])                       
-
-                            ->where('from_range','<=',$row['exp_pol_cts'])
-                            ->where('to_range','>=',$row['exp_pol_cts'])
-                            ->first();
-                            if(!empty($rapa_price)){
-                                $row['rapa']=$rapa_price->rapaport_price;
+                            $shape=$row['shape'];
+                            if($row['shape']=='ROUND'){
+                                $shape="BR";
                             }
-
+                            if($row['shape']!='ROUND'){
+                                $shape="PS";
+                            }
+                            foreach ($rapaport as $row_rapa){
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                    $row['rapa']=$row_rapa->rapaport_price; 
+                                    
+                                    break;
+                                }
+                            }
                             $row['discount'] = str_replace('-', '', $row['discount']);
                             $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
                             $row['discount'] = doubleval($row['discount']);
@@ -281,14 +287,31 @@ class DiamondsController extends Controller {
                             $row['shape']=trim($row['shape']);
                             $row['purity']=trim($row['purity']);
                             
-                            $rapa_price = DB::table('rapaport')                
-                            ->where('shape', $row['shape'])                                                           
-                            ->where('from_range','<=',$row['exp_pol'])
-                            ->where('to_range','>=',$row['exp_pol'])
-                            ->first();
-                            if(!empty($rapa_price)){
-                                $row['rap']=$rapa_price->rapaport_price;
+                            
+                            $shape=$row['shape'];
+                            if($row['shape']=='ROUND'){
+                                $shape="BR";
                             }
+                            if($row['shape']!='ROUND'){
+                                $shape="PS";
+                            }
+                            foreach ($rapaport as $row_rapa){
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range){
+                                    $row['rap']=$row_rapa->rapaport_price;                                    
+                                    break;
+                                }
+                            }
+//                            
+//                            
+//                            
+//                            $rapa_price = DB::table('rapaport')                
+//                            ->where('shape', $row['shape'])                                                           
+//                            ->where('from_range','<=',$row['exp_pol'])
+//                            ->where('to_range','>=',$row['exp_pol'])
+//                            ->first();
+//                            if(!empty($rapa_price)){
+//                                $row['rap']=$rapa_price->rapaport_price;
+//                            }
 
                             $row['dis'] = doubleval($row['dis']);
                             $row['dis'] = str_replace('-', '', $row['dis']);
@@ -434,7 +457,7 @@ class DiamondsController extends Controller {
 
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
-                            $row['clarity']=trim($row['clarity']);
+                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));
                             $row['cut_grade']=trim($row['cut_grade']);
                             $row['polish']=trim($row['polish']);
                             $row['symmetry']=trim($row['symmetry']);
@@ -442,17 +465,19 @@ class DiamondsController extends Controller {
                             $row['culet_size']=trim($row['culet_size']);
                             $row['girdle_condition']=trim($row['girdle_condition']);                                                                                                                
                             
-                            $rapa_price = DB::table('rapaport')                
-                            ->where('shape', $row['shape'])                
-                            ->where('color', $row['color'])               
-                            ->where('clarity', $row['clarity'])                       
-                            ->where('from_range','<=',$row['weight'])
-                            ->where('to_range','>=',$row['weight'])
-                            ->first();
-                            if(!empty($rapa_price)){
-                                $row['price']=$rapa_price->rapaport_price;
+                            $shape=$row['shape'];
+                            if($row['shape']=='ROUND'){
+                                $shape="BR";
                             }
-
+                            if($row['shape']!='ROUND'){
+                                $shape="PS";
+                            }
+                            foreach ($rapaport as $row_rapa){
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['weight']>=$row_rapa->from_range && $row['weight']<=$row_rapa->to_range){
+                                    $row['price']=$row_rapa->rapaport_price;                                    
+                                    break;
+                                }
+                            }                            
                             $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
                             $row['discount_percent'] = doubleval($row['discount_percent']);
                             $row['weight'] = doubleval($row['weight']);
@@ -471,7 +496,7 @@ class DiamondsController extends Controller {
 //                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['weight'].'-'.'CTS'.'-'.$cat_type->name;
 
 
-                             $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
+                            $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
 
                             $data_array = [
                                 'name' =>$name,
@@ -1047,7 +1072,7 @@ class DiamondsController extends Controller {
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
-
+            
             $discount=((100-$request->discount)/100);
             $price=abs($request->rapaport_price*($discount));
             $amount=abs($price*doubleval($request->expected_polish_cts));

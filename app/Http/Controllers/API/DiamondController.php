@@ -426,6 +426,51 @@ class DiamondController extends Controller
             ->where('to_weight', '<=', $weight)
             ->pluck('amount')
             ->first();
+                
+        $users_details = DB::table('customer')           
+            ->where('customer_id', $customer_id)            
+            ->first();
+        $company_details = DB::table('customer_company_details')    
+            ->where('refCustomer_id', $customer_id)
+            ->first();
+                
+        $all_company_details = DB::table('customer_company_details as ccd')
+            ->select('ccd.*','country.name as country_name','state.name as state_name','city.name as city_name')    
+            ->join('country', 'ccd.refCountry_id', '=', 'country.country_id')
+            ->join('state', 'ccd.refState_id', '=', 'state.state_id')
+            ->join('city', 'ccd.refCity_id', '=', 'city.city_id')
+            ->where('refCustomer_id', $customer_id)               
+            ->get();
+                                
+        $country = DB::table('country')            
+            ->where('is_active',1)
+            ->where('is_deleted',0)
+            ->get();
+        
+        $billing_state = DB::table('state') 
+            ->where('refCountry_id',$users_details->refCountry_id)    
+            ->where('is_active',1)
+            ->where('is_deleted',0)
+            ->get();
+        $billing_city = DB::table('city') 
+            ->where('refState_id',$users_details->refState_id)    
+            ->where('is_active',1)
+            ->where('is_deleted',0)
+            ->get();
+        
+        $shipping_state = DB::table('state') 
+            ->where('refCountry_id',$company_details->refCountry_id)    
+            ->where('is_active',1)
+            ->where('is_deleted',0)
+            ->get();
+        $shipping_city = DB::table('city') 
+            ->where('refState_id',$company_details->refState_id)    
+            ->where('is_active',1)
+            ->where('is_deleted',0)
+            ->get();
+        
+        
+        
         $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $tax = !empty($tax) ? (($subtotal * $tax) / 100) : 0;
@@ -439,6 +484,14 @@ class DiamondController extends Controller
         $summary['total'] = number_format(round($total, 2), 2, '.', ',');
         $data['diamonds'] = $response_array;
         $data['summary'] = $summary;
+        $data['users_details'] = $users_details;
+        $data['company_details'] = $company_details;
+        $data['all_company_details'] = $all_company_details;
+        $data['country'] = $country;
+        $data['billing_state'] = $billing_state;
+        $data['billing_city'] = $billing_city;
+        $data['shipping_state'] = $shipping_state;
+        $data['shipping_city'] = $shipping_city;
         return $this->successResponse('Success', $data);
     }
 

@@ -126,33 +126,64 @@ class RapaortController extends Controller {
         }
     }
     public function rapaportPrice(Request $request) {
-        $rapa_price=array();
+        $rapa_price=0;
+        $rapaport = DB::table('rapaport')->get();
         if($request->cat_type==1 || $request->cat_type==3){
             
-            if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){                   
-                $rapa_price = DB::table('rapaport')
-//                    ->select(DB::raw('count(*) as user_count, status'))
-                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                
-                    ->whereRaw('lower(color) = ?', strtolower($request->color))               
-                    ->whereRaw('lower(clarity) = ?', strtolower($request->clarity))                       
-                    ->where('from_range','<=',$request->expected_polish_cts)
-                    ->where('to_range','>=',$request->expected_polish_cts)                    
-                    ->first();      
+            if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){ 
+            
+            $shape=$row['shape'];
+            if($request->shape=='ROUND'){
+                $shape="BR";
+            }
+            if($request->shape!='ROUND'){
+                $shape="PS";
+            }        
+            foreach ($rapaport as $row_rapa){
+                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($request->color) && strtolower($row_rapa->clarity)==strtolower($request->clarity) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
+                    $rapa_price=$row_rapa->rapaport_price;                                    
+                    break;
+                }
+            }
+           
+//                $rapa_price = DB::table('rapaport')
+////                    ->select(DB::raw('count(*) as user_count, status'))
+//                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                
+//                    ->whereRaw('lower(color) = ?', strtolower($request->color))               
+//                    ->whereRaw('lower(clarity) = ?', strtolower($request->clarity))                       
+//                    ->where('from_range','<=',$request->expected_polish_cts)
+//                    ->where('to_range','>=',$request->expected_polish_cts)                    
+//                    ->first();      
             }  
         }
         if($request->cat_type==2){
             if(isset($request->shape) && isset($request->expected_polish_cts)){
-                $rapa_price = DB::table('rapaport')                
-                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                                       
-                    ->where('from_range','<=',$request->expected_polish_cts)
-                    ->where('to_range','>=',$request->expected_polish_cts)               
-                    ->first();      
+                                
+                $shape=$row['shape'];
+                if($request->shape=='ROUND'){
+                    $shape="BR";
+                }
+                if($request->shape!='ROUND'){
+                    $shape="PS";
+                }        
+                foreach ($rapaport as $row_rapa){
+                    if(strtolower($row_rapa->shape)==strtolower($shape) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
+                        $rapa_price=$row_rapa->rapaport_price;                                    
+                        break;
+                    }
+                }
+
+//                $rapa_price = DB::table('rapaport')                
+//                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                                       
+//                    ->where('from_range','<=',$request->expected_polish_cts)
+//                    ->where('to_range','>=',$request->expected_polish_cts)               
+//                    ->first();      
             }
         }
         if (!empty($rapa_price)) {
             $data = array(
                 'suceess' => true,
-                'rapa_price' => $rapa_price->rapaport_price
+                'rapa_price' => $rapa_price
             );
         } else {
             $data = array(

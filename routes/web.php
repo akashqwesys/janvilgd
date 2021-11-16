@@ -103,6 +103,8 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
     Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
     Route::get('customer/sharable-wishlist/{id}', [HDiamond::class, 'getSharableWishlist'])->name('get-sharable-wishlist');
+    
+    Route::get('customer/checkout', [HDiamond::class, 'checkout'])->name('checkout');
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
