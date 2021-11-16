@@ -167,7 +167,7 @@
 
                         $("#display_exp_pol_cts").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
-                            $("#display_exp_pol_cts").text(expected_polish_cts);
+                            $("#display_exp_pol_cts").text(expected_polish_cts);    
                         }
 
                         $("#display_rapa").text('');
@@ -179,13 +179,13 @@
                         if (discount >=1) {
                             $("#display_discount").text(discount+'%');
                         }
-                        discount = (100 - discount) / 100;
+                        discount = (100 - discount)/100;
+//                        alert(discount);
 
                         $("#display_makable_cts").text('');
                         if (makable_cts !== '' && makable_cts !== 0) {                        
                             $("#display_makable_cts").text(makable_cts);
-                        }
-
+                        }                        
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
                             let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge_4p;

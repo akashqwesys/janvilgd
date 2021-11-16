@@ -27,7 +27,7 @@ class DiamondsController extends Controller {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
         
-        $rapaport = DB::table('rapaport')->get();
+        $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();        
         
         $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $request->refCategory_id)->where('is_deleted', 0)->first();
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
@@ -48,8 +48,24 @@ class DiamondsController extends Controller {
                            
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
+                            $color_array= explode('-', $row['color']);
+                            $row['color']=$color_array[0];
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
                              
+                            
+                            if($row['clarity']=='VS'){
+                                $row['clarity']='VS1';
+                            }
+                            if($row['clarity']=='VVS'){
+                                $row['clarity']='VVS1';
+                            }
+                            if($row['clarity']=='SI'){
+                                $row['clarity']='SI1';
+                            }
+                            if($row['clarity']=='I'){
+                                $row['clarity']='I1';
+                            }
+                            
                             
                             $shape=$row['shape'];
                             if($row['shape']=='ROUND'){
@@ -57,21 +73,24 @@ class DiamondsController extends Controller {
                             }
                             if($row['shape']!='ROUND'){
                                 $shape="PS";
-                            }
+                            }                            
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
                                     $row['rapa']=$row_rapa->rapaport_price; 
-                                    
                                     break;
                                 }
                             }
                             $row['discount'] = str_replace('-', '', $row['discount']);
                             $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
                             $row['discount'] = doubleval($row['discount']);
-
+                            
+                            if($row['main_pktno']==11){
+//                                echo $row['discount'];die;
+                            }
+                                                        
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                             $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - $labour_charge_4p->amount;
-
+                            
                             $image=array();
                             if(isset($row['image_link'])){
                                 $image[0]=$row['image_1'];
@@ -232,7 +251,6 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-
                                 if ($atr_grp_row->name === "COLOR") {
                                     if (!empty($row['color'])) {
                                         $color = 0;
@@ -282,40 +300,27 @@ class DiamondsController extends Controller {
 
                             $row['rap'] = str_replace(',', '', $row['rap']);
                             $row['rap'] = doubleval($row['rap']);
-
                             
                             $row['shape']=trim($row['shape']);
                             $row['purity']=trim($row['purity']);
-                            
+                                
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND'){
+                            if($row['shape']=='ROUND' || $row['shape']=='RO'){                                
                                 $shape="BR";
                             }
                             if($row['shape']!='ROUND'){
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range){
-                                    $row['rap']=$row_rapa->rapaport_price;                                    
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G')){                                    
+                                    $row['rap']=$row_rapa->rapaport_price;                                   
                                     break;
                                 }
-                            }
-//                            
-//                            
-//                            
-//                            $rapa_price = DB::table('rapaport')                
-//                            ->where('shape', $row['shape'])                                                           
-//                            ->where('from_range','<=',$row['exp_pol'])
-//                            ->where('to_range','>=',$row['exp_pol'])
-//                            ->first();
-//                            if(!empty($rapa_price)){
-//                                $row['rap']=$rapa_price->rapaport_price;
-//                            }
-
+                            }                             
                             $row['dis'] = doubleval($row['dis']);
                             $row['dis'] = str_replace('-', '', $row['dis']);
-
+                            
                             $price=abs($row['rap']*($row['dis']-1));
                             $amount=abs($price*doubleval($row['exp_pol']));
                             $ro_amount=abs($amount/doubleval($row['org_cts']));
@@ -473,15 +478,15 @@ class DiamondsController extends Controller {
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['weight']>=$row_rapa->from_range && $row['weight']<=$row_rapa->to_range){
-                                    $row['price']=$row_rapa->rapaport_price;                                    
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['weight']>=$row_rapa->from_range && $row['weight']<=$row_rapa->to_range){
+                                    $row['price']=$row_rapa->rapaport_price;   
                                     break;
                                 }
-                            }                            
+                            }                                 
                             $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
                             $row['discount_percent'] = doubleval($row['discount_percent']);
-                            $row['weight'] = doubleval($row['weight']);
-                            $total=$row['price']*$row['weight']*$row['discount_percent'];
+                            $row['weight'] = doubleval($row['weight']);                                                                                                    
+                            $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
 
                             $image=array();
                             if(isset($row['image_link'])){

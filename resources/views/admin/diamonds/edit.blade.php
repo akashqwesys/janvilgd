@@ -14,7 +14,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                                 <h3 class="nk-block-title page-title" style="display: inline;">Edit Diamonds</h3>
-                        <a style="float: right;" href="/admin/diamonds" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
+                        <a style="float: right;" href="/admin/diamonds/list/{{$data['result']->refCategory_id}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">

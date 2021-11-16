@@ -127,12 +127,27 @@ class RapaortController extends Controller {
     }
     public function rapaportPrice(Request $request) {
         $rapa_price=0;
-        $rapaport = DB::table('rapaport')->get();
+        $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get(); 
         if($request->cat_type==1 || $request->cat_type==3){
+                        
+            $request->clarity= str_replace(' ', '', $request->clarity);
+            
+            if($request->clarity=='VS'){
+                $request->clarity='VS1';
+            }
+            if($request->clarity=='VVS'){
+                $request->clarity='VVS1';
+            }
+            if($request->clarity=='SI'){
+                $request->clarity='SI1';
+            }
+            if($request->clarity=='I'){
+                $request->clarity='I1';
+            }
             
             if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){ 
             
-            $shape=$row['shape'];
+            $shape=$request->shape;
             if($request->shape=='ROUND'){
                 $shape="BR";
             }
@@ -140,44 +155,29 @@ class RapaortController extends Controller {
                 $shape="PS";
             }        
             foreach ($rapaport as $row_rapa){
-                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($request->color) && strtolower($row_rapa->clarity)==strtolower($request->clarity) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
-                    $rapa_price=$row_rapa->rapaport_price;                                    
+                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($request->color) && strtolower($row_rapa->clarity)==strtolower($request->clarity) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
+                    $rapa_price=$row_rapa->rapaport_price; 
                     break;
                 }
-            }
-           
-//                $rapa_price = DB::table('rapaport')
-////                    ->select(DB::raw('count(*) as user_count, status'))
-//                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                
-//                    ->whereRaw('lower(color) = ?', strtolower($request->color))               
-//                    ->whereRaw('lower(clarity) = ?', strtolower($request->clarity))                       
-//                    ->where('from_range','<=',$request->expected_polish_cts)
-//                    ->where('to_range','>=',$request->expected_polish_cts)                    
-//                    ->first();      
+            }    
             }  
         }
         if($request->cat_type==2){
             if(isset($request->shape) && isset($request->expected_polish_cts)){
                                 
                 $shape=$row['shape'];
-                if($request->shape=='ROUND'){
+                if($request->shape=='ROUND' || $request->shape=='RO'){
                     $shape="BR";
                 }
                 if($request->shape!='ROUND'){
                     $shape="PS";
                 }        
                 foreach ($rapaport as $row_rapa){
-                    if(strtolower($row_rapa->shape)==strtolower($shape) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
-                        $rapa_price=$row_rapa->rapaport_price;                                    
+                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower('G') && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
+                        $rapa_price=$row_rapa->rapaport_price;  
                         break;
                     }
-                }
-
-//                $rapa_price = DB::table('rapaport')                
-//                    ->whereRaw('lower(shape) = ?', strtolower($request->shape))                                       
-//                    ->where('from_range','<=',$request->expected_polish_cts)
-//                    ->where('to_range','>=',$request->expected_polish_cts)               
-//                    ->first();      
+                }  
             }
         }
         if (!empty($rapa_price)) {
