@@ -111,7 +111,7 @@ class FrontAuthController extends Controller
                     $email = $request->email;
                 }
                 if ($email) {
-                    Mail::to($email)
+                    /* Mail::to($email)
                     ->send(
                         new EmailVerification([
                             'subject' => 'Email Verification from Janvi LGE',
@@ -119,7 +119,8 @@ class FrontAuthController extends Controller
                             'otp' => $otp,
                             'view' => 'emails.codeVerification'
                         ])
-                    );
+                    ); */
+                    send_email($email, 'Email Verification from Janvi LGE');
                 }
                 $em_token = !empty(trim($request->email)) ? $request->email : $request->mobile;
                 return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($em_token)]);

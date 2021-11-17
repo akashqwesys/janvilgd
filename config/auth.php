@@ -46,10 +46,10 @@ return [
             'provider' => 'customer',
         ],
 
-        'api' => [
+        /* 'api' => [
             'driver' => 'passport',
             'provider' => 'users',
-        ],
+        ], */
 
         'customer-api' => [
             'driver' => 'passport',

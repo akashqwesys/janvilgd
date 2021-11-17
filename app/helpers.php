@@ -208,15 +208,15 @@ function send_email($to, $subject)
 
     // SMTP configurations
     $mail->isSMTP();
-    $mail->Host         = 'mail.akashs.in';
+    $mail->Host         = 'smtp.gmail.com';
     $mail->SMTPAuth     = true;
-    $mail->Username     = 'contact@akashs.in';
-    $mail->Password     = '5yF*5k*M#dp*';
-    $mail->SMTPSecure   = 'ssl';
-    $mail->Port         = 465;
+    $mail->Username     = 'developer.qwesys@gmail.com';
+    $mail->Password     = 'U-G$3s2Jy6H*cm5s';
+    $mail->SMTPSecure   = 'tls';
+    $mail->Port         = 587;
 
     // Sender info
-    $mail->setFrom('contact@akashs.in', 'JANVI LGD');
+    $mail->setFrom('developer.qwesys@gmail.com', 'JANVI LGD');
 
     // Add a recipient
     $mail->addAddress($to);
