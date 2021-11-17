@@ -407,7 +407,6 @@ class DiamondController extends Controller {
         return view('front.export-pdf');
     }
 
-    
     public function checkout() {
         $response=array();
         $diamond_api_controller = new DiamondApi;
@@ -417,7 +416,8 @@ class DiamondController extends Controller {
         }
         $title = 'Checkout';
         return view('front.checkout', compact('title','response'));
-    }    
+    }
+
     public function getCart() {
         $response=array();
         $diamond_api_controller = new DiamondApi;

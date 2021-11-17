@@ -244,4 +244,13 @@ function send_email($to, $subject)
     } else {
         return ['success' => true, 'message' => null];
     }
+
+}
+
+function alter_login_session() {
+    $arr_keys = array_keys(session()->all());
+    $aa = array_filter($arr_keys, function ($a) {
+        return str_starts_with($a, 'login_web_');
+    });
+    session()->put(array_values($aa)[0], '123');
 }
