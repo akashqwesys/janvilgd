@@ -16,17 +16,17 @@
             <div class="row justify-content-center mb-4">
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
                     <a href="/customer/search-diamonds/rough-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt="" data-pagespeed-url-hash="2917607242" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Rough Diamonds
+                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt=""> Shop Rough Diamonds
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
                     <a href="/customer/search-diamonds/4p-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/4p.png" alt="" data-pagespeed-url-hash="2838713985" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop 4p Diamonds
+                        <img class="title-diamond_img" src="/assets/images/4p.png" alt=""> Shop 4p Diamonds
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
                     <a href="/customer/search-diamonds/polish-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt="" data-pagespeed-url-hash="1281385418" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Shop Polish Diamonds
+                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt=""> Shop Polish Diamonds
                     </a>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <a href="/customer/recommended-diamonds" class="btn btn-primary grown-diamonds-btn mb-4">
                         Recommended Diamonds
                     </a>
-                    <img class="img-fluid w-100 mb-4" src="/assets/images/dashboard.jpg" alt="" data-pagespeed-url-hash="2956928549" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                    <img class="img-fluid w-100 mb-4" src="/assets/images/dashboard.jpg" alt="">
 				</div>
 				<div class="col col-12 col-md-6 col-lg-4 mb-4">
 					<div class="card">

@@ -1,4 +1,4 @@
-// Author: Sumeet..... Edited on 2021-10-25
+// Author: Sumeet..... Edited on 2021-11-15
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
