@@ -206,7 +206,7 @@
                         var labour_charge_4p = $("#labour_charge_4p").val();
                         var labour_charge_rough = $("#labour_charge_rough").val();
 
-                        alert(labour_charge_rough);
+//                        alert(labour_charge_rough);
 
                         $("#display_exp_pol_cts").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
