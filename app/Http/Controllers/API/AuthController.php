@@ -280,17 +280,15 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
-                ->when($request->email, function ($q) use ($request) {
+            $customer = Customers::when($request->email, function ($q) use ($request) {
                     $q->where('email', $request->email);
                 })
                 ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
                 })
                 ->first();
-            if ($exists) {
-                if (strlen($exists->name) < 3) {
-                    $customer = Customers::where('email', $request->email)->first();
+            if ($customer) {
+                if (strlen($customer->name) < 3) {
                     $customer->name = $request->name;
                     $customer->address = $request->address;
                     $customer->pincode = $request->pincode;
