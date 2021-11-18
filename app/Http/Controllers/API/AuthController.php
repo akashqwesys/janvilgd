@@ -102,7 +102,7 @@ class AuthController extends Controller
                 ]); */
                 $email = $request->email;
             }
-            if ($email) {
+            if (!empty(trim($email))) {
                 Mail::to($email)
                     ->send(
                         new EmailVerification([
@@ -215,15 +215,17 @@ class AuthController extends Controller
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
             $user->otp_status = 0;
-            Mail::to($user->email)
-                ->send(
-                    new EmailVerification([
-                        'subject' => 'Email Verification from Janvi LGE',
-                        'name' => $user->email,
-                        'otp' => $otp,
-                        'view' => 'emails.codeVerification'
-                    ])
-                );
+            if (!empty(trim($user->email))) {
+                Mail::to($user->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGE',
+                            'name' => $user->email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+            }
             $user->save();
             return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {
