@@ -46,26 +46,40 @@ class DiamondController extends Controller
         $j = 0;
         $attr = [];
         foreach ($data as $v) {
-            if ($attr_groups[$j] == $v->attribute_group_id) {
-                $attr[$attr_groups[$j]]['name'] = $v->ag_name;
-                $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
-                $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
-                $attr[$attr_groups[$j]]['attributes'][] = [
-                    'attribute_id' => $v->attribute_id,
-                    'name' => $v->name,
-                    'image' => $v->image == 0 ? null : $v->image
-                ];
-            } else {
+            if ($attr_groups[$j] != $v->attribute_group_id) {
                 $j++;
-                $attr[$attr_groups[$j]]['name'] = $v->ag_name;
-                $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
-                $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
-                $attr[$attr_groups[$j]]['attributes'][] = [
-                    'attribute_id' => $v->attribute_id,
-                    'name' => $v->name,
-                    'image' => $v->image == 0 ? null : $v->image
-                ];
             }
+            $attr[$attr_groups[$j]]['name'] = $v->ag_name;
+            $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
+            $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
+            if ($v->ag_name == 'SHAPE') {
+                if ($v->image == 'Round Brilliant') {
+                    $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                } else if ($v->image == 'Heart Brilliant') {
+                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                } else if ($v->image == 'Pear Brilliant') {
+                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                } else if ($v->image == 'Oval Brilliant') {
+                    $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                } else if ($v->image == 'Princess Cut') {
+                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                } else if ($v->image == 'Cushion') {
+                    $v->image = '/assets/images/Diamond_Shapes_Cushion.png';
+                } else if ($v->image == 'Emerald') {
+                    $v->image = '/assets/images/Diamond_Shapes_Emerald.png';
+                } else if ($v->image == 'Marquise') {
+                    $v->image = '/assets/images/Diamond_Shapes_Marquise.png';
+                } else {
+                    $v->image = '/assets/images/Diamond_Shapes_Marquise.png';
+                }
+            } else {
+                $v->image = $v->image == 0 ? null : $v->image;
+            }
+            $attr[$attr_groups[$j]]['attributes'][] = [
+                'attribute_id' => $v->attribute_id,
+                'name' => $v->name,
+                'image' => $v->image
+            ];
         }
         $main_data['attribute_groups'] = array_values($attr);
         $main_data['price'] = ['min' => 0, 'max' => 3000];
