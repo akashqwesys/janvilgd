@@ -58,6 +58,6 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
 
     // User Profile
     Route::post('my-account', [UserController::class, 'myAccount']);
-    Route::post('customer/update-profile', [UserController::class, 'updateProfile']);
+    Route::post('update-profile', [UserController::class, 'updateProfile']);
 });
 
