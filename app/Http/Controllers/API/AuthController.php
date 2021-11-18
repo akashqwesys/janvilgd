@@ -236,8 +236,8 @@ class AuthController extends Controller
         try {
             $rules = [
                 'name' => ['required'],
-                // 'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
-                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'email' => ['required_without:mobile', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
                 'address' => ['required'],
                 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
