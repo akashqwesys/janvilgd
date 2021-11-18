@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DiamondController;
 use App\Http\Controllers\API\DropdownController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,5 +55,9 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('add-to-wishlist', [DiamondController::class, 'addToWishlist']);
     Route::post('add-all-to-wishlist', [DiamondController::class, 'addAllToWishlist']);
     Route::post('remove-from-wishlist', [DiamondController::class, 'removeFromWishlist']);
+
+    // User Profile
+    Route::post('my-account', [UserController::class, 'myAccount']);
+    Route::post('update-profile', [UserController::class, 'updateProfile']);
 });
 

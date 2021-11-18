@@ -33,6 +33,7 @@ use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DashboardController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\UserController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
 
@@ -103,8 +104,13 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/remove-from-wishlist', [HDiamond::class, 'removeFromWishlist'])->name('remove-from-wishlist');
     Route::get('customer/wishlist', [HDiamond::class, 'getWishlist'])->name('get-wishlist');
     Route::get('customer/sharable-wishlist/{id}', [HDiamond::class, 'getSharableWishlist'])->name('get-sharable-wishlist');
-    
+
     Route::get('customer/checkout', [HDiamond::class, 'checkout'])->name('checkout');
+
+    // User Profile
+    Route::get('customer/my-account', [UserController::class, 'getMyAccount']);
+    Route::get('customer/my-profile', [UserController::class, 'getMyProfile']);
+    Route::post('customer/update-profile', [UserController::class, 'updateMyProfile']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);

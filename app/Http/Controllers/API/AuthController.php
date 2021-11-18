@@ -102,7 +102,7 @@ class AuthController extends Controller
                 ]); */
                 $email = $request->email;
             }
-            if ($email) {
+            if (!empty(trim($email))) {
                 Mail::to($email)
                     ->send(
                         new EmailVerification([
@@ -215,15 +215,17 @@ class AuthController extends Controller
             $otp = mt_rand(1111, 9999);
             $user->otp = $otp;
             $user->otp_status = 0;
-            Mail::to($user->email)
-                ->send(
-                    new EmailVerification([
-                        'subject' => 'Email Verification from Janvi LGE',
-                        'name' => $user->email,
-                        'otp' => $otp,
-                        'view' => 'emails.codeVerification'
-                    ])
-                );
+            if (!empty(trim($user->email))) {
+                Mail::to($user->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGE',
+                            'name' => $user->email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+            }
             $user->save();
             return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {
@@ -236,8 +238,8 @@ class AuthController extends Controller
         try {
             $rules = [
                 'name' => ['required'],
-                // 'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
-                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'email' => ['required_without:mobile', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
                 'address' => ['required'],
                 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
@@ -280,17 +282,15 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
-                ->when($request->email, function ($q) use ($request) {
+            $customer = Customers::when($request->email, function ($q) use ($request) {
                     $q->where('email', $request->email);
                 })
                 ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
                 })
                 ->first();
-            if ($exists) {
-                if (strlen($exists->name) < 3) {
-                    $customer = Customers::where('email', $request->email)->first();
+            if ($customer) {
+                if (strlen($customer->name) < 3) {
                     $customer->name = $request->name;
                     $customer->address = $request->address;
                     $customer->pincode = $request->pincode;

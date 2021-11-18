@@ -56,7 +56,7 @@
                     <ul class="country_address_links">
                         <li>
                             <span class="flag-icon">
-                                <img src="assets/images/india.png" alt="" data-pagespeed-url-hash="4082821628" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                <img src="assets/images/india.png" alt="" >
                             </span>
                             <span class="location">India</span>
                             <div class="location-address">
@@ -70,7 +70,7 @@
                         </li>
                         <li>
                             <span class="flag-icon">
-                                <img src="assets/images/usa.png" alt="" data-pagespeed-url-hash="3750728368" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                <img src="assets/images/usa.png" alt="" >
                             </span>
                             <span class="location">Usa</span>
                             <div class="location-address">

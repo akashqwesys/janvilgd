@@ -57,7 +57,7 @@ class CustomAuthController extends Controller {
                     'last_login_type' => $logintype,
                     'last_login_date_time' => date("Y-m-d h:i:s")
                 ]);
-                Auth::loginUsingId($user->id);
+                // Auth::loginUsingId($user->id);
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
                 return redirect('admin/dashboard');
