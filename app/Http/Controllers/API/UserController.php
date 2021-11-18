@@ -172,4 +172,170 @@ class UserController extends Controller
         }
     }
 
+    public function getCompanies(Request $request)
+    {
+        $customer = Auth::user();
+        $company = DB::table('customer_company_details as ccd')
+            ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
+            ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
+            ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
+            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+            ->where('ccd.refCustomer_id', $customer->customer_id)
+            ->get();
+
+        $data = ['company' => $company];
+
+        return $this->successResponse('Success', $data);
+    }
+
+    public function addUpdateCompany(Request $request)
+    {
+        try {
+            $rules = [
+                'customer_company_id' => ['nullable', 'integer'],
+                'company_name' => ['required'],
+                'company_office_no' => ['required'],
+                'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'company_gst_pan' => ['required', 'between:10,15'],
+                'company_address' => ['required'],
+                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                'company_state' => ['required', 'integer', 'exists:state,state_id'],
+                'company_city' => ['required', 'integer', 'exists:city,city_id'],
+                'company_pincode' => ['required', 'digits:6'],
+                'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
+            ];
+
+            $message = [
+                'company_name.required' => 'Please enter your company name',
+                'company_office_no.required' => 'Please enter company office number',
+                'company_email.required' => 'Please enter company email address',
+                'company_gst_pan.required' => 'Please enter company GST or PAN',
+                'company_address.required' => 'Please enter company address',
+                'company_country.required' => 'Please enter company country',
+                'company_state.required' => 'Please enter company state',
+                'company_city.required' => 'Please enter company city',
+                // 'id_upload.required' => 'Please select ID proof'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+
+            $customer = Auth::user();
+            if ($request->customer_company_id) {
+                $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
+                    ->where('customer_company_id', $request->customer_company_id)
+                    ->first();
+                $msg = 'Address updated successfully';
+            } else {
+                $msg = 'Address added successfully';
+                $company = new CustomerCompanyDetail;
+                $company->refCustomer_id = $customer->customer_id;
+            }
+            $company->name = $request->company_name;
+            $company->office_no = $request->company_office_no;
+            $company->official_email = $request->company_email;
+            $company->office_address = $request->company_address;
+            $company->pincode = $request->company_pincode;
+            $company->refCity_id = $request->company_city;
+            $company->refState_id = $request->company_state;
+            $company->refCountry_id = $request->company_country;
+            $company->pan_gst_no = $request->company_gst_pan;
+            $company->refDesignation_id = 1;
+            $company->designation_name = 'owner';
+            $company->is_approved = 1;
+            $company->approved_date_time = date('Y-m-d H:i:s');
+            $company->approved_by = 0;
+
+            if ($request->hasfile('id_upload')) {
+                $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                $request->file('id_upload')->storeAs("public/user_files", $imageName);
+
+                if ($company->pan_gst_attachment) {
+                    unlink(base_path('/storage/app/public/user_files/' . $company->pan_gst_attachment));
+                }
+                $company->pan_gst_attachment = $imageName;
+            }
+
+            $company->save();
+
+            /* $admin_email = DB::table('settings')
+            ->select('value')
+                ->where('key', 'admin_email')
+                ->pluck('value')
+                ->first();
+            Mail::to($admin_email)
+                ->send(
+                    new CommonEmail([
+                        'subject' => 'Email Verification from Janvi LGE',
+                        'data' => [
+                            'time' => date('Y-m-d H:i:s'),
+                            'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                        ],
+                        'view' => 'emails.commonEmail'
+                    ])
+                ); */
+
+            return $this->successResponse($msg);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function deleteCompany(Request $request)
+    {
+        try {
+            $rules = [
+                'customer_company_id' => ['required', 'integer']
+            ];
+
+            $message = [
+                'customer_company_id.required' => 'Not a valid request',
+                'customer_company_id.integer' => 'Not a valid request'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+
+            $customer = Auth::user();
+            $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
+                ->where('customer_company_id', $request->customer_company_id)
+                ->first();
+
+            if ($company) {
+                if ($company->pan_gst_attachment) {
+                    unlink(base_path('/storage/app/public/user_files/' . $company->pan_gst_attachment));
+                }
+                $company->delete();
+                return $this->successResponse('Address deleted successfully');
+            } else {
+                return $this->errorResponse('You are not authorized');
+            }
+
+            /* $admin_email = DB::table('settings')
+            ->select('value')
+                ->where('key', 'admin_email')
+                ->pluck('value')
+                ->first();
+            Mail::to($admin_email)
+                ->send(
+                    new CommonEmail([
+                        'subject' => 'Email Verification from Janvi LGE',
+                        'data' => [
+                            'time' => date('Y-m-d H:i:s'),
+                            'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                        ],
+                        'view' => 'emails.commonEmail'
+                    ])
+                ); */
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
 }

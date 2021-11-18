@@ -112,6 +112,11 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::get('customer/my-profile', [UserController::class, 'getMyProfile']);
     Route::post('customer/update-profile', [UserController::class, 'updateMyProfile']);
 
+    // Company Details
+    Route::get('customer/my-addresses', [UserController::class, 'getMyCompanies']);
+    Route::post('customer/save-addresses', [UserController::class, 'saveMyCompanies']);
+    Route::post('customer/deleteMyCompany', [UserController::class, 'deleteMyCompany']);
+
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 

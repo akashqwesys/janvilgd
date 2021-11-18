@@ -59,5 +59,11 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     // User Profile
     Route::post('my-account', [UserController::class, 'myAccount']);
     Route::post('update-profile', [UserController::class, 'updateProfile']);
+
+    // Company Address
+    Route::post('my-addresses', [UserController::class, 'getCompanies']);
+    Route::post('save-address', [UserController::class, 'addUpdateCompany']);
+    Route::post('delete-address', [UserController::class, 'deleteCompany']);
+
 });
 

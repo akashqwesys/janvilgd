@@ -72,4 +72,43 @@ class UserController extends Controller
         }
     }
 
+    public function getMyCompanies(Request $request)
+    {
+        $title = 'My Addresses';
+        $data = new APIUserController;
+        $api = $data->getCompanies($request);
+        $company = $api->original['data']['company'];
+        $country = DB::table('country')
+            ->select('country_id', 'name')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        return view('front.companies.companies', compact('title', 'company', 'country'));
+    }
+
+    public function saveMyCompanies(Request $request)
+    {
+        $data = new APIUserController;
+        $api = $data->addUpdateCompany($request);
+
+        if ($api->original['flag'] == true) {
+            return back()->with(['success' => 1, 'message' => $api->original['message']]);
+        } else {
+            return back()->with(['error' => 1, 'message' => $api->original['message']]);
+        }
+    }
+
+    public function deleteMyCompany(Request $request)
+    {
+        $data = new APIUserController;
+        $api = $data->deleteCompany($request);
+
+        if ($api->original['flag'] == true) {
+            return response()->json(['success' => 1, 'message' => $api->original['message']]);
+        } else {
+            return response()->json(['error' => 1, 'message' => $api->original['message']]);
+        }
+    }
+
 }

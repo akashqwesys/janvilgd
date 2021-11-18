@@ -225,7 +225,7 @@ class FrontAuthController extends Controller
                         $company->refDesignation_id = 1;
                         $company->designation_name = 'owner';
                         $company->office_address = $request->company_address;
-                        $company->pincode = $request->pincode;
+                        $company->pincode = $request->company_pincode;
                         $company->refCity_id = $request->company_city;
                         $company->refState_id = $request->company_state;
                         $company->refCountry_id = $request->company_country;
