@@ -130,7 +130,7 @@ class RapaortController extends Controller {
         $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get(); 
         if($request->cat_type==1 || $request->cat_type==3){
 
-            $labour_charge = DB::table('rapaport')->select('amount')->where('labour_charge_id',1)->first();
+            $labour_charge = DB::table('labour_charges')->select('amount')->where('labour_charge_id',1)->first();
             $request->clarity= str_replace(' ', '', $request->clarity);
             
             if($request->clarity=='VS'){
@@ -165,11 +165,11 @@ class RapaortController extends Controller {
         }
         if($request->cat_type==2){
             
-            $labour_charge = DB::table('rapaport')->select('amount')->where('labour_charge_id',2)->first();
+            $labour_charge = DB::table('labour_charges')->select('amount')->where('labour_charge_id',2)->first();
             
             if(isset($request->shape) && isset($request->expected_polish_cts)){
                                 
-                $shape=$row['shape'];
+                $shape=$request->shape;
                 if($request->shape=='ROUND' || $request->shape=='RO'){
                     $shape="BR";
                 }
