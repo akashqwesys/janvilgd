@@ -63,9 +63,9 @@ class AuthController extends Controller
                     return $this->errorResponse('Please also enter your email address');
                 } */
                 $customer = new Customers;
-                $customer->name = ' ';
-                $customer->mobile = $request->mobile ?? ' ';
-                $customer->email = $request->email ?? ' ';
+                $customer->name = null;
+                $customer->mobile = $request->mobile ?? null;
+                $customer->email = $request->email ?? null;
                 $customer->address = ' ';
                 $customer->pincode = 0;
                 $customer->refCity_id = 0;
