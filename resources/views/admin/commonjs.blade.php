@@ -110,8 +110,10 @@
                 if(diamondType==2){
                     var shape = $("#SHAPE_"+diamondType).children("option").filter(":selected").text();                   
                     var expected_polish_cts = $("#expected_polish_cts_input").val();
+                    var clarity = $("#PURITY_"+diamondType).children("option").filter(":selected").text();
                     var data = {
-                        'shape': shape,                      
+                        'shape': shape,
+                        'clarity': clarity,
                         'expected_polish_cts': expected_polish_cts,
                         'cat_type': diamondType
                     }; 
@@ -148,6 +150,9 @@
                 calculate_current_price();
             });
             $('#CLARITY_1').on('change', function () {
+                calculate_current_price();
+            });
+            $('#PURITY_2').on('change', function () {
                 calculate_current_price();
             });
             $('#CLARITY_3').on('change', function () {

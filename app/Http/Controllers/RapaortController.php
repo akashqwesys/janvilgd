@@ -177,7 +177,7 @@ class RapaortController extends Controller {
                     $shape="PS";
                 }        
                 foreach ($rapaport as $row_rapa){
-                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower('G') && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
+                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower('G') && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range && strtolower($row_rapa->clarity)==strtolower($request->clarity)){
                         $rapa_price=$row_rapa->rapaport_price;  
                         break;
                     }

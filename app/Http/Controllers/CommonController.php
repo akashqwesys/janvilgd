@@ -619,9 +619,9 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=2;
                 $data_array['added_by']=1;
-                $data_array['is_fix']=0;
+                $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
                 $data_array['date_added']=date("Y-m-d h:i:s");

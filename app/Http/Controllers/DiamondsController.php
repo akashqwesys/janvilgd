@@ -302,9 +302,8 @@ class DiamondsController extends Controller {
                             $row['rap'] = str_replace(',', '', $row['rap']);
                             $row['rap'] = doubleval($row['rap']);
                             
-                            $row['shape']=trim($row['shape']);
-                            $row['purity']=trim($row['purity']);
-                                
+                            $row['shape']=trim($row['shape']);                            
+                            $row['purity']=trim(str_replace(' ','', $row['purity']));                                                         
                             
                             $shape=$row['shape'];
                             if($row['shape']=='ROUND' || $row['shape']=='RO'){                                
@@ -314,11 +313,8 @@ class DiamondsController extends Controller {
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G')){                                    
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G') && strtolower($row_rapa->clarity)==strtolower($row['purity'])){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
-//                                    if($row['pktno']==153){
-//                                        echo $row_rapa->rapaport_price;die;
-//                                    }
                                     break;
                                 }
                             }                             
@@ -340,14 +336,7 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-//                            $name='';
-
-//                            $name='';
-//                            $name.=$row['shape'].'-'.$row['exp_pol'].'-'.'CTS'.'-'.$cat_type->name;
-
                             $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.' Clarity :: Rough Diamond';
-
-
 
                             $data_array = [
                                 'name' =>$name,
