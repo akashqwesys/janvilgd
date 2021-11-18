@@ -68,12 +68,12 @@ class DiamondsController extends Controller {
                             
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND'){
+                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
                             }
-                            if($row['shape']!='ROUND'){
+                            if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
                                 $shape="PS";
-                            }                            
+                            }                           
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
                                     $row['rapa']=$row_rapa->rapaport_price; 
@@ -306,10 +306,10 @@ class DiamondsController extends Controller {
                             $row['purity']=trim(str_replace(' ','', $row['purity']));                                                         
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND' || $row['shape']=='RO'){                                
+                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
                             }
-                            if($row['shape']!='ROUND' && $row['shape']!='RO'){
+                            if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
@@ -464,10 +464,10 @@ class DiamondsController extends Controller {
                             $row['girdle_condition']=trim($row['girdle_condition']);                                                                                                                
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND'){
+                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
                             }
-                            if($row['shape']!='ROUND'){
+                            if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){

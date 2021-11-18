@@ -149,12 +149,13 @@ class RapaortController extends Controller {
             if(isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)){ 
             
                 $shape=$request->shape;
-                if($request->shape=='ROUND'){
+                if($request->shape=='ROUND' || $request->shape=='RO' ||  $request->shape=='Round Brilliant'){
                     $shape="BR";
                 }
-                if($request->shape!='ROUND'){
+                if($request->shape!='ROUND' && $request->shape!='RO' && $request->shape!='Round Brilliant'){
                     $shape="PS";
-                }        
+                }
+                
                 foreach ($rapaport as $row_rapa){
                     if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($request->color) && strtolower($row_rapa->clarity)==strtolower($request->clarity) && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range){
                         $rapa_price=$row_rapa->rapaport_price; 
@@ -169,13 +170,22 @@ class RapaortController extends Controller {
             
             if(isset($request->shape) && isset($request->expected_polish_cts)){
                                 
+//                $shape=$request->shape;
+//                if($request->shape=='ROUND' || $request->shape=='RO'){
+//                    $shape="BR";
+//                }
+//                if($request->shape!='ROUND' && $request->shape!='RO'){
+//                    $shape="PS";
+//                }  
+//                
                 $shape=$request->shape;
-                if($request->shape=='ROUND' || $request->shape=='RO'){
+                if($request->shape=='ROUND' || $request->shape=='RO' ||  $request->shape=='Round Brilliant'){
                     $shape="BR";
                 }
-                if($request->shape!='ROUND' && $request->shape!='RO'){
+                if($request->shape!='ROUND' && $request->shape!='RO' && $request->shape!='Round Brilliant'){
                     $shape="PS";
-                }        
+                }
+                
                 foreach ($rapaport as $row_rapa){
                     if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower('G') && $request->expected_polish_cts>=$row_rapa->from_range && $request->expected_polish_cts<=$row_rapa->to_range && strtolower($row_rapa->clarity)==strtolower($request->clarity)){
                         $rapa_price=$row_rapa->rapaport_price;  
