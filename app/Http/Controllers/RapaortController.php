@@ -173,7 +173,7 @@ class RapaortController extends Controller {
                 if($request->shape=='ROUND' || $request->shape=='RO'){
                     $shape="BR";
                 }
-                if($request->shape!='ROUND'){
+                if($request->shape!='ROUND' && $request->shape!='RO'){
                     $shape="PS";
                 }        
                 foreach ($rapaport as $row_rapa){
