@@ -129,7 +129,8 @@ class RapaortController extends Controller {
         $rapa_price=0;
         $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get(); 
         if($request->cat_type==1 || $request->cat_type==3){
-                        
+
+            $labour_charge = DB::table('rapaport')->select('amount')->where('labour_charge_id',1)->first();
             $request->clarity= str_replace(' ', '', $request->clarity);
             
             if($request->clarity=='VS'){
@@ -163,6 +164,9 @@ class RapaortController extends Controller {
             }  
         }
         if($request->cat_type==2){
+            
+            $labour_charge = DB::table('rapaport')->select('amount')->where('labour_charge_id',2)->first();
+            
             if(isset($request->shape) && isset($request->expected_polish_cts)){
                                 
                 $shape=$row['shape'];
@@ -183,7 +187,8 @@ class RapaortController extends Controller {
         if (!empty($rapa_price)) {
             $data = array(
                 'suceess' => true,
-                'rapa_price' => $rapa_price
+                'rapa_price' => $rapa_price,
+                'labour_charge' => $labour_charge->amount
             );
         } else {
             $data = array(

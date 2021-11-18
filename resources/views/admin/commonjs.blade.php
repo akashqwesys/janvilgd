@@ -123,7 +123,9 @@
                     data: data,
                     success: function (res) {                        
                         if (res.suceess) {
-                            $("#rapaport_price_input").val(res.rapa_price);                            
+                            $("#rapaport_price_input").val(res.rapa_price);
+                            $("#labour_charge_4p").val(res.labour_charge);
+                            $("#labour_charge_rough").val(res.labour_charge);
                         } else{
                             $("#rapaport_price_input").val('');
                         }                      

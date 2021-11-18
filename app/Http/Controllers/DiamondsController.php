@@ -324,9 +324,9 @@ class DiamondsController extends Controller {
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G')){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
-                                    if($row['pktno']==153){
-                                        echo $row_rapa->rapaport_price;die;
-                                    }
+//                                    if($row['pktno']==153){
+//                                        echo $row_rapa->rapaport_price;die;
+//                                    }
                                     break;
                                 }
                             }                             
