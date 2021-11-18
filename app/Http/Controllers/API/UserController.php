@@ -112,10 +112,10 @@ class UserController extends Controller
             $customer = Auth::user();
             $customer->name = $request->name;
             $customer->address = $request->address;
-            if (empty($customer->email)){
+            if (empty(trim($customer->email))){
                 $customer->email = $request->email;
             }
-            if (empty($customer->mobile)) {
+            if (empty(trim($customer->mobile))) {
                 $customer->mobile = $request->mobile;
             }
             // $customer->pincode = $request->pincode;
