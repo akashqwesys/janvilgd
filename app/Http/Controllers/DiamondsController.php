@@ -292,10 +292,7 @@ class DiamondsController extends Controller {
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
                     if (isset($row['barcode'])) {
-                        
-                        
-                       
-                        
+                                                
                         if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                             break;
                         }
@@ -316,11 +313,6 @@ class DiamondsController extends Controller {
                             if($row['shape']!='ROUND' && $row['shape']!='RO'){
                                 $shape="PS";
                             }
-                            
-//                            if($row['pktno']==153){
-//                                echo $shape;die;
-//                            }
-                            
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G')){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
