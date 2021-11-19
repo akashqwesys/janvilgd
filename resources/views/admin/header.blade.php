@@ -478,6 +478,7 @@
         @include('admin.attributes.list_js')
         @include('admin.diamonds.list_js')
         @include('admin.rapaport.list_js')
+        @include('admin.orders.list_js')
         @include('admin.commonjs')
 
         <?php

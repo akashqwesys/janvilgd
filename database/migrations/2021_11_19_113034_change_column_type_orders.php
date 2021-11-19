@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DiscountChangeAmount extends Migration
+class ChangeColumnTypeOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class DiscountChangeAmount extends Migration
      */
     public function up()
     {
-        Schema::table('discounts', function (Blueprint $table) {
-            $table->dropColumn(['from_amount', 'to_amount']);
+        Schema::table('orders', function (Blueprint $table) {
+            $table->longText('billing_company_office_address')->change();
+            $table->longText('shipping_company_office_address')->change();
         });
     }
 
@@ -25,6 +26,8 @@ class DiscountChangeAmount extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }

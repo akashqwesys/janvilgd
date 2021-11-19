@@ -36,6 +36,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\UserController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
+use App\Http\Controllers\OrdersController;
 
 use App\Http\Controllers\Front\TestController;
 /*
@@ -441,6 +442,18 @@ Route::post('diamonds/add/import', [DiamondsController::class, 'fileImport'])->n
 Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])->name('diamonds.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Diamonds route end *************/
+
+
+/***************  Blogs route *************/
+Route::get('orders', [OrdersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+//Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
+/***************  Blogs route end *************/
+
 
 
 /***************  Diamonds route *************/

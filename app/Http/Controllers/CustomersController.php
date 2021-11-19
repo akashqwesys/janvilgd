@@ -83,7 +83,7 @@ class CustomersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
 
-                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name','customer_company_details.is_approved')
+                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name','customer_company_details.is_approved','customer_company_details.pan_gst_attachment')
                     ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
                     ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
                     ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
@@ -137,8 +137,10 @@ class CustomersController extends Controller {
                                     $class = "btn-success";
                                 }
 
+                                
                                 $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
-
+                                $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank">&nbsp;Attachement&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
+                                
                                 if ($row->is_approved == 1) {
                                     $str = 'UnVerify';
                                     $class = "btn-danger";
@@ -180,14 +182,16 @@ class CustomersController extends Controller {
             $request->validate([
                 'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
             ]);
-            $exist_file = DB::table('customer')->where('customer_id', $request->id)->first();
+            $exist_file = DB::table('customer_company_details')->where('refCustomer_id', $request->id)->first();
             if ($exist_file) {
-                unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_no_file));
+                if(file_exists('/public/user_files/' . $exist_file->pan_gst_attachment)){
+                    unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_attachment));
+                }
             }
             $pan_gst_no_file = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
             $request->file('pan_gst_no_file')->storeAs("public/user_files", $pan_gst_no_file);
             DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
-                'pan_gst_no_file' => $pan_gst_no_file,
+                'pan_gst_attachment' => $pan_gst_no_file,
             ]);
         }
 

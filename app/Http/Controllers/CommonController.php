@@ -173,6 +173,21 @@ class CommonController extends Controller
                     $data_array['date_added']=date("Y-m-d h:i:s");
                     $data_array['date_updated']=date("Y-m-d h:i:s");
                     array_push($modules_array,$data_array);
+                    
+                    
+                    $data_array=array();
+                    $data_array['name']='Orders';
+                    $data_array['icon']='ni-package';
+                    $data_array['slug']=clean_string('orders');
+                    $data_array['parent_id']=$row->module_id;
+                    $data_array['sort_order']=0;
+                    $data_array['added_by']=1;
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($modules_array,$data_array);
+                    
 
                     $data_array=array();
                     $data_array['name']='Users';
