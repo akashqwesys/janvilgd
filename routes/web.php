@@ -117,6 +117,9 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/save-addresses', [UserController::class, 'saveMyCompanies']);
     Route::post('customer/deleteMyCompany', [UserController::class, 'deleteMyCompany']);
 
+    // Orders
+    Route::get('customer/my-orders', [HDiamond::class, 'orders']);
+
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 

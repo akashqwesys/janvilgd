@@ -46,6 +46,9 @@ class DiamondController extends Controller
         $j = 0;
         $attr = [];
         foreach ($data as $v) {
+            if ($v->ag_name == 'GRIDLE CONDITION') {
+                continue;
+            }
             if ($attr_groups[$j] != $v->attribute_group_id) {
                 $j++;
             }
@@ -81,7 +84,13 @@ class DiamondController extends Controller
                 'image' => $v->image
             ];
         }
-        $main_data['attribute_groups'] = array_values($attr);
+        $new_attr = [];
+        foreach ($attr as $v) {
+            if (count($v['attributes']) > 1) {
+                $new_attr[] = $v;
+            }
+        }
+        $main_data['attribute_groups'] = array_values($new_attr);
         $main_data['price'] = ['min' => 0, 'max' => 3000];
         $main_data['carat'] = ['min' => 0, 'max' => 24];
 
