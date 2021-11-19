@@ -92,8 +92,7 @@ class OrdersController extends Controller
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/orders');
     }
-    
-    
+        
     public function status(Request $request) {
         if (isset($request['table_id'])) {
 
