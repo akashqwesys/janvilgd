@@ -49,7 +49,7 @@ class DiamondsController extends Controller {
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
                             $color_array= explode('-', $row['color']);
-                            $row['color']=$color_array[0];
+                            $color=$color_array[0];
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
                              
                             
@@ -75,7 +75,7 @@ class DiamondsController extends Controller {
                                 $shape="PS";
                             }                           
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
                                     $row['rapa']=$row_rapa->rapaport_price; 
                                     break;
                                 }
@@ -84,9 +84,7 @@ class DiamondsController extends Controller {
                             $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
                             $row['discount'] = doubleval($row['discount']);
                             
-                            if($row['main_pktno']==11){
-//                                echo $row['discount'];die;
-                            }
+                      
                                                         
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                             $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - $labour_charge_4p->amount;
@@ -100,7 +98,10 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
+//                            $color=explode('-',$row['color']);                                                        
+//                            $color=$color[0];
+                                                                                    
+                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$color.' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
 
                             $data_array = [
                                 'name' => $name,
@@ -177,7 +178,7 @@ class DiamondsController extends Controller {
                                         $insert_array['refDiamond_id'] = $Id;
                                         $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                         $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = trim($row['exp_pol_size']);
+                                        $insert_array['value'] = trim(str_replace('=','+',$row['exp_pol_size']));
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
@@ -336,7 +337,7 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.' Clarity :: Rough Diamond';
+                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.' '.$row['purity'].' Purity :: Rough Diamond';
 
                             $data_array = [
                                 'name' =>$name,
@@ -1051,10 +1052,16 @@ class DiamondsController extends Controller {
             foreach ($name_data as $row){
                 if($row->ag_name=='SHAPE'){
                     $shape=$row->at_name.' Shape  • ';
-                }
+                }                
                 if($row->ag_name=='COLOR'){
                     $color=$row->at_name.' Color  • ';
                 }
+                if($categories->category_type==config('constant.CATEGORY_TYPE_4P')){
+                    if($row->ag_name=='COLOR'){                       
+                        $color_array= explode('-',$row->at_name);
+                        $color=$color_array[0].' Color  • ';                                                
+                    }
+                }                
                 if($row->ag_name=='CLARITY'){
                     $clarity=$row->at_name.' Clarity ';
                 }
@@ -1261,11 +1268,12 @@ class DiamondsController extends Controller {
             $ro_amount=abs($amount/doubleval($request->makable_cts));
             $final_price=$ro_amount-$labour_charge_rough->amount;
             $total=abs($final_price*(doubleval($request->makable_cts)));
-        }
+        }        
+        $discount=abs(($request->discount)/100);     
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
-            $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts));
+            $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
         }
-        $discount=abs(($request->discount)/100);
+//        $discount=abs(($request->discount)/100);
 
         $imgData = array();
         if($request->hasfile('image')) {

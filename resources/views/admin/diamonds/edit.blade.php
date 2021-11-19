@@ -164,7 +164,10 @@
                                         }
                                     }
                                     ?>
-                                    <div class="row g-3 align-center d-none" id="actual_pcs">
+                                    
+                                     <input type="hidden" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">
+                                    
+<!--                                    <div class="row g-3 align-center d-none" id="actual_pcs">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="actual_pcs">Actual pcs:</label>
@@ -177,8 +180,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row g-3 align-center d-none" id="available_pcs">
+                                    </div>-->
+<input type="hidden" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off" value="<?php echo $data['result']->available_pcs; ?>">
+<!--                                    <div class="row g-3 align-center d-none" id="available_pcs">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="available_pcs">Available pcs:</label>
@@ -191,7 +195,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="row g-3 align-center d-none" id="makable_cts">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -248,7 +252,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="rapaport_price">
+                                    
+                                    
+                                     <input type="hidden" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off" value="<?php echo $data['result']->rapaport_price; ?>">
+                                    
+<!--                                    <div class="row g-3 align-center d-none" id="rapaport_price">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
@@ -257,11 +265,11 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off" value="<?php echo $data['result']->rapaport_price; ?>">
+                                                    <input type="hidden" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off" value="<?php echo $data['result']->rapaport_price; ?>">
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="row g-3 align-center d-none" id="weight_loss">
                                         <div class="col-lg-4">

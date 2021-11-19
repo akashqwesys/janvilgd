@@ -494,9 +494,7 @@ $(document).ready(function () {
     $(document).on('click', '.submit_btn', function () {
         $('.submit_btn').get(0).submit();
     });
-    
-    
-    
+            
      if (<?php
         if (!empty(session()->get('request_check'))) {
             echo session()->get('request_check');
@@ -508,9 +506,12 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('rapaport.updatePrice') }}"
-//                    success: function (res) {                        
-//                    }
+                    url: "{{ route('rapaport.updatePrice') }}",
+                    success: function (res) {
+//                        if (res.suceess) {
+//                            $("#img_"+id+"_"+inc).remove();
+//                        }
+                    }
                 });
 <?php session(['request_check' => 0]); ?>
     }
