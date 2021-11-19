@@ -142,7 +142,15 @@ class DiamondController extends Controller {
                 }
             }
         }
-
+        $max = DB::table('diamonds')
+            ->selectRaw('max("total") as "price", max("expected_polish_cts") as "carat"')
+            ->first();
+        if ($max) {
+            $max_price = round($max->price + 1);
+            $max_carat = round($max->carat + 1);
+        } else {
+            $max_price = $max_carat = 0;
+        }
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
                         <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
@@ -162,26 +170,26 @@ class DiamondController extends Controller {
         $html .= "<script type='text/javascript'>
                     var priceSlider = new rSlider({
                         target: '#priceSlider',
-                        values: {min: 0, max: 3000},
-                        step: 10,
+                        values: {min: 0, max: ".$max_price."},
+                        step: 20,
                         range: true,
                         tooltip: true,
                         scale: true,
                         labels: false,
-                        set: ['0', '3000'],
+                        set: ['0', '".$max_price."'],
                         onChange: function (vals) {
                             getAttributeValues(vals, [], 'price');
                         }
                     });
                     var caratSlider = new rSlider({
                         target: '#caratSlider',
-                        values: {min: 0, max: 24},
+                        values: {min: 0, max: ".$max_carat."},
                         step: 1,
                         range: true,
                         tooltip: true,
                         scale: true,
                         labels: false,
-                        set: ['0', '24'],
+                        set: ['0', '".$max_carat."'],
                         onChange: function (vals) {
                             getAttributeValues(vals, [], 'carat');
                         }
@@ -344,16 +352,16 @@ class DiamondController extends Controller {
                 } */
                 $data = $result_cart->original['data']['summary'];
             }
-            $data = array(
+            $res = array(
                 'suceess' => true,
-                'data' => $data
+                'data' => $data ?? []
             );
         } else {
-            $data = array(
+            $res = array(
                 'suceess' => false
             );
         }
-        return response()->json($data);
+        return response()->json($res);
     }
 
     public function searchDiamonds(Request $request)
@@ -411,11 +419,9 @@ class DiamondController extends Controller {
         $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getCart();
-        if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
-        }
+        $response = $result->original['data'];
         $title = 'Checkout';
-        return view('front.checkout', compact('title','response'));
+        return view('front.checkout', compact('title', 'response'));
     }
 
     public function getCart() {
