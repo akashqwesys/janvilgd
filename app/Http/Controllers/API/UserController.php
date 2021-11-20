@@ -278,7 +278,7 @@ class UserController extends Controller
                     ])
                 ); */
 
-            return $this->successResponse($msg);
+            return $this->successResponse($msg, ['id' => $company->customer_company_id]);
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }

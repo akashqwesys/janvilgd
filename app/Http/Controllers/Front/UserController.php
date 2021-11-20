@@ -92,6 +92,20 @@ class UserController extends Controller
         $data = new APIUserController;
         $api = $data->addUpdateCompany($request);
 
+        if ($request->ajax()) {
+            if ($api->original['flag'] == true) {
+                $address = $data->getCompanies($request);
+                return response()->json([
+                    'success' => 1,
+                    'message' => $api->original['message'],
+                    'data' => $address->original['data']['company'],
+                    'id' => $api->original['data']['id']
+                ]);
+            } else {
+                return response()->json(['error' => 1, 'message' => $api->original['message']]);
+            }
+        }
+
         if ($api->original['flag'] == true) {
             return back()->with(['success' => 1, 'message' => $api->original['message']]);
         } else {

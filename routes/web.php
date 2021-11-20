@@ -33,6 +33,7 @@ use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DashboardController;
 use App\Http\Controllers\Front\FrontAuthController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Front\UserController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
@@ -118,8 +119,13 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/save-addresses', [UserController::class, 'saveMyCompanies']);
     Route::post('customer/deleteMyCompany', [UserController::class, 'deleteMyCompany']);
 
+    // Payment
+    Route::get('customer/place-order/{token}', [OrderController::class, 'placeOrder']);
+    Route::post('customer/save-order', [OrderController::class, 'saveOrder']);
+
     // Orders
-    Route::get('customer/my-orders', [HDiamond::class, 'orders']);
+    Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
+    Route::get('customer/order-details', [OrderController::class, 'orderDetails']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);

@@ -84,15 +84,26 @@ class DiamondController extends Controller
                 'image' => $v->image
             ];
         }
-        $new_attr = [];
-        foreach ($attr as $v) {
+        // $new_attr = [];
+        foreach ($attr as $k => $v) {
             if (count($v['attributes']) > 1) {
-                $new_attr[] = $v;
+                $attr[$k]['skip'] = 0;
+            } else {
+                $attr[$k]['skip'] = 1;
             }
         }
-        $main_data['attribute_groups'] = array_values($new_attr);
-        $main_data['price'] = ['min' => 0, 'max' => 3000];
-        $main_data['carat'] = ['min' => 0, 'max' => 24];
+        $max = DB::table('diamonds')
+            ->selectRaw('max("total") as "price", max("expected_polish_cts") as "carat"')
+            ->first();
+        if ($max) {
+            $max_price = round($max->price + 1);
+            $max_carat = round($max->carat + 1);
+        } else {
+            $max_price = $max_carat = 0;
+        }
+        $main_data['attribute_groups'] = array_values($attr);
+        $main_data['price'] = ['min' => 0, 'max' => $max_price];
+        $main_data['carat'] = ['min' => 0, 'max' => $max_carat];
 
         return $this->successResponse('Success', $main_data);
     }
@@ -443,7 +454,7 @@ class DiamondController extends Controller
         }
 
         if (!count($response_array)) {
-            return $this->errorResponse('Data not found');
+            return $this->successResponse('Cart is empty', []);
         }
         $discount = DB::table('discounts')
             ->select('discount')
@@ -466,17 +477,17 @@ class DiamondController extends Controller
             ->first();
         $shipping = DB::table('delivery_charges')
             ->select('amount')
-            ->where('from_weight', '>=', $weight)
-            ->where('to_weight', '<=', $weight)
+            ->where('from_weight', '<=', (intval($weight) - 1))
+            ->where('to_weight', '>=', (intval($weight) + 1))
             ->pluck('amount')
             ->first();
 
         $users_details = DB::table('customer')
             ->where('customer_id', $customer_id)
             ->first();
-        $company_details = DB::table('customer_company_details')
+        /* $company_details = DB::table('customer_company_details')
             ->where('refCustomer_id', $customer_id)
-            ->first();
+            ->first(); */
 
         $all_company_details = DB::table('customer_company_details as ccd')
             ->select('ccd.*','country.name as country_name','state.name as state_name','city.name as city_name')
@@ -487,11 +498,12 @@ class DiamondController extends Controller
             ->get();
 
         $country = DB::table('country')
+            ->select('country_id', 'name')
             ->where('is_active',1)
             ->where('is_deleted',0)
             ->get();
 
-        $billing_state = DB::table('state')
+        /* $billing_state = DB::table('state')
             ->where('refCountry_id',$users_details->refCountry_id)
             ->where('is_active',1)
             ->where('is_deleted',0)
@@ -511,7 +523,7 @@ class DiamondController extends Controller
             ->where('refState_id',$company_details->refState_id)
             ->where('is_active',1)
             ->where('is_deleted',0)
-            ->get();
+            ->get(); */
 
         $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
@@ -522,18 +534,19 @@ class DiamondController extends Controller
         $summary['additional_discount'] = number_format(round($additional_discount, 2), 2, '.', ',');
         $summary['tax'] = number_format(round($tax, 2), 2, '.', ',');
         $summary['shipping'] = number_format(round($shipping, 2), 2, '.', ',');
+        $summary['weight'] = $weight;
         $total = $subtotal - $discount - $additional_discount + $tax + $shipping;
         $summary['total'] = number_format(round($total, 2), 2, '.', ',');
         $data['diamonds'] = $response_array;
         $data['summary'] = $summary;
         $data['users_details'] = $users_details;
-        $data['company_details'] = $company_details;
+        // $data['company_details'] = $company_details;
         $data['all_company_details'] = $all_company_details;
         $data['country'] = $country;
-        $data['billing_state'] = $billing_state;
+        /* $data['billing_state'] = $billing_state;
         $data['billing_city'] = $billing_city;
         $data['shipping_state'] = $shipping_state;
-        $data['shipping_city'] = $shipping_city;
+        $data['shipping_city'] = $shipping_city; */
         return $this->successResponse('Success', $data);
     }
 
@@ -898,5 +911,14 @@ class DiamondController extends Controller
             ->delete();
             return $this->successResponse('Success', [], 3);
         }
+    }
+
+    public function getOrders(Request $request)
+    {
+        $customer = Auth::user();
+        $orders = DB::table('orders')
+            ->select( 'order_id', 'refCustomer_id', 'name', 'mobile_no', 'email_id', 'refPayment_mode_id', 'payment_mode_name', 'refTransaction_id', 'refCustomer_company_id_billing', 'billing_company_name', 'billing_company_office_no', 'billing_company_office_email', 'billing_company_office_address', 'billing_company_office_pincode', 'refCity_id_billing', 'refState_id_billing', 'refCountry_id_billing', 'billing_company_pan_gst_no', 'refCustomer_company_id_shipping', 'shipping_company_name', 'shipping_company_office_no', 'shipping_company_office_email', 'shipping_company_office_address', 'shipping_company_office_pincode', 'refCity_id_shipping', 'refState_id_shipping', 'refCountry_id_shipping', 'shipping_company_pan_gst_no', 'sub_total', 'refDelivery_charge_id', 'delivery_charge_name', 'delivery_charge_amount', 'refDiscount_id', 'discount_name', 'discount_amount', 'refTax_id', 'tax_name', 'tax_amount', 'total_paid_amount', 'added_by', 'date_added', 'date_updated', DB::raw("select order_status_name from order_updates where refOrder_id = orders.order_id and "))
+            ->where('refCustomer_id', $customer->customer_id)
+            ->get();
     }
 }
