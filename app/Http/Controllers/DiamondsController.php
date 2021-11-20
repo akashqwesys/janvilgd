@@ -101,7 +101,7 @@ class DiamondsController extends Controller {
 //                            $color=explode('-',$row['color']);                                                        
 //                            $color=$color[0];
                                                                                     
-                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$color.' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
+                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
 
                             $data_array = [
                                 'name' => $name,
@@ -300,8 +300,8 @@ class DiamondsController extends Controller {
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                         if (!empty($row['barcode'])) {
 
-                            $row['rap'] = str_replace(',', '', $row['rap']);
-                            $row['rap'] = doubleval($row['rap']);
+//                            $row['rap'] = str_replace(',', '', $row['rap']);
+//                            $row['rap'] = doubleval($row['rap']);
                             
                             $row['shape']=trim($row['shape']);                            
                             $row['purity']=trim(str_replace(' ','', $row['purity']));                                                         
@@ -314,11 +314,13 @@ class DiamondsController extends Controller {
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower('G') && strtolower($row_rapa->clarity)==strtolower($row['purity'])){                                    
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['purity'])){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
                                     break;
                                 }
-                            }                             
+                            }
+                            
+                            $row['dis']=$row['discount'];
                             $row['dis'] = doubleval($row['dis']);
                             $row['dis'] = str_replace('-', '', $row['dis']);
                             
@@ -337,7 +339,7 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.' '.$row['purity'].' Purity :: Rough Diamond';
+                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$color.' Color  • '.$row['purity'].' Purity :: Rough Diamond';
 
                             $data_array = [
                                 'name' =>$name,
@@ -350,6 +352,7 @@ class DiamondsController extends Controller {
                                 'refCategory_id' => $request->refCategory_id,
                                 'total' => $total,
                                 'image' => $img_json,
+                                'video_link'=>$row['video'],
                                 'added_by' => session()->get('loginId'),
                                 'is_active' => 1,
                                 'is_deleted' => 0,
@@ -438,6 +441,40 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
+                                 if ($atr_grp_row->name === "COLOR") {
+                                    if (!empty($row['color'])) {
+                                        $color = 0;
+                                        foreach ($attribute as $atr_row) {
+                                            if ($atr_row->name == $row['color'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                $insert_array = array();
+                                                $insert_array['refDiamond_id'] = $Id;
+                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                                $insert_array['value'] = 0;
+                                                array_push($attr_group_array, $insert_array);
+                                                $color = 1;
+                                            }
+                                        }
+                                        if ($color == 0) {
+                                            DB::table('attributes')->insert([
+                                                'name' => $row['color'],
+                                                'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                                'added_by' => $request->session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'date_added' => date("Y-m-d h:i:s"),
+                                                'date_updated' => date("Y-m-d h:i:s")
+                                            ]);
+                                            $attr_id = DB::getPdo()->lastInsertId();
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = $attr_id;
+                                            $insert_array['value'] = 0;
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
+                                } 
                             }
                         }
                     }
@@ -1056,12 +1093,12 @@ class DiamondsController extends Controller {
                 if($row->ag_name=='COLOR'){
                     $color=$row->at_name.' Color  • ';
                 }
-                if($categories->category_type==config('constant.CATEGORY_TYPE_4P')){
-                    if($row->ag_name=='COLOR'){                       
-                        $color_array= explode('-',$row->at_name);
-                        $color=$color_array[0].' Color  • ';                                                
-                    }
-                }                
+//                if($categories->category_type==config('constant.CATEGORY_TYPE_4P')){
+//                    if($row->ag_name=='COLOR'){                       
+//                        $color_array= explode('-',$row->at_name);
+//                        $color=$color_array[0].' Color  • ';                                                
+//                    }
+//                }                
                 if($row->ag_name=='CLARITY'){
                     $clarity=$row->at_name.' Clarity ';
                 }

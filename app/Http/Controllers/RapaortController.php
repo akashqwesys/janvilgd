@@ -146,6 +146,7 @@ class RapaortController extends Controller {
 
                             $d_row->expected_polish_cts = $d_row->carat;
                             $d_row->shape = $d_row->attributes['SHAPE'];
+                            $d_row->color = $d_row->attributes['COLOR'];
                             $d_row->purity = $d_row->attributes['PURITY'];
 
                             $shape = $d_row->shape;
@@ -156,7 +157,7 @@ class RapaortController extends Controller {
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
-                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower('G') && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->purity)) {
+                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->purity)) {
                                     $rapa_price = $row_rapa->rapaport_price;
                                     if ($cat_row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
                                         $price = abs($rapa_price * ($d_row->discount - 1));
@@ -224,8 +225,8 @@ class RapaortController extends Controller {
                 }
             }
         }
-        if ($request->cat_type == 2) {
-
+        if ($request->cat_type == 2) {  
+                       
             $labour_charge = DB::table('labour_charges')->select('amount')->where('labour_charge_id', 2)->first();
 
             if (isset($request->shape) && isset($request->expected_polish_cts)) {
@@ -239,7 +240,7 @@ class RapaortController extends Controller {
                 }
 
                 foreach ($rapaport as $row_rapa) {
-                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower('G') && $request->expected_polish_cts >= $row_rapa->from_range && $request->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($request->clarity)) {
+                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($request->color) && $request->expected_polish_cts >= $row_rapa->from_range && $request->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($request->clarity)) {
                         $rapa_price = $row_rapa->rapaport_price;
                         break;
                     }
