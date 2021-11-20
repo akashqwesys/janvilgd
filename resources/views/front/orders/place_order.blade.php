@@ -16,7 +16,7 @@
     <div class="container">
         <div class="section-content">
             <div>
-                <h2 class="title bread-crumb-title">Place Order</h2>
+                <h2 class="title bread-crumb-title">Payment</h2>
             </div>
         </div>
     </div>
@@ -24,13 +24,20 @@
 <div class="cart-page">
     <div class="container">
         <div class="row">
-            <div class="col col-12 col-md-6 m-auto">
+            <div class="col col-12 col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <h5>Payment Options</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-12 col-md-6">
                 <div class="card mb-4">
                     <div class="card-body text-center">
                         <form method="post" action="/customer/save-order">
                             @csrf
                             <input type="hidden" name="token" value="{{ $tk }}">
-                            <button class="btn btn-primary" type="submit">PLACE ORDER</button>
+                            <button class="btn btn-primary" type="submit">CONFIRM ORDER</button>
                         </form>
                     </div>
                 </div>

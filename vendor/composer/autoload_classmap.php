@@ -12,6 +12,7 @@ return array(
     'App\\Http\\Controllers\\API\\DashboardController' => $baseDir . '/app/Http/Controllers/API/DashboardController.php',
     'App\\Http\\Controllers\\API\\DiamondController' => $baseDir . '/app/Http/Controllers/API/DiamondController.php',
     'App\\Http\\Controllers\\API\\DropdownController' => $baseDir . '/app/Http/Controllers/API/DropdownController.php',
+    'App\\Http\\Controllers\\API\\OrderController' => $baseDir . '/app/Http/Controllers/API/OrderController.php',
     'App\\Http\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controllers/API/UserController.php',
     'App\\Http\\Controllers\\AttributeController' => $baseDir . '/app/Http/Controllers/AttributeController.php',
     'App\\Http\\Controllers\\AttributeGroupsController' => $baseDir . '/app/Http/Controllers/AttributeGroupsController.php',

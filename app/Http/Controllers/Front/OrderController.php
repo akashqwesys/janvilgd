@@ -11,6 +11,7 @@ use App\Models\Customers;
 use App\Models\Order;
 use App\Models\CustomerCompanyDetail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
+use App\Http\Controllers\API\OrderController as APIOrder;
 use DB;
 use Carbon\Carbon;
 
@@ -126,8 +127,65 @@ class OrderController extends Controller {
         $order->date_updated = date('Y-m-d H:i:s');
         $order->save();
 
+        DB::table('order_updates')
+        ->insert([
+            'order_status_name' => 'PENDING',
+            'refOrder_id' => $order->order_id,
+            'comment' => 'comment',
+            'added_by' => 0,
+            'is_deleted' => 0,
+            'date_added' => date('Y-m-d H:i:s'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        $diamonds = DB::table('customer_cart as c')
+            ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
+            ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name')
+            ->where('c.refCustomer_id', $customer->customer_id)
+            ->get();
+        $od = [];
+        foreach ($diamonds as $v) {
+            $od[] = [
+                'refOrder_id' => $order->order_id,
+                'refDiamond_id' => $v->diamond_id,
+                'name' => $v->name,
+                'barcode' => $v->barcode,
+                'makable_cts' => $v->makable_cts,
+                'expected_polish_cts' => $v->carat,
+                'remarks' => $v->remarks,
+                'rapaport_price' => $v->mrp,
+                'discount' => 0,
+                'weight_loss' => $v->weight_loss,
+                'video_link' => $v->video_link,
+                'images' => $v->image,
+                'refCategory_id' => $v->refCategory_id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+        }
+        DB::table('order_diamonds')->insert($od);
+
         DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
 
         return redirect('/customer/my-orders');
+    }
+
+    public function getMyOrders(Request $request)
+    {
+        $api = new APIOrder;
+        $data = $api->myOrders($request);
+        $orders = $data->original['data']['orders'];
+        $title = 'My Orders';
+        return view('front.orders.my_orders', compact('title', 'orders'));
+    }
+
+    public function orderDetails(Request $request)
+    {
+        $api = new APIOrder;
+        $data = $api->myOrderDetails($request);
+        $orders = $data->original['data']['orders'];
+        $title = 'Order Details';
+        return view('front.orders.my_orders', compact('title', 'orders'));
     }
 }

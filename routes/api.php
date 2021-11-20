@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DiamondController;
 use App\Http\Controllers\API\DropdownController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\UserController;
 
 /*
@@ -64,6 +65,10 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('my-addresses', [UserController::class, 'getCompanies']);
     Route::post('save-address', [UserController::class, 'addUpdateCompany']);
     Route::post('delete-address', [UserController::class, 'deleteCompany']);
+
+    // Orders
+    Route::post('my-orders', [OrderController::class, 'myOrders']);
+    Route::post('order-details', [OrderController::class, 'myOrderDetails']);
 
 });
 

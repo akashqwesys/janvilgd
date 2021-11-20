@@ -555,10 +555,4 @@ class DiamondController extends Controller {
         // DB::table('diamonds_attributes')->truncate();
     }
 
-    public function orders(Request $request)
-    {
-        $title = 'Orders';
-        return view('front.orders.orders', compact('title'));
-    }
-
 }

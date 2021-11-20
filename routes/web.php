@@ -124,7 +124,8 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/save-order', [OrderController::class, 'saveOrder']);
 
     // Orders
-    Route::get('customer/my-orders', [HDiamond::class, 'orders']);
+    Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
+    Route::get('customer/order-details', [OrderController::class, 'orderDetails']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);

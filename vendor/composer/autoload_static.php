@@ -729,6 +729,7 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'App\\Http\\Controllers\\API\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/DashboardController.php',
         'App\\Http\\Controllers\\API\\DiamondController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/DiamondController.php',
         'App\\Http\\Controllers\\API\\DropdownController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/DropdownController.php',
+        'App\\Http\\Controllers\\API\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/OrderController.php',
         'App\\Http\\Controllers\\API\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserController.php',
         'App\\Http\\Controllers\\AttributeController' => __DIR__ . '/../..' . '/app/Http/Controllers/AttributeController.php',
         'App\\Http\\Controllers\\AttributeGroupsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AttributeGroupsController.php',
