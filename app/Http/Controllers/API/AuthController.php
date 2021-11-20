@@ -244,7 +244,7 @@ class AuthController extends Controller
                 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
                 'city' => ['required', 'integer', 'exists:city,city_id'],
-                'pincode' => ['required', 'digits:6'],
+                'pincode' => ['required'],
                 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
@@ -253,7 +253,7 @@ class AuthController extends Controller
                 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
-                'company_pincode' => ['required', 'digits:6'],
+                'company_pincode' => ['required'],
                 'id_upload' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 

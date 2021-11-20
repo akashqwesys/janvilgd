@@ -151,7 +151,7 @@ class FrontAuthController extends Controller
                     'country' => ['required'],
                     'state' => ['required'],
                     'city' => ['required'],
-                    'pincode' => ['required', 'digits:6'],
+                    'pincode' => ['required'],
                     'company_name' => ['required'],
                     'company_office_no' => ['required'],
                     'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
@@ -160,7 +160,7 @@ class FrontAuthController extends Controller
                     'company_country' => ['required'],
                     'company_state' => ['required'],
                     'company_city' => ['required'],
-                    'company_pincode' => ['required', 'digits:6'],
+                    'company_pincode' => ['required'],
                     'id_upload' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
                 ];
 

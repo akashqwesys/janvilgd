@@ -333,15 +333,15 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-right">Carat</th>
-                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
                                                         @endif
-                                                        @if ($category->slug != 'rough-diamonds')
+                                                        {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                         <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
@@ -376,15 +376,15 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-right">Carat</th>
-                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
                                                         @endif
-                                                        @if ($category->slug != 'rough-diamonds')
+                                                        {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                         <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>
@@ -392,15 +392,15 @@
                                                     @foreach ($recently_viewed as $rv)
                                                     <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="/storage/other_images/{{ json_decode($rv->image)[0] }}" data-barcode="{{ $rv->barcode }}">
                                                         <td scope="col" class="text-right">{{ $rv->carat }}</td>
-                                                        <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
                                                         @if ($category->slug == 'polish-diamonds')
                                                         <td scope="col" class="text-center">{{ $rv->cut }}</td>
                                                         @endif
-                                                        @if ($category->slug != 'rough-diamonds')
+                                                        {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <td scope="col" class="text-center">{{ $rv->color }}</td>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                         <td scope="col" class="text-center">{{ $rv->clarity }}</td>
+                                                        <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                         <td scope="col" class="text-center">
                                                             <div class="compare-checkbox">
                                                                 <label class="custom-check-box">
@@ -441,15 +441,15 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-right">Carat</th>
-                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')
                                                         <th scope="col" class="text-center">Cut</th>
                                                         @endif
-                                                        @if ($category->slug != 'rough-diamonds')
+                                                        {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                         <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
                                                 </thead>

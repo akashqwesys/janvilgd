@@ -14,7 +14,9 @@ class AddColumnOrderDiamonds extends Migration
     public function up()
     {
         Schema::table('order_diamonds', function (Blueprint $table) {
-            $table->string('name', 500)->default(0)->after('refDiamond_id');
+            $table->string('name', 500)->default(0);
+            $table->integer('price')->default(0);
+            $table->string('weight_loss', 30)->default(0)->change();
         });
     }
 

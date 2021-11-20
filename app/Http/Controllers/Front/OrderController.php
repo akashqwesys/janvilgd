@@ -150,6 +150,7 @@ class OrderController extends Controller {
                 'refOrder_id' => $order->order_id,
                 'refDiamond_id' => $v->diamond_id,
                 'name' => $v->name,
+                'price' => $v->price,
                 'barcode' => $v->barcode,
                 'makable_cts' => $v->makable_cts,
                 'expected_polish_cts' => $v->carat,
@@ -186,6 +187,6 @@ class OrderController extends Controller {
         $data = $api->myOrderDetails($request);
         $orders = $data->original['data']['orders'];
         $title = 'Order Details';
-        return view('front.orders.my_orders', compact('title', 'orders'));
+        return view('front.orders.orders_details', compact('title', 'orders'));
     }
 }

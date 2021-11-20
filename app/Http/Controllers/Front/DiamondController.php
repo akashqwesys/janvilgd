@@ -396,9 +396,14 @@ class DiamondController extends Controller {
         $request->request->replace($arr);
 
         if (isset($response['export'])) {
+            $category_name = DB::table('categories')
+                ->select('name')
+                ->where('category_id', $request->category)
+                ->pluck('name')
+                ->first();
             $final_d = $aa->searchDiamonds($request);
             $diamonds = $final_d->original['data'];
-            $pdf = PDF::loadView('front.export-pdf', compact('diamonds'));
+            $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
             $path = public_path('pdf/');
             $fileName =  time() . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);

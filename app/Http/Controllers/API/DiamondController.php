@@ -224,8 +224,7 @@ class DiamondController extends Controller
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
                 $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['price'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
-                            <td scope="col" class="text-right">' . $v['carat'] . '</td>
-                            <td scope="col" class="text-right">$' . number_format(round($v['price'], 2), 2, '.', ',') . '</td>';
+                            <td scope="col" class="text-right">' . $v['carat'] . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
                 } else {
@@ -238,13 +237,13 @@ class DiamondController extends Controller
                         $html .= '<td scope="col" class="text-center"> - </td>';
                     }
                 }
-                if ($response['category_slug'] != 'rough-diamonds') {
+                // if ($response['category_slug'] != 'rough-diamonds') {
                     if (isset($v['attributes']['COLOR'])) {
                         $html .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
                     } else {
                         $html .= '<td scope="col" class="text-center"> - </td>';
                     }
-                }
+                // }
                 if (isset($v['attributes']['CLARITY'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
                 } else if (isset($v['attributes']['PURITY'])) {
@@ -252,7 +251,8 @@ class DiamondController extends Controller
                 } else {
                     $html .= '<td scope="col" class="text-center"> - </td>';
                 }
-                $html .= '<td scope="col" class="text-center">
+                $html .= '<td scope="col" class="text-right">$' . number_format(round($v['price'], 2), 2, '.', ',') . '</td>
+                    <td scope="col" class="text-center">
                             <div class="compare-checkbox">
                                 <label class="custom-check-box">
                                     <input type="checkbox" class="diamond-checkbox" data-id="' . $v['diamond_id'] . '" >

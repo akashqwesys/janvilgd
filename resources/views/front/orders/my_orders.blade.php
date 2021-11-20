@@ -63,7 +63,7 @@
                                 <div class="">Order Status: <b>{{ $o->order_status_name }}</b></div>
                                 <div class="mb-2">Order Date: {{ date(' dS F Y, l', strtotime($o->created_at)) }}</div>
                                 <div class="row">
-                                    <div class="col col-md-6 col-lg-4 bd-right">
+                                    <div class="col col-md-6 col-lg-5 bd-right">
                                         <div class="mb-1 pb-1 bd-bottom bd-top">Billing Address</div>
                                         <div>{{ $o->billing_company_name }}</div>
                                         <div>{{ $o->billing_company_office_address }}</div>
@@ -72,7 +72,7 @@
                                         <div>Mo: {{ $o->billing_company_office_no }}</div>
                                         <div>Email: {{ $o->billing_company_office_email }}</div>
                                     </div>
-                                    <div class="col col-md-6 col-lg-4 bd-left">
+                                    <div class="col col-md-6 col-lg-5 bd-left">
                                         <div class="mb-1 p-1 bd-bottom bd-top">Shipping Address</div>
                                         <div>{{ $o->shipping_company_name }}</div>
                                         <div>{{ $o->shipping_company_office_address }}</div>
