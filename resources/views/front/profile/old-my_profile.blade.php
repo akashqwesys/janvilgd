@@ -31,7 +31,7 @@
                     <div class="navbar-tabs">
                         <ul class="list-unstyled mb-0">
                             <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
-                            <li class="tab-item"><a href="javascript::void(0)" class="tab-link">Profile</a></li>
+                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Profile</a></li>
                             <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
                             <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
                         {{-- </ul>

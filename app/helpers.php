@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use App\Models\UserActivity;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -253,4 +254,10 @@ function alter_login_session() {
         return str_starts_with($a, 'login_web_');
     });
     session()->put(array_values($aa)[0], '123');
+}
+
+function total_cart_item()
+{
+    $customer = Auth::user();
+    return $total = DB::table('customer_cart')->select('id')->where('refCustomer_id', $customer->customer_id)->count();
 }

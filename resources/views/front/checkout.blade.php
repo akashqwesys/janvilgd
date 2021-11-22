@@ -62,12 +62,49 @@
             <div class="col col-12 col-md-6">
                 <div class="accordion checkout-accordion" id="checkoutaccordion">
                     <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <h5>Billing Address</h5>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#checkoutaccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col col-md-8 col-lg-9">
+                                        <select class="form-control select2" id="billing-select">
+                                            {{-- <option value="" disabled selected>SELECT BILLING ADDRESS</option> --}}
+                                            @foreach($response['all_company_details'] as $c)
+                                            <option value="{{ $c->customer_company_id }}"
+                                                data-name="{{ $c->name }}"
+                                                data-office_no="{{ $c->office_no }}"
+                                                data-official_email="{{ $c->official_email }}"
+                                                data-office_address="{{ $c->office_address }}"
+                                                data-pincode="{{ $c->pincode }}"
+                                                data-city_name="{{ $c->city_name }}"
+                                                data-state_name="{{ $c->state_name }}"
+                                                data-country_name="{{ $c->country_name }}"
+                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="spaceBlock">
+                                            <div id="billing-address-block"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-4 col-lg-3">
+                                        <button class="btn btn-primary add-billing-btn">+ Add New</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <h5>Shipping Address</h5>
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#checkoutaccordion">
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#checkoutaccordion">
                             <div class="accordion-body">
                                 {{-- <div class="row">
                                     <div class="col col-12 col-xl-6">
@@ -169,43 +206,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <h5>Billing Address</h5>
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#checkoutaccordion">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col col-md-8 col-lg-9">
-                                        <select class="form-control select2" id="billing-select">
-                                            <option value="" disabled selected>SELECT BILLING ADDRESS</option>
-                                            @foreach($response['all_company_details'] as $c)
-                                            <option value="{{ $c->customer_company_id }}"
-                                                data-name="{{ $c->name }}"
-                                                data-office_no="{{ $c->office_no }}"
-                                                data-official_email="{{ $c->official_email }}"
-                                                data-office_address="{{ $c->office_address }}"
-                                                data-pincode="{{ $c->pincode }}"
-                                                data-city_name="{{ $c->city_name }}"
-                                                data-state_name="{{ $c->state_name }}"
-                                                data-country_name="{{ $c->country_name }}"
-                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="spaceBlock">
-                                            <div id="billing-address-block"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-md-4 col-lg-3">
-                                        <button class="btn btn-primary add-billing-btn">+ Add New</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -223,10 +224,12 @@
                                     <td>Discount</td>
                                     <td align="right" id="discount">${{ isset($response['summary']) ? $response['summary']['discount'] : 0 }}</td>
                                 </tr>
+                                @if ($response['summary']['additional_discount'] > 0)
                                 <tr>
                                     <td>Additional Discount</td>
                                     <td align="right" id="additional_discount">${{ isset($response['summary']) ? $response['summary']['additional_discount'] : 0 }}</td>
                                 </tr>
+                                @endif
                                 <tr>
                                     <td>Tax</td>
                                     <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
@@ -394,6 +397,7 @@
             // templateResult: formatSearch,
             // templateSelection: formatSelected
         });
+        $("#billing-select").trigger('change');
     });
     $(document).on('change', '#shipping-select', function() {
         if ($(this).val() && $('#billing-select').val()) {

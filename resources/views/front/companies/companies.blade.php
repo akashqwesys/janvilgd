@@ -37,13 +37,14 @@
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
                         </ul>
                     </div>
+                    <hr>
                 </div>
                 <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
                     <div class="address-content">
                         <div class="add-address">
                             <h2 class="title mb-0">Address</h2>
                             <div class="edit-btn ms-auto">
-                                <a href="javascript::void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Add New</a>
+                                <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Add New</a>
                             </div>
                         </div>
                         @if (session('success'))
@@ -64,7 +65,7 @@
                                             <th colspan="2">
                                                 Address - {{ $i+1 }}
                                                 <div class="add-edit-delete-btn">
-                                                    <a href="javascript::void(0);"
+                                                    <a href="javascript:void(0);"
                                                         class="edit-btn btn btn-primary"
                                                         data-id="{{ $company[$i]->customer_company_id }}"
                                                         data-name="{{ $company[$i]->name }}"
@@ -79,7 +80,7 @@
                                                         >
                                                         <img src="/assets/images/edit.svg">
                                                     </a>
-                                                    <a href="javascript::void(0);"
+                                                    <a href="javascript:void(0);"
                                                         class="delete-btn btn btn-primary"
                                                         data-id="{{ $company[$i]->customer_company_id }}"
                                                         >
@@ -303,7 +304,7 @@
                                     <p class="mb-0 mt-3">Business Identity Proof (scan and upload only .jpg, .jpeg, .png and .pdf files)</p>
                                 </div>
                             </div>
-                            <div class="col col-12 col-md-12">
+                            <div class="col col-12 col-md-12 mb-0">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-dark">Save</button>
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>

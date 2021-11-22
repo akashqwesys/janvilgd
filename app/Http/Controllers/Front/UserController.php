@@ -30,7 +30,7 @@ class UserController extends Controller
         $title = 'My Profile';
         $data = new APIUserController;
         $api = $data->myAccount($request);
-        $company = $api->original['data']['company'];
+        // $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
             ->select('country_id', 'name')
@@ -48,17 +48,7 @@ class UserController extends Controller
             ->where('refState_id', $customer->refState_id)
             ->get();
 
-        $cp_state = DB::table('state')
-            ->select('state_id', 'name')
-            ->where('refCountry_id', $company->refCountry_id)
-            ->get();
-
-        $cp_city = DB::table('city')
-            ->select('city_id', 'name')
-            ->where('refState_id', $company->refState_id)
-            ->get();
-
-        return view('front.profile.my_profile', compact('title', 'company', 'customer', 'country', 'state', 'city', 'cp_state', 'cp_city'));
+        return view('front.profile.my_profile', compact('title', 'customer', 'country', 'state', 'city'));
     }
 
     public function updateMyProfile(Request $request)
