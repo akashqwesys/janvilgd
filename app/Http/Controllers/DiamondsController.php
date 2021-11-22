@@ -43,16 +43,18 @@ class DiamondsController extends Controller {
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                         if (!empty($row['barcode'])) {
 
-                            $row['rapa'] = str_replace(',', '', $row['rapa']);
-                            $row['rapa'] = doubleval($row['rapa']);
-                           
+//                            $row['rapa'] = str_replace(',', '', $row['rapa']);
+//                            $row['rapa'] = doubleval($row['rapa']);
+//                           
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
-                            $color_array= explode('-', $row['color']);
-                            $color=$color_array[0];
-                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));
-                             
                             
+                            $color = substr($row['color'], 2, 1);                            
+//                            
+//                            $color_array= explode('-', $row['color']);
+//                            $color=$color_array[1];
+                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));
+                                                         
                             if($row['clarity']=='VS'){
                                 $row['clarity']='VS1';
                             }
@@ -80,12 +82,9 @@ class DiamondsController extends Controller {
                                     break;
                                 }
                             }
-                            $row['discount'] = str_replace('-', '', $row['discount']);
-                            $row['weight_loss'] = str_replace('-', '', $row['weight_loss']);
+                            $row['discount'] = str_replace('-', '', $row['discount']);                            
                             $row['discount'] = doubleval($row['discount']);
-                            
-                      
-                                                        
+                                                                                                          
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                             $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - $labour_charge_4p->amount;
                             
@@ -107,8 +106,8 @@ class DiamondsController extends Controller {
                                 'name' => $name,
                                 'barcode' => strval($row['barcode']),
                                 'packate_no' => strval($row['main_pktno']),
-                                'actual_pcs' => doubleval($row['pcs']),
-                                'available_pcs' => doubleval($row['pcs']),
+                                'actual_pcs' => 0,
+                                'available_pcs' => 0,
                                 'makable_cts' => doubleval($row['mkbl_cts']),
                                 'expected_polish_cts' => doubleval($row['exp_pol_cts']),
                                 'remarks' => strval($row['remarks']),
@@ -301,8 +300,7 @@ class DiamondsController extends Controller {
                         if (!empty($row['barcode'])) {
 
 //                            $row['rap'] = str_replace(',', '', $row['rap']);
-//                            $row['rap'] = doubleval($row['rap']);
-                            
+//                            $row['rap'] = doubleval($row['rap']);                              
                             $row['shape']=trim($row['shape']);                            
                             $row['purity']=trim(str_replace(' ','', $row['purity']));                                                         
                             
@@ -339,8 +337,12 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$color.' Color  • '.$row['purity'].' Purity :: Rough Diamond';
+                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['purity'].' Purity :: Rough Diamond';
 
+                            if(empty($row['video'])){
+                                $row['video']=NULL;                                    
+                            }
+                            
                             $data_array = [
                                 'name' =>$name,
                                 'barcode' => strval($row['barcode']),
@@ -487,9 +489,8 @@ class DiamondsController extends Controller {
                         $barcode = DB::table('diamonds')->where('barcode', $row['certificate'])->first();
                         if (!empty($row['stock'])) {
 
-
-                            $row['price'] = str_replace(',', '', $row['price']);
-                            $row['price'] = doubleval($row['price']);
+//                            $row['price'] = str_replace(',', '', $row['price']);
+//                            $row['price'] = doubleval($row['price']);
 
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
@@ -1156,7 +1157,7 @@ class DiamondsController extends Controller {
             'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
             'discount' => isset($request->discount) ? $discount : 0,
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-            'video_link' => isset($request->video_link) ? $request->video_link : 0,
+            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
             'image' => $image,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
@@ -1220,6 +1221,12 @@ class DiamondsController extends Controller {
                             })
                             ->editColumn('discount', function ($row) {
                                 return ($row->discount*100);
+                            })
+                            ->editColumn('total', function ($row) {
+                                return round($row->total,2);
+                            })
+                            ->editColumn('weight_loss', function ($row) {
+                                return round($row->weight_loss,2);
                             })
                             ->editColumn('is_active', function ($row) {
                                 $active_inactive_button = '';
@@ -1351,7 +1358,7 @@ class DiamondsController extends Controller {
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
             'image' => $image,
             'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
-            'video_link' => isset($request->video_link) ? $request->video_link : 0,
+            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
             'date_updated' => date("Y-m-d h:i:s")

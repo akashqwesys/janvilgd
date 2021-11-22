@@ -69,16 +69,45 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="packate_no">
+                                     <div class="row g-3 align-center d-none" id="makable_cts">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
+                                                <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable CTS:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off">                                             
+                                                    <input type="number" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable CTS"  autocomplete="off">                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-center d-none" id="expected_polish_cts">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">                                            
+                                                <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected Polish CTS:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="number" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish CTS"  autocomplete="off">                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <div class="row g-3 align-center d-none" id="weight_loss">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">                                            
+                                                <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="number" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -170,35 +199,23 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="available_pcs"  placeholder="Enter available pcs"  autocomplete="off">                                             
+                                                    <input type="number" class="form-control" name="available_pcs"  placeholder="Enter available pcs"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="makable_cts">
+                                   
+   
+                                    <div class="row g-3 align-center d-none" id="packate_no">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable cts:</label>
+                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable cts"  autocomplete="off">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center d-none" id="expected_polish_cts">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected polish cts:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish cts"  autocomplete="off">                                             
+                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -226,7 +243,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="discount" id="discount_input"  placeholder="Enter discount"  autocomplete="off">                                             
+                                                    <input type="number" class="form-control" name="discount" id="discount_input" min="0" max="100" minlength="0" maxlength="3"  placeholder="Enter discount"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -247,20 +264,7 @@
                                         </div>
                                     </div>-->
                                    
-                                    <div class="row g-3 align-center d-none" id="weight_loss">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="row g-3 align-center" id="image">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
@@ -396,22 +400,24 @@
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price/CT</span></div>
                                                     <div class="amount" id="display_rapa"></div>
                                                 </div>                                                                                                                                                                                                                                             
-                                                <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
-                                                    <div class="amount" id="display_discount"></div>
-                                                </div> 
+                                              
                                                 <div class="traffic-channel-data price_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>
                                                     <div class="amount" id="display_price"></div>
                                                 </div>
+                                                <div class="traffic-channel-data makable_cts_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable CTS</span></div>
+                                                    <div class="amount" id="display_makable_cts"></div>
+                                                </div> 
                                                 <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_exp_pol_cts_text">Expected polish cts</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_exp_pol_cts_text">Expected Polish CTS</span></div>
                                                     <div class="amount" id="display_exp_pol_cts"></div>
                                                 </div>
-                                                <div class="traffic-channel-data makable_cts_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable cts</span></div>
-                                                    <div class="amount" id="display_makable_cts"></div>
-                                                </div>  
+                                                
+                                                  <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
+                                                    <div class="amount" id="display_discount"></div>
+                                                </div> 
                                                 <div class="traffic-channel-data labour_charges_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>

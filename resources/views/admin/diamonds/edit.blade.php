@@ -77,21 +77,48 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="packate_no">
+                                    <div class="row g-3 align-center d-none" id="makable_cts">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
+                                                <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable CTS:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off" value="<?php echo $data['result']->packate_no; ?>">
+                                                    <input type="number" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter Makable CTS"  autocomplete="off" value="<?php echo $data['result']->makable_cts; ?>">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="row g-3 align-center d-none" id="expected_polish_cts">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected Polish CTS:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="number" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter Expected Polish CTS"  autocomplete="off" value="<?php echo $data['result']->expected_polish_cts; ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-center d-none" id="weight_loss">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="number" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round($data['result']->weight_loss,2); ?>" readonly="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {
                                         if ($row->is_fix == 1) {
@@ -165,6 +192,9 @@
                                     }
                                     ?>
                                     
+                                 
+                                    
+                                    
                                      <input type="hidden" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">
                                     
 <!--                                    <div class="row g-3 align-center d-none" id="actual_pcs">
@@ -196,34 +226,23 @@
                                             </div>
                                         </div>
                                     </div>-->
-                                    <div class="row g-3 align-center d-none" id="makable_cts">
+                                   
+
+                                    <div class="row g-3 align-center d-none" id="packate_no">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="form-label float-md-right" for="makable_cts" id="makable_cts_label">Makable cts:</label>
+                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter makable cts"  autocomplete="off" value="<?php echo $data['result']->makable_cts; ?>">
+                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off" value="<?php echo $data['result']->packate_no; ?>">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="expected_polish_cts">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="expected_polish_cts" id="expected_polish_cts_label">Expected polish cts:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter expected polish cts"  autocomplete="off" value="<?php echo $data['result']->expected_polish_cts; ?>">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="row g-3 align-center d-none" id="remarks">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -247,7 +266,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="discount" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">
+                                                    <input type="number" class="form-control" name="discount" min="0" max="100" minlength="0" maxlength="3" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -271,20 +290,7 @@
                                         </div>
                                     </div>-->
 
-                                    <div class="row g-3 align-center d-none" id="weight_loss">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo $data['result']->weight_loss; ?>" readonly="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="row g-3 align-center" id="image">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -302,7 +308,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none " id="video_link">
+<!--                                    <div class="row g-3 align-center d-none " id="video_link">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="video_link">Video link:</label>
@@ -315,7 +321,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -467,24 +473,25 @@
                                             <div class="traffic-channel-group g-2">
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price/CT</span></div>
-                                                    <div class="amount" id="display_rapa"><?php echo $data['result']->rapaport_price; ?>/CT</div>
+                                                    <div class="amount" id="display_rapa">$<?php echo number_format($data['result']->rapaport_price); ?>/CT</div>
                                                 </div>
+                                                <div class="traffic-channel-data price_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>                                                    
+                                                    <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?>/CT</div>
+                                                </div>
+                                                <div class="traffic-channel-data makable_cts_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable CTS</span></div>
+                                                    <div class="amount" id="display_makable_cts"><?php echo $data['result']->makable_cts; ?></div>
+                                                </div>
+                                                  <div class="traffic-channel-data">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_exp_pol_cts_text">Expected Polish CTS</span></div>
+                                                    <div class="amount" id="display_exp_pol_cts"><?php echo $data['result']->expected_polish_cts; ?></div>
+                                                </div>
+                                                                                                
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Discount</span></div>
                                                     <div class="amount" id="display_discount"><?php echo abs(($data['result']->discount) * 100); ?>%</div>
-                                                </div>
-                                                <div class="traffic-channel-data price_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>
-                                                    <div class="amount" id="display_price"><?php echo abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price; ?>/CT</div>
-                                                </div>
-                                                <div class="traffic-channel-data">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_exp_pol_cts_text">Expected polish cts</span></div>
-                                                    <div class="amount" id="display_exp_pol_cts"><?php echo $data['result']->expected_polish_cts; ?>/CT</div>
-                                                </div>
-                                                <div class="traffic-channel-data makable_cts_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable cts</span></div>
-                                                    <div class="amount" id="display_makable_cts"><?php echo $data['result']->makable_cts; ?></div>
-                                                </div>
+                                                </div>                                                                                                                                             
                                                 <div class="traffic-channel-data labour_charges_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
@@ -492,7 +499,7 @@
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
-                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo $data['result']->total; ?></div>
+                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo round($data['result']->total,2); ?></div>
                                                 </div>
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->

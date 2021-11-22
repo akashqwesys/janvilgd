@@ -31,13 +31,13 @@
                                             <th>Name</th>
                                             <th>Barcode</th>
                                             <th>Packate no</th>                                            
-                                            <th>Available pcs</th>
+                                            <!--<th>Available pcs</th>-->
                                             <th>Makable cts</th>
                                             <th>Expected Polish cts</th>                                            
                                             <th>Discount</th>
                                             <th>Weight loss</th> 
                                             <th>Total</th>  
-                                            <th>Category</th>                                          
+                                            <!--<th>Category</th>-->                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           
@@ -55,7 +55,7 @@
                                             <th>Expected Polish cts</th>                                            
                                             <th>Discount</th>
                                             <th>Total</th>  
-                                            <th>Category</th>                                          
+                                            <!--<th>Category</th>-->                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           
@@ -69,10 +69,10 @@
                                             <th>Name</th>
                                             <th>Barcode</th>
                                             <th>Packate no</th>                                                                                        
-                                            <th>Expected Polish cts</th>                                          
+                                            <th>Weight</th>                                          
                                             <th>Discount</th> 
                                             <th>Total</th>  
-                                            <th>Category</th>                                          
+                                            <!--<th>Category</th>-->                                          
                                             <th>isActive</th>
                                             <th>isDeleted</th>
                                             <th>Date Added</th>                                           

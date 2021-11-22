@@ -184,7 +184,8 @@
 
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
-                            $("#display_rapa").text(rapaport_price);
+                            nfObject = new Intl.NumberFormat('en-US');                                                        
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
                         }
 
                         $("#display_discount").text('0%');
@@ -197,11 +198,21 @@
                         $("#display_makable_cts").text('');
                         if (makable_cts !== '' && makable_cts !== 0) {                        
                             $("#display_makable_cts").text(makable_cts);
-                        }                        
+                        } 
+                        
+                        $("#display_price").text('');
+                        if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
+                        }
+                        
+                        
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
                             let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge_4p;
-                            $("#display_current_price").text('$'+c_price);
+//                            $("#display_current_price").text('$'+c_price);
+                             nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_current_price").text('$'+nfObject.format(c_price.toFixed(2)));
                         }                    
                     },1000);
                     
@@ -225,7 +236,8 @@
 
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
-                            $("#display_rapa").text(rapaport_price+'/CT');
+                            nfObject = new Intl.NumberFormat('en-US');                                                        
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
                         }
 
                         $("#display_discount").text('0%');
@@ -246,7 +258,11 @@
                             var ro_amount = Math.abs(amount / makable_cts);
                             var final_price = ro_amount - labour_charge_rough;
                             var total = Math.abs(final_price * makable_cts);
-                            $("#display_current_price").text('$'+total.toFixed(2));
+//                            $("#display_current_price").text('$'+total.toFixed(2));
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
+                            
+                            
                         }
                     },1000);
                 }
@@ -267,7 +283,8 @@
 
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
-                            $("#display_rapa").text(rapaport_price+'/CT');
+                            nfObject = new Intl.NumberFormat('en-US');                                                        
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
                         }
 
                         $("#display_discount").text('');
@@ -284,14 +301,17 @@
 
                         $("#display_price").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
-                            $("#display_price").text((rapaport_price*discount)+'/CT');
+//                            $("#display_price").text((rapaport_price*discount)+'/CT');
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
+                            
                         }   
 
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {                       
                             var total = Math.abs(expected_polish_cts * rapaport_price*discount);
-
-                            $("#display_current_price").text('$'+total.toFixed(2));
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
                         }
                     },1000);
                 }
@@ -310,11 +330,11 @@
                 if (cat_name == '4P Diamonds') {
                     $(".makable_cts_div").removeClass("d-none");
                     $(".labour_charges_div").removeClass("d-none"); 
-                    $(".price_div").addClass("d-none"); 
+                    $(".price_div").removeClass("d-none"); 
                     $("#display_exp_pol_cts_text").html('');
-                    $("#display_exp_pol_cts_text").text("Expected polish cts");
+                    $("#display_exp_pol_cts_text").text("Expected Polish CTS");
                     $("#display_makable_cts_text").html('');
-                    $("#display_makable_cts_text").text("Makable cts");
+                    $("#display_makable_cts_text").text("Makable CTS");
                     
                     
                     $("#makable_cts_label").html('');
@@ -323,7 +343,7 @@
                     $("#display_labour_charges").text('$'+labour_charge_4p);
 
                     $("#expected_polish_cts_label").html('');
-                    $("#expected_polish_cts_label").text('Expected polish cts:');
+                    $("#expected_polish_cts_label").text('Expected Polish CTS:');
 
                     $("#barcode").addClass("d-none");
                     $("#packate_no").addClass("d-none");
@@ -391,18 +411,18 @@
                     $(".price_div").addClass("d-none"); 
                      
                     $("#display_exp_pol_cts_text").html('');
-                    $("#display_exp_pol_cts_text").text("Expected polish cts");
+                    $("#display_exp_pol_cts_text").text("Expected Polish CTS");
                     $("#display_makable_cts_text").html('');
-                    $("#display_makable_cts_text").text("Original cts"); 
+                    $("#display_makable_cts_text").text("Original CTS"); 
                     
                     
                     $("#makable_cts_label").html('');
-                    $("#makable_cts_label").text('Org cts:');                    
+                    $("#makable_cts_label").text('Org CTS:');                    
                     $("#display_labour_charges").html('');
                     $("#display_labour_charges").text('$'+labour_charge_rough);
 
                     $("#expected_polish_cts_label").html('');
-                    $("#expected_polish_cts_label").text('Expected polish cts:');
+                    $("#expected_polish_cts_label").text('Expected Polish CTS:');
 
                     $("#barcode").addClass("d-none");
                     $("#packate_no").addClass("d-none");
@@ -437,8 +457,9 @@
                 var makable_cts = $(this).val();
                 var expected_polish_cts = $("#expected_polish_cts_input").val();
                 if (makable_cts != '' && expected_polish_cts != '') {
-                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
-                    $("#weight_loss_input").val(weight_loss);
+                    var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);                    
+                    nfObject = new Intl.NumberFormat('en-US');                              
+                    $("#weight_loss_input").val(nfObject.format(weight_loss.toFixed(2)));
                 } else {
                     $("#weight_loss_input").val('');
                 }
@@ -449,7 +470,8 @@
                 var makable_cts = $("#makable_cts_input").val();
                 if (makable_cts != '' && expected_polish_cts != '') {
                     var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
-                    $("#weight_loss_input").val(weight_loss);
+                    nfObject = new Intl.NumberFormat('en-US');   
+                    $("#weight_loss_input").val(nfObject.format(weight_loss.toFixed(2)));
                 } else {
                     $("#weight_loss_input").val('');
                 }

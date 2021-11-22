@@ -102,8 +102,11 @@ class RapaortController extends Controller {
                             $d_row->clarity = $d_row->attributes['CLARITY'];
 
                             if($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')){
-                                $color_array= explode('-',$d_row->attributes['COLOR']);
-                                $d_row->color=$color_array[0];
+                                $color = substr($d_row->attributes['COLOR'], 2, 1);                 
+                                $d_row->color=$color;
+//                                
+//                                $color_array= explode('-',$d_row->attributes['COLOR']);
+//                                $d_row->color=$color_array[0];
                             }
                             
                             
@@ -202,9 +205,9 @@ class RapaortController extends Controller {
                 $request->clarity = 'I1';
             }
 
-            if($request->cat_type == config('constant.CATEGORY_TYPE_4P')){
-                $color_array= explode('-',$request->color);
-                $request->color=$color_array[0];
+            if($request->cat_type == config('constant.CATEGORY_TYPE_4P')){                
+                $color = substr($request->color, 2, 1);                 
+                $request->color=$color;
             }
                                                 
             if (isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)) {
