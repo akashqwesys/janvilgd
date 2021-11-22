@@ -477,7 +477,19 @@
                                                 </div>
                                                 <div class="traffic-channel-data price_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>                                                    
-                                                    <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?>/CT</div>
+                                                    @php
+                                                    if($data['result']->refCategory_id==1){
+                                                        @endphp
+                                                        <div class="amount" id="display_price">$<?php echo round(abs($data['result']->total/$data['result']->makable_cts)); ?>/CT</div>
+                                                        @php    
+                                                    }else{
+                                                        @endphp
+                                                        <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?>/CT</div>
+                                                        @php  
+                                                    }
+                                                    @endphp
+                                                    
+                                                    
                                                 </div>
                                                 <div class="traffic-channel-data makable_cts_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable CTS</span></div>

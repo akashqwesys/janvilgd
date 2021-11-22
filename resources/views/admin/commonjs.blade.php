@@ -251,13 +251,7 @@
                             $("#display_makable_cts").text(makable_cts);
                         }
 
-                        $("#display_price").text('');
-                        if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
-                            nfObject = new Intl.NumberFormat('en-US');  
-                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
-                        }
-
-
+                        $("#display_price").text('');                       
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0 && makable_cts !== '' && makable_cts !== 0) {
                             var price = Math.abs(rapaport_price * (discount));
@@ -265,6 +259,8 @@
                             var ro_amount = Math.abs(amount / makable_cts);
                             var final_price = ro_amount - labour_charge_rough;
                             var total = Math.abs(final_price * makable_cts);
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_price").text(('$'+nfObject.format((total/makable_cts).toFixed(2)))+'/CT');
 //                            $("#display_current_price").text('$'+total.toFixed(2));
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
