@@ -349,7 +349,7 @@
                                                         {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
                                                         {{-- @endif --}}
-                                                        <th scope="col" class="text-center">Clarity                                                        
+                                                        <th scope="col" class="text-center">Clarity
                                                         </th>
                                                         <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
@@ -401,7 +401,8 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($recently_viewed as $rv)
-                                                    <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="/storage/other_images/{{ json_decode($rv->image)[0] }}" data-barcode="{{ $rv->barcode }}">
+                                                    @php $rv_img = json_decode($rv->image); @endphp
+                                                    <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? '/storage/other_images/'.$rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
                                                         <td scope="col" class="text-center">{{ $rv->barcode }}</td>
                                                         <td scope="col" class="text-right">{{ $rv->carat }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
