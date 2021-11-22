@@ -165,7 +165,7 @@
 
         $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function () {
             var group_id = $(this).attr('data-group_id');
-            var user_type = $(this).attr('data-user');            
+            var user_type = $(this).attr('data-user');
             if ($(this).attr('data-selected') == 1) {
                 $(this).css('border', '4px solid #00000000');
                 $(this).attr('data-selected', 0);
@@ -232,6 +232,11 @@
                     console.log(blob);
                 }
             });
+        }
+
+        function roundLabel(el) {
+            var label_path = $(el[0].target).next('.rs-container').find('.rs-tooltip');
+            label_path.text(parseFloat(label_path.text()).toFixed(2));
         }
     </script>
     <style>
@@ -335,6 +340,7 @@
                                             <table class="table mb-0" id="result-table">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col" class="text-center">Barcode</th>
                                                         <th scope="col" class="text-right">Carat</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')
@@ -379,6 +385,7 @@
                                             <table class="table mb-0" id="recent-view">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col" class="text-center">Barcode</th>
                                                         <th scope="col" class="text-right">Carat</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')
@@ -395,6 +402,7 @@
                                                 <tbody>
                                                     @foreach ($recently_viewed as $rv)
                                                     <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="/storage/other_images/{{ json_decode($rv->image)[0] }}" data-barcode="{{ $rv->barcode }}">
+                                                        <td scope="col" class="text-center">{{ $rv->barcode }}</td>
                                                         <td scope="col" class="text-right">{{ $rv->carat }}</td>
                                                         <td scope="col" class="text-center">{{ $rv->shape }}</td>
                                                         @if ($category->slug == 'polish-diamonds')
@@ -444,6 +452,7 @@
                                             <table class="table mb-0" id="compare-table">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col" class="text-center">Barcode</th>
                                                         <th scope="col" class="text-right">Carat</th>
                                                         <th scope="col" class="text-center">Shape</th>
                                                         @if ($category->slug == 'polish-diamonds')

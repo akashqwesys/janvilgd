@@ -39,7 +39,8 @@ class DiamondController extends Controller
             ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
             ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix')
             ->where('ag.refCategory_id', $request->category)
-            ->orderBy('attribute_group_id')
+            ->orderBy('ag.sort_order')
+            ->orderBy('a.attribute_group_id')
             ->get()
             ->toArray();
         $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
@@ -154,10 +155,9 @@ class DiamondController extends Controller
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
             ->where('d.refCategory_id', $response['category'])
-            // ->groupBy('d.diamond_id')
-            ->orderBy('d.diamond_id', 'desc')
+            // ->orderBy('d.diamond_id', 'desc')
+            ->inRandomOrder()
             ->get()
-            // ->pluck('diamond_id')
             ->toArray();
 
         if (!count($diamond_ids)) {
@@ -224,6 +224,7 @@ class DiamondController extends Controller
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
                 $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['price'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
+                            <td scope="col" class="text-center">' . $v['barcode'] . '</td>
                             <td scope="col" class="text-right">' . $v['carat'] . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
@@ -321,6 +322,7 @@ class DiamondController extends Controller
             $recent=array();
             $recent['refCustomer_id'] = Auth::id();
             $recent['refDiamond_id'] =  $diamonds[0]->diamond_id;
+            $recent['barcode'] =  $diamonds[0]->barcode;
             $recent['updated_at'] = date("Y-m-d h:i:s");
             $recent['price'] = $response_array['price'];
             $recent['carat'] = $response_array['carat'];
@@ -388,22 +390,22 @@ class DiamondController extends Controller
 
         $similar_ids = collect($response_array['attribute'])
             ->whereIn('ag_name', ['COLOR', 'CUT GRADE', 'CLARITY'])
+            ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
             ->pluck('attribute_id')
             ->all();
         $raw_attr = null;
         if (count($similar_ids)) {
             foreach ($similar_ids as $v) {
-                $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' and ';
+                $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' or ';
             }
             $similar = DB::table('diamonds as d')
                 ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
                 ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image', 'd.barcode')
                 ->where('d.is_active', 1)
                 ->where('d.is_deleted', 0)
-                ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
-                ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+1) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-1))')
-                ->whereRaw(rtrim($raw_attr, ' and '))
-                ->orderBy('d.diamond_id', 'desc')
+                ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+0.10) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-0.10))')
+                ->whereRaw('(' . rtrim($raw_attr, ' or ') . ')')
+                ->orderByRaw('("d"."expected_polish_cts" - '. $diamonds[0]->carat .') desc')
                 ->limit(5)
                 ->get();
             foreach ($similar as $v) {

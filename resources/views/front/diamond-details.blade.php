@@ -260,6 +260,7 @@
                 </div>
             </div>
         </div> --}}
+        @if (count($recommended))
         <div class="recommended-diamonds-box">
             <h4 class="mb-4">Recommended Diamonds</h4>
             <div class="row">
@@ -268,7 +269,9 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <a href="/customer/single-diamonds/{{$r->barcode}}">
+                                    <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                </a>
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
@@ -279,8 +282,9 @@
                 @endforeach
             </div>
         </div>
+        @endif
+        @if (count($similar))
         <div class="similar-diamonds-box">
-            @if (count($similar))
             <h4 class="mb-4">Similar Diamonds</h4>
             <div class="row">
                 @foreach ($similar as $r)
@@ -288,7 +292,9 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <a href="/customer/single-diamonds/{{$r->barcode}}">
+                                    <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                </a>
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
@@ -298,10 +304,8 @@
                 </div>
                 @endforeach
             </div>
-            @else
-            <div class="text-center"><h4 class="mb-4">No Similar Diamonds Available</h4></div>
-            @endif
         </div>
+        @endif
         <div class="order-details-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Order Details</h2>
             <div class="row">

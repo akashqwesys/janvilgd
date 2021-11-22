@@ -186,13 +186,14 @@ class DiamondController extends Controller {
                     var caratSlider = new rSlider({
                         target: '#caratSlider',
                         values: {min: 0, max: ".$max_carat."},
-                        step: 1,
+                        step: 0.01,
                         range: true,
                         tooltip: true,
                         scale: true,
                         labels: false,
-                        set: ['0', '".$max_carat."'],
+                        set: ['0', '".$max_carat. "'],
                         onChange: function (vals) {
+                            // roundLabel($(this));
                             getAttributeValues(vals, [], 'carat');
                         }
                     });
@@ -205,23 +206,21 @@ class DiamondController extends Controller {
                     if (isset($v['attributes'])) {
                         foreach ($v['attributes'] as $v1) {
                             if (count($v['attributes']) > 1) {
-                                if ($v1['name'] == 'Round Brilliant') {
+                                if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                                } else if ($v1['name'] == 'Heart Brilliant') {
+                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                                } else if ($v1['name'] == 'Pear Brilliant') {
+                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'PEAR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-                                } else if ($v1['name'] == 'Oval Brilliant') {
+                                } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                                } else if ($v1['name'] == 'Princess Cut') {
+                                } else if (in_array($v1['name'], ['Princess Cut', 'PR', 'Princess'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-                                } else if ($v1['name'] == 'Cushion') {
+                                } else if (in_array($v1['name'], ['Cushion', 'CU'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
-                                } else if ($v1['name'] == 'Emerald') {
+                                } else if (in_array($v1['name'], ['Emerald', 'EM'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
-                                } else if ($v1['name'] == 'Marquise') {
-                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
-                                } else {
+                                } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
@@ -408,7 +407,7 @@ class DiamondController extends Controller {
 
 
             if($response['user_type']=='admin'){
-                return Excel::download(new ExportUsers, 'users.xlsx');    
+                return Excel::download(new ExportUsers, 'users.xlsx');
             }
 
             $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
