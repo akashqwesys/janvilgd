@@ -251,6 +251,13 @@
                             $("#display_makable_cts").text(makable_cts);
                         }
 
+                        $("#display_price").text('');
+                        if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
+                            nfObject = new Intl.NumberFormat('en-US');  
+                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
+                        }
+
+
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0 && makable_cts !== '' && makable_cts !== 0) {
                             var price = Math.abs(rapaport_price * (discount));
@@ -408,7 +415,7 @@
                                                                                 
                     $(".makable_cts_div").removeClass("d-none");
                     $(".labour_charges_div").removeClass("d-none");  
-                    $(".price_div").addClass("d-none"); 
+                    $(".price_div").removeClass("d-none");  
                      
                     $("#display_exp_pol_cts_text").html('');
                     $("#display_exp_pol_cts_text").text("Expected Polish CTS");

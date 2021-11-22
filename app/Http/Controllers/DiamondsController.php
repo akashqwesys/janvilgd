@@ -1113,14 +1113,11 @@ class DiamondsController extends Controller {
                 }                
                 if($row->ag_name=='COLOR'){
                     $color=$row->at_name.' Color  • ';
-                }
-//                if($categories->category_type==config('constant.CATEGORY_TYPE_4P')){
-//                    if($row->ag_name=='COLOR'){                       
-//                        $color_array= explode('-',$row->at_name);
-//                        $color=$color_array[0].' Color  • ';                                                
-//                    }
-//                }                
+                }               
                 if($row->ag_name=='CLARITY'){
+                    $clarity=$row->at_name.' Clarity ';
+                }
+                if($row->ag_name=='PURITY'){
                     $clarity=$row->at_name.' Clarity ';
                 }
             }
@@ -1320,6 +1317,56 @@ class DiamondsController extends Controller {
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
 
+
+
+        $refAttribute_grp = DB::table('attribute_groups')->where('refCategory_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();
+        $batch_array1 = array();
+        $i = 0;
+        foreach ($request->attribute_group_id as $row) {
+            $sts=0;
+            foreach ($refAttribute_grp as $row_ag){
+                if($row_ag->attribute_group_id==$row){
+                    $sts=1;
+                }
+            }
+            if($sts=1){
+            $main_value = explode('_', $request->attribute_group_id_value[$i]);
+                if (isset($main_value[1])) {
+                    if ($main_value[1] == $row) {
+                        $refAttribute_id = $main_value[0];
+                        array_push($batch_array1, $refAttribute_id);
+                    }
+                }
+            }
+            $i = $i + 1;
+        }
+
+        $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
+               ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
+               ->whereIn('attributes.attribute_id',$batch_array1)->get();
+        $shape='';
+        $color='';
+        $clarity='';
+
+        if(!empty($name_data)){
+            foreach ($name_data as $row){
+                if($row->ag_name=='SHAPE'){
+                    $shape=$row->at_name.' Shape  • ';
+                }                
+                if($row->ag_name=='COLOR'){
+                    $color=$row->at_name.' Color  • ';
+                }                
+                if($row->ag_name=='CLARITY'){
+                    $clarity=$row->at_name.' Clarity ';
+                }
+                if($row->ag_name=='PURITY'){
+                    $clarity=$row->at_name.' Clarity ';
+                }
+            }
+        }
+        $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
+
+
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
@@ -1364,8 +1411,9 @@ class DiamondsController extends Controller {
         }
         $image=json_encode($imgData);
 
+
         DB::table('diamonds')->where('diamond_id', $request->id)->update([
-            'name' => isset($request->name) ? $request->name : 0,
+            'name' => $name,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,

@@ -339,7 +339,7 @@
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
                                                                 <div class="removeimg">
-                                                                    <img src="{{ '/storage/other_images/' . $img_row }}"/>
+                                                                    <img src="{{ '/storage/other_images/' . $img_row }}" style="height: 150px;width:150px;"/>
                                                                     <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
                                                                 </div>
                                                             </div>
@@ -499,7 +499,7 @@
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
-                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo round($data['result']->total,2); ?></div>
+                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format(round($data['result']->total,2)); ?></div>
                                                 </div>
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->
