@@ -98,18 +98,29 @@ class RapaortController extends Controller {
                             
                             
                             $d_row->shape = $d_row->attributes['SHAPE'];
-                            $d_row->color = $d_row->attributes['COLOR'];
+                            $d_row->color = $d_row->attributes['COLOR'];                    
                             $d_row->clarity = $d_row->attributes['CLARITY'];
 
+                            if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
+                                $d_row->color = substr($d_row->color, 2, 1);
+                                
+                                $org_clarity=$d_row->clarity;
+                                $d_row->clarity2='';
+                                if($d_row->clarity=='VS'){
+                                    $d_row->clarity='VS1';
+                                    $d_row->clarity2='VS2';
+                                }
+                                if($d_row->clarity=='SI'){
+                                    $d_row->clarity='SI1';
+                                    $d_row->clarity2='SI2';
+                                }
+                            }
+                            
                             if($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')){
                                 $color = substr($d_row->attributes['COLOR'], 2, 1);                 
                                 $d_row->color=$color;
-//                                
-//                                $color_array= explode('-',$d_row->attributes['COLOR']);
-//                                $d_row->color=$color_array[0];
                             }
-                            
-                            
+                                                        
                             $shape = $d_row->shape;
                             if ($d_row->shape == 'ROUND' || $d_row->shape == 'RO' || $d_row->shape == 'Round Brilliant') {
                                 $shape = "BR";
@@ -118,21 +129,32 @@ class RapaortController extends Controller {
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
+                                
+                                if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
+                                    $rapa_price=0;
+                                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
+                                        $rapa_price = $row_rapa->rapaport_price;                                    
+                                    }
+                                    $rapa_price2=0;                                                                    
+                                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity2) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
+                                        $rapa_price2 = $row_rapa->rapaport_price;                                    
+                                    }
+
+                                    if($rapa_price2!=0){
+                                        $rapa_price=($rapa_price+$rapa_price2)/2;
+                                    }
+                                    
+                                    $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount*$d_row->expected_polish_cts);
+                                    $data_array = [
+                                        'rapaport_price' => $rapa_price,
+                                        'total' => $total
+                                    ];
+                                    Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                }
+
                                 if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
                                     $rapa_price = $row_rapa->rapaport_price;
-
-                                    if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                                        $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount*$d_row->expected_polish_cts);
-                                        $data_array = [
-                                            'rapaport_price' => $rapa_price,
-                                            'total' => $total
-                                        ];
-                                        Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
-                                    }
-                                    if ($cat_row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-//                                        if($d_row->diamond_id==2875){
-//                                             echo $d_row->discount-1;die;
-//                                        }                                                                               
+                                    if ($cat_row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {                                                                             
                                         $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount-1)));
                                         $data_array = [
                                             'rapaport_price' => $rapa_price,
@@ -142,11 +164,9 @@ class RapaortController extends Controller {
                                     }
                                 }
                             }
-//                        }
+
                         }
                         if ($cat_row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-//                            print_r($d_row->attributes['SHAPE']);die;
-
                             $d_row->expected_polish_cts = $d_row->carat;
                             $d_row->shape = $d_row->attributes['SHAPE'];
                             $d_row->color = $d_row->attributes['COLOR'];
@@ -191,21 +211,20 @@ class RapaortController extends Controller {
 
             $labour_charge = DB::table('labour_charges')->select('amount')->where('labour_charge_id', 1)->first();
             $request->clarity = str_replace(' ', '', $request->clarity);
+        
+            if($request->cat_type == config('constant.CATEGORY_TYPE_4P')){ 
+                                
+                $org_clarity=$request->clarity;
+                $request->clarity2='';
+                if($request->clarity=='VS'){
+                    $request->clarity='VS1';
+                    $request->clarity2='VS2';
+                }
+                if($request->clarity=='SI'){
+                    $request->clarity='SI1';
+                    $request->clarity2='SI2';
+                }
 
-            if ($request->clarity == 'VS') {
-                $request->clarity = 'VS1';
-            }
-            if ($request->clarity == 'VVS') {
-                $request->clarity = 'VVS1';
-            }
-            if ($request->clarity == 'SI') {
-                $request->clarity = 'SI1';
-            }
-            if ($request->clarity == 'I') {
-                $request->clarity = 'I1';
-            }
-
-            if($request->cat_type == config('constant.CATEGORY_TYPE_4P')){                
                 $color = substr($request->color, 2, 1);                 
                 $request->color=$color;
             }
@@ -224,6 +243,18 @@ class RapaortController extends Controller {
                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($request->color) && strtolower($row_rapa->clarity) == strtolower($request->clarity) && $request->expected_polish_cts >= $row_rapa->from_range && $request->expected_polish_cts <= $row_rapa->to_range) {
                         $rapa_price = $row_rapa->rapaport_price;
                         break;
+                    }
+                }
+                if($request->cat_type == config('constant.CATEGORY_TYPE_4P')){ 
+                    $rapa_price2=0;
+                    foreach ($rapaport as $row_rapa) {
+                        if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($request->color) && strtolower($row_rapa->clarity2) == strtolower($request->clarity) && $request->expected_polish_cts >= $row_rapa->from_range && $request->expected_polish_cts <= $row_rapa->to_range) {
+                            $rapa_price2 = $row_rapa->rapaport_price;
+                            break;
+                        }
+                    }
+                    if($rapa_price2!=0){
+                        $rapa_price=($rapa_price+$rapa_price2)/2;
                     }
                 }
             }

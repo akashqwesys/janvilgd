@@ -473,18 +473,18 @@
                                             <div class="traffic-channel-group g-2">
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price/CT</span></div>
-                                                    <div class="amount" id="display_rapa">$<?php echo number_format($data['result']->rapaport_price); ?>/CT</div>
+                                                    <div class="amount" id="display_rapa">$<?php echo number_format($data['result']->rapaport_price); ?></div>
                                                 </div>
                                                 <div class="traffic-channel-data price_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Price/CT</span></div>                                                    
                                                     @php
                                                     if($data['result']->refCategory_id==1){
                                                         @endphp
-                                                        <div class="amount" id="display_price">$<?php echo round(abs($data['result']->total/$data['result']->makable_cts)); ?>/CT</div>
+                                                        <div class="amount" id="display_price">$<?php echo round(abs($data['result']->total/$data['result']->makable_cts)); ?></div>
                                                         @php    
                                                     }else{
                                                         @endphp
-                                                        <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?>/CT</div>
+                                                        <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?></div>
                                                         @php  
                                                     }
                                                     @endphp
@@ -505,7 +505,7 @@
                                                     <div class="amount" id="display_discount"><?php echo abs(($data['result']->discount) * 100); ?>%</div>
                                                 </div>                                                                                                                                             
                                                 <div class="traffic-channel-data labour_charges_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges/CT</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
                                                 </div>
                                                 <div class="traffic-channel-data" style="width:100%">

@@ -185,7 +185,7 @@
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
                             nfObject = new Intl.NumberFormat('en-US');                                                        
-                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price));
                         }
 
                         $("#display_discount").text('0%');
@@ -203,7 +203,7 @@
                         $("#display_price").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
                             nfObject = new Intl.NumberFormat('en-US');  
-                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
+                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount)));
                         }
                         
                         
@@ -237,7 +237,7 @@
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
                             nfObject = new Intl.NumberFormat('en-US');                                                        
-                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price));
                         }
 
                         $("#display_discount").text('0%');
@@ -260,7 +260,7 @@
                             var final_price = ro_amount - labour_charge_rough;
                             var total = Math.abs(final_price * makable_cts);
                             nfObject = new Intl.NumberFormat('en-US');  
-                            $("#display_price").text(('$'+nfObject.format((total/makable_cts).toFixed(2)))+'/CT');
+                            $("#display_price").text(('$'+nfObject.format((total/makable_cts).toFixed(2))));
 //                            $("#display_current_price").text('$'+total.toFixed(2));
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
@@ -287,7 +287,7 @@
                         $("#display_rapa").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0) {
                             nfObject = new Intl.NumberFormat('en-US');                                                        
-                            $("#display_rapa").text('$'+nfObject.format(rapaport_price)+'/CT');
+                            $("#display_rapa").text('$'+nfObject.format(rapaport_price));
                         }
 
                         $("#display_discount").text('');
@@ -304,9 +304,9 @@
 
                         $("#display_price").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
-//                            $("#display_price").text((rapaport_price*discount)+'/CT');
+//                            $("#display_price").text((rapaport_price*discount));
                             nfObject = new Intl.NumberFormat('en-US');  
-                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount))+'/CT');
+                            $("#display_price").text(('$'+nfObject.format(rapaport_price*discount)));
                             
                         }   
 

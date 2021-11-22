@@ -36,44 +36,30 @@ class DiamondsController extends Controller {
         if (!empty($res)) {
             foreach ($res[0] as $row) {
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                    if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol_cts']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
+
+                    if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol_cts']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity']) && ($row['clarity']=='VS' || $row['clarity']=='SI')) {
                         if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                             break;
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                         if (!empty($row['barcode'])) {
 
-//                            $row['rapa'] = str_replace(',', '', $row['rapa']);
-//                            $row['rapa'] = doubleval($row['rapa']);
-//                           
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
                             
                             $color = substr($row['color'], 2, 1);                            
-//                            
-//                            $color_array= explode('-', $row['color']);
-//                            $color=$color_array[1];
+
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
-                            
+                            $org_clarity=$row['clarity'];
                             $row['clarity2']='';
                             if($row['clarity']=='VS'){
                                 $row['clarity']='VS1';
                                 $row['clarity2']='VS2';
-                            }else{
-                                $row['clarity'].='1';                                
                             }
-
-
-                            // if($row['clarity']=='VVS'){
-                            //     $row['clarity']='VVS1';
-                            // }
-                            // if($row['clarity']=='SI'){
-                            //     $row['clarity']='SI1';
-                            // }
-                            // if($row['clarity']=='I'){
-                            //     $row['clarity']='I1';
-                            // }
-                            
+                            if($row['clarity']=='SI'){
+                                $row['clarity']='SI1';
+                                $row['clarity2']='SI2';
+                            }
                             
                             $shape=$row['shape'];
                             if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
@@ -116,11 +102,8 @@ class DiamondsController extends Controller {
                                 $image[3]=$row['image_4'];
                             }
                             $img_json= json_encode($image);
-
-//                            $color=explode('-',$row['color']);                                                        
-//                            $color=$color[0];
-                                                                                    
-                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: 4P Diamond';
+                                    
+                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$org_clarity.' Clarity :: 4P Diamond';
 
                             $data_array = [
                                 'name' => $name,
@@ -153,8 +136,6 @@ class DiamondsController extends Controller {
                                 DB::table('diamonds')->insert($data_array);
                                 $Id = DB::getPdo()->lastInsertId();
                             }
-
-
 
                             foreach ($attribute_groups as $atr_grp_row) {
                                 
@@ -237,10 +218,10 @@ class DiamondsController extends Controller {
                                 }
 
                                  if ($atr_grp_row->name === "CLARITY") {
-                                    if (!empty($row['clarity'])) {
+                                    if (!empty($org_clarity)) {
                                         $clarity = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['clarity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if ($atr_row->name == $org_clarity && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -252,7 +233,7 @@ class DiamondsController extends Controller {
                                         }
                                         if ($clarity == 0) {
                                             DB::table('attributes')->insert([
-                                                'name' => $row['clarity'],
+                                                'name' => $org_clarity,
                                                 'attribute_group_id' => $atr_grp_row->attribute_group_id,
                                                 'added_by' => $request->session()->get('loginId'),
                                                 'is_active' => 1,
@@ -317,10 +298,7 @@ class DiamondsController extends Controller {
                             break;
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
-                        if (!empty($row['barcode'])) {
-
-//                            $row['rap'] = str_replace(',', '', $row['rap']);
-//                            $row['rap'] = doubleval($row['rap']);                              
+                        if (!empty($row['barcode'])) {                             
                             $row['shape']=trim($row['shape']);                            
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));                                                         
                             
