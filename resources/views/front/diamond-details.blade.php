@@ -72,6 +72,16 @@
                                     </div>
                                     @php
                                 }
+                            } else {
+                                @endphp
+                                <div>
+                                    <div class="item" data-hash="slide2">
+                                        <div class="carousel-slide-pic">
+                                            <img src="/assets/images/No-Preview-Available.jpg" alt="No-Preview-Available">
+                                        </div>
+                                    </div>
+                                </div>
+                                @php
                             }
                             @endphp
                             @if ($certificate)
@@ -109,6 +119,16 @@
                                     </div>
                                     @php
                                 }
+                            } else {
+                                @endphp
+                                <div>
+                                    <div class="thumb">
+                                        <div class="thumb-pic">
+                                            <img src="/assets/images/No-Preview-Available.jpg" alt="No-Preview-Available">
+                                        </div>
+                                    </div>
+                                </div>
+                                @php
                             }
                             @endphp
                             @if ($certificate)
@@ -248,7 +268,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ $r->image ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
@@ -268,7 +288,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ $r->image ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
