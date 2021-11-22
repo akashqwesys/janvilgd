@@ -36,7 +36,7 @@ class DiamondsController extends Controller {
         if (!empty($res)) {
             foreach ($res[0] as $row) {
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                    if (isset($row['barcode']) && is_numeric($row['org_cts']) && is_numeric($row['exp_pol']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
+                    if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
                         if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                             break;
                         }
@@ -502,7 +502,7 @@ class DiamondsController extends Controller {
                     }
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {                    
-                        if (isset($row['stock']) && is_numeric($row['org_cts']) && is_numeric($row['exp_pol']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
+                        if (isset($row['stock']) && is_numeric($row['weight']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
 
 
                         if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
@@ -510,9 +510,6 @@ class DiamondsController extends Controller {
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['certificate'])->first();
                         if (!empty($row['stock'])) {
-
-//                            $row['price'] = str_replace(',', '', $row['price']);
-//                            $row['price'] = doubleval($row['price']);
 
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
@@ -550,9 +547,6 @@ class DiamondsController extends Controller {
                                 $image[3]=$row['image_4'];
                             }
                             $img_json= json_encode($image);
-
-//                            $name='';
-//                            $name.=$row['shape'].'-'.$row['clarity'].'-'.$row['color'].'-'.$row['weight'].'-'.'CTS'.'-'.$cat_type->name;
 
 
                             $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
