@@ -125,7 +125,24 @@ class UserController extends Controller
             $customer->date_updated = date('Y-m-d H:i:s');
             $customer->save();
 
-            $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)->first();
+            $data = new \stdClass;
+            $data->email = $customer->email;
+            $data->mobile = $customer->mobile;
+            $data->name = $customer->name;
+            $data->address = $customer->address;
+            $data->pincode = $customer->pincode;
+            $csc = DB::table('country as c')
+                ->join('state as s', 'c.country_id', '=', 's.refCountry_id')
+                ->join('city as ct', 's.state_id', '=', 'ct.refState_id')
+                ->select('c.name as country', 's.name as state', 'ct.name as city')
+                ->where('ct.city_id', $customer->refCity_id)
+                ->first();
+            $data->city = $csc->city;
+            $data->state = $csc->state;
+            $data->country = $csc->country;
+            $data->cart = DB::table('customer_cart')->select('id')->where('refCustomer_id')->count();
+
+            /* $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)->first();
             $company->name = $request->company_name;
             $company->office_no = $request->company_office_no;
             $company->official_email = $request->company_email;
@@ -146,7 +163,7 @@ class UserController extends Controller
                 $company->pan_gst_attachment = $imageName;
             }
 
-            $company->save();
+            $company->save(); */
 
             /* $admin_email = DB::table('settings')
             ->select('value')
@@ -165,7 +182,7 @@ class UserController extends Controller
                     ])
                 ); */
 
-            return $this->successResponse('Profile updated successfully');
+            return $this->successResponse('Profile updated successfully', ['personal' => $data]);
 
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
