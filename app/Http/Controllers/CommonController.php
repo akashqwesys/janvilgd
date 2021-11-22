@@ -629,7 +629,7 @@ class CommonController extends Controller
         foreach ($categories as $row){
             if($row->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
                 $data_array=array();
-                $data_array['name']='PURITY';
+                $data_array['name']='CLARITY';
                 $data_array['image_required']=0;
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
@@ -826,21 +826,6 @@ class CommonController extends Controller
                 $data_array['date_updated']=date("Y-m-d h:i:s");
                 array_push($attribute_groups_array,$data_array);
 
-//                $data_array=array();
-//                $data_array['name']='EXP POL SIZE';
-//                $data_array['image_required']=0;
-//                $data_array['field_type']=0;
-//                $data_array['refCategory_id']=$row->category_id;
-//                $data_array['is_required']=1;
-//                $data_array['sort_order']=1;
-//                $data_array['added_by']=1;
-//                $data_array['is_fix']=1;
-//                $data_array['is_active']=1;
-//                $data_array['is_deleted']=0;
-//                $data_array['date_added']=date("Y-m-d h:i:s");
-//                $data_array['date_updated']=date("Y-m-d h:i:s");
-//                array_push($attribute_groups_array,$data_array);
-
                 $data_array=array();
                 $data_array['name']='SHAPE';
                 $data_array['image_required']=1;
@@ -855,22 +840,6 @@ class CommonController extends Controller
                 $data_array['date_added']=date("Y-m-d h:i:s");
                 $data_array['date_updated']=date("Y-m-d h:i:s");
                 array_push($attribute_groups_array,$data_array);
-
-//                $data_array=array();
-//                $data_array['name']='PURITY';
-//                $data_array['image_required']=0;
-//                $data_array['field_type']=1;
-//                $data_array['refCategory_id']=$row->category_id;
-//                $data_array['is_required']=1;
-//                $data_array['sort_order']=0;
-//                $data_array['added_by']=1;
-//                $data_array['is_fix']=0;
-//                $data_array['is_active']=1;
-//                $data_array['is_deleted']=0;
-//                $data_array['date_added']=date("Y-m-d h:i:s");
-//                $data_array['date_updated']=date("Y-m-d h:i:s");
-//                array_push($attribute_groups_array,$data_array);
-
 
                 $data_array=array();
                 $data_array['name']='CERTIFICATE';

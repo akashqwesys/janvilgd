@@ -343,7 +343,8 @@
                                                         {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
                                                         {{-- @endif --}}
-                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-center">Clarity                                                        
+                                                        </th>
                                                         <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
@@ -386,7 +387,7 @@
                                                         {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
                                                         {{-- @endif --}}
-                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-center">Clarity</th>
                                                         <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>
@@ -451,7 +452,7 @@
                                                         {{-- @if ($category->slug != 'rough-diamonds') --}}
                                                         <th scope="col" class="text-center">Color</th>
                                                         {{-- @endif --}}
-                                                        <th scope="col" class="text-center">{{ ($category->slug == 'rough-diamonds') ? 'Purity' : 'Clarity' }}</th>
+                                                        <th scope="col" class="text-center">Clarity</th>
                                                         <th scope="col" class="text-right">Price</th>
                                                         <th scope="col" class="text-center">Compare</th>
                                                     </tr>

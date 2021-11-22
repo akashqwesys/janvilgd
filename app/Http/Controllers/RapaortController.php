@@ -150,7 +150,7 @@ class RapaortController extends Controller {
                             $d_row->expected_polish_cts = $d_row->carat;
                             $d_row->shape = $d_row->attributes['SHAPE'];
                             $d_row->color = $d_row->attributes['COLOR'];
-                            $d_row->purity = $d_row->attributes['PURITY'];
+                            $d_row->clarity = $d_row->attributes['CLARITY'];
 
                             $shape = $d_row->shape;
                             if ($d_row->shape == 'ROUND' || $d_row->shape == 'RO' || $d_row->shape == 'Round Brilliant') {
@@ -160,7 +160,7 @@ class RapaortController extends Controller {
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
-                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->purity)) {
+                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->clarity)) {
                                     $rapa_price = $row_rapa->rapaport_price;
                                     if ($cat_row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
                                         $price = abs($rapa_price * ($d_row->discount - 1));

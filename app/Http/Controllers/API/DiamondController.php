@@ -246,9 +246,7 @@ class DiamondController extends Controller
                 // }
                 if (isset($v['attributes']['CLARITY'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
-                } else if (isset($v['attributes']['PURITY'])) {
-                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['PURITY'] . '</td>';
-                } else {
+                }else {
                     $html .= '<td scope="col" class="text-center"> - </td>';
                 }
                 $html .= '<td scope="col" class="text-right">$' . number_format(round($v['price'], 2), 2, '.', ',') . '</td>
@@ -344,7 +342,7 @@ class DiamondController extends Controller
                     if($row['ag_name'] == "COLOR"){
                         $color = $row['at_name'];
                     }
-                    if($row['ag_name'] == "CLARITY" || $row['ag_name'] == "PURITY"){
+                    if($row['ag_name'] == "CLARITY"){
                         $clarity = $row['at_name'];
                     }
                 }

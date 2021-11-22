@@ -322,7 +322,7 @@ class DiamondsController extends Controller {
 //                            $row['rap'] = str_replace(',', '', $row['rap']);
 //                            $row['rap'] = doubleval($row['rap']);                              
                             $row['shape']=trim($row['shape']);                            
-                            $row['purity']=trim(str_replace(' ','', $row['purity']));                                                         
+                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));                                                         
                             
                             $shape=$row['shape'];
                             if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
@@ -332,7 +332,7 @@ class DiamondsController extends Controller {
                                 $shape="PS";
                             }
                             foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['purity'])){                                    
+                                if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity'])){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
                                     break;
                                 }
@@ -357,7 +357,7 @@ class DiamondsController extends Controller {
                             }
                             $img_json= json_encode($image);
 
-                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['purity'].' Purity :: Rough Diamond';
+                            $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Rough Diamond';
 
                             if(empty($row['video'])){
                                 $row['video']=NULL;                                    
@@ -394,23 +394,23 @@ class DiamondsController extends Controller {
                                 $atr_grp_row->name=trim($atr_grp_row->name);
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
-                                if ($atr_grp_row->name === "PURITY") {
-                                    if (!empty($row['purity'])) {
-                                        $purity = 0;
+                                if ($atr_grp_row->name === "CLARITY") {
+                                    if (!empty($row['clarity'])) {
+                                        $clarity = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['purity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if ($atr_row->name == $row['clarity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
                                                 $insert_array['refAttribute_id'] = $atr_row->attribute_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $purity = 1;
+                                                $clarity = 1;
                                             }
                                         }
-                                        if ($purity == 0) {
+                                        if ($clarity == 0) {
                                             DB::table('attributes')->insert([
-                                                'name' => $row['purity'],
+                                                'name' => $row['clarity'],
                                                 'attribute_group_id' => $atr_grp_row->attribute_group_id,
                                                 'added_by' => $request->session()->get('loginId'),
                                                 'is_active' => 1,
@@ -1116,10 +1116,7 @@ class DiamondsController extends Controller {
                 }               
                 if($row->ag_name=='CLARITY'){
                     $clarity=$row->at_name.' Clarity ';
-                }
-                if($row->ag_name=='PURITY'){
-                    $clarity=$row->at_name.' Clarity ';
-                }
+                }                
             }
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
@@ -1358,10 +1355,7 @@ class DiamondsController extends Controller {
                 }                
                 if($row->ag_name=='CLARITY'){
                     $clarity=$row->at_name.' Clarity ';
-                }
-                if($row->ag_name=='PURITY'){
-                    $clarity=$row->at_name.' Clarity ';
-                }
+                }               
             }
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;

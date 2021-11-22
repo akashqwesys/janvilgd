@@ -25,7 +25,7 @@
                 if($row['ag_name']=="CUT GRADE"){
                     $cut=$row['at_name'];
                 }
-                if($row['ag_name']=="CLARITY" || $row['ag_name']=="PURITY"){
+                if($row['ag_name']=="CLARITY"){
                     $clarity=$row['at_name'];
                 }
                 if($row['ag_name']=="CERTIFICATE"){

@@ -111,7 +111,7 @@
                     var shape = $("#SHAPE_"+diamondType).children("option").filter(":selected").text();                   
                     var expected_polish_cts = $("#expected_polish_cts_input").val();
                     var color = $("#COLOR_"+diamondType).children("option").filter(":selected").text();
-                    var clarity = $("#PURITY_"+diamondType).children("option").filter(":selected").text();
+                    var clarity = $("#CLARITY_"+diamondType).children("option").filter(":selected").text();
                     var data = {
                         'shape': shape,
                         'clarity': clarity,
@@ -157,7 +157,7 @@
             $('#CLARITY_1').on('change', function () {
                 calculate_current_price();
             });
-            $('#PURITY_2').on('change', function () {
+            $('#CLARITY_2').on('change', function () {
                 calculate_current_price();
             });
             $('#CLARITY_3').on('change', function () {
