@@ -7,7 +7,7 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1.0">
     <title> Laravel 8 PDF </title>
     <style>
-        table {
+        table, td, th {
             border: 1px solid black;
         }
         thead {
@@ -31,39 +31,44 @@
             justify-content: center; */
             margin-bottom: 10px;
         }
+        .text-center {
+            text-align: center;
+        }
+        .mt-2 {
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table">
+    <div class=" mt-2">
+        <div class="">
+            <div class="">
+                <table class="table" align="center">
                     <caption>
                         <div class=title-table>
                             <img src="https://janvi.akashs.in/admin_assets/images/logo-dark.png">
                             <div class="h3">
-                                Diamonds List
+                                Diamonds List - {{ $category_name }}
                             </div>
                         </div>
                     </caption>
                     <thead>
                         <tr>
-                            <th scope="col" class="col1"> Name </th>
+                            <th scope="col" class="col1"> Barcode </th>
                             <th scope="col" class="col1"> Carat </th>
-                            <th scope="col" class="col1"> Price </th>
                             <th scope="col" class="col2"> Shape </th>
                             <th scope="col" class="col2"> Cut </th>
                             <th scope="col" class="col2"> Color </th>
                             <th scope="col" class="col2"> Clarity </th>
+                            <th scope="col" class="col1"> Price </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($diamonds as $v)
                         <tr>
-                            <td class="col1" align="center"> {{$v['diamond_name']}} </td>
+                            <td class="col1" align="center"> {{$v['barcode']}} </td>
                             <td class="col1" align="center"> {{$v['carat']}} </td>
-                            <td class="col1" align="center"> {{round($v['price'], 2)}} </td>
                             <td class="col1" align="center">
                                 @if (isset($v['attributes']['SHAPE']))
                                 {{ $v['attributes']['SHAPE'] }}
@@ -92,6 +97,7 @@
                                 -
                                 @endif
                             </td>
+                            <td class="col1" align="center"> {{round($v['price'], 2)}} </td>
                         </tr>
                         @endforeach
                     </tbody>

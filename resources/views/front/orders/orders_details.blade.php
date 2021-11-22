@@ -55,15 +55,14 @@
                         </div>
                         @else
                         <div class="order-details p-4">
+                            @php $temp_id = 0; $hr = null; @endphp
                             @foreach ($orders as $o)
                             <div>
-                                <div>Transaction ID: <b>{{ $o->refTransaction_id }}</b></div>
-                                <div>Total Amount: <b>${{ $o->total_paid_amount }}</b></div>
-                                <div class="">Payment Mode: <b>{{ $o->payment_mode_name }}</b></div>
-                                <div class="">Order Status: <b>{{ $o->order_status_name }}</b></div>
-                                <div class="mb-2">Order Date: {{ date(' dS F Y, l', strtotime($o->created_at)) }}</div>
-                                <div class="row">
-                                    <div class="col col-md-6 col-lg-4 bd-right">
+                                @php $hr = '<hr>'; @endphp
+                                @if ($temp_id != $o->order_id)
+                                    @php $temp_id = $o->order_id; $hr = null; @endphp
+                                <div class="row mb-3">
+                                    <div class="col col-md-6 col-lg-6 bd-right">
                                         <div class="mb-1 pb-1 bd-bottom bd-top">Billing Address</div>
                                         <div>{{ $o->billing_company_name }}</div>
                                         <div>{{ $o->billing_company_office_address }}</div>
@@ -72,7 +71,7 @@
                                         <div>Mo: {{ $o->billing_company_office_no }}</div>
                                         <div>Email: {{ $o->billing_company_office_email }}</div>
                                     </div>
-                                    <div class="col col-md-6 col-lg-4 bd-left">
+                                    <div class="col col-md-6 col-lg-6 bd-left">
                                         <div class="mb-1 p-1 bd-bottom bd-top">Shipping Address</div>
                                         <div>{{ $o->shipping_company_name }}</div>
                                         <div>{{ $o->shipping_company_office_address }}</div>
@@ -82,8 +81,24 @@
                                         <div>Email: {{ $o->shipping_company_office_email }}</div>
                                     </div>
                                 </div>
-                                <hr>
+                                @endif
+
+                                <div class="row">
+                                    <div class="col col-12 col-lg-4">
+                                        <div class="order-prouct-image mb-3">
+                                            <img src="{{ $o->images[0] }}" alt="product" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-lg-8">
+                                        <div class="order-prouct-details">
+                                            <h4 class="product-name">{{ $o->diamond_name }}</h4>
+                                            <p>Barcode: {{ $o->barcode }}</p>
+                                            <p class="product-price">${{ round($o->price, 2) }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            {!! $hr !!}
                             @endforeach
                             @endif
                         </div>
