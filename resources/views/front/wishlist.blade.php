@@ -22,13 +22,13 @@
                     $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));
                     $("#copylink").val('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
                     $("#staticBackdrop").modal("show");
-//                    navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
-//                    $.toast({
-//                        heading: 'Success',
-//                        text: "Link is copied",
-//                        icon: 'success',
-//                        position: 'top-right'
-//                    });
+                   /* navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
+                   $.toast({
+                       heading: 'Success',
+                       text: "Link is copied",
+                       icon: 'success',
+                       position: 'top-right'
+                   }); */
                 }else{
                     $.toast({
                         heading: 'Error',
@@ -69,10 +69,8 @@
             </div>
         </div>
         <div class="row">
-            @php
-                if(!empty($response)){
-                    foreach($response as $row) {
-            @endphp
+            @if(!empty($response))
+            @foreach($response as $row)
             <div class="col col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" id="diamond_{{$row->diamond_id}}">
                 <div class="card wish-card">
                     <div class="card-body">
@@ -81,31 +79,15 @@
                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
                             </svg>
                         </a>
-                        @php
-                            $i=0;
-                            $image=($row->image);
-                                if(!empty($image)){
-                                    foreach($image as $v) {
-                                        if($i==0){
-                        @endphp
-                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" style="height:200px;" src="{{ $v }}" alt="{{ $v }}">  </a>
-                        @php
-                                    }
-                                    $i=$i+1;
-                                }
-                            }
-                            @endphp
-                            <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
-                            <p class="price">${{number_format(round($row->total, 2), 2, '.', ',')}}</p>
-                            <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
+                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" src="{{ count($row->image) ? $row->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="No-Preview-Available">  </a>
+                        <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
+                        <p class="price">${{number_format(round($row->total, 2), 2, '.', ',')}}</p>
+                        <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
                     </div>
                 </div>
             </div>
-            @php
-                    }
-                }
-            @endphp
-
+            @endforeach
+            @endif
         </div>
     </div>
 </section>
