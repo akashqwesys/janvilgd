@@ -16,6 +16,8 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
+use App\Exports\DiamondExport;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class DiamondController extends Controller {
@@ -403,6 +405,12 @@ class DiamondController extends Controller {
                 ->first();
             $final_d = $aa->searchDiamonds($request);
             $diamonds = $final_d->original['data'];
+
+
+            if($response['user_type']=='admin'){
+                return Excel::download(new ExportUsers, 'users.xlsx');    
+            }
+
             $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
             $path = public_path('pdf/');
             $fileName =  time() . '.' . 'pdf';

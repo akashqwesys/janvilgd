@@ -54,19 +54,25 @@ class DiamondsController extends Controller {
 //                            $color_array= explode('-', $row['color']);
 //                            $color=$color_array[1];
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
-                                                         
+                            
+                            $row['clarity2']='';
                             if($row['clarity']=='VS'){
                                 $row['clarity']='VS1';
+                                $row['clarity2']='VS2';
+                            }else{
+                                $row['clarity'].='1';                                
                             }
-                            if($row['clarity']=='VVS'){
-                                $row['clarity']='VVS1';
-                            }
-                            if($row['clarity']=='SI'){
-                                $row['clarity']='SI1';
-                            }
-                            if($row['clarity']=='I'){
-                                $row['clarity']='I1';
-                            }
+
+
+                            // if($row['clarity']=='VVS'){
+                            //     $row['clarity']='VVS1';
+                            // }
+                            // if($row['clarity']=='SI'){
+                            //     $row['clarity']='SI1';
+                            // }
+                            // if($row['clarity']=='I'){
+                            //     $row['clarity']='I1';
+                            // }
                             
                             
                             $shape=$row['shape'];
@@ -82,11 +88,25 @@ class DiamondsController extends Controller {
                                     break;
                                 }
                             }
+                            $row['rapa2']=0;
+                            if(!empty($row['clarity2'])){
+                                foreach ($rapaport as $row_rapa){
+                                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity2']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                        $row['rapa2']=$row_rapa->rapaport_price; 
+                                        break;
+                                    }
+                                }
+                            }
+                            if($row['rapa2']!=0){
+                                $row['rapa']=($row['rapa']+$row['rapa2'])/2;
+                            }
+                            
+
                             $row['discount'] = str_replace('-', '', $row['discount']);                            
                             $row['discount'] = doubleval($row['discount']);
                                                                                                           
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
-                            $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - $labour_charge_4p->amount;
+                            $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
                             
                             $image=array();
                             if(isset($row['image_link'])){
@@ -1111,7 +1131,7 @@ class DiamondsController extends Controller {
 
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();
             $discount=((100-$request->discount)/100);
-            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge_4p->amount;
+            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
@@ -1302,7 +1322,7 @@ class DiamondsController extends Controller {
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $discount=((100-$request->discount)/100);
-            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - $labour_charge_4p->amount;
+            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){

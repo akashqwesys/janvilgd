@@ -27,7 +27,8 @@
                                         <tr>                                           
                                             <th>No</th>
                                             <th>Name</th>                                           
-                                            <th>Date Updated</th>                                                                                       
+                                            <th>Date Updated</th>
+                                            <th>Action</th>                                                                                       
                                         </tr>                                                                                                                     
                                     </thead>                                                                                                       
                                 </table>

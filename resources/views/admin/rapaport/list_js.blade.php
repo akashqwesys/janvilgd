@@ -5,7 +5,13 @@
             var table_columns = [                    
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},                    
-                    {data: 'date_updated', name: 'date_updated'}                  
+                    {data: 'date_updated', name: 'date_updated'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: true,
+                        searchable: true
+                    }                 
                 ];                              
             $('#table').DataTable({
                 responsive: {

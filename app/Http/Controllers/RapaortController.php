@@ -122,7 +122,7 @@ class RapaortController extends Controller {
                                     $rapa_price = $row_rapa->rapaport_price;
 
                                     if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                                        $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - $labour_charge_4p->amount;
+                                        $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount*$d_row->expected_polish_cts);
                                         $data_array = [
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
@@ -268,15 +268,26 @@ class RapaortController extends Controller {
         $request->session()->put("import_refRapaport_type_id", $request->rapaport_type_id);
         $rapa_type = DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->first();
         DB::table('rapaport')->where('refRapaport_type_id', $request->rapaport_type_id)->delete();
+
+
+        // $exist_file = DB::table('customer_company_details')->where('refCustomer_id', $request->id)->first();
+        // if ($exist_file) {
+        //     if(file_exists('/public/user_files/' . $exist_file->pan_gst_attachment)){
+        //         unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_attachment));
+        //     }
+        // }        
+        $csv = time() . '_' . preg_replace('/\s+/', '_', $request->file('file')->getClientOriginalName());
+        $request->file('file')->storeAs("public/user_files", $csv);
+
         $res = Excel::import(new RapaportImport, request()->file('file'));
         $date = date("Y-m-d h:i:s");
         if ($rapa_type->rapaport_category == 1) {
-            DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated' => $date]);
+            DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated' => $date,'csv_link'=>$csv]);
             $request->session()->put("request_check", 1);
             $request->session()->put("refRapaport_type_id", $request->rapaport_type_id);
         }
         if ($rapa_type->rapaport_category == 2) {
-            DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated' => $date]);
+            DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated' => $date,'csv_link'=>$csv]);
             $request->session()->put("request_check", 1);
             $request->session()->put("refRapaport_type_id", $request->rapaport_type_id);
         }
@@ -315,10 +326,13 @@ class RapaortController extends Controller {
         if ($request->ajax()) {
             $data = DB::table('rapaport_type')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
                             ->addColumn('index', '')
                             ->editColumn('date_updated', function ($row) {
-                                return date_formate($row->date_updated);
+                                return date_time_formate($row->date_updated);
+                            })
+                            ->addColumn('action', function ($row) {                                
+                                $actionBtn= ' <a href="/storage/user_files/' . $row->csv_link . '" class="btn btn-xs btn-info" target="_blank">&nbsp;CSV&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
+                                return $actionBtn;
                             })
                             ->escapeColumns([])
                             ->make(true);
