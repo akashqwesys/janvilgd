@@ -504,7 +504,6 @@ class DiamondsController extends Controller {
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {                    
                         if (isset($row['stock']) && is_numeric($row['weight']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity'])) {
 
-
                         if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
                             break;
                         }
