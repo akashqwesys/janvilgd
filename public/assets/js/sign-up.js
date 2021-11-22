@@ -217,11 +217,16 @@ $("#msform").validate({
         company_state: {required: "Please select the state/province"},
         company_city: {required: "Please enter the city name"},
         company_pincode: {required: "Please enter the pincode"},
-        id_proof: {required: "Please upload your business ID proof"},
+        id_upload: {required: "Please upload your business ID proof"},
         privacy_terms: {required: "Please check-mark/accept our terms of use and privacy policy"}
     },
     errorPlacement: function(error, element) {
-        error.appendTo( element.parent().nextAll("div.errTxt") );
+        if (element.attr('id') == 'id_upload') {
+            error.appendTo(element.closest('.custom-file-field').nextAll("div.errTxt"));
+        } else {
+            error.appendTo(element.parent().nextAll("div.errTxt"));
+        }
+        console.log(element.attr('id'));
     },
     submitHandler: function(form) {
         // do other things for a valid form
@@ -281,9 +286,41 @@ $(document).ready(function () {
     var current_fs, next_fs, previous_fs; //fieldsets
     var left, opacity, scale; //fieldset properties which we will animate
     var animating; //flag to prevent quick multi-click glitches
+    $(document).on('click', '.previous-1, .previous-2', function () {
+        if (animating) return false;
+        animating = true;
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+        //activate next step on progressbar using the index of previous_fs
+        $("#progressbar li").eq($("fieldset").index(previous_fs)).addClass("active");
+        $("#progressbar li").eq($("fieldset").index(previous_fs)+1).removeClass("active");
+        //show the next fieldset
+        previous_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({ opacity: 0 }, {
+            step: function (now, mx) {
+                //as the opacity of current_fs reduces to 0 - stored in "now"
+                //1. scale current_fs down to 80%
+                scale = 1 - (1 - now) * 0.2;
+                //2. bring next_fs from the right(50%)
+                left = (now * 50) + "%";
+                //3. increase opacity of next_fs to 1 as it moves in
+                opacity = 1 - now;
+                current_fs.css({});
+                previous_fs.css({ 'left': left, 'opacity': opacity });
+            },
+            duration: 0,
+            complete: function () {
+                current_fs.hide();
+                animating = false;
+            },
+            //this comes from the custom easing plugin
+            easing: 'easeInOutBack'
+        });
+    });
     $(document).on('click', '.next-1, .next-2', function () {
         if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
-                return false;
+            return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
             return false;

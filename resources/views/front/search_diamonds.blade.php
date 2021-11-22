@@ -325,7 +325,7 @@
                                             <h6 class="diamond-name"></h6>
                                             <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                             <p class="diamond-cost"></p>
-                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>
@@ -368,7 +368,7 @@
                                             </div>
                                             <h6 class="diamond-name"></h6>
                                             <p class="diamond-cost"></p>
-                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>
@@ -433,7 +433,7 @@
                                             </div>
                                             <h6 class="diamond-name"></h6>
                                             <p class="diamond-cost"></p>
-                                            <a href="javascript::void(0)" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
                                         </div>
                                     </div>
                                 </div>

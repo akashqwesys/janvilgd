@@ -510,6 +510,8 @@ class DiamondController extends Controller {
         if (!empty($result->original['data'])) {
             $response = $result->original['data'];
             $attributes = $result->original['data']['attribute'];
+            $recommended = collect($result->original['data']['recommended'])->slice(-0, 4);
+            $similar = collect($result->original['data']['similar'])->slice(-0, 4);
             $category = DB::table('categories')
                 ->select('slug')
                 ->where('category_id', $result->original['data']['refCategory_id'])
@@ -517,7 +519,7 @@ class DiamondController extends Controller {
             $response['category'] = $category->slug;
         }
         $title = 'Diamond Details';
-        return view('front.diamond-details', compact('title', 'response', 'attributes'));
+        return view('front.diamond-details', compact('title', 'response', 'attributes', 'similar', 'recommended'));
     }
 
     public function addToWishlist(Request $request) {

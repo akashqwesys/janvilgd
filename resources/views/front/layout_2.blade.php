@@ -32,29 +32,29 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+		          <a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+		          <a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+		          <a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
 		      </ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
 		    	<ul class="navbar-nav ms-auto">
 		    		<li class="nav-item">
-		    			<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
+		    			<a class="nav-link" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
 		    		</li>
-					<li><a class="nav-link active" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
-		      		<li><a class="nav-link active" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
+					<li><a class="nav-link noti-badge" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+		      		<li><a class="nav-link" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		    		<li class="nav-item">
 						@auth
-						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" ></a>
+						<a class="nav-link" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" ></a>
 						@endauth
 						@guest
-		    			<a class="nav-link active" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" ></a>
+		    			<a class="nav-link" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" ></a>
 						@endguest
 		    		</li>
 		    	</ul>

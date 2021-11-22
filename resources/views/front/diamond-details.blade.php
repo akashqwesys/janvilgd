@@ -7,12 +7,12 @@
     <div class="container">
         @if(!empty($response))
         @php
-            $color='-';
-            $cut='-';
-            $size='-';
-            $clarity='-';
-            $certificate='';
-            $certificate_url='';
+        $color='-';
+        $cut='-';
+        $size='-';
+        $clarity='-';
+        $certificate='';
+        $certificate_url='';
         if(!empty($attributes)){
 
             foreach($attributes as $row){
@@ -48,40 +48,40 @@
                                 <div class="carousel-slide-pic">
                                     <div class="slider-video">
                                         @if(strpos($response['video_link'], 'http') !== 0)
-                                            <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
+                                        <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
                                         @else
-                                            <iframe width="100%" height="100%" src="{{ $response['video_link'] }}"></iframe>
+                                        <iframe width="100%" height="100%" src="{{ $response['video_link'] }}"></iframe>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             @endif
                             @php
-                                $i=1;
-                                $image=($response['image']);
-                                if(!empty($image)){
-                                    foreach(($response['image']) as $rv) {
+                            $i=1;
+                            $image=($response['image']);
+                            if(!empty($image)){
+                                foreach(($response['image']) as $rv) {
                                     $i=$i+1;
-                            @endphp
-                                <div>
-                                    <div class="item" data-hash="slide{{$i}}">
-                                        <div class="carousel-slide-pic">
-                                            <img src="{{ $rv }}" alt="{{ $rv }}">
+                                    @endphp
+                                    <div>
+                                        <div class="item" data-hash="slide{{$i}}">
+                                            <div class="carousel-slide-pic">
+                                                <img src="{{ $rv }}" alt="{{ $rv }}">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @php
-                                    }
+                                    @php
                                 }
+                            }
                             @endphp
                             @if ($certificate)
-                                <div>
-                                    <div class="item" data-hash="slide{{ ++$i }}">
-                                        <div class="carousel-slide-pic">
-                                            <img src="{{ $certificate_url }}" alt="Certificate">
-                                        </div>
+                            <div>
+                                <div class="item" data-hash="slide{{ ++$i }}">
+                                    <div class="carousel-slide-pic">
+                                        <img src="{{ $certificate_url }}" alt="Certificate">
                                     </div>
                                 </div>
+                            </div>
                             @endif
                         </div>
                         <div class="product--slider-thumb">
@@ -95,11 +95,11 @@
                             </div>
                             @endif
                             @php
-                                $i=0;
-                                if(!empty($image)){
-                                    foreach(($response['image']) as $rv) {
+                            $i=0;
+                            if(!empty($image)){
+                                foreach(($response['image']) as $rv) {
                                     $i=$i+1;
-                            @endphp
+                                    @endphp
                                     <div>
                                         <div class="thumb">
                                             <div class="thumb-pic">
@@ -107,18 +107,18 @@
                                             </div>
                                         </div>
                                     </div>
-                            @php
-                                    }
+                                    @php
                                 }
+                            }
                             @endphp
                             @if ($certificate)
-                                <div>
-                                    <div class="thumb">
-                                        <div class="thumb-pic">
-                                            <img src="{{ $certificate_url }}" alt="Certificate">
-                                        </div>
+                            <div>
+                                <div class="thumb">
+                                    <div class="thumb-pic">
+                                        <img src="{{ $certificate_url }}" alt="Certificate">
                                     </div>
                                 </div>
+                            </div>
                             @endif
                         </div>
                     </div>
@@ -155,11 +155,11 @@
                                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
                                             <ul>
-                                            @foreach ($attributes as $a)
-                                            @if (!empty($a['at_name']))
+                                                @foreach ($attributes as $a)
+                                                @if (!empty($a['at_name']))
                                                 <li>{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
-                                            @endif
-                                            @endforeach
+                                                @endif
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -182,7 +182,8 @@
             </div>
         </div>
         @endif
-        <div class="four-diamond-content main-box">
+
+        {{-- <div class="four-diamond-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> The Four C’s of Your Diamond</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6">
@@ -238,6 +239,48 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+        <div class="recommended-diamonds-box">
+            <h4 class="mb-4">Recommended Diamonds</h4>
+            <div class="row">
+                @foreach ($recommended as $r)
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="{{ $r->image ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                            </div>
+                            <div>{{ $r->name }}</div>
+                            <div class="text-muted">{{ $r->barcode }}</div>
+                            <div class="mt-2"><h5><b>${{ $r->price }}</b></h5></div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="similar-diamonds-box">
+            @if (count($similar))
+            <h4 class="mb-4">Similar Diamonds</h4>
+            <div class="row">
+                @foreach ($similar as $r)
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="{{ $r->image ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                            </div>
+                            <div>{{ $r->name }}</div>
+                            <div class="text-muted">{{ $r->barcode }}</div>
+                            <div class="mt-2"><h5><b>${{ $r->price }}</b></h5></div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="text-center"><h4 class="mb-4">No Similar Diamonds Available</h4></div>
+            @endif
         </div>
         <div class="order-details-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Order Details</h2>
@@ -264,20 +307,21 @@
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Estimates ships by:
                                         <span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
-                                    <div class="accordion-body">
-                                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
+                                        <div class="accordion-body">
+                                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingthree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="false" aria-controls="collapsethree">Payment</button>
-                                </h2>
-                                <div id="collapsethree" class="accordion-collapse collapse" aria-labelledby="headingthree" data-bs-parent="#accordionExample1">
-                                    <div class="accordion-body">
-                                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingthree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="false" aria-controls="collapsethree">Payment</button>
+                                    </h2>
+                                    <div id="collapsethree" class="accordion-collapse collapse" aria-labelledby="headingthree" data-bs-parent="#accordionExample1">
+                                        <div class="accordion-body">
+                                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -285,74 +329,38 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="compare-diamonds-content main-box">
+                <h2 class="title"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Compare with Similar diamonds</h2>
+                <div class="compare-diamonds-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center"></th>
+                                <th scope="col" class="text-center">Diamond-1</th>
+                                <th scope="col" class="text-center">Diamond-2</th>
+                                <th scope="col" class="text-center">Diamond-3</th>
+                                <th scope="col" class="text-center">Diamond-4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="col"></td>
+                                <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
+                                <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
+                                <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
+                                <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="text-center"><h6>Price</h6></td>
+                                <td scope="col" class="text-center"><p>$500</p></td>
+                                <td scope="col" class="text-center"><p>$500</p></td>
+                                <td scope="col" class="text-center"><p>$500</p></td>
+                                <td scope="col" class="text-center"><p>$500</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> -->
         </div>
-        <!-- <div class="compare-diamonds-content main-box">
-                        <h2 class="title"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Compare with Similar diamonds</h2>
-                        <div class="compare-diamonds-table">
-                                        <table class="table">
-                                                        <thead>
-                                                                        <tr>
-                                                                                        <th scope="col" class="text-center"></th>
-                                                                                        <th scope="col" class="text-center">Diamond-1</th>
-                                                                                        <th scope="col" class="text-center">Diamond-2</th>
-                                                                                        <th scope="col" class="text-center">Diamond-3</th>
-                                                                                        <th scope="col" class="text-center">Diamond-4</th>
-                                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                                        <tr>
-                                                                                        <td scope="col"></td>
-                                                                                        <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
-                                                                                        <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
-                                                                                        <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
-                                                                                        <td scope="col" class="text-center"><div class="diamond-image"><img src="{{ asset(check_host().'assets/images') }}/MRCYVCDV.png" class="img-fluid"></div></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Price</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Shape</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Cut</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Clarity</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Color</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                                        <td scope="col" class="text-center"><p>$500</p></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                                        <td scope="col" class="text-center"><h6>Carat</h6></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                                        <td scope="col" class="text-center"><p>Round</p></td>
-                                                                        </tr>
-                                                        </tbody>
-                                        </table>
-                        </div>
-        </div> -->
-    </div>
-</section>
-@endsection
+    </section>
+    @endsection

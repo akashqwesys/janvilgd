@@ -119,8 +119,7 @@
                                         <div class="errTxt"></div>
                                     </div>
                                 </div>
-                                <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous"/> -->
-                                <button class="next-1 action-button">Next</button>
+                                <button class="next-1 action-button btn">Next</button>
                                 {{-- <input type="button" name="next" class="next action-button" value="Next" /> --}}
                             </fieldset>
                             <fieldset>
@@ -204,7 +203,8 @@
                                         <div class="errTxt"></div>
                                     </div>
                                 </div>
-                                <button class="next-2 action-button">Next</button>
+                                <a class="previous-1 action-button-previous btn" href="javascript:void(0);">Previous</a>
+                                <button class="next-2 action-button btn">Next</button>
                             </fieldset>
                             <fieldset>
                                 <div class="row">
@@ -229,8 +229,8 @@
                                         <div class="errTxt"></div>
                                     </div>
                                 </div>
-                                <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous"/> -->
-                                <button type="submit" class="submit action-button"> Done </button>
+                                <a class="previous-2 action-button-previous btn" href="javascript:void(0);">Previous</a>
+                                <button type="submit" class="submit action-button btn"> Done </button>
                             </fieldset>
                         </form>
                     </div>

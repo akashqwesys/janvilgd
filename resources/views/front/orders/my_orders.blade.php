@@ -38,10 +38,11 @@
                             <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
                             <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
                             <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
-                            <li class="tab-item"><a href="javascript::void(0);" class="tab-link">Orders</a></li>
+                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Orders</a></li>
                             <li class="tab-item"><a href="/customer/order-details" class="tab-link">Orders Details</a></li>
                         </ul>
                     </div>
+                    <hr>
                 </div>
                 <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
                     <div class="order-info">

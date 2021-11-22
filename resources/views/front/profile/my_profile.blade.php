@@ -31,12 +31,13 @@
                     <div class="navbar-tabs">
                         <ul class="list-unstyled mb-0">
                             <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
-                            <li class="tab-item"><a href="javascript::void(0)" class="tab-link">Profile</a></li>
+                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Profile</a></li>
                             <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
                             <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
                         </ul>
                     </div>
+                    <hr>
                 </div>
                 <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
                     <form method="POST" action="/customer/update-profile" enctype="multipart/form-data" id="profileForm">
