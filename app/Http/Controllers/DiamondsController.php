@@ -35,8 +35,7 @@ class DiamondsController extends Controller {
         $attr_group_array = array();
         if (!empty($res)) {
             foreach ($res[0] as $row) {
-                if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-
+                if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {                    
                     if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol_cts']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity']) && ($row['clarity']=='VS' || $row['clarity']=='SI')) {
                         if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                             break;
@@ -62,18 +61,24 @@ class DiamondsController extends Controller {
                             }
                             
                             $shape=$row['shape'];
+                            $shape1=$row['shape'];
+                            
+
                             if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
-                            }
-                            if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
+                            }else{
                                 $shape="PS";
                             }                           
+                            // if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
+                            //     $shape="PS";
+                            // }                           
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
-                                    $row['rapa']=$row_rapa->rapaport_price; 
+                                    $row['rapa']=$row_rapa->rapaport_price;                                                                         
                                     break;
-                                }
+                                }                                
                             }
+
                             $row['rapa2']=0;
                             if(!empty($row['clarity2'])){
                                 foreach ($rapaport as $row_rapa){
@@ -83,10 +88,12 @@ class DiamondsController extends Controller {
                                     }
                                 }
                             }
+                           
+
                             if($row['rapa2']!=0){
                                 $row['rapa']=($row['rapa']+$row['rapa2'])/2;
                             }
-                                                       
+                                                                                                           
                             $row['discount'] = str_replace('-', '', $row['discount']);                            
                             $row['discount'] = doubleval($row['discount']);
                                                                                                           

@@ -128,12 +128,15 @@ class RapaortController extends Controller
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
-                                $rapa_price=0;
-                                if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {                                   
+                                
+                                if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {  
+                                    $rapa_price=0;                                 
                                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                        $rapa_price1 = $row_rapa->rapaport_price;                                                                                                                                                                
+                                        $rapa_price = $row_rapa->rapaport_price;  
+                                        if($d_row->diamond_id==3111){                                        
+                                            echo  $rapa_price;die;
+                                        }                                                                                                                       
                                     }
-
                                     $rapa_price2 = 0;
                                     if ($d_row->clarity == 'VS') {
                                         if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity2) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
@@ -142,13 +145,14 @@ class RapaortController extends Controller
                                     }
 
                                     if ($rapa_price2 != 0) {                                        
-                                        $rapa_price1 = ($rapa_price1 + $rapa_price2) / 2;
+                                        $rapa_price = ($rapa_price + $rapa_price2) / 2;
                                     }
                                    
-                                    $total = abs(($rapa_price1 * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
+
+                                    $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
                                     $data_array = [
                                         'diamond_id'=>$d_row->diamond_id,
-                                        'rapaport_price' => $rapa_price1,
+                                        'rapaport_price' => $rapa_price,
                                         'total' => $total
                                     ];
                                     array_push($value,$data_array);
