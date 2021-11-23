@@ -92,17 +92,20 @@ class DiamondController extends Controller
             }
         }
         $max = DB::table('diamonds')
-            ->selectRaw('max("total") as "price", max("expected_polish_cts") as "carat"')
+            ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
+            ->where('refCategory_id', $request->category)
             ->first();
         if ($max) {
-            $max_price = round($max->price + 1);
-            $max_carat = round($max->carat + 1);
+            $min_price = round($max->min_price - 1);
+            $max_price = round($max->max_price + 1);
+            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
+            $max_carat = round($max->max_carat + 1);
         } else {
-            $max_price = $max_carat = 0;
+            $max_price = $min_carat = $max_carat = $min_price = 0;
         }
         $main_data['attribute_groups'] = array_values($attr);
-        $main_data['price'] = ['min' => 0, 'max' => $max_price];
-        $main_data['carat'] = ['min' => 0, 'max' => $max_carat];
+        $main_data['price'] = ['min' => $min_price, 'max' => $max_price];
+        $main_data['carat'] = ['min' => $min_carat, 'max' => $max_carat];
 
         return $this->successResponse('Success', $main_data);
     }

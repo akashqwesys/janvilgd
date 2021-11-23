@@ -164,7 +164,7 @@
         });
 
         $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function () {
-            var group_id = $(this).attr('data-group_id');            
+            var group_id = $(this).attr('data-group_id');
             if ($(this).attr('data-selected') == 1) {
                 $(this).css('border', '4px solid #00000000');
                 $(this).attr('data-selected', 0);
@@ -211,7 +211,7 @@
                     'group_id': group_id,
                     'category': global_category,
                     'export': 'export'
-                    
+
                 },
                 xhrFields: {
                     responseType: 'blob'
@@ -479,4 +479,13 @@
             </div>
         </div>
     </section>
+@endsection
+@section('js')
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+</script>
 @endsection

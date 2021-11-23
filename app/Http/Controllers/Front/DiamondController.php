@@ -95,7 +95,7 @@ class DiamondController extends Controller {
                                 } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 }
-                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
@@ -154,13 +154,16 @@ class DiamondController extends Controller {
             }
         }
         $max = DB::table('diamonds')
-            ->selectRaw('max("total") as "price", max("expected_polish_cts") as "carat"')
+            ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
+            ->where('refCategory_id', $category->category_id)
             ->first();
         if ($max) {
-            $max_price = round($max->price + 1);
-            $max_carat = round($max->carat + 1);
+            $min_price = round($max->min_price - 1);
+            $max_price = round($max->max_price + 1);
+            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
+            $max_carat = round($max->max_carat + 1);
         } else {
-            $max_price = $max_carat = 0;
+            $max_price = $min_carat = $max_carat = $min_price = 0;
         }
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
@@ -181,26 +184,26 @@ class DiamondController extends Controller {
         $html .= "<script type='text/javascript'>
                     var priceSlider = new rSlider({
                         target: '#priceSlider',
-                        values: {min: 0, max: ".$max_price."},
+                        values: {min: ".$min_price.", max: ".$max_price."},
                         step: 20,
                         range: true,
                         tooltip: true,
                         scale: true,
                         labels: false,
-                        set: ['0', '".$max_price."'],
+                        set: ['".$min_price."', '".$max_price."'],
                         onChange: function (vals) {
                             getAttributeValues(vals, [], 'price');
                         }
                     });
                     var caratSlider = new rSlider({
                         target: '#caratSlider',
-                        values: {min: 0, max: ".$max_carat."},
+                        values: {min: ".$min_carat.", max: ".$max_carat."},
                         step: 0.01,
                         range: true,
                         tooltip: true,
                         scale: true,
                         labels: false,
-                        set: ['0', '".$max_carat. "'],
+                        set: ['".$min_carat."', '".$max_carat. "'],
                         onChange: function (vals) {
                             // roundLabel($(this));
                             getAttributeValues(vals, [], 'carat');
