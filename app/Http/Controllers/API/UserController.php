@@ -200,7 +200,7 @@ class UserController extends Controller
             ->where('ccd.refCustomer_id', $customer->customer_id)
             ->get();
         foreach ($company as $v) {
-            $v->pan_gst_attachment = '/storage/user_files'.$v->pan_gst_attachment;
+            $v->pan_gst_attachment = '/storage/user_files/'.$v->pan_gst_attachment;
         }
 
         $data = ['company' => $company];
