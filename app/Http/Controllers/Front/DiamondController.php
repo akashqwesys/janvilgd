@@ -29,7 +29,7 @@ class DiamondController extends Controller {
         }
         $data = DB::table('attribute_groups as ag')
                 ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
-                ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id')
+                ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id', 'a.sort_order')
                 ->where('ag.refCategory_id', $category->category_id)
                 ->where('ag.field_type', 1)
                 ->where('ag.is_active', 1)
@@ -49,6 +49,11 @@ class DiamondController extends Controller {
 
         foreach ($data as $row_data) {
             if ($temp_grp_id != $row_data->attribute_group_id) {
+                if ($temp_grp_id !== 0) {
+                    usort($final_attribute_groups_with_att[$temp_grp_id]['attributes'], function ($a, $b) {
+                        return $a['sort_order'] - $b['sort_order'];
+                    });
+                }
                 $temp_grp_id = $row_data->attribute_group_id;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['name'] = $row_data->ag_name;
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['is_fix'] = $row_data->is_fix;
@@ -57,7 +62,13 @@ class DiamondController extends Controller {
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['attribute_id'] = $row_data->attribute_id;
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['name'] = $row_data->name;
             $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = $row_data->image;
+            $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['sort_order'] = $row_data->sort_order;
             $temp_var++;
+        }
+        if ($temp_grp_id !== 0) {
+            usort($final_attribute_groups_with_att[$temp_grp_id]['attributes'], function ($a, $b) {
+                return $a['sort_order'] - $b['sort_order'];
+            });
         }
         // echo '<pre>'; print_r($final_attribute_groups_with_att);die;
         $list = null;

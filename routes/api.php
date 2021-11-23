@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     // Orders
     Route::post('my-orders', [OrderController::class, 'myOrders']);
     Route::post('order-details', [OrderController::class, 'myOrderDetails']);
+    Route::post('save-order', [OrderController::class, 'saveMyOrder']);
 
 });
 
