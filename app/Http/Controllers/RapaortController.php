@@ -10,7 +10,6 @@ use App\Models\Rapaport;
 use App\Models\Diamonds;
 use DataTables;
 use Excel;
-// use Batch;
 use App\Imports\RapaportImport;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 
