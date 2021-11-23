@@ -403,7 +403,7 @@ class DiamondController extends Controller
                 ->where('d.is_active', 1)
                 ->where('d.is_deleted', 0)
                 ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+0.10) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-0.10))')
-                ->whereRaw('' . rtrim($raw_attr, ' or ') . '')
+                ->whereRaw('(' . rtrim($raw_attr, ' or ') . ')')
                 ->orderByRaw('("d"."expected_polish_cts" - '. $diamonds[0]->carat .') desc')
                 ->limit(5)
                 ->get();
