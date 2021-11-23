@@ -1008,9 +1008,19 @@ class DiamondsController extends Controller {
                 }
             }
         }
+        // if (!empty($attr_group_array)) {
+        //     DB::table('diamonds_attributes')->insert($attr_group_array);
+        // }
+
         if (!empty($attr_group_array)) {
-            DB::table('diamonds_attributes')->insert($attr_group_array);
+            $chunked_new_record_array = array_chunk($attr_group_array,10,true);
+
+            foreach ($chunked_new_record_array as $new_record_chunk)
+            {
+                DB::table('diamonds_attributes')->insert($new_record_chunk);   
+            }
         }
+
 
         activity($request, "inserted", 'diamonds');
         successOrErrorMessage("Data added Successfully", 'success');
