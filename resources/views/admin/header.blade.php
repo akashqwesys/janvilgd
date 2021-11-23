@@ -92,18 +92,7 @@
                                                                                     }
                                                                                 } ?>                                                                                                                                                               
                                                                             </ul> 
-                                                                        </li>           
-                                                    
-                                                    
-                                        <li class="nk-menu-heading">
-                                            <h6 class="overline-title text-primary-alt">Modules</h6>
-                                        </li><!-- .nk-menu-item -->
-                                        <li class="nk-menu-item">
-                                            <a href="{{url('admin/modules')}}" class="nk-menu-link">
-                                                <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
-                                                <span class="nk-menu-text">Modules</span>
-                                            </a>
-                                        </li><!-- .nk-menu-item -->                                        
+                                                                        </li>                                                                                                      
                                         <?php
                                     }
                                     ?>
