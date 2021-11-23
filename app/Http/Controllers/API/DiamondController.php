@@ -59,9 +59,9 @@ class DiamondController extends Controller
             if ($v->ag_name == 'SHAPE') {
                 if (in_array($v->image, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                } else if (in_array($v->image, ['Heart Brilliant', 'HS', 'HEART'])) {
+                } else if (in_array($v->image, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                } else if (in_array($v->image, ['Pear Brilliant', 'PS', 'PEAR'])) {
+                } else if (in_array($v->image, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                 } else if (in_array($v->image, ['Oval Brilliant', 'OV', 'Oval'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
@@ -92,17 +92,20 @@ class DiamondController extends Controller
             }
         }
         $max = DB::table('diamonds')
-            ->selectRaw('max("total") as "price", max("expected_polish_cts") as "carat"')
+            ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
+            ->where('refCategory_id', $request->category)
             ->first();
         if ($max) {
-            $max_price = round($max->price + 1);
-            $max_carat = round($max->carat + 1);
+            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
+            $max_price = round($max->max_price + 1);
+            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
+            $max_carat = round($max->max_carat + 1);
         } else {
-            $max_price = $max_carat = 0;
+            $max_price = $min_carat = $max_carat = $min_price = 0;
         }
         $main_data['attribute_groups'] = array_values($attr);
-        $main_data['price'] = ['min' => 0, 'max' => $max_price];
-        $main_data['carat'] = ['min' => 0, 'max' => $max_carat];
+        $main_data['price'] = ['min' => $min_price, 'max' => $max_price];
+        $main_data['carat'] = ['min' => $min_carat, 'max' => $max_carat];
 
         return $this->successResponse('Success', $main_data);
     }
@@ -175,9 +178,9 @@ class DiamondController extends Controller
                 if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
                     if (in_array($v_row->{'name_'.$i}, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'HEART'])) {
+                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'PEAR'])) {
+                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                     } else if (in_array($v_row->{'name_'.$i}, ['Oval Brilliant', 'OV', 'Oval'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';

@@ -168,34 +168,38 @@
                             <p>Order loose diamond and your order ships by <br><span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
                         </div>
 
-                        <div class="product-details-collapse">
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item">
-                                    <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
-                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <ul>
-                                                @foreach ($attributes as $a)
-                                                @if (!empty($a['at_name']))
-                                                <li>{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
-                                                @endif
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <div class="accordion" id="accordionExample">
+                        <div class="product-details-collapse-">
+                            <div class="accordion-item">
+                                <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ul class="row">
+                                            @foreach ($attributes as $a)
+                                            @if (!empty($a['at_name']))
+                                            <li class="col-12 col-md-6 col-lg-4 mb-2">{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
-                                @if ($certificate)
-                                <div class="accordion-item">
-                                    <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <strong>Certificate No :</strong>{{$certificate}}<br>
-                                            <strong>Certificate URL :</strong>{{$certificate_url}}
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
                             </div>
+                            @if ($certificate)
+                            <div class="accordion-item">
+                                <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <strong>Certificate No :</strong>{{$certificate}}<br>
+                                        <strong>Certificate URL :</strong>{{$certificate_url}}
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
