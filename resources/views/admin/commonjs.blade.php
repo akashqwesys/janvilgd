@@ -205,11 +205,10 @@
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_price").text(('$'+nfObject.format(rapaport_price*discount)));
                         }
-                        
-                        
+                                                
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
-                            let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - labour_charge_4p;
+                            let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - (expected_polish_cts*labour_charge_4p);
 //                            $("#display_current_price").text('$'+c_price);
                              nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_current_price").text('$'+nfObject.format(c_price.toFixed(2)));

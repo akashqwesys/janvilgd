@@ -58,7 +58,7 @@ class DiamondsController extends Controller {
                             }
                             if($row['clarity']=='SI'){
                                 $row['clarity']='SI1';
-                                $row['clarity2']='SI2';
+                                $row['clarity2']='';
                             }
                             
                             $shape=$row['shape'];
@@ -86,14 +86,13 @@ class DiamondsController extends Controller {
                             if($row['rapa2']!=0){
                                 $row['rapa']=($row['rapa']+$row['rapa2'])/2;
                             }
-                            
-
+                                                       
                             $row['discount'] = str_replace('-', '', $row['discount']);                            
                             $row['discount'] = doubleval($row['discount']);
                                                                                                           
                             $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                             $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
-                            
+                                                    
                             $image=array();
                             if(isset($row['image_link'])){
                                 $image[0]=$row['image_1'];

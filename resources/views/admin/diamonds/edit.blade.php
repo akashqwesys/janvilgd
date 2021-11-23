@@ -511,7 +511,7 @@
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
-                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format(round($data['result']->total,2)); ?></div>
+                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format($data['result']->total); ?></div>
                                                 </div>
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->
