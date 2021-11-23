@@ -80,9 +80,9 @@ class DiamondController extends Controller {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart'])) {
+                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear'])) {
+                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
@@ -220,9 +220,9 @@ class DiamondController extends Controller {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart'])) {
+                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear'])) {
+                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
