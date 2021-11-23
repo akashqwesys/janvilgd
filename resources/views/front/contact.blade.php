@@ -16,31 +16,40 @@
         <div class="row">
             <div class="col col-12 col-md-6">
                 <h2>Contact Details</h2>
-                <form class="contact-form">
+                @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+                @elseif (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('message') }}
+                </div>
+                @endif
+                <form class="contact-form" action="/customer/contact" method="POST">
                     <div class="form-row">
                         <div class="col col-12 col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="txt_name" placeholder="Name*">
+                                <input type="text" class="form-control" id="txt_name" name="txt_name" placeholder="Name*" required>
                             </div>
                         </div>
                         <div class="col col-12 col-lg-6">
                             <div class="form-group">
-                                <input type="tel" class="form-control" id="txt_phone" placeholder="Phone No.*">
+                                <input type="tel" class="form-control" id="txt_phone" name="txt_phone" placeholder="Phone No.*" required>
                             </div>
                         </div>
                         <div class="col col-12 col-lg-6">
                             <div class="form-group">
-                                <input type="email" class="form-control" id="txt_email" placeholder="Email*">
+                                <input type="email" class="form-control" id="txt_email" name="txt_email" placeholder="Email*" required>
                             </div>
                         </div>
                         <div class="col col-12 col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="txt_subject" placeholder="Subject*">
+                                <input type="text" class="form-control" id="txt_subject" name="txt_subject" placeholder="Subject*">
                             </div>
                         </div>
                         <div class="col col-12">
                             <div class="form-group">
-                                <textarea class="form-control" id="txt_msg" placeholder="Message*" rows="5"></textarea>
+                                <textarea class="form-control" id="txt_msg" name="txt_msg" placeholder="Message*" rows="5" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -72,7 +81,7 @@
                             <span class="flag-icon">
                                 <img src="assets/images/usa.png" alt="" >
                             </span>
-                            <span class="location">Usa</span>
+                            <span class="location">USA</span>
                             <div class="location-address">
                                 <div class="location_inner">
                                     <p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>

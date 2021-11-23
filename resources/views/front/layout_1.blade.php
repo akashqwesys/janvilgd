@@ -61,7 +61,7 @@
 		    				<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/contact">Contact</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/contact">Contact</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>

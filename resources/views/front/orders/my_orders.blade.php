@@ -46,6 +46,15 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
                     <div class="order-info">
+                        @if (session('success'))
+                        <div class="alert alert-success mt-3">
+                            {{ session('message') }}
+                        </div>
+                        @elseif (session('error'))
+                        <div class="alert alert-danger mt-3">
+                            {{ session('message') }}
+                        </div>
+                        @endif
                         @if(!count($orders))
                         <div class="text-center">
                             <img src="/assets/images/dilevery-boy.png" alt="dilevery-boy.png" class="img-fluid mb-5">

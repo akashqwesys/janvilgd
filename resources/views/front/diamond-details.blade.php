@@ -275,7 +275,7 @@
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
-                            <div class="mt-2"><h5><b>${{ $r->price }}</b></h5></div>
+                            <div class="mt-2"><h5><b>${{ number_format(round($r->price, 2), 2, '.', ',') }}</b></h5></div>
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                             </div>
                             <div>{{ $r->name }}</div>
                             <div class="text-muted">{{ $r->barcode }}</div>
-                            <div class="mt-2"><h5><b>${{ $r->price }}</b></h5></div>
+                            <div class="mt-2"><h5><b>${{ number_format(round($r->price, 2), 2, '.', ',') }}</b></h5></div>
                         </div>
                     </div>
                 </div>

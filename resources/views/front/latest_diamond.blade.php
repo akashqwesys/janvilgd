@@ -23,16 +23,16 @@
                         <div class="card-body">
                             <div class="diamond-img mb-2">
                                 @if (count($d->image))
-                                    <img src="{{ $d->image[0] }}" class="img-fluid">
+                                    <img src="/storage/other_images/{{ $d->image[0] }}" class="img-fluid">
                                 @else
                                     <img src="/assets/images/No-Preview-Available.jpg" class="img-fluid">
                                 @endif
                             </div>
                             <h6 class="diamond-name">{{ $d->name }}</h6>
-                            <p class="diamond-cost">M.R.P. ${{ round($d->mrp, 2) }}</p>
-                            <div class="h4 mb-3"><b class=""> ${{ round($d->price, 2) }}</b></div>
+                            <div class="text-muted">{{ $d->barcode }}</div>
+                            <div class="h4 mb-3 mt-2"><b class=""> ${{ number_format(round($d->price, 2), 2, '.', ',') }}</b></div>
                             <div class="text-center">
-                                <a href="/customer/single-diamonds/{{ $d->diamond_id }}" class="btn btn-primary">View Diamond</a>
+                                <a href="/customer/single-diamonds/{{ $d->barcode }}" class="btn btn-primary">View Diamond</a>
                             </div>
                         </div>
                     </div>

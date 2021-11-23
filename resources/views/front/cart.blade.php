@@ -90,7 +90,7 @@
                     }
                     echo '</table>';
                 } else {
-                    echo '<h3> No Items yet</h3>';
+                    echo '<h3> Your cart is empty</h3>';
                 }
                 ?>
             </div>
@@ -109,10 +109,10 @@
                                     <td>Discount</td>
                                     <td align="right" id="discount">${{ isset($response['summary']) ? $response['summary']['discount'] : 0 }}</td>
                                 </tr>
-                                @if ($response['summary']['additional_discount'] > 0)
+                                @if (isset($response['summary']) && $response['summary']['additional_discount'] > 0)
                                 <tr>
                                     <td>Additional Discount</td>
-                                    <td align="right" id="additional_discount">${{ isset($response['summary']) ? $response['summary']['additional_discount'] : 0 }}</td>
+                                    <td align="right" id="additional_discount">${{ $response['summary']['additional_discount'] }}</td>
                                 </tr>
                                 @endif
                                 <tr>
@@ -129,7 +129,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="/customer/checkout" class="btn btn-primary d-block">Checkout</a>
+                        <a href="/customer/checkout" class="btn btn-primary d-block" id="checkout-link">Checkout</a>
                     </div>
                 </div>
 

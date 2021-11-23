@@ -224,10 +224,10 @@
                                     <td>Discount</td>
                                     <td align="right" id="discount">${{ isset($response['summary']) ? $response['summary']['discount'] : 0 }}</td>
                                 </tr>
-                                @if ($response['summary']['additional_discount'] > 0)
+                                @if (isset($response['summary']) && $response['summary']['additional_discount'] > 0)
                                 <tr>
                                     <td>Additional Discount</td>
-                                    <td align="right" id="additional_discount">${{ isset($response['summary']) ? $response['summary']['additional_discount'] : 0 }}</td>
+                                    <td align="right" id="additional_discount">${{ $response['summary']['additional_discount'] }}</td>
                                 </tr>
                                 @endif
                                 <tr>

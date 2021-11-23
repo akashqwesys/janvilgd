@@ -430,6 +430,9 @@ class DiamondController extends Controller {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getCart();
         $response = $result->original['data'];
+        if (!count($response)) {
+            return redirect('/customer/dashboard');
+        }
         $title = 'Checkout';
         return view('front.checkout', compact('title', 'response'));
     }
@@ -438,9 +441,10 @@ class DiamondController extends Controller {
         $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getCart();
-        if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
-        }
+        $response = $result->original['data'];
+        /* if (!count($response)) {
+            return redirect('/customer/dashboard');
+        } */
         $title = 'Cart';
         return view('front.cart', compact('title', 'response'));
     }

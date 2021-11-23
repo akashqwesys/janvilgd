@@ -56,7 +56,7 @@ class DashboardController extends Controller {
     {
         $title = 'Latest Diamonds';
         $diamonds = DB::table('diamonds as d')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('diamond_id', 'desc')
@@ -73,7 +73,7 @@ class DashboardController extends Controller {
     {
         $title = 'Recommended Diamonds';
         $diamonds = DB::table('diamonds as d')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image')
+            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->where('is_recommended', 1)
