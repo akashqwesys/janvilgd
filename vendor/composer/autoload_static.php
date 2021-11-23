@@ -39,7 +39,6 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
-        '880d9aa7c2c689853e94e8a3794c8282' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/Common/Helpers.php',
         'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
     );
 
@@ -138,7 +137,6 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         array (
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
-            'Mavinoo\\Batch\\' => 14,
             'Matrix\\' => 7,
             'Maatwebsite\\Excel\\' => 18,
         ),
@@ -469,10 +467,6 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
-        'Mavinoo\\Batch\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mavinoo/laravel-batch/src',
         ),
         'Matrix\\' => 
         array (
@@ -4342,11 +4336,6 @@ class ComposerStaticIniteb6f4c093967a9d003690aadfc533023
         'Matrix\\Operators\\Multiplication' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
         'Matrix\\Operators\\Operator' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Operator.php',
         'Matrix\\Operators\\Subtraction' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
-        'Mavinoo\\Batch\\Batch' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/Batch.php',
-        'Mavinoo\\Batch\\BatchFacade' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/BatchFacade.php',
-        'Mavinoo\\Batch\\BatchInterface' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/BatchInterface.php',
-        'Mavinoo\\Batch\\BatchServiceProvider' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/BatchServiceProvider.php',
-        'Mavinoo\\Batch\\Common\\Common' => __DIR__ . '/..' . '/mavinoo/laravel-batch/src/Common/Common.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',

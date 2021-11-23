@@ -75,7 +75,6 @@ final class Versions
   'maennchen/zipstream-php' => '2.1.0@c4c5803cc1f93df3d2448478ef79394a5981cc58',
   'markbaker/complex' => '3.0.1@ab8bc271e404909db09ff2d5ffa1e538085c0f22',
   'markbaker/matrix' => '3.0.0@c66aefcafb4f6c269510e9ac46b82619a904c576',
-  'mavinoo/laravel-batch' => 'v2.3.0@bff39ec607084d4806f6a32a917da42da949e2f8',
   'mobiledetect/mobiledetectlib' => '2.8.37@9841e3c46f5bd0739b53aed8ac677fa712943df7',
   'monolog/monolog' => '2.3.5@fd4380d6fc37626e2f799f29d91195040137eba9',
   'myclabs/php-enum' => '1.8.3@b942d263c641ddb5190929ff840c68f78713e937',
@@ -181,7 +180,7 @@ final class Versions
   'sebastian/type' => '2.3.4@b8cd8a1c753c90bc1a0f5372170e3e489136f914',
   'sebastian/version' => '3.0.2@c6c1022351a901512170118436c764e473f6de8c',
   'theseer/tokenizer' => '1.2.1@34a41e998c2183e22995f158c581e7b5e755ab9e',
-  'laravel/laravel' => 'dev-main@76170c1840239be56e5deac3ee65dda4cd6dfb3f',
+  'laravel/laravel' => 'dev-main@315b2c9f6d60c819afb1893eaab9cb56d776874d',
 );
 
     private function __construct()
