@@ -199,6 +199,9 @@ class UserController extends Controller
             ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
             ->where('ccd.refCustomer_id', $customer->customer_id)
             ->get();
+        foreach ($company as $v) {
+            $v->pan_gst_attachment = '/storage/user_files'.$v->pan_gst_attachment;
+        }
 
         $data = ['company' => $company];
 
@@ -218,7 +221,7 @@ class UserController extends Controller
                 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
-                'company_pincode' => ['required', 'digits:6'],
+                'company_pincode' => ['required'],
                 'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 

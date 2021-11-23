@@ -526,6 +526,11 @@ class DiamondController extends Controller {
                 ->where('category_id', $result->original['data']['refCategory_id'])
                 ->first();
             $response['category'] = $category->slug;
+        } else {
+            $response = [];
+            $attributes = [];
+            $recommended = [];
+            $similar = [];
         }
         $title = 'Diamond Details';
         return view('front.diamond-details', compact('title', 'response', 'attributes', 'similar', 'recommended'));
