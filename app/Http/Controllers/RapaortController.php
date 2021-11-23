@@ -132,10 +132,7 @@ class RapaortController extends Controller
                                 if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {  
                                     $rapa_price=0;                                 
                                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                        $rapa_price = $row_rapa->rapaport_price;  
-                                        if($d_row->diamond_id==3111){                                        
-                                            echo  $rapa_price;die;
-                                        }                                                                                                                       
+                                        $rapa_price = $row_rapa->rapaport_price;                                                                                                                                                                
                                     }
                                     $rapa_price2 = 0;
                                     if ($d_row->clarity == 'VS') {

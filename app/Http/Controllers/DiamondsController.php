@@ -25,6 +25,10 @@ class DiamondsController extends Controller {
 
     public function fileImport(Request $request) {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
+
+
+        print_r($res);die;
+
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
         
         $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();        
@@ -63,7 +67,6 @@ class DiamondsController extends Controller {
                             $shape=$row['shape'];
                             $shape1=$row['shape'];
                             
-
                             if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
                             }else{
@@ -223,7 +226,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                 if ($atr_grp_row->name === "CLARITY") {
+                                if ($atr_grp_row->name === "CLARITY") {
                                     if (!empty($org_clarity)) {
                                         $clarity = 0;
                                         foreach ($attribute as $atr_row) {
