@@ -26,7 +26,6 @@ class DiamondsController extends Controller {
     public function fileImport(Request $request) {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
 
-
         print_r($res);die;
 
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();

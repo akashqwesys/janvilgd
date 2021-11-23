@@ -10,7 +10,7 @@ use App\Models\Rapaport;
 use App\Models\Diamonds;
 use DataTables;
 use Excel;
-use Batch;
+// use Batch;
 use App\Imports\RapaportImport;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 
@@ -208,9 +208,9 @@ class RapaortController extends Controller
                 }
             }
         }
-        $diamondsInstance = new Diamonds;        
-        $index = 'diamond_id';
-        Batch::update($diamondsInstance, $value, $index);
+        // $diamondsInstance = new Diamonds;        
+        // $index = 'diamond_id';
+        // Batch::update($diamondsInstance, $value, $index);
     }
 
     public function rapaportPrice(Request $request)
