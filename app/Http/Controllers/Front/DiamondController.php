@@ -80,9 +80,9 @@ class DiamondController extends Controller {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'HEART'])) {
+                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'PEAR'])) {
+                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
@@ -158,7 +158,7 @@ class DiamondController extends Controller {
             ->where('refCategory_id', $category->category_id)
             ->first();
         if ($max) {
-            $min_price = round($max->min_price - 1);
+            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
             $max_price = round($max->max_price + 1);
             $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
             $max_carat = round($max->max_carat + 1);
@@ -220,9 +220,9 @@ class DiamondController extends Controller {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'HEART'])) {
+                                } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'PEAR'])) {
+                                } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
