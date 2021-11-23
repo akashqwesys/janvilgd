@@ -68,6 +68,46 @@
                         <div class="nk-sidebar-content">
                             <div class="nk-sidebar-menu" data-simplebar>
                                 <ul class="nk-menu">
+
+                                <?php
+                                    if (session('user-type') == "MASTER_ADMIN") {
+                                        ?>
+                                                    <li class="nk-menu-heading">
+                                            <h6 class="overline-title text-primary-alt">Diamonds</h6>
+                                        </li><!-- .nk-menu-item -->
+                                       <li class="nk-menu-item has-sub">
+                                                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
+                                                                                <span class="nk-menu-text">Diamonds</span>
+                                                                            </a>
+                                                                            <ul class="nk-menu-sub">
+                                                                                <?php if (!empty(session('categories'))) {
+                                                                                    foreach (session('categories') as $cat_row) {  
+                                                                                        ?>
+                                                                                <li class="nk-menu-item">
+                                                                                    <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
+                                                                                </li>
+                                                                                <?php
+                                                                                        
+                                                                                    }
+                                                                                } ?>                                                                                                                                                               
+                                                                            </ul> 
+                                                                        </li>           
+                                                    
+                                                    
+                                        <li class="nk-menu-heading">
+                                            <h6 class="overline-title text-primary-alt">Modules</h6>
+                                        </li><!-- .nk-menu-item -->
+                                        <li class="nk-menu-item">
+                                            <a href="{{url('admin/modules')}}" class="nk-menu-link">
+                                                <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
+                                                <span class="nk-menu-text">Modules</span>
+                                            </a>
+                                        </li><!-- .nk-menu-item -->                                        
+                                        <?php
+                                    }
+                                    ?>
+
                                     <?php
                                     if (!empty(session('menu'))) {
                                         foreach (session('menu') as $session_row) {                                            
@@ -95,30 +135,7 @@
                                     ?>
                                     <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
-                                        ?>
-                                                    <li class="nk-menu-heading">
-                                            <h6 class="overline-title text-primary-alt">Diamonds</h6>
-                                        </li><!-- .nk-menu-item -->
-                                       <li class="nk-menu-item has-sub">
-                                                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
-                                                                                <span class="nk-menu-text">Diamonds</span>
-                                                                            </a>
-                                                                            <ul class="nk-menu-sub">
-                                                                                <?php if (!empty(session('categories'))) {
-                                                                                    foreach (session('categories') as $cat_row) {  
-                                                                                        ?>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
-                                                                                </li>
-                                                                                <?php
-                                                                                        
-                                                                                    }
-                                                                                } ?>                                                                                                                                                               
-                                                                            </ul> 
-                                                                        </li>           
-                                                    
-                                                    
+                                        ?>                                               
                                         <li class="nk-menu-heading">
                                             <h6 class="overline-title text-primary-alt">Modules</h6>
                                         </li><!-- .nk-menu-item -->
