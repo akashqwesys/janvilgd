@@ -255,7 +255,7 @@ class RapaortController extends Controller
                         break;
                     }
                 }
-               
+                if ($org_clarity == 'VS') {
                     if ($request->cat_type == config('constant.CATEGORY_TYPE_4P')) {
                         $rapa_price2 = 0;
                         foreach ($rapaport as $row_rapa) {
@@ -268,7 +268,7 @@ class RapaortController extends Controller
                             $rapa_price = ($rapa_price + $rapa_price2) / 2;
                         }
                     }
-                
+                }
             }
         }
         if ($request->cat_type == 2) {
