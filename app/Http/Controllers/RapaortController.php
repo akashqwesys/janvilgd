@@ -107,7 +107,7 @@ class RapaortController extends Controller
                             if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $d_row->color = substr($d_row->color, 2, 1);
 
-                                // $org_clarity = $d_row->clarity;
+                                $org_clarity = $d_row->clarity;
                                 $d_row->clarity2 = '';
                                 if ($d_row->clarity == 'VS') {
                                     $d_row->clarity = 'VS1';
@@ -115,7 +115,7 @@ class RapaortController extends Controller
                                 }
                                 if ($d_row->clarity == 'SI') {
                                     $d_row->clarity = 'SI1';
-                                    // $d_row->clarity2 = '';
+                                    $d_row->clarity2 = '';
                                 }
                             }
 
@@ -255,7 +255,7 @@ class RapaortController extends Controller
                         break;
                     }
                 }
-                if ($request->clarity == 'VS1') {
+               
                     if ($request->cat_type == config('constant.CATEGORY_TYPE_4P')) {
                         $rapa_price2 = 0;
                         foreach ($rapaport as $row_rapa) {
@@ -268,7 +268,7 @@ class RapaortController extends Controller
                             $rapa_price = ($rapa_price + $rapa_price2) / 2;
                         }
                     }
-                }
+                
             }
         }
         if ($request->cat_type == 2) {
