@@ -402,12 +402,6 @@ class DiamondController extends Controller {
                 ->first();
             $final_d = $aa->searchDiamonds($request);
             $diamonds = $final_d->original['data'];
-
-
-            if($response['user_type']=='admin'){
-                return Excel::download(new ExportUsers, 'users.xlsx');
-            }
-
             $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
             $path = public_path('pdf/');
             $fileName =  time() . '.' . 'pdf';

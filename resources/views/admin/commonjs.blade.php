@@ -193,7 +193,7 @@
                             $("#display_discount").text(discount+'%');
                         }
                         discount = (100 - discount)/100;
-//                        alert(discount);
+
 
                         $("#display_makable_cts").text('');
                         if (makable_cts !== '' && makable_cts !== 0) {                        
@@ -209,7 +209,6 @@
                         $("#display_current_price").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0 && rapaport_price !== '' && rapaport_price !== 0) {
                             let c_price = Math.abs(rapaport_price * expected_polish_cts * discount) - (expected_polish_cts*labour_charge_4p);
-//                            $("#display_current_price").text('$'+c_price);
                              nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_current_price").text('$'+nfObject.format(c_price.toFixed(2)));
                         }                    
@@ -226,7 +225,7 @@
                         var labour_charge_4p = $("#labour_charge_4p").val();
                         var labour_charge_rough = $("#labour_charge_rough").val();
 
-//                        alert(labour_charge_rough);
+
 
                         $("#display_exp_pol_cts").text('');
                         if (expected_polish_cts !== '' && expected_polish_cts !== 0) {
@@ -260,7 +259,7 @@
                             var total = Math.abs(final_price * makable_cts);
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_price").text(('$'+nfObject.format((total/makable_cts).toFixed(2))));
-//                            $("#display_current_price").text('$'+total.toFixed(2));
+
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
                             
@@ -303,7 +302,7 @@
 
                         $("#display_price").text('');
                         if (rapaport_price !== '' && rapaport_price !== 0 && discount!='') {
-//                            $("#display_price").text((rapaport_price*discount));
+
                             nfObject = new Intl.NumberFormat('en-US');  
                             $("#display_price").text(('$'+nfObject.format(rapaport_price*discount)));
                             

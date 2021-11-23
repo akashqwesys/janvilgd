@@ -164,8 +164,7 @@
         });
 
         $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function () {
-            var group_id = $(this).attr('data-group_id');
-            var user_type = $(this).attr('data-user');
+            var group_id = $(this).attr('data-group_id');            
             if ($(this).attr('data-selected') == 1) {
                 $(this).css('border', '4px solid #00000000');
                 $(this).attr('data-selected', 0);
@@ -179,10 +178,10 @@
                     values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
                 }
             });
-            exportDiamondTables(values, [], group_id,user_type);
+            exportDiamondTables(values, [], group_id);
         });
 
-        function exportDiamondTables(values, array, group_id,user_type) {
+        function exportDiamondTables(values, array, group_id) {
 
             var selected_values = [];
             if (values.length > 1 && typeof values == 'string') {
@@ -211,8 +210,8 @@
                     'attribute_values': selected_values,
                     'group_id': group_id,
                     'category': global_category,
-                    'export': 'export',
-                    'user_type':user_type
+                    'export': 'export'
+                    
                 },
                 xhrFields: {
                     responseType: 'blob'
