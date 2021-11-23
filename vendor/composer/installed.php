@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ba1ccf83cfb6c8953e55aacec87bfdf670665c01',
+        'reference' => 'dfcf1ef8d6fe2e58e2786e337f19c5179ceb7304',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -517,7 +517,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ba1ccf83cfb6c8953e55aacec87bfdf670665c01',
+            'reference' => 'dfcf1ef8d6fe2e58e2786e337f19c5179ceb7304',
             'dev_requirement' => false,
         ),
         'laravel/passport' => array(
@@ -683,6 +683,15 @@
             'install_path' => __DIR__ . '/../markbaker/matrix',
             'aliases' => array(),
             'reference' => 'c66aefcafb4f6c269510e9ac46b82619a904c576',
+            'dev_requirement' => false,
+        ),
+        'mavinoo/laravel-batch' => array(
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mavinoo/laravel-batch',
+            'aliases' => array(),
+            'reference' => 'bff39ec607084d4806f6a32a917da42da949e2f8',
             'dev_requirement' => false,
         ),
         'mobiledetect/mobiledetectlib' => array(

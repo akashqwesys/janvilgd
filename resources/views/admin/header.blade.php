@@ -507,9 +507,9 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('rapaport.updatePrice') }}",
-                    success: function (res) {                       
-                    }
+                    url: "{{ route('rapaport.updatePrice') }}"
+                    // success: function (res) {                       
+                    // }
                 });
 <?php session(['request_check' => 0]); ?>
     }

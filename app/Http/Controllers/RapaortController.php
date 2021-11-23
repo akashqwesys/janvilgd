@@ -10,7 +10,7 @@ use App\Models\Rapaport;
 use App\Models\Diamonds;
 use DataTables;
 use Excel;
-// use Batch;
+use Batch;
 use App\Imports\RapaportImport;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 
@@ -132,12 +132,13 @@ class RapaortController extends Controller
                                 if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {  
                                     $rapa_price=0;                                 
                                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                        $rapa_price = $row_rapa->rapaport_price;                                                                                                                                                                
+                                        $rapa_price = $row_rapa->rapaport_price;                                                                                                                          
                                     }
+                                                                       
                                     $rapa_price2 = 0;
                                     if ($d_row->clarity == 'VS') {
                                         if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity2) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                            $rapa_price2 = $row_rapa->rapaport_price;
+                                            $rapa_price2 = $row_rapa->rapaport_price;                                            
                                         }
                                     }
 
@@ -148,26 +149,34 @@ class RapaortController extends Controller
 
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
                                     $data_array = [
-                                        // 'diamond_id'=>$d_row->diamond_id,
+                                         'diamond_id'=>$d_row->diamond_id,
                                         'rapaport_price' => $rapa_price,
                                         'total' => $total
                                     ];
-                                    array_push($value,$data_array);
-                                    Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                    
+                                    if($rapa_price!=0){
+                                        array_push($value,$data_array);
+                                        // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                    }
                                 }
 
                                 if ($cat_row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
+                                    $rapa_price=0;
                                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {                                
-                                        $rapa_price = $row_rapa->rapaport_price;
-                                        $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1)));
+                                        $rapa_price = $row_rapa->rapaport_price; 
+                                        break;                                      
+                                    }
+                                    $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1)));
                                         $data_array = [
-                                            // 'diamond_id'=>$d_row->diamond_id,
+                                             'diamond_id'=>$d_row->diamond_id,
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
                                         ];
-                                        array_push($value,$data_array);
-                                        Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
-                                    }
+                                       
+                                        if($rapa_price!=0){
+                                            array_push($value,$data_array);
+                                            // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                        }
                                 }
                             }
                         }
@@ -185,21 +194,25 @@ class RapaortController extends Controller
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
-                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->clarity)) {
-                                    $rapa_price = $row_rapa->rapaport_price;
+                                $rapa_price=0;
+                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->clarity)) {                                    
                                     if ($cat_row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
+                                        $rapa_price = $row_rapa->rapaport_price;
                                         $price = abs($rapa_price * ($d_row->discount - 1));
                                         $amount = abs($price * doubleval($d_row->expected_polish_cts));
                                         $ro_amount = abs($amount / doubleval($d_row->makable_cts));
                                         $final_price = $ro_amount - $labour_charge_rough->amount;
                                         $total = abs($final_price * (doubleval($d_row->makable_cts)));
                                         $data_array = [
-                                            // 'diamond_id'=>$d_row->diamond_id,
+                                             'diamond_id'=>$d_row->diamond_id,
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
                                         ];
-                                        array_push($value,$data_array);
-                                        Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                        
+                                        if($rapa_price!=0){
+                                            array_push($value,$data_array);
+                                            // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                        }
                                     }
                                 }
                             }
@@ -208,9 +221,13 @@ class RapaortController extends Controller
                 }
             }
         }
-        // $diamondsInstance = new Diamonds;        
-        // $index = 'diamond_id';
-        // Batch::update($diamondsInstance, $value, $index);
+        $diamondsInstance = new Diamonds;        
+        $index = 'diamond_id';
+        $chunked_new_record_array = array_chunk($value,10,true);
+        foreach ($chunked_new_record_array as $new_record_chunk)
+        {
+            Batch::update($diamondsInstance, $new_record_chunk, $index);   
+        }        
     }
 
     public function rapaportPrice(Request $request)
