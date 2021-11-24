@@ -248,6 +248,9 @@ class UserController extends Controller
                 $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
                     ->where('customer_company_id', $request->customer_company_id)
                     ->first();
+                if (empty($company)) {
+                    return $this->errorResponse('Not a valid company');
+                }
                 $msg = 'Address updated successfully';
             } else {
                 $msg = 'Address added successfully';
@@ -321,7 +324,10 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
-
+            $exists = $this->getCompanies($request);
+            if (count($exists->original['data']['company']) == 1) {
+                return $this->errorResponse('You cannot delete your last address...!');
+            }
             $customer = Auth::user();
             $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
                 ->where('customer_company_id', $request->customer_company_id)
