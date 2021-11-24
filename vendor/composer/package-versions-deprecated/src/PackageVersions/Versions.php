@@ -48,6 +48,9 @@ final class Versions
   'dompdf/dompdf' => 'v1.1.0@aa594c1cdbcdab04977fdd0fff669a017fb50ef4',
   'dragonmantank/cron-expression' => 'v3.1.0@7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c',
   'egulias/email-validator' => '2.1.25@0dbf5d78455d4d6a41d186da50adc1122ec066f4',
+  'elasticsearch/elasticsearch' => 'v7.15.0@77a4ade87aef8e8e6b84bafb6704cd35ac15742a',
+  'ezimuel/guzzlestreams' => '3.0.1@abe3791d231167f14eb80d413420d1eab91163a8',
+  'ezimuel/ringphp' => '1.2.0@92b8161404ab1ad84059ebed41d9f757e897ce74',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
   'firebase/php-jwt' => 'v5.5.1@83b609028194aa042ea33b5af2d41a7427de80e6',
   'fruitcake/laravel-cors' => 'v2.0.4@a8ccedc7ca95189ead0e407c43b530dc17791d6a',
@@ -61,6 +64,7 @@ final class Versions
   'laravel/framework' => 'v8.73.1@36dfae9d9ef7f88e8f9489c484a0a0609592bc21',
   'laravel/passport' => 'v10.2.0@1c69a010930a3ce8db348967d8ad9585be4d7d4d',
   'laravel/sanctum' => 'v2.12.2@76b2d552c00477d520338889160f80a0cfb5fc55',
+  'laravel/scout' => 'v9.3.2@0137c70efb164eeeb8115a9ebb1517263b6a64ac',
   'laravel/serializable-closure' => 'v1.0.4@8148e72e6c2c3af7f05640ada1b26c3bca970f8d',
   'laravel/tinker' => 'v2.6.2@c808a7227f97ecfd9219fbf913bad842ea854ddc',
   'lcobucci/clock' => '2.1.0@903513d28e85376a33385ebc601afd2ee69e5653',
@@ -105,6 +109,7 @@ final class Versions
   'ralouphie/getallheaders' => '3.0.3@120b605dfeb996808c31b6477290a714d356e822',
   'ramsey/collection' => '1.2.2@cccc74ee5e328031b15640b51056ee8d3bb66c0a',
   'ramsey/uuid' => '4.2.3@fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df',
+  'react/promise' => 'v2.8.0@f3cff96a19736714524ca0dd1d4130de73dbbbc4',
   'sabberworm/php-css-parser' => '8.3.1@d217848e1396ef962fb1997cf3e2421acba7f796',
   'swiftmailer/swiftmailer' => 'v6.3.0@8a5d5072dca8f48460fce2f4131fcc495eec654c',
   'symfony/console' => 'v5.3.11@3e7ab8f5905058984899b05a4648096f558bfeba',
@@ -181,7 +186,7 @@ final class Versions
   'sebastian/type' => '2.3.4@b8cd8a1c753c90bc1a0f5372170e3e489136f914',
   'sebastian/version' => '3.0.2@c6c1022351a901512170118436c764e473f6de8c',
   'theseer/tokenizer' => '1.2.1@34a41e998c2183e22995f158c581e7b5e755ab9e',
-  'laravel/laravel' => 'dev-main@dfcf1ef8d6fe2e58e2786e337f19c5179ceb7304',
+  'laravel/laravel' => 'dev-main@b4ab20c28fd6028b894b1809cf9712b3059c0eaf',
 );
 
     private function __construct()
