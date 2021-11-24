@@ -5,6 +5,9 @@
         var global_category = {{ $category->category_id }};
         var global_category_slug = '{{ $category->slug }}';
         var stop_on_change = 0;
+        var global_search_values = [];
+        var global_search_array = [];
+        var global_group_id = 0;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -19,7 +22,8 @@
             }
             setTimeout(function(){
                 stop_on_change = 1;
-            }, 3000);
+                getAttributeValues(global_search_values, global_search_array, global_group_id);
+            }, 2000);
         });
         $(document).on('click', '.diamond-shape .item img', function () {
             var group_id = $(this).attr('data-group_id');
@@ -49,6 +53,9 @@
 
         function getAttributeValues(values, array, group_id) {
             if (stop_on_change === 0) {
+                global_search_values = values;
+                global_search_array = array;
+                global_group_id = group_id;
                 return false;
             }
             var selected_values = [];
@@ -275,14 +282,15 @@
         .diamond-shape .item img {
             border: 4px solid #00000000;
         }
+        .search-diamond-view {
+            position: relative;
+        }
+        .cs-loader {
+            position: absolute;
+        }
     </style>
 @endsection
 @section('content')
-    <div class="overlay cs-loader">
-      <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
-      </div>
-    </div>
     <section class="diamond-cut-section">
         <div class="container">
             <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
@@ -323,6 +331,11 @@
                         <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Comparision </button>
                     </li>
                 </ul>
+                <div class="overlay cs-loader">
+                    <div class="overlay__inner">
+                        <div class="overlay__content"><span class="spinner"></span></div>
+                    </div>
+                </div>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                         <div class="result-tab-content">
