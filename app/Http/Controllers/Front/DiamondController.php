@@ -420,21 +420,13 @@ class DiamondController extends Controller {
                     ->where('category_id', $request->category)
                     ->pluck('name')
                     ->first();
+                
                 $final_d = $aa->searchDiamonds($request);
                 $diamonds = $final_d->original['data'];
-                $data = array(
-                    array('data1', 'data2','data3'),
-                    array('data3', 'data4','data3')
-                );
-                
-                Excel::store(new InvoicesExport(2018), 'invoices.xlsx');
-
-                Excel::create(time().'xlsx', function($excel) use($data) {                
-                    $excel->sheet('Sheetname', function($sheet) use($data) {                
-                        $sheet->fromArray($data);                
-                    });                
-                })->store('xls',storage_path('excel/exports'));
-                $excel = storage_path('excel/exports/' . time().'xlsx');
+            
+                $filename=time().".xlsx";
+                Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
+                $excel = public_path('storage/excel_export/'.$filename);
                 return response()->download($excel);
             }
 
