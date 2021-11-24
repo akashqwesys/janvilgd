@@ -103,7 +103,6 @@ class RapaortController extends Controller
                             $d_row->shape = $d_row->attributes['SHAPE'];
                             $d_row->color = $d_row->attributes['COLOR'];
                             $d_row->clarity = $d_row->attributes['CLARITY'];
-
                             
                             if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $d_row->color = substr($d_row->color, 2, 1);
