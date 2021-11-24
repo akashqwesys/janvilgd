@@ -4,3 +4,7 @@ public/images
 public/pdf
 storage/framework/diamond-filters
 .env
+
+env
+/public/storage
+node_modules/
