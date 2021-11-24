@@ -4,6 +4,7 @@
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
         var global_category_slug = '{{ $category->slug }}';
+        var stop_on_change = 0;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -16,6 +17,9 @@
             if ($('.filter-toggle').length === 0) {
                 $('#filter-toggle').attr('disabled', true);
             }
+            setTimeout(function(){
+                stop_on_change = 1;
+            }, 3000);
         });
         $(document).on('click', '.diamond-shape .item img', function () {
             var group_id = $(this).attr('data-group_id');
@@ -44,6 +48,9 @@
         });
 
         function getAttributeValues(values, array, group_id) {
+            if (stop_on_change === 0) {
+                return false;
+            }
             var selected_values = [];
             if (values.length > 1 && typeof values == 'string') {
                 var strArray = values.split(",");

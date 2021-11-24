@@ -8,9 +8,9 @@
         "php": "^7.3|^8.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "doctrine/dbal": "^3.1",
-        "elasticsearch/elasticsearch": "^7.15",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "http-interop/http-factory-guzzle": "^1.2",
         "ixudra/curl": "^6.21",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^8.54",
@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "mavinoo/laravel-batch": "^2.3",
+        "meilisearch/meilisearch-php": "^0.20.0",
         "phpmailer/phpmailer": "^6.5",
         "phpoffice/phpspreadsheet": "^1.18",
         "yajra/laravel-datatables-oracle": "^9.18"
