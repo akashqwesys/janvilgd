@@ -127,14 +127,14 @@
                     url: "{{ route('rapaport.price') }}",
                     data: data,
                     success: function (res) {                        
-                        if (res.suceess) {
-                            $('#append_loader_rapa').empty();
+                        if (res.suceess) {                            
                             $("#rapaport_price_input").val(res.rapa_price);
                             $("#labour_charge_4p").val(res.labour_charge);
                             $("#labour_charge_rough").val(res.labour_charge);
-                        } else{
                             $('#append_loader_rapa').empty();
+                        } else{                            
                             $("#rapaport_price_input").val('');
+                            $('#append_loader_rapa').empty();
                         }                      
                     }
                 });                                
