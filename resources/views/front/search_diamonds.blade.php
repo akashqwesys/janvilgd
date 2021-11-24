@@ -165,6 +165,7 @@
 
         $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function () {
             var group_id = $(this).attr('data-group_id');
+            var export_value = $(this).attr('data-export');
             if ($(this).attr('data-selected') == 1) {
                 $(this).css('border', '4px solid #00000000');
                 $(this).attr('data-selected', 0);
@@ -178,10 +179,10 @@
                     values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
                 }
             });
-            exportDiamondTables(values, [], group_id);
+            exportDiamondTables(values, [], group_id,export_value);
         });
 
-        function exportDiamondTables(values, array, group_id) {
+        function exportDiamondTables(values, array, group_id,export_value) {
 
             var selected_values = [];
             if (values.length > 1 && typeof values == 'string') {
@@ -210,8 +211,7 @@
                     'attribute_values': selected_values,
                     'group_id': group_id,
                     'category': global_category,
-                    'export': 'export'
-
+                    'export': export_value
                 },
                 xhrFields: {
                     responseType: 'blob'
@@ -295,8 +295,8 @@
                         if(Session::has('loginId') && Session::has('user-type')){
                             if(session('user-type') == "MASTER_ADMIN"){
                     @endphp
-                    <a href="javascript:;" data-user='customer' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
-                    <a href="javascript:;" data-user='admin' class="btn btn-primary" id="export-search-diamond-admin"><i class="fas fa-download me-2"></i> Export for admin</a>
+                    <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
+                    <a href="javascript:;" data-export='export-admin' class="btn btn-primary" id="export-search-diamond-admin"><i class="fas fa-download me-2"></i> Export for admin</a>
                     @php
                             }
                         }

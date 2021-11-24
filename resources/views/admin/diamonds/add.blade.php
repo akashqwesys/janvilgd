@@ -1,5 +1,27 @@
 @extends('admin.header')
 @section('content')
+
+#ajaxForm{
+    width:200px;
+    height:100%;    
+    position: relative;
+}
+#append_loader_rapa{
+    position: absolute;
+    top:50%;
+    right:0px;
+    width:100%;
+    height:100%;   
+    background-image:url('ajax-loader.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+</style>
+
 <div class="nk-content">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -384,7 +406,8 @@
                                     </div>                            
                                 </form>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="ajaxForm">
+                            <div id='append_loader_rapa'></div>
                                 <div class="card bg-lighter text-dark align-items-center">
                                     <div class="card-inner">
                                         <div class="align-items-center">

@@ -1008,10 +1008,6 @@ class DiamondsController extends Controller {
                 }
             }
         }
-        // if (!empty($attr_group_array)) {
-        //     DB::table('diamonds_attributes')->insert($attr_group_array);
-        // }
-
         if (!empty($attr_group_array)) {
             $chunked_new_record_array = array_chunk($attr_group_array,10,true);
 
@@ -1063,7 +1059,6 @@ class DiamondsController extends Controller {
     }
 
     public function save(Request $request) {
-//        echo '<pre>';print_r($_REQUEST);die;
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -1215,11 +1210,10 @@ class DiamondsController extends Controller {
     }
 
     public function list(Request $request) {
-//        print_r($request->refCategory_id);die;
+
         if ($request->ajax()) {
             $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
                             ->addColumn('index', '')
                             ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);

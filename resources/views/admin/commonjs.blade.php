@@ -119,7 +119,8 @@
                         'expected_polish_cts': expected_polish_cts,
                         'cat_type': diamondType
                     }; 
-                }                
+                }                         
+                $('#append_loader_rapa').append("<div class='d-flex justify-content-center'><div class='spinner-border text-dark' style='width: 5rem; height: 5rem;' role='status'><span class='sr-only'>Loading...</span></div></div>");
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -127,10 +128,12 @@
                     data: data,
                     success: function (res) {                        
                         if (res.suceess) {
+                            $('#append_loader_rapa').empty();
                             $("#rapaport_price_input").val(res.rapa_price);
                             $("#labour_charge_4p").val(res.labour_charge);
                             $("#labour_charge_rough").val(res.labour_charge);
                         } else{
+                            $('#append_loader_rapa').empty();
                             $("#rapaport_price_input").val('');
                         }                      
                     }

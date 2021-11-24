@@ -1,6 +1,31 @@
 @extends('admin.header')
 
 @section('content')
+
+<style>
+
+#ajaxForm{
+    width:200px;
+    height:100%;    
+    position: relative;
+}
+#append_loader_rapa{
+    position: absolute;
+    top:50%;
+    right:0px;
+    width:100%;
+    height:100%;   
+    background-image:url('ajax-loader.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+</style>
+
+
 <div class="nk-content">
     <!--    @if(Session::has('designation_add'))
         <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
@@ -457,7 +482,9 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-6" id="ajaxForm">
+                            <div id='append_loader_rapa'></div>
                                 <div class="card bg-lighter text-dark align-items-center">
                                     <div class="card-inner">
                                         <div class="align-items-center">
@@ -471,6 +498,7 @@
 
                                         <div class="traffic-channel text-dark">
                                             <div class="traffic-channel-group g-2">
+                                            
                                                 <div class="traffic-channel-data">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Rapaport Price/CT</span></div>
                                                     <div class="amount" id="display_rapa">$<?php echo number_format($data['result']->rapaport_price); ?></div>

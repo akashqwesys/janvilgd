@@ -70,7 +70,6 @@ class DiamondController extends Controller {
                 return $a['sort_order'] - $b['sort_order'];
             });
         }
-        // echo '<pre>'; print_r($final_attribute_groups_with_att);die;
         $list = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] == 1 && $v['name'] != 'GRIDLE CONDITION') {
@@ -377,6 +376,11 @@ class DiamondController extends Controller {
         return response()->json($res);
     }
 
+    public function exportForAdmin($category_id)
+    {
+        return Excel::download(new DiamondExport($data), 'users.xlsx');
+    }
+
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
@@ -409,19 +413,47 @@ class DiamondController extends Controller {
         $request->request->replace($arr);
 
         if (isset($response['export'])) {
-            $category_name = DB::table('categories')
-                ->select('name')
-                ->where('category_id', $request->category)
-                ->pluck('name')
-                ->first();
-            $final_d = $aa->searchDiamonds($request);
-            $diamonds = $final_d->original['data'];
-            $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
-            $path = public_path('pdf/');
-            $fileName =  time() . '.' . 'pdf';
-            $pdf->save($path . '/' . $fileName);
-            $pdf = public_path('pdf/' . $fileName);
-            return response()->download($pdf);
+
+            if($response['export']=='export-admin'){
+                $category_name = DB::table('categories')
+                    ->select('name')
+                    ->where('category_id', $request->category)
+                    ->pluck('name')
+                    ->first();
+                $final_d = $aa->searchDiamonds($request);
+                $diamonds = $final_d->original['data'];
+                $data = array(
+                    array('data1', 'data2','data3'),
+                    array('data3', 'data4','data3')
+                );
+                
+                Excel::store(new InvoicesExport(2018), 'invoices.xlsx');
+
+                Excel::create(time().'xlsx', function($excel) use($data) {                
+                    $excel->sheet('Sheetname', function($sheet) use($data) {                
+                        $sheet->fromArray($data);                
+                    });                
+                })->store('xls',storage_path('excel/exports'));
+                $excel = storage_path('excel/exports/' . time().'xlsx');
+                return response()->download($excel);
+            }
+
+
+            if($response['export']=='export'){
+                $category_name = DB::table('categories')
+                    ->select('name')
+                    ->where('category_id', $request->category)
+                    ->pluck('name')
+                    ->first();
+                $final_d = $aa->searchDiamonds($request);
+                $diamonds = $final_d->original['data'];
+                $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
+                $path = public_path('pdf/');
+                $fileName =  time() . '.' . 'pdf';
+                $pdf->save($path . '/' . $fileName);
+                $pdf = public_path('pdf/' . $fileName);
+                return response()->download($pdf);
+            }
         } else {
             $request->request->add(['web' => 'web']);
         }
