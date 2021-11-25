@@ -273,7 +273,7 @@ class DiamondController extends Controller
             $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
             $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts; */
         }
-        echo '<pre>';print_r($final_d);die;
+
         if ($request->web == 'web') {
             $html = '';
             foreach ($final_d as $v) {
