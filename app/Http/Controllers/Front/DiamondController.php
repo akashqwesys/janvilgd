@@ -423,10 +423,7 @@ class DiamondController extends Controller {
                 
                 $request->request->add(['web' => 'admin']);
                 $final_d = $aa->searchDiamonds($request);
-                $diamonds = $final_d->original['data'];
-
-                echo '<pre>';print_r($diamonds);die;
-
+                $diamonds = $final_d->original['data'];                
                 $filename=time().".xlsx";
                 Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
                 

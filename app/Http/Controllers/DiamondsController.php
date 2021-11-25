@@ -24,6 +24,7 @@ class DiamondsController extends Controller {
     }
 
     public function fileImport(Request $request) {
+        // echo phpinfo();die;
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
 
         // print_r($res);die;
@@ -73,12 +74,17 @@ class DiamondsController extends Controller {
                             }                           
                             // if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
                             //     $shape="PS";
-                            // }                           
+                            // } 
+                            $row['rapa']=0;                          
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
                                     $row['rapa']=$row_rapa->rapaport_price;                                                                         
                                     break;
                                 }                                
+                            }
+
+                            if($row['rapa']==0){
+                                continue;
                             }
 
                             $row['rapa2']=0;
@@ -317,6 +323,7 @@ class DiamondsController extends Controller {
                             if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
                                 $shape="PS";
                             }
+                            $row['rap']=0;
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity'])){                                    
                                     $row['rap']=$row_rapa->rapaport_price; 
@@ -324,6 +331,10 @@ class DiamondsController extends Controller {
                                 }
                             }
                             
+                            if($row['rap']==0){
+                                continue;
+                            }
+
                             $row['dis']=$row['discount'];
                             $row['dis'] = doubleval($row['dis']);
                             $row['dis'] = str_replace('-', '', $row['dis']);
@@ -513,12 +524,16 @@ class DiamondsController extends Controller {
                             else{
                                 $shape="PS";
                             }
+                            $row['price']=0;
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['weight']>=$row_rapa->from_range && $row['weight']<=$row_rapa->to_range){
                                     $row['price']=$row_rapa->rapaport_price;   
                                     break;
                                 }
-                            }                                 
+                            }
+                            if($row['price']==0){
+                                continue;
+                            }                                
                             $row['discount_percent'] = str_replace('-', '', $row['discount_percent']);
                             $row['discount_percent'] = doubleval($row['discount_percent']);
                             $row['weight'] = doubleval($row['weight']);                                                                                                    
@@ -1008,12 +1023,11 @@ class DiamondsController extends Controller {
                 }
             }
         }
-        if (!empty($attr_group_array)) {
-            $count=count($attr_group_array);
-            $divide=($count/65000);
-            $divide=ceil($divide);            
-            $chunked_new_record_array = array_chunk($attr_group_array,$divide,true);
 
+        
+
+        if (!empty($attr_group_array)) {                    
+            $chunked_new_record_array = array_chunk($attr_group_array,5000);
             foreach ($chunked_new_record_array as $new_record_chunk)
             {
                 DB::table('diamonds_attributes')->insert($new_record_chunk);   
