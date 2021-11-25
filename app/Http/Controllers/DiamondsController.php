@@ -37,6 +37,11 @@ class DiamondsController extends Controller {
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
         $attr_group_array = array();
+
+        $d_id_res=DB::table('diamonds')->latest()->limit(1)->first();
+
+        // print_r($d_id_res);die;
+
         if (!empty($res)) {
             foreach ($res[0] as $row) {
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {                    
@@ -1021,6 +1026,7 @@ class DiamondsController extends Controller {
                         }
                     }
                 }
+            $d_id=$d_id+1;    
             }
         }
 
@@ -1065,7 +1071,7 @@ class DiamondsController extends Controller {
                 array_push($attribute_array, $row->attribute_group_id);
             }
         }
-        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->get();
+        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->orderBy('sort_order', 'asc')->get();
         $data['category'] = $categories;
         $data['attribute_groups'] = $attribute_groups;
         $data['attributes'] = $attributes;
@@ -1297,7 +1303,7 @@ class DiamondsController extends Controller {
                 array_push($attribute_array, $row->attribute_group_id);
             }
         }
-        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->get();
+        $attributes = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->whereIn('attribute_group_id', $attribute_array)->orderBy('sort_order', 'asc')->get();
         $data['category'] = $categories;
         $data['attribute_groups'] = $attribute_groups;
         $data['attributes'] = $attributes;
