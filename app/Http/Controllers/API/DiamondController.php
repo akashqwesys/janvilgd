@@ -140,7 +140,7 @@ class DiamondController extends Controller
         }
         if ($request->web == 'admin') {
             $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-                ->selectRaw(rtrim($ag_names, ', '));    
+                ->selectRaw(rtrim($ag_names, ', '));
         } else {
             $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.barcode')
             ->selectRaw(rtrim($ag_names, ', '));
@@ -213,8 +213,8 @@ class DiamondController extends Controller
             $final_d[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
             $final_d[$v_row->diamond_id]['remarks'] = $v_row->remarks;
             $final_d[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-            $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;    
-            $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;            
+            $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;
+            $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
 
 
             $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
@@ -225,10 +225,10 @@ class DiamondController extends Controller
             $final_api[$v_row->diamond_id]['price'] = $v_row->price;
             $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
             $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-            $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks; 
-            $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;    
-            $final_api[$v_row->diamond_id]['discount'] = $v_row->discount; 
-            $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;            
+            $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
+            $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
+            $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
+            $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
         }
 
         if ($request->web == 'web') {
@@ -406,7 +406,6 @@ class DiamondController extends Controller
 
         $similar_ids = collect($response_array['attribute'])
             ->whereIn('ag_name', ['COLOR', 'CUT GRADE', 'CLARITY'])
-            ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
             ->pluck('attribute_id')
             ->all();
         $raw_attr = null;
@@ -419,7 +418,8 @@ class DiamondController extends Controller
                 ->select('d.diamond_id', 'd.name', 'd.expected_polish_cts as carat', 'd.rapaport_price as mrp', 'd.total as price', 'd.discount', 'd.image', 'd.barcode')
                 ->where('d.is_active', 1)
                 ->where('d.is_deleted', 0)
-                ->whereRaw('("d"."expected_polish_cts" >= ('. $diamonds[0]->carat .'+0.10) and "d"."expected_polish_cts" <= (' . $diamonds[0]->carat . '-0.10))')
+                ->where('d.diamond_id', '<>', $diamonds[0]->diamond_id)
+                ->whereRaw('("d"."expected_polish_cts" <= ('. $diamonds[0]->carat .'+0.10) and "d"."expected_polish_cts" >= (' . $diamonds[0]->carat . '-0.10))')
                 ->whereRaw('(' . rtrim($raw_attr, ' or ') . ')')
                 ->orderByRaw('("d"."expected_polish_cts" - '. $diamonds[0]->carat .') desc')
                 ->limit(5)
