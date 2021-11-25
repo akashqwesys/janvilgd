@@ -71,8 +71,8 @@ class UserController extends Controller
                 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
                 'city' => ['required', 'integer', 'exists:city,city_id'],
-                // 'pincode' => ['required', 'digits:6'],
-                'company_name' => ['required'],
+                'pincode' => ['required'],
+                /* 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'company_gst_pan' => ['required', 'between:10,15'],
@@ -80,8 +80,8 @@ class UserController extends Controller
                 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
-                // 'company_pincode' => ['required', 'digits:6'],
-                'id_upload' => ['file', 'mimes:jpg,jpeg,png,pdf']
+                'company_pincode' => ['required', 'digits:6'],
+                'id_upload' => ['file', 'mimes:jpg,jpeg,png,pdf'] */
             ];
 
             $message = [
@@ -92,7 +92,7 @@ class UserController extends Controller
                 'country.required' => 'Please enter country',
                 'state.required' => 'Please enter state',
                 'city.required' => 'Please enter city',
-                'company_name.required' => 'Please enter your company name',
+                /* 'company_name.required' => 'Please enter your company name',
                 'company_office_no.required' => 'Please enter company office number',
                 'company_email.required' => 'Please enter company email address',
                 'company_gst_pan.required' => 'Please enter company GST or PAN',
@@ -100,7 +100,7 @@ class UserController extends Controller
                 'company_country.required' => 'Please enter company country',
                 'company_state.required' => 'Please enter company state',
                 'company_city.required' => 'Please enter company city',
-                // 'id_upload.required' => 'Please select ID proof'
+                'id_upload.required' => 'Please select ID proof' */
             ];
 
             $validator = Validator::make($request->all(), $rules, $message);
@@ -248,6 +248,9 @@ class UserController extends Controller
                 $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
                     ->where('customer_company_id', $request->customer_company_id)
                     ->first();
+                if (empty($company)) {
+                    return $this->errorResponse('Not a valid company');
+                }
                 $msg = 'Address updated successfully';
             } else {
                 $msg = 'Address added successfully';
@@ -321,7 +324,10 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
-
+            $exists = $this->getCompanies($request);
+            if (count($exists->original['data']['company']) == 1) {
+                return $this->errorResponse('You cannot delete your last address...!');
+            }
             $customer = Auth::user();
             $company = CustomerCompanyDetail::where('refCustomer_id', $customer->customer_id)
                 ->where('customer_company_id', $request->customer_company_id)
