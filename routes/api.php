@@ -71,5 +71,8 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('order-details', [OrderController::class, 'myOrderDetails']);
     Route::post('save-order', [OrderController::class, 'saveMyOrder']);
 
+    // Logout
+    Route::post('logout', [AuthController::class, 'logout']);
+
 });
 

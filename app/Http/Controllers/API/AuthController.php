@@ -407,4 +407,10 @@ class AuthController extends Controller
             'business' => $business
         ];
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return $this->successResponse('Logged out successfully');
+    }
 }
