@@ -224,13 +224,18 @@
                     responseType: 'blob'
                 },
                 success: function(response){
+
                     var blob = new Blob([response]);
 
                     var link = document.createElement('a');
 
                     link.href = window.URL.createObjectURL(blob);
 
-                    link.download = "Diamonds-data.pdf";
+                    if(export_value=='export'){
+                        link.download = "Diamonds-data.pdf";
+                    }else{
+                        link.download = "Diamonds-data.xlsx";
+                    }
 
                     link.click();
                 },

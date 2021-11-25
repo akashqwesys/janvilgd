@@ -35,9 +35,24 @@ class OrdersController extends Controller
                             ->make(true);
         }
     }  
+    public function addOrderHistory(Request $request) {
+        DB::table('order_updates')->insert([
+            'order_status_name' => $request->order_status_name,
+            'refOrder_id' => $request->id,           
+            'comment' => $request->comment,
+            'added_by' => $request->session()->get('loginId'),            
+            'is_deleted' => 0,
+            'date_added' => date("Y-m-d h:i:s")
+        ]);
+        $Id = DB::getPdo()->lastInsertId();
+        activity($request,"updated",'orders',$request->id);
+        successOrErrorMessage("Data updated Successfully", 'success');
+        return redirect('admin/orders/edit/'.$request->id);
+    }
     
-    
-    public function edit($id) {        
+    public function edit($id) {  
+        $order_sts = DB::table('order_statuses')->orderby('sort_order','asc')->get();        
+        $order_history = DB::table('order_updates')->orderby('order_update_id','DESC')->get();             
         $result = DB::table('orders')->where('order_id', $id)->first();
         $address_list = DB::table('customer_company_details')->select('customer_company_details.*', 'city.name as city_name','state.name as state_name','country.name as country_name')
                 ->leftJoin('city', 'city.city_id', '=', 'customer_company_details.refCity_id')
@@ -46,6 +61,8 @@ class OrdersController extends Controller
                 ->where('refCustomer_id', $result->refCustomer_id)->get();
         $data['title'] = 'Edit-Orders';
         $data['address_list'] = $address_list;
+        $data['order_sts'] = $order_sts;
+        $data['order_history'] = $order_history;
         $data['result'] = $result;
         return view('admin.orders.edit', ["data" => $data]);
     }

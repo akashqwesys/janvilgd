@@ -421,11 +421,15 @@ class DiamondController extends Controller {
                     ->pluck('name')
                     ->first();
                 
+                $request->request->add(['web' => 'admin']);
                 $final_d = $aa->searchDiamonds($request);
                 $diamonds = $final_d->original['data'];
-            
+
+                echo '<pre>';print_r($diamonds);die;
+
                 $filename=time().".xlsx";
                 Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
+                
                 $excel = public_path('storage/excel_export/'.$filename);
                 return response()->download($excel);
             }

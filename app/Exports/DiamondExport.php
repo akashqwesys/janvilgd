@@ -37,9 +37,19 @@ class DiamondExport implements FromCollection, WithHeadings
     public function headings() :array
     {
         return [
-            'ID',
-            'Name',
-            'Email',
+            'Barcode',
+            'Pktno',
+            'Org Cts',
+            'Exp Pol',
+            'SHAPE',
+            'COLOR',
+            'CLARITY',
+            'Discount',
+            'image-1',
+            'image-2',
+            'image-3',
+            'image-4',
+            'Video'
         ];
     }
 }

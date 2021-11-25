@@ -456,6 +456,7 @@ Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list'
 Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
 //Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
 /***************  Blogs route end *************/
