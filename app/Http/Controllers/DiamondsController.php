@@ -1009,7 +1009,10 @@ class DiamondsController extends Controller {
             }
         }
         if (!empty($attr_group_array)) {
-            $chunked_new_record_array = array_chunk($attr_group_array,10,true);
+            $count=count($attr_group_array);
+            $divide=($count/65000);
+            $divide=ceil($divide);            
+            $chunked_new_record_array = array_chunk($attr_group_array,$divide,true);
 
             foreach ($chunked_new_record_array as $new_record_chunk)
             {

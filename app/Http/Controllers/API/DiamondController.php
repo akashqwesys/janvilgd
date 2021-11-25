@@ -113,23 +113,67 @@ class DiamondController extends Controller
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
-
+        
         $q = null;
         $ag_names = null;
         $diamond_ids = DB::table('diamonds as d');
         $ij = 0;
-        foreach ($response as $k => $v) {
-            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway') {
-                continue;
+        if ($response['web'] == 'admin') {           
+            $all_attributes = DB::table('attribute_groups as ag')
+                ->leftJoin('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
+                ->select('a.attribute_id', 'ag.attribute_group_id')
+                ->where('refCategory_id', $request->category)
+                ->get();
+                
+            $new_all_attributes = [];
+            $temp_grp_id = 0;
+            foreach ($all_attributes as $v) {
+                if ($temp_grp_id != $v->attribute_group_id) {
+                    $temp_grp_id = $v->attribute_group_id;
+                    $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;                    
+                } else {                
+                    $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
+                }                
             }
-            $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
+            
+            foreach ($new_all_attributes as $k => $v) {  
+                
+                // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
+                if(!(count($v) == 1 && empty($v[0]))){
+                    // $q .= '("da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';    
+                    $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
+                }else{
+                    $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" = 0 ) and ';
+                }
 
-            $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
-                ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id')
-                ->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
+                $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
+                    ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id');
+                    
+                    if(!(count($v) == 1 && empty($v[0]))){
+                        $diamond_ids = $diamond_ids->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
+                        $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
+                    }else{
+                        $ag_names .= 'da' . $k . '.value as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
+                    }
 
-            $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-            $ij++;
+                
+                $ij++;
+            }
+            
+        } else {        
+            foreach ($response as $k => $v) {
+                if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway') {
+                    continue;
+                }
+                $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
+
+                $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
+                    ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id')
+                    ->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
+
+                $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
+                $ij++;
+            }
         }
         if (empty($q)) {
             $diamond_ids = $diamond_ids->join('diamonds_attributes as da' , 'd.diamond_id', '=', 'da.refDiamond_id')
@@ -162,16 +206,18 @@ class DiamondController extends Controller
             ->where('d.refCategory_id', $response['category'])
             // ->orderBy('d.diamond_id', 'desc')
             ->inRandomOrder()
+            ->limit(10)
             ->get()
             ->toArray();
-
+            
+        dd($diamond_ids);
         if (!count($diamond_ids)) {
             if ($request->web == 'web') {
                 return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
             }
             return $this->successResponse('No diamond found');
         }
-
+        
         $final_d = $final_api = [];
         foreach ($diamond_ids as $v_row) {
             for ($i=0; $i < $ij; $i++) {
@@ -230,7 +276,7 @@ class DiamondController extends Controller
             $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
             $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts; */
         }
-
+        echo '<pre>';print_r($final_d);die;
         if ($request->web == 'web') {
             $html = '';
             foreach ($final_d as $v) {
