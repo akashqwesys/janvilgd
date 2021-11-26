@@ -320,7 +320,7 @@ class DiamondsController extends Controller {
                             if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
                                 $shape="BR";
                             }
-                            if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
+                            else{
                                 $shape="PS";
                             }
                             $row['rap']=0;
