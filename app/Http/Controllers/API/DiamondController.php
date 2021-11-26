@@ -118,7 +118,7 @@ class DiamondController extends Controller
         $ag_names = null;
         $diamond_ids = DB::table('diamonds as d');
         $ij = 0;
-        if ($response['web'] == 'admin') {
+        if (isset($response['web']) && $response['web'] == 'admin') {
             $all_attributes = DB::table('attribute_groups as ag')
                 ->leftJoin('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
                 ->select('a.attribute_id', 'ag.attribute_group_id')
@@ -204,7 +204,7 @@ class DiamondController extends Controller
             ->where('d.refCategory_id', $response['category'])
             // ->orderBy('d.diamond_id', 'desc')
             ->inRandomOrder()
-            ->limit(100)
+            ->limit(30)
             ->get()
             ->toArray();
 
