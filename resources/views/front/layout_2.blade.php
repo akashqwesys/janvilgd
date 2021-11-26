@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/rSlider.min.css">
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
-    <script src="/{{ check_host() }}assets/js/rSlider.min.js"></script>
+    <script src="/{{ check_host() }}assets/js/rSlider.js"></script>
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
     <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>

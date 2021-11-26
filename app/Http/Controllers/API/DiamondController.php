@@ -204,7 +204,8 @@ class DiamondController extends Controller
             ->where('d.refCategory_id', $response['category'])
             // ->orderBy('d.diamond_id', 'desc')
             ->inRandomOrder()
-            ->limit(30)
+            // ->offset($request->offset)
+            ->limit(100)
             ->get()
             ->toArray();
 

@@ -143,6 +143,7 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
+                                        new_call = true;
                                         getAttributeValues(vals, array, " . $k . ");
                                     }
                             });
@@ -168,47 +169,137 @@ class DiamondController extends Controller {
                     <div class="diamond-cart filter-item">
                         <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
-                            <input type="text" id="caratSlider" />
+                            <div class="slider-styled" id="caratSlider"></div>
+                            <input type="text" id="minCarat" class="w-5r">
+                            <input type="text" id="maxCarat" class="float-right w-5r">
                         </div>
                     </div>
+                    <script>
+                        var caratSlider = document.getElementById("caratSlider");
+                        var minCaratJs = document.getElementById("minCarat");
+                        var maxCaratJs = document.getElementById("maxCarat");
+                        var caratJs = [minCaratJs, maxCaratJs];
+                        noUiSlider.create(caratSlider, {
+                            start: [' . $min_carat . ', ' . $max_carat . '],
+                            step: 0.01,
+                            connect: true,
+                            // tooltips: [true, wNumb({ decimals: 2 })],
+                            range: { "min": ' . $min_carat . ', "max": ' . $max_carat . ' }
+                        });
+                        caratSlider.noUiSlider.on("update", function (values, handle) {
+                            caratJs[handle].value = values[handle];
+                        });
+                        // Listen to keydown events on the input field.
+                        caratJs.forEach(function (input, handle) {
+                            input.addEventListener("change", function () {
+                                caratSlider.noUiSlider.setHandle(handle, this.value);
+                            });
+                            input.addEventListener("keydown", function (e) {
+                                var values = caratSlider.noUiSlider.get();
+                                var value = Number(values[handle]);
+                                var steps = caratSlider.noUiSlider.steps();
+                                var step = steps[handle];
+                                var position;
+                                // 13 is enter, 38 is key up, 40 is key down.
+                                switch (e.which) {
+                                    case 13:
+                                        caratSlider.noUiSlider.setHandle(handle, this.value);
+                                        break;
+                                    case 38:
+                                        // Get step to go increase slider value (up)
+                                        position = step[1];
+                                        // false = no step is set
+                                        if (position === false) {
+                                            position = 1;
+                                        }
+                                        // null = edge of slider
+                                        if (position !== null) {
+                                            caratSlider.noUiSlider.setHandle(handle, value + position);
+                                        }
+                                        break;
+                                    case 40:
+                                        position = step[0];
+                                        if (position === false) {
+                                            position = 1;
+                                        }
+                                        if (position !== null) {
+                                            caratSlider.noUiSlider.setHandle(handle, value - position);
+                                        }
+                                        break;
+                                }
+                            });
+                        });
+                        caratSlider.noUiSlider.on("change", function () {
+
+                        });
+                    </script>
                 </div>
                 <div class="col col-12 col-sm-12 col-lg-6 mb-2">
-                    <div class="diamond-price filter-item">
+                    <div class="diamond-cart filter-item">
                         <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
-                            <input type="text" id="priceSlider" />
+                            <div class="slider-styled" id="priceSlider"></div>
+                            <input type="text" id="minPrice" class="w-5r">
+                            <input type="text" id="maxPrice" class="float-right w-5r">
                         </div>
                     </div>
+                    <script>
+                        var priceSlider = document.getElementById("priceSlider");
+                        var minPriceJs = document.getElementById("minPrice");
+                        var maxPriceJs = document.getElementById("maxPrice");
+                        var priceJs = [minPriceJs, maxPriceJs];
+                        noUiSlider.create(priceSlider, {
+                            start: ['.$min_price.', '.$max_price. '],
+                            step: 10,
+                            connect: true,
+                            // tooltips: [true, wNumb({ decimals: 2 })],
+                            range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
+                        });
+                        priceSlider.noUiSlider.on("update", function (values, handle) {
+                            priceJs[handle].value = values[handle];
+                        });
+                        // Listen to keydown events on the input field.
+                        priceJs.forEach(function (input, handle) {
+                            input.addEventListener("change", function () {
+                                priceSlider.noUiSlider.setHandle(handle, this.value);
+                            });
+                            input.addEventListener("keydown", function (e) {
+                                var values = priceSlider.noUiSlider.get();
+                                var value = Number(values[handle]);
+                                var steps = priceSlider.noUiSlider.steps();
+                                var step = steps[handle];
+                                var position;
+                                // 13 is enter, 38 is key up, 40 is key down.
+                                switch (e.which) {
+                                    case 13:
+                                        priceSlider.noUiSlider.setHandle(handle, this.value);
+                                        break;
+                                    case 38:
+                                        // Get step to go increase slider value (up)
+                                        position = step[1];
+                                        // false = no step is set
+                                        if (position === false) {
+                                            position = 1;
+                                        }
+                                        // null = edge of slider
+                                        if (position !== null) {
+                                            priceSlider.noUiSlider.setHandle(handle, value + position);
+                                        }
+                                        break;
+                                    case 40:
+                                        position = step[0];
+                                        if (position === false) {
+                                            position = 1;
+                                        }
+                                        if (position !== null) {
+                                            priceSlider.noUiSlider.setHandle(handle, value - position);
+                                        }
+                                        break;
+                                }
+                            });
+                        });
+                    </script>
                 </div>';
-        $html .= "<script type='text/javascript'>
-                    var priceSlider = new rSlider({
-                        target: '#priceSlider',
-                        values: {min: ".$min_price.", max: ".$max_price."},
-                        step: 20,
-                        range: true,
-                        tooltip: true,
-                        scale: true,
-                        labels: false,
-                        set: ['".$min_price."', '".$max_price."'],
-                        onChange: function (vals) {
-                            getAttributeValues(vals, [], 'price');
-                        }
-                    });
-                    var caratSlider = new rSlider({
-                        target: '#caratSlider',
-                        values: {min: ".$min_carat.", max: ".$max_carat."},
-                        step: 0.01,
-                        range: true,
-                        tooltip: true,
-                        scale: true,
-                        labels: false,
-                        set: ['".$min_carat."', '".$max_carat. "'],
-                        onChange: function (vals) {
-                            // roundLabel($(this));
-                            getAttributeValues(vals, [], 'carat');
-                        }
-                    });
-                </script>";
 
         $none_fix = null;
         foreach ($final_attribute_groups_with_att as $k => $v) {
@@ -283,6 +374,7 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
+                                        new_call = true;
                                         getAttributeValues(vals, array, " . $k . ");
                                     }
                             });
@@ -420,13 +512,13 @@ class DiamondController extends Controller {
                     ->where('category_id', $request->category)
                     ->pluck('name')
                     ->first();
-                
+
                 $request->request->add(['web' => 'admin']);
                 $final_d = $aa->searchDiamonds($request);
-                $diamonds = $final_d->original['data'];                
+                $diamonds = $final_d->original['data'];
                 $filename=time().".xlsx";
                 Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
-                
+
                 $excel = public_path('storage/excel_export/'.$filename);
                 return response()->download($excel);
             }
