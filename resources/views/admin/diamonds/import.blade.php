@@ -51,7 +51,7 @@
                                         <div class="form-group">                                           
                                             <div class="form-control-wrap">
                                                 <div class="custom-file">
-                                                    <input type="file" name="file" class="custom-file-input" id="file">
+                                                    <input type="file" name="file" class="custom-file-input" id="file" required="">
                                                     <label class="custom-file-label" for="file">Select file</label>
                                                 </div>
                                             </div>
