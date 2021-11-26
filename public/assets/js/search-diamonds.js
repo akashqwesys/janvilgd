@@ -73,7 +73,7 @@ function getAttributeValues(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
-    // console.log(selected_values);
+    console.log(selected_values);
 
     $.ajax({
         beforeSend: function( xhr ) {
