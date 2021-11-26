@@ -88,7 +88,8 @@ function getAttributeValues(values, array, group_id) {
             'group_id': group_id,
             'web': 'web',
             'category': global_category,
-            'category_slug': global_category_slug
+            'category_slug': global_category_slug,
+            'offset': global_data_offset
         },
         // cache: false,
         dataType: "json",
@@ -121,10 +122,12 @@ function getAttributeValues(values, array, group_id) {
                     $('.result-tab-content .select-diamond .diamond-cost').text($('#result-table tbody tr').eq(0).attr('data-price'));
                     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $('#result-table tbody tr').eq(0).attr('data-image'));
                 }, 1000); */
-                $(table_scroll).scrollTop($(table_scroll).scrollTop() + $('#result-table').position().top);
+                lazy_load_scroll();
+                // $(table_scroll).scrollTop($(table_scroll).scrollTop() + $('#result-table').position().top);
             } else {
                 $('#result-table tbody').append(response.data);
             }
+            global_data_offset = response.offset;
             //set ajax_in_progress object false, after completion of ajax call
             $(window).data('ajax_in_progress', false);
         },
@@ -140,17 +143,24 @@ function getAttributeValues(values, array, group_id) {
     });
 }
 function lazy_load_scroll() {
+    var lastScrollTop = 0, delta = 5;
     $(table_scroll).scroll(function() {
+        var nowScrollTop = $(this).scrollTop();
         //check if any other ajax request is already in progress or not, if true then it exit here
         if ($(window).data('ajax_in_progress') === true)
         return;
         //check, whether we reached at the bottom of page or not, true when we reach at the bottom
-        if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
-            //set ajax_in_progress object true, before making a ajax call
-            $(window).data('ajax_in_progress', true);
-            new_call = false;
-            //make ajax call
-            getAttributeValues(global_search_values, global_search_array, global_group_id);
+        if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
+            if (nowScrollTop > lastScrollTop) {
+                if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
+                    //set ajax_in_progress object true, before making a ajax call
+                    $(window).data('ajax_in_progress', true);
+                    new_call = false;
+                    //make ajax call
+                    getAttributeValues(global_search_values, global_search_array, global_group_id);
+                }
+            }
+            lastScrollTop = nowScrollTop;
         }
     });
  }
