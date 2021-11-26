@@ -76,10 +76,10 @@ class DiamondController extends Controller {
             ->where('refCategory_id', $category->category_id)
             ->first();
         if ($max) {
-            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
-            $max_price = round($max->max_price + 1);
-            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
-            $max_carat = round($max->max_carat + 1);
+            $min_price = $max->min_price;
+            $max_price = $max->max_price;
+            $min_carat = $max->min_carat;
+            $max_carat = $max->max_carat;
         } else {
             $max_price = $min_carat = $max_carat = $min_price = 0;
         }
@@ -126,8 +126,8 @@ class DiamondController extends Controller {
                             <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
                             <div class="range-sliders">
                                 <div class="slider-styled" id="priceSlider"></div>
-                                <input type="text" id="minPrice" class="w-5r">
-                                <input type="text" id="maxPrice" class="float-right w-5r text-right">
+                                $<input type="text" id="minPrice" class="w-5r">
+                                <div class="float-right">$<input type="text" id="maxPrice" class="w-5r text-right"></div>
                             </div>
                         </div>
                         <script>
@@ -186,7 +186,7 @@ class DiamondController extends Controller {
                                 });
                             });
                             priceSlider.noUiSlider.on("change", function () {
-                                getAttributeValues(priceSlider.noUiSlider.get(), [], "carat");
+                                getAttributeValues(priceSlider.noUiSlider.get(), [], "price");
                             });
                         </script>
                     </div>';
@@ -504,6 +504,7 @@ class DiamondController extends Controller {
         $arr['category'] = $request->category;
         $arr['category_slug'] = $request->category_slug;
         $arr['gateway'] = 'web';
+        $arr['offset'] = $request->offset;
         $aa = new APIDiamond;
         $request->request->replace($arr);
 

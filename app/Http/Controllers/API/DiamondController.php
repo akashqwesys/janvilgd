@@ -96,10 +96,14 @@ class DiamondController extends Controller
             ->where('refCategory_id', $request->category)
             ->first();
         if ($max) {
-            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
+            /* $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
             $max_price = round($max->max_price + 1);
             $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
-            $max_carat = round($max->max_carat + 1);
+            $max_carat = round($max->max_carat + 1); */
+            $min_price = $max->min_price;
+            $max_price = $max->max_price;
+            $min_carat = $max->min_carat;
+            $max_carat = $max->max_carat;
         } else {
             $max_price = $min_carat = $max_carat = $min_price = 0;
         }
@@ -160,7 +164,7 @@ class DiamondController extends Controller
             }
         } else {
             foreach ($response as $k => $v) {
-                if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway') {
+                if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
                     continue;
                 }
                 $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
@@ -204,8 +208,8 @@ class DiamondController extends Controller
             ->where('d.refCategory_id', $response['category'])
             // ->orderBy('d.diamond_id', 'desc')
             ->inRandomOrder()
-            // ->offset($request->offset)
-            ->limit(100)
+            ->offset($response['offset'] ?? 1)
+            ->limit(25)
             ->get()
             ->toArray();
 
@@ -321,7 +325,7 @@ class DiamondController extends Controller
                         </td>
                     </tr>';
             }
-            return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html]);
+            return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html, 'offset' => ($request->offset + 25)]);
         }
         if ($response['gateway'] == 'api') {
             return $this->successResponse('Success', array_values($final_api));

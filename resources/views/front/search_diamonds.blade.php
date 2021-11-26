@@ -6,6 +6,7 @@
         var global_category = {{ $category->category_id }};
         var global_category_slug = '{{ $category->slug }}';
         var table_scroll = '.search-diamond-table .table-responsive';
+        var global_data_offset = 0;
     </script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
     <script type="text/javascript" src="/assets/nouislider/nouislider.js"></script>
