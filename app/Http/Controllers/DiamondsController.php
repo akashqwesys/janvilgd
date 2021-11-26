@@ -156,6 +156,18 @@ class DiamondsController extends Controller {
                                 $atr_grp_row->name=trim($atr_grp_row->name);
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
+                                
+                                if ($atr_grp_row->name === "COMMENT") {
+                                    if (!empty($row['comment'])) {
+                                        $insert_array = array();
+                                        $insert_array['refDiamond_id'] = $Id;
+                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                        $insert_array['refAttribute_id'] = 0;
+                                        $insert_array['value'] = trim($row['comment']);
+                                        array_push($attr_group_array, $insert_array);
+                                    }
+                                }
+                                
                                 if ($atr_grp_row->name === "HALF-CUT DIA") {
                                     if (!empty($row['half_cut_dia'])) {
                                         $insert_array = array();
@@ -196,6 +208,44 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
+
+
+                                if ($atr_grp_row->name === "LOCATION") {
+                                    if (!empty($row['location'])) {
+                                        $location = 0;
+                                        foreach ($attribute as $atr_row) {
+                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                $insert_array = array();
+                                                $insert_array['refDiamond_id'] = $Id;
+                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                                $insert_array['value'] = 0;
+                                                array_push($attr_group_array, $insert_array);
+                                                $location = 1;
+                                            }
+                                        }
+                                        if ($location == 0) {
+                                            DB::table('attributes')->insert([
+                                                'name' => $row['location'],
+                                                'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                                'added_by' => $request->session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'date_added' => date("Y-m-d h:i:s"),
+                                                'date_updated' => date("Y-m-d h:i:s")
+                                            ]);
+                                            $attr_id = DB::getPdo()->lastInsertId();
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = $attr_id;
+                                            $insert_array['value'] = 0;
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
+                                }
+
+
                                 if ($atr_grp_row->name === "SHAPE") {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
@@ -391,6 +441,20 @@ class DiamondsController extends Controller {
                                 $atr_grp_row->name=trim($atr_grp_row->name);
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
+
+
+                                if ($atr_grp_row->name === "COMMENT") {
+                                    if (!empty($row['comment'])) {
+                                        $insert_array = array();
+                                        $insert_array['refDiamond_id'] = $Id;
+                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                        $insert_array['refAttribute_id'] = 0;
+                                        $insert_array['value'] = trim($row['comment']);
+                                        array_push($attr_group_array, $insert_array);
+                                    }
+                                }
+
+
                                 if ($atr_grp_row->name === "CLARITY") {
                                     if (!empty($row['clarity'])) {
                                         $clarity = 0;
@@ -408,6 +472,41 @@ class DiamondsController extends Controller {
                                         if ($clarity == 0) {
                                             DB::table('attributes')->insert([
                                                 'name' => $row['clarity'],
+                                                'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                                'added_by' => $request->session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'date_added' => date("Y-m-d h:i:s"),
+                                                'date_updated' => date("Y-m-d h:i:s")
+                                            ]);
+                                            $attr_id = DB::getPdo()->lastInsertId();
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = $attr_id;
+                                            $insert_array['value'] = 0;
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
+                                }
+
+                                if ($atr_grp_row->name === "LOCATION") {
+                                    if (!empty($row['location'])) {
+                                        $location = 0;
+                                        foreach ($attribute as $atr_row) {
+                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                $insert_array = array();
+                                                $insert_array['refDiamond_id'] = $Id;
+                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                                $insert_array['value'] = 0;
+                                                array_push($attr_group_array, $insert_array);
+                                                $location = 1;
+                                            }
+                                        }
+                                        if ($location == 0) {
+                                            DB::table('attributes')->insert([
+                                                'name' => $row['location'],
                                                 'attribute_group_id' => $atr_grp_row->attribute_group_id,
                                                 'added_by' => $request->session()->get('loginId'),
                                                 'is_active' => 1,
@@ -583,6 +682,17 @@ class DiamondsController extends Controller {
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
+                                if ($atr_grp_row->name === "COMMENT") {
+                                    if (!empty($row['comment'])) {
+                                        $insert_array = array();
+                                        $insert_array['refDiamond_id'] = $Id;
+                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                        $insert_array['refAttribute_id'] = 0;
+                                        $insert_array['value'] = trim($row['comment']);
+                                        array_push($attr_group_array, $insert_array);
+                                    }
+                                }
+
                                 if ($atr_grp_row->name === "DEPTH PERCENT") {
                                     if (!empty($row['depth_percent'])) {
                                         $insert_array = array();
@@ -706,6 +816,42 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
+
+                                if ($atr_grp_row->name === "LOCATION") {
+                                    if (!empty($row['location'])) {
+                                        $location = 0;
+                                        foreach ($attribute as $atr_row) {
+                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                $insert_array = array();
+                                                $insert_array['refDiamond_id'] = $Id;
+                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                                $insert_array['value'] = 0;
+                                                array_push($attr_group_array, $insert_array);
+                                                $location = 1;
+                                            }
+                                        }
+                                        if ($location == 0) {
+                                            DB::table('attributes')->insert([
+                                                'name' => $row['location'],
+                                                'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                                'added_by' => $request->session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'date_added' => date("Y-m-d h:i:s"),
+                                                'date_updated' => date("Y-m-d h:i:s")
+                                            ]);
+                                            $attr_id = DB::getPdo()->lastInsertId();
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = $attr_id;
+                                            $insert_array['value'] = 0;
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
+                                }
+
                                 if ($atr_grp_row->name === "SHAPE") {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
