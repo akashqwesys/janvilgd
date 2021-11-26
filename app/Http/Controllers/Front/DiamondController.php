@@ -230,7 +230,7 @@ class DiamondController extends Controller {
                             });
                         });
                         caratSlider.noUiSlider.on("change", function () {
-
+                            getAttributeValues(caratSlider.noUiSlider.get(), [], "carat");
                         });
                     </script>
                 </div>
@@ -297,6 +297,9 @@ class DiamondController extends Controller {
                                         break;
                                 }
                             });
+                        });
+                        priceSlider.noUiSlider.on("change", function () {
+                            getAttributeValues(priceSlider.noUiSlider.get(), [], "carat");
                         });
                     </script>
                 </div>';
@@ -489,11 +492,11 @@ class DiamondController extends Controller {
                 $arr[$request->group_id] = $response;
             } else {
                 if ($response['group_id'] == 'price') {
-                    $arr['price_min'] = explode(',', $response['attribute_values'])[0];
-                    $arr['price_max'] = explode(',', $response['attribute_values'])[1];
+                    $arr['price_min'] = $response['attribute_values'][0];
+                    $arr['price_max'] = $response['attribute_values'][1];
                 } else {
-                    $arr['carat_min'] = explode(',', $response['attribute_values'])[0];
-                    $arr['carat_max'] = explode(',', $response['attribute_values'])[1];
+                    $arr['carat_min'] = $response['attribute_values'][0];
+                    $arr['carat_max'] = $response['attribute_values'][1];
                 }
             }
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
