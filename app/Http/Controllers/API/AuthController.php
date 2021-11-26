@@ -43,7 +43,7 @@ class AuthController extends Controller
 
             $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
                 ->when($request->email, function ($q) use($request) {
-                    $q->where('email', $request->email);
+                    $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use($request) {
                     $q->where('mobile', $request->mobile);
@@ -63,9 +63,9 @@ class AuthController extends Controller
                     return $this->errorResponse('Please also enter your email address');
                 } */
                 $customer = new Customers;
-                $customer->name = null;
+                $customer->name = ' ';
                 $customer->mobile = $request->mobile ?? null;
-                $customer->email = $request->email ?? null;
+                $customer->email = strtolower($request->email) ?? null;
                 $customer->address = ' ';
                 $customer->pincode = 0;
                 $customer->refCity_id = 0;
@@ -144,7 +144,7 @@ class AuthController extends Controller
         try {
             $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
                 ->when($request->email, function ($q) use ($request) {
-                    $q->where('email', $request->email);
+                    $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
@@ -198,7 +198,7 @@ class AuthController extends Controller
 
             $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at')
                 ->when($request->email, function ($q) use ($request) {
-                    $q->where('email', $request->email);
+                    $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
@@ -283,7 +283,7 @@ class AuthController extends Controller
             }
 
             $customer = Customers::when($request->email, function ($q) use ($request) {
-                    $q->where('email', $request->email);
+                    $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
                     $q->where('mobile', $request->mobile);
@@ -310,7 +310,7 @@ class AuthController extends Controller
                     $company->refCustomer_id = $customer->customer_id;
                     $company->name = $request->company_name;
                     $company->office_no = $request->company_office_no;
-                    $company->official_email = $request->company_email;
+                    $company->official_email = strtolower($request->company_email);
                     $company->refDesignation_id = 1;
                     $company->designation_name = 'owner';
                     $company->office_address = $request->company_address;
