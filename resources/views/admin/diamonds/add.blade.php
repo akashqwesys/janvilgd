@@ -120,7 +120,9 @@
                                         </div>
                                     </div>
 
-                                     <div class="row g-3 align-center d-none" id="weight_loss">
+                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                                                 
+
+                                     <!-- <div class="row g-3 align-center d-none" id="weight_loss">
                                         <div class="col-lg-4">
                                             <div class="form-group">                                            
                                                 <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
@@ -129,11 +131,11 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
+                                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <?php
                                     $ag_i=0;
@@ -444,6 +446,10 @@
                                                 <div class="traffic-channel-data labour_charges_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
+                                                </div>
+                                                <div class="traffic-channel-data wieght_loss_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
+                                                    <div class="amount" id="display_wieght_loss"></div>
                                                 </div> 
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>

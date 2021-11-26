@@ -131,7 +131,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center d-none" id="weight_loss">
+
+
+                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round($data['result']->weight_loss,2); ?>" readonly="">
+
+                                    <!-- <div class="row g-3 align-center d-none" id="weight_loss">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
@@ -144,7 +148,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {
                                         if ($row->is_fix == 1) {
