@@ -264,9 +264,7 @@
                             $("#display_price").text(('$'+nfObject.format((total/makable_cts).toFixed(2))));
 
                             nfObject = new Intl.NumberFormat('en-US');  
-                            $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));
-                            
-                            
+                            $("#display_current_price").text('$'+nfObject.format(total.toFixed(2)));                                                        
                         }
                     },1000);
                 }
@@ -334,11 +332,12 @@
                 if (cat_name == '4P Diamonds') {
                     $(".makable_cts_div").removeClass("d-none");
                     $(".labour_charges_div").removeClass("d-none"); 
+                    $(".wieght_loss_div").removeClass("d-none"); 
                     $(".price_div").removeClass("d-none"); 
                     $("#display_exp_pol_cts_text").html('');
                     $("#display_exp_pol_cts_text").text("Expected Polish CTS");
                     $("#display_makable_cts_text").html('');
-                    $("#display_makable_cts_text").text("Makable CTS");
+                    $("#display_makable_cts_text").text("Makable CTS");                   
                     
                     
                     $("#makable_cts_label").html('');
@@ -380,6 +379,7 @@
                     $(".labour_charges_div").addClass("d-none");
                     $(".price_div").removeClass("d-none"); 
                     $(".makable_cts_div").addClass("d-none");
+                    $(".wieght_loss_div").addClass("d-none"); 
                       
                     $("#display_exp_pol_cts_text").html('');
                     $("#display_exp_pol_cts_text").text("Carat weight");  
@@ -412,7 +412,8 @@
                                                                                 
                     $(".makable_cts_div").removeClass("d-none");
                     $(".labour_charges_div").removeClass("d-none");  
-                    $(".price_div").removeClass("d-none");  
+                    $(".price_div").removeClass("d-none");
+                    $(".wieght_loss_div").addClass("d-none");  
                      
                     $("#display_exp_pol_cts_text").html('');
                     $("#display_exp_pol_cts_text").text("Expected Polish CTS");
@@ -462,8 +463,10 @@
                 var expected_polish_cts = $("#expected_polish_cts_input").val();
                 if (makable_cts != '' && expected_polish_cts != '') {
                     var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);                    
-                    nfObject = new Intl.NumberFormat('en-US');                              
-                    $("#weight_loss_input").val(nfObject.format(weight_loss.toFixed(2)));
+                    nfObject = new Intl.NumberFormat('en-US');     
+                    var weight_loss_value=nfObject.format(weight_loss.toFixed(2));                           
+                    $("#weight_loss_input").val(weight_loss_value);
+                    $("#display_wieght_loss").text((weight_loss_value)+'%');
                 } else {
                     $("#weight_loss_input").val('');
                 }
@@ -474,8 +477,10 @@
                 var makable_cts = $("#makable_cts_input").val();
                 if (makable_cts != '' && expected_polish_cts != '') {
                     var weight_loss = 100 - ((expected_polish_cts * 100) / makable_cts);
-                    nfObject = new Intl.NumberFormat('en-US');   
-                    $("#weight_loss_input").val(nfObject.format(weight_loss.toFixed(2)));
+                    nfObject = new Intl.NumberFormat('en-US');  
+                    var weight_loss_value=nfObject.format(weight_loss.toFixed(2));                    
+                    $("#weight_loss_input").val(weight_loss_value);
+                    $("#display_wieght_loss").text((weight_loss_value)+'%');
                 } else {
                     $("#weight_loss_input").val('');
                 }

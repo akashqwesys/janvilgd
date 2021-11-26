@@ -74,7 +74,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center">
+                                    <input type="hidden" class="form-control" name="name" placeholder="Enter name"  autocomplete="off" value="<?php echo $data['result']->name; ?>" readonly="">
+                                    <!-- <div class="row g-3 align-center">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="name">Name:</label>
@@ -83,11 +84,11 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="name" placeholder="Enter name"  autocomplete="off" value="<?php echo $data['result']->name; ?>" readonly="">
+                                                    <input type="hidden" class="form-control" name="name" placeholder="Enter name"  autocomplete="off" value="<?php //echo $data['result']->name; ?>" readonly="">
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row g-3 align-center d-none" id="barcode">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -535,10 +536,10 @@
                                                 <div class="traffic-channel-data labour_charges_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges/CT</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
-                                                </div>
+                                                </div>                                                
                                                 <div class="traffic-channel-data wieght_loss_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
-                                                    <div class="amount" id="display_wieght_loss"><?php echo $data['result']->weight_loss; ?></div>
+                                                    <div class="amount" id="display_wieght_loss"><?php echo round($data['result']->weight_loss,2); ?>%</div>
                                                 </div>
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
