@@ -32,8 +32,8 @@ class DiamondController extends Controller {
                 ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id', 'a.sort_order')
                 ->where('ag.refCategory_id', $category->category_id)
                 ->where('ag.field_type', 1)
-                ->where('ag.is_active', 1)
-                ->where('ag.is_deleted', 0)
+                ->where('a.is_active', 1)
+                ->where('a.is_deleted', 0)
                 ->orderBy('ag.sort_order')
                 ->orderBy('a.attribute_group_id')
                 ->get()
@@ -71,6 +71,18 @@ class DiamondController extends Controller {
             });
         }
         $list = null;
+        $max = DB::table('diamonds')
+            ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
+            ->where('refCategory_id', $category->category_id)
+            ->first();
+        if ($max) {
+            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
+            $max_price = round($max->max_price + 1);
+            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
+            $max_carat = round($max->max_carat + 1);
+        } else {
+            $max_price = $min_carat = $max_carat = $min_price = 0;
+        }
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] == 1 && $v['name'] != 'GRIDLE CONDITION') {
                 if ($v['name'] == 'SHAPE') {
@@ -109,6 +121,75 @@ class DiamondController extends Controller {
                             </div>';
                         }
                     }
+                    $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                        <div class="diamond-cart filter-item">
+                            <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
+                            <div class="range-sliders">
+                                <div class="slider-styled" id="priceSlider"></div>
+                                <input type="text" id="minPrice" class="w-5r">
+                                <input type="text" id="maxPrice" class="float-right w-5r text-right">
+                            </div>
+                        </div>
+                        <script>
+                            var priceSlider = document.getElementById("priceSlider");
+                            var minPriceJs = document.getElementById("minPrice");
+                            var maxPriceJs = document.getElementById("maxPrice");
+                            var priceJs = [minPriceJs, maxPriceJs];
+                            noUiSlider.create(priceSlider, {
+                                start: [' . $min_price . ', ' . $max_price . '],
+                                step: 10,
+                                connect: true,
+                                // tooltips: [true, wNumb({ decimals: 2 })],
+                                range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
+                            });
+                            priceSlider.noUiSlider.on("update", function (values, handle) {
+                                priceJs[handle].value = values[handle];
+                            });
+                            // Listen to keydown events on the input field.
+                            priceJs.forEach(function (input, handle) {
+                                input.addEventListener("change", function () {
+                                    priceSlider.noUiSlider.setHandle(handle, this.value);
+                                });
+                                input.addEventListener("keydown", function (e) {
+                                    var values = priceSlider.noUiSlider.get();
+                                    var value = Number(values[handle]);
+                                    var steps = priceSlider.noUiSlider.steps();
+                                    var step = steps[handle];
+                                    var position;
+                                    // 13 is enter, 38 is key up, 40 is key down.
+                                    switch (e.which) {
+                                        case 13:
+                                            priceSlider.noUiSlider.setHandle(handle, this.value);
+                                            break;
+                                        case 38:
+                                            // Get step to go increase slider value (up)
+                                            position = step[1];
+                                            // false = no step is set
+                                            if (position === false) {
+                                                position = 1;
+                                            }
+                                            // null = edge of slider
+                                            if (position !== null) {
+                                                priceSlider.noUiSlider.setHandle(handle, value + position);
+                                            }
+                                            break;
+                                        case 40:
+                                            position = step[0];
+                                            if (position === false) {
+                                                position = 1;
+                                            }
+                                            if (position !== null) {
+                                                priceSlider.noUiSlider.setHandle(handle, value - position);
+                                            }
+                                            break;
+                                    }
+                                });
+                            });
+                            priceSlider.noUiSlider.on("change", function () {
+                                getAttributeValues(priceSlider.noUiSlider.get(), [], "carat");
+                            });
+                        </script>
+                    </div>';
                 } else {
                     if (isset($v['attributes'])) {
                         $values = [];
@@ -153,25 +234,13 @@ class DiamondController extends Controller {
                 }
             }
         }
-        $max = DB::table('diamonds')
-            ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
-            ->where('refCategory_id', $category->category_id)
-            ->first();
-        if ($max) {
-            $min_price = (round($max->min_price - 1) < 0) ? 0 : round($max->min_price - 1);
-            $max_price = round($max->max_price + 1);
-            $min_carat = (round($max->min_carat - 1) < 0) ? 0 : round($max->min_carat - 1);
-            $max_carat = round($max->max_carat + 1);
-        } else {
-            $max_price = $min_carat = $max_carat = $min_price = 0;
-        }
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
                         <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <div class="slider-styled" id="caratSlider"></div>
                             <input type="text" id="minCarat" class="w-5r">
-                            <input type="text" id="maxCarat" class="float-right w-5r">
+                            <input type="text" id="maxCarat" class="float-right w-5r text-right">
                         </div>
                     </div>
                     <script>
@@ -231,75 +300,6 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("change", function () {
                             getAttributeValues(caratSlider.noUiSlider.get(), [], "carat");
-                        });
-                    </script>
-                </div>
-                <div class="col col-12 col-sm-12 col-lg-6 mb-2">
-                    <div class="diamond-cart filter-item">
-                        <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
-                        <div class="range-sliders">
-                            <div class="slider-styled" id="priceSlider"></div>
-                            <input type="text" id="minPrice" class="w-5r">
-                            <input type="text" id="maxPrice" class="float-right w-5r">
-                        </div>
-                    </div>
-                    <script>
-                        var priceSlider = document.getElementById("priceSlider");
-                        var minPriceJs = document.getElementById("minPrice");
-                        var maxPriceJs = document.getElementById("maxPrice");
-                        var priceJs = [minPriceJs, maxPriceJs];
-                        noUiSlider.create(priceSlider, {
-                            start: ['.$min_price.', '.$max_price. '],
-                            step: 10,
-                            connect: true,
-                            // tooltips: [true, wNumb({ decimals: 2 })],
-                            range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
-                        });
-                        priceSlider.noUiSlider.on("update", function (values, handle) {
-                            priceJs[handle].value = values[handle];
-                        });
-                        // Listen to keydown events on the input field.
-                        priceJs.forEach(function (input, handle) {
-                            input.addEventListener("change", function () {
-                                priceSlider.noUiSlider.setHandle(handle, this.value);
-                            });
-                            input.addEventListener("keydown", function (e) {
-                                var values = priceSlider.noUiSlider.get();
-                                var value = Number(values[handle]);
-                                var steps = priceSlider.noUiSlider.steps();
-                                var step = steps[handle];
-                                var position;
-                                // 13 is enter, 38 is key up, 40 is key down.
-                                switch (e.which) {
-                                    case 13:
-                                        priceSlider.noUiSlider.setHandle(handle, this.value);
-                                        break;
-                                    case 38:
-                                        // Get step to go increase slider value (up)
-                                        position = step[1];
-                                        // false = no step is set
-                                        if (position === false) {
-                                            position = 1;
-                                        }
-                                        // null = edge of slider
-                                        if (position !== null) {
-                                            priceSlider.noUiSlider.setHandle(handle, value + position);
-                                        }
-                                        break;
-                                    case 40:
-                                        position = step[0];
-                                        if (position === false) {
-                                            position = 1;
-                                        }
-                                        if (position !== null) {
-                                            priceSlider.noUiSlider.setHandle(handle, value - position);
-                                        }
-                                        break;
-                                }
-                            });
-                        });
-                        priceSlider.noUiSlider.on("change", function () {
-                            getAttributeValues(priceSlider.noUiSlider.get(), [], "carat");
                         });
                     </script>
                 </div>';
@@ -487,7 +487,7 @@ class DiamondController extends Controller {
             $arr = json_decode($arr, true);
         }
         if (isset($response['attribute_values'])) {
-            if (is_array($response['attribute_values'])) {
+            if (is_array($response['attribute_values']) && $response['group_id'] != 'price' && $response['group_id'] != 'carat') {
                 $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
                 $arr[$request->group_id] = $response;
             } else {
