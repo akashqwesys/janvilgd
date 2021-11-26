@@ -73,7 +73,7 @@ function getAttributeValues(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
-    console.log(selected_values);
+    // console.log(selected_values);
 
     $.ajax({
         beforeSend: function( xhr ) {
@@ -115,12 +115,12 @@ function getAttributeValues(values, array, group_id) {
             } */
             if (new_call === true) {
                 $('#result-table tbody').html(response.data);
-                setTimeout(() => {
+                /* setTimeout(() => {
                     $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$('#result-table tbody tr').eq(0).attr('data-barcode')).text('View Diamond');
                     $('.result-tab-content .select-diamond .diamond-name').text($('#result-table tbody tr').eq(0).attr('data-name'));
                     $('.result-tab-content .select-diamond .diamond-cost').text($('#result-table tbody tr').eq(0).attr('data-price'));
                     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $('#result-table tbody tr').eq(0).attr('data-image'));
-                }, 1000);
+                }, 1000); */
                 $(table_scroll).scrollTop($(table_scroll).scrollTop() + $('#result-table').position().top);
             } else {
                 $('#result-table tbody').append(response.data);
@@ -166,12 +166,13 @@ $(document).on('click', '#compare-table .diamond-checkbox', function() {
 });
 $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
-    // document.querySelector('.recent-tab-content .select-diamond a').href = $(this).attr('data-barcode');
     $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
     $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
 });
 $(document).on('mouseover', '#result-table tbody tr', function() {
+    $('.select-diamond-temp').hide();
+    $('.select-diamond').show();
     $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
     $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
     $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));

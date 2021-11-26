@@ -40,7 +40,7 @@
         .diamond-shape .item img {
             border: 4px solid #00000000;
         }
-        .search-diamond-view {
+        .search-diamond-table {
             position: relative;
         }
         .cs-loader {
@@ -78,6 +78,17 @@
             background-color: #D2AB66;
             border: 1px solid #D2AB66;
             box-shadow: unset;
+        }
+        .select-diamond {
+            display: none;
+        }
+        .select-diamond-temp {
+            height: 100%;
+            box-shadow: rgb(0 0 0 / 25%) 0px 0px 10px 0px;
+            padding: 20px;
+        }
+        .pt-25 {
+            padding-top: 25%;
         }
     </style>
 @endsection
@@ -118,11 +129,6 @@
                             <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Comparision </button>
                         </li>
                     </ul>
-                    <div class="overlay cs-loader">
-                        <div class="overlay__inner">
-                            <div class="overlay__content"><span class="spinner"></span></div>
-                        </div>
-                    </div>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                             <div class="result-tab-content">
@@ -136,12 +142,25 @@
                                                 <h6 class="diamond-name"></h6>
                                                 <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                                 <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-25">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                         <div class="search-diamond-table">
+                                            <div class="overlay cs-loader">
+                                                <div class="overlay__inner">
+                                                    <div class="overlay__content"><span class="spinner"></span></div>
+                                                </div>
+                                            </div>
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="result-table">
                                                     <thead>
