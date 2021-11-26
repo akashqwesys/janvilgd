@@ -536,6 +536,10 @@
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges/CT</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
                                                 </div>
+                                                <div class="traffic-channel-data wieght_loss_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
+                                                    <div class="amount" id="display_wieght_loss"><?php echo $data['result']->weight_loss; ?></div>
+                                                </div>
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
