@@ -207,7 +207,7 @@ class DiamondController extends Controller
             ->where('d.is_deleted', 0)
             ->where('d.refCategory_id', $response['category']);
 
-        if ($response['order_by']) {
+        if (isset($response['order_by']) && $response['order_by']) {
             $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');
         } else {
             $diamond_ids = $diamond_ids->inRandomOrder();
