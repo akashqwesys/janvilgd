@@ -23,8 +23,7 @@ class DiamondsController extends Controller {
         return view('admin.diamonds.list', ["data" => $data]);
     }
 
-    public function fileImport(Request $request) {
-            
+    public function fileImport(Request $request) {       
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
         
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
@@ -55,6 +54,7 @@ class DiamondsController extends Controller {
                             
                             $color = substr($row['color'], 2, 1);                            
 
+                            $row['location']=trim(str_replace(' ','', $row['location']));
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
                             $org_clarity=$row['clarity'];
                             $row['clarity2']='';
@@ -283,7 +283,6 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-
                                 if (strtolower($atr_grp_row->name) === strtolower("SHAPE")) {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
@@ -401,7 +400,8 @@ class DiamondsController extends Controller {
                         }
                         $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                         if (!empty($row['barcode'])) {                             
-                            $row['shape']=trim($row['shape']);                            
+                            $row['shape']=trim($row['shape']);   
+                            $row['location']=trim(str_replace(' ','', $row['location']));                         
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));                                                         
                             
                             $shape=$row['shape'];
@@ -1066,8 +1066,7 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }                                                               
-                                if (strtolower($atr_grp_row->name) === strtolower("CUT GRADE")) {
-
+                                if (strtolower($atr_grp_row->name) === strtolower("CUT")) {
                                     if (!empty($row['cut_grade'])) {
                                         $cut_grade = 0;
                                         foreach ($attribute as $atr_row) {
