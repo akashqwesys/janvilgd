@@ -1067,10 +1067,10 @@ class DiamondsController extends Controller {
                                     }
                                 }                                                               
                                 if (strtolower($atr_grp_row->name) === strtolower("CUT")) {
-                                    if (!empty($row['cut_grade'])) {
+                                    if (!empty($row['cut'])) {
                                         $cut_grade = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if (strtolower($atr_row->name) == strtolower($row['cut_grade']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['cut']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -1082,7 +1082,7 @@ class DiamondsController extends Controller {
                                         }
                                         if ($cut_grade == 0) {
                                             DB::table('attributes')->insert([
-                                                'name' => $row['cut_grade'],
+                                                'name' => $row['cut'],
                                                 'attribute_group_id' => $atr_grp_row->attribute_group_id,
                                                 'added_by' => $request->session()->get('loginId'),
                                                 'is_active' => 1,
