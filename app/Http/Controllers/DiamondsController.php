@@ -87,7 +87,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="HEART";    
                             }
                             if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
-                                $row['shape']="HEART";    
+                                $row['shape']="PEAR";    
                             }
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
@@ -423,7 +423,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="HEART";    
                             }
                             if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
-                                $row['shape']="HEART";    
+                                $row['shape']="PEAR";    
                             }
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
@@ -711,7 +711,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="HEART";    
                             }
                             if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
-                                $row['shape']="HEART";    
+                                $row['shape']="PEAR";    
                             }
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
