@@ -25,6 +25,8 @@ class DiamondsController extends Controller {
 
     public function fileImport(Request $request) {
         // echo phpinfo();die;
+        DB::table('attributes')->where('sort_order', 0)->delete();die;
+
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
         
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
@@ -70,14 +72,49 @@ class DiamondsController extends Controller {
                             $shape=$row['shape'];
                             $shape1=$row['shape'];
                             
-                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
+                            if(strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO') ||  strtolower($row['shape'])==strtolower('Round Brilliant') || strtolower($row['shape'])==strtolower('BR')){                                                                
                                 $shape="BR";
                             }else{
                                 $shape="PS";
-                            }                           
-                            // if($row['shape']!='ROUND' && $row['shape']!='RO' && $row['shape']!='Round Brilliant'){
-                            //     $shape="PS";
-                            // } 
+                            }  
+                            
+                            
+                            if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){                                
+                                $row['shape']="ROUND";   
+                            }
+                            if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){                                
+                                $row['shape']="OVAL";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
+                                $row['shape']="RADIANT";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){                                
+                                $row['shape']="ASSCHER";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){                                
+                                $row['shape']="EMERALD";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){                                
+                                $row['shape']="CUSHION";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){                                
+                                $row['shape']="MARQUISE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){                                
+                                $row['shape']="BAGUETTE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){                                
+                                $row['shape']="TRIANGLE";    
+                            }
+
+
+
                             $row['rapa']=0;                          
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
@@ -370,12 +407,51 @@ class DiamondsController extends Controller {
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));                                                         
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
+                            if(strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO') ||  strtolower($row['shape'])==strtolower('Round Brilliant') || strtolower($row['shape'])==strtolower('BR')){                                                                
                                 $shape="BR";
                             }
                             else{
                                 $shape="PS";
                             }
+
+
+                            if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){                                
+                                $row['shape']="ROUND";   
+                            }
+                            if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){                                
+                                $row['shape']="OVAL";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
+                                $row['shape']="RADIANT";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){                                
+                                $row['shape']="ASSCHER";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){                                
+                                $row['shape']="EMERALD";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){                                
+                                $row['shape']="CUSHION";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){                                
+                                $row['shape']="MARQUISE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){                                
+                                $row['shape']="BAGUETTE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){                                
+                                $row['shape']="TRIANGLE";    
+                            }
+
+
+
+
                             $row['rap']=0;
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity'])){                                    
@@ -620,12 +696,47 @@ class DiamondsController extends Controller {
                             $row['girdle_condition']=trim($row['girdle_condition']);                                                                                                                
                             
                             $shape=$row['shape'];
-                            if($row['shape']=='ROUND' || $row['shape']=='RO' ||  $row['shape']=='Round Brilliant'){                                
+                            if(strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO') ||  strtolower($row['shape'])==strtolower('Round Brilliant') || strtolower($row['shape'])==strtolower('BR')){                                
                                 $shape="BR";
                             }
                             else{
                                 $shape="PS";
                             }
+
+                            if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){                                
+                                $row['shape']="ROUND";   
+                            }
+                            if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){                                
+                                $row['shape']="OVAL";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
+                                $row['shape']="HEART";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
+                                $row['shape']="RADIANT";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){                                
+                                $row['shape']="ASSCHER";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){                                
+                                $row['shape']="EMERALD";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){                                
+                                $row['shape']="CUSHION";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){                                
+                                $row['shape']="MARQUISE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){                                
+                                $row['shape']="BAGUETTE";    
+                            }
+                            if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){                                
+                                $row['shape']="TRIANGLE";    
+                            }
+
                             $row['price']=0;
                             foreach ($rapaport as $row_rapa){
                                 if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['weight']>=$row_rapa->from_range && $row['weight']<=$row_rapa->to_range){
