@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
     <style type="text/css">
     .otp-box {
-        padding: 55px;
+        padding: 50px;
     }
     </style>
 </head>
@@ -40,10 +40,10 @@
                         <p class="mb-0">Sent to {{ decrypt($request->token, false) }}</p>
                         <form class="otp-form bv-form">
                             <div class="d-flex flex-row">
-                                <input type="text" class="form-control" id="no-1" onfocus="this.value=''">
-                                <input type="text" class="form-control" id="no-2" onfocus="this.value=''">
-                                <input type="text" class="form-control" id="no-3" onfocus="this.value=''">
-                                <input type="text" class="form-control" id="no-4" onfocus="this.value=''">
+                                <input type="text" class="form-control" id="no-1" onfocus="this.select();">
+                                <input type="text" class="form-control" id="no-2" onfocus="this.select();">
+                                <input type="text" class="form-control" id="no-3" onfocus="this.select();">
+                                <input type="text" class="form-control" id="no-4" onfocus="this.select();">
                             </div>
                         </form>
                         <p class="reset-time">
@@ -89,14 +89,41 @@
         countDown();
 
         $(document).on('keyup', '#no-1', function() {
-            $('#no-2').focus();
+            if ($(this).val() ) {
+                $('#no-2').focus();
+            }
         });
         $(document).on('keyup', '#no-2', function() {
-            $('#no-3').focus();
+            if ($(this).val() ) {
+                $('#no-3').focus();
+            }
         });
         $(document).on('keyup', '#no-3', function() {
-            $('#no-4').focus();
+            if ($(this).val() ) {
+                $('#no-4').focus();
+            }
         });
+        $("#no-1").bind("paste", function(e){
+            var pastedData = e.originalEvent.clipboardData.getData('text');
+            if (isNaN(pastedData) || pastedData.length != 4) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Not a valid 4 digits OTP',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+                return false;
+            } else {
+                var digits = (""+pastedData).split("");
+                $('#no-2').val(digits[1]);
+                $('#no-3').val(digits[2]);
+                $('#no-4').val(digits[3]);
+                setTimeout(() => {
+                    $(this).val(digits[0]);
+                    verify_otp(pastedData);
+                }, 20);
+            }
+        } );
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -106,9 +133,13 @@
             }
         });
         $(document).on('keyup', '#no-4', function() {
-            if ($(this).val()) {
-                var otp = $('#no-1').val() + $('#no-2').val() + $('#no-3').val() + $('#no-4').val();
-                $('.cs-loader').show();
+            var otp = $('#no-1').val() + $('#no-2').val() + $('#no-3').val() + $('#no-4').val();
+            if ($(this).val() && otp.length == 4) {
+                verify_otp(otp);
+            }
+        });
+        function verify_otp(otp) {
+            if ($('#no-4').val()) {
                 $.ajax({
                     type: "post",
                     url: "/customer/verify",
@@ -151,7 +182,7 @@
                     }
                 });
             }
-        });
+         }
 
         $(document).on('click', '#resendOTP', function() {
             $('.cs-loader').show();
