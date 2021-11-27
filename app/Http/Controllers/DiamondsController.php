@@ -90,7 +90,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="PEAR";    
                             }
 
-                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){                                
                                 $row['shape']="PRINCESS";    
                             }
 
@@ -433,7 +433,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="RADIANT";    
                             }
 
-                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){                                
                                 $row['shape']="PRINCESS";    
                             }
 
@@ -723,7 +723,7 @@ class DiamondsController extends Controller {
                                 $row['shape']="PEAR";    
                             }
 
-                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){                                
                                 $row['shape']="PRINCESS";    
                             }
 
