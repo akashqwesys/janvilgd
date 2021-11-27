@@ -23,22 +23,28 @@ use PDF;
 class DiamondController extends Controller {
 
     public function home(Request $request) {
+        $title = 'Search Diamonds';
         $category = DB::table('categories')->select('category_id', 'name', 'slug')->where('slug', $request->category)->first();
         if (!$category) {
             abort(404, 'NO SUCH CATEGORY FOUND');
         }
         $data = DB::table('attribute_groups as ag')
                 ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
+                // ->join('diamonds_attributes as da', 'ag.attribute_group_id', '=', 'da.refAttribute_group_id')
                 ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id', 'a.sort_order')
                 ->where('ag.refCategory_id', $category->category_id)
                 ->where('ag.field_type', 1)
                 ->where('a.is_active', 1)
                 ->where('a.is_deleted', 0)
+                // ->groupBy('a.attribute_id')
                 ->orderBy('ag.sort_order')
                 ->orderBy('a.attribute_group_id')
                 ->get()
                 ->toArray();
 
+        if (!count($data)) {
+            return view('front.search_diamonds_empty', compact('title', 'category'));
+        }
         $html = null;
         $temp_grp_id = 0;
         $temp_var = 0;
@@ -105,8 +111,10 @@ class DiamondController extends Controller {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
                                 }
-                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="img-fluid d-block" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
+                                $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="image-shapes" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
                             $file_arr[$k][] = $v1['attribute_id'];
                         }
@@ -186,6 +194,7 @@ class DiamondController extends Controller {
                                 });
                             });
                             priceSlider.noUiSlider.on("change", function () {
+                                new_call = true;
                                 getAttributeValues(priceSlider.noUiSlider.get(), [], "price");
                             });
                         </script>
@@ -299,6 +308,7 @@ class DiamondController extends Controller {
                             });
                         });
                         caratSlider.noUiSlider.on("change", function () {
+                            new_call = true;
                             getAttributeValues(caratSlider.noUiSlider.get(), [], "carat");
                         });
                     </script>
@@ -327,6 +337,8 @@ class DiamondController extends Controller {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
@@ -396,7 +408,6 @@ class DiamondController extends Controller {
             ->where('rvd.refCustomer_id', $user->customer_id)
             ->orderBy('rvd.updated_at', 'desc')
             ->get();
-        $title = 'Search Diamonds';
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category'));
     }
 

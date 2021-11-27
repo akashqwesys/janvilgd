@@ -185,7 +185,7 @@ class DiamondController extends Controller
             $ij = 1;
         }
         if ($request->web == 'admin') {
-            $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
+            $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'a')
                 ->selectRaw(rtrim($ag_names, ', '));
         } else {
             $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.barcode')
@@ -205,10 +205,14 @@ class DiamondController extends Controller
 
         $diamond_ids = $diamond_ids->where('d.is_active', 1)
             ->where('d.is_deleted', 0)
-            ->where('d.refCategory_id', $response['category'])
-            // ->orderBy('d.diamond_id', 'desc')
-            ->inRandomOrder()
-            ->offset($response['offset'] ?? 1)
+            ->where('d.refCategory_id', $response['category']);
+
+        if (isset($response['order_by']) && $response['order_by']) {
+            $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');
+        } else {
+            $diamond_ids = $diamond_ids->inRandomOrder();
+        }
+        $diamond_ids = $diamond_ids->offset($response['offset'] ?? 1)
             ->limit(25)
             ->get()
             ->toArray();
