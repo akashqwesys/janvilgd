@@ -65,7 +65,7 @@ class AuthController extends Controller
                 $customer = new Customers;
                 $customer->name = ' ';
                 $customer->mobile = $request->mobile ?? null;
-                $customer->email = strtolower($request->email) ?? null;
+                $customer->email = $request->email ? strtolower($request->email) : null;
                 $customer->address = ' ';
                 $customer->pincode = 0;
                 $customer->refCity_id = 0;
@@ -100,7 +100,7 @@ class AuthController extends Controller
                     'otp' => $otp,
                     'otp_status' => 0
                 ]); */
-                $email = $request->email;
+                $email = strtolower($request->email);
             }
             if (!empty(trim($email))) {
                 Mail::to($email)

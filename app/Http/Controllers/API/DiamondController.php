@@ -59,20 +59,20 @@ class DiamondController extends Controller
             if ($v->ag_name == 'SHAPE') {
                 if (in_array($v->image, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                } else if (in_array($v->image, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                } else if (in_array($v->image, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                 } else if (in_array($v->image, ['Oval Brilliant', 'OV', 'Oval'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                } else if (in_array($v->image, ['Princess Cut', 'PR', 'Princess'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut.png';
                 } else if (in_array($v->image, ['Cushion', 'CU'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Cushion.png';
+                } else if (in_array($v->image, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                } else if (in_array($v->image, ['Princess Cut', 'PR', 'Princess'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut.png';
                 } else if (in_array($v->image, ['Emerald', 'EM'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Emerald.png';
                 } else if (in_array($v->image, ['Marquise', 'MQ'])) {
                     $v->image = '/assets/images/Diamond_Shapes_Marquise.png';
+                } else if (in_array($v->image, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
                 }
             } else {
                 $v->image = $v->image == 0 ? null : $v->image;
@@ -230,20 +230,20 @@ class DiamondController extends Controller
                 if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
                     if (in_array($v_row->{'name_'.$i}, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
                     } else if (in_array($v_row->{'name_'.$i}, ['Oval Brilliant', 'OV', 'Oval'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Princess Cut', 'PR', 'Princess'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Princess_Cut.png';
                     } else if (in_array($v_row->{'name_'.$i}, ['Cushion', 'CU'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Cushion.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Princess Cut', 'PR', 'Princess'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Princess_Cut.png';
                     } else if (in_array($v_row->{'name_'.$i}, ['Emerald', 'EM'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Emerald.png';
                     } else if (in_array($v_row->{'name_'.$i}, ['Marquise', 'MQ'])) {
                         $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Marquise.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
                     }
                 }
                 $final_api[$v_row->diamond_id]['attributes'][] = [

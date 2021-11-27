@@ -160,7 +160,7 @@ class DiamondsController extends Controller {
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
                                 
-                                if ($atr_grp_row->name === "COMMENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
                                     if (!empty($row['comment'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -171,7 +171,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
                                 
-                                if ($atr_grp_row->name === "HALF-CUT DIA") {
+                                if (strtolower($atr_grp_row->name) === strtolower("HALF-CUT DIA")) {
                                     if (!empty($row['half_cut_dia'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -181,7 +181,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "PO. DIAMETER") {
+                                if (strtolower($atr_grp_row->name) === strtolower("PO. DIAMETER")) {
                                     if (!empty($row['po_diameter'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -191,7 +191,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "HALF-CUT HGT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("HALF-CUT HGT")) {
                                     if (!empty($row['half_cut_hgt'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -201,7 +201,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "EXP POL SIZE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("EXP POL SIZE")) {
                                     if (!empty($row['exp_pol_size'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -213,11 +213,11 @@ class DiamondsController extends Controller {
                                 }
 
 
-                                if ($atr_grp_row->name === "LOCATION") {
+                                if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                     if (!empty($row['location'])) {
                                         $location = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['location']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -249,11 +249,11 @@ class DiamondsController extends Controller {
                                 }
 
 
-                                if ($atr_grp_row->name === "SHAPE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("SHAPE")) {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['shape'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['shape']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -284,11 +284,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "CLARITY") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
                                     if (!empty($org_clarity)) {
                                         $clarity = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $org_clarity && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($org_clarity) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -319,11 +319,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "COLOR") {
+                                if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
                                     if (!empty($row['color'])) {
                                         $color = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['color'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['color']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -446,7 +446,7 @@ class DiamondsController extends Controller {
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
 
-                                if ($atr_grp_row->name === "COMMENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
                                     if (!empty($row['comment'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -458,11 +458,11 @@ class DiamondsController extends Controller {
                                 }
 
 
-                                if ($atr_grp_row->name === "CLARITY") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
                                     if (!empty($row['clarity'])) {
                                         $clarity = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['clarity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['clarity']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -493,11 +493,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "LOCATION") {
+                                if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                     if (!empty($row['location'])) {
                                         $location = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['location']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -528,11 +528,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "SHAPE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("SHAPE")) {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['shape'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['shape']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -562,11 +562,11 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
-                                 if ($atr_grp_row->name === "COLOR") {
+                                 if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
                                     if (!empty($row['color'])) {
                                         $color = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['color'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['color']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -685,7 +685,7 @@ class DiamondsController extends Controller {
                                 
                                 $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
-                                if ($atr_grp_row->name === "COMMENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
                                     if (!empty($row['comment'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -696,7 +696,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "DEPTH PERCENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("DEPTH PERCENT")) {
                                     if (!empty($row['depth_percent'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -707,7 +707,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "TABLE PERCENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("TABLE PERCENT")) {
 
                                     if (!empty($row['table_percent'])) {
                                         $insert_array = array();
@@ -719,7 +719,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "CERTIFICATE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CERTIFICATE")) {
 
                                     if (!empty($row['certificate'])) {
                                         $insert_array = array();
@@ -731,7 +731,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "GIRDLE PERCENT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("GIRDLE PERCENT")) {
 
                                     if (!empty($row['girdle_percent'])) {
                                         $insert_array = array();
@@ -744,7 +744,7 @@ class DiamondsController extends Controller {
                                 }
 
 
-                                if ($atr_grp_row->name === "PAVILION DEPTH") {
+                                if (strtolower($atr_grp_row->name) === strtolower("PAVILION DEPTH")) {
 
                                     if (!empty($row['pavilion_depth'])) {
                                         $insert_array = array();
@@ -755,7 +755,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "CROWN HEIGHT") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CROWN HEIGHT")) {
 
                                     if (!empty($row['crown_height'])) {
                                         $insert_array = array();
@@ -766,7 +766,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "CROWN ANGLE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CROWN ANGLE")) {
                                     if (!empty($row['crown_angle'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -776,7 +776,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "PAVILION ANGLE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("PAVILION ANGLE")) {
 
                                     if (!empty($row['pavilion_angle'])) {
                                         $insert_array = array();
@@ -787,7 +787,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "GROWTH TYPE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("GROWTH TYPE")) {
 
                                     if (!empty($row['growth_type'])) {
                                         $insert_array = array();
@@ -799,7 +799,7 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "MEASUREMENTS") {
+                                if (strtolower($atr_grp_row->name) === strtolower("MEASUREMENTS")) {
                                     if (!empty($row['measurements'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -809,7 +809,7 @@ class DiamondsController extends Controller {
                                         array_push($attr_group_array, $insert_array);
                                     }
                                 }
-                                if ($atr_grp_row->name === "CERTIFICATE URL") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CERTIFICATE URL")) {
                                     if (!empty($row['certificate_url'])) {
                                         $insert_array = array();
                                         $insert_array['refDiamond_id'] = $Id;
@@ -820,11 +820,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "LOCATION") {
+                                if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                     if (!empty($row['location'])) {
                                         $location = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['location'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['location']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -855,11 +855,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "SHAPE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("SHAPE")) {
                                     if (!empty($row['shape'])) {
                                         $shape = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['shape'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['shape']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -889,11 +889,11 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
-                                if ($atr_grp_row->name === "CLARITY") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
                                     if (!empty($row['clarity'])) {
                                         $clarity = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['clarity'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['clarity']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -923,11 +923,11 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
-                                if ($atr_grp_row->name === "COLOR") {
+                                if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
                                     if (!empty($row['color'])) {
                                         $color = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['color'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['color']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -957,12 +957,12 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }                                                               
-                                if ($atr_grp_row->name === "CUT GRADE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CUT GRADE")) {
 
                                     if (!empty($row['cut_grade'])) {
                                         $cut_grade = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['cut_grade'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['cut_grade']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -992,11 +992,11 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
-                                if ($atr_grp_row->name === "POLISH") {
+                                if (strtolower($atr_grp_row->name) === strtolower("POLISH")) {
                                     if (!empty($row['polish'])) {
                                         $polish = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['polish'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['polish']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -1027,11 +1027,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "SYMMETRY") {
+                                if (strtolower($atr_grp_row->name) === strtolower("SYMMETRY")) {
                                     if (!empty($row['symmetry'])) {
                                         $symmetry = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['symmetry'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['symmetry']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -1062,11 +1062,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "LAB") {
+                                if (strtolower($atr_grp_row->name) === strtolower("LAB")) {
                                     if (!empty($row['lab'])) {
                                         $lab = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['lab'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['lab']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -1097,11 +1097,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "CULET SIZE") {
+                                if (strtolower($atr_grp_row->name) === strtolower("CULET SIZE")) {
                                     if (!empty($row['culet_size'])) {
                                         $culet_size = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['culet_size'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['culet_size']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
@@ -1132,11 +1132,11 @@ class DiamondsController extends Controller {
                                     }
                                 }
 
-                                if ($atr_grp_row->name === "GRIDLE CONDITION") {
+                                if (strtolower($atr_grp_row->name) === strtolower("GRIDLE CONDITION")) {
                                     if (!empty($row['girdle_condition'])) {
                                         $girdle_condition = 0;
                                         foreach ($attribute as $atr_row) {
-                                            if ($atr_row->name == $row['girdle_condition'] && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                            if (strtolower($atr_row->name) == strtolower($row['girdle_condition']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
                                                 $insert_array = array();
                                                 $insert_array['refDiamond_id'] = $Id;
                                                 $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;

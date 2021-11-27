@@ -48,7 +48,7 @@ class FrontAuthController extends Controller
 
                 $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
                     ->when($request->email, function ($q) use ($request) {
-                        $q->where('email', $request->email);
+                        $q->where('email', strtolower($request->email));
                     })
                     ->when($request->mobile, function ($q) use ($request) {
                         $q->where('mobile', $request->mobile);
@@ -90,7 +90,7 @@ class FrontAuthController extends Controller
                     DB::table('customer')->insert([
                         'name' => ' ',
                         'mobile' => $request->mobile ?? ' ',
-                        'email' => $request->email ?? ' ',
+                        'email' => $request->email ? strtolower($request->email) : ' ',
                         'address' => ' ',
                         'pincode' => 0,
                         'refCity_id' => 0,
@@ -108,7 +108,7 @@ class FrontAuthController extends Controller
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
-                    $email = $request->email;
+                    $email = strtolower($request->email);
                 }
                 if ($email) {
                     Mail::to($email)
@@ -121,7 +121,7 @@ class FrontAuthController extends Controller
                         ])
                     );
                 }
-                $em_token = !empty(trim($request->email)) ? $request->email : $request->mobile;
+                $em_token = !empty(trim($request->email)) ? strtolower($request->email) : $request->mobile;
                 return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($em_token)]);
             }
             catch (\Exception $e) {
@@ -191,7 +191,7 @@ class FrontAuthController extends Controller
 
                 $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
                     ->when($request->email, function ($q) use ($request) {
-                        $q->where('email', $request->email);
+                        $q->where('email', strtolower($request->email));
                     })
                     ->when($request->mobile, function ($q) use ($request) {
                         $q->where('mobile', $request->mobile);
@@ -221,7 +221,7 @@ class FrontAuthController extends Controller
                         $company->refCustomer_id = $customer->customer_id;
                         $company->name = $request->company_name;
                         $company->office_no = $request->company_office_no;
-                        $company->official_email = $request->company_email;
+                        $company->official_email = strtolower($request->company_email);
                         $company->refDesignation_id = 1;
                         $company->designation_name = 'owner';
                         $company->office_address = $request->company_address;
