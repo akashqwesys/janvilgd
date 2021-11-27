@@ -1478,7 +1478,7 @@ span.value.lower::before, span.value.upper::before {
     overflow-x: auto;
 }
 .filter-item .diamond_shape .item {
-    margin: 0 10px;
+    margin: 0 5px;
 }
 .filter-item .diamond_shape .item a {
     display: block;

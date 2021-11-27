@@ -91,6 +91,10 @@
         .pt-25 {
             padding-top: 25%;
         }
+        .image-shapes {
+            width: 45px;
+            height: 45px;
+        }
     </style>
 @endsection
 @section('content')
@@ -167,7 +171,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Barcode</th>
-                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-right carat-sort" data-id="">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
@@ -201,7 +205,15 @@
                                                 </div>
                                                 <h6 class="diamond-name"></h6>
                                                 <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-25">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +281,15 @@
                                                 </div>
                                                 <h6 class="diamond-name"></h6>
                                                 <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary">NO DIAMOND SELECTED</a>
+                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-25">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
