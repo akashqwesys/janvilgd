@@ -109,6 +109,8 @@ class DiamondController extends Controller {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="image-shapes" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
@@ -333,6 +335,8 @@ class DiamondController extends Controller {
                                     $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                                     $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                } else {
+                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
