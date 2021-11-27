@@ -89,6 +89,11 @@ class DiamondsController extends Controller {
                             if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
                                 $row['shape']="PEAR";    
                             }
+
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                                $row['shape']="PRINCESS";    
+                            }
+
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
                             }
@@ -387,7 +392,6 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -428,6 +432,11 @@ class DiamondsController extends Controller {
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
                             }
+
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                                $row['shape']="PRINCESS";    
+                            }
+
                             if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){                                
                                 $row['shape']="ASSCHER";    
                             }
@@ -713,6 +722,11 @@ class DiamondsController extends Controller {
                             if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){                                
                                 $row['shape']="PEAR";    
                             }
+
+                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess  Cut')){                                
+                                $row['shape']="PRINCESS";    
+                            }
+
                             if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){                                
                                 $row['shape']="RADIANT";    
                             }
