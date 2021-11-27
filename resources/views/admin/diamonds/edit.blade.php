@@ -112,7 +112,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter Makable CTS"  autocomplete="off" value="<?php echo $data['result']->makable_cts; ?>">
+                                                    <input type="number"  step="0.01" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter Makable CTS"  autocomplete="off" value="<?php echo $data['result']->makable_cts; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -126,7 +126,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter Expected Polish CTS"  autocomplete="off" value="<?php echo $data['result']->expected_polish_cts; ?>">
+                                                    <input type="number"  step="0.01" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter Expected Polish CTS"  autocomplete="off" value="<?php echo $data['result']->expected_polish_cts; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round($data['result']->weight_loss,2); ?>" readonly="">
+                                                    <input type="number"  step="0.01" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round($data['result']->weight_loss,2); ?>" readonly="">
                                                 </div>
                                             </div>
                                         </div>
@@ -296,7 +296,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="discount" min="0" max="100" minlength="0" maxlength="3" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">
+                                                    <input type="number"  step="0.01" class="form-control" name="discount" min="0" max="100" minlength="0" maxlength="3" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">
                                                 </div>
                                             </div>
                                         </div>
