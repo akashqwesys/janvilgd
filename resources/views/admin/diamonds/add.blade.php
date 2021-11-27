@@ -100,7 +100,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable CTS"  autocomplete="off">                                             
+                                                    <input type="number"  step="0.01" class="form-control" name="makable_cts" id="makable_cts_input"  placeholder="Enter makable CTS"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish CTS"  autocomplete="off">                                             
+                                                    <input type="number"  step="0.01" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input"  placeholder="Enter expected polish CTS"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -223,7 +223,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="available_pcs"  placeholder="Enter available pcs"  autocomplete="off">                                             
+                                                    <input type="number"  step="0.01" class="form-control" name="available_pcs"  placeholder="Enter available pcs"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>
@@ -267,7 +267,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number" class="form-control" name="discount" id="discount_input" min="0" max="100" minlength="0" maxlength="3"  placeholder="Enter discount"  autocomplete="off">                                             
+                                                    <input type="number"  step="0.01" class="form-control" name="discount" id="discount_input" min="0" max="100" minlength="0" maxlength="3"  placeholder="Enter discount"  autocomplete="off">                                             
                                                 </div>
                                             </div>
                                         </div>

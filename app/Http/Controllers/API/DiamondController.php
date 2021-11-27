@@ -185,7 +185,7 @@ class DiamondController extends Controller
             $ij = 1;
         }
         if ($request->web == 'admin') {
-            $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'a')
+            $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
                 ->selectRaw(rtrim($ag_names, ', '));
         } else {
             $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.barcode')
@@ -261,12 +261,15 @@ class DiamondController extends Controller
             $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
             $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
             $final_d[$v_row->diamond_id]['price'] = $v_row->price;
-            /* $final_d[$v_row->diamond_id]['video_link'] = $v_row->video_link;
-            $final_d[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-            $final_d[$v_row->diamond_id]['remarks'] = $v_row->remarks;
-            $final_d[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-            $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;
-            $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts; */
+
+            if (isset($response['web']) && $response['web'] == 'admin') {
+                $final_d[$v_row->diamond_id]['video_link'] = $v_row->video_link;
+                $final_d[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
+                $final_d[$v_row->diamond_id]['remarks'] = $v_row->remarks;
+                $final_d[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
+                $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;
+                $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
+            }
 
 
             $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
@@ -275,12 +278,15 @@ class DiamondController extends Controller
             $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
             $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
             $final_api[$v_row->diamond_id]['price'] = $v_row->price;
-            /* $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
-            $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-            $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
-            $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-            $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
-            $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts; */
+            
+            if (isset($response['web']) && $response['web'] == 'admin') {
+                $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
+                $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
+                $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
+                $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
+                $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
+                $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
+            }
         }
 
         if ($request->web == 'web') {
