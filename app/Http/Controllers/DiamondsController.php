@@ -686,7 +686,7 @@ class DiamondsController extends Controller {
                             $row['shape']=trim($row['shape']);
                             $row['color']=trim($row['color']);
                             $row['clarity']=trim(str_replace(' ','', $row['clarity']));
-                            $row['cut_grade']=trim($row['cut_grade']);
+                            $row['cut']=trim($row['cut']);
                             $row['polish']=trim($row['polish']);
                             $row['symmetry']=trim($row['symmetry']);
                             $row['lab']=trim($row['lab']);
