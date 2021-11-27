@@ -120,7 +120,7 @@ class RapaortController extends Controller
                             }
 
                             $shape = $d_row->shape;
-                            if ($d_row->shape == 'ROUND' || $d_row->shape == 'RO' || $d_row->shape == 'Round Brilliant') {
+                            if (strtolower($d_row->shape) == strtolower('ROUND')) {
                                 $shape = "BR";
                             }
                             else{
@@ -185,7 +185,7 @@ class RapaortController extends Controller
                             $d_row->clarity = $d_row->attributes['CLARITY'];
 
                             $shape = $d_row->shape;
-                            if ($d_row->shape == 'ROUND' || $d_row->shape == 'RO' || $d_row->shape == 'Round Brilliant') {
+                            if (strtolower($d_row->shape) == strtolower('ROUND')) {
                                 $shape = "BR";
                             }
                             else{
@@ -258,10 +258,10 @@ class RapaortController extends Controller
             if (isset($request->shape) && isset($request->color) && isset($request->clarity) && isset($request->expected_polish_cts)) {
 
                 $shape = $request->shape;
-                if ($request->shape == 'ROUND' || $request->shape == 'RO' || $request->shape == 'Round Brilliant') {
+                if (strtolower($request->shape) == strtolower('ROUND')) {
                     $shape = "BR";
                 }
-                if ($request->shape != 'ROUND' && $request->shape != 'RO' && $request->shape != 'Round Brilliant') {
+                else{
                     $shape = "PS";
                 }
 
@@ -294,10 +294,10 @@ class RapaortController extends Controller
             if (isset($request->shape) && isset($request->expected_polish_cts)) {
 
                 $shape = $request->shape;
-                if ($request->shape == 'ROUND' || $request->shape == 'RO' || $request->shape == 'Round Brilliant') {
+                if (strtolower($request->shape) == strtolower('ROUND')) {
                     $shape = "BR";
                 }
-                if ($request->shape != 'ROUND' && $request->shape != 'RO' && $request->shape != 'Round Brilliant') {
+                else{
                     $shape = "PS";
                 }
 
