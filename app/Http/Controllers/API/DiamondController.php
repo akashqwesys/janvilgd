@@ -296,8 +296,8 @@ class DiamondController extends Controller
                     $html .= '<td scope="col" class="text-center"> - </td>';
                 }
                 if ($response['category_slug'] == 'polish-diamonds') {
-                    if (isset($v['attributes']['CUT GRADE'])) {
-                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT GRADE'] . '</td>';
+                    if (isset($v['attributes']['CUT'])) {
+                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT'] . '</td>';
                     } else {
                         $html .= '<td scope="col" class="text-center"> - </td>';
                     }
