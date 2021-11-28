@@ -116,7 +116,7 @@
                         @if(Session::has('loginId') && Session::has('user-type'))
                             @if(session('user-type') == "MASTER_ADMIN")
                             <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
-                            <a href="javascript:;" data-export='export-admin' class="btn btn-primary" id="export-search-diamond-admin"><i class="fas fa-download me-2"></i> Export for admin</a>
+                            <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for admin</a>
                             @endif
                         @endif
                         <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
@@ -335,5 +335,10 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
+
+    $(document).on('click', '#export-search-diamond-admin-modal', function () {
+        $("#staticBackdrop1").modal("show");
+    });
+
 </script>
 @endsection

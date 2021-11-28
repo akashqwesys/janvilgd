@@ -14,7 +14,8 @@
                         <div class="nk-block-head">                                            
                             <div class="nk-block-head-content">                                                
                                 <div class="toggle-wrap nk-block-tools-toggle">
-                                    <h4 style="display: inline;" class="nk-block-title">Orders list</h4>                                    
+                                    <h4 style="display: inline;" class="nk-block-title">Orders list</h4> 
+                                    <a style="float: right;" href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>                                   
                                 </div>
                             </div><!-- .nk-block-head-content -->                                   
                         </div>                                       

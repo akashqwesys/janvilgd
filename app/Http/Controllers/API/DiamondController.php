@@ -128,7 +128,7 @@ class DiamondController extends Controller
                 ->select('a.attribute_id', 'ag.attribute_group_id')
                 ->where('refCategory_id', $request->category)
                 ->get();
-
+    
             $new_all_attributes = [];
             $temp_grp_id = 0;
             foreach ($all_attributes as $v) {
@@ -139,7 +139,7 @@ class DiamondController extends Controller
                     $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
                 }
             }
-
+            
             foreach ($new_all_attributes as $k => $v) {
 
                 // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
@@ -212,10 +212,15 @@ class DiamondController extends Controller
         } else {
             $diamond_ids = $diamond_ids->inRandomOrder();
         }
-        $diamond_ids = $diamond_ids->offset($response['offset'] ?? 1)
-            ->limit(25)
-            ->get()
+        if (isset($response['web']) && $response['web'] == 'admin') {
+            $diamond_ids = $diamond_ids->get()
             ->toArray();
+        }else{
+            $diamond_ids = $diamond_ids->offset($response['offset'] ?? 1)
+                ->limit(25)
+                ->get()
+                ->toArray();
+        }
 
         if (!count($diamond_ids)) {
             if ($request->web == 'web') {
@@ -269,8 +274,9 @@ class DiamondController extends Controller
                 $final_d[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
                 $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;
                 $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
+                $final_d[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
+                $final_d[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
             }
-
 
             $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
             $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
@@ -286,6 +292,9 @@ class DiamondController extends Controller
                 $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
                 $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
                 $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
+                $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
+                $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
+                
             }
         }
 

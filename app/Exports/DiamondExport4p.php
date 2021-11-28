@@ -46,7 +46,7 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'MKBL CTS',
             'EXP POL CTS',
             'REMARKS',
-            'HALF-CUT  DIA',
+            'HALF-CUT DIA',
             'HALF-CUT HGT',
             'PO. DIAMETER',
             'DISCOUNT',
@@ -54,7 +54,9 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'image-1',
             'image-2',
             'image-3',
-            'image-4'
+            'image-4',
+            'Location',
+            'Comment'
         ];
     }
 }
