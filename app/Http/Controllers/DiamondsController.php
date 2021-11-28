@@ -40,7 +40,7 @@ class DiamondsController extends Controller {
             foreach ($res[0] as $row) {
                 if($row['comment']==''){
                     $row['comment']='No comment';    
-                }
+                }                
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {                    
                     if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol_cts']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity']) && ($row['clarity']=='VS' || $row['clarity']=='SI')) {
                         if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
@@ -167,7 +167,7 @@ class DiamondsController extends Controller {
                                 'barcode' => strval($row['barcode']),
                                 'packate_no' => strval($row['main_pktno']),
                                 'actual_pcs' => 0,
-                                'available_pcs' => 0,
+                                'available_pcs' => 1,
                                 'makable_cts' => doubleval($row['mkbl_cts']),
                                 'expected_polish_cts' => doubleval($row['exp_pol_cts']),
                                 'remarks' => strval($row['remarks']),
@@ -500,6 +500,7 @@ class DiamondsController extends Controller {
                                 'name' =>$name,
                                 'barcode' => strval($row['barcode']),
                                 'packate_no' => strval($row['pktno']),
+                                'available_pcs' => 1,
                                 'makable_cts' => doubleval($row['org_cts']),
                                 'expected_polish_cts' => doubleval($row['exp_pol']),
                                 'rapaport_price' => $row['rap'],
@@ -780,6 +781,7 @@ class DiamondsController extends Controller {
                                 'name' =>$name,
                                 'barcode' => $row['certificate'],
                                 'packate_no' => $row['stock'],
+                                'available_pcs' => 1,
                                 'discount' => $row['discount_percent'],
                                 'expected_polish_cts' => $row['weight'],
                                 'rapaport_price' => $row['price'],
@@ -1295,8 +1297,6 @@ class DiamondsController extends Controller {
             }
         }
 
-        
-
         if (!empty($attr_group_array)) {                    
             $chunked_new_record_array = array_chunk($attr_group_array,5000);
             foreach ($chunked_new_record_array as $new_record_chunk)
@@ -1651,7 +1651,6 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
         }
-//        $discount=abs(($request->discount)/100);
 
         $imgData = array();
         if($request->hasfile('image')) {
@@ -1738,7 +1737,6 @@ class DiamondsController extends Controller {
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request, "deleted", $_REQUEST['module'],$_REQUEST['table_id']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -1759,7 +1757,7 @@ class DiamondsController extends Controller {
                 'is_active' => $_REQUEST['status'],
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -1773,5 +1771,4 @@ class DiamondsController extends Controller {
             return response()->json($data);
         }
     }
-
 }

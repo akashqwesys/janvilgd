@@ -45,7 +45,41 @@
         });
     </script>
 <?php } ?>    
-    
+
+
+<?php if ($data['title'] == 'Add-Order') {
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function () {          
+            $('#import_order_refCustomer_id').on('change', function () {                
+                var refCustomer_id = $(this).val();                           
+                $.ajax({
+                    type: "POST",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "{{route('orders.address')}}",
+                    data: {'refCustomer_id': refCustomer_id},
+                    success: function (res) {
+                        var result = $.parseJSON(res);
+                        $("#refCustomer_company_id_shipping").empty();
+                        $("#refCustomer_company_id_shipping").append(new Option('------ Select Shipping Address ------', ''));
+                        $.each(result, function (index, value) {                                                       
+                            $('#refCustomer_company_id_shipping').append($('<option />').val(value.customer_company_id).text(value.name +', '+value.office_address +', '+value.city_name +', '+value.state_name+', '+value.country_name+', '+value.pincode));
+                        });
+
+                        $("#refCustomer_company_id_billing").empty();
+                        $("#refCustomer_company_id_billing").append(new Option('------ Select Billing Address ------', ''));
+                        $.each(result, function (index, value) {                                                       
+                            $('#refCustomer_company_id_billing').append($('<option />').val(value.customer_company_id).text(value.name +', '+value.office_address +', '+value.city_name +', '+value.state_name+', '+value.country_name+', '+value.pincode));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<?php } ?>
+
+
+
 <?php if ($data['title'] == 'Edit-Attributes' || $data['title'] == 'Add-Attributes') {
     ?>
     <script type="text/javascript">
@@ -358,8 +392,7 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-//                    $("#video_link").addClass("d-none");
-//                    $("#image").addClass("d-none");
+
 
                     $("#barcode").removeClass("d-none");
                     $("#packate_no").removeClass("d-none");
@@ -371,8 +404,7 @@
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                     $("#weight_loss").removeClass("d-none");
-//                    $("#video_link").removeClass("d-none");
-//                    $("#image").removeClass("d-none");
+
                 }
                 if (cat_name == 'Polish Diamonds') {  
                     $("#display_labour_charges").html('');                    
@@ -398,15 +430,13 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-//                    $("#video_link").addClass("d-none");
-//                    $("#image").addClass("d-none");
+
 
                     $("#barcode").removeClass("d-none");
                     $("#rapaport_price").removeClass("d-none");
                     $("#discount").removeClass("d-none");
                     $("#expected_polish_cts").removeClass("d-none");
-//                    $("#video_link").removeClass("d-none");
-//                    $("#image").removeClass("d-none");
+
                 }
                 if (cat_name == 'Rough Diamonds') {
                                                                                 
@@ -439,8 +469,7 @@
                     $("#rapaport_price").addClass("d-none");
                     $("#discount").addClass("d-none");
                     $("#weight_loss").addClass("d-none");
-//                    $("#video_link").addClass("d-none");
-//                    $("#image").addClass("d-none");
+
 
                     $("#barcode").removeClass("d-none");
                     $("#packate_no").removeClass("d-none");

@@ -457,7 +457,10 @@ Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.
 Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/add/import', [OrdersController::class, 'csvOrder'])->name('orders.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/add/import-excel', [OrdersController::class, 'addExcel'])->name('orders.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
+Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
 /***************  Blogs route end *************/
 

@@ -44,6 +44,8 @@ class DiamondExport implements FromCollection, WithHeadings
             'SHAPE',
             'COLOR',
             'CLARITY',
+            'Location',
+            'Comment',
             'Discount',
             'image-1',
             'image-2',

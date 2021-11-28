@@ -7,20 +7,20 @@ $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
     },
-    beforeSend: function( xhr ) {
+    beforeSend: function(xhr) {
         // $( ".cs-loader" ).show();
     }
 });
-$(document).ready(function () {
+$(document).ready(function() {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
-    setTimeout(function(){
+    setTimeout(function() {
         stop_on_change = 1;
         getAttributeValues(global_search_values, global_search_array, global_group_id);
     }, 2000);
 });
-$(document).on('click', '.diamond-shape .item img', function () {
+$(document).on('click', '.diamond-shape .item img', function() {
     var group_id = $(this).attr('data-group_id');
     if ($(this).attr('data-selected') == 1) {
         $(this).css('border', '4px solid #00000000');
@@ -29,13 +29,14 @@ $(document).on('click', '.diamond-shape .item img', function () {
         $(this).css('border', '4px solid #D2AB66');
         $(this).attr('data-selected', 1);
     }
-    var values = [], values_all = [];
+    var values = [],
+        values_all = [];
     var cnt = 0;
     $('.diamond-shape .item img').each(function(index, element) {
         if ($(this).attr('data-selected') == 1) {
-            values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+            values.push({ 'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name') });
         } else {
-            values_all.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+            values_all.push({ 'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name') });
             cnt++;
         }
     });
@@ -59,10 +60,10 @@ function getAttributeValues(values, array, group_id) {
         var strArray = values.split(",");
     }
     if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
-        var first_index = array.map(function (e) {
+        var first_index = array.map(function(e) {
             return e.name;
         }).indexOf(strArray[0]);
-        var last_index = array.map(function (e) {
+        var last_index = array.map(function(e) {
             return e.name;
         }).indexOf(strArray[1]);
         for (let i = first_index; i <= last_index; i++) {
@@ -84,9 +85,9 @@ function getAttributeValues(values, array, group_id) {
     };
 
     $.ajax({
-        beforeSend: function( xhr ) {
+        beforeSend: function(xhr) {
             if (new_call === true) {
-                $( ".cs-loader" ).show();
+                $(".cs-loader").show();
             }
         },
         type: "post",
@@ -101,7 +102,7 @@ function getAttributeValues(values, array, group_id) {
         },
         // cache: false,
         dataType: "json",
-        success: function (response) {
+        success: function(response) {
             $('.cs-loader').hide();
             global_search_values = values;
             global_search_array = array;
@@ -139,7 +140,7 @@ function getAttributeValues(values, array, group_id) {
             //set ajax_in_progress object false, after completion of ajax call
             $(window).data('ajax_in_progress', false);
         },
-        failure: function (response) {
+        failure: function(response) {
             $('.cs-loader').hide();
             $.toast({
                 heading: 'Error',
@@ -150,13 +151,15 @@ function getAttributeValues(values, array, group_id) {
         }
     });
 }
+
 function lazy_load_scroll() {
-    var lastScrollTop = 0, delta = 5;
+    var lastScrollTop = 0,
+        delta = 5;
     $(table_scroll).scroll(function() {
         var nowScrollTop = $(this).scrollTop();
         //check if any other ajax request is already in progress or not, if true then it exit here
         if ($(window).data('ajax_in_progress') === true)
-        return;
+            return;
         //check, whether we reached at the bottom of page or not, true when we reach at the bottom
         if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
             if (nowScrollTop > lastScrollTop) {
@@ -171,7 +174,7 @@ function lazy_load_scroll() {
             lastScrollTop = nowScrollTop;
         }
     });
- }
+}
 $(document).on('click', '#result-table .diamond-checkbox', function() {
     $(this).attr('checked', true);
     $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
@@ -185,7 +188,7 @@ $(document).on('click', '#compare-table .diamond-checkbox', function() {
 $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond-temp').hide();
     $('.recent-tab-content .select-diamond').show();
-    $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
+    $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
     $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
@@ -193,7 +196,7 @@ $(document).on('mouseover', '#recent-view tbody tr', function() {
 $(document).on('mouseover', '#result-table tbody tr', function() {
     $('.result-tab-content .select-diamond-temp').hide();
     $('.result-tab-content .select-diamond').show();
-    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
+    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
     $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
@@ -201,7 +204,7 @@ $(document).on('mouseover', '#result-table tbody tr', function() {
 $(document).on('mouseover', '#compare-table tbody tr', function() {
     $('.compare-tab-content .select-diamond-temp').hide();
     $('.compare-tab-content .select-diamond').show();
-    $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$(this).attr('data-barcode')).text('View Diamond');
+    $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.compare-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
     $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
@@ -216,8 +219,7 @@ $(document).on('click', '#filter-toggle', function() {
             'height': 0,
             'visibility': 'collapse'
         });
-    }
-    else {
+    } else {
         $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         $('.filter-toggle').css({
             'height': 'auto',
@@ -226,9 +228,10 @@ $(document).on('click', '#filter-toggle', function() {
     }
 });
 
-$(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function () {
+$(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function() {
     var group_id = $(this).attr('data-group_id');
     var export_value = $(this).attr('data-export');
+    var discount = $("#export-discount").val();
     if ($(this).attr('data-selected') == 1) {
         $(this).css('border', '4px solid #00000000');
         $(this).attr('data-selected', 0);
@@ -239,23 +242,23 @@ $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', f
     var values = [];
     $('.diamond-shape .item img').each(function(index, element) {
         if ($(this).attr('data-selected') == 1) {
-            values.push({'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name')});
+            values.push({ 'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name') });
         }
     });
-    exportDiamondTables(values, [], group_id,export_value);
+    exportDiamondTables(values, [], group_id, export_value, discount);
 });
 
-function exportDiamondTables(values, array, group_id,export_value) {
+function exportDiamondTables(values, array, group_id, export_value, discount) {
 
     var selected_values = [];
     if (values.length > 1 && typeof values == 'string') {
         var strArray = values.split(",");
     }
     if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
-        var first_index = array.map(function (e) {
+        var first_index = array.map(function(e) {
             return e.name;
         }).indexOf(strArray[0]);
-        var last_index = array.map(function (e) {
+        var last_index = array.map(function(e) {
             return e.name;
         }).indexOf(strArray[1]);
         for (let i = first_index; i <= last_index; i++) {
@@ -274,12 +277,13 @@ function exportDiamondTables(values, array, group_id,export_value) {
             'attribute_values': selected_values,
             'group_id': group_id,
             'category': global_category,
-            'export': export_value
+            'export': export_value,
+            'discount': discount
         },
         xhrFields: {
             responseType: 'blob'
         },
-        success: function(response){
+        success: function(response) {
 
             var blob = new Blob([response]);
 
@@ -287,15 +291,15 @@ function exportDiamondTables(values, array, group_id,export_value) {
 
             link.href = window.URL.createObjectURL(blob);
 
-            if(export_value=='export'){
+            if (export_value == 'export') {
                 link.download = "Diamonds-data.pdf";
-            }else{
+            } else {
                 link.download = "Diamonds-data.xlsx";
             }
 
             link.click();
         },
-        error: function(blob){
+        error: function(blob) {
             console.log(blob);
         }
     });
