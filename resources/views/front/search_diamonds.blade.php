@@ -95,6 +95,10 @@
             width: 45px;
             height: 45px;
         }
+        .btn-sm {
+            padding: .25rem .5rem;
+            font-size: .875rem;
+        }
     </style>
 @endsection
 @section('content')
