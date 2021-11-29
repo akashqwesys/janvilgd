@@ -44,7 +44,7 @@
         });
     </script> 
 <?php } ?>
-<?php if ($data['title'] == 'Edit-Orders') {
+<?php if ($data['title'] == 'Edit-Orders' || $data['title'] == 'View-Orders') {
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -59,6 +59,21 @@
                 "paging": false,//Dont want paging                
                 "bPaginate": false,//Dont want paging 
                 "bFilter": false                 
+            });
+
+            var table = $('#table1').DataTable({
+                responsive: {
+                    details: {
+                        type: 'column',
+                        target: 'tr'
+                    }
+                },
+                
+                "paginationType": "simple",                                               
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false
             });
         });
     </script> 
