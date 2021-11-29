@@ -122,7 +122,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                                 <div class="diamond-shape filter-item align-items-center">
-                                    <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <label>SHAPE<span class=""><i class="fas fa-question-circle"></i></span></label>
                                     <ul class="list-unstyled mb-0 diamond_shape">
                                         ' . $list . '
                                     </ul>
@@ -132,7 +132,7 @@ class DiamondController extends Controller {
                     }
                     $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                         <div class="diamond-cart filter-item">
-                            <label>Price<span class=""><i class="fas fa-question-circle"></i></span></label>
+                            <label>PRICE<span class=""><i class="fas fa-question-circle"></i></span></label>
                             <div class="range-sliders">
                                 <div class="slider-styled" id="priceSlider"></div>
                                 $<input type="text" id="minPrice" class="w-5r">
@@ -153,6 +153,8 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
+                                new_call = true;
+                                getAttributeValues(this.get(), [], "price");
                             });
                             // Listen to keydown events on the input field.
                             priceJs.forEach(function (input, handle) {
@@ -217,7 +219,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                                     <div class="diamond-cut filter-item">
-                                        <label>' . ucfirst(strtolower($v['name'])) . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>
@@ -246,7 +248,7 @@ class DiamondController extends Controller {
         }
         $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
                     <div class="diamond-cart filter-item">
-                        <label>Carat<span class=""><i class="fas fa-question-circle"></i></span></label>
+                        <label>CARAT<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
                             <div class="slider-styled" id="caratSlider"></div>
                             <input type="text" id="minCarat" class="w-5r">
@@ -267,6 +269,8 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
+                            new_call = true;
+                            getAttributeValues(this.get(), [], "carat");
                         });
                         // Listen to keydown events on the input field.
                         caratJs.forEach(function (input, handle) {
@@ -348,7 +352,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
                                 <div class="diamond-shape filter-item align-items-center">
-                                    <label>Shape<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <label>SHAPE<span class=""><i class="fas fa-question-circle"></i></span></label>
                                     <ul class="list-unstyled mb-0 diamond_shape">
                                         ' . $list . '
                                     </ul>
@@ -373,7 +377,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
                                     <div class="diamond-cut filter-item">
-                                        <label>' . ucfirst(strtolower($v['name'])) . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>

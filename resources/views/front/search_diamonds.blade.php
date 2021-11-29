@@ -98,6 +98,13 @@
     </style>
 @endsection
 @section('content')
+@php
+if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+    $admin = true;
+} else {
+    $admin = false;
+}
+@endphp
     <section class="diamond-cut-section">
         <div class="container">
             <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
@@ -113,11 +120,9 @@
                         <button class="btn btn-primary" id="filter-toggle">Filters
                             <i class="fas fa-chevron-down ms-2"></i>
                         </button>
-                        @if(Session::has('loginId') && Session::has('user-type'))
-                            @if(session('user-type') == "MASTER_ADMIN")
-                            <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
-                            <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for admin</a>
-                            @endif
+                        <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
+                        @if ($admin === true)
+                        <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for admin</a>
                         @endif
                         <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
                     </div>
@@ -130,9 +135,11 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
                         </li>
+                        @if ($admin === true)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Comparision </button>
+                            <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected </button>
                         </li>
+                        @endif
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
@@ -154,7 +161,7 @@
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +177,7 @@
                                                 <table class="table mb-0" id="result-table">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Barcode</th>
+                                                            <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-right carat-sort" data-id="">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == 'polish-diamonds')
@@ -212,7 +219,7 @@
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -223,7 +230,7 @@
                                                 <table class="table mb-0" id="recent-view">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Barcode</th>
+                                                            <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == 'polish-diamonds')
@@ -270,6 +277,7 @@
                                 </div>
                             </div>
                         </div>
+                        @if ($admin === true)
                         <div class="tab-pane fade" id="comparision" role="tabpanel" aria-labelledby="comparision-tab">
                             <div class="compare-tab-content">
                                 <div class="row">
@@ -288,7 +296,7 @@
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>Hover over a diamond to see further details and shipping information.</p><p> Check the compare box to send multiple diamonds to the comparison tab.</p>
+                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -299,7 +307,7 @@
                                                 <table class="table mb-0" id="compare-table">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Barcode</th>
+                                                            <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == 'polish-diamonds')
@@ -322,6 +330,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
