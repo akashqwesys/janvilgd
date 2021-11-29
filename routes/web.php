@@ -455,6 +455,7 @@ Route::get('orders', [OrdersController::class, 'index'])->middleware(['isLoggedI
 Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/view/{id}', [OrdersController::class, 'view'])->name('orders.view')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/add/import', [OrdersController::class, 'csvOrder'])->name('orders.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

@@ -492,8 +492,6 @@ class DiamondController extends Controller {
     {
         $response = $request->all();
         
-       
-
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $request->category;
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
