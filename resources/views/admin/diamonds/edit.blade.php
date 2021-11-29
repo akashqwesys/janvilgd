@@ -202,16 +202,17 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
+
                                                                 <?php
-                                                                foreach ($data['diamond_attributes'] as $d_a_row) {
-                                                                    if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
-                                                                        ?>
-                                                                        <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" autocomplete="off">
-                                                                        <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                                                        <?php
+                                                                    $value='';
+                                                                    foreach ($data['diamond_attributes'] as $d_a_row) {                                                                                                                                           
+                                                                        if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {                                                                           
+                                                                            $value=$d_a_row->value;                                                                            
+                                                                        }
                                                                     }
-                                                                }
                                                                 ?>
+                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
+                                                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -296,7 +297,10 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="number"  step="0.01" class="form-control" name="discount" min="0" max="100" minlength="0" maxlength="3" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">
+                                                    <div class="form-icon form-icon-right">
+                                                        <em class="icon ni ni-percent"></em>
+                                                    </div>
+                                                    <input type="number"  step="0.01" class="form-control" name="discount" min="0" max="100" minlength="0" maxlength="3" id="discount_input"  placeholder="Enter discount"  autocomplete="off" value="<?php echo abs(($data['result']->discount) * 100); ?>">                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -459,15 +463,15 @@
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
                                                                 <?php
-                                                                foreach ($data['diamond_attributes'] as $d_a_row) {
-                                                                    if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {
-                                                                        ?>
-                                                                        <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $d_a_row->value; ?>" placeholder="Enter value" autocomplete="off">
-                                                                        <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                                                        <?php
+                                                                    $value='';
+                                                                    foreach ($data['diamond_attributes'] as $d_a_row) {                                                                                                                                           
+                                                                        if ($d_a_row->refAttribute_group_id == $row->attribute_group_id) {                                                                           
+                                                                            $value=$d_a_row->value;                                                                            
+                                                                        }
                                                                     }
-                                                                }
                                                                 ?>
+                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
+                                                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">                                                               
                                                             </div>
                                                         </div>
                                                     </div>
@@ -517,7 +521,7 @@
                                                         @php    
                                                     }else{
                                                         @endphp
-                                                        <div class="amount" id="display_price">$<?php echo round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2); ?></div>
+                                                        <div class="amount" id="display_price">$<?php echo number_format(round(abs((100-(($data['result']->discount) * 100))/100)*$data['result']->rapaport_price,2)); ?></div>
                                                         @php  
                                                     }
                                                     @endphp
@@ -548,7 +552,7 @@
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
-                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format($data['result']->total); ?></div>
+                                                    <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format($data['result']->total,2); ?></div>
                                                 </div>
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->
