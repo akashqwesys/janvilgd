@@ -13,13 +13,20 @@
         @endif-->
     <div class="container-fluid">
         <div class="nk-content-inner">
-            
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <h3 class="nk-block-title page-title" style="display: inline;">View Order</h3>
+                        <a style="float: right;" href="/admin/orders" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+            </div>
+            <br>
             <div class="nk-content-body">
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
                             <h3 class="nk-block-title page-title" style="display: inline;">Order #{{$data['result']->order_id}}</h3>
-                            <a style="float: right;" href="/admin/orders" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                             <hr>
                             <table class="table dt-responsive nowrap table-bordered">
                                 <thead>
