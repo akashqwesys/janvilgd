@@ -111,7 +111,7 @@
                     </div>
                     <div class="filter-btn text-center">
                         <button class="btn btn-primary" id="filter-toggle">Filters
-                            <i class="fas fa-chevron-up ms-2"></i>
+                            <i class="fas fa-chevron-down ms-2"></i>
                         </button>
                         @if(Session::has('loginId') && Session::has('user-type'))
                             @if(session('user-type') == "MASTER_ADMIN")
