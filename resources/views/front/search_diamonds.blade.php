@@ -182,16 +182,14 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
-                                                            <th scope="col" class="text-right carat-sort" data-id="">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-center">Color</th>
+                                                            <th scope="col" class="text-center">Clarity</th>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
-                                                            {{-- @if ($category->slug != 'rough-diamonds') --}}
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            {{-- @endif --}}
-                                                            <th scope="col" class="text-center">Clarity
-                                                            </th>
+                                                            <th scope="col" class="text-right">Price/CT</th>
                                                             <th scope="col" class="text-right">Price</th>
                                                             <th scope="col" class="text-center">Compare</th>
                                                         </tr>
