@@ -40,8 +40,13 @@ class TestController extends Controller
             'index' => 'diamonds',
             'body'  => [
                 'query' => [
-                    'match' => [
-                        'barcode' => '435435'
+                    'bool' => [
+                        'must' => [
+                            [ 'term' => [ 'attributes_id.2' => '354' ] ],
+                            [ 'term' => [ 'attributes_id.1' => '416' ] ],
+                            [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 1, 'lte' => 2 ] ] ],
+                            [ 'range' => [ 'total' => [ 'gte' => 9000, 'lte' => 10000 ] ] ]
+                        ]
                     ]
                 ]
             ]
