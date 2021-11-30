@@ -28,13 +28,13 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+					<a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+					<a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+					<a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -64,9 +64,9 @@
 		    				<li><a class="nav-link" aria-current="page" href="/customer/contact">Contact</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>

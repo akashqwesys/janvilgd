@@ -32,13 +32,13 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
 		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+					<a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+					<a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+					<a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
 		        </li>
 		      </ul>
 		    </div>
@@ -70,9 +70,9 @@
 		    				<li><a class="nav-link" aria-current="page" href="/customer/contact">Contact</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
@@ -248,13 +248,13 @@
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdrop1Label">Share</h5>		
+        <h5 class="modal-title" id="staticBackdrop1Label">Share</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-          <input type="text" name="discount" class="form-control" placeholder="Enter Discount" id="export-discount">		  
+          <input type="text" name="discount" class="form-control" placeholder="Enter Discount" id="export-discount">
       </div>
-	  <div class="modal-footer">     
+	  <div class="modal-footer">
 		<button type="button" class="btn btn-primary" data-export='export-admin' id="export-search-diamond-admin" data-bs-dismiss="modal" aria-label="Close">Export</button>
       </div>
     </div>

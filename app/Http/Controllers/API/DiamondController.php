@@ -14,6 +14,7 @@ use App\Mail\EmailVerification;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class DiamondController extends Controller
 {
@@ -128,7 +129,7 @@ class DiamondController extends Controller
                 ->select('a.attribute_id', 'ag.attribute_group_id')
                 ->where('refCategory_id', $request->category)
                 ->get();
-    
+
             $new_all_attributes = [];
             $temp_grp_id = 0;
             foreach ($all_attributes as $v) {
@@ -139,7 +140,7 @@ class DiamondController extends Controller
                     $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
                 }
             }
-            
+
             foreach ($new_all_attributes as $k => $v) {
 
                 // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
@@ -284,7 +285,7 @@ class DiamondController extends Controller
             $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
             $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
             $final_api[$v_row->diamond_id]['price'] = $v_row->price;
-            
+
             if (isset($response['web']) && $response['web'] == 'admin') {
                 $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
                 $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
@@ -294,11 +295,19 @@ class DiamondController extends Controller
                 $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
                 $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
                 $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
-                
+
             }
         }
 
         if ($request->web == 'web') {
+            if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                $cart_or_box = '<label class="custom-check-box">
+                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                        <span class="checkmark"></span>
+                                    </label>';
+            } else {
+                $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+            }
             $html = '';
             foreach ($final_d as $v) {
                 if (count($v['image'])) {
@@ -336,10 +345,7 @@ class DiamondController extends Controller
                 $html .= '<td scope="col" class="text-right">$' . number_format(round($v['price'], 2), 2, '.', ',') . '</td>
                     <td scope="col" class="text-center">
                             <div class="compare-checkbox">
-                                <label class="custom-check-box">
-                                    <input type="checkbox" class="diamond-checkbox" data-id="' . $v['diamond_id'] . '" >
-                                    <span class="checkmark"></span>
-                                </label>
+                                ' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
                             </div>
                         </td>
                     </tr>';
