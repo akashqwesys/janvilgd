@@ -299,6 +299,15 @@ class DiamondController extends Controller
             }
         }
 
+
+
+        if ($response['gateway'] == 'api') {
+            return $this->successResponse('Success', array_values($final_api));
+        } else {            
+            return $this->successResponse('Success', $final_d);
+        }
+
+
         if ($request->web == 'web') {
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                 $cart_or_box = '<label class="custom-check-box">

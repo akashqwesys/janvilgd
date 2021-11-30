@@ -19,6 +19,7 @@ use App\Http\Controllers\API\DiamondController as APIDiamond;
 use App\Exports\DiamondExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
+use DataTables;
 
 class DiamondController extends Controller {
 
@@ -653,9 +654,73 @@ class DiamondController extends Controller {
                 return response()->download($pdf);
             }
         } else {
-            $request->request->add(['web' => 'web']);
+            $request->request->add(['web' => 'web']);            
         }
-        return $aa->searchDiamonds($request);
+
+        if ($request->ajax()) {
+            $result = $aa->searchDiamonds($request);
+            $data=$result->original['data'];
+
+
+            // echo '<pre>';print_r($data['16747']['attributes']);die;
+            // $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
+            //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
+            //         ->get();             
+            return Datatables::of($data)
+                            // ->addIndexColumn()                                                  
+                            ->editColumn('image', function ($row) {
+                                if (count($row['image'])) {
+                                    $img_src = '/storage/other_images/' . $row['image'][0];
+                                } else {
+                                    $img_src = '/assets/images/No-Preview-Available.jpg';
+                                } 
+                                return $img_src; 
+                            })
+                            
+                            ->addColumn('shape', function ($row) {
+                                if (isset($row['attributes']['SHAPE'])) {
+                                    $shape = $row['attributes']['SHAPE'];
+                                } else {
+                                    $shape = ' - ';
+                                }
+                                return $shape;
+                            }) 
+                            ->addColumn('color', function ($row) {
+                                if (isset($row['attributes']['COLOR'])) {
+                                    $color = $row['attributes']['COLOR'];
+                                } else {
+                                    $color = ' - ';
+                                }
+                                return  $color;
+                            })
+                            ->addColumn('clarity', function ($row) {
+                                if (isset($row['attributes']['CLARITY'])) {
+                                    $clarity = $row['attributes']['CLARITY'];
+                                } else {
+                                    $clarity = ' - ';
+                                }
+                                return  $clarity;
+                            })
+                            ->addColumn('price', function ($row) {
+                                return number_format(round($row['price'], 2), 2, '.', ',');
+                            })
+
+                            ->addColumn('compare', function ($row) {
+                                $cart_or_box = '<label class="custom-check-box">
+                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                        <span class="checkmark"></span>
+                                    </label>';
+
+                                return '<div class="compare-checkbox">
+                                            ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
+                                        </div>';
+                            })
+                                                                                                                                                                     
+                            ->escapeColumns([])
+                            ->make(true);
+        }
+
+
     }
 
     public function pdfpreview()

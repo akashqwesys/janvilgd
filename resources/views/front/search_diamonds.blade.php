@@ -1,7 +1,9 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
-    <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
+<link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css"> 
+    <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />    
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
         var global_category_slug = '{{ $category->slug }}';
@@ -144,7 +146,12 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                             <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected </button>
                         </li>
                         @endif
+                        <li class="nav-item" role="presentation" style="float:right;margin-left: 55.5% !important;">
+                        <input type="text" class="form-controll" id="myInput" style="float:right;margin-left: 55% !important;" autocomplete="off"> 
+                        <li class="nav-item" role="presentation">                                                                          
                     </ul>
+                   
+                    
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                             <div class="result-tab-content">
@@ -340,6 +347,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     </section>
 @endsection
 @section('js')
+<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
 <script>
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -353,3 +363,4 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
 
 </script>
 @endsection
+

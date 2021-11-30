@@ -227,6 +227,7 @@ class OrdersController extends Controller
         return redirect('admin/orders');
     }
 
+
     public function list(Request $request)
     {
         if ($request->ajax()) {

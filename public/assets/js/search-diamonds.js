@@ -15,10 +15,8 @@ $(document).ready(function() {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
-    setTimeout(function() {
-        stop_on_change = 1;
-        getAttributeValues(global_search_values, global_search_array, global_group_id);
-    }, 2000);
+    stop_on_change = 1;
+    getAttributeValues1(global_search_values, global_search_array, global_group_id);
 });
 $(document).on('click', '.diamond-shape .item img', function() {
     var group_id = $(this).attr('data-group_id');
@@ -42,11 +40,121 @@ $(document).on('click', '.diamond-shape .item img', function() {
     });
     new_call = true;
     if (cnt == $('.diamond-shape .item img').length) {
-        getAttributeValues(values_all, [], group_id);
+        $('#table').DataTable().destroy();
+        getAttributeValues1(values_all, [], group_id);
     } else {
-        getAttributeValues(values, [], group_id);
+        $('#table').DataTable().destroy();
+        getAttributeValues1(values, [], group_id);
     }
 });
+
+function getAttributeValues1(values, array, group_id) {
+
+    if (new_call === true) {
+        $(".cs-loader").show();
+    }
+
+    if (stop_on_change === 0) {
+        global_search_values = values;
+        global_search_array = array;
+        global_group_id = group_id;
+        return false;
+    }
+    var selected_values = [];
+    if (values.length > 1 && typeof values == 'string') {
+        var strArray = values.split(",");
+    }
+    if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
+        var first_index = array.map(function(e) {
+            return e.name;
+        }).indexOf(strArray[0]);
+        var last_index = array.map(function(e) {
+            return e.name;
+        }).indexOf(strArray[1]);
+        for (let i = first_index; i <= last_index; i++) {
+            selected_values.push(array[i]);
+        }
+    } else if (array.length === 0) {
+        selected_values = values;
+    } else {
+        selected_values = strArray;
+    }
+    // console.log(selected_values);
+    var ajax_data = {
+        'attribute_values': selected_values,
+        'group_id': group_id,
+        'web': 'web',
+        'category': global_category,
+        'category_slug': global_category_slug,
+        'offset': global_data_offset
+    };
+
+    var table = $('#result-table').DataTable({
+        // responsive: {
+        //     details: {
+        //         type: 'column',
+        //         target: 'tr'
+        //     }
+        // },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        "processing": true,
+        "serverSide": true,
+        "lengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        "paging": false, //Dont want paging                
+        "bPaginate": false, //Dont want paging 
+        "scrollY": "200px",
+        "scrollCollapse": true,
+        "ajax": {
+            'method': "post",
+            'url': "/customer/search-diamonds",
+            'data': ajax_data
+        },
+        "initComplete": function(settings, json) {
+            $('.cs-loader').hide();
+            if (new_call === true) {
+                lazy_load_scroll();
+            }
+            global_data_offset = global_data_offset + 25;
+            //set ajax_in_progress object false, after completion of ajax call
+            $(window).data('ajax_in_progress', false);
+        },
+        columns: [
+            { data: 'barcode', name: 'barcode' },
+            { data: 'shape', name: 'shape' },
+            { data: 'carat', name: 'carat' },
+            { data: 'color', name: 'color' },
+            { data: 'clarity', name: 'clarity' },
+            { data: 'price', name: 'price' },
+            { data: 'price', name: 'price' },
+            { data: 'compare', name: 'compare' }
+        ],
+        "createdRow": function(row, data, dataIndex) {
+            $(row).addClass('tr_' + data['diamond_id']);
+            $(row).attr('data-diamond', data['diamond_id']);
+            $(row).attr('data-image', data['image']);
+            $(row).attr('data-name', data['diamond_name']);
+            $(row).attr('data-price', "$" + data['price']);
+            $(row).children('td').addClass('text-center');
+            $(row).children('td').attr('scop', 'col');
+        }
+    });
+
+
+    $('#myInput').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+}
+
+
+
+
+
 
 function getAttributeValues(values, array, group_id) {
     if (stop_on_change === 0) {
@@ -168,7 +276,8 @@ function lazy_load_scroll() {
                     $(window).data('ajax_in_progress', true);
                     new_call = false;
                     //make ajax call
-                    getAttributeValues(global_search_values, global_search_array, global_group_id);
+                    $('#table').DataTable().destroy();
+                    getAttributeValues1(global_search_values, global_search_array, global_group_id);
                 }
             }
             lastScrollTop = nowScrollTop;
