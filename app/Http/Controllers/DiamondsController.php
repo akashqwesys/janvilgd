@@ -42,12 +42,11 @@ class DiamondsController extends Controller {
             foreach ($res[0] as $row) {                               
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                     
-                    if (array_key_exists("main_pktno",$row)) {                                       
+                    if (array_key_exists("main_pktno",$row)) {         
                         if (isset($row['barcode']) && is_numeric($row['mkbl_cts']) && is_numeric($row['exp_pol_cts']) && !empty($row['color']) && !empty($row['shape']) && !empty($row['clarity']) && ($row['clarity']=='VS' || $row['clarity']=='SI')) {
                             if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                                 break;
-
-                        }                        
+                            }                                                
                             $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
                             if (!empty($row['barcode'])) {
 
