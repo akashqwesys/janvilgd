@@ -1377,14 +1377,14 @@ class DiamondsController extends Controller {
             $i = $i + 1;
         }
 
-       $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
+       $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name', 'attributes.attribute_id as at_id', 'attributes.attribute_group_id as ag_id')
                ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
                ->whereIn('attributes.attribute_id',$batch_array1)->get();
         $shape='';
         $color='';
         $clarity='';
 
-        $new_attributes = [];
+        $new_attributes = $new_attributes_id = [];
         if(!empty($name_data)){
             foreach ($name_data as $row){
                 if($row->ag_name=='SHAPE'){
@@ -1397,6 +1397,7 @@ class DiamondsController extends Controller {
                     $clarity=$row->at_name.' Clarity ';
                 }
                 $new_attributes[$row->ag_name] = $row->at_name;
+                $new_attributes_id[$row->ag_id] = $row->at_id;
             }
         }
 
@@ -1446,22 +1447,22 @@ class DiamondsController extends Controller {
 
         DB::table('diamonds')->insert([
             'name' => $name,
-            'barcode' => isset($request->barcode) ? $request->barcode : 0,
-            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
-            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
-            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-            'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-            'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
-            'remarks' => isset($request->remarks) ? $request->remarks : 0,
-            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-            'discount' => isset($request->discount) ? $discount : 0,
-            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
+            'barcode' => $request->barcode ?? 0,
+            'packate_no' => $request->packate_no ?? 0,
+            'actual_pcs' => $request->actual_pcs ?? 0,
+            'available_pcs' => $request->available_pcs ?? 0,
+            'makable_cts' => $request->makable_cts ?? 0,
+            'expected_polish_cts' => $request->expected_polish_cts ?? 0,
+            'remarks' => $request->remarks ?? 0,
+            'rapaport_price' => $request->rapaport_price ?? 0,
+            'discount' => $request->discount ? $discount : 0,
+            'weight_loss' => $request->weight_loss ?? 0,
+            'video_link' => $request->video_link ?? NULL,
             'image' => $image,
-            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+            'refCategory_id' => $request->refCategory_id ?? 0,
             'total' => $total,
             'added_by' => $request->session()->get('loginId'),
-            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
+            'is_recommended' => $request->is_recommended ?? 0,
             'is_active' => 1,
             'is_deleted' => 0,
             'date_added' => date("Y-m-d h:i:s"),
@@ -1505,37 +1506,34 @@ class DiamondsController extends Controller {
             ->build();
         $params = [
             'index' => 'diamonds',
-            'id'    => 'diamond_id',
+            'id'    => 'd_id_' . $Id,
             'body'  => [
-                'doc' => [
-                    $Id => [
-                        'name' => $name,
-                        'barcode' => isset($request->barcode) ? $request->barcode : 0,
-                        'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
-                        'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
-                        'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-                        'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-                        'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
-                        'remarks' => isset($request->remarks) ? $request->remarks : 0,
-                        'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-                        'discount' => isset($request->discount) ? $discount : 0,
-                        'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-                        'video_link' => isset($request->video_link) ? $request->video_link : NULL,
-                        'image' => $image,
-                        'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
-                        'total' => $total,
-                        'added_by' => $request->session()->get('loginId'),
-                        'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
-                        'is_active' => 1,
-                        'is_deleted' => 0,
-                        'date_added' => date("Y-m-d h:i:s"),
-                        'date_updated' => date("Y-m-d h:i:s"),
-                        'attributes' => $new_attributes
-                    ]
-                ]
+                'name' => $name,
+                'barcode' => isset($request->barcode) ? $request->barcode : 0,
+                'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+                'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
+                'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
+                'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
+                'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
+                'remarks' => isset($request->remarks) ? $request->remarks : 0,
+                'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
+                'discount' => isset($request->discount) ? $discount : 0,
+                'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
+                'video_link' => isset($request->video_link) ? $request->video_link : NULL,
+                'image' => $imgData,
+                'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+                'total' => $total,
+                'added_by' => $request->session()->get('loginId'),
+                'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
+                'is_active' => 1,
+                'is_deleted' => 0,
+                'date_added' => date("Y-m-d h:i:s"),
+                'date_updated' => date("Y-m-d h:i:s"),
+                'attributes' => $new_attributes,
+                'attributes_id' => $new_attributes_id
             ]
         ];
-        $client->update($params);
+        $client->create($params);
         // dd($client->indices()->delete(['index' => 'diamonds']));
 
         /* $diamonds = new DiamondTemp;
@@ -1685,25 +1683,26 @@ class DiamondsController extends Controller {
             $i = $i + 1;
         }
 
-        $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name')
+        $name_data = DB::table('attributes')->select('attributes.name as at_name', 'attribute_groups.name as ag_name', 'attributes.attribute_id as at_id', 'attributes.attribute_group_id as ag_id')
                ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
                ->whereIn('attributes.attribute_id',$batch_array1)->get();
         $shape='';
         $color='';
         $clarity='';
-        $new_attributes = [];
-        if(!empty($name_data)){
-            foreach ($name_data as $row){
-                if($row->ag_name=='SHAPE'){
-                    $shape=$row->at_name.' Shape  • ';
+        $new_attributes = $new_attributes_id = [];
+        if (!empty($name_data)) {
+            foreach ($name_data as $row) {
+                if ($row->ag_name == 'SHAPE') {
+                    $shape = $row->at_name . ' Shape  • ';
                 }
-                if($row->ag_name=='COLOR'){
-                    $color=$row->at_name.' Color  • ';
+                if ($row->ag_name == 'COLOR') {
+                    $color = $row->at_name . ' Color  • ';
                 }
-                if($row->ag_name=='CLARITY'){
-                    $clarity=$row->at_name.' Clarity ';
+                if ($row->ag_name == 'CLARITY') {
+                    $clarity = $row->at_name . ' Clarity ';
                 }
                 $new_attributes[$row->ag_name] = $row->at_name;
+                $new_attributes_id[$row->ag_id] = $row->at_id;
             }
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
@@ -1778,29 +1777,28 @@ class DiamondsController extends Controller {
             ->build();
         $params = [
             'index' => 'diamonds',
-            'id'    => 'diamond_id',
+            'id'    => 'd_id_' . $Id,
             'body'  => [
                 'doc' => [
-                    $Id => [
-                        'name' => $name,
-                        'barcode' => isset($request->barcode) ? $request->barcode : 0,
-                        'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
-                        'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
-                        'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-                        'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-                        'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
-                        'remarks' => isset($request->remarks) ? $request->remarks : 0,
-                        'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-                        'discount' => isset($request->discount) ? $discount : 0,
-                        'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-                        'image' => $image,
-                        'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
-                        'video_link' => isset($request->video_link) ? $request->video_link : NULL,
-                        'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
-                        'total'=>$total,
-                        'date_updated' => date("Y-m-d h:i:s"),
-                        'attributes' => $new_attributes
-                    ]
+                    'name' => $name,
+                    'barcode' => $request->barcode ?? 0,
+                    'packate_no' => $request->packate_no ?? 0,
+                    'actual_pcs' => $request->actual_pcs ?? 0,
+                    'available_pcs' => $request->available_pcs ?? 0,
+                    'makable_cts' => $request->makable_cts ?? 0,
+                    'expected_polish_cts' => $request->expected_polish_cts ?? 0,
+                    'remarks' => $request->remarks ?? 0,
+                    'rapaport_price' => $request->rapaport_price ?? 0,
+                    'discount' => isset($request->discount) ? $discount : 0,
+                    'weight_loss' => $request->weight_loss ?? 0,
+                    'image' => $imgData,
+                    'is_recommended' => $request->is_recommended ?? 0,
+                    'video_link' => $request->video_link ?? NULL,
+                    'refCategory_id' => $request->refCategory_id ?? 0,
+                    'total'=>$total,
+                    'date_updated' => date("Y-m-d h:i:s"),
+                    'attributes' => $new_attributes,
+                    'attributes_id' => $new_attributes_id
                 ]
             ]
         ];

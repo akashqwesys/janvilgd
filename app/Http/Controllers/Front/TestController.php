@@ -24,23 +24,24 @@ class TestController extends Controller
             ->build();
         // $params = [
         //     'index' => 'diamonds',
-        //     'id'    => 'diamond_id'
+        //     'id'    => 'd_id_494'
         // ];
         // dd($client->get($params));
+        // dd($client->delete($params));
         // dd($client->indices()->delete(['index' => 'diamonds']));
 
         // Get settings for one index
-        $params = ['index' => 'diamonds'];
+        // $params = ['index' => 'diamonds'];
         // $response = $client->indices()->getSettings($params);
-        $response = $client->indices()->getMapping($params);
-        dd($response);
+        // $response = $client->indices()->getMapping($params);
+        // dd($response);
 
         $params = [
             'index' => 'diamonds',
             'body'  => [
                 'query' => [
                     'match' => [
-                        'barcode' => 'vc234'
+                        'barcode' => '435435'
                     ]
                 ]
             ]
@@ -58,18 +59,86 @@ class TestController extends Controller
 
         $params = [
             'index' => 'diamonds',
-            'id'    => 'diamond_id',
+            // 'id'    => 'diamond_id',
             'body' => [
+                'settings' => [
+                    'number_of_shards' => 1
+                ],
                 'mappings' => [
                     'properties' => [
-                        'title' => [
+                        'name' => [
                             'type' => 'text'
+                        ],
+                        "actual_pcs" => [
+                            "type" => "long"
+                        ],
+                        "added_by" => [
+                            "type" => "unsigned_long"
+                        ],
+                        "available_pcs" => [
+                            "type" => "long"
+                        ],
+                        "barcode" => [
+                            "type" => "text"
+                        ],
+                        "date_added" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "date_updated" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "discount" => [
+                            "type" => "float"
+                        ],
+                        "expected_polish_cts" => [
+                            "type" => "double"
+                        ],
+                        "makable_cts" => [
+                            "type" => "double"
+                        ],
+                        "image" => [
+                            "type" => "flattened"
+                        ],
+                        "is_active" => [
+                            "type" => "byte"
+                        ],
+                        "is_deleted" => [
+                            "type" => "byte"
+                        ],
+                        "is_recommended" => [
+                            "type" => "byte"
+                        ],
+                        "packate_no" => [
+                            "type" => "long"
+                        ],
+                        "rapaport_price" => [
+                            "type" => "double"
+                        ],
+                        "refCategory_id" => [
+                            "type" => "integer"
+                        ],
+                        "remarks" => [
+                            "type" => "text"
+                        ],
+                        "total" => [
+                            "type" => "double"
+                        ],
+                        "weight_loss" => [
+                            "type" => "text"
+                        ],
+                        "attributes" => [
+                            "type" => "flattened"
+                        ],
+                        "attributes_id" => [
+                            "type" => "flattened"
                         ]
                     ]
                 ]
             ]
         ];
 
-        $client->indices()->create(['index' => 'diamonds']);
+        $client->indices()->create($params);
     }
 }
