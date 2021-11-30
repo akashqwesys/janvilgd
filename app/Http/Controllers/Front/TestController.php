@@ -51,6 +51,21 @@ class TestController extends Controller
                 ]
             ]
         ];
+        /* $tt = [];
+        for ($i=0; $i < 5; $i++) {
+            $tt[] = [ 'term' => [ 'attributes_id.'.$i => $i ] ];
+        }
+        array_push($tt, [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 1, 'lte' => 2 ] ] ]); */
+        /* $all = [
+            'scroll' => '30s',          // how long between scroll requests. should be small!
+            'size'   => 50,             // how many results *per shard* you want back
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'match_all' => new \stdClass()
+                ]
+            ]
+        ]; */
 
         $results = $client->search($params);
         dd($results);
@@ -71,6 +86,9 @@ class TestController extends Controller
                 ],
                 'mappings' => [
                     'properties' => [
+                        "diamond_id" => [
+                            "type" => "unsigned_long"
+                        ],
                         'name' => [
                             'type' => 'text'
                         ],
