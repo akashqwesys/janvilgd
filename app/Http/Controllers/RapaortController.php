@@ -24,7 +24,8 @@ class RapaortController extends Controller
     }
 
     public function update_price(Request $request)
-    {   $value=[];
+    {
+        $value=[];
         if (!empty(session('refRapaport_type_id'))) {
             $rapa_sheet_data = DB::table('rapaport')->where('refRapaport_type_id', session('refRapaport_type_id'))->get();
             $data_array = array();
@@ -99,11 +100,11 @@ class RapaortController extends Controller
                     $d_row->expected_polish_cts = $d_row->carat;
                     if ($cat_row->category_id == $d_row->refCategory_id) {
                         if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P') || $cat_row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-                            
+
                             $d_row->shape = $d_row->attributes['SHAPE'];
                             $d_row->color = $d_row->attributes['COLOR'];
                             $d_row->clarity = $d_row->attributes['CLARITY'];
-                            
+
                             if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $d_row->color = substr($d_row->color, 2, 1);
 
@@ -127,24 +128,24 @@ class RapaortController extends Controller
                                 $shape = "PS";
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
-                                
-                                if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {  
-                                    $rapa_price=0;                                 
+
+                                if ($cat_row->category_type == config('constant.CATEGORY_TYPE_4P')) {
+                                    $rapa_price=0;
                                     if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                        $rapa_price = $row_rapa->rapaport_price;                                                                                                                          
+                                        $rapa_price = $row_rapa->rapaport_price;
                                     }
-                                                                       
+
                                     $rapa_price2 = 0;
                                     if ($d_row->clarity == 'VS') {
                                         if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity2) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
-                                            $rapa_price2 = $row_rapa->rapaport_price;                                            
+                                            $rapa_price2 = $row_rapa->rapaport_price;
                                         }
                                     }
 
-                                    if ($rapa_price2 != 0) {                                        
+                                    if ($rapa_price2 != 0) {
                                         $rapa_price = ($rapa_price + $rapa_price2) / 2;
                                     }
-                                   
+
 
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
                                     $data_array = [
@@ -152,7 +153,7 @@ class RapaortController extends Controller
                                         'rapaport_price' => $rapa_price,
                                         'total' => $total
                                     ];
-                                    
+
                                     if($rapa_price!=0){
                                         array_push($value,$data_array);
                                         // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
@@ -161,8 +162,8 @@ class RapaortController extends Controller
 
                                 if ($cat_row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
                                     $rapa_price=0;
-                                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {                                
-                                        $rapa_price = $row_rapa->rapaport_price;                                                                              
+                                    if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && strtolower($row_rapa->clarity) == strtolower($d_row->clarity) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range) {
+                                        $rapa_price = $row_rapa->rapaport_price;
                                     }
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1)));
                                         $data_array = [
@@ -170,7 +171,7 @@ class RapaortController extends Controller
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
                                         ];
-                                       
+
                                         if($rapa_price!=0){
                                             array_push($value,$data_array);
                                             // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
@@ -193,7 +194,7 @@ class RapaortController extends Controller
                             }
                             foreach ($rapa_sheet_data as $row_rapa) {
                                 $rapa_price=0;
-                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->clarity)) {                                    
+                                if (strtolower($row_rapa->shape) == strtolower($shape) && strtolower($row_rapa->color) == strtolower($d_row->color) && $d_row->expected_polish_cts >= $row_rapa->from_range && $d_row->expected_polish_cts <= $row_rapa->to_range && strtolower($row_rapa->clarity) == strtolower($d_row->clarity)) {
                                     if ($cat_row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
                                         $rapa_price = $row_rapa->rapaport_price;
                                         $price = abs($rapa_price * ($d_row->discount - 1));
@@ -206,7 +207,7 @@ class RapaortController extends Controller
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
                                         ];
-                                        
+
                                         if($rapa_price!=0){
                                             array_push($value,$data_array);
                                             // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
@@ -219,13 +220,14 @@ class RapaortController extends Controller
                 }
             }
         }
-        $diamondsInstance = new Diamonds;        
+        dd($value);
+        $diamondsInstance = new Diamonds;
         $index = 'diamond_id';
         $chunked_new_record_array = array_chunk($value,10,true);
         foreach ($chunked_new_record_array as $new_record_chunk)
         {
-            Batch::update($diamondsInstance, $new_record_chunk, $index);   
-        }        
+            Batch::update($diamondsInstance, $new_record_chunk, $index);
+        }
     }
 
     public function rapaportPrice(Request $request)
@@ -335,7 +337,7 @@ class RapaortController extends Controller
         //     if(file_exists('/public/user_files/' . $exist_file->pan_gst_attachment)){
         //         unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_attachment));
         //     }
-        // }        
+        // }
         $csv = time() . '_' . preg_replace('/\s+/', '_', $request->file('file')->getClientOriginalName());
         $request->file('file')->storeAs("public/user_files", $csv);
 

@@ -77,7 +77,7 @@ Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile'
 Route::post('/getStates', [DropdownController::class, 'getStates']);
 Route::post('/getCities', [DropdownController::class, 'getCities']);
 
-Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+// Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
 Route::group( ['middleware' => ['auth']], function () {
 

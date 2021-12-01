@@ -9,6 +9,7 @@ use Session;
 use App\Models\LabourCharges;
 use App\Models\Diamonds;
 use DataTables;
+use Elasticsearch\ClientBuilder;
 
 class LabourChargesController extends Controller {
 
@@ -42,9 +43,8 @@ class LabourChargesController extends Controller {
         if ($request->ajax()) {
             $data = LabourCharges::select('labour_charge_id', 'name', 'amount', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('labour_charge_id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
                             ->addColumn('index', '')
-                    ->editColumn('date_added', function ($row) {                                
+                    ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -91,20 +91,71 @@ class LabourChargesController extends Controller {
     }
 
     public function update(Request $request) {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
         $labour_charge = LabourCharges::select('amount')->where('labour_charge_id',$request->id)->first();
-        if($request->id==1){            
+        $charge=$labour_charge->amount-$request->amount;
+        if($request->id==1){
             $cat_id = DB::table('categories')->select('category_id')->where('category_type',1)->first();
-            $charge=$labour_charge->amount-$request->amount;
-            $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*expected_polish_cts)")]);            
+            $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*expected_polish_cts)")]);
+            $params = [
+                'index' => 'diamonds',
+                'body'  => [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                ['term' => ['refCategory_id' => $cat_id->category_id]]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+            $response = $client->search($params);
+            $ids = [];
+            if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+                foreach ($response['hits']['hits'] as $v) {
+                    $ids[] = $v['_id'];
+                    $cts[] = $v['_source']['expected_polish_cts'];
+                }
+            }
         }
-        if($request->id==2){            
+        if($request->id==2){
             $cat_id = DB::table('categories')->select('category_id')->where('category_type',2)->first();
-            $charge=$labour_charge->amount-$request->amount;
-            $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*makable_cts)")]);            
+            $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*makable_cts)")]);
+            $params = [
+                'index' => 'diamonds',
+                'body'  => [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                ['term' => ['refCategory_id' => $cat_id->category_id]]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+            $response = $client->search($params);
+            $ids = [];
+            if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+                foreach ($response['hits']['hits'] as $v) {
+                    $ids[] = $v['_id'];
+                    $cts[] = $v['_source']['makable_cts'];
+                }
+            }
         }
-        
-        
-        DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([            
+        for ($i = 0; $i < count($ids); $i++) {
+            $upd_params = [
+                'index' => 'diamonds',
+                'id'    => $ids[$i],
+                'body'  => [
+                    'script' => 'ctx._source.total += ('.$cts[$i] * $charge.')'
+                ]
+            ];
+            $client->update($upd_params);
+        }
+
+        DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([
             'name' => $request->name,
             'amount' => $request->amount,
             'added_by' => $request->session()->get('loginId'),

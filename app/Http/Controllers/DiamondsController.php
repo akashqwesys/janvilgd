@@ -79,146 +79,146 @@ class DiamondsController extends Controller {
                                     $shape="PS";
                                 }
 
-							if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){
-								$row['shape']="ROUND";
-							}
-							if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){
-								$row['shape']="OVAL";
-							}
-							if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){
-								$row['shape']="HEART";
-							}
-							if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){
-								$row['shape']="PEAR";
-							}
-
-                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){
-                                $row['shape']="PRINCESS";
-                            }
-
-                            if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){
-                                $row['shape']="RADIANT";
-                            }
-                            if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){
-                                $row['shape']="ASSCHER";
-                            }
-                            if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){
-                                $row['shape']="EMERALD";
-                            }
-                            if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){
-                                $row['shape']="CUSHION";
-                            }
-                            if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){
-                                $row['shape']="MARQUISE";
-                            }
-                            if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){
-                                $row['shape']="BAGUETTE";
-                            }
-                            if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){
-                                $row['shape']="TRIANGLE";
-                            }
-
-                            $row['rapa']=0;
-                            foreach ($rapaport as $row_rapa){
-                                if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
-                                    $row['rapa']=$row_rapa->rapaport_price;
-                                    break;
+                                if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){
+                                    $row['shape']="ROUND";
                                 }
-                            }
-                            if($row['rapa']==0){
-                                continue;
-                            }
+                                if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){
+                                    $row['shape']="OVAL";
+                                }
+                                if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){
+                                    $row['shape']="HEART";
+                                }
+                                if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){
+                                    $row['shape']="PEAR";
+                                }
 
-                            $row['rapa2']=0;
-                            if(!empty($row['clarity2'])){
+                                if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){
+                                    $row['shape']="PRINCESS";
+                                }
+
+                                if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){
+                                    $row['shape']="RADIANT";
+                                }
+                                if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){
+                                    $row['shape']="ASSCHER";
+                                }
+                                if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){
+                                    $row['shape']="EMERALD";
+                                }
+                                if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){
+                                    $row['shape']="CUSHION";
+                                }
+                                if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){
+                                    $row['shape']="MARQUISE";
+                                }
+                                if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){
+                                    $row['shape']="BAGUETTE";
+                                }
+                                if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){
+                                    $row['shape']="TRIANGLE";
+                                }
+
+                                $row['rapa']=0;
                                 foreach ($rapaport as $row_rapa){
-                                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity2']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
-                                        $row['rapa2']=$row_rapa->rapaport_price;
+                                    if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                        $row['rapa']=$row_rapa->rapaport_price;
                                         break;
                                     }
                                 }
-                            }
+                                if($row['rapa']==0){
+                                    continue;
+                                }
 
-                            if($row['rapa2']!=0){
-                                $row['rapa']=($row['rapa']+$row['rapa2'])/2;
-                            }
-
-                            $row['discount'] = str_replace('-', '', $row['discount']);
-                            $row['discount'] = doubleval($row['discount']);
-
-                            $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
-                            $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
-
-                            $image=array();
-                            if(isset($row['image_link'])){
-                                $image[0]=$row['image_1'];
-                                $image[1]=$row['image_2'];
-                                $image[2]=$row['image_3'];
-                                $image[3]=$row['image_4'];
-                            }
-                            $img_json= json_encode($image);
-
-                            $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$org_clarity.' Clarity :: 4P Diamond';
-
-                            $data_array = [
-                                'name' => $name,
-                                'barcode' => strval($row['barcode']),
-                                'packate_no' => strval($row['main_pktno']),
-                                'actual_pcs' => 0,
-                                'available_pcs' => 1,
-                                'makable_cts' => doubleval($row['mkbl_cts']),
-                                'expected_polish_cts' => doubleval($row['exp_pol_cts']),
-                                'remarks' => strval($row['remarks']),
-                                'rapaport_price' => $row['rapa'],
-                                'discount' => $row['discount'],
-                                'weight_loss' => $row['weight_loss'],
-                                'video_link' => strval($row['video_link']),
-                                'image' => $img_json,
-                                'refCategory_id' => $request->refCategory_id,
-                                'total' => $total,
-                                'added_by' => session()->get('loginId'),
-                                'is_active' => 1,
-                                'is_deleted' => 0,
-                                'date_added' => date("Y-m-d h:i:s"),
-                                'date_updated' => date("Y-m-d h:i:s")
-                            ];
-
-                            if (!empty($barcode)) {
-                                DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
-                                DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
-                                $Id = $barcode->diamond_id;
-                            } else {
-                                DB::table('diamonds')->insert($data_array);
-                                $Id = DB::getPdo()->lastInsertId();
-                            }
-
-                            foreach ($attribute_groups as $atr_grp_row) {
-
-                                $atr_grp_row->name=trim($atr_grp_row->name);
-
-                                $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
-
-                                if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
-                                    if (!empty($row['comment'])) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = trim($row['comment']);
-                                        array_push($attr_group_array, $insert_array);
+                                $row['rapa2']=0;
+                                if(!empty($row['clarity2'])){
+                                    foreach ($rapaport as $row_rapa){
+                                        if(strtolower($row_rapa->shape)==strtolower($shape) && strtolower($row_rapa->color)==strtolower($color) && strtolower($row_rapa->clarity)==strtolower($row['clarity2']) && $row['exp_pol_cts']>=$row_rapa->from_range && $row['exp_pol_cts']<=$row_rapa->to_range){
+                                            $row['rapa2']=$row_rapa->rapaport_price;
+                                            break;
+                                        }
                                     }
                                 }
 
-                                if (strtolower($atr_grp_row->name) === strtolower("HALF-CUT DIA")) {
-                                    if (!empty($row['half_cut_dia'])) {
-                                        $insert_array = array();
-                                        $insert_array['refDiamond_id'] = $Id;
-                                        $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                        $insert_array['refAttribute_id'] = 0;
-                                        $insert_array['value'] = trim($row['half_cut_dia']);
-                                        array_push($attr_group_array, $insert_array);
-                                    }
+                                if($row['rapa2']!=0){
+                                    $row['rapa']=($row['rapa']+$row['rapa2'])/2;
                                 }
+
+                                $row['discount'] = str_replace('-', '', $row['discount']);
+                                $row['discount'] = doubleval($row['discount']);
+
+                                $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
+                                $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
+
+                                $image=array();
+                                if(isset($row['image_link'])){
+                                    $image[0]=$row['image_1'];
+                                    $image[1]=$row['image_2'];
+                                    $image[2]=$row['image_3'];
+                                    $image[3]=$row['image_4'];
+                                }
+                                $img_json= json_encode($image);
+
+                                $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$org_clarity.' Clarity :: 4P Diamond';
+
+                                $data_array = [
+                                    'name' => $name,
+                                    'barcode' => strval($row['barcode']),
+                                    'packate_no' => strval($row['main_pktno']),
+                                    'actual_pcs' => 0,
+                                    'available_pcs' => 1,
+                                    'makable_cts' => doubleval($row['mkbl_cts']),
+                                    'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                    'remarks' => strval($row['remarks']),
+                                    'rapaport_price' => $row['rapa'],
+                                    'discount' => $row['discount'],
+                                    'weight_loss' => $row['weight_loss'],
+                                    'video_link' => strval($row['video_link']),
+                                    'image' => $img_json,
+                                    'refCategory_id' => $request->refCategory_id,
+                                    'total' => $total,
+                                    'added_by' => session()->get('loginId'),
+                                    'is_active' => 1,
+                                    'is_deleted' => 0,
+                                    'date_added' => date("Y-m-d h:i:s"),
+                                    'date_updated' => date("Y-m-d h:i:s")
+                                ];
+
+                                if (!empty($barcode)) {
+                                    DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
+                                    DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
+                                    $Id = $barcode->diamond_id;
+                                    $d_update = true;
+                                } else {
+                                    DB::table('diamonds')->insert($data_array);
+                                    $Id = DB::getPdo()->lastInsertId();
+                                    $d_update = false;
+                                }
+
+                                foreach ($attribute_groups as $atr_grp_row) {
+
+                                    $atr_grp_row->name=trim($atr_grp_row->name);
+                                    $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
+
+                                    if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
+                                        if (!empty($row['comment'])) {
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = 0;
+                                            $insert_array['value'] = trim($row['comment']);
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
+                                    if (strtolower($atr_grp_row->name) === strtolower("HALF-CUT DIA")) {
+                                        if (!empty($row['half_cut_dia'])) {
+                                            $insert_array = array();
+                                            $insert_array['refDiamond_id'] = $Id;
+                                            $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                            $insert_array['refAttribute_id'] = 0;
+                                            $insert_array['value'] = trim($row['half_cut_dia']);
+                                            array_push($attr_group_array, $insert_array);
+                                        }
+                                    }
                                     if (strtolower($atr_grp_row->name) === strtolower("PO. DIAMETER")) {
                                         if (!empty($row['po_diameter'])) {
                                             $insert_array = array();
@@ -249,8 +249,6 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
-
                                     if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                         if (!empty($row['location'])) {
                                             $location = 0;
@@ -263,6 +261,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $location = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($location == 0) {
@@ -282,10 +281,11 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['location'];
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("SHAPE")) {
                                         if (!empty($row['shape'])) {
                                             $shape = 0;
@@ -298,6 +298,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $shape = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($shape == 0) {
@@ -317,10 +318,11 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['shape'];
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
                                         if (!empty($org_clarity)) {
                                             $clarity = 0;
@@ -333,6 +335,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $clarity = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($clarity == 0) {
@@ -352,10 +355,11 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['clarity'];
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
                                         if (!empty($row['color'])) {
                                             $color = 0;
@@ -368,6 +372,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $color = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($color == 0) {
@@ -387,13 +392,78 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['color'];
                                         }
                                     }
                                 }
+                                if ($d_update === true) {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'doc' => [
+                                                'name' => $name,
+                                                'barcode' => strval($row['barcode']),
+                                                'packate_no' => strval($row['main_pktno']),
+                                                'actual_pcs' => 0,
+                                                'available_pcs' => 1,
+                                                'makable_cts' => doubleval($row['mkbl_cts']),
+                                                'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                                'rapaport_price' => $row['rapa'],
+                                                'discount' => $row['discount'],
+                                                'refCategory_id' => $request->refCategory_id,
+                                                'total' => $total,
+                                                'image' => $image,
+                                                'video_link' => strval($row['video_link']),
+                                                'added_by' => session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'weight_loss' => $row['weight_loss'],
+                                                'date_updated' => date("Y-m-d h:i:s"),
+                                                'attributes' => $new_attributes,
+                                                'attributes_id' => $new_attributes_id
+                                            ]
+                                        ]
+                                    ];
+                                    $client->update($params);
+                                } else {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'diamond_id' => $Id,
+                                            'actual_pcs' => 0,
+                                            'remarks' => 0,
+                                            'weight_loss' => 0,
+                                            'is_recommended' => 0,
+                                            'name' => $name,
+                                            'barcode' => strval($row['barcode']),
+                                            'packate_no' => strval($row['main_pktno']),
+                                            'makable_cts' => doubleval($row['mkbl_cts']),
+                                            'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                            'available_pcs' => 1,
+                                            'rapaport_price' => $row['rapa'],
+                                            'refCategory_id' => $request->refCategory_id,
+                                            'total' => $total,
+                                            'image' => $image,
+                                            'discount' => $row['discount'],
+                                            'video_link' => strval($row['video_link']),
+                                            'added_by' => session()->get('loginId'),
+                                            'is_active' => 1,
+                                            'is_deleted' => 0,
+                                            'date_added' => date("Y-m-d h:i:s"),
+                                            'date_updated' => date("Y-m-d h:i:s"),
+                                            'attributes' => $new_attributes,
+                                            'attributes_id' => $new_attributes_id
+                                        ]
+                                    ];
+                                    $client->create($params);
+                                }
                             }
                         }
-                    }else{
+                    } else {
                         successOrErrorMessage("Please upload proper sheet", 'error');
                         return redirect('admin/diamonds/add/import-excel');
                     }
@@ -405,57 +475,55 @@ class DiamondsController extends Controller {
                             if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                                 break;
                             }
-                        $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
-                        if (!empty($row['barcode'])) {
-                            $row['shape']=trim($row['shape']);
-                            $row['location']=trim(str_replace(' ','', $row['location']));
-                            $row['clarity']=trim(str_replace(' ','', $row['clarity']));
+                            $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
+                            if (!empty($row['barcode'])) {
+                                $row['shape']=trim($row['shape']);
+                                $row['location']=trim(str_replace(' ','', $row['location']));
+                                $row['clarity']=trim(str_replace(' ','', $row['clarity']));
 
-                            $shape=$row['shape'];
-                            if(strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO') ||  strtolower($row['shape'])==strtolower('Round Brilliant') || strtolower($row['shape'])==strtolower('BR')){
-                                $shape="BR";
-                            }
-                            else{
-                                $shape="PS";
-                            }
-                            if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){
-                                $row['shape']="ROUND";
-                            }
-                            if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){
-                                $row['shape']="OVAL";
-                            }
-                            if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){
-                                $row['shape']="HEART";
-                            }
-                            if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){
-                                $row['shape']="PEAR";
-                            }
-                            if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){
-                                $row['shape']="RADIANT";
-                            }
-
-                            if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){
-                                $row['shape']="PRINCESS";
-                            }
-
-                            if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){
-                                $row['shape']="ASSCHER";
-                            }
-                            if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){
-                                $row['shape']="EMERALD";
-                            }
-                            if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){
-                                $row['shape']="CUSHION";
-                            }
-                            if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){
-                                $row['shape']="MARQUISE";
-                            }
-                            if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){
-                                $row['shape']="BAGUETTE";
-                            }
-                            if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){
-                                $row['shape']="TRIANGLE";
-                            }
+                                $shape=$row['shape'];
+                                if(strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO') ||  strtolower($row['shape'])==strtolower('Round Brilliant') || strtolower($row['shape'])==strtolower('BR')){
+                                    $shape="BR";
+                                }
+                                else{
+                                    $shape="PS";
+                                }
+                                if(strtolower($row['shape'])==strtolower('BR') || strtolower($row['shape'])==strtolower('Round Brilliant') ||  strtolower($row['shape'])==strtolower('ROUND') || strtolower($row['shape'])==strtolower('RO')){
+                                    $row['shape']="ROUND";
+                                }
+                                if(strtolower($row['shape'])==strtolower('OV') || strtolower($row['shape'])==strtolower('OVAL') ||  strtolower($row['shape'])==strtolower('OVAL Brilliant')){
+                                    $row['shape']="OVAL";
+                                }
+                                if(strtolower($row['shape'])==strtolower('HS') || strtolower($row['shape'])==strtolower('HEART') ||  strtolower($row['shape'])==strtolower('HEART Brilliant')){
+                                    $row['shape']="HEART";
+                                }
+                                if(strtolower($row['shape'])==strtolower('PS') || strtolower($row['shape'])==strtolower('PEAR') ||  strtolower($row['shape'])==strtolower('PEAR Brilliant')){
+                                    $row['shape']="PEAR";
+                                }
+                                if(strtolower($row['shape'])==strtolower('RAD') || strtolower($row['shape'])==strtolower('RADIANT') ||  strtolower($row['shape'])==strtolower('RADIANT Brilliant') ||  strtolower($row['shape'])==strtolower('RADIANT CUT')){
+                                    $row['shape']="RADIANT";
+                                }
+                                if(strtolower($row['shape'])==strtolower('PR') || strtolower($row['shape'])==strtolower('Princess')  ||  strtolower($row['shape'])==strtolower('Princess Cut')){
+                                    $row['shape']="PRINCESS";
+                                }
+                                if(strtolower($row['shape'])==strtolower('AC') || strtolower($row['shape'])==strtolower('ASSCHER') ||  strtolower($row['shape'])==strtolower('ASSCHER Brilliant') ||  strtolower($row['shape'])==strtolower('ASSCHER CUT')){
+                                    $row['shape']="ASSCHER";
+                                }
+                                if(strtolower($row['shape'])==strtolower('EM') || strtolower($row['shape'])==strtolower('EMERALD') ||  strtolower($row['shape'])==strtolower('EMERALD Brilliant') ||  strtolower($row['shape'])==strtolower('EMERALD Cut')){
+                                    $row['shape']="EMERALD";
+                                }
+                                if(strtolower($row['shape'])==strtolower('CU') || strtolower($row['shape'])==strtolower('CUSHION') ||  strtolower($row['shape'])==strtolower('CUSHION Brilliant') ||  strtolower($row['shape'])==strtolower('CUSHION Cut')){
+                                    $row['shape']="CUSHION";
+                                }
+                                if(strtolower($row['shape'])==strtolower('MQ') || strtolower($row['shape'])==strtolower('MARQUISE') ||  strtolower($row['shape'])==strtolower('MARQUISE Brilliant') ||  strtolower($row['shape'])==strtolower('MARQUISE Cut')){
+                                    $row['shape']="MARQUISE";
+                                }
+                                if(strtolower($row['shape'])==strtolower('BAG') || strtolower($row['shape'])==strtolower('Baguette') ||  strtolower($row['shape'])==strtolower('Baguette Brilliant') ||  strtolower($row['shape'])==strtolower('Baguette Cut')){
+                                    $row['shape']="BAGUETTE";
+                                }
+                                if(strtolower($row['shape'])==strtolower('TRI') || strtolower($row['shape'])==strtolower('Triangle') ||  strtolower($row['shape'])==strtolower('Triangle Brilliant') ||  strtolower($row['shape'])==strtolower('Triangle Cut')){
+                                    $row['shape']="TRIANGLE";
+                                }
                                 $row['rap']=0;
                                 foreach ($rapaport as $row_rapa){
                                     if(strtolower($row_rapa->shape)==strtolower($shape) && $row['exp_pol']>=$row_rapa->from_range && $row['exp_pol']<=$row_rapa->to_range && strtolower($row_rapa->color)==strtolower($row['color']) && strtolower($row_rapa->clarity)==strtolower($row['clarity'])){
@@ -480,7 +548,7 @@ class DiamondsController extends Controller {
 
                                 $image=array();
                                 if(isset($row['image_link'])){
-                                $image[0]=$row['image_1'];
+                                    $image[0]=$row['image_1'];
                                     $image[1]=$row['image_2'];
                                     $image[2]=$row['image_3'];
                                     $image[3]=$row['image_4'];
@@ -516,45 +584,15 @@ class DiamondsController extends Controller {
                                     DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
                                     DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
                                     $Id = $barcode->diamond_id;
+                                    $d_update = true;
                                 } else {
                                     DB::table('diamonds')->insert($data_array);
                                     $Id = DB::getPdo()->lastInsertId();
-                                    /* $params = [
-                                        'index' => 'diamonds',
-                                        'id'    => 'd_id_' . $Id,
-                                        'body'  => [
-                                            'diamond_id' => $Id,
-                                            'name' => $name,
-                                            'barcode' => isset($request->barcode) ? $request->barcode : 0,
-                                            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
-                                            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
-                                            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-                                            'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-                                            'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
-                                            'remarks' => isset($request->remarks) ? $request->remarks : 0,
-                                            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-                                            'discount' => isset($request->discount) ? $discount : 0,
-                                            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-                                            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
-                                            'image' => $imgData,
-                                            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
-                                            'total' => $total,
-                                            'added_by' => $request->session()->get('loginId'),
-                                            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
-                                            'is_active' => 1,
-                                            'is_deleted' => 0,
-                                            'date_added' => date("Y-m-d h:i:s"),
-                                            'date_updated' => date("Y-m-d h:i:s"),
-                                            'attributes' => $new_attributes,
-                                            'attributes_id' => $new_attributes_id
-                                        ]
-                                    ];
-                                    $client->create($params); */
+                                    $d_update = false;
                                 }
                                 foreach ($attribute_groups as $atr_grp_row) {
 
                                     $atr_grp_row->name=trim($atr_grp_row->name);
-
                                     $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
                                     if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
@@ -568,7 +606,6 @@ class DiamondsController extends Controller {
                                         }
                                     }
 
-
                                     if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
                                         if (!empty($row['clarity'])) {
                                             $clarity = 0;
@@ -581,6 +618,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $clarity = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($clarity == 0) {
@@ -600,7 +638,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['clarity'];
                                         }
                                     }
 
@@ -616,6 +656,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $location = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($location == 0) {
@@ -635,7 +676,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['location'];
                                         }
                                     }
 
@@ -651,6 +694,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $shape = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($shape == 0) {
@@ -670,7 +714,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['shape'];
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
@@ -685,6 +731,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $color = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($color == 0) {
@@ -704,13 +751,75 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['color'];
                                         }
                                     }
                                 }
+                                if ($d_update === true) {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'doc' => [
+                                                'name' =>$name,
+                                                'barcode' => strval($row['barcode']),
+                                                'packate_no' => strval($row['pktno']),
+                                                'makable_cts' => doubleval($row['org_cts']),
+                                                'expected_polish_cts' => doubleval($row['exp_pol']),
+                                                'rapaport_price' => $row['rap'],
+                                                'discount' => $row['dis'],
+                                                'refCategory_id' => $request->refCategory_id,
+                                                'total' => $total,
+                                                'image' => $image,
+                                                'video_link'=>$row['video'],
+                                                'added_by' => session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'date_updated' => date("Y-m-d h:i:s"),
+                                                'attributes' => $new_attributes,
+                                                'attributes_id' => $new_attributes_id
+                                            ]
+                                        ]
+                                    ];
+                                    $client->update($params);
+                                } else {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'diamond_id' => $Id,
+                                            'actual_pcs' => 0,
+                                            'remarks' => 0,
+                                            'weight_loss' => 0,
+                                            'is_recommended' => 0,
+                                            'name' =>$name,
+                                            'barcode' => strval($row['barcode']),
+                                            'packate_no' => strval($row['pktno']),
+                                            'available_pcs' => 1,
+                                            'makable_cts' => doubleval($row['org_cts']),
+                                            'expected_polish_cts' => doubleval($row['exp_pol']),
+                                            'rapaport_price' => $row['rap'],
+                                            'discount' => $row['dis'],
+                                            'refCategory_id' => $request->refCategory_id,
+                                            'total' => $total,
+                                            'image' => $image,
+                                            'video_link'=>$row['video'],
+                                            'added_by' => session()->get('loginId'),
+                                            'is_active' => 1,
+                                            'is_deleted' => 0,
+                                            'date_added' => date("Y-m-d h:i:s"),
+                                            'date_updated' => date("Y-m-d h:i:s"),
+                                            'attributes' => $new_attributes,
+                                            'attributes_id' => $new_attributes_id
+                                            ]
+                                    ];
+                                    $client->create($params);
+                                }
                             }
                         }
-                    }else{
+                    } else {
                         successOrErrorMessage("Please upload proper sheet", 'error');
                         return redirect('admin/diamonds/add/import-excel');
                     }
@@ -799,13 +908,12 @@ class DiamondsController extends Controller {
 
                                 $image=array();
                                 if(isset($row['image_link'])){
-                                $image[0]=$row['image_1'];
+                                    $image[0]=$row['image_1'];
                                     $image[1]=$row['image_2'];
                                     $image[2]=$row['image_3'];
                                     $image[3]=$row['image_4'];
                                 }
                                 $img_json= json_encode($image);
-
 
                                 $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
 
@@ -831,15 +939,16 @@ class DiamondsController extends Controller {
                                     DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
                                     DB::table('diamonds_attributes')->where('refDiamond_id', $barcode->diamond_id)->delete();
                                     $Id = $barcode->diamond_id;
+                                    $d_update = true;
                                 } else {
                                     DB::table('diamonds')->insert($data_array);
                                     $Id = DB::getPdo()->lastInsertId();
+                                    $d_update = false;
                                 }
 
                                 foreach ($attribute_groups as $atr_grp_row) {
 
                                     $atr_grp_row->name=trim($atr_grp_row->name);
-
                                     $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
                                     if (strtolower($atr_grp_row->name) === strtolower("COMMENT")) {
@@ -852,7 +961,6 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("DEPTH PERCENT")) {
                                         if (!empty($row['depth_percent'])) {
                                             $insert_array = array();
@@ -863,9 +971,7 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("TABLE PERCENT")) {
-
                                         if (!empty($row['table_percent'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -875,9 +981,7 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("CERTIFICATE")) {
-
                                         if (!empty($row['certificate'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -887,9 +991,7 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("GIRDLE PERCENT")) {
-
                                         if (!empty($row['girdle_percent'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -899,10 +1001,7 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
-
                                     if (strtolower($atr_grp_row->name) === strtolower("PAVILION DEPTH")) {
-
                                         if (!empty($row['pavilion_depth'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -913,7 +1012,6 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("CROWN HEIGHT")) {
-
                                         if (!empty($row['crown_height'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -934,7 +1032,6 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("PAVILION ANGLE")) {
-
                                         if (!empty($row['pavilion_angle'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -945,7 +1042,6 @@ class DiamondsController extends Controller {
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("GROWTH TYPE")) {
-
                                         if (!empty($row['growth_type'])) {
                                             $insert_array = array();
                                             $insert_array['refDiamond_id'] = $Id;
@@ -955,7 +1051,6 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("MEASUREMENTS")) {
                                         if (!empty($row['measurements'])) {
                                             $insert_array = array();
@@ -976,7 +1071,6 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
-
                                     if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                         if (!empty($row['location'])) {
                                             $location = 0;
@@ -989,6 +1083,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $location = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($location == 0) {
@@ -1008,7 +1103,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['location'];
                                         }
                                     }
 
@@ -1024,6 +1121,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $shape = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($shape == 0) {
@@ -1043,7 +1141,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['shape'];
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("CLARITY")) {
@@ -1058,6 +1158,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $clarity = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($clarity == 0) {
@@ -1077,7 +1178,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['clarity'];
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {
@@ -1092,6 +1195,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $color = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($color == 0) {
@@ -1111,7 +1215,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['color'];
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("CUT")) {
@@ -1126,6 +1232,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $cut_grade = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($cut_grade == 0) {
@@ -1145,7 +1252,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['cut'];
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("POLISH")) {
@@ -1160,6 +1269,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $polish = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($polish == 0) {
@@ -1179,7 +1289,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['polish'];
                                         }
                                     }
 
@@ -1195,6 +1307,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $symmetry = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($symmetry == 0) {
@@ -1214,7 +1327,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['symmetry'];
                                         }
                                     }
 
@@ -1230,6 +1345,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $lab = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($lab == 0) {
@@ -1249,7 +1365,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['lab'];
                                         }
                                     }
 
@@ -1265,6 +1383,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $culet_size = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($culet_size == 0) {
@@ -1284,7 +1403,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['culet_size'];
                                         }
                                     }
 
@@ -1300,6 +1421,7 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $girdle_condition = 1;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($girdle_condition == 0) {
@@ -1319,9 +1441,74 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                             }
+                                            $new_attributes[$atr_grp_row->name] = $row['girdle_condition'];
                                         }
                                     }
+                                }
+                                if ($d_update === true) {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'doc' => [
+                                                'name' => $name,
+                                                'barcode' => $row['certificate'],
+                                                'packate_no' => $row['stock'],
+                                                'actual_pcs' => 0,
+                                                'available_pcs' => 1,
+                                                'makable_cts' => 0,
+                                                'expected_polish_cts' => $row['weight'],
+                                                'rapaport_price' => $row['price'],
+                                                'discount' => $row['discount_percent'],
+                                                'refCategory_id' => $request->refCategory_id,
+                                                'total' => $total,
+                                                'image' => $image,
+                                                'video_link' => strval($row['video_link']),
+                                                'added_by' => session()->get('loginId'),
+                                                'is_active' => 1,
+                                                'is_deleted' => 0,
+                                                'weight_loss' => $row['weight_loss'],
+                                                'date_updated' => date("Y-m-d h:i:s"),
+                                                'attributes' => $new_attributes,
+                                                'attributes_id' => $new_attributes_id
+                                            ]
+                                        ]
+                                    ];
+                                    $client->update($params);
+                                } else {
+                                    $params = [
+                                        'index' => 'diamonds',
+                                        'id'    => 'd_id_' . $Id,
+                                        'body'  => [
+                                            'diamond_id' => $Id,
+                                            'actual_pcs' => 0,
+                                            'remarks' => 0,
+                                            'weight_loss' => 0,
+                                            'is_recommended' => 0,
+                                            'name' => $name,
+                                            'barcode' => $row['certificate'],
+                                            'packate_no' => $row['stock'],
+                                            'makable_cts' => 0,
+                                            'expected_polish_cts' => $row['weight'],
+                                            'available_pcs' => 1,
+                                            'rapaport_price' => $row['price'],
+                                            'refCategory_id' => $request->refCategory_id,
+                                            'total' => $total,
+                                            'image' => $image,
+                                            'discount' => $row['discount_percent'],
+                                            'video_link' => strval($row['video_link']),
+                                            'added_by' => session()->get('loginId'),
+                                            'is_active' => 1,
+                                            'is_deleted' => 0,
+                                            'date_added' => date("Y-m-d h:i:s"),
+                                            'date_updated' => date("Y-m-d h:i:s"),
+                                            'attributes' => $new_attributes,
+                                            'attributes_id' => $new_attributes_id
+                                        ]
+                                    ];
+                                    $client->create($params);
                                 }
                             }
                         }
@@ -1610,6 +1797,7 @@ class DiamondsController extends Controller {
             if (session('user-type') == "MASTER_ADMIN") {
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
                 $params = [
+                    'size'   => 1000,
                     'index' => 'diamonds',
                     'body'  => [
                         'query' => [
@@ -1624,6 +1812,7 @@ class DiamondsController extends Controller {
             }else{
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->where('is_deleted',0)->orderBy('diamond_id', 'desc')->get();
                 $params = [
+                    'size'   => 1000,
                     'index' => 'diamonds',
                     'body'  => [
                         'query' => [
