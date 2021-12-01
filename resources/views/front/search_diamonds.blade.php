@@ -20,7 +20,7 @@
         /* CSS for input range sliders */
 
 
-        .loadedcontent {min-height: 5px; }
+        .loadedcontent {min-height: 1200px; }
 
         .range-sliders {
             width: 100%;
@@ -185,14 +185,14 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                         </div>
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
-                                        <div class="search-diamond-table loadedcontent">
+                                        <div class="search-diamond-table">
                                             <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><span class="spinner"></span></div>
                                                 </div>
                                             </div>
                                             <div class="table-responsive">
-                                                <table class="table mb-0" id="result-table">
+                                                <table class="table mb-0" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>

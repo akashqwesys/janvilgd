@@ -208,11 +208,12 @@ class DiamondController extends Controller
             ->where('d.is_deleted', 0)
             ->where('d.refCategory_id', $response['category']);
 
-        if (isset($response['order_by']) && $response['order_by']) {
-            $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');
-        } else {
-            $diamond_ids = $diamond_ids->inRandomOrder();
-        }
+            $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');    
+        // if (isset($response['order_by']) && $response['order_by']) {
+        //     $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');
+        // } else {
+        //     $diamond_ids = $diamond_ids->inRandomOrder();
+        // }
         if (isset($response['web']) && $response['web'] == 'admin') {
             $diamond_ids = $diamond_ids->get()
             ->toArray();
@@ -308,7 +309,8 @@ class DiamondController extends Controller
         // }
 
 
-        if ($request->web == 'web' && $request->scroll == 1) {
+        if ($request->web == 'web' && $request->scroll == 'yes') {        
+
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                 $cart_or_box = '<label class="custom-check-box">
                                         <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >

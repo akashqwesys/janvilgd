@@ -82,7 +82,7 @@ class DiamondController extends Controller {
         $max = DB::table('diamonds')
             ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
             ->where('refCategory_id', $category->category_id)
-            ->first();
+            ->first();        
         if ($max) {
             $min_price = $max->min_price;
             $max_price = $max->max_price;
@@ -151,14 +151,14 @@ class DiamondController extends Controller {
                                 connect: true,
                                 // tooltips: [true, wNumb({ decimals: 2 })],
                                 range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
-                            });
+                            });                            
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
-                                //   $("#result-table").DataTable().destroy();  
-                                $(".removable_tr").remove();                                                          
-                                getAttributeValues(this.get(), [], "price");
-                            });
+                                $("#result-table").DataTable().destroy();  
+                                // $(".removable_tr").remove();                                                          
+                                getAttributeValues1(this.get(), [], "price");
+                            });                           
                             // Listen to keydown events on the input field.
                             priceJs.forEach(function (input, handle) {
                                 input.addEventListener("change", function () {
@@ -199,12 +199,12 @@ class DiamondController extends Controller {
                                     }
                                 });
                             });
-                            priceSlider.noUiSlider.on("change", function () {
-                                new_call = true;
-                                //  $("#result-table").DataTable().destroy(); 
-                                $(".removable_tr").remove();
-                                getAttributeValues(priceSlider.noUiSlider.get(), [], "price");
-                            });
+                            // priceSlider.noUiSlider.on("change", function () {
+                            //     new_call = true;
+                            //     $("#result-table").DataTable().destroy(); 
+                            //     // $(".removable_tr").remove();
+                            //     getAttributeValues1(priceSlider.noUiSlider.get(), [], "price");
+                            // });
                         </script>
                     </div>';
                 } else {
@@ -242,9 +242,9 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
-                                        //  $('#result-table').DataTable().destroy(); 
-                                        $('.removable_tr').remove();
-                                        getAttributeValues(vals, array, " . $k . ");
+                                        $('#result-table').DataTable().destroy(); 
+                                        // $('.removable_tr').remove();
+                                        getAttributeValues1(vals, array, " . $k . ");
                                     }
                             });
                             </script>";
@@ -277,9 +277,9 @@ class DiamondController extends Controller {
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
                             new_call = true;   
-                            //  $("#result-table").DataTable().destroy(); 
-                            $(".removable_tr").remove();                       
-                            getAttributeValues(this.get(), [], "carat");
+                            $("#result-table").DataTable().destroy(); 
+                            // $(".removable_tr").remove();                       
+                            getAttributeValues1(this.get(), [], "carat");
                         });
                         // Listen to keydown events on the input field.
                         caratJs.forEach(function (input, handle) {
@@ -321,12 +321,12 @@ class DiamondController extends Controller {
                                 }
                             });
                         });
-                        caratSlider.noUiSlider.on("change", function () {
-                            new_call = true;
-                            //  $("#result-table").DataTable().destroy(); 
-                            $(".removable_tr").remove();
-                            getAttributeValues(caratSlider.noUiSlider.get(), [], "carat");
-                        });
+                        // caratSlider.noUiSlider.on("change", function () {
+                        //     new_call = true;
+                        //       $("#result-table").DataTable().destroy(); 
+                        //     // $(".removable_tr").remove();
+                        //     getAttributeValues1(caratSlider.noUiSlider.get(), [], "carat");
+                        // });
                     </script>
                 </div>';
 
@@ -406,9 +406,9 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
-                                        // $('#result-table').DataTable().destroy(); 
-                                        $('.removable_tr).remove();
-                                        getAttributeValues(vals, array, " . $k . ");
+                                         $('#result-table').DataTable().destroy(); 
+                                        // $('.removable_tr).remove();
+                                        getAttributeValues1(vals, array, " . $k . ");
                                     }
                             });
                             </script>";
@@ -535,8 +535,6 @@ class DiamondController extends Controller {
         $arr['offset'] = $request->offset;
         $aa = new APIDiamond;
         $request->request->replace($arr);
-
-
 
         if (isset($response['export'])) {
 
@@ -669,74 +667,75 @@ class DiamondController extends Controller {
             }
         } else {
             $request->request->add(['web' => 'web']);            
-        }
-
-
-        if($request->scroll==1){
+        }        
+        if($request->scroll=='yes'){                      
             return $aa->searchDiamonds($request);
         }
 
-        if ($request->ajax()) {
-            $result = $aa->searchDiamonds($request);
-            $data=$result->original['data'];
+        if($request->scroll=='no'){  
+            if ($request->ajax()) {
+
+                $result = $aa->searchDiamonds($request);
+                $data=$result->original['data'];
 
 
-            // echo '<pre>';print_r($data['16747']['attributes']);die;
-            // $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
-            //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
-            //         ->get();             
-            return Datatables::of($data)
-                            // ->addIndexColumn()                                                  
-                            ->editColumn('image', function ($row) {
-                                if (count($row['image'])) {
-                                    $img_src = '/storage/other_images/' . $row['image'][0];
-                                } else {
-                                    $img_src = '/assets/images/No-Preview-Available.jpg';
-                                } 
-                                return $img_src; 
-                            })
-                            
-                            ->addColumn('shape', function ($row) {
-                                if (isset($row['attributes']['SHAPE'])) {
-                                    $shape = $row['attributes']['SHAPE'];
-                                } else {
-                                    $shape = ' - ';
-                                }
-                                return $shape;
-                            }) 
-                            ->addColumn('color', function ($row) {
-                                if (isset($row['attributes']['COLOR'])) {
-                                    $color = $row['attributes']['COLOR'];
-                                } else {
-                                    $color = ' - ';
-                                }
-                                return  $color;
-                            })
-                            ->addColumn('clarity', function ($row) {
-                                if (isset($row['attributes']['CLARITY'])) {
-                                    $clarity = $row['attributes']['CLARITY'];
-                                } else {
-                                    $clarity = ' - ';
-                                }
-                                return  $clarity;
-                            })
-                            ->addColumn('price', function ($row) {
-                                return number_format(round($row['price'], 2), 2, '.', ',');
-                            })
+                // echo '<pre>';print_r($data['16747']['attributes']);die;
+                // $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
+                //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
+                //         ->get();             
+                return Datatables::of($data)
+                                // ->addIndexColumn()                                                  
+                                ->editColumn('image', function ($row) {
+                                    if (count($row['image'])) {
+                                        $img_src = '/storage/other_images/' . $row['image'][0];
+                                    } else {
+                                        $img_src = '/assets/images/No-Preview-Available.jpg';
+                                    } 
+                                    return $img_src; 
+                                })
+                                
+                                ->addColumn('shape', function ($row) {
+                                    if (isset($row['attributes']['SHAPE'])) {
+                                        $shape = $row['attributes']['SHAPE'];
+                                    } else {
+                                        $shape = ' - ';
+                                    }
+                                    return $shape;
+                                }) 
+                                ->addColumn('color', function ($row) {
+                                    if (isset($row['attributes']['COLOR'])) {
+                                        $color = $row['attributes']['COLOR'];
+                                    } else {
+                                        $color = ' - ';
+                                    }
+                                    return  $color;
+                                })
+                                ->addColumn('clarity', function ($row) {
+                                    if (isset($row['attributes']['CLARITY'])) {
+                                        $clarity = $row['attributes']['CLARITY'];
+                                    } else {
+                                        $clarity = ' - ';
+                                    }
+                                    return  $clarity;
+                                })
+                                ->addColumn('price', function ($row) {
+                                    return number_format(round($row['price'], 2), 2, '.', ',');
+                                })
 
-                            ->addColumn('compare', function ($row) {
-                                $cart_or_box = '<label class="custom-check-box">
-                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                        <span class="checkmark"></span>
-                                    </label>';
+                                ->addColumn('compare', function ($row) {
+                                    $cart_or_box = '<label class="custom-check-box">
+                                            <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                            <span class="checkmark"></span>
+                                        </label>';
 
-                                return '<div class="compare-checkbox">
-                                            ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
-                                        </div>';
-                            })
-                                                                                                                                                                     
-                            ->escapeColumns([])
-                            ->make(true);
+                                    return '<div class="compare-checkbox">
+                                                ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
+                                            </div>';
+                                })
+                                                                                                                                                                        
+                                ->escapeColumns([])
+                                ->make(true);
+            }
         }
 
 

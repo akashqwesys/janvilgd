@@ -220,8 +220,8 @@ class RapaortController extends Controller
                 }
             }
         }
-        dd($value);
-        $diamondsInstance = new Diamonds;
+
+        $diamondsInstance = new Diamonds;        
         $index = 'diamond_id';
         $chunked_new_record_array = array_chunk($value,10,true);
         foreach ($chunked_new_record_array as $new_record_chunk)

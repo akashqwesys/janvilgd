@@ -40,11 +40,11 @@ $(document).on('click', '.diamond-shape .item img', function() {
     });
     new_call = true;
     if (cnt == $('.diamond-shape .item img').length) {
-        // $('#result-table').DataTable().destroy();
-        getAttributeValues(values_all, [], group_id);
+        $('#result-table').DataTable().destroy();
+        getAttributeValues1(values_all, [], group_id);
     } else {
-        // $('#result-table').DataTable().destroy();
-        getAttributeValues(values, [], group_id);
+        $('#result-table').DataTable().destroy();
+        getAttributeValues1(values, [], group_id);
     }
 });
 
@@ -62,6 +62,7 @@ $(document).on('click', '.diamond-shape .item img', function() {
 function getAttributeValues1(values, array, group_id) {
 
     if (new_call === true) {
+        global_data_offset = 0;
         $(".cs-loader").show();
     }
 
@@ -98,9 +99,10 @@ function getAttributeValues1(values, array, group_id) {
         'category': global_category,
         'category_slug': global_category_slug,
         'offset': global_data_offset,
-        'scroll': 0
+        'scroll': 'no'
     };
 
+    var status_load = 0;
     var table = $('#result-table').DataTable({
         // responsive: {
         //     details: {
@@ -118,10 +120,16 @@ function getAttributeValues1(values, array, group_id) {
         "lengthChange": false,
         "bFilter": false,
         "bInfo": false,
-        "paging": false, //Dont want paging                
-        "bPaginate": false, //Dont want paging 
-        "scrollY": "200px",
-        "scrollCollapse": true,
+        'bSortable': true,
+        "sScrollX": "100%",
+        "paging": false, //Dont want paging   
+        // 'deferRender': true,
+        // 'scrollCollapse': true,
+        // 'colReorder': true,
+        // 'scrollY': 300,
+        // 'scroller': {
+        //     'loadingIndicator': true
+        // },
         "ajax": {
             'method': "post",
             'url': "/customer/search-diamonds",
@@ -129,11 +137,13 @@ function getAttributeValues1(values, array, group_id) {
             'complete': function() {
                 $('.cs-loader').hide();
 
+                if (status_load === 0) {
+                    lazy_load_scroll();
+                }
+                status_load = 1;
                 global_search_values = values;
                 global_search_array = array;
                 global_group_id = group_id;
-
-                global_data_offset = global_data_offset + 25;
                 //set ajax_in_progress object false, after completion of ajax call
                 $(window).data('ajax_in_progress', false);
             }
@@ -162,18 +172,29 @@ function getAttributeValues1(values, array, group_id) {
     $('#myInput').on('keyup', function() {
         table.search(this.value).draw();
     });
+    $(window).resize(function() {
+        table.columns.adjust();
+    });
 }
 
-var processing;
-$(document).scroll(function(e) {
-    if (processing)
-        return false;
 
-    if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
-        processing = true;
-        lazy_load_scroll();
-    }
+$('div').on('scroll', '.dataTables_scrollBody', function() {
+    alert('hi');
 });
+
+// $('.dataTables_scrollBody').on('scroll', function() {
+//     alert('');
+// });
+// var processing;
+// $('.dataTables_scroll').scroll(function() {
+//     alert('hi');
+//     // if (processing)
+//     //     return false;
+//     // if ($('.dataTables_scrollBody').scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+//     //     processing = true;
+//     //     lazy_load_scroll();
+//     // }
+// });
 
 
 function getAttributeValues(values, array, group_id) {
@@ -215,6 +236,7 @@ function getAttributeValues(values, array, group_id) {
     $.ajax({
         beforeSend: function(xhr) {
             if (new_call === true) {
+                global_data_offset = 0;
                 $(".cs-loader").show();
             }
         },
@@ -226,8 +248,8 @@ function getAttributeValues(values, array, group_id) {
             'web': 'web',
             'category': global_category,
             'category_slug': global_category_slug,
-            'offset': new_call === true ? 0 : global_data_offset,
-            'scroll': 1
+            'offset': global_data_offset,
+            'scroll': 'yes'
         },
         // cache: false,
         dataType: "json",
@@ -237,13 +259,11 @@ function getAttributeValues(values, array, group_id) {
             global_search_array = array;
             global_group_id = group_id;
 
-            // $('#result-table tbody').html(response.data);
-            if (new_call === true) {
-                $('#result-table tbody').html(response.data);
-            } else {
-                $('#result-table tbody tr').after(response.data);
-            }
-            processing = false;
+            console.log(response.data);
+            // $('#result-table tbody').html(response.data);            
+            $('#result-table .removable_tr').last().after(response.data);
+
+            // processing = false;
 
             global_data_offset = response.offset;
             //set ajax_in_progress object false, after completion of ajax call
@@ -277,6 +297,7 @@ function lazy_load_scroll() {
                     //set ajax_in_progress object true, before making a ajax call
                     $(window).data('ajax_in_progress', true);
                     new_call = false;
+
                     //make ajax call
                     // $('#result-table').DataTable().destroy();
                     getAttributeValues(global_search_values, global_search_array, global_group_id);
