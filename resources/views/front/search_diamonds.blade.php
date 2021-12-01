@@ -12,9 +12,16 @@
     </script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
     <script type="text/javascript" src="/assets/nouislider/nouislider.js"></script>
+    <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
         /* CSS for input range sliders */
+
+
+        .loadedcontent {min-height: 5px; }
+
         .range-sliders {
             width: 100%;
         }
@@ -146,9 +153,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                             <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected </button>
                         </li>
                         @endif
-                        <li class="nav-item" role="presentation" style="float:right;margin-left: 55.5% !important;">
-                        <input type="text" class="form-controll" id="myInput" style="float:right;margin-left: 55% !important;" autocomplete="off"> 
-                        <li class="nav-item" role="presentation">                                                                          
+                        <li class="nav-item" role="presentation">
+                        <input type="text" class="form-controll" id="myInput"> 
+                        <li class="nav-item" role="presentation">                                                                         
                     </ul>
                    
                     
@@ -178,7 +185,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                         </div>
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
-                                        <div class="search-diamond-table">
+                                        <div class="search-diamond-table loadedcontent">
                                             <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><span class="spinner"></span></div>
@@ -317,15 +324,14 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
-                                                            <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-center">Color</th>
+                                                            <th scope="col" class="text-center">Clarity</th>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
-                                                            {{-- @if ($category->slug != 'rough-diamonds') --}}
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            {{-- @endif --}}
-                                                            <th scope="col" class="text-center">Clarity</th>
+                                                            <th scope="col" class="text-right">Price/CT</th>
                                                             <th scope="col" class="text-right">Price</th>
                                                             <th scope="col" class="text-center">Compare</th>
                                                         </tr>
@@ -347,9 +353,6 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     </section>
 @endsection
 @section('js')
-<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
 <script>
     // Initialize tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

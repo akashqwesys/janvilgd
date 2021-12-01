@@ -8,7 +8,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
     },
     beforeSend: function(xhr) {
-        // $( ".cs-loader" ).show();
+        $(".cs-loader").show();
     }
 });
 $(document).ready(function() {
@@ -40,13 +40,24 @@ $(document).on('click', '.diamond-shape .item img', function() {
     });
     new_call = true;
     if (cnt == $('.diamond-shape .item img').length) {
-        $('#table').DataTable().destroy();
-        getAttributeValues1(values_all, [], group_id);
+        // $('#result-table').DataTable().destroy();
+        getAttributeValues(values_all, [], group_id);
     } else {
-        $('#table').DataTable().destroy();
-        getAttributeValues1(values, [], group_id);
+        // $('#result-table').DataTable().destroy();
+        getAttributeValues(values, [], group_id);
     }
 });
+
+
+// var table1 = $('#compare-table').DataTable();
+// $('#compare-table').DataTable({
+//     // "lengthChange": false,
+//     // "bFilter": false,
+//     // "bInfo": false,
+//     // "paging": false, //Dont want paging                
+//     // "bPaginate": false //Dont want paging 
+// });
+
 
 function getAttributeValues1(values, array, group_id) {
 
@@ -86,7 +97,8 @@ function getAttributeValues1(values, array, group_id) {
         'web': 'web',
         'category': global_category,
         'category_slug': global_category_slug,
-        'offset': global_data_offset
+        'offset': global_data_offset,
+        'scroll': 0
     };
 
     var table = $('#result-table').DataTable({
@@ -113,16 +125,18 @@ function getAttributeValues1(values, array, group_id) {
         "ajax": {
             'method': "post",
             'url': "/customer/search-diamonds",
-            'data': ajax_data
-        },
-        "initComplete": function(settings, json) {
-            $('.cs-loader').hide();
-            if (new_call === true) {
-                lazy_load_scroll();
+            'data': ajax_data,
+            'complete': function() {
+                $('.cs-loader').hide();
+
+                global_search_values = values;
+                global_search_array = array;
+                global_group_id = group_id;
+
+                global_data_offset = global_data_offset + 25;
+                //set ajax_in_progress object false, after completion of ajax call
+                $(window).data('ajax_in_progress', false);
             }
-            global_data_offset = global_data_offset + 25;
-            //set ajax_in_progress object false, after completion of ajax call
-            $(window).data('ajax_in_progress', false);
         },
         columns: [
             { data: 'barcode', name: 'barcode' },
@@ -135,7 +149,7 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'compare', name: 'compare' }
         ],
         "createdRow": function(row, data, dataIndex) {
-            $(row).addClass('tr_' + data['diamond_id']);
+            $(row).addClass('removable_tr');
             $(row).attr('data-diamond', data['diamond_id']);
             $(row).attr('data-image', data['image']);
             $(row).attr('data-name', data['diamond_name']);
@@ -145,15 +159,21 @@ function getAttributeValues1(values, array, group_id) {
         }
     });
 
-
     $('#myInput').on('keyup', function() {
         table.search(this.value).draw();
     });
 }
 
+var processing;
+$(document).scroll(function(e) {
+    if (processing)
+        return false;
 
-
-
+    if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+        processing = true;
+        lazy_load_scroll();
+    }
+});
 
 
 function getAttributeValues(values, array, group_id) {
@@ -206,7 +226,8 @@ function getAttributeValues(values, array, group_id) {
             'web': 'web',
             'category': global_category,
             'category_slug': global_category_slug,
-            'offset': new_call === true ? 0 : global_data_offset
+            'offset': new_call === true ? 0 : global_data_offset,
+            'scroll': 1
         },
         // cache: false,
         dataType: "json",
@@ -215,35 +236,15 @@ function getAttributeValues(values, array, group_id) {
             global_search_values = values;
             global_search_array = array;
             global_group_id = group_id;
-            /* if (response.success == 1) {
-                $.toast({
-                    heading: 'Success',
-                    text: response.message,
-                    icon: 'success',
-                    position: 'top-right'
-                });
-            }
-            else {
-                $.toast({
-                    heading: 'Error',
-                    text: response.message,
-                    icon: 'error',
-                    position: 'top-right'
-                });
-            } */
+
+            // $('#result-table tbody').html(response.data);
             if (new_call === true) {
                 $('#result-table tbody').html(response.data);
-                /* setTimeout(() => {
-                    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/'+$('#result-table tbody tr').eq(0).attr('data-barcode')).text('View Diamond');
-                    $('.result-tab-content .select-diamond .diamond-name').text($('#result-table tbody tr').eq(0).attr('data-name'));
-                    $('.result-tab-content .select-diamond .diamond-cost').text($('#result-table tbody tr').eq(0).attr('data-price'));
-                    $('.result-tab-content .select-diamond .diamond-img img').attr('src', $('#result-table tbody tr').eq(0).attr('data-image'));
-                }, 1000); */
-                lazy_load_scroll();
-                // $(table_scroll).scrollTop($(table_scroll).scrollTop() + $('#result-table').position().top);
             } else {
-                $('#result-table tbody').append(response.data);
+                $('#result-table tbody tr').after(response.data);
             }
+            processing = false;
+
             global_data_offset = response.offset;
             //set ajax_in_progress object false, after completion of ajax call
             $(window).data('ajax_in_progress', false);
@@ -259,6 +260,7 @@ function getAttributeValues(values, array, group_id) {
         }
     });
 }
+
 
 function lazy_load_scroll() {
     var lastScrollTop = 0,
@@ -276,8 +278,8 @@ function lazy_load_scroll() {
                     $(window).data('ajax_in_progress', true);
                     new_call = false;
                     //make ajax call
-                    $('#table').DataTable().destroy();
-                    getAttributeValues1(global_search_values, global_search_array, global_group_id);
+                    // $('#result-table').DataTable().destroy();
+                    getAttributeValues(global_search_values, global_search_array, global_group_id);
                 }
             }
             lastScrollTop = nowScrollTop;

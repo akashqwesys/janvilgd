@@ -155,6 +155,8 @@ class DiamondController extends Controller {
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
+                                //   $("#result-table").DataTable().destroy();  
+                                $(".removable_tr").remove();                                                          
                                 getAttributeValues(this.get(), [], "price");
                             });
                             // Listen to keydown events on the input field.
@@ -199,6 +201,8 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("change", function () {
                                 new_call = true;
+                                //  $("#result-table").DataTable().destroy(); 
+                                $(".removable_tr").remove();
                                 getAttributeValues(priceSlider.noUiSlider.get(), [], "price");
                             });
                         </script>
@@ -238,6 +242,8 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
+                                        //  $('#result-table').DataTable().destroy(); 
+                                        $('.removable_tr').remove();
                                         getAttributeValues(vals, array, " . $k . ");
                                     }
                             });
@@ -270,7 +276,9 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
-                            new_call = true;
+                            new_call = true;   
+                            //  $("#result-table").DataTable().destroy(); 
+                            $(".removable_tr").remove();                       
                             getAttributeValues(this.get(), [], "carat");
                         });
                         // Listen to keydown events on the input field.
@@ -315,6 +323,8 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("change", function () {
                             new_call = true;
+                            //  $("#result-table").DataTable().destroy(); 
+                            $(".removable_tr").remove();
                             getAttributeValues(caratSlider.noUiSlider.get(), [], "carat");
                         });
                     </script>
@@ -396,6 +406,8 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
+                                        // $('#result-table').DataTable().destroy(); 
+                                        $('.removable_tr).remove();
                                         getAttributeValues(vals, array, " . $k . ");
                                     }
                             });
@@ -523,6 +535,8 @@ class DiamondController extends Controller {
         $arr['offset'] = $request->offset;
         $aa = new APIDiamond;
         $request->request->replace($arr);
+
+
 
         if (isset($response['export'])) {
 
@@ -655,6 +669,11 @@ class DiamondController extends Controller {
             }
         } else {
             $request->request->add(['web' => 'web']);            
+        }
+
+
+        if($request->scroll==1){
+            return $aa->searchDiamonds($request);
         }
 
         if ($request->ajax()) {

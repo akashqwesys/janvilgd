@@ -223,14 +223,15 @@ class DiamondController extends Controller
                 ->toArray();
         }
 
+        $final_d = $final_api = [];
+
         if (!count($diamond_ids)) {
-            if ($request->web == 'web') {
-                return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
+            if ($request->web == 'web' && $request->scroll ==0) {
+                return $this->successResponse('Success', $final_d);
+                // return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
             }
             return $this->successResponse('No diamond found');
-        }
-
-        $final_d = $final_api = [];
+        }        
         foreach ($diamond_ids as $v_row) {
             for ($i=0; $i < $ij; $i++) {
                 // FOR WEB
@@ -295,20 +296,19 @@ class DiamondController extends Controller
                 $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
                 $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
                 $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
-
             }
         }
 
 
 
-        if ($response['gateway'] == 'api') {
-            return $this->successResponse('Success', array_values($final_api));
-        } else {            
-            return $this->successResponse('Success', $final_d);
-        }
+        // if ($response['gateway'] == 'api') {
+        //     return $this->successResponse('Success', array_values($final_api));
+        // } else {            
+        //     return $this->successResponse('Success', $final_d);
+        // }
 
 
-        if ($request->web == 'web') {
+        if ($request->web == 'web' && $request->scroll == 1) {
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                 $cart_or_box = '<label class="custom-check-box">
                                         <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
@@ -324,7 +324,7 @@ class DiamondController extends Controller
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html .= '<tr data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['price'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
+                $html .= '<tr class="removable_tr" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['price'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
                             <td scope="col" class="text-center">' . $v['barcode'] . '</td>
                             <td scope="col" class="text-right">' . $v['carat'] . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
