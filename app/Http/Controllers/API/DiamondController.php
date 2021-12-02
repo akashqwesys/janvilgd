@@ -166,22 +166,21 @@ class DiamondController extends Controller
             }
         } else {
             $attr_to_send = [];
+            $temp_grp_id = 0;
             foreach ($response as $k => $v) {
                 if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
                     continue;
                 }
                 for ($i = 0; $i < count($v); $i++) {
-                    $attr_to_send[] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
+                    $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
                 }
             }
         }
-
+        $attr_to_send = array_values($attr_to_send);
         $elastic_sub_params = [
             'must' => [
                 [
-                    'bool' => [
-                        'should' => $attr_to_send
-                    ]
+                    'bool' => $attr_to_send
                 ], [
                     'match' => [ 'refCategory_id' => $response['category'] ]
                 ]
@@ -191,9 +190,7 @@ class DiamondController extends Controller
             $elastic_sub_params = [
                 'must' => [
                     [
-                        'bool' => [
-                            'should' => $attr_to_send
-                        ]
+                        'bool' => $attr_to_send
                     ], [
                         'range' => [
                             'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
@@ -218,6 +215,7 @@ class DiamondController extends Controller
                 ]
             ]
         ];
+        dd($elastic_params);
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();

@@ -946,8 +946,8 @@ class DiamondsController extends Controller {
                                     $d_update = false;
                                 }
 
+                                $new_attributes_id = $new_attributes = [];
                                 foreach ($attribute_groups as $atr_grp_row) {
-
                                     $atr_grp_row->name=trim($atr_grp_row->name);
                                     $attribute = DB::table('attributes')->where('is_active', 1)->where('is_deleted', 0)->get();
 
@@ -1083,7 +1083,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $location = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($location == 0) {
@@ -1103,7 +1105,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['location'];
                                         }
@@ -1121,7 +1125,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $shape = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($shape == 0) {
@@ -1141,7 +1147,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['shape'];
                                         }
@@ -1158,7 +1166,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $clarity = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($clarity == 0) {
@@ -1178,7 +1188,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['clarity'];
                                         }
@@ -1195,7 +1207,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $color = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($color == 0) {
@@ -1215,7 +1229,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['color'];
                                         }
@@ -1232,7 +1248,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $cut_grade = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($cut_grade == 0) {
@@ -1252,7 +1270,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['cut'];
                                         }
@@ -1269,7 +1289,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $polish = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($polish == 0) {
@@ -1289,7 +1311,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['polish'];
                                         }
@@ -1307,7 +1331,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $symmetry = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($symmetry == 0) {
@@ -1327,7 +1353,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['symmetry'];
                                         }
@@ -1345,7 +1373,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $lab = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($lab == 0) {
@@ -1365,7 +1395,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['lab'];
                                         }
@@ -1383,7 +1415,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $culet_size = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($culet_size == 0) {
@@ -1403,7 +1437,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['culet_size'];
                                         }
@@ -1421,7 +1457,9 @@ class DiamondsController extends Controller {
                                                     $insert_array['value'] = 0;
                                                     array_push($attr_group_array, $insert_array);
                                                     $girdle_condition = 1;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
                                                 }
                                             }
                                             if ($girdle_condition == 0) {
@@ -1441,7 +1479,9 @@ class DiamondsController extends Controller {
                                                 $insert_array['refAttribute_id'] = $attr_id;
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
                                             $new_attributes[$atr_grp_row->name] = $row['girdle_condition'];
                                         }
@@ -1449,7 +1489,7 @@ class DiamondsController extends Controller {
                                 }
                                 if ($d_update === true) {
                                     $params = [
-                                        'index' => 'diamonds',
+                                        'index' => 'diamonds_temp',
                                         'id'    => 'd_id_' . $Id,
                                         'body'  => [
                                             'doc' => [
@@ -1469,17 +1509,17 @@ class DiamondsController extends Controller {
                                                 'added_by' => session()->get('loginId'),
                                                 'is_active' => 1,
                                                 'is_deleted' => 0,
-                                                'weight_loss' => $row['weight_loss'],
+                                                'weight_loss' => 0,
                                                 'date_updated' => date("Y-m-d h:i:s"),
                                                 'attributes' => $new_attributes,
-                                                'attributes_id' => $new_attributes_id
+                                                'attributes_id' => array_values($new_attributes_id)
                                             ]
                                         ]
                                     ];
                                     $client->update($params);
                                 } else {
                                     $params = [
-                                        'index' => 'diamonds',
+                                        'index' => 'diamonds_temp',
                                         'id'    => 'd_id_' . $Id,
                                         'body'  => [
                                             'diamond_id' => $Id,
@@ -1505,7 +1545,7 @@ class DiamondsController extends Controller {
                                             'date_added' => date("Y-m-d h:i:s"),
                                             'date_updated' => date("Y-m-d h:i:s"),
                                             'attributes' => $new_attributes,
-                                            'attributes_id' => $new_attributes_id
+                                            'attributes_id' => array_values($new_attributes_id)
                                         ]
                                     ];
                                     $client->create($params);

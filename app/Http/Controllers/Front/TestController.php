@@ -52,21 +52,48 @@ class TestController extends Controller
             ]
         ]; */
         $params = [
-            'index' => 'diamonds',
+            'index' => 'diamonds_temp',
             'body'  => [
                 'query' => [
-                    'bool' => [
-                        'must' => [
+                    'nested' => [
+                        'path' => 'attributes_id',
+                        'query' => [
                             [
                                 'bool' => [
+                                    'must' => [
+                                        ['term' => ['attributes_id.key1' => '13']],
+                                    ],
                                     'should' => [
-                                        ['term' => ['attributes_id.19' => '463']],
-                                        ['term' => ['attributes_id.19' => '464']]
+                                        ['match' => ['attributes_id.value1' => '376']],
+                                        ['match' => ['attributes_id.value1' => '378']],
+                                        ['match' => ['attributes_id.value1' => '379']],
+                                    ]
+                                    // 'must' => [
+                                    //     'bool' => [
+                                    //         'should' => [
+                                    //     ['term' => ['attributes_id.12' => '395']],
+                                    //     ['term' => ['attributes_id.12' => '396']]
+                                    // ]]],
+                                    // 'must' => [
+                                    //     'bool' => [
+                                    //         'should' => [
+                                    //     ['term' => ['attributes_id.11' => '422']],
+                                    //     ['term' => ['attributes_id.11' => '425']],
+                                    //     ['term' => ['attributes_id.11' => '426']]
+                                    // ]]]
+                                    ],
+                                'bool' => [
+                                    'must' => [
+                                        ['term' => ['attributes_id.key1' => '11']],
+                                    ],
+                                    'should' => [
+                                        ['match' => ['attributes_id.value1' => '422']],
+                                        ['match' => ['attributes_id.value1' => '425']]
                                     ]
                                 ]
                             ],
-                            // [ 'term' => [ 'attributes_id.11' => '427' ] ],
-                            [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0.5, 'lte' => 0.6 ] ] ],
+                            // [ 'term' => [ 'refCategory_id' => '3' ] ],
+                            // [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0.5, 'lte' => 0.6 ] ] ],
                             // [ 'range' => [ 'total' => [ 'gte' => 100, 'lte' => 10000 ] ] ]
                         ]
                     ]
@@ -81,7 +108,7 @@ class TestController extends Controller
         // $all = [
         //     'scroll' => '30s',          // how long between scroll requests. should be small!
         //     'size'   => 100,             // how many results *per shard* you want back
-        //     'index' => 'diamonds',
+        //     'index' => 'diamonds_temp',
         //     'body'  => [
         //         'query' => [
         //             'match_all' => new \stdClass()
@@ -90,7 +117,7 @@ class TestController extends Controller
         // ];
 
         $results = $client->search($params);
-        dd($params);
+        echo "<pre>";print_r($results);
     }
 
     public function createElasticIndex(Request $request)
@@ -100,7 +127,7 @@ class TestController extends Controller
             ->build();
 
         $params = [
-            'index' => 'diamonds',
+            'index' => 'diamonds_temp',
             // 'id'    => 'diamond_id',
             'body' => [
                 'settings' => [
@@ -177,7 +204,7 @@ class TestController extends Controller
                             "type" => "flattened"
                         ],
                         "attributes_id" => [
-                            "type" => "flattened"
+                            "type" => "nested"
                         ]
                     ]
                 ]
