@@ -149,7 +149,7 @@ class RapaortController extends Controller
 
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
                                     $data_array = [
-                                         'diamond_id'=>$d_row->diamond_id,
+                                        'diamond_id'=>$d_row->diamond_id,
                                         'rapaport_price' => $rapa_price,
                                         'total' => $total
                                     ];

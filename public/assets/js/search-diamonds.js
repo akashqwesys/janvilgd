@@ -58,6 +58,34 @@ $(document).on('click', '.diamond-shape .item img', function() {
     }
 });
 
+$(document).ready(function() {
+
+    var table_recent = $("#recent-view").on("draw.dt", function() {
+        $(this).find(".dataTables_empty").parents('tbody').empty();
+    }).DataTable({
+        "lengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        'bSortable': false,
+        "ordering": false,
+        "sScrollX": "100%",
+        "sScrollY": "500",
+        "paging": false, //Dont want paging
+    });
+
+    var table_compare = $("#compare-table").on("draw.dt", function() {
+        $(this).find(".dataTables_empty").parents('tbody').empty();
+    }).DataTable({
+        "lengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        "ordering": false,
+        'bSortable': false,
+        "sScrollX": "100%",
+        "sScrollY": "500",
+        "paging": false, //Dont want paging
+    });
+});
 var status_load = 0;
 
 function getAttributeValues1(values, array, group_id) {
@@ -109,18 +137,17 @@ function getAttributeValues1(values, array, group_id) {
         // "processing": true,
         // "serverSide": true,
         "lengthChange": false,
-        // "bFilter": false,
+        // "bFilter": false,        
         "bInfo": false,
         'bSortable': true,
         "sScrollX": "100%",
+        "sScrollY": "500",
         "paging": false, //Dont want paging
-
         columnDefs: [{
             className: 'control',
             orderable: false,
             targets: 0
         }],
-
         "ajax": {
             'method': "post",
             'url': "/customer/search-diamonds",

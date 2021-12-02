@@ -29,6 +29,7 @@ class TestController extends Controller
         // dd($client->get($params));
         // dd($client->delete($params));
         // dd($client->indices()->delete(['index' => 'diamonds']));
+        // dd($client->search(['index' => 'diamonds']));
 
         // Get settings for one index
         // $params = ['index' => 'diamonds'];

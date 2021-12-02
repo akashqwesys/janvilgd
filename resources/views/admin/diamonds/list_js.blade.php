@@ -99,9 +99,9 @@
                             'refCategory_id':<?php echo $data['cat_id']; ?>                           
                         }
                     },
-                        columns:table_columns,
+                columns:table_columns,
                 "createdRow": function (row, data, dataIndex) {                    
-                    $(row).addClass('tr_'+data['diamond_id']);                      
+                    $(row).addClass('tr_'+['diamond_id']);                      
                 }
             });
         });

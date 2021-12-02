@@ -24,7 +24,12 @@
         .dataTables_filter {
             display: none;
         }
-        .loadedcontent { min-height: 1200px; }
+
+        .dataTable, .dataTables_scrollHeadInner {
+            width:100% !important;
+        }
+        .loadedcontent {min-height: 1200px; }
+
         .range-sliders {
             width: 100%;
         }
@@ -110,8 +115,7 @@
         .btn-sm {
             padding: .25rem .5rem;
             font-size: .875rem;
-        }
-        .compare-checkbox {}
+        }       
     </style>
 @endsection
 @section('content')
@@ -195,8 +199,8 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="overlay__content"><span class="spinner"></span></div>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive">
-                                                <table class="table mb-0" id="result-table" style="width: 100% !important;">
+                                            <div class="">
+                                                <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
@@ -246,8 +250,8 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                         <div class="search-diamond-table">
-                                            <div class="table-responsive">
-                                                <table class="table mb-0" id="recent-view">
+                                            <div class="">
+                                                <table class="table" id="recent-view" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
@@ -323,8 +327,8 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                         <div class="search-diamond-table">
-                                            <div class="table-responsive">
-                                                <table class="table mb-0" id="compare-table">
+                                            <div class="">
+                                                <table class="table" id="compare-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
