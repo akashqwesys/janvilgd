@@ -15,6 +15,7 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Elasticsearch\ClientBuilder;
 
 class DiamondController extends Controller
 {
@@ -164,79 +165,79 @@ class DiamondController extends Controller
                 $ij++;
             }
         } else {
+            $attr_to_send = [];
             foreach ($response as $k => $v) {
                 if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
                     continue;
                 }
-                $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
-
-                $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
-                    ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id')
-                    ->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
-
-                $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-                $ij++;
+                for ($i = 0; $i < count($v); $i++) {
+                    $attr_to_send[] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
+                }
             }
         }
-        if (empty($q)) {
-            $diamond_ids = $diamond_ids->join('diamonds_attributes as da' , 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->join('attribute_groups as ag' , 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-            ->join('attributes as a' , 'da.refAttribute_id', '=', 'a.attribute_id');
-            $ag_names = '"a"."name" as "name_0", "ag"."name" as "ag_name_0", ';
-            $ij = 1;
-        }
-        if ($request->web == 'admin') {
-            $diamond_ids = $diamond_ids->select('d.*','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price')
-                ->selectRaw(rtrim($ag_names, ', '));
-        } else {
-            $diamond_ids = $diamond_ids->select('d.diamond_id','d.name as diamond_name', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.barcode')
-            ->selectRaw(rtrim($ag_names, ', '));
-        }
 
-        if (!empty($q)) {
-            $diamond_ids = $diamond_ids->whereRaw(rtrim($q, 'and '));
+        $elastic_sub_params = [
+            'must' => [
+                [
+                    'bool' => [
+                        'should' => $attr_to_send
+                    ]
+                ], [
+                    'match' => [ 'refCategory_id' => $response['category'] ]
+                ]
+            ]
+        ];
+        if (isset($response['price_min']) && isset($response['price_max']) && isset($response['carat_min']) && isset($response['carat_max'])) {
+            $elastic_sub_params = [
+                'must' => [
+                    [
+                        'bool' => [
+                            'should' => $attr_to_send
+                        ]
+                    ], [
+                        'range' => [
+                            'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
+                        ]
+                    ], [
+                        'range' => [
+                            'expected_polish_cts' => ['gte' => $response['carat_min'], 'lte' => $response['carat_max']]
+                        ]
+                    ], [
+                        'match' => [ 'refCategory_id' => $response['category'] ]
+                    ]
+                ]
+            ];
         }
+        $elastic_params = [
+            'index' => 'diamonds',
+            'from' => $response['offset'] ?? 0,
+            'size'  => 25,
+            'body'  => [
+                'query' => [
+                    'bool' => $elastic_sub_params
+                ]
+            ]
+        ];
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
 
-        if (isset($response['price_min']) && isset($response['price_max'])) {
-            $diamond_ids = $diamond_ids->where('d.total', '<=', $response['price_max'])->where('d.total', '>=', $response['price_min']);
-        }
-        if (isset($response['carat_min']) && isset($response['carat_max'])) {
-            $diamond_ids = $diamond_ids->where('d.expected_polish_cts', '<=', $response['carat_max'])->where('d.expected_polish_cts', '>=', $response['carat_min']);
-        }
-
-        $diamond_ids = $diamond_ids->where('d.is_active', 1)
-            ->where('d.is_deleted', 0)
-            ->where('d.refCategory_id', $response['category']);
-
-            $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');    
-        // if (isset($response['order_by']) && $response['order_by']) {
-        //     $diamond_ids = $diamond_ids->orderBy('d.diamond_id', 'desc');
-        // } else {
-        //     $diamond_ids = $diamond_ids->inRandomOrder();
-        // }
-        if (isset($response['web']) && $response['web'] == 'admin') {
-            $diamond_ids = $diamond_ids->get()
-            ->toArray();
-        }else{
-            $diamond_ids = $diamond_ids->offset($response['offset'] ?? 1)
-                ->limit(25)
-                ->get()
-                ->toArray();
-        }
+        $diamond_ids = $client->search($elastic_params);
 
         $final_d = $final_api = [];
 
-        if (!count($diamond_ids)) {
-            if ($request->web == 'web' && $request->scroll ==0) {
+        if (isset($diamond_ids['hits']['hits']) && count($diamond_ids['hits']['hits']) < 1) {
+            if ($request->web == 'web' && $request->scroll == 0 ) {
                 return $this->successResponse('Success', $final_d);
-                // return response()->json(['error' => 1, 'message' => 'No records found', 'data' => '']);
             }
             return $this->successResponse('No diamond found');
-        }        
+        }
+
+        $diamond_ids = $diamond_ids['hits']['hits'];
+        $final_d = $diamond_ids['hits']['hits'];
+        dd($diamond_ids);
         foreach ($diamond_ids as $v_row) {
-            for ($i=0; $i < $ij; $i++) {
-                // FOR WEB
-                $final_d[$v_row->diamond_id]['attributes'][$v_row->{'ag_name_'.$i}] = $v_row->{'name_'.$i};
+            for ($i=0; $i < count($response); $i++) {
 
                 // FOR API
                 if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
@@ -263,23 +264,6 @@ class DiamondController extends Controller
                     'value' => $v_row->{'name_'.$i}
                 ];
             }
-            $final_d[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
-            $final_d[$v_row->diamond_id]['barcode'] = $v_row->barcode;
-            $final_d[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
-            $final_d[$v_row->diamond_id]['carat'] = $v_row->carat;
-            $final_d[$v_row->diamond_id]['image'] = json_decode($v_row->image);
-            $final_d[$v_row->diamond_id]['price'] = $v_row->price;
-
-            if (isset($response['web']) && $response['web'] == 'admin') {
-                $final_d[$v_row->diamond_id]['video_link'] = $v_row->video_link;
-                $final_d[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-                $final_d[$v_row->diamond_id]['remarks'] = $v_row->remarks;
-                $final_d[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-                $final_d[$v_row->diamond_id]['discount'] = $v_row->discount;
-                $final_d[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
-                $final_d[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
-                $final_d[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
-            }
 
             $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
             $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
@@ -300,16 +284,7 @@ class DiamondController extends Controller
             }
         }
 
-
-
-        // if ($response['gateway'] == 'api') {
-        //     return $this->successResponse('Success', array_values($final_api));
-        // } else {            
-        //     return $this->successResponse('Success', $final_d);
-        // }
-
-
-        if ($request->web == 'web' && $request->scroll == 'yes') {        
+        if ($request->web == 'web' && $request->scroll == 'yes') {
 
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                 $cart_or_box = '<label class="custom-check-box">

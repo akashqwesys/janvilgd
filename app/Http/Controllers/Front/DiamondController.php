@@ -82,7 +82,7 @@ class DiamondController extends Controller {
         $max = DB::table('diamonds')
             ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
             ->where('refCategory_id', $category->category_id)
-            ->first();        
+            ->first();
         if ($max) {
             $min_price = $max->min_price;
             $max_price = $max->max_price;
@@ -98,23 +98,23 @@ class DiamondController extends Controller {
                         foreach ($v['attributes'] as $v1) {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Cushion', 'CU'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
                                 } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Princess Cut', 'PR', 'Princess'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
                                 } else if (in_array($v1['name'], ['Emerald', 'EM'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
                                 } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
                                 } else {
-                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="image-shapes" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
@@ -151,14 +151,14 @@ class DiamondController extends Controller {
                                 connect: true,
                                 // tooltips: [true, wNumb({ decimals: 2 })],
                                 range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
-                            });                            
+                            });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
-                                $("#result-table").DataTable().destroy();  
-                                // $(".removable_tr").remove();                                                          
+                                $("#result-table").DataTable().destroy();
+                                // $(".removable_tr").remove();
                                 getAttributeValues1(this.get(), [], "price");
-                            });                           
+                            });
                             // Listen to keydown events on the input field.
                             priceJs.forEach(function (input, handle) {
                                 input.addEventListener("change", function () {
@@ -199,12 +199,12 @@ class DiamondController extends Controller {
                                     }
                                 });
                             });
-                            // priceSlider.noUiSlider.on("change", function () {
-                            //     new_call = true;
-                            //     $("#result-table").DataTable().destroy(); 
-                            //     // $(".removable_tr").remove();
-                            //     getAttributeValues1(priceSlider.noUiSlider.get(), [], "price");
-                            // });
+                            priceSlider.noUiSlider.on("change", function () {
+                                new_call = true;
+                                $("#result-table").DataTable().destroy();
+                                // $(".removable_tr").remove();
+                                getAttributeValues1(priceSlider.noUiSlider.get(), [], "price");
+                            });
                         </script>
                     </div>';
                 } else {
@@ -242,7 +242,7 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
-                                        $('#result-table').DataTable().destroy(); 
+                                        $('#result-table').DataTable().destroy();
                                         // $('.removable_tr').remove();
                                         getAttributeValues1(vals, array, " . $k . ");
                                     }
@@ -276,9 +276,9 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
-                            new_call = true;   
-                            $("#result-table").DataTable().destroy(); 
-                            // $(".removable_tr").remove();                       
+                            new_call = true;
+                            $("#result-table").DataTable().destroy();
+                            // $(".removable_tr").remove();
                             getAttributeValues1(this.get(), [], "carat");
                         });
                         // Listen to keydown events on the input field.
@@ -323,7 +323,7 @@ class DiamondController extends Controller {
                         });
                         // caratSlider.noUiSlider.on("change", function () {
                         //     new_call = true;
-                        //       $("#result-table").DataTable().destroy(); 
+                        //       $("#result-table").DataTable().destroy();
                         //     // $(".removable_tr").remove();
                         //     getAttributeValues1(caratSlider.noUiSlider.get(), [], "carat");
                         // });
@@ -338,23 +338,23 @@ class DiamondController extends Controller {
                         foreach ($v['attributes'] as $v1) {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Cushion', 'CU'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Cushion.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
                                 } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
                                 } else if (in_array($v1['name'], ['Princess Cut', 'PR', 'Princess'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
                                 } else if (in_array($v1['name'], ['Emerald', 'EM'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Emerald.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
                                 } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Marquise.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                                    $src_img = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
                                 } else {
-                                    $src_img = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
@@ -406,7 +406,7 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
-                                         $('#result-table').DataTable().destroy(); 
+                                         $('#result-table').DataTable().destroy();
                                         // $('.removable_tr).remove();
                                         getAttributeValues1(vals, array, " . $k . ");
                                     }
@@ -666,34 +666,31 @@ class DiamondController extends Controller {
                 return response()->download($pdf);
             }
         } else {
-            $request->request->add(['web' => 'web']);            
-        }        
-        if($request->scroll=='yes'){                      
+            $request->request->add(['web' => 'web']);
+        }
+        if($response['scroll']=='yes'){
             return $aa->searchDiamonds($request);
         }
-
-        if($request->scroll=='no'){  
+        if($response['scroll']=='no'){
             if ($request->ajax()) {
-
                 $result = $aa->searchDiamonds($request);
-                $data=$result->original['data'];
-
+                $data = $result->original['data'];
 
                 // echo '<pre>';print_r($data['16747']['attributes']);die;
                 // $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
-                //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
-                //         ->get();             
+                //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')
+                //         ->get();
                 return Datatables::of($data)
-                                // ->addIndexColumn()                                                  
+                                // ->addIndexColumn()
                                 ->editColumn('image', function ($row) {
                                     if (count($row['image'])) {
                                         $img_src = '/storage/other_images/' . $row['image'][0];
                                     } else {
                                         $img_src = '/assets/images/No-Preview-Available.jpg';
-                                    } 
-                                    return $img_src; 
+                                    }
+                                    return $img_src;
                                 })
-                                
+
                                 ->addColumn('shape', function ($row) {
                                     if (isset($row['attributes']['SHAPE'])) {
                                         $shape = $row['attributes']['SHAPE'];
@@ -701,7 +698,7 @@ class DiamondController extends Controller {
                                         $shape = ' - ';
                                     }
                                     return $shape;
-                                }) 
+                                })
                                 ->addColumn('color', function ($row) {
                                     if (isset($row['attributes']['COLOR'])) {
                                         $color = $row['attributes']['COLOR'];
@@ -732,7 +729,7 @@ class DiamondController extends Controller {
                                                 ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
                                             </div>';
                                 })
-                                                                                                                                                                        
+
                                 ->escapeColumns([])
                                 ->make(true);
             }

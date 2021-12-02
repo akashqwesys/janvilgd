@@ -36,39 +36,61 @@ class TestController extends Controller
         // $response = $client->indices()->getMapping($params);
         // dd($response);
 
-        // $params = [
-        //     'index' => 'diamonds',
-        //     'body'  => [
-        //         'query' => [
-        //             'bool' => [
-        //                 'must' => [
-        //                     [ 'term' => [ 'attributes_id.2' => '354' ] ],
-        //                     [ 'term' => [ 'attributes_id.1' => '416' ] ],
-        //                     [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 1, 'lte' => 2 ] ] ],
-        //                     [ 'range' => [ 'total' => [ 'gte' => 9000, 'lte' => 10000 ] ] ]
-        //                 ]
-        //             ]
-        //         ]
-        //     ]
-        // ];
+        /* $params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [ 'term' => [ 'attributes_id.19' => '463' ] ],
+                            [ 'term' => [ 'attributes_id.11' => '427' ] ],
+                            [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0, 'lte' => 2 ] ] ],
+                            [ 'range' => [ 'total' => [ 'gte' => 100, 'lte' => 10000 ] ] ]
+                        ]
+                    ]
+                ]
+            ]
+        ]; */
+        $params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [
+                                'bool' => [
+                                    'should' => [
+                                        ['term' => ['attributes_id.19' => '463']],
+                                        ['term' => ['attributes_id.19' => '464']]
+                                    ]
+                                ]
+                            ],
+                            // [ 'term' => [ 'attributes_id.11' => '427' ] ],
+                            [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0.5, 'lte' => 0.6 ] ] ],
+                            // [ 'range' => [ 'total' => [ 'gte' => 100, 'lte' => 10000 ] ] ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
         /* $tt = [];
         for ($i=0; $i < 5; $i++) {
             $tt[] = [ 'term' => [ 'attributes_id.'.$i => $i ] ];
         }
         array_push($tt, [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 1, 'lte' => 2 ] ] ]); */
-        $all = [
-            'scroll' => '30s',          // how long between scroll requests. should be small!
-            'size'   => 100,             // how many results *per shard* you want back
-            'index' => 'diamonds',
-            'body'  => [
-                'query' => [
-                    'match_all' => new \stdClass()
-                ]
-            ]
-        ];
+        // $all = [
+        //     'scroll' => '30s',          // how long between scroll requests. should be small!
+        //     'size'   => 100,             // how many results *per shard* you want back
+        //     'index' => 'diamonds',
+        //     'body'  => [
+        //         'query' => [
+        //             'match_all' => new \stdClass()
+        //         ]
+        //     ]
+        // ];
 
-        $results = $client->search($all);
-        dd($results);
+        $results = $client->search($params);
+        dd($params);
     }
 
     public function createElasticIndex(Request $request)

@@ -54,8 +54,8 @@ $(document).on('click', '.diamond-shape .item img', function() {
 //     // "lengthChange": false,
 //     // "bFilter": false,
 //     // "bInfo": false,
-//     // "paging": false, //Dont want paging                
-//     // "bPaginate": false //Dont want paging 
+//     // "paging": false, //Dont want paging
+//     // "bPaginate": false //Dont want paging
 // });
 
 
@@ -122,7 +122,7 @@ function getAttributeValues1(values, array, group_id) {
         "bInfo": false,
         'bSortable': true,
         "sScrollX": "100%",
-        "paging": false, //Dont want paging   
+        "paging": false, //Dont want paging
         // 'deferRender': true,
         // 'scrollCollapse': true,
         // 'colReorder': true,
@@ -260,7 +260,7 @@ function getAttributeValues(values, array, group_id) {
             global_group_id = group_id;
 
             console.log(response.data);
-            // $('#result-table tbody').html(response.data);            
+            // $('#result-table tbody').html(response.data);
             $('#result-table .removable_tr').last().after(response.data);
 
             // processing = false;
