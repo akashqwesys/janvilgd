@@ -154,13 +154,13 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
-                                new_call = true;                    
+                                new_call = true;
                                 if(onchange_call == true){
-                                    $("#result-table").DataTable().destroy();  
-                                    // $(".removable_tr").remove();                                                          
+                                    $("#result-table").DataTable().destroy();
+                                    // $(".removable_tr").remove();
                                     getAttributeValues1(this.get(), [], "price");
                                 }
-                            });                           
+                            });
                             // Listen to keydown events on the input field.
                             priceJs.forEach(function (input, handle) {
                                 input.addEventListener("change", function () {
@@ -245,7 +245,7 @@ class DiamondController extends Controller {
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
                                         if(onchange_call == true){
-                                            $('#result-table').DataTable().destroy(); 
+                                            $('#result-table').DataTable().destroy();
                                             // $('.removable_tr').remove();
                                             getAttributeValues1(vals, array, " . $k . ");
                                         }
@@ -280,10 +280,10 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
-                            new_call = true;  
-                             if(onchange_call == true){ 
-                                $("#result-table").DataTable().destroy(); 
-                                // $(".removable_tr").remove();                                                      
+                            new_call = true;
+                             if(onchange_call == true){
+                                $("#result-table").DataTable().destroy();
+                                // $(".removable_tr").remove();
                                 getAttributeValues1(this.get(), [], "carat");
                              }
                         });
@@ -329,7 +329,7 @@ class DiamondController extends Controller {
                         });
                         // caratSlider.noUiSlider.on("change", function () {
                         //     new_call = true;
-                        //     $("#result-table").DataTable().destroy(); 
+                        //     $("#result-table").DataTable().destroy();
                         //     // $(".removable_tr").remove();
                         //     getAttributeValues1(caratSlider.noUiSlider.get(), [], "carat");
                         // });
@@ -411,9 +411,9 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
-                                        new_call = true;                                                                                                                      
+                                        new_call = true;
                                          if(onchange_call == true){
-                                            $('#result-table').DataTable().destroy(); 
+                                            $('#result-table').DataTable().destroy();
                                             // $('.removable_tr).remove();
                                             getAttributeValues1(vals, array, " . $k . ");
                                          }
@@ -675,9 +675,9 @@ class DiamondController extends Controller {
                 return response()->download($pdf);
             }
         } else {
-            $request->request->add(['web' => 'web']);            
-        }        
-        if($arr['offset']>=1){            
+            $request->request->add(['web' => 'web']);
+        }
+        if($arr['offset']>=1){
             return $aa->searchDiamonds($request);
         }
 
@@ -686,71 +686,68 @@ class DiamondController extends Controller {
             $result = $aa->searchDiamonds($request);
             $data=$result->original['data'];
 
-            // dd($_REQUEST);
-            // echo '<pre>';print_r($data);die;
-            // echo '<pre>';print_r($_REQUEST);die;
-            // echo '<pre>';print_r($data['16747']['attributes']);die;
-            // $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
-            //         ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
-            //         ->get();             
-            return Datatables::of($data)                           
-                            ->editColumn('barcode', function ($row) {                                
-                                return $row['_source']['barcode']; 
-                            })
-                            ->editColumn('carat', function ($row) {                                
-                                return $row['_source']['expected_polish_cts']; 
-                            })                                                 
-                            ->editColumn('image', function ($row) {
-                                if (count($row['_source']['image'])) {
-                                    $img_src = '/storage/other_images/' . $row['_source']['image'][0];
-                                } else {
-                                    $img_src = '/assets/images/No-Preview-Available.jpg';
-                                } 
-                                return $img_src; 
-                            })
-                            
-                            ->addColumn('shape', function ($row) {
-                                if (isset($row['_source']['attributes']['SHAPE'])) {
-                                    $shape = $row['_source']['attributes']['SHAPE'];
-                                } else {
-                                    $shape = ' - ';
-                                }
-                                return $shape;
-                            }) 
-                            ->addColumn('color', function ($row) {
-                                if (isset($row['_source']['attributes']['COLOR'])) {
-                                    $color = $row['_source']['attributes']['COLOR'];
-                                } else {
-                                    $color = ' - ';
-                                }
-                                return  $color;
-                            })
-                            ->addColumn('clarity', function ($row) {
-                                if (isset($row['_source']['attributes']['CLARITY'])) {
-                                    $clarity = $row['_source']['attributes']['CLARITY'];
-                                } else {
-                                    $clarity = ' - ';
-                                }
-                                return  $clarity;
-                            })
-                            ->addColumn('total', function ($row) {
-                                return '$'.number_format(round($row['_source']['total'], 2), 2, '.', ',');
-                            })
+            return Datatables::of($data)
+                    ->editColumn('barcode', function ($row) {
+                        return $row['_source']['barcode'];
+                    })
+                    ->editColumn('carat', function ($row) {
+                        return $row['_source']['expected_polish_cts'];
+                    })
+                    /* ->editColumn('image', function ($row) {
+                        if (count($row['_source']['image'])) {
+                            $img_src = '/storage/other_images/' . $row['_source']['image'][0];
+                        } else {
+                            $img_src = '/assets/images/No-Preview-Available.jpg';
+                        }
+                        return $img_src;
+                    }) */
+                    ->addColumn('shape', function ($row) {
+                        if (isset($row['_source']['attributes']['SHAPE'])) {
+                            $shape = $row['_source']['attributes']['SHAPE'];
+                        } else {
+                            $shape = ' - ';
+                        }
+                        return $shape;
+                    })
+                    ->addColumn('color', function ($row) {
+                        if (isset($row['_source']['attributes']['COLOR'])) {
+                            $color = $row['_source']['attributes']['COLOR'];
+                        } else {
+                            $color = ' - ';
+                        }
+                        return  $color;
+                    })
+                    ->addColumn('clarity', function ($row) {
+                        if (isset($row['_source']['attributes']['CLARITY'])) {
+                            $clarity = $row['_source']['attributes']['CLARITY'];
+                        } else {
+                            $clarity = ' - ';
+                        }
+                        return  $clarity;
+                    })
+                    ->addColumn('cut', function ($row) {
+                        if (isset($row['_source']['attributes']['CUT'])) {
+                            $clarity = $row['_source']['attributes']['CUT'];
+                        } else {
+                            $clarity = ' - ';
+                        }
+                        return  $clarity;
+                    })
+                    ->addColumn('total', function ($row) {
+                        return '$'.number_format(round($row['_source']['total'], 2), 2, '.', ',');
+                    })
+                    ->addColumn('compare', function ($row) {
+                        $cart_or_box = '<label class="custom-check-box">
+                                <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                <span class="checkmark"></span>
+                            </label>';
 
-                            ->addColumn('compare', function ($row) {
-                                $cart_or_box = '<label class="custom-check-box">
-                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                        <span class="checkmark"></span>
-                                    </label>';
-
-                                return '<div class="compare-checkbox">
-                                            ' . str_replace('v_diamond_id', $row['_source']['diamond_id'], $cart_or_box) . '
-                                        </div>';
-                            })
-                                                                                                                                                                     
-                            ->escapeColumns([])
-                            ->make(true);
-
+                        return '<div class="compare-checkbox">
+                                    ' . str_replace('v_diamond_id', $row['_source']['diamond_id'], $cart_or_box) . '
+                                </div>';
+                    })
+                    ->escapeColumns([])
+                    ->make(true);
         }
 
     }

@@ -211,7 +211,7 @@ class DiamondController extends Controller
         $elastic_params = [
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,
-            // 'size'  => 25,
+            'size'  => 10000,
             'body'  => [
                 'query' => [
                     'bool' => $elastic_sub_params
@@ -222,69 +222,68 @@ class DiamondController extends Controller
             ->setHosts(['localhost:9200'])
             ->build();
 
-
         $diamond_ids = $client->search($elastic_params);
 
         $final_d = $final_api = [];
-        
+
         if (isset($diamond_ids['hits']['hits'])) {
             if(count($diamond_ids['hits']['hits']) < 1){
-                if ($request->web == 'web' && $request->scroll == 0 ) {                
+                if ($request->web == 'web' && $request->scroll == 0 ) {
                     return $this->successResponse('Success', $final_d);
-                }   
+                }
                 return $this->successResponse('No diamond found');
             }
         }
-        
+
         $final_d = $diamond_ids['hits']['hits'];
-        
-        // foreach ($diamond_ids as $v_row) {
-        //     for ($i=0; $i < count($response); $i++) {
 
-        //         // FOR API
-        //         if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
-        //             if (in_array($v_row->{'name_'.$i}, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Oval Brilliant', 'OV', 'Oval'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Cushion', 'CU'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Cushion.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Princess Cut', 'PR', 'Princess'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Emerald', 'EM'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Emerald.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Marquise', 'MQ'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Marquise.png';
-        //             } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-        //                 $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-        //             }
-        //         }
-        //         $final_api[$v_row->diamond_id]['attributes'][] = [
-        //             'key' => $v_row->{'ag_name_'.$i},
-        //             'value' => $v_row->{'name_'.$i}
-        //         ];
-        //     }
+        /* foreach ($diamond_ids as $v_row) {
+            for ($i=0; $i < count($response); $i++) {
 
-        //     $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
-        //     $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
-        //     $final_api[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
-        //     $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
-        //     $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
-        //     $final_api[$v_row->diamond_id]['price'] = $v_row->price;
+                // FOR API
+                if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
+                    if (in_array($v_row->{'name_'.$i}, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Oval Brilliant', 'OV', 'Oval'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Cushion', 'CU'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Cushion.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Princess Cut', 'PR', 'Princess'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Princess_Cut.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Emerald', 'EM'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Emerald.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Marquise', 'MQ'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Marquise.png';
+                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                    }
+                }
+                $final_api[$v_row->diamond_id]['attributes'][] = [
+                    'key' => $v_row->{'ag_name_'.$i},
+                    'value' => $v_row->{'name_'.$i}
+                ];
+            }
 
-        //     if (isset($response['web']) && $response['web'] == 'admin') {
-        //         $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
-        //         $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-        //         $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
-        //         $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-        //         $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
-        //         $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
-        //         $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
-        //         $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
-        //     }
-        // }
+            $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
+            $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
+            $final_api[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
+            $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
+            $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
+            $final_api[$v_row->diamond_id]['price'] = $v_row->price;
+
+            if (isset($response['web']) && $response['web'] == 'admin') {
+                $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
+                $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
+                $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
+                $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
+                $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
+                $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
+                $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
+                $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
+            }
+        } */
 
         if ($request->web == 'web' && $response['offset'] >= 1) {
 
@@ -298,7 +297,6 @@ class DiamondController extends Controller
             }
             $html = '';
 
-            
             foreach ($final_d as $v) {
                 if (count($v['image'])) {
                     $img_src = '/storage/other_images/' . $v['image'][0];

@@ -16,17 +16,26 @@ $(document).ready(function() {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
-    stop_on_change = 1;
-    getAttributeValues1(global_search_values, global_search_array, global_group_id);
+    setTimeout(() => {
+        stop_on_change = 1;
+        getAttributeValues1(global_search_values, global_search_array, global_group_id);
+    }, 1000);
 });
 $(document).on('click', '.diamond-shape .item img', function() {
     var group_id = $(this).attr('data-group_id');
+    var src_url = null;
     if ($(this).attr('data-selected') == 1) {
-        $(this).css('border', '4px solid #00000000');
+        // $(this).css('border', '4px solid #00000000');
         $(this).attr('data-selected', 0);
+        src_url = $(this).attr('src').split('/').pop();
+        src_url = src_url.substr(0, src_url.lastIndexOf('.')).slice(0, -2);
+        $(this).attr('src', '/assets/images/d_images/' + src_url + '.svg');
     } else {
-        $(this).css('border', '4px solid #D2AB66');
+        // $(this).css('border', '4px solid #D2AB66');
         $(this).attr('data-selected', 1);
+        src_url = $(this).attr('src').split('/').pop();
+        src_url = src_url.substr(0, src_url.lastIndexOf('.'));
+        $(this).attr('src', '/assets/images/d_images/' + src_url + '_b.svg');
     }
     var values = [],
         values_all = [];
@@ -48,16 +57,6 @@ $(document).on('click', '.diamond-shape .item img', function() {
         getAttributeValues1(values, [], group_id);
     }
 });
-
-
-// var table1 = $('#compare-table').DataTable();
-// $('#compare-table').DataTable({
-//     // "lengthChange": false,
-//     // "bFilter": false,
-//     // "bInfo": false,
-//     // "paging": false, //Dont want paging
-//     // "bPaginate": false //Dont want paging
-// });
 
 var status_load = 0;
 
@@ -107,7 +106,6 @@ function getAttributeValues1(values, array, group_id) {
     };
 
     var table = $('#result-table').DataTable({
-
         // "processing": true,
         // "serverSide": true,
         "lengthChange": false,
@@ -122,10 +120,6 @@ function getAttributeValues1(values, array, group_id) {
             orderable: false,
             targets: 0
         }],
-        // "processing": true,
-        // "serverSide": true,
-
-
 
         "ajax": {
             'method': "post",
@@ -133,7 +127,6 @@ function getAttributeValues1(values, array, group_id) {
             'data': ajax_data,
             'complete': function() {
                 $('.cs-loader').hide();
-
                 // if (status_load === 0) {
                 //     lazy_load_scroll();
                 // }
@@ -154,26 +147,28 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
+            { data: 'cut', name: 'cut' },
             { data: 'total', name: 'total' },
             { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ],
         "createdRow": function(row, data, dataIndex) {
             $(row).addClass('removable_tr');
-            $(row).attr('data-diamond', data['diamond_id']);
-            $(row).attr('data-image', data['image']);
-            $(row).attr('data-name', data['name']);
-            $(row).attr('data-price', "$" + data['total']);
+            $(row).attr('data-diamond', data['_source']['diamond_id']);
+            $(row).attr('data-barcode', data['_source']['barcode']);
+            $(row).attr('data-image', (data['_source']['image'].length > 0 ? data['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg'));
+            $(row).attr('data-name', data['_source']['name']);
+            $(row).attr('data-price', data['total']);
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
-            $(row).children(':nth-child(3)').addClass('text-center');
+            $(row).children(':nth-child(3)').addClass('text-right');
             $(row).children(':nth-child(4)').addClass('text-center');
             $(row).children(':nth-child(5)').addClass('text-center');
-            $(row).children(':nth-child(6)').addClass('text-right');
+            $(row).children(':nth-child(6)').addClass('text-center');
             $(row).children(':nth-child(7)').addClass('text-right');
-            $(row).children(':nth-child(8)').addClass('text-center');
-            $(row).children('td').attr('scop', 'col');
-
+            $(row).children(':nth-child(8)').addClass('text-right');
+            $(row).children(':nth-child(9)').addClass('text-center');
+            $(row).children('td').attr('scope', 'col');
         }
     });
 
@@ -184,9 +179,6 @@ function getAttributeValues1(values, array, group_id) {
         table.columns.adjust();
     });
 }
-
-
-
 
 function getAttributeValues(values, array, group_id) {
     if (stop_on_change === 0) {
@@ -269,7 +261,6 @@ function getAttributeValues(values, array, group_id) {
         }
     });
 }
-
 
 function lazy_load_scroll() {
     var lastScrollTop = 0,

@@ -2,8 +2,8 @@
 @section('title', $title)
 @section('css')
 <link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css"> 
-    <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />    
+<link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
         var global_category_slug = '{{ $category->slug }}';
@@ -18,12 +18,13 @@
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
         /* CSS for input range sliders */
-
+        .overlay {
+            background-color: unset;
+        }
         .dataTables_filter {
             display: none;
         }
-        .loadedcontent {min-height: 1200px; }
-
+        .loadedcontent { min-height: 1200px; }
         .range-sliders {
             width: 100%;
         }
@@ -49,9 +50,9 @@
         .rs-tooltip {
             border: none;
         }
-        .diamond-shape .item img {
+        /* .diamond-shape .item img {
             border: 4px solid #00000000;
-        }
+        } */
         .search-diamond-table {
             position: relative;
         }
@@ -103,13 +104,14 @@
             padding-top: 25%;
         }
         .image-shapes {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
         }
         .btn-sm {
             padding: .25rem .5rem;
             font-size: .875rem;
         }
+        .compare-checkbox {}
     </style>
 @endsection
 @section('content')
@@ -156,10 +158,10 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         </li>
                         @endif
                         <li class="nav-item" role="presentation">
-                        <input type="text" class="form-controll" id="myInput"> 
-                        <li class="nav-item" role="presentation">                                                                         
+                        <input type="text" class="form-controll" id="myInput">
+                        <li class="nav-item" role="presentation">
                     </ul>
-                   
+
                     <input type="hidden" id="offset_value" value="0">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
@@ -196,7 +198,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="result-table" style="width: 100% !important;">
                                                     <thead>
-                                                        <tr>                                                       
+                                                        <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             <th scope="col" class="text-right">Carat</th>
@@ -324,7 +326,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="compare-table">
                                                     <thead>
-                                                        <tr>                                                        
+                                                        <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             <th scope="col" class="text-right">Carat</th>
