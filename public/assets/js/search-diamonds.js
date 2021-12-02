@@ -3,6 +3,7 @@ var global_search_values = [];
 var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
+var onchange_call = true;
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -58,9 +59,9 @@ $(document).on('click', '.diamond-shape .item img', function() {
 //     // "bPaginate": false //Dont want paging
 // });
 
+var status_load = 0;
 
 function getAttributeValues1(values, array, group_id) {
-
     if (new_call === true) {
         global_data_offset = 0;
         $(".cs-loader").show();
@@ -91,6 +92,9 @@ function getAttributeValues1(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
+
+    var offset_value = 0;
+    // alert(global_data_offset);
     // console.log(selected_values);
     var ajax_data = {
         'attribute_values': selected_values,
@@ -98,38 +102,31 @@ function getAttributeValues1(values, array, group_id) {
         'web': 'web',
         'category': global_category,
         'category_slug': global_category_slug,
-        'offset': global_data_offset,
+        'offset': offset_value,
         'scroll': 'no'
     };
 
-    var status_load = 0;
     var table = $('#result-table').DataTable({
-        // responsive: {
-        //     details: {
-        //         type: 'column',
-        //         target: 'tr'
-        //     }
-        // },
+
+        // "processing": true,
+        // "serverSide": true,
+        "lengthChange": false,
+        // "bFilter": false,
+        "bInfo": false,
+        'bSortable': true,
+        "sScrollX": "100%",
+        "paging": false, //Dont want paging
+
         columnDefs: [{
             className: 'control',
             orderable: false,
             targets: 0
         }],
-        "processing": true,
-        "serverSide": true,
-        "lengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        'bSortable': true,
-        "sScrollX": "100%",
-        "paging": false, //Dont want paging
-        // 'deferRender': true,
-        // 'scrollCollapse': true,
-        // 'colReorder': true,
-        // 'scrollY': 300,
-        // 'scroller': {
-        //     'loadingIndicator': true
-        // },
+        // "processing": true,
+        // "serverSide": true,
+
+
+
         "ajax": {
             'method': "post",
             'url': "/customer/search-diamonds",
@@ -137,15 +134,18 @@ function getAttributeValues1(values, array, group_id) {
             'complete': function() {
                 $('.cs-loader').hide();
 
-                if (status_load === 0) {
-                    lazy_load_scroll();
-                }
+                // if (status_load === 0) {
+                //     lazy_load_scroll();
+                // }
                 status_load = 1;
                 global_search_values = values;
                 global_search_array = array;
                 global_group_id = group_id;
+
+                $("#offset_value").val(parseInt(offset_value) + parseInt(25));
                 //set ajax_in_progress object false, after completion of ajax call
                 $(window).data('ajax_in_progress', false);
+                onchange_call = true;
             }
         },
         columns: [
@@ -154,8 +154,8 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
-            { data: 'price', name: 'price' },
-            { data: 'price', name: 'price' },
+            { data: 'total', name: 'total' },
+            { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ],
         "createdRow": function(row, data, dataIndex) {
@@ -164,8 +164,16 @@ function getAttributeValues1(values, array, group_id) {
             $(row).attr('data-image', data['image']);
             $(row).attr('data-name', data['diamond_name']);
             $(row).attr('data-price', "$" + data['price']);
-            $(row).children('td').addClass('text-center');
+            $(row).children(':nth-child(1)').addClass('text-center');
+            $(row).children(':nth-child(2)').addClass('text-center');
+            $(row).children(':nth-child(3)').addClass('text-center');
+            $(row).children(':nth-child(4)').addClass('text-center');
+            $(row).children(':nth-child(5)').addClass('text-center');
+            $(row).children(':nth-child(6)').addClass('text-right');
+            $(row).children(':nth-child(7)').addClass('text-right');
+            $(row).children(':nth-child(8)').addClass('text-center');
             $(row).children('td').attr('scop', 'col');
+
         }
     });
 
@@ -178,23 +186,6 @@ function getAttributeValues1(values, array, group_id) {
 }
 
 
-$('div').on('scroll', '.dataTables_scrollBody', function() {
-    alert('hi');
-});
-
-// $('.dataTables_scrollBody').on('scroll', function() {
-//     alert('');
-// });
-// var processing;
-// $('.dataTables_scroll').scroll(function() {
-//     alert('hi');
-//     // if (processing)
-//     //     return false;
-//     // if ($('.dataTables_scrollBody').scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
-//     //     processing = true;
-//     //     lazy_load_scroll();
-//     // }
-// });
 
 
 function getAttributeValues(values, array, group_id) {
@@ -232,11 +223,10 @@ function getAttributeValues(values, array, group_id) {
         'category_slug': global_category_slug,
         'offset': global_data_offset
     };
-
+    var offset_value_1 = $("#offset_value").val();
     $.ajax({
         beforeSend: function(xhr) {
             if (new_call === true) {
-                global_data_offset = 0;
                 $(".cs-loader").show();
             }
         },
@@ -248,7 +238,7 @@ function getAttributeValues(values, array, group_id) {
             'web': 'web',
             'category': global_category,
             'category_slug': global_category_slug,
-            'offset': global_data_offset,
+            'offset': offset_value_1,
             'scroll': 'yes'
         },
         // cache: false,
@@ -259,13 +249,12 @@ function getAttributeValues(values, array, group_id) {
             global_search_array = array;
             global_group_id = group_id;
 
-            console.log(response.data);
-            // $('#result-table tbody').html(response.data);
             $('#result-table .removable_tr').last().after(response.data);
 
             // processing = false;
 
-            global_data_offset = response.offset;
+            $("#offset_value").val(parseInt(response.offset));
+            // global_data_offset = response.offset;
             //set ajax_in_progress object false, after completion of ajax call
             $(window).data('ajax_in_progress', false);
         },
@@ -293,15 +282,15 @@ function lazy_load_scroll() {
         //check, whether we reached at the bottom of page or not, true when we reach at the bottom
         if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
             if (nowScrollTop > lastScrollTop) {
-                if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
-                    //set ajax_in_progress object true, before making a ajax call
-                    $(window).data('ajax_in_progress', true);
-                    new_call = false;
+                // if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
+                //set ajax_in_progress object true, before making a ajax call
+                $(window).data('ajax_in_progress', true);
+                new_call = false;
 
-                    //make ajax call
-                    // $('#result-table').DataTable().destroy();
-                    getAttributeValues(global_search_values, global_search_array, global_group_id);
-                }
+                //make ajax call
+                // $('#result-table').DataTable().destroy();
+                getAttributeValues(global_search_values, global_search_array, global_group_id);
+                // }
             }
             lastScrollTop = nowScrollTop;
         }
@@ -441,3 +430,4 @@ function roundLabel(el) {
     var label_path = $(el[0].target).next('.rs-container').find('.rs-tooltip');
     label_path.text(parseFloat(label_path.text()).toFixed(2));
 }
+onchange_call = false;

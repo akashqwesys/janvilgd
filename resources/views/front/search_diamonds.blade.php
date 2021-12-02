@@ -19,7 +19,9 @@
     <style>
         /* CSS for input range sliders */
 
-
+        .dataTables_filter {
+            display: none;
+        }
         .loadedcontent {min-height: 1200px; }
 
         .range-sliders {
@@ -158,7 +160,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <li class="nav-item" role="presentation">                                                                         
                     </ul>
                    
-                    
+                    <input type="hidden" id="offset_value" value="0">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                             <div class="result-tab-content">
@@ -194,7 +196,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="result-table" style="width: 100% !important;">
                                                     <thead>
-                                                        <tr>
+                                                        <tr>                                                       
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             <th scope="col" class="text-right">Carat</th>
@@ -322,7 +324,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="compare-table">
                                                     <thead>
-                                                        <tr>
+                                                        <tr>                                                        
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             <th scope="col" class="text-right">Carat</th>
