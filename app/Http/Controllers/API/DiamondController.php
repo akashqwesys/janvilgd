@@ -305,7 +305,7 @@ class DiamondController extends Controller
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html .= '<tr class="removable_tr" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['total'], 2), 2, '.', ',') . '" data-name="' . $v['diamond_name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
+                $html .= '<tr class="removable_tr" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['total'], 2), 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
                             <td scope="col" class="text-center">' . $v['barcode'] . '</td>';
                 if (isset($v['attributes']['SHAPE'])) {
                     $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';

@@ -162,8 +162,8 @@ function getAttributeValues1(values, array, group_id) {
             $(row).addClass('removable_tr');
             $(row).attr('data-diamond', data['diamond_id']);
             $(row).attr('data-image', data['image']);
-            $(row).attr('data-name', data['diamond_name']);
-            $(row).attr('data-price', "$" + data['price']);
+            $(row).attr('data-name', data['name']);
+            $(row).attr('data-price', "$" + data['total']);
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
             $(row).children(':nth-child(3)').addClass('text-center');
