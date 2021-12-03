@@ -73,7 +73,7 @@ function getDiamonds(values, array, group_id) {
         "bInfo": false,
         "processing": true,
         "serverSide": true,
-        "pageLength": 1000,
+        "pageLength": 100,
         'deferRender': true,
         "bScrollInfinite": true,
         "ajax": {
