@@ -115,7 +115,7 @@
         .btn-sm {
             padding: .25rem .5rem;
             font-size: .875rem;
-        }       
+        }
     </style>
 @endsection
 @section('content')
@@ -255,15 +255,14 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
-                                                            <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-center">Color</th>
+                                                            <th scope="col" class="text-center">Clarity</th>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
-                                                            {{-- @if ($category->slug != 'rough-diamonds') --}}
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            {{-- @endif --}}
-                                                            <th scope="col" class="text-center">Clarity</th>
+                                                            <th scope="col" class="text-right">Price/CT</th>
                                                             <th scope="col" class="text-right">Price</th>
                                                             <th scope="col" class="text-center">Compare</th>
                                                         </tr>
@@ -273,16 +272,16 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         @php $rv_img = json_decode($rv->image); @endphp
                                                         <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? '/storage/other_images/'.$rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
                                                             <td scope="col" class="text-center">{{ $rv->barcode }}</td>
-                                                            <td scope="col" class="text-right">{{ $rv->carat }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->shape }}</td>
+                                                            <td scope="col" class="text-right">{{ $rv->carat }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv->color }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv->clarity }}</td>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <td scope="col" class="text-center">{{ $rv->cut }}</td>
                                                             @endif
-                                                            {{-- @if ($category->slug != 'rough-diamonds') --}}
-                                                            <td scope="col" class="text-center">{{ $rv->color }}</td>
-                                                            {{-- @endif --}}
-                                                            <td scope="col" class="text-center">{{ $rv->clarity }}</td>
                                                             <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
+                                                            <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
+                                                            @if ($admin === true)
                                                             <td scope="col" class="text-center">
                                                                 <div class="compare-checkbox">
                                                                     <label class="custom-check-box">
@@ -291,6 +290,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                                     </label>
                                                                 </div>
                                                             </td>
+                                                            @endif
                                                         </tr>
                                                         @endforeach
                                                     </tbody>

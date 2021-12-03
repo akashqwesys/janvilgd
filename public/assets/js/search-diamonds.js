@@ -154,8 +154,6 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'compare', name: 'compare' }
         ]
     }
-
-
     var table = $('#result-table').DataTable({
         // "processing": true,
         // "serverSide": true,
