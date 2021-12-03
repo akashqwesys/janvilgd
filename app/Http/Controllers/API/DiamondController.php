@@ -255,7 +255,6 @@ class DiamondController extends Controller
                 ]
             ]
         ];
-        // echo "<pre>";var_export($elastic_params);die;
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();

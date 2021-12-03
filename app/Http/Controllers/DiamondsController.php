@@ -1606,10 +1606,9 @@ class DiamondsController extends Controller {
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
             }
-
-            $params = array();
-            $params = ['body' => []];
-            $i=1;
+            $params = array();                
+            $params = ['body' => []]; 
+            $i=1; 
             foreach($batch_elastics as $batch_row){
                 $type=$batch_row['type'];
                 $id=$batch_row['diamonds_id'];

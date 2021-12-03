@@ -41,7 +41,7 @@ class TestController extends Controller
         $all = [
             'scroll' => '30s',          // how long between scroll requests. should be small!
             'size'   => 1000,             // how many results *per shard* you want back
-            'index' => 'diamonds_temp',
+            'index' => 'diamonds',
             'body'  => [
                 'query' => [
                     'match_all' => new \stdClass()

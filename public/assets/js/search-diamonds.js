@@ -59,7 +59,6 @@ $(document).on('click', '.diamond-shape .item img', function() {
 });
 
 $(document).ready(function() {
-
     var table_recent = $("#recent-view").on("draw.dt", function() {
         $(this).find(".dataTables_empty").parents('tbody').empty();
     }).DataTable({
@@ -70,9 +69,8 @@ $(document).ready(function() {
         "ordering": false,
         "sScrollX": "100%",
         "sScrollY": "500",
-        "paging": false, //Dont want paging
+        "paging": false
     });
-
     var table_compare = $("#compare-table").on("draw.dt", function() {
         $(this).find(".dataTables_empty").parents('tbody').empty();
     }).DataTable({
@@ -83,7 +81,7 @@ $(document).ready(function() {
         'bSortable': false,
         "sScrollX": "100%",
         "sScrollY": "500",
-        "paging": false, //Dont want paging
+        "paging": false
     });
 });
 var status_load = 0;
@@ -132,6 +130,31 @@ function getAttributeValues1(values, array, group_id) {
         'offset': offset_value,
         'scroll': 'no'
     };
+    if (global_category == 3) {
+        columns_data = [
+            { data: 'barcode', name: 'barcode' },
+            { data: 'shape', name: 'shape' },
+            { data: 'carat', name: 'carat' },
+            { data: 'color', name: 'color' },
+            { data: 'clarity', name: 'clarity' },
+            { data: 'cut', name: 'cut' },
+            { data: 'total', name: 'total' },
+            { data: 'total', name: 'total' },
+            { data: 'compare', name: 'compare' }
+        ]
+    } else {
+        columns_data = [
+            { data: 'barcode', name: 'barcode' },
+            { data: 'shape', name: 'shape' },
+            { data: 'carat', name: 'carat' },
+            { data: 'color', name: 'color' },
+            { data: 'clarity', name: 'clarity' },
+            { data: 'total', name: 'total' },
+            { data: 'total', name: 'total' },
+            { data: 'compare', name: 'compare' }
+        ]
+    }
+
 
     var table = $('#result-table').DataTable({
         // "processing": true,
@@ -168,21 +191,11 @@ function getAttributeValues1(values, array, group_id) {
                 onchange_call = true;
             }
         },
-        columns: [
-            { data: 'barcode', name: 'barcode' },
-            { data: 'shape', name: 'shape' },
-            { data: 'carat', name: 'carat' },
-            { data: 'color', name: 'color' },
-            { data: 'clarity', name: 'clarity' },
-            { data: 'cut', name: 'cut' },
-            { data: 'total', name: 'total' },
-            { data: 'total', name: 'total' },
-            { data: 'compare', name: 'compare' }
-        ],
+        columns: columns_data,
         "createdRow": function(row, data, dataIndex) {
             $(row).addClass('removable_tr');
             $(row).attr('data-diamond', data['_source']['diamond_id']);
-            $(row).attr('data-barcode', data['_source']['barcode']);
+            $(row).attr('data-barcode', data['barcode']);
             $(row).attr('data-image', (data['_source']['image'].length > 0 ? data['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg'));
             $(row).attr('data-name', data['_source']['name']);
             $(row).attr('data-price', data['total']);

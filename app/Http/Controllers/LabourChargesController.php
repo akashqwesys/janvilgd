@@ -94,6 +94,10 @@ class LabourChargesController extends Controller {
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
+
+        $ids = [];
+        $cts=[];
+        $total=[];    
         $labour_charge = LabourCharges::select('amount')->where('labour_charge_id',$request->id)->first();
         $charge=$labour_charge->amount-$request->amount;
         if($request->id==1){
@@ -111,12 +115,12 @@ class LabourChargesController extends Controller {
                     ]
                 ]
             ];
-            $response = $client->search($params);
-            $ids = [];
+            $response = $client->search($params);            
             if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
                 foreach ($response['hits']['hits'] as $v) {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['expected_polish_cts'];
+                    $total[] = $v['_source']['total'];
                 }
             }
         }
@@ -141,18 +145,38 @@ class LabourChargesController extends Controller {
                 foreach ($response['hits']['hits'] as $v) {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['makable_cts'];
+                    $total[] = $v['_source']['total'];
                 }
             }
-        }
-        for ($i = 0; $i < count($ids); $i++) {
-            $upd_params = [
-                'index' => 'diamonds',
-                'id'    => $ids[$i],
-                'body'  => [
-                    'script' => 'ctx._source.total += ('.$cts[$i] * $charge.')'
-                ]
-            ];
-            $client->update($upd_params);
+        }     
+        if(count($ids)){          
+            $params = array();                
+            $params = ['body' => []]; 
+            $j=1; 
+            for ($i = 0; $i < count($ids); $i++) { 
+                $total_price=$total[$i]+($cts[$i] * $charge);   
+                $batch_row=array();
+                $batch_row['total'] =  $total_price;                                                                                                    
+                    $params["body"][]= [
+                            "update" => [
+                                "_index" => 'diamonds',                                                        
+                                "_id" => $ids[$i],
+                            ]
+                        ];        
+                    $params["body"][]= [
+                        "doc"=>$batch_row
+                    ];                           
+                    if ($j % 1000 == 0) {
+                        $responses = $client->bulk($params);                                
+                        $params = ['body' => []];                                
+                        unset($responses);
+                    }               
+                $j=$j+1;
+            }            
+            // Send the last batch if it exists
+            if (!empty($params['body'])) {
+                $responses = $client->bulk($params);
+            }
         }
 
         DB::table('labour_charges')->where('labour_charge_id', $request->id)->update([

@@ -13,6 +13,7 @@ use Excel;
 use Batch;
 use App\Imports\RapaportImport;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
+use Elasticsearch\ClientBuilder;
 
 class RapaortController extends Controller
 {
@@ -220,6 +221,42 @@ class RapaortController extends Controller
                 }
             }
         }
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();    
+        if(count($value)){          
+            $params = array();                
+            $params = ['body' => []]; 
+            $i=1; 
+            foreach($value as $batch_row){                
+                $id=$batch_row['diamond_id'];              
+                unset($batch_row['diamond_id']);                                                   
+                    $params["body"][]= [
+                            "update" => [
+                                "_index" => 'diamonds',                                                        
+                                "_id" => $id,
+                            ]
+                        ];        
+                    $params["body"][]= [
+                        "doc"=>$batch_row
+                    ];                           
+                    if ($i % 1000 == 0) {
+                        $responses = $client->bulk($params);                                
+                        $params = ['body' => []];                                
+                        unset($responses);
+                    }
+               
+                $i=$i+1;
+            }            
+            // Send the last batch if it exists
+            if (!empty($params['body'])) {
+                $responses = $client->bulk($params);
+            }
+        }
+
+
+
 
         $diamondsInstance = new Diamonds;        
         $index = 'diamond_id';
