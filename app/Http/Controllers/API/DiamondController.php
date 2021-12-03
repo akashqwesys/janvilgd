@@ -220,7 +220,7 @@ class DiamondController extends Controller
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,
             'body'  => [
-                'size'  => 1000,
+                'size'  => 10000,
                 'query' => [
                     'bool' => [
                         'must' => [

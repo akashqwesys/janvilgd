@@ -187,6 +187,7 @@ function getAttributeValues1(values, array, group_id) {
                 //set ajax_in_progress object false, after completion of ajax call
                 $(window).data('ajax_in_progress', false);
                 onchange_call = true;
+                $('#result-tab').text('Results (' + $('#result-table tbody tr').length + ')');
             }
         },
         columns: columns_data,
