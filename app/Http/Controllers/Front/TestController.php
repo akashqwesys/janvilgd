@@ -9,6 +9,7 @@ use App\Models\Diamonds;
 use App\Models\DiamondTemp;
 use DB;
 use Elasticsearch\ClientBuilder;
+use Elasticsearch\Namespaces\SqlNamespace;
 
 class TestController extends Controller
 {
@@ -37,88 +38,152 @@ class TestController extends Controller
         // $response = $client->indices()->getMapping($params);
         // dd($response);
 
-        /* $params = [
-            'index' => 'diamonds',
-            'body'  => [
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            [ 'term' => [ 'attributes_id.19' => '463' ] ],
-                            [ 'term' => [ 'attributes_id.11' => '427' ] ],
-                            [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0, 'lte' => 2 ] ] ],
-                            [ 'range' => [ 'total' => [ 'gte' => 100, 'lte' => 10000 ] ] ]
-                        ]
-                    ]
-                ]
-            ]
-        ]; */
-        $params = [
+        $all = [
+            'scroll' => '30s',          // how long between scroll requests. should be small!
+            'size'   => 1000,             // how many results *per shard* you want back
             'index' => 'diamonds_temp',
             'body'  => [
                 'query' => [
-                    'nested' => [
-                        'path' => 'attributes_id',
-                        'query' => [
-                            [
-                                'bool' => [
-                                    'must' => [
-                                        ['term' => ['attributes_id.key1' => '13']],
-                                    ],
-                                    'should' => [
-                                        ['match' => ['attributes_id.value1' => '376']],
-                                        ['match' => ['attributes_id.value1' => '378']],
-                                        ['match' => ['attributes_id.value1' => '379']],
-                                    ]
-                                    // 'must' => [
-                                    //     'bool' => [
-                                    //         'should' => [
-                                    //     ['term' => ['attributes_id.12' => '395']],
-                                    //     ['term' => ['attributes_id.12' => '396']]
-                                    // ]]],
-                                    // 'must' => [
-                                    //     'bool' => [
-                                    //         'should' => [
-                                    //     ['term' => ['attributes_id.11' => '422']],
-                                    //     ['term' => ['attributes_id.11' => '425']],
-                                    //     ['term' => ['attributes_id.11' => '426']]
-                                    // ]]]
-                                    ],
-                                'bool' => [
-                                    'must' => [
-                                        ['term' => ['attributes_id.key1' => '11']],
-                                    ],
-                                    'should' => [
-                                        ['match' => ['attributes_id.value1' => '422']],
-                                        ['match' => ['attributes_id.value1' => '425']]
-                                    ]
-                                ]
-                            ],
-                            // [ 'term' => [ 'refCategory_id' => '3' ] ],
-                            // [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 0.5, 'lte' => 0.6 ] ] ],
-                            // [ 'range' => [ 'total' => [ 'gte' => 100, 'lte' => 10000 ] ] ]
-                        ]
-                    ]
+                    'match_all' => new \stdClass()
                 ]
             ]
         ];
-        /* $tt = [];
-        for ($i=0; $i < 5; $i++) {
-            $tt[] = [ 'term' => [ 'attributes_id.'.$i => $i ] ];
-        }
-        array_push($tt, [ 'range' => [ 'expected_polish_cts' => [ 'gte' => 1, 'lte' => 2 ] ] ]); */
-        // $all = [
-        //     'scroll' => '30s',          // how long between scroll requests. should be small!
-        //     'size'   => 100,             // how many results *per shard* you want back
-        //     'index' => 'diamonds_temp',
-        //     'body'  => [
-        //         'query' => [
-        //             'match_all' => new \stdClass()
-        //         ]
+        // $sql = [
+        //     'body' => [
+        //         'query' => 'select * from diamonds_temp where (attributes_id.value1 = 376 OR attributes_id.value1 = 375) and (attributes_id.value1 = 422 OR attributes_id.value1 = 425) and refCategory_id = 3 and (expected_polish_cts > 0.5 and expected_polish_cts < 0.6)'
         //     ]
         // ];
+        // $results = $client->sql()->translate($sql);
+        // echo "<pre>";
+        // var_export($results);die;
 
-        $results = $client->search($params);
-        echo "<pre>";print_r($results);
+        /* $params = [
+            'index' => 'diamonds_temp',
+            'body'  => array(
+                'size' => 1000,
+                'query' =>
+                array(
+                    'bool' =>
+                    array(
+                        'must' =>
+                        array(
+                            array(
+                                'bool' =>
+                                array(
+                                    'must' =>
+                                    array(
+                                        array(
+                                            'nested' =>
+                                            array(
+                                                'query' =>
+                                                array(
+                                                    'terms' =>
+                                                    array(
+                                                        'attributes_id.value1' =>
+                                                        array(
+                                                            0 => 376,
+                                                            1 => 378,
+                                                        ),
+                                                        'boost' => 1.0,
+                                                    ),
+                                                ),
+                                                'path' => 'attributes_id',
+                                                'ignore_unmapped' => false,
+                                                'score_mode' => 'none',
+                                                'boost' => 1.0,
+                                            ),
+                                        ),
+                                        array(
+                                            'nested' =>
+                                            array(
+                                                'query' =>
+                                                array(
+                                                    'terms' =>
+                                                    array(
+                                                        'attributes_id.value1' =>
+                                                        array(
+                                                            0 => 427,
+                                                            1 => 426,
+                                                        ),
+                                                        'boost' => 1.0,
+                                                    ),
+                                                ),
+                                                'path' => 'attributes_id',
+                                                'ignore_unmapped' => false,
+                                                'score_mode' => 'none',
+                                                'boost' => 1.0,
+                                            ),
+                                        ),
+                                        array(
+                                            'nested' =>
+                                            array(
+                                                'query' =>
+                                                array(
+                                                    'terms' =>
+                                                    array(
+                                                        'attributes_id.value1' =>
+                                                        array(
+                                                            0 => 395,
+                                                            1 => 396,
+                                                        ),
+                                                        'boost' => 1.0,
+                                                    ),
+                                                ),
+                                                'path' => 'attributes_id',
+                                                'ignore_unmapped' => false,
+                                                'score_mode' => 'none',
+                                                'boost' => 1.0,
+                                            ),
+                                        ),
+                                    ),
+                                    'adjust_pure_negative' => true,
+                                    'boost' => 1.0,
+                                ),
+                            ),
+                            array(
+                                'bool' =>
+                                array(
+                                    'must' =>
+                                    array(
+                                        array(
+                                            'term' =>
+                                            array(
+                                                'refCategory_id' =>
+                                                array(
+                                                    'value' => 3,
+                                                    'boost' => 1.0,
+                                                ),
+                                            ),
+                                        ),
+                                        array(
+                                            'range' =>
+                                            array(
+                                                'expected_polish_cts' =>
+                                                array(
+                                                    'from' => 0,
+                                                    'to' => 5,
+                                                    'include_lower' => false,
+                                                    'include_upper' => false,
+                                                    'time_zone' => 'Z',
+                                                    'boost' => 1.0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'adjust_pure_negative' => true,
+                                    'boost' => 1.0,
+                                ),
+                            ),
+                        ),
+                        'adjust_pure_negative' => true,
+                        'boost' => 1.0,
+                    ),
+                )
+            )
+        ]; */
+        $results = $client->search($all);
+        echo "<pre>";
+        print_r($results);
     }
 
     public function createElasticIndex(Request $request)
@@ -128,7 +193,7 @@ class TestController extends Controller
             ->build();
 
         $params = [
-            'index' => 'diamonds_temp',
+            'index' => 'diamonds',
             // 'id'    => 'diamond_id',
             'body' => [
                 'settings' => [

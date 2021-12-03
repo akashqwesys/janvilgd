@@ -166,62 +166,102 @@ class DiamondController extends Controller
             }
         } else {
             $attr_to_send = [];
-            $temp_grp_id = 0;
             foreach ($response as $k => $v) {
                 if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
                     continue;
                 }
                 for ($i = 0; $i < count($v); $i++) {
-                    $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
+                    // $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
+                    $v[$i] = intval($v[$i]);
                 }
+                $attr_to_send[] = [
+                    'nested' => [
+                        'query' => [
+                            'terms' => [
+                                'attributes_id.attribute_id' => array_values($v)
+                            ]
+                        ],
+                        'path' => 'attributes_id'
+                    ]
+                ];
+
             }
         }
-        $attr_to_send = array_values($attr_to_send);
-        $elastic_sub_params = [
-            'must' => [
-                [
-                    'bool' => $attr_to_send
-                ], [
-                    'match' => [ 'refCategory_id' => $response['category'] ]
-                ]
-            ]
-        ];
-        if (isset($response['price_min']) && isset($response['price_max']) && isset($response['carat_min']) && isset($response['carat_max'])) {
-            $elastic_sub_params = [
-                'must' => [
-                    [
-                        'bool' => $attr_to_send
-                    ], [
-                        'range' => [
-                            'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
-                        ]
-                    ], [
-                        'range' => [
-                            'expected_polish_cts' => ['gte' => $response['carat_min'], 'lte' => $response['carat_max']]
-                        ]
-                    ], [
-                        'match' => [ 'refCategory_id' => $response['category'] ]
-                    ]
-                ]
-            ];
-        }
+        // $attr_to_send = array_values($attr_to_send);
+        // $elastic_sub_params = [
+        //     'must' => [
+        //         [
+        //             'bool' => $attr_to_send
+        //         ], [
+        //             'match' => [ 'refCategory_id' => $response['category'] ]
+        //         ]
+        //     ]
+        // ];
+        // if (isset($response['price_min']) && isset($response['price_max']) && isset($response['carat_min']) && isset($response['carat_max'])) {
+        //     $elastic_sub_params = [
+        //         'must' => [
+        //             [
+        //                 'bool' => $attr_to_send
+        //             ], [
+        //                 'range' => [
+        //                     'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
+        //                 ]
+        //             ], [
+        //                 'range' => [
+        //                     'expected_polish_cts' => ['gte' => $response['carat_min'], 'lte' => $response['carat_max']]
+        //                 ]
+        //             ], [
+        //                 'match' => [ 'refCategory_id' => $response['category'] ]
+        //             ]
+        //         ]
+        //     ];
+        // }
         $elastic_params = [
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,
-            'size'  => 10000,
             'body'  => [
+                'size'  => 1000,
                 'query' => [
-                    'bool' => $elastic_sub_params
+                    'bool' => [
+                        'must' => [
+                            [
+                                'bool' => [
+                                    'must' =>  $attr_to_send
+                                ]
+                            ], [
+                                'bool' => [
+                                    'must' => [
+                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['category']) ] ] ],
+                                        [
+                                            'range' => [
+                                                'expected_polish_cts' => [
+                                                    'from' => intval($response['carat_min'] ?? 0),
+                                                    'to' => intval($response['carat_max'] ?? 5)
+                                                ],
+                                            ]
+                                        ], [
+                                            'range' => [
+                                                'total' => [
+                                                    'from' => intval($response['price_min'] ?? 0),
+                                                    'to' => intval($response['price_max'] ?? 3000)
+                                                ],
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
             ]
         ];
-        dd($elastic_params);
+        // echo "<pre>";var_export($elastic_params);die;
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
 
         $diamond_ids = $client->search($elastic_params);
-
+        // echo "<pre>"; print_r($diamond_ids); die;
         $final_d = $final_api = [];
 
         if (isset($diamond_ids['hits']['hits'])) {

@@ -98,27 +98,27 @@ class DiamondController extends Controller {
                         foreach ($v['attributes'] as $v1) {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Cushion', 'CU'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                                 } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Princess Cut', 'PR', 'Princess'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
                                 } else if (in_array($v1['name'], ['Emerald', 'EM'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
                                 } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
                                 } else {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="image-shapes" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
-                            $file_arr[$k][] = $v1['attribute_id'];
+                            $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
@@ -221,7 +221,7 @@ class DiamondController extends Controller {
                                 $default_values[$i]['name'] = $v1['name'];
                                 $i++;
                             }
-                            $file_arr[$k][] = $v1['attribute_id'];
+                            $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
@@ -344,27 +344,27 @@ class DiamondController extends Controller {
                         foreach ($v['attributes'] as $v1) {
                             if (count($v['attributes']) > 1) {
                                 if (in_array($v1['name'], ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Oval Brilliant', 'OV', 'Oval'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Cushion', 'CU'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                                 } else if (in_array($v1['name'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
                                 } else if (in_array($v1['name'], ['Princess Cut', 'PR', 'Princess'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
                                 } else if (in_array($v1['name'], ['Emerald', 'EM'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
                                 } else if (in_array($v1['name'], ['Marquise', 'MQ'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
                                 } else if (in_array($v1['name'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
                                 } else {
-                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
+                                    $src_img = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                                 }
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
-                            $file_arr[$k][] = $v1['attribute_id'];
+                            $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
@@ -389,7 +389,7 @@ class DiamondController extends Controller {
                                 $default_values[$i]['name'] = $v1['name'];
                                 $i++;
                             }
-                            $file_arr[$k][] = $v1['attribute_id'];
+                            $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
@@ -426,6 +426,10 @@ class DiamondController extends Controller {
                 }
             }
         }
+        $file_arr['price_min'] = $min_price;
+        $file_arr['price_max'] = $max_price;
+        $file_arr['carat_min'] = $min_carat;
+        $file_arr['carat_max'] = $max_carat;
         $file_name = $user->customer_id . '-' . $category->category_id;
         file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
         $recently_viewed = DB::table('recently_view_diamonds as rvd')

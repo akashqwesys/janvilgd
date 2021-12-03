@@ -28,14 +28,14 @@ $(document).on('click', '.diamond-shape .item img', function() {
         // $(this).css('border', '4px solid #00000000');
         $(this).attr('data-selected', 0);
         src_url = $(this).attr('src').split('/').pop();
-        src_url = src_url.substr(0, src_url.lastIndexOf('.')).slice(0, -2);
-        $(this).attr('src', '/assets/images/d_images/' + src_url + '.svg');
+        src_url = src_url.substr(0, src_url.lastIndexOf('.'));
+        $(this).attr('src', '/assets/images/d_images/' + src_url + '_b.svg');
     } else {
         // $(this).css('border', '4px solid #D2AB66');
         $(this).attr('data-selected', 1);
         src_url = $(this).attr('src').split('/').pop();
-        src_url = src_url.substr(0, src_url.lastIndexOf('.'));
-        $(this).attr('src', '/assets/images/d_images/' + src_url + '_b.svg');
+        src_url = src_url.substr(0, src_url.lastIndexOf('.')).slice(0, -2);
+        $(this).attr('src', '/assets/images/d_images/' + src_url + '.svg');
     }
     var values = [],
         values_all = [];
@@ -137,7 +137,7 @@ function getAttributeValues1(values, array, group_id) {
         // "processing": true,
         // "serverSide": true,
         "lengthChange": false,
-        // "bFilter": false,        
+        // "bFilter": false,
         "bInfo": false,
         'bSortable': true,
         "sScrollX": "100%",
