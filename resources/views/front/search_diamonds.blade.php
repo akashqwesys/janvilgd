@@ -116,6 +116,9 @@
             padding: .25rem .5rem;
             font-size: .875rem;
         }
+        .pdl-0 {
+            padding-left: 0;
+        }
     </style>
 @endsection
 @section('content')
@@ -194,7 +197,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
                                             {{-- <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
@@ -250,7 +253,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
                                             <div class="">
                                                 <table class="table" id="recent-view" style="width: 100% !important;">
@@ -327,7 +330,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
                                             <div class="">
                                                 <table class="table" id="compare-table" style="width: 100% !important;">
