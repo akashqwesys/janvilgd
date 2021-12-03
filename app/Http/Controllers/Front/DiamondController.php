@@ -698,7 +698,7 @@ class DiamondController extends Controller {
                     ->editColumn('carat', function ($row) {
                         return $row['_source']['expected_polish_cts'];
                     })
-                    /* ->editColumn('image', function ($row) {
+                /* ->editColumn('image', function ($row) {
                         if (count($row['_source']['image'])) {
                             $img_src = '/storage/other_images/' . $row['_source']['image'][0];
                         } else {
@@ -706,6 +706,19 @@ class DiamondController extends Controller {
                         }
                         return $img_src;
                     }) */
+                    ->addColumn('price_per_carat', function ($row) {
+                        $price_per_carat = 0;
+                        if ($row['_source']['refCategory_id'] == 1) {
+                            $price_per_carat = $row['_source']['total'] / $row['_source']['makable_cts'];
+                        }
+                        if ($row['_source']['refCategory_id'] == 2) {
+                            $price_per_carat = ($row['_source']['rapaport_price']) * ($row['_source']['discount']);
+                        }
+                        if ($row['_source']['refCategory_id'] == 3) {
+                            $price_per_carat = ($row['_source']['rapaport_price']) * ($row['_source']['discount']);
+                        }
+                        return '$' . number_format(round($price_per_carat, 2), 2, '.', ',');
+                    })
                     ->addColumn('shape', function ($row) {
                         if (isset($row['_source']['attributes']['SHAPE'])) {
                             $shape = $row['_source']['attributes']['SHAPE'];

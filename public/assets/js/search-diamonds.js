@@ -138,7 +138,7 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
             { data: 'cut', name: 'cut' },
-            { data: 'total', name: 'total' },
+            { data: 'price_per_carat', name: 'price_per_carat' },
             { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ]
@@ -149,7 +149,7 @@ function getAttributeValues1(values, array, group_id) {
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
-            { data: 'total', name: 'total' },
+            { data: 'price_per_carat', name: 'price_per_carat' },
             { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ]
