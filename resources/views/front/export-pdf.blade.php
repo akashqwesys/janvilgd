@@ -55,49 +55,49 @@
                     </caption>
                     <thead>
                         <tr>
-                            <th scope="col" class="col1"> Barcode </th>
-                            <th scope="col" class="col1"> Carat </th>
+                            <th scope="col" class="col1"> Stock No </th>
                             <th scope="col" class="col2"> Shape </th>
-                            <th scope="col" class="col2"> Cut </th>
+                            <th scope="col" class="col1"> Carat </th>
                             <th scope="col" class="col2"> Color </th>
                             <th scope="col" class="col2"> Clarity </th>
+                            <th scope="col" class="col2"> Cut </th>
                             <th scope="col" class="col1"> Price </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($diamonds as $v)
                         <tr>
-                            <td class="col1" align="center"> {{$v['barcode']}} </td>
-                            <td class="col1" align="center"> {{$v['carat']}} </td>
+                            <td class="col1" align="center"> {{$v['_source']['barcode']}} </td>
                             <td class="col1" align="center">
-                                @if (isset($v['attributes']['SHAPE']))
-                                {{ $v['attributes']['SHAPE'] }}
+                                @if (isset($v['_source']['attributes']['SHAPE']))
+                                {{ $v['_source']['attributes']['SHAPE'] }}
+                                @else
+                                -
+                                @endif
+                            </td>
+                            <td class="col1" align="center"> {{$v['_source']['expected_polish_cts']}} </td>
+                            <td class="col1" align="center">
+                                @if (isset($v['_source']['attributes']['COLOR']))
+                                {{ $v['_source']['attributes']['COLOR'] }}
                                 @else
                                 -
                                 @endif
                             </td>
                             <td class="col1" align="center">
-                                @if (isset($v['attributes']['CUT GRADE']))
-                                {{ $v['attributes']['CUT GRADE'] }}
+                                @if (isset($v['_source']['attributes']['CLARITY']))
+                                {{ $v['_source']['attributes']['CLARITY'] }}
                                 @else
                                 -
                                 @endif
                             </td>
                             <td class="col1" align="center">
-                                @if (isset($v['attributes']['COLOR']))
-                                {{ $v['attributes']['COLOR'] }}
+                                @if (isset($v['_source']['attributes']['CUT']))
+                                {{ $v['_source']['attributes']['CUT'] }}
                                 @else
                                 -
                                 @endif
                             </td>
-                            <td class="col1" align="center">
-                                @if (isset($v['attributes']['CLARITY']))
-                                {{ $v['attributes']['CLARITY'] }}
-                                @else
-                                -
-                                @endif
-                            </td>
-                            <td class="col1" align="center"> {{round($v['price'], 2)}} </td>
+                            <td class="col1" align="center"> {{round($v['_source']['total'], 2)}} </td>
                         </tr>
                         @endforeach
                     </tbody>

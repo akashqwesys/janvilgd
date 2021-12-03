@@ -120,73 +120,28 @@ class DiamondController extends Controller
     {
         $response = $request->all();
 
-        $q = null;
-        $ag_names = null;
-        $diamond_ids = DB::table('diamonds as d');
-        $ij = 0;
-        if (isset($response['web']) && $response['web'] == 'admin') {
-            $all_attributes = DB::table('attribute_groups as ag')
-                ->leftJoin('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
-                ->select('a.attribute_id', 'ag.attribute_group_id')
-                ->where('refCategory_id', $request->category)
-                ->get();
-
-            $new_all_attributes = [];
-            $temp_grp_id = 0;
-            foreach ($all_attributes as $v) {
-                if ($temp_grp_id != $v->attribute_group_id) {
-                    $temp_grp_id = $v->attribute_group_id;
-                    $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
-                } else {
-                    $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
-                }
+        $attr_to_send = [];
+        foreach ($response as $k => $v) {
+            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
+                continue;
             }
-
-            foreach ($new_all_attributes as $k => $v) {
-
-                // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
-                if (!(count($v) == 1 && empty($v[0]))) {
-                    // $q .= '("da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
-                    $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
-                } else {
-                    $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" = 0 ) and ';
-                }
-
-                $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
-                    ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id');
-
-                    if (!(count($v) == 1 && empty($v[0]))) {
-                        $diamond_ids = $diamond_ids->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
-                        $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-                    } else {
-                        $ag_names .= 'da' . $k . '.value as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-                    }
-
-                $ij++;
+            for ($i = 0; $i < count($v); $i++) {
+                // $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
+                $v[$i] = intval($v[$i]);
             }
-        } else {
-            $attr_to_send = [];
-            foreach ($response as $k => $v) {
-                if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
-                    continue;
-                }
-                for ($i = 0; $i < count($v); $i++) {
-                    // $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
-                    $v[$i] = intval($v[$i]);
-                }
-                $attr_to_send[] = [
-                    'nested' => [
-                        'query' => [
-                            'terms' => [
-                                'attributes_id.attribute_id' => array_values($v)
-                            ]
-                        ],
-                        'path' => 'attributes_id'
-                    ]
-                ];
+            $attr_to_send[] = [
+                'nested' => [
+                    'query' => [
+                        'terms' => [
+                            'attributes_id.attribute_id' => array_values($v)
+                        ]
+                    ],
+                    'path' => 'attributes_id'
+                ]
+            ];
 
-            }
         }
+
         // $attr_to_send = array_values($attr_to_send);
         // $elastic_sub_params = [
         //     'must' => [
@@ -379,7 +334,7 @@ class DiamondController extends Controller
             return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html, 'offset' => ($request->offset + 25)]);
         }
         if ($response['gateway'] == 'api') {
-            return $this->successResponse('Success', array_values($final_api));
+            return $this->successResponse('Success', array_values($final_d));
         } else {
             return $this->successResponse('Success', $final_d);
         }

@@ -556,7 +556,7 @@ class DiamondController extends Controller {
                 if($response['discount']=='' || $response['discount']==0){
                     $response['discount']=0;
                 }
-                $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();
+                // $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();
                 $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['category'])->where('is_deleted', 0)->first();
                 $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
                 $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -568,6 +568,7 @@ class DiamondController extends Controller {
                 if (!empty($diamonds)) {
                     $data=array();
                     foreach ($diamonds as $row) {
+                        $row = $row['_source'];
                         if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $discount = doubleval($response['discount']);
                                 $total=abs(($row['rapaport_price'] * $row['expected_polish_cts'] * ($discount-1))) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
@@ -576,7 +577,7 @@ class DiamondController extends Controller {
                                 $dummeyArray['Barcode']=$row['barcode'];
                                 $dummeyArray['Pktno']=$row['packate_no'];
                                 $dummeyArray['shape']=$row['attributes']['SHAPE'];
-                                $dummeyArray['exp_pol_size']=$row['attributes']['EXP POL SIZE'];
+                                // $dummeyArray['exp_pol_size']=$row['attributes']['EXP POL SIZE'];
                                 $dummeyArray['color']=$row['attributes']['COLOR'];
                                 $dummeyArray['clarity']=$row['attributes']['CLARITY'];
                                 $dummeyArray['makable_cts']=$row['makable_cts'];
@@ -594,8 +595,8 @@ class DiamondController extends Controller {
                                 if(isset($row['image'][2])){
                                     $dummeyArray['image_3']=$row['image'][2];
                                 }
-                                if(isset($row['image'][4])){
-                                    $dummeyArray['image_4']=$row['image'][4];
+                                if(isset($row['image'][3])){
+                                    $dummeyArray['image_4']=$row['image'][3];
                                 }
                                 $dummeyArray['video']='';
 
@@ -630,8 +631,8 @@ class DiamondController extends Controller {
                             if(isset($row['image'][2])){
                                 $dummeyArray['image_3']=$row['image'][2];
                             }
-                            if(isset($row['image'][4])){
-                                $dummeyArray['image_4']=$row['image'][4];
+                            if(isset($row['image'][3])){
+                                $dummeyArray['image_4']=$row['image'][3];
                             }
                             $dummeyArray['video']='';
 
@@ -643,6 +644,7 @@ class DiamondController extends Controller {
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*($discount-1));
 
                             $dummeyArray=array();
+                            array_push($data, $dummeyArray);
                         }
                     }
                 }
@@ -698,14 +700,6 @@ class DiamondController extends Controller {
                     ->editColumn('carat', function ($row) {
                         return $row['_source']['expected_polish_cts'];
                     })
-                /* ->editColumn('image', function ($row) {
-                        if (count($row['_source']['image'])) {
-                            $img_src = '/storage/other_images/' . $row['_source']['image'][0];
-                        } else {
-                            $img_src = '/assets/images/No-Preview-Available.jpg';
-                        }
-                        return $img_src;
-                    }) */
                     ->addColumn('price_per_carat', function ($row) {
                         $price_per_carat = 0;
                         if ($row['_source']['refCategory_id'] == 1) {
