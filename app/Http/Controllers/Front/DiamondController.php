@@ -516,31 +516,30 @@ class DiamondController extends Controller {
     public function searchListDiamondsPolish(Request $request) {
         
         $response = $request->all();
-
         
         $user = Auth::user();
-        $file_name = $user->customer_id . '-' . $request->category;
+        $file_name = $user->customer_id . '-' . $response['params']['category'];
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
             $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
             $arr = json_decode($arr, true);
         }
-        if (isset($response['attribute_values'])) {
-            if (is_array($response['attribute_values']) && $response['group_id'] != 'price' && $response['group_id'] != 'carat') {
-                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                $arr[$request->group_id] = $response;
+        if (isset($response['params']['attribute_values'])) {
+            if (is_array($response['params']['attribute_values']) && $response['params']['group_id'] != 'price' && $response['params']['group_id'] != 'carat') {
+                $response = collect($response['params']['attribute_values'])->pluck('attribute_id')->values()->all();
+                $arr[$request->params['group_id']] = $response;
             } else {
-                if ($response['group_id'] == 'price') {
-                    $arr['price_min'] = $response['attribute_values'][0];
-                    $arr['price_max'] = $response['attribute_values'][1];
+                if ($response['params']['group_id'] == 'price') {
+                    $arr['price_min'] = $response['params']['attribute_values'][0];
+                    $arr['price_max'] = $response['params']['attribute_values'][1];
                 } else {
-                    $arr['carat_min'] = $response['attribute_values'][0];
-                    $arr['carat_max'] = $response['attribute_values'][1];
+                    $arr['carat_min'] = $response['params']['attribute_values'][0];
+                    $arr['carat_max'] = $response['params']['attribute_values'][1];
                 }
             }
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
-        $arr['category'] = $request->category;
-        $arr['category_slug'] = $request->category_slug;
+        $arr['category'] = $request->params['group_id'];
+        $arr['category_slug'] = $request->params['category_slug'];
         $arr['gateway'] = 'web';   
 
         if ($request->ajax()) { 

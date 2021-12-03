@@ -121,6 +121,8 @@ class DiamondController extends Controller
         
         $response = $request->all();
 
+
+        //  dd($response);
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
             if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
@@ -187,7 +189,7 @@ class DiamondController extends Controller
                             ], [
                                 'bool' => [
                                     'must' => [
-                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['category']) ] ] ],
+                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['params']['category']) ] ] ],
                                         [
                                             'range' => [
                                                 'expected_polish_cts' => [

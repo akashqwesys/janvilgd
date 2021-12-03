@@ -3,6 +3,8 @@
 @section('css')
 <link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
+<link href="{{ asset(check_host().'admin_assets/datatable/scroller.dataTables.min.css')}}" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
@@ -15,8 +17,17 @@
     <script type="text/javascript" src="/assets/nouislider/nouislider.js"></script>
     <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
+    <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.scroller.min.js')}}" type="text/javascript" ></script>
+    
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
+
+
+        div.dts div.dataTables_scrollBody {
+            background: repeating-linear-gradient(
+        45deg, #d2ab6642, #d2ab665c 10px, white 10px, #ffffff00 20px) !important;
+        }
+
         /* CSS for input range sliders */
         .diamond-cut-section {
             padding: 110px 0px;

@@ -28,7 +28,7 @@ function getDiamonds(values, array, group_id) {
         'group_id': group_id,
         'web': 'web',
         'category': global_category,
-        'category_slug': global_category_slug,
+        'category_slug': global_category_slug
     };
     if (global_category == 3) {
         columns_data = [
@@ -61,15 +61,32 @@ function getDiamonds(values, array, group_id) {
             orderable: false,
             targets: 0
         }],
+        'scrollY': 500,
+        'scrollX': true,
+        'scroller': {
+            loadingIndicator: true
+        },
+        "lengthMenu": [10, 50, 100, 500, 1000],
+        'scrollCollaps': true,
+        'buttons': false,
         "lengthChange": false,
         "bInfo": false,
         "processing": true,
         "serverSide": true,
-        "pageLength": 10,
-        "paginationType": "full_numbers",
+        "pageLength": 1000,
+        'deferRender': true,
+        "bScrollInfinite": true,
         "ajax": {
             'url': "/customer/list-diamonds",
-            'data': ajax_data,
+            'data': function(data) {
+                data.params = {
+                    'attribute_values': selected_values,
+                    'group_id': group_id,
+                    'web': 'web',
+                    'category': global_category,
+                    'category_slug': global_category_slug
+                }
+            },
             'complete': function() {
                 $('#result-tab').text('Results (' + $('#result-table tbody tr').length + ')');
             }
