@@ -121,7 +121,7 @@ class DiamondController extends Controller
         $response = $request->all();
 
         $attr_to_send = [];
-        foreach ($response as $k => $v) {
+        foreach ($response['attr_array'] as $k => $v) {
             if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
                 continue;
             }
@@ -139,7 +139,6 @@ class DiamondController extends Controller
                     'path' => 'attributes_id'
                 ]
             ];
-
         }
 
         // $attr_to_send = array_values($attr_to_send);
@@ -175,7 +174,7 @@ class DiamondController extends Controller
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,
             'body'  => [
-                'size'  => 10000,
+                'size'  => 5000,
                 'query' => [
                     'bool' => [
                         'must' => [
@@ -190,15 +189,15 @@ class DiamondController extends Controller
                                         [
                                             'range' => [
                                                 'expected_polish_cts' => [
-                                                    'from' => intval($response['carat_min'] ?? 0),
-                                                    'to' => intval($response['carat_max'] ?? 5)
+                                                    'from' => intval($response['attr_array']['carat_min'] ?? 0),
+                                                    'to' => intval($response['attr_array']['carat_max'] ?? 5)
                                                 ],
                                             ]
                                         ], [
                                             'range' => [
                                                 'total' => [
-                                                    'from' => intval($response['price_min'] ?? 0),
-                                                    'to' => intval($response['price_max'] ?? 3000)
+                                                    'from' => intval($response['attr_array']['price_min'] ?? 0),
+                                                    'to' => intval($response['attr_array']['price_max'] ?? 3000)
                                                 ],
                                             ]
                                         ]
@@ -214,8 +213,8 @@ class DiamondController extends Controller
             ->setHosts(['localhost:9200'])
             ->build();
 
-        $diamond_ids = $client->search($elastic_params);
-        // echo "<pre>"; print_r($diamond_ids); die;
+        $diamond_ids = $client->search($elastic_params);       
+
         $final_d = $final_api = [];
 
         if (isset($diamond_ids['hits']['hits'])) {
@@ -226,115 +225,9 @@ class DiamondController extends Controller
                 return $this->successResponse('No diamond found');
             }
         }
-
         $final_d = $diamond_ids['hits']['hits'];
-
-        /* foreach ($diamond_ids as $v_row) {
-            for ($i=0; $i < count($response); $i++) {
-
-                // FOR API
-                if ($v_row->{'ag_name_' . $i} == 'SHAPE') {
-                    if (in_array($v_row->{'name_'.$i}, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Oval Brilliant', 'OV', 'Oval'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Cushion', 'CU'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Cushion.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Princess Cut', 'PR', 'Princess'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Emerald', 'EM'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Emerald.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Marquise', 'MQ'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Marquise.png';
-                    } else if (in_array($v_row->{'name_'.$i}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                        $v_row->{'name_'.$i} = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
-                    }
-                }
-                $final_api[$v_row->diamond_id]['attributes'][] = [
-                    'key' => $v_row->{'ag_name_'.$i},
-                    'value' => $v_row->{'name_'.$i}
-                ];
-            }
-
-            $final_api[$v_row->diamond_id]['diamond_id'] = $v_row->diamond_id;
-            $final_api[$v_row->diamond_id]['barcode'] = $v_row->barcode;
-            $final_api[$v_row->diamond_id]['diamond_name'] = $v_row->diamond_name;
-            $final_api[$v_row->diamond_id]['carat'] = $v_row->carat;
-            $final_api[$v_row->diamond_id]['image'] = json_decode($v_row->image);
-            $final_api[$v_row->diamond_id]['price'] = $v_row->price;
-
-            if (isset($response['web']) && $response['web'] == 'admin') {
-                $final_api[$v_row->diamond_id]['video_link'] = $v_row->video_link;
-                $final_api[$v_row->diamond_id]['weight_loss'] = $v_row->weight_loss;
-                $final_api[$v_row->diamond_id]['remarks'] = $v_row->remarks;
-                $final_api[$v_row->diamond_id]['packate_no'] = $v_row->packate_no;
-                $final_api[$v_row->diamond_id]['discount'] = $v_row->discount;
-                $final_api[$v_row->diamond_id]['makable_cts'] = $v_row->makable_cts;
-                $final_api[$v_row->diamond_id]['rapaport_price'] = $v_row->rapaport_price;
-                $final_api[$v_row->diamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
-            }
-        } */
-
-        if ($request->web == 'web' && $response['offset'] >= 1) {
-
-            if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
-                $cart_or_box = '<label class="custom-check-box">
-                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                        <span class="checkmark"></span>
-                                    </label>';
-            } else {
-                $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
-            }
-            $html = '';
-
-            foreach ($final_d as $v) {
-                if (count($v['image'])) {
-                    $img_src = '/storage/other_images/' . $v['image'][0];
-                } else {
-                    $img_src = '/assets/images/No-Preview-Available.jpg';
-                }
-                $html .= '<tr class="removable_tr" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format(round($v['total'], 2), 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">
-                            <td scope="col" class="text-center">' . $v['barcode'] . '</td>';
-                if (isset($v['attributes']['SHAPE'])) {
-                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
-                } else {
-                    $html .= '<td scope="col" class="text-center"> - </td>';
-                }
-                $html.='<td scope="col" class="text-center">' . $v['carat'] . '</td>';
-                if ($response['category_slug'] == 'polish-diamonds') {
-                    if (isset($v['attributes']['CUT'])) {
-                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['CUT'] . '</td>';
-                    } else {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-                }
-                // if ($response['category_slug'] != 'rough-diamonds') {
-                    if (isset($v['attributes']['COLOR'])) {
-                        $html .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
-                    } else {
-                        $html .= '<td scope="col" class="text-center"> - </td>';
-                    }
-                // }
-                if (isset($v['attributes']['CLARITY'])) {
-                    $html .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
-                }else {
-                    $html .= '<td scope="col" class="text-center"> - </td>';
-                }
-                $html .= '<td scope="col" class="text-right">$' . number_format(round($v['total'], 2), 2, '.', ',') . '</td>
-                    <td scope="col" class="text-right">$' . number_format(round($v['total'], 2), 2, '.', ',') . '</td>
-                    <td scope="col" class="text-center">
-                            <div class="compare-checkbox">
-                                ' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
-                            </div>
-                        </td>
-                    </tr>';
-            }
-            return response()->json(['success' => 1, 'message' => 'Data updated', 'data' => $html, 'offset' => ($request->offset + 25)]);
-        }
-        if ($response['gateway'] == 'api') {
-            return $this->successResponse('Success', array_values($final_d));
+        if ($response['attr_array']['gateway'] == 'api') {
+            return $this->successResponse('Success', array_values( $final_d));
         } else {
             return $this->successResponse('Success', $final_d);
         }

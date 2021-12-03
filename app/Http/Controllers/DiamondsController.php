@@ -1576,7 +1576,7 @@ class DiamondsController extends Controller {
                 }
             }
         }
-
+    
         if(count($batch_elastics)){
             $params = array();
             $params = ['body' => []];
@@ -1887,7 +1887,7 @@ class DiamondsController extends Controller {
     }
 
     public function list(Request $request) {
-
+        
         if ($request->ajax()) {
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])

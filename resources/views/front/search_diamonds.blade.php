@@ -10,11 +10,11 @@
         var table_scroll = '.search-diamond-table .table-responsive';
         var global_data_offset = 0;
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
     <script type="text/javascript" src="/assets/nouislider/nouislider.js"></script>
     <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-<script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
+    <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
         /* CSS for input range sliders */
@@ -394,7 +394,6 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     $(document).on('click', '#export-search-diamond-admin-modal', function () {
         $("#staticBackdrop1").modal("show");
     });
-
 </script>
 @endsection
 
