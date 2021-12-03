@@ -186,7 +186,7 @@ class TestController extends Controller
         print_r($results);
     }
 
-    public function createElasticIndex(Request $request)
+    public function createElasticIndex()
     {
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
@@ -278,5 +278,13 @@ class TestController extends Controller
         ];
 
         $client->indices()->create($params);
+    }
+
+    public function dropElasticIndex()
+    {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        dd($client->indices()->delete(['index' => 'diamonds']));
     }
 }
