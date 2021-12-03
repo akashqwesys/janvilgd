@@ -13,6 +13,7 @@ use App\Imports\DiamondsImport;
 use App\Models\DiamondTemp;
 use Elasticsearch\ClientBuilder;
 
+ini_set('memory_limit', '-1');
 class DiamondsController extends Controller {
 
     public function index($cat_id) {
@@ -1606,9 +1607,9 @@ class DiamondsController extends Controller {
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
             }
-            $params = array();                
-            $params = ['body' => []]; 
-            $i=1; 
+            $params = array();
+            $params = ['body' => []];
+            $i=1;
             foreach($batch_elastics as $batch_row){
                 $type=$batch_row['type'];
                 $id=$batch_row['diamonds_id'];
