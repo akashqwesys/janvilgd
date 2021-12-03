@@ -144,9 +144,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <button class="btn btn-primary" id="filter-toggle">Filters
                             <i class="fas fa-chevron-down ms-2"></i>
                         </button>
-                        <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for customer</a>
+                        <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for Customer</a>
                         @if ($admin === true)
-                        <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for admin</a>
+                        <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for Admin</a>
                         @endif
                         <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>
                     </div>
@@ -192,7 +192,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -210,6 +210,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            @if ($category->slug == '4p-diamonds')
+                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            @elseif ($category->slug == 'rough-diamonds')
+                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            @endif
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
@@ -248,7 +253,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -261,6 +266,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            @if ($category->slug == '4p-diamonds')
+                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            @elseif ($category->slug == 'rough-diamonds')
+                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            @endif
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
@@ -278,6 +288,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? '/storage/other_images/'.$rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
                                                             <td scope="col" class="text-center">{{ $rv->barcode }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->shape }}</td>
+                                                            @if ($category->slug == '4p-diamonds' || $category->slug == 'rough-diamonds')
+                                                            <td scope="col" class="text-center">{{ $rv->makable_cts }}</td>
+                                                            @endif
                                                             <td scope="col" class="text-right">{{ $rv->carat }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->color }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->clarity }}</td>
@@ -325,7 +338,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>There are no results corresponding to your selections.</p><p> Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,6 +351,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         <tr>
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
+                                                            @if ($category->slug == '4p-diamonds')
+                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            @elseif ($category->slug == 'rough-diamonds')
+                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            @endif
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>

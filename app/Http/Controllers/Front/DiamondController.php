@@ -667,14 +667,14 @@ class DiamondController extends Controller {
             }
 
             if($response['export']=='export'){
-                $category_name = DB::table('categories')
-                    ->select('name')
+                $category = DB::table('categories')
+                    ->select('name', 'slug')
                     ->where('category_id', $request->category)
-                    ->pluck('name')
+                    // ->pluck('name')
                     ->first();
                 $final_d = $aa->searchDiamonds($request);
                 $diamonds = $final_d->original['data'];
-                $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category_name'));
+                $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category'));
                 $path = public_path('pdf/');
                 $fileName =  time() . '.' . 'pdf';
                 $pdf->save($path . '/' . $fileName);
@@ -720,6 +720,9 @@ class DiamondController extends Controller {
                             $shape = ' - ';
                         }
                         return $shape;
+                    })
+                    ->addColumn('makable_cts', function ($row) {
+                        return $row['_source']['makable_cts'];
                     })
                     ->addColumn('color', function ($row) {
                         if (isset($row['_source']['attributes']['COLOR'])) {

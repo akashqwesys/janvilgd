@@ -146,6 +146,7 @@ function getAttributeValues1(values, array, group_id) {
         columns_data = [
             { data: 'barcode', name: 'barcode' },
             { data: 'shape', name: 'shape' },
+            { data: 'makable_cts', name: 'makable_cts' },
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
@@ -379,24 +380,10 @@ $(document).on('click', '#filter-toggle', function() {
     }
 });
 
-$(document).on('click', '#export-search-diamond,#export-search-diamond-admin', function() {
-    var group_id = $(this).attr('data-group_id');
+$(document).on('click', '#export-search-diamond, #export-search-diamond-admin', function() {
     var export_value = $(this).attr('data-export');
     var discount = $("#export-discount").val();
-    if ($(this).attr('data-selected') == 1) {
-        $(this).css('border', '4px solid #00000000');
-        $(this).attr('data-selected', 0);
-    } else {
-        $(this).css('border', '4px solid #D2AB66');
-        $(this).attr('data-selected', 1);
-    }
-    var values = [];
-    $('.diamond-shape .item img').each(function(index, element) {
-        if ($(this).attr('data-selected') == 1) {
-            values.push({ 'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name') });
-        }
-    });
-    exportDiamondTables(values, [], group_id, export_value, discount);
+    exportDiamondTables([], [], '', export_value, discount);
 });
 
 function exportDiamondTables(values, array, group_id, export_value, discount) {
