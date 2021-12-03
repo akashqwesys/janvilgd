@@ -118,6 +118,7 @@ class DiamondController extends Controller
 
     public function searchDiamonds(Request $request)
     {
+        
         $response = $request->all();
 
         $attr_to_send = [];
@@ -140,7 +141,7 @@ class DiamondController extends Controller
                 ]
             ];
         }
-
+        
         // $attr_to_send = array_values($attr_to_send);
         // $elastic_sub_params = [
         //     'must' => [
@@ -169,7 +170,8 @@ class DiamondController extends Controller
         //             ]
         //         ]
         //     ];
-        // }
+        // } 
+                 
         $elastic_params = [
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,

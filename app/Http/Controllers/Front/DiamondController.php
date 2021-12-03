@@ -202,10 +202,10 @@ class DiamondController extends Controller {
                                     }
                                 });
                             });
-                            // priceSlider.noUiSlider.on("change", function () {                                
-                            //      $("#result-table").DataTable().destroy();                                
-                            //      getDiamonds(priceSlider.noUiSlider.get(), [], "price");
-                            // });
+                            priceSlider.noUiSlider.on("change", function () {                                
+                                 $("#result-table").DataTable().destroy();                                
+                                 getDiamonds(priceSlider.noUiSlider.get(), [], "price");
+                            });
                         </script>
                     </div>';
                 } else {
@@ -322,12 +322,12 @@ class DiamondController extends Controller {
                                 }
                             });
                         });
-                        // caratSlider.noUiSlider.on("change", function () {
-                        //     
-                        //     $("#result-table").DataTable().destroy();
-                        //     
-                        //     getDiamonds(caratSlider.noUiSlider.get(), [], "carat");
-                        // });
+                        caratSlider.noUiSlider.on("change", function () {                            
+                            if(onchange_call == true){
+                                $("#result-table").DataTable().destroy();                                    
+                                getDiamonds(this.get(), [], "carat");
+                            }
+                        });
                     </script>
                 </div>';
 
@@ -516,6 +516,8 @@ class DiamondController extends Controller {
     public function searchListDiamondsPolish(Request $request) {
         
         $response = $request->all();
+
+        
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $request->category;
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
@@ -541,8 +543,8 @@ class DiamondController extends Controller {
         $arr['category_slug'] = $request->category_slug;
         $arr['gateway'] = 'web';   
 
-
-        if ($request->ajax()) {    
+        if ($request->ajax()) { 
+            $final_data=[];   
             $aa = new APIDiamond;
             $request->request->add(['attr_array' => $arr]);
             $result = $aa->searchDiamonds($request);
@@ -570,15 +572,17 @@ class DiamondController extends Controller {
                         return $img_src;
                     }) */
                     ->addColumn('price_per_carat', function ($row) {
+                        // echo $row['discount'];die;
                         $price_per_carat=0;
                         if($row['refCategory_id']==1){
                             $price_per_carat=$row['total']/$row['makable_cts'];
                         }
                         if($row['refCategory_id']==2){
-                            $price_per_carat=($row['rapaport_price'])*(100-$row['discount']);
+                            
+                            $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
                         }
                         if($row['refCategory_id']==3){
-                            $price_per_carat=($row['rapaport_price'])*(100-$row['discount']);
+                            $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
                         }
                         return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
                     })
