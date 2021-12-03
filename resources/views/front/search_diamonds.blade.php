@@ -18,8 +18,8 @@
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
         /* CSS for input range sliders */
-        .overlay {
-            background-color: unset;
+        .diamond-cut-section {
+            padding: 110px 0px;
         }
         .dataTables_filter {
             display: none;
@@ -149,22 +149,24 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                     </div>
                 </div>
                 <div class="search-diamond-view">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
-                        </li>
-                        @if ($admin === true)
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected </button>
-                        </li>
-                        @endif
-                        <li class="nav-item" role="presentation">
+                    <div class="w-75 d-inline-block">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
+                            </li>
+                            @if ($admin === true)
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected Diamonds</button>
+                            </li>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="w-25 float-right text-right">
                         <input type="text" class="form-controll" id="myInput">
-                        <li class="nav-item" role="presentation">
-                    </ul>
+                    </div>
 
                     <input type="hidden" id="offset_value" value="0">
                     <div class="tab-content" id="myTabContent">
@@ -194,11 +196,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9">
                                         <div class="search-diamond-table">
-                                            <div class="overlay cs-loader">
+                                            {{-- <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><span class="spinner"></span></div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="">
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>

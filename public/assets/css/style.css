@@ -1788,7 +1788,7 @@ span.value.upper::before {
 .filter-item {
     display: flex;
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     padding-right: 10px;
 }
 
@@ -2048,7 +2048,7 @@ span.value.upper::before {
 }
 
 .search-diamond-view {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .search-diamond-view .tab-pane {

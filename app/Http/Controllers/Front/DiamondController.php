@@ -4,22 +4,23 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Traits\APIResponse;
+// use App\Http\Traits\APIResponse;
 use App\Http\Controllers\API\DiamondController as DiamondApi;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use App\Models\Customers;
-use App\Models\CustomerCompanyDetail;
-use App\Mail\EmailVerification;
+// use Illuminate\Support\Facades\Validator;
+// use Illuminate\Validation\Rule;
+// use App\Models\Customers;
+// use App\Models\CustomerCompanyDetail;
+// use App\Mail\EmailVerification;
 use DB;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+// use Carbon\Carbon;
+// use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 use App\Exports\DiamondExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use DataTables;
+use Illuminate\Support\Facades\Session;
 
 class DiamondController extends Controller {
 
@@ -121,7 +122,7 @@ class DiamondController extends Controller {
                             $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
-                            $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                            $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                                 <div class="diamond-shape filter-item align-items-center">
                                     <label>SHAPE<span class=""><i class="fas fa-question-circle"></i></span></label>
                                     <ul class="list-unstyled mb-0 diamond_shape">
@@ -131,7 +132,7 @@ class DiamondController extends Controller {
                             </div>';
                         }
                     }
-                    $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                    $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                         <div class="diamond-cart filter-item">
                             <label>PRICE<span class=""><i class="fas fa-question-circle"></i></span></label>
                             <div class="range-sliders">
@@ -224,7 +225,7 @@ class DiamondController extends Controller {
                             $file_arr[$k][] = intval($v1['attribute_id']);
                         }
                         if (count($v['attributes']) > 1) {
-                            $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+                            $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                                     <div class="diamond-cut filter-item">
                                         <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
                                         <div class="range-sliders">
@@ -257,7 +258,7 @@ class DiamondController extends Controller {
                 }
             }
         }
-        $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2">
+        $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                     <div class="diamond-cart filter-item">
                         <label>CARAT<span class=""><i class="fas fa-question-circle"></i></span></label>
                         <div class="range-sliders">
@@ -741,10 +742,14 @@ class DiamondController extends Controller {
                         return '$'.number_format(round($row['_source']['total'], 2), 2, '.', ',');
                     })
                     ->addColumn('compare', function ($row) {
-                        $cart_or_box = '<label class="custom-check-box">
-                                <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                <span class="checkmark"></span>
-                            </label>';
+                        if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                            $cart_or_box = '<label class="custom-check-box">
+                                                <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                                <span class="checkmark"></span>
+                                            </label>';
+                        } else {
+                            $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+                        }
 
                         return '<div class="compare-checkbox">
                                     ' . str_replace('v_diamond_id', $row['_source']['diamond_id'], $cart_or_box) . '

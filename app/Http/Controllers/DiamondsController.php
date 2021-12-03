@@ -1895,7 +1895,7 @@ class DiamondsController extends Controller {
             if (session('user-type') == "MASTER_ADMIN") {
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
                 $params = [
-                    'size'   => 1000,
+                    'size'   => 10000,
                     'index' => 'diamonds',
                     'body'  => [
                         'query' => [
@@ -1910,7 +1910,7 @@ class DiamondsController extends Controller {
             }else{
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->where('is_deleted',0)->orderBy('diamond_id', 'desc')->get();
                 $params = [
-                    'size'   => 1000,
+                    'size'   => 10000,
                     'index' => 'diamonds',
                     'body'  => [
                         'query' => [
