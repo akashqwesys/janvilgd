@@ -118,11 +118,7 @@ class DiamondController extends Controller
 
     public function searchDiamonds(Request $request)
     {
-        
         $response = $request->all();
-
-
-        //  dd($response);
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
             if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
@@ -143,7 +139,7 @@ class DiamondController extends Controller
                 ]
             ];
         }
-        
+
         // $attr_to_send = array_values($attr_to_send);
         // $elastic_sub_params = [
         //     'must' => [
@@ -172,13 +168,13 @@ class DiamondController extends Controller
         //             ]
         //         ]
         //     ];
-        // } 
-                 
+        // }
+
         $elastic_params = [
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,
             'body'  => [
-                'size'  => 5000,
+                'size'  => 10000,
                 'query' => [
                     'bool' => [
                         'must' => [
@@ -193,15 +189,19 @@ class DiamondController extends Controller
                                         [
                                             'range' => [
                                                 'expected_polish_cts' => [
-                                                    'from' => intval($response['attr_array']['carat_min'] ?? 0),
-                                                    'to' => intval($response['attr_array']['carat_max'] ?? 5)
+                                                    'from' => floatval($response['attr_array']['carat_min']-0.01 ?? 0),
+                                                    'to' => floatval($response['attr_array']['carat_max']+0.01 ?? 5),
+                                                    // 'include_lower' => true,
+                                                    // 'include_upper' => true
                                                 ],
                                             ]
                                         ], [
                                             'range' => [
                                                 'total' => [
-                                                    'from' => intval($response['attr_array']['price_min'] ?? 0),
-                                                    'to' => intval($response['attr_array']['price_max'] ?? 3000)
+                                                    'from' => floatval($response['attr_array']['price_min']-0.01 ?? 0),
+                                                    'to' => floatval($response['attr_array']['price_max']+0.01 ?? 3000),
+                                                    // 'include_lower' => true,
+                                                    // 'include_upper' => true,
                                                 ],
                                             ]
                                         ]
@@ -216,9 +216,9 @@ class DiamondController extends Controller
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
-
-        $diamond_ids = $client->search($elastic_params);       
-
+        // dd($elastic_params);
+        $diamond_ids = $client->search($elastic_params);
+        // dd(count($diamond_ids['hits']['hits']));
         $final_d = $final_api = [];
 
         if (isset($diamond_ids['hits']['hits'])) {

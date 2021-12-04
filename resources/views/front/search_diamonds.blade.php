@@ -1,9 +1,9 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
-<link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
-<link href="{{ asset(check_host().'admin_assets/datatable/scroller.dataTables.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset(check_host().'admin_assets/datatable/scroller.dataTables.min.css')}}" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
@@ -11,6 +11,7 @@
         var global_category_slug = '{{ $category->slug }}';
         var table_scroll = '.search-diamond-table .table-responsive';
         var global_data_offset = 0;
+        var stop_on_change = 0;
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
@@ -18,14 +19,11 @@
     <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.scroller.min.js')}}" type="text/javascript" ></script>
-    
+
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
-
-
         div.dts div.dataTables_scrollBody {
-            background: repeating-linear-gradient(
-        45deg, #d2ab6642, #d2ab665c 10px, white 10px, #ffffff00 20px) !important;
+            background: unset;
         }
 
         /* CSS for input range sliders */
@@ -155,8 +153,8 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <button class="btn btn-primary" id="filter-toggle">Filters
                             <i class="fas fa-chevron-down ms-2"></i>
                         </button>
-                        <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for Customer</a>
                         @if ($admin === true)
+                        <a href="javascript:;" data-export='export' class="btn btn-primary" id="export-search-diamond"><i class="fas fa-download me-2"></i> Export for Customer</a>
                         <a href="javascript:;" class="btn btn-primary" id="export-search-diamond-admin-modal"><i class="fas fa-download me-2"></i> Export for Admin</a>
                         @endif
                         <a href="#" class="btn reset-btn"><i class="fas fa-times me-2"></i> Reset Filters</a>

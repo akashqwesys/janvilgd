@@ -89,7 +89,7 @@ Route::group( ['middleware' => ['auth']], function () {
 
     // Diamonds
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::get('customer/search-diamonds', [HDiamond::class, 'searchDiamonds'])->name('search-diamond');
+    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds'])->name('search-diamond');
     Route::get('customer/single-diamonds/{barcode}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
 
 

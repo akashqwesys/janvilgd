@@ -156,9 +156,9 @@ class DiamondController extends Controller {
                                 range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
-                                priceJs[handle].value = values[handle];                                
+                                priceJs[handle].value = values[handle];
                                 if(onchange_call == true){
-                                    $("#result-table").DataTable().destroy();                                    
+                                    $("#result-table").DataTable().destroy();
                                     getDiamonds(this.get(), [], "price");
                                 }
                             });
@@ -202,8 +202,8 @@ class DiamondController extends Controller {
                                     }
                                 });
                             });
-                            priceSlider.noUiSlider.on("change", function () {                                
-                                 $("#result-table").DataTable().destroy();                                
+                            priceSlider.noUiSlider.on("change", function () {
+                                 $("#result-table").DataTable().destroy();
                                  getDiamonds(priceSlider.noUiSlider.get(), [], "price");
                             });
                         </script>
@@ -241,9 +241,9 @@ class DiamondController extends Controller {
                                     labels: true,
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
-                                        var array = " . json_encode($default_values) . ";                                        
+                                        var array = " . json_encode($default_values) . ";
                                         if(onchange_call == true){
-                                            $('#result-table').DataTable().destroy();                                            
+                                            $('#result-table').DataTable().destroy();
                                             getDiamonds(vals, array, " . $k . ");
                                         }
                                     }
@@ -276,9 +276,9 @@ class DiamondController extends Controller {
                             range: { "min": ' . $min_carat . ', "max": ' . $max_carat . ' }
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
-                            caratJs[handle].value = values[handle];                            
+                            caratJs[handle].value = values[handle];
                               if(onchange_call == true){
-                                 $("#result-table").DataTable().destroy();                                    
+                                 $("#result-table").DataTable().destroy();
                                  getDiamonds(this.get(), [], "carat");
                               }
                         });
@@ -322,9 +322,9 @@ class DiamondController extends Controller {
                                 }
                             });
                         });
-                        caratSlider.noUiSlider.on("change", function () {                            
+                        caratSlider.noUiSlider.on("change", function () {
                             if(onchange_call == true){
-                                $("#result-table").DataTable().destroy();                                    
+                                $("#result-table").DataTable().destroy();
                                 getDiamonds(this.get(), [], "carat");
                             }
                         });
@@ -405,9 +405,9 @@ class DiamondController extends Controller {
                                     labels: true,
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
-                                        var array = " . json_encode($default_values) . ";                                        
+                                        var array = " . json_encode($default_values) . ";
                                           if(onchange_call == true){
-                                            $('#result-table').DataTable().destroy();                                           
+                                            $('#result-table').DataTable().destroy();
                                             getDiamonds(vals, array, " . $k . ");
                                           }
                                     }
@@ -511,12 +511,10 @@ class DiamondController extends Controller {
         // return Excel::download(new DiamondExport($data), 'users.xlsx');
     }
 
-
-
     public function searchListDiamondsPolish(Request $request) {
-        
+
         $response = $request->all();
-        
+
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $response['params']['category'];
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
@@ -540,10 +538,10 @@ class DiamondController extends Controller {
         }
         $arr['category'] = $request->params['group_id'];
         $arr['category_slug'] = $request->params['category_slug'];
-        $arr['gateway'] = 'web';   
+        $arr['gateway'] = 'web';
 
-        if ($request->ajax()) { 
-            $final_data=[];   
+        if ($request->ajax()) {
+            $final_data=[];
             $aa = new APIDiamond;
             $request->request->add(['attr_array' => $arr]);
             $result = $aa->searchDiamonds($request);
@@ -552,38 +550,24 @@ class DiamondController extends Controller {
                 $final_data[] = $v['_source'];
             }
 
-
-            // dd($final_data);
-
             return Datatables::of($final_data)
-                             // ->editColumn('barcode', function ($row) {
-                    //     return $row['barcode'];
-                    // })
                     ->editColumn('carat', function ($row) {
                         return $row['expected_polish_cts'];
                     })
-                    /* ->editColumn('image', function ($row) {
-                        if (count($row['_source']['image'])) {
-                            $img_src = '/storage/other_images/' . $row['_source']['image'][0];
-                        } else {
-                            $img_src = '/assets/images/No-Preview-Available.jpg';
-                        }
-                        return $img_src;
-                    }) */
                     ->addColumn('price_per_carat', function ($row) {
-                        // echo $row['discount'];die;
                         $price_per_carat=0;
                         if($row['refCategory_id']==1){
                             $price_per_carat=$row['total']/$row['makable_cts'];
                         }
                         if($row['refCategory_id']==2){
-                            
+
                             $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
                         }
                         if($row['refCategory_id']==3){
                             $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
                         }
-                        return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
+                        return (round($price_per_carat, 2));
+                        // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
                     })
                     ->addColumn('shape', function ($row) {
                         if (isset($row['attributes']['SHAPE'])) {
@@ -618,14 +602,18 @@ class DiamondController extends Controller {
                         return  $clarity;
                     })
                     ->addColumn('total', function ($row) {
-                        return '$'.number_format(round($row['total'], 2), 2, '.', ',');
+                        // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
+                        return (round($row['total'], 2));
                     })
                     ->addColumn('compare', function ($row) {
-                        $cart_or_box = '<label class="custom-check-box">
-                                <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                <span class="checkmark"></span>
-                            </label>';
-
+                        if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                            $cart_or_box = '<label class="custom-check-box">
+                                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                                        <span class="checkmark"></span>
+                                                    </label>';
+                        } else {
+                            $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+                        }
                         return '<div class="compare-checkbox">
                                     ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
                                 </div>';
@@ -634,12 +622,6 @@ class DiamondController extends Controller {
                     ->make(true);
         }
     }
-
-
-
-
-
-
 
     public function searchDiamonds(Request $request)
     {
@@ -667,9 +649,9 @@ class DiamondController extends Controller {
         }
         $arr['category'] = $request->category;
         $arr['category_slug'] = $request->category_slug;
-        $arr['gateway'] = 'web';          
+        $arr['gateway'] = 'web';
         $aa = new APIDiamond;
-        $request->request->replace($arr);
+        $request->request->add(['attr_array' => $arr]);
 
         if (isset($response['export'])) {
 
@@ -810,7 +792,7 @@ class DiamondController extends Controller {
         }
 
         if ($request->ajax()) {
-           
+
             $q = null;
             $ag_names = null;
             $diamond_ids = DB::table('diamonds as d');
@@ -821,7 +803,7 @@ class DiamondController extends Controller {
                     ->select('a.attribute_id', 'ag.attribute_group_id')
                     ->where('refCategory_id', $request->category)
                     ->get();
-    
+
                 $new_all_attributes = [];
                 $temp_grp_id = 0;
                 foreach ($all_attributes as $v) {
@@ -832,9 +814,9 @@ class DiamondController extends Controller {
                         $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
                     }
                 }
-    
+
                 foreach ($new_all_attributes as $k => $v) {
-    
+
                     // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
                     if (!(count($v) == 1 && empty($v[0]))) {
                         // $q .= '("da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
@@ -842,17 +824,17 @@ class DiamondController extends Controller {
                     } else {
                         $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" = 0 ) and ';
                     }
-    
+
                     $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
                         ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id');
-    
+
                         if (!(count($v) == 1 && empty($v[0]))) {
                             $diamond_ids = $diamond_ids->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
                             $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
                         } else {
                             $ag_names .= 'da' . $k . '.value as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
                         }
-    
+
                     $ij++;
                 }
             } else {
@@ -875,7 +857,7 @@ class DiamondController extends Controller {
                             'path' => 'attributes_id'
                         ]
                     ];
-    
+
                 }
             }
             // $attr_to_send = array_values($attr_to_send);
@@ -949,14 +931,14 @@ class DiamondController extends Controller {
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
                 ->build();
-    
+
             $diamond_ids = $client->search($elastic_params);
             // echo "<pre>"; print_r($diamond_ids); die;
             // $diamond_ids=$client->search(['index' => 'diamonds']);
-    
-    
+
+
             $final_d = $final_api = [];
-    
+
             if (isset($diamond_ids['hits']['hits'])) {
                 if(count($diamond_ids['hits']['hits']) < 1){
                     if ($request->web == 'web' && $request->scroll == 0 ) {
@@ -965,29 +947,8 @@ class DiamondController extends Controller {
                     return $this->successResponse('No diamond found');
                 }
             }
-    
-            $final_d = $diamond_ids['hits']['hits'];        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // $result = $aa->searchDiamonds($request);
-            // $data=$result->original['data'];
+            $final_d = $diamond_ids['hits']['hits'];
 
             foreach ($final_d as $v) {
                 $final_data[] = $v['_source'];
@@ -999,7 +960,7 @@ class DiamondController extends Controller {
                     // })
                     ->editColumn('carat', function ($row) {
                         return $row['expected_polish_cts'];
-                    })                 
+                    })
                     ->addColumn('price_per_carat', function ($row) {
                         $price_per_carat=0;
                         if($row['refCategory_id']==1){

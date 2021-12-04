@@ -1805,6 +1805,7 @@ span.value.upper::before {
     padding-top: 2px;
     justify-content: space-between;
     color: #808080;
+    font-weight: 500;
 }
 
 .filter-content .row .col:nth-child(even) .filter-item>label {
