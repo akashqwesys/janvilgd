@@ -107,6 +107,7 @@ function getDiamonds(values, array, group_id)
         columns_data = [
             { data: 'barcode', name: 'barcode' },
             { data: 'shape', name: 'shape' },
+            { data: 'makable_cts', name: 'makable_cts' },
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
@@ -163,18 +164,16 @@ function getDiamonds(values, array, group_id)
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
             $(row).children(':nth-child(3)').addClass('text-right');
-            $(row).children(':nth-child(4)').addClass('text-center');
             $(row).children(':nth-child(5)').addClass('text-center');
+            $(row).children(':nth-child(6)').addClass('text-center');
+            $(row).children(':nth-child(7)').addClass('text-right');
+            $(row).children(':nth-child(8)').addClass('text-right');
+            $(row).children(':nth-child(9)').addClass('text-center');
 
             if (global_category == 3) {
-                $(row).children(':nth-child(6)').addClass('text-center');
-                $(row).children(':nth-child(7)').addClass('text-right');
-                $(row).children(':nth-child(8)').addClass('text-right');
-                $(row).children(':nth-child(9)').addClass('text-center');
+                $(row).children(':nth-child(4)').addClass('text-center');
             } else {
-                $(row).children(':nth-child(6)').addClass('text-right');
-                $(row).children(':nth-child(7)').addClass('text-right');
-                $(row).children(':nth-child(8)').addClass('text-center');
+                $(row).children(':nth-child(4)').addClass('text-right');
             }
             $(row).children('td').attr('scope', 'col');
         }
