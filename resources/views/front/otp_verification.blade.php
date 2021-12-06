@@ -39,11 +39,11 @@
                         <h2 class="title">Verify With OTP</h2>
                         <p class="mb-0">Sent to {{ decrypt($request->token, false) }}</p>
                         <form class="otp-form bv-form">
-                            <div class="d-flex flex-row">
-                                <input type="text" class="form-control" id="no-1" onfocus="this.select();">
-                                <input type="text" class="form-control" id="no-2" onfocus="this.select();">
-                                <input type="text" class="form-control" id="no-3" onfocus="this.select();">
-                                <input type="text" class="form-control" id="no-4" onfocus="this.select();">
+                            <div class="d-flex flex-row otp-list">
+                                <input type="text" class="form-control" id="no-1" autofocus onfocus="this.select();" maxlength="1" minlength="1">
+                                <input type="text" class="form-control" id="no-2" onfocus="this.select();" maxlength="1" minlength="1">
+                                <input type="text" class="form-control" id="no-3" onfocus="this.select();" maxlength="1" minlength="1">
+                                <input type="text" class="form-control" id="no-4" onfocus="this.select();" maxlength="1" minlength="1">
                             </div>
                         </form>
                         <p class="reset-time">
@@ -169,6 +169,8 @@
                                 icon: 'error',
                                 position: 'top-right'
                             });
+                            $("#no-1").focus();
+                            $(".otp-list input").val('');
                         }
                     },
                     failure: function (response) {
@@ -179,6 +181,8 @@
                             icon: 'error',
                             position: 'top-right'
                         });
+                        $("#no-1").focus();
+                        $(".otp-list input").val('');
                     }
                 });
             }
@@ -210,6 +214,7 @@
                             icon: 'error',
                             position: 'top-right'
                         });
+                        $(".otp-list input").val('');
                     }
                 },
                 failure: function (response) {
@@ -223,6 +228,15 @@
                 }
             });
         });
+    $( document ).ready(function() {    
+        $(".otp-list input").keyup(function(){          
+		    var key = event.keyCode || event.charCode;
+            if( key == 8 || key == 46 ){
+                $(this).prev("input[type='text']").focus();
+            }
+	    })
+    });
     </script>
+    
 </body>
 </html>

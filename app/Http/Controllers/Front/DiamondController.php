@@ -126,7 +126,7 @@ class DiamondController extends Controller {
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                                 <div class="diamond-shape filter-item align-items-center">
-                                    <label>SHAPE<span class=""><i class="fas fa-question-circle"></i></span></label>
+                                    <label><b>SHAPE</b><span class=""><i class="fas fa-question-circle"></i></span></label>
                                     <ul class="list-unstyled mb-0 diamond_shape">
                                         ' . $list . '
                                     </ul>
