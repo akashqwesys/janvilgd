@@ -1787,7 +1787,7 @@ span.value.upper::before {
 
 .filter-item {
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     margin-bottom: 25px;
     padding-right: 10px;
 }
@@ -2000,7 +2000,7 @@ span.value.upper::before {
 
 .selected-diamonds:before {
     content: "";
-    height: 41px;
+    height: 37px;
     width: calc(100% + 30px);
     background-color: #d2ab66;
     position: absolute;
@@ -2014,20 +2014,22 @@ span.value.upper::before {
     padding: 20px;
 }
 
-.search-diamond-table .table-responsive {
+
+/* .search-diamond-table .table-responsive {
     height: 500px;
-}
+} */
 
 .search-diamond-table .table {
     font-size: 14px;
 }
 
-.search-diamond-table .table thead {
+
+/* .search-diamond-table .table thead {
     position: sticky;
     top: 0;
     border: 0;
     z-index: 9;
-}
+} */
 
 .search-diamond-table thead {
     background-color: #D2AB66;

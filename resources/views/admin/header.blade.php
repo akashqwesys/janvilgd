@@ -509,7 +509,7 @@ $(document).ready(function () {
             echo 0;
         }
         ?> === 1)
-    {
+    {        
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},

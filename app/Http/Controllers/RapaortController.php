@@ -204,7 +204,7 @@ class RapaortController extends Controller
                                         $final_price = $ro_amount - $labour_charge_rough->amount;
                                         $total = abs($final_price * (doubleval($d_row->makable_cts)));
                                         $data_array = [
-                                             'diamond_id'=>$d_row->diamond_id,
+                                            'diamond_id'=>$d_row->diamond_id,
                                             'rapaport_price' => $rapa_price,
                                             'total' => $total
                                         ];
@@ -222,15 +222,18 @@ class RapaortController extends Controller
             }
         }
 
+
+        // echo '<pre>';print_r($value);die;
+
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();    
         if(count($value)){          
             $params = array();                
             $params = ['body' => []]; 
-            $i=1; 
+            $i=0; 
             foreach($value as $batch_row){                
-                $id=$batch_row['diamond_id'];              
+                $id='d_id_'.$batch_row['diamond_id'];              
                 unset($batch_row['diamond_id']);                                                   
                     $params["body"][]= [
                             "update" => [
@@ -242,21 +245,18 @@ class RapaortController extends Controller
                         "doc"=>$batch_row
                     ];                           
                     if ($i % 1000 == 0) {
-                        $responses = $client->bulk($params);                                
+                        $responses = $client->bulk($params); 
+                        //  dd($responses);                                                       
                         $params = ['body' => []];                                
                         unset($responses);
-                    }
-               
+                    }               
                 $i=$i+1;
-            }            
+            }                          
             // Send the last batch if it exists
-            if (!empty($params['body'])) {
-                $responses = $client->bulk($params);
+            if (!empty($params['body'])) {                
+                $responses = $client->bulk($params);                
             }
         }
-
-
-
 
         $diamondsInstance = new Diamonds;        
         $index = 'diamond_id';

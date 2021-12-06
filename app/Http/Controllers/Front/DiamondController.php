@@ -125,22 +125,30 @@ class DiamondController extends Controller {
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
-                                <div class="diamond-shape filter-item align-items-center">
-                                    <label><b>SHAPE</b><span class=""><i class="fas fa-question-circle"></i></span></label>
+                            <div class="row">
+                            <div class="col-md-2 col-sm-2 filter-text diamond-shape ">
+                                <b>SHAPE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                            </div>
+                                <div class="diamond-shape filter-item align-items-center col-md-10 col-sm-10">                                    
                                     <ul class="list-unstyled mb-0 diamond_shape">
                                         ' . $list . '
                                     </ul>
+                                </div>
                                 </div>
                             </div>';
                         }
                     }
                     $html .= '<div class="col col-12 col-sm-12 col-lg-6">
-                        <div class="diamond-cart filter-item">
-                            <label>PRICE<span class=""><i class="fas fa-question-circle"></i></span></label>
-                            <div class="range-sliders">
-                                <div class="slider-styled" id="priceSlider"></div>
-                                $<input type="text" id="minPrice" class="w-5r">
-                                <div class="float-right">$<input type="text" id="maxPrice" class="w-5r text-right"></div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 filter-text diamond-cart">
+                               <b>PRICE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                            </div>
+                            <div class="diamond-cart filter-item col-md-10 col-sm-10">                               
+                                <div class="range-sliders">
+                                    <div class="slider-styled" id="priceSlider"></div>
+                                    $<input type="text" id="minPrice" class="w-5r">
+                                    <div class="float-right">$<input type="text" id="maxPrice" class="w-5r text-right"></div>
+                                </div>
                             </div>
                         </div>
                         <script>
@@ -163,6 +171,14 @@ class DiamondController extends Controller {
                                 }
                             });
                             // Listen to keydown events on the input field.
+                            
+                            // priceSlider.noUiSlider.on("set", function (values, handle) {
+                            //     priceJs[handle].value = values[handle];
+                            //     if(onchange_call == true){
+                            //         $("#result-table").DataTable().destroy();
+                            //         getDiamonds(priceSlider.noUiSlider.get(), [], "price");
+                            //     }
+                            // });
                             priceJs.forEach(function (input, handle) {
                                 input.addEventListener("change", function () {
                                     priceSlider.noUiSlider.setHandle(handle, this.value);
@@ -201,11 +217,7 @@ class DiamondController extends Controller {
                                             break;
                                     }
                                 });
-                            });
-                            priceSlider.noUiSlider.on("change", function () {
-                                 $("#result-table").DataTable().destroy();
-                                 getDiamonds(priceSlider.noUiSlider.get(), [], "price");
-                            });
+                            });                            
                         </script>
                     </div>';
                 } else {
@@ -224,12 +236,17 @@ class DiamondController extends Controller {
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
-                                    <div class="diamond-cut filter-item">
-                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 filter-text diamond-cut ">
+                                    <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                                </div>
+                                    <div class="diamond-cut filter-item  col-md-10 col-sm-10">
+                                        
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>
                                     </div>
+                                </div>
                                 </div>';
                             $html .= "<script type='text/javascript'>
                                 var Slider" . $k . " = new rSlider({
@@ -255,13 +272,17 @@ class DiamondController extends Controller {
             }
         }
         $html .= '<div class="col col-12 col-sm-12 col-lg-6">
-                    <div class="diamond-cart filter-item">
-                        <label>CARAT<span class=""><i class="fas fa-question-circle"></i></span></label>
+                <div class="row">
+                <div class="col-md-2 col-sm-2 filter-text diamond-cart">
+                <b>CARAT</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                </div>
+                    <div class="diamond-cart  col-md-10 col-sm-10">                       
                         <div class="range-sliders">
                             <div class="slider-styled" id="caratSlider"></div>
                             <input type="text" id="minCarat" class="w-5r">
                             <input type="text" id="maxCarat" class="float-right w-5r text-right">
                         </div>
+                    </div>
                     </div>
                     <script>
                         var caratSlider = document.getElementById("caratSlider");
@@ -363,11 +384,15 @@ class DiamondController extends Controller {
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
-                                <div class="diamond-shape filter-item align-items-center">
-                                    <label>SHAPE<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                    <ul class="list-unstyled mb-0 diamond_shape">
-                                        ' . $list . '
-                                    </ul>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 filter-text diamond-shape">
+                                    <b>SHAPE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                                    </div>
+                                    <div class="diamond-shape filter-item col-md-10 col-sm-10">  
+                                        <ul class="list-unstyled mb-0 diamond_shape">
+                                            ' . $list . '
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>';
                         }
@@ -388,12 +413,16 @@ class DiamondController extends Controller {
                         }
                         if (count($v['attributes']) > 1) {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
-                                    <div class="diamond-cut filter-item">
-                                        <label>' . $v['name'] . '<span class=""><i class="fas fa-question-circle"></i></span></label>
-                                        <div class="range-sliders">
-                                            <input type="text" id="Slider' . $k . '"/>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2 filter-text diamond-cut ">
+                                            <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                         </div>
-                                    </div>
+                                        <div class="diamond-cut filter-item col-md-10 col-sm-10"> 
+                                            <div class="range-sliders">
+                                                <input type="text" id="Slider' . $k . '"/>
+                                            </div>
+                                        </div>
+                                </div>
                                 </div>';
                             $none_fix .= "<script type='text/javascript'>
                                 var Slider" . $k . " = new rSlider({
@@ -609,7 +638,7 @@ class DiamondController extends Controller {
                         if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                             $cart_or_box = '<label class="custom-check-box">
                                                         <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                                        <span class="checkmark"></span>
+                                                        &nbsp;<span class="checkmark"></span>
                                                     </label>';
                         } else {
                             $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
@@ -1016,7 +1045,7 @@ class DiamondController extends Controller {
                         if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                             $cart_or_box = '<label class="custom-check-box">
                                                 <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                                <span class="checkmark"></span>
+                                                &nbsp;<span class="checkmark"></span>
                                             </label>';
                         } else {
                             $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';

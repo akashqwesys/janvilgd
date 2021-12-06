@@ -1602,14 +1602,15 @@ class DiamondsController extends Controller {
                 }
                 $i=$i+1;
             }
-
+           
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
+                // dd($responses);
             }
             $params = array();
             $params = ['body' => []];
-            $i=1;
+            $i=0;
             foreach($batch_elastics as $batch_row){
                 $type=$batch_row['type'];
                 $id=$batch_row['diamonds_id'];
@@ -1627,16 +1628,17 @@ class DiamondsController extends Controller {
                     ];
                     if ($i % 1000 == 0) {
                         $responses = $client->bulk($params);
+                        // dd($responses);
                         $params = ['body' => []];
                         unset($responses);
                     }
                 }
                 $i=$i+1;
-            }
-
+            }        
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
+                // dd($responses);
             }
         }
 

@@ -1,7 +1,7 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
-    <link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset(check_host().'admin_assets/datatable/jquery1.dataTables.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset(check_host().'admin_assets/datatable/scroller.dataTables.min.css')}}" rel="stylesheet" type="text/css">
 
@@ -128,6 +128,13 @@
         .pdl-0 {
             padding-left: 0;
         }
+        .filter-text{            
+            font-size: 13px;
+            text-align: right; 
+            color: #808080; 
+
+        } 
+       
     </style>
 @endsection
 @section('content')
