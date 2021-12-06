@@ -3,80 +3,32 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var table_columns=[];
-            <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_4P')){
-            ?>
-                    table_columns = [                    
-                    {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},
-                    {data: 'barcode', name: 'barcode'},
-                    {data: 'packate_no', name: 'packate_no'},                    
-//                    {data: 'available_pcs', name: 'available_pcs'},
-                    {data: 'makable_cts', name: 'makable_cts'},
-                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},                                       
-                    {data: 'discount', name: 'discount'},
-                    {data: 'weight_loss', name: 'weight_loss'}, 
-                    {data: 'total', name: 'total'},  
-//                    {data: 'category_name', name: 'category_name'},                    
-                    {data: 'is_active', name: 'is_active',className: "is_active"},
-                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
-                    {data: 'date_added', name: 'date_added'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    }
+            <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){ ?>
+                table_columns = [
+                    { data: 'barcode', name: 'barcode' },
+                    { data: 'shape', name: 'shape' },
+                    { data: 'carat', name: 'carat' },
+                    { data: 'color', name: 'color' },
+                    { data: 'clarity', name: 'clarity' },
+                    { data: 'cut', name: 'cut' },
+                    { data: 'price_per_carat', name: 'price_per_carat' },
+                    { data: 'total', name: 'total' },
+                    { data: 'action', name: 'action' }
                 ];
-                    <?php
-            } ?>
-            <?php if($data['cat_type']== config('constant.CATEGORY_TYPE_ROUGH')){
-            ?>                    
-                    table_columns = [                    
-                    {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},
-                    {data: 'barcode', name: 'barcode'},
-                    {data: 'packate_no', name: 'packate_no'},                                        
-                    {data: 'makable_cts', name: 'makable_cts'},
-                    {data: 'expected_polish_cts', name: 'expected_polish_cts'},                                       
-                    {data: 'discount', name: 'discount'},  
-                    {data: 'total', name: 'total'},  
-//                    {data: 'category_name', name: 'category_name'},                    
-                    {data: 'is_active', name: 'is_active',className: "is_active"},
-                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
-                    {data: 'date_added', name: 'date_added'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    }
+            <?php } else {?>
+                table_columns = [
+                    { data: 'barcode', name: 'barcode' },
+                    { data: 'shape', name: 'shape' },
+                    { data: 'makable_cts', name: 'makable_cts' },
+                    { data: 'carat', name: 'carat' },
+                    { data: 'color', name: 'color' },
+                    { data: 'clarity', name: 'clarity' },
+                    { data: 'price_per_carat', name: 'price_per_carat' },
+                    { data: 'total', name: 'total' },
+                    { data: 'action', name: 'action' }
                 ];
-                    <?php
-            } ?>
-            <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){
-            ?>
-                    table_columns = [                    
-                    {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},
-                    {data: 'barcode', name: 'barcode'},
-                    {data: 'packate_no', name: 'packate_no'},                                                                                                                 
-                    {data: 'expected_polish_cts', name: 'expected_polish_cts'}, 
-                    {data: 'discount', name: 'discount'}, 
-                    {data: 'total', name: 'total'},  
-//                    {data: 'category_name', name: 'category_name'},                    
-                    {data: 'is_active', name: 'is_active',className: "is_active"},
-                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
-                    {data: 'date_added', name: 'date_added'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    }
-                    ];
-                    <?php
-            } ?>
-            
+            <?php } ?>
+
             $('#table').DataTable({
                 responsive: {
                     details: {
@@ -85,23 +37,37 @@
                     }
                 },
                 columnDefs: [{
-                        className: 'control',
-                        orderable: false,
-                        targets: 0
-                    }],               
+                    className: '-control',
+                    orderable: false,
+                    targets: 8
+                }],
                 "processing": true,
                 "serverSide": true,
-                "pageLength": 10,                                      
-                "paginationType": "full_numbers",                                                                                                     
-                "ajax": {                      
+                "pageLength": 10,
+                "paginationType": "full_numbers",
+                "ajax": {
                         'url': "{{ route('diamonds.list') }}",
-                        'data': {                            
-                            'refCategory_id':<?php echo $data['cat_id']; ?>                           
+                        'data': {
+                            'refCategory_id':<?php echo $data['cat_id']; ?>
                         }
                     },
                 columns:table_columns,
-                "createdRow": function (row, data, dataIndex) {                    
-                    $(row).addClass('tr_'+['diamond_id']);                      
+                "createdRow": function (row, data, dataIndex) {
+                    $(row).addClass('tr_'+['diamond_id']);
+                    $(row).children(':nth-child(1)').addClass('text-center');
+                    $(row).children(':nth-child(2)').addClass('text-center');
+                    $(row).children(':nth-child(3)').addClass('text-right');
+                    $(row).children(':nth-child(5)').addClass('text-center');
+                    $(row).children(':nth-child(6)').addClass('text-center');
+                    $(row).children(':nth-child(7)').addClass('text-right');
+                    $(row).children(':nth-child(8)').addClass('text-right');
+                    $(row).children(':nth-child(9)').addClass('text-center');
+
+                    <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){ ?>
+                        $(row).children(':nth-child(4)').addClass('text-center');
+                    <?php } else {?>
+                        $(row).children(':nth-child(4)').addClass('text-right');
+                    <?php } ?>
                 }
             });
         });
@@ -138,9 +104,9 @@
                     }
                 });
             });
-        });    
+        });
     </script>
-    <script type="text/javascript">     
+    <script type="text/javascript">
         $(document).ready(function () {
             $(document).on('click', '.active_inactive_button', function () {
                 var self = $(this);
@@ -149,7 +115,7 @@
                 var module = self.attr('data-module');
                 var status_main=1;
                 if(status==1){
-                    status_main=0;                    
+                    status_main=0;
                 }
                 var wherefield = self.attr('data-wherefield');
                 if (!confirm('Are you sure want to update?'))
@@ -171,19 +137,19 @@
                     success: function (res) {
                         if (res.suceess) {
                             if(status==1){
-                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');     
+                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');
                                 self.attr("data-status",0);
                                 self.html('<em class="icon ni ni-check-thick"></em>');
                                 self.removeClass('btn-danger');
                                 self.addClass('btn-success');
                             }
                             if(status==0){
-                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>'); 
+                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>');
                                 self.attr("data-status",1);
                                 self.html('<em class="icon ni ni-cross"></em>');
                                 self.removeClass('btn-success');
                                 self.addClass('btn-danger');
-                            }                            
+                            }
                             $('#append_loader').empty();
                         }
                     }

@@ -1576,7 +1576,7 @@ class DiamondsController extends Controller {
                 }
             }
         }
-    
+
         if(count($batch_elastics)){
             $params = array();
             $params = ['body' => []];
@@ -1887,7 +1887,7 @@ class DiamondsController extends Controller {
     }
 
     public function list(Request $request) {
-        
+
         if ($request->ajax()) {
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
@@ -1930,57 +1930,101 @@ class DiamondsController extends Controller {
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
             }
-
-            // echo '<pre>';print_r($final_data);die;
-
             return Datatables::of($final_data)
-                            ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {
-                                return date_formate($row['date_added']);
-                            })
-                            ->editColumn('diamond_id', function ($row) {
-                                return $row['diamond_id'];
-                            })
-                            ->editColumn('discount', function ($row) {
-                                return ($row['discount']*100);
-                            })
-                            ->editColumn('total', function ($row) {
-                                return round($row['total'],2);
-                            })
-                            ->editColumn('weight_loss', function ($row) {
-                                return round($row['weight_loss'],2);
-                            })
-                            ->editColumn('is_active', function ($row) {
-                                $active_inactive_button = '';
-                                if ($row['is_active'] == 1) {
-                                    $active_inactive_button = '<span class="badge badge-success">Active</span>';
-                                }
-                                if ($row['is_active'] == 0) {
-                                    $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
-                                }
-                                return $active_inactive_button;
-                            })
-                            ->editColumn('is_deleted', function ($row) {
-                                $delete_button = '';
-                                if ($row['is_deleted'] == 1) {
-                                    $delete_button = '<span class="badge badge-danger">Deleted</span>';
-                                }
-                                return $delete_button;
-                            })
-                            ->addColumn('action', function ($row) {
-                                if ($row['is_active'] == 1) {
-                                    $str = '<em class="icon ni ni-cross"></em>';
-                                    $class = "btn-danger";
-                                }
-                                if ($row['is_active'] == 0) {
-                                    $str = '<em class="icon ni ni-check-thick"></em>';
-                                    $class = "btn-success";
-                                }
-                                $actionBtn = '<a href="/admin/diamonds/edit/' . $row['diamond_id'] . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="diamonds" data-id="' . $row['diamond_id'] . '" data-table="diamonds" data-wherefield="diamond_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row['diamond_id'] . '" data-status="' . $row['is_active'] . '" data-table="diamonds" data-wherefield="diamond_id" data-module="diamonds">' . $str . '</button>';
-                                return $actionBtn;
-                            })
-                            ->escapeColumns([])
-                            ->make(true);
+                // ->addColumn('index', '')
+                ->editColumn('barcode', function ($row) {
+                    return $row['barcode'];
+                })
+                ->editColumn('carat', function ($row) {
+                    return $row['expected_polish_cts'];
+                })
+                ->addColumn('price_per_carat', function ($row) {
+                    $price_per_carat = 0;
+                    if ($row['refCategory_id'] == 1) {
+                        $price_per_carat = $row['total'] / $row['makable_cts'];
+                    }
+                    if ($row['refCategory_id'] == 2) {
+                        $price_per_carat = ($row['rapaport_price']) * ((1 - $row['discount']));
+                    }
+                    if ($row['refCategory_id'] == 3) {
+                        $price_per_carat = ($row['rapaport_price']) * ((1 - $row['discount']));
+                    }
+                    return (round($price_per_carat, 2));
+                    // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
+                })
+                ->addColumn('shape', function ($row) {
+                    if (isset($row['attributes']['SHAPE'])) {
+                        $shape = $row['attributes']['SHAPE'];
+                    } else {
+                        $shape = ' - ';
+                    }
+                    return $shape;
+                })
+                ->addColumn('color', function ($row) {
+                    if (isset($row['attributes']['COLOR'])) {
+                        $color = $row['attributes']['COLOR'];
+                    } else {
+                        $color = ' - ';
+                    }
+                    return  $color;
+                })
+                ->addColumn('clarity', function ($row) {
+                    if (isset($row['attributes']['CLARITY'])) {
+                        $clarity = $row['attributes']['CLARITY'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('cut', function ($row) {
+                    if (isset($row['attributes']['CUT'])) {
+                        $clarity = $row['attributes']['CUT'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('total', function ($row) {
+                    // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
+                    return (round($row['total'], 2));
+                })
+                ->editColumn('date_added', function ($row) {
+                    return date_formate($row['date_added']);
+                })
+                ->editColumn('weight_loss', function ($row) {
+                    return round($row['weight_loss'],2);
+                })
+                /* ->editColumn('is_active', function ($row) {
+                    $active_inactive_button = '';
+                    if ($row['is_active'] == 1) {
+                        $active_inactive_button = '<span class="badge badge-success">Active</span>';
+                    }
+                    if ($row['is_active'] == 0) {
+                        $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
+                    }
+                    return $active_inactive_button;
+                })
+                ->editColumn('is_deleted', function ($row) {
+                    $delete_button = '';
+                    if ($row['is_deleted'] == 1) {
+                        $delete_button = '<span class="badge badge-danger">Deleted</span>';
+                    }
+                    return $delete_button;
+                }) */
+                ->addColumn('action', function ($row) {
+                    if ($row['is_active'] == 1) {
+                        $str = '<em class="icon ni ni-cross"></em>';
+                        $class = "btn-danger";
+                    }
+                    if ($row['is_active'] == 0) {
+                        $str = '<em class="icon ni ni-check-thick"></em>';
+                        $class = "btn-success";
+                    }
+                    $actionBtn = '<a href="/admin/diamonds/edit/' . $row['diamond_id'] . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="diamonds" data-id="' . $row['diamond_id'] . '" data-table="diamonds" data-wherefield="diamond_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row['diamond_id'] . '" data-status="' . $row['is_active'] . '" data-table="diamonds" data-wherefield="diamond_id" data-module="diamonds">' . $str . '</button>';
+                    return $actionBtn;
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
     }
 
