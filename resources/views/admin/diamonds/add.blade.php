@@ -1,25 +1,28 @@
 @extends('admin.header')
 @section('content')
-
-#ajaxForm{
-width:200px;
-height:100%;
-position: relative;
-}
-#append_loader_rapa{
-position: absolute;
-top:50%;
-right:0px;
-width:100%;
-height:100%;
-background-image:url('ajax-loader.gif');
-background-size: 50px;
-background-repeat:no-repeat;
-background-position:center;
-z-index:10000000;
-opacity: 0.4;
-filter: alpha(opacity=40);
-}
+<style>
+    #ajaxForm{
+        width:200px;
+        height:100%;
+        position: relative;
+    }
+    #append_loader_rapa{
+        position: absolute;
+        top:50%;
+        right:0px;
+        width:100%;
+        height:100%;
+        background-image:url('ajax-loader.gif');
+        background-size: 50px;
+        background-repeat:no-repeat;
+        background-position:center;
+        z-index:10000000;
+        opacity: 0.4;
+        filter: alpha(opacity=40);
+    }
+    .red-error {
+        color: red;
+    }
 </style>
 
 <div class="nk-content">
@@ -36,7 +39,7 @@ filter: alpha(opacity=40);
                     <div class="card">
                         <div class="card-inner row gs">
                             <div class="col-md-6">
-                                <form method="POST" action="{{route('diamonds.save')}}" enctype="multipart/form-data" id="add-diamond-form">
+                                <form method="POST" action="{{route('diamonds.save')}}" enctype="multipart/form-data" id="add_diamond_form">
                                     @csrf
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-4">
@@ -63,20 +66,6 @@ filter: alpha(opacity=40);
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="name">Name:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  autocomplete="off">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                     <div class="row g-3 align-center d-none" id="barcode">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -88,6 +77,7 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" name="barcode" placeholder="Enter barcode" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -102,6 +92,7 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="number" step="0.01" class="form-control" name="makable_cts" id="makable_cts_input" placeholder="Enter makable CTS" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -116,27 +107,12 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="number" step="0.01" class="form-control" name="expected_polish_cts" id="expected_polish_cts_input" placeholder="Enter expected polish CTS" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input" placeholder="Enter weight loss" autocomplete="off" readonly="">
-
-                                    <!-- <div class="row g-3 align-center d-none" id="weight_loss">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="weight_loss">Weight loss:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" readonly="">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
                                     <?php
                                     $ag_i = 0;
                                     foreach ($data['attribute_groups'] as $row) {
@@ -189,6 +165,7 @@ filter: alpha(opacity=40);
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
+                                                            <div class="errTxt"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -199,20 +176,6 @@ filter: alpha(opacity=40);
                                     ?>
 
                                     <input type="hidden" class="form-control" name="actual_pcs" placeholder="Enter actual pcs" autocomplete="off">
-                                    <!--                                    <div class="row g-3 align-center d-none" id="actual_pcs">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="actual_pcs">Actual pcs:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs"  autocomplete="off">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                     <input type="hidden" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off">
                                     <div class="row g-3 align-center d-none" id="available_pcs">
                                         <div class="col-lg-4">
@@ -225,10 +188,10 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="number" step="0.01" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="row g-3 align-center d-none" id="packate_no">
                                         <div class="col-lg-4">
@@ -241,6 +204,7 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" name="packate_no" placeholder="Enter packate no" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -272,25 +236,11 @@ filter: alpha(opacity=40);
                                                     </div>
                                                     <input type="number" step="0.01" class="form-control" name="discount" id="discount_input" min="0" max="100" minlength="0" maxlength="3" placeholder="Enter discount" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <input type="hidden" class="form-control" name="rapaport_price" id="rapaport_price_input" placeholder="Enter rapaport price" autocomplete="off">
-                                    <!--                                    <div class="row g-3 align-center d-none" id="rapaport_price">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">                                            
-                                                <label class="form-label float-md-right" for="rapaport_price">Rapaport price:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="hidden" class="form-control" name="rapaport_price" id="rapaport_price_input"  placeholder="Enter rapaport price"  autocomplete="off">                                             
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-
 
                                     <div class="row g-3 align-center" id="image">
                                         <div class="col-lg-4">
@@ -301,10 +251,11 @@ filter: alpha(opacity=40);
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <div class="custom-file">
+                                                    {{-- <div class="custom-file">
                                                         <input type="file" name="image[]" class="custom-file-input" multiple="">
                                                         <label class="custom-file-label" for="image">Choose file</label>
-                                                    </div>
+                                                    </div> --}}
+                                                    <textarea class="form-control" name="image"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -320,6 +271,7 @@ filter: alpha(opacity=40);
                                                 <div class="form-control-wrap">
                                                     <input type="url" class="form-control" name="video_link" placeholder="Enter video link" autocomplete="off">
                                                 </div>
+                                                <div class="errTxt"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -357,7 +309,7 @@ filter: alpha(opacity=40);
                                                                     <option value="default" selected="">------ Select ------</option>
                                                                     <?php
                                                                     foreach ($data['attributes'] as $atr_row) {
-                                                                        
+
                                                                         if ($row->attribute_group_id == $atr_row->attribute_group_id) {
                                                                     ?>
                                                                             <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
@@ -393,6 +345,7 @@ filter: alpha(opacity=40);
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
+                                                            <div class="errTxt"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -473,4 +426,36 @@ filter: alpha(opacity=40);
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
+<script>
+    $.validator.addMethod("alphanumeric", function(value, element) {
+        return this.optional(element) || /^[a-zA-Z0-9]+$/i.test(value);
+    }, "Enter valid alphanumeric value");
+
+    $("#add_diamond_form").validate({
+        errorClass: 'red-error',
+        errorElement: 'div',
+        rules: {
+            barcode: {required: true, alphanumeric: true},
+            expected_polish_cts: {required: true, number: true},
+            video_link: {url: true},
+            discount: { number: true, max: 100, min: 0.01},
+            // 'attribute_group_id_value[]': {alphanumeric: true}
+        },
+        messages: {
+            barcode: {required: "Barcode is required"}
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo(element.parent().nextAll("div.errTxt"));
+        },
+        submitHandler: function(form) {
+            // do other things for a valid form
+            form.submit();
+        }
+    });
+</script>
 @endsection
