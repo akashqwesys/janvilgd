@@ -129,13 +129,13 @@
         .pdl-0 {
             padding-left: 0;
         }
-        .filter-text{            
+        .filter-text{
             font-size: 13px;
-            text-align: right; 
-            color: #808080; 
+            text-align: right;
+            color: #808080;
 
-        } 
-       
+        }
+
     </style>
 @endsection
 @section('content')
@@ -151,7 +151,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
             <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
             <div class="diamond-cut-filter">
                 <div class="filter-content">
-                    <div class="row">
+                    <div class="row mb-2">
                         {!! $html !!}
                         {{-- <div class="filter-toggle"> --}}
                         {!! $none_fix !!}
@@ -228,18 +228,18 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-center">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
                                                             @if ($category->slug == 'polish-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Price/CT</th>
-                                                            <th scope="col" class="text-right">Price</th>
+                                                            <th scope="col" class="text-center">Price/CT</th>
+                                                            <th scope="col" class="text-center">Price</th>
                                                             <th scope="col" class="text-center">Compare</th>
                                                         </tr>
                                                     </thead>
@@ -284,9 +284,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
                                                             @endif
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
@@ -369,9 +369,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-center">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
                                                             @endif
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
@@ -411,6 +411,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     $(document).on('click', '#export-search-diamond-admin-modal', function () {
         $("#staticBackdrop1").modal("show");
     });
+    onchange_call = true;
 </script>
 @endsection
 

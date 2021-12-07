@@ -140,36 +140,6 @@ class DiamondController extends Controller
             ];
         }
 
-        // $attr_to_send = array_values($attr_to_send);
-        // $elastic_sub_params = [
-        //     'must' => [
-        //         [
-        //             'bool' => $attr_to_send
-        //         ], [
-        //             'match' => [ 'refCategory_id' => $response['category'] ]
-        //         ]
-        //     ]
-        // ];
-        // if (isset($response['price_min']) && isset($response['price_max']) && isset($response['carat_min']) && isset($response['carat_max'])) {
-        //     $elastic_sub_params = [
-        //         'must' => [
-        //             [
-        //                 'bool' => $attr_to_send
-        //             ], [
-        //                 'range' => [
-        //                     'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
-        //                 ]
-        //             ], [
-        //                 'range' => [
-        //                     'expected_polish_cts' => ['gte' => $response['carat_min'], 'lte' => $response['carat_max']]
-        //                 ]
-        //             ], [
-        //                 'match' => [ 'refCategory_id' => $response['category'] ]
-        //             ]
-        //         ]
-        //     ];
-        // }
-
         $elastic_params = [
             'index' => 'diamonds',
             // 'from' => $response['offset'] ?? 0,

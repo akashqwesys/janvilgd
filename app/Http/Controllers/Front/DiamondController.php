@@ -129,7 +129,7 @@ class DiamondController extends Controller {
                             <div class="col-md-2 col-sm-2 filter-text diamond-shape ">
                                 <b>SHAPE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                             </div>
-                                <div class="diamond-shape filter-item align-items-center col-md-10 col-sm-10">                                    
+                                <div class="diamond-shape filter-item align-items-center col-md-10 col-sm-10">
                                     <ul class="list-unstyled mb-0 diamond_shape">
                                         ' . $list . '
                                     </ul>
@@ -143,7 +143,7 @@ class DiamondController extends Controller {
                             <div class="col-md-2 col-sm-2 filter-text diamond-cart">
                                <b>PRICE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                             </div>
-                            <div class="diamond-cart filter-item col-md-10 col-sm-10">                               
+                            <div class="diamond-cart filter-item col-md-10 col-sm-10">
                                 <div class="range-sliders">
                                     <div class="slider-styled" id="priceSlider"></div>
                                     $<input type="text" id="minPrice" class="w-5r">
@@ -171,7 +171,7 @@ class DiamondController extends Controller {
                                 }
                             });
                             // Listen to keydown events on the input field.
-                            
+
                             // priceSlider.noUiSlider.on("set", function (values, handle) {
                             //     priceJs[handle].value = values[handle];
                             //     if(onchange_call == true){
@@ -217,7 +217,7 @@ class DiamondController extends Controller {
                                             break;
                                     }
                                 });
-                            });                            
+                            });
                         </script>
                     </div>';
                 } else {
@@ -241,7 +241,7 @@ class DiamondController extends Controller {
                                     <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                 </div>
                                     <div class="diamond-cut filter-item  col-md-10 col-sm-10">
-                                        
+
                                         <div class="range-sliders">
                                             <input type="text" id="Slider' . $k . '"/>
                                         </div>
@@ -276,7 +276,7 @@ class DiamondController extends Controller {
                 <div class="col-md-2 col-sm-2 filter-text diamond-cart">
                 <b>CARAT</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                 </div>
-                    <div class="diamond-cart  col-md-10 col-sm-10">                       
+                    <div class="diamond-cart  col-md-10 col-sm-10">
                         <div class="range-sliders">
                             <div class="slider-styled" id="caratSlider"></div>
                             <input type="text" id="minCarat" class="w-5r">
@@ -388,7 +388,7 @@ class DiamondController extends Controller {
                                     <div class="col-md-2 col-sm-2 filter-text diamond-shape">
                                     <b>SHAPE</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                     </div>
-                                    <div class="diamond-shape filter-item col-md-10 col-sm-10">  
+                                    <div class="diamond-shape filter-item col-md-10 col-sm-10">
                                         <ul class="list-unstyled mb-0 diamond_shape">
                                             ' . $list . '
                                         </ul>
@@ -417,7 +417,7 @@ class DiamondController extends Controller {
                                         <div class="col-md-2 col-sm-2 filter-text diamond-cut ">
                                             <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                         </div>
-                                        <div class="diamond-cut filter-item col-md-10 col-sm-10"> 
+                                        <div class="diamond-cut filter-item col-md-10 col-sm-10">
                                             <div class="range-sliders">
                                                 <input type="text" id="Slider' . $k . '"/>
                                             </div>
@@ -441,7 +441,6 @@ class DiamondController extends Controller {
                                           }
                                     }
                             });
-                            onchange_call=true;
                             </script>";
                         }
                     }
@@ -580,75 +579,78 @@ class DiamondController extends Controller {
             }
 
             return Datatables::of($final_data)
-                    ->editColumn('carat', function ($row) {
-                        return $row['expected_polish_cts'];
-                    })
-                    ->addColumn('price_per_carat', function ($row) {
-                        $price_per_carat=0;
-                        if($row['refCategory_id']==1){
-                            $price_per_carat=$row['total']/$row['makable_cts'];
-                        }
-                        if($row['refCategory_id']==2){
+                ->editColumn('carat', function ($row) {
+                    return $row['expected_polish_cts'];
+                })
+                ->addColumn('barcode_tag', function ($row) {
+                    return $row['barcode'] . ' <a href="/customer/single-diamonds/' . $row['barcode'] . '" target="_blank"> </a>';
+                })
+                ->addColumn('price_per_carat', function ($row) {
+                    $price_per_carat=0;
+                    if($row['refCategory_id']==1){
+                        $price_per_carat=$row['total']/$row['makable_cts'];
+                    }
+                    if($row['refCategory_id']==2){
 
-                            $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
-                        }
-                        if($row['refCategory_id']==3){
-                            $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
-                        }
-                        return (round($price_per_carat, 2));
-                        // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
-                    })
-                    ->addColumn('shape', function ($row) {
-                        if (isset($row['attributes']['SHAPE'])) {
-                            $shape = $row['attributes']['SHAPE'];
-                        } else {
-                            $shape = ' - ';
-                        }
-                        return $shape;
-                    })
-                    ->addColumn('color', function ($row) {
-                        if (isset($row['attributes']['COLOR'])) {
-                            $color = $row['attributes']['COLOR'];
-                        } else {
-                            $color = ' - ';
-                        }
-                        return  $color;
-                    })
-                    ->addColumn('clarity', function ($row) {
-                        if (isset($row['attributes']['CLARITY'])) {
-                            $clarity = $row['attributes']['CLARITY'];
-                        } else {
-                            $clarity = ' - ';
-                        }
-                        return  $clarity;
-                    })
-                    ->addColumn('cut', function ($row) {
-                        if (isset($row['attributes']['CUT'])) {
-                            $clarity = $row['attributes']['CUT'];
-                        } else {
-                            $clarity = ' - ';
-                        }
-                        return  $clarity;
-                    })
-                    ->addColumn('total', function ($row) {
-                        // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
-                        return (round($row['total'], 2));
-                    })
-                    ->addColumn('compare', function ($row) {
-                        if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
-                            $cart_or_box = '<label class="custom-check-box">
-                                                        <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                                        &nbsp;<span class="checkmark"></span>
-                                                    </label>';
-                        } else {
-                            $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
-                        }
-                        return '<div class="compare-checkbox">
-                                    ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
-                                </div>';
-                    })
-                    ->escapeColumns([])
-                    ->make(true);
+                        $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
+                    }
+                    if($row['refCategory_id']==3){
+                        $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
+                    }
+                    return (round($price_per_carat, 2));
+                    // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
+                })
+                ->addColumn('shape', function ($row) {
+                    if (isset($row['attributes']['SHAPE'])) {
+                        $shape = $row['attributes']['SHAPE'];
+                    } else {
+                        $shape = ' - ';
+                    }
+                    return $shape;
+                })
+                ->addColumn('color', function ($row) {
+                    if (isset($row['attributes']['COLOR'])) {
+                        $color = $row['attributes']['COLOR'];
+                    } else {
+                        $color = ' - ';
+                    }
+                    return  $color;
+                })
+                ->addColumn('clarity', function ($row) {
+                    if (isset($row['attributes']['CLARITY'])) {
+                        $clarity = $row['attributes']['CLARITY'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('cut', function ($row) {
+                    if (isset($row['attributes']['CUT'])) {
+                        $clarity = $row['attributes']['CUT'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('total', function ($row) {
+                    // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
+                    return (round($row['total'], 2));
+                })
+                ->addColumn('compare', function ($row) {
+                    if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                        $cart_or_box = '<label class="custom-check-box">
+                                                    <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                                    &nbsp;<span class="checkmark"></span>
+                                                </label>';
+                    } else {
+                        $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+                    }
+                    return '<div class="compare-checkbox">
+                                ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
+                            </div>';
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
     }
 
@@ -889,35 +891,6 @@ class DiamondController extends Controller {
 
                 }
             }
-            // $attr_to_send = array_values($attr_to_send);
-            // $elastic_sub_params = [
-            //     'must' => [
-            //         [
-            //             'bool' => $attr_to_send
-            //         ], [
-            //             'match' => [ 'refCategory_id' => $response['category'] ]
-            //         ]
-            //     ]
-            // ];
-            // if (isset($response['price_min']) && isset($response['price_max']) && isset($response['carat_min']) && isset($response['carat_max'])) {
-            //     $elastic_sub_params = [
-            //         'must' => [
-            //             [
-            //                 'bool' => $attr_to_send
-            //             ], [
-            //                 'range' => [
-            //                     'total' => [ 'gte' => $response['price_min'], 'lte' => $response['price_max'] ]
-            //                 ]
-            //             ], [
-            //                 'range' => [
-            //                     'expected_polish_cts' => ['gte' => $response['carat_min'], 'lte' => $response['carat_max']]
-            //                 ]
-            //             ], [
-            //                 'match' => [ 'refCategory_id' => $response['category'] ]
-            //             ]
-            //         ]
-            //     ];
-            // }
             $elastic_params = [
                 'index' => 'diamonds',
                 // 'from' => $request->offset' ?? 0,
