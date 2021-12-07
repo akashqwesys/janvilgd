@@ -29,17 +29,14 @@
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
                 ];
-            <?php } ?>
-            <?php } else{?>
+            <?php } else {?>
                 table_columns = [
                     { data: 'barcode', name: 'barcode' },
                     { data: 'shape', name: 'shape' },
                     { data: 'makable_cts', name: 'makable_cts' },
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
-                    { data: 'clarity', name: 'clarity' },
-                    // { data: 'price_per_carat', name: 'price_per_carat' },
-                    // { data: 'total', name: 'total' },
+                    { data: 'clarity', name: 'clarity' },              
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
@@ -54,7 +51,7 @@
                     }
                 },
                 columnDefs: [{
-                    className: '-control',
+                    className: 'control',
                     orderable: false,
                     targets: 8
                 }],
@@ -174,3 +171,4 @@
             });
         });
     </script>
+<?php } ?>
