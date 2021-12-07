@@ -392,20 +392,20 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
-						if (res.data.length > 0) {
-							$("#sub-total-td").text("$"+res.data['subtotal']);
-							$("#discount").text("$"+res.data['discount']);
-							$("#additional_discount").text("$"+res.data['additional_discount']);
-							$("#tax").text("$"+res.data['tax']);
-							$("#shipping").text("$"+res.data['shipping']);
-							$("#final-total-th div").text("$"+res.data['total']);
-						} else {
+						if (res.data.length == 0) {
 							$("#sub-total-td").text("$0");
 							$("#discount").text("$0");
 							$("#additional_discount").text("$0");
 							$("#tax").text("$0");
 							$("#shipping").text("$0");
 							$("#final-total-th div").text("$0");
+						} else {
+							$("#sub-total-td").text("$"+res.data.subtotal);
+							$("#discount").text("$"+res.data.discount);
+							$("#additional_discount").text("$"+res.data.additional_discount);
+							$("#tax").text("$"+res.data.tax);
+							$("#shipping").text("$"+res.data.shipping);
+							$("#final-total-th div").text("$"+res.data.total);
 						}
 						$("#diamond_"+diamond_id).remove();
 						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))-1);
