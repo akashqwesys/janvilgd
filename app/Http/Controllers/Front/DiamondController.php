@@ -167,21 +167,16 @@ class DiamondController extends Controller {
                                 range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
+                                priceJs[handle].value = values[handle];                                                            
+                            });                         
+                            priceSlider.noUiSlider.on("change", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 if(onchange_call == true){
                                     $("#result-table").DataTable().destroy();
                                     getDiamonds(this.get(), [], "price");
                                 }
                             });
-                            // Listen to keydown events on the input field.
-
-                            // priceSlider.noUiSlider.on("set", function (values, handle) {
-                            //     priceJs[handle].value = values[handle];
-                            //     if(onchange_call == true){
-                            //         $("#result-table").DataTable().destroy();
-                            //         getDiamonds(priceSlider.noUiSlider.get(), [], "price");
-                            //     }
-                            // });
+                            // Listen to keydown events on the input field.                           
                             priceJs.forEach(function (input, handle) {
                                 input.addEventListener("change", function () {
                                     priceSlider.noUiSlider.setHandle(handle, this.value);
@@ -194,8 +189,10 @@ class DiamondController extends Controller {
                                     var position;
                                     // 13 is enter, 38 is key up, 40 is key down.
                                     switch (e.which) {
-                                        case 13:
-                                            priceSlider.noUiSlider.setHandle(handle, this.value);
+                                        case 13:                                                                                                                                   
+                                            priceSlider.noUiSlider.setHandle(handle, this.value);  
+                                            $("#result-table").DataTable().destroy(); 
+                                            getDiamonds(priceSlider.noUiSlider.get(), [], "price");                                       
                                             break;
                                         case 38:
                                             // Get step to go increase slider value (up)
@@ -206,7 +203,7 @@ class DiamondController extends Controller {
                                             }
                                             // null = edge of slider
                                             if (position !== null) {
-                                                priceSlider.noUiSlider.setHandle(handle, value + position);
+                                                priceSlider.noUiSlider.setHandle(handle, value + position);                                                                                               
                                             }
                                             break;
                                         case 40:
@@ -300,6 +297,9 @@ class DiamondController extends Controller {
                             range: { "min": ' . $min_carat . ', "max": ' . $max_carat . ' }
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
+                            caratJs[handle].value = values[handle];                             
+                        });
+                        caratSlider.noUiSlider.on("change", function (values, handle) {
                             caratJs[handle].value = values[handle];
                               if(onchange_call == true){
                                  $("#result-table").DataTable().destroy();
@@ -321,6 +321,8 @@ class DiamondController extends Controller {
                                 switch (e.which) {
                                     case 13:
                                         caratSlider.noUiSlider.setHandle(handle, this.value);
+                                        $("#result-table").DataTable().destroy(); 
+                                        getDiamonds(caratSlider.noUiSlider.get(), [], "carat");  
                                         break;
                                     case 38:
                                         // Get step to go increase slider value (up)
@@ -594,7 +596,6 @@ class DiamondController extends Controller {
                         $price_per_carat=$row['total']/$row['makable_cts'];
                     }
                     if($row['refCategory_id']==2){
-
                         $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
                     }
                     if($row['refCategory_id']==3){

@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
     <script type="text/javascript" src="/assets/nouislider/nouislider.js"></script>
-    <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+    <script  src="{{ asset(check_host().'admin_assets/datatable/jquery1.dataTables.min.js')}}" type="text/javascript"></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.scroller.min.js')}}" type="text/javascript" ></script>
 
@@ -26,7 +26,6 @@
         div.dts div.dataTables_scrollBody {
             background: unset;
         }
-
         /* CSS for input range sliders */
         .diamond-cut-section {
             padding: 110px 0px;
@@ -72,8 +71,8 @@
             position: relative;
         }
         .cs-loader {
-            position: absolute;
-        }
+            position: relative;
+        }       
         .float-right {
             float: right;
         }
@@ -126,6 +125,9 @@
             padding: .25rem .5rem;
             font-size: .875rem;
         }
+        .compare-checkbox .add-to-cart{
+            border: 1px solid white;
+        }
         .pdl-0 {
             padding-left: 0;
         }
@@ -135,7 +137,15 @@
             color: #808080;
 
         }
-
+        .overlay {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 0px;
+            background: #92929292;
+            z-index: 1111;
+            display: none;
+        }
     </style>
 @endsection
 @section('content')
@@ -216,11 +226,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
-                                            {{-- <div class="overlay cs-loader">
+                                            <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><span class="spinner"></span></div>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                             <div class="">
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>

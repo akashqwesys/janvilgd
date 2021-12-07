@@ -3,6 +3,8 @@ var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
 
+
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -17,6 +19,8 @@ $(document).ready(function() {
         stop_on_change = 1;
         getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
+
+    // $(".cs-loader").show();
 });
 
 $(document).on('click', '.diamond-shape .item img', function() {
@@ -127,8 +131,8 @@ function getDiamonds(values, array, group_id) {
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
             { data: 'cut', name: 'cut' },
-            { data: 'price_per_carat', name: 'price_per_carat' },
-            { data: 'total', name: 'total' },
+            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
             { data: 'compare', name: 'compare' }
         ]
     } else if (global_category == 2) {
@@ -152,18 +156,18 @@ function getDiamonds(values, array, group_id) {
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
-            { data: 'price_per_carat', name: 'price_per_carat' },
-            { data: 'total', name: 'total' },
+            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
             { data: 'compare', name: 'compare' }
         ]
     }
 
     var table = $('#result-table').DataTable({
-        columnDefs: [{
-            className: 'control',
-            orderable: false,
-            targets: 0
-        }],
+        // columnDefs: [{
+        //     className: 'control',
+        //     orderable: false,
+        //     targets: 0
+        // }],
         'scrollY': 500,
         'scrollX': true,
         'scroller': {
@@ -176,11 +180,11 @@ function getDiamonds(values, array, group_id) {
         "bInfo": false,
         "processing": true,
         "serverSide": true,
-        "pageLength": 100,
         'deferRender': true,
         "bScrollInfinite": true,
+        'colReorder': true,
         "language": {
-            "processing": '<div class="overlay cs-loader"><div class="overlay__inner"><div class="overlay__content"><span class="spinner"></span></div></div></div>',
+            "processing": "<img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'>",
         },
         "ajax": {
             'url': "/customer/list-diamonds",
