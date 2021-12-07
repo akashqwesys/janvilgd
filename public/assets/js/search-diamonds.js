@@ -131,6 +131,19 @@ function getDiamonds(values, array, group_id) {
             { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ]
+    } else if (global_category == 2) {
+        columns_data = [
+            { data: 'barcode_tag', name: 'barcode_tag' },
+            { data: 'shape', name: 'shape' },
+            { data: 'makable_cts', name: 'makable_cts' },
+            { data: 'carat', name: 'carat' },
+            { data: 'color', name: 'color' },
+            { data: 'clarity', name: 'clarity' },
+            { data: 'cut', name: 'cut' },
+            { data: 'price_per_carat', name: 'price_per_carat' },
+            { data: 'total', name: 'total' },
+            { data: 'compare', name: 'compare' }
+        ]
     } else {
         columns_data = [
             { data: 'barcode_tag', name: 'barcode_tag' },
@@ -195,16 +208,18 @@ function getDiamonds(values, array, group_id) {
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
             $(row).children(':nth-child(3)').addClass('text-center');
+            $(row).children(':nth-child(4)').addClass('text-center');
             $(row).children(':nth-child(5)').addClass('text-center');
             $(row).children(':nth-child(6)').addClass('text-center');
             $(row).children(':nth-child(7)').addClass('text-center');
-            $(row).children(':nth-child(8)').addClass('text-right');
-            $(row).children(':nth-child(9)').addClass('text-center');
 
-            if (global_category == 3) {
-                $(row).children(':nth-child(4)').addClass('text-center');
+            if (global_category == 2) {
+                $(row).children(':nth-child(8)').addClass('text-center');
+                $(row).children(':nth-child(9)').addClass('text-right');
+                $(row).children(':nth-child(10)').addClass('text-center');
             } else {
-                $(row).children(':nth-child(4)').addClass('text-center');
+                $(row).children(':nth-child(8)').addClass('text-right');
+                $(row).children(':nth-child(9)').addClass('text-center');
             }
             $(row).children('td').attr('scope', 'col');
         }
@@ -217,7 +232,7 @@ function getDiamonds(values, array, group_id) {
     });
 }
 $(document).on('click', '#result-table tr', function() {
-    // $(this).find('td').eq('0').find('a').eq(0)[0].trigger('click');
+    window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
 });
 // getDiamonds(global_search_values, global_search_array, global_group_id);
 

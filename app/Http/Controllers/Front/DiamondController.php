@@ -82,9 +82,12 @@ class DiamondController extends Controller {
             });
         }
         $list = null;
-        $max = DB::table('diamonds')
+        $max = DB::table('diamonds as d')
+            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
             ->where('refCategory_id', $category->category_id)
+            ->where('refAttribute_id', '<>', 0)
+            // ->groupBy('da.refDiamond_id')
             ->first();
         if ($max) {
             $min_price = $max->min_price;

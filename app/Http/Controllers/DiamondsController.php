@@ -152,6 +152,7 @@ class DiamondsController extends Controller {
 
                                 $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                                 $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
+                                $total = number_format($total, 2, '.', '');
 
                                 $image=array();
                                 if(isset($row['image_link'])){
@@ -170,8 +171,8 @@ class DiamondsController extends Controller {
                                     'packate_no' => strval($row['main_pktno']),
                                     'actual_pcs' => 0,
                                     'available_pcs' => 1,
-                                    'makable_cts' => doubleval($row['mkbl_cts']),
-                                    'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                    'makable_cts' => number_format($row['mkbl_cts'], 3, '.', ''),
+                                    'expected_polish_cts' => number_format($row['exp_pol_cts'], 2, '.', ''),
                                     'remarks' => strval($row['remarks']),
                                     'rapaport_price' => $row['rapa'],
                                     'discount' => $row['discount'],
@@ -421,8 +422,8 @@ class DiamondsController extends Controller {
                                         'packate_no' => strval($row['main_pktno']),
                                         'actual_pcs' => 0,
                                         'available_pcs' => 1,
-                                        'makable_cts' => doubleval($row['mkbl_cts']),
-                                        'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                        'makable_cts' => number_format($row['mkbl_cts'], 3, '.', ''),
+                                        'expected_polish_cts' => number_format($row['exp_pol_cts'], 2, '.', ''),
                                         'rapaport_price' => $row['rapa'],
                                         'discount' => $row['discount'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -450,8 +451,8 @@ class DiamondsController extends Controller {
                                         'name' => $name,
                                         'barcode' => strval($row['barcode']),
                                         'packate_no' => strval($row['main_pktno']),
-                                        'makable_cts' => doubleval($row['mkbl_cts']),
-                                        'expected_polish_cts' => doubleval($row['exp_pol_cts']),
+                                        'makable_cts' => number_format($row['mkbl_cts'], 3, '.', ''),
+                                        'expected_polish_cts' => number_format($row['exp_pol_cts'], 2, '.', ''),
                                         'available_pcs' => 1,
                                         'rapaport_price' => $row['rapa'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -552,7 +553,7 @@ class DiamondsController extends Controller {
                                 $amount=abs($price*doubleval($row['exp_pol']));
                                 $ro_amount=abs($amount/doubleval($row['org_cts']));
                                 $final_price=$ro_amount-$labour_charge_rough->amount;
-                                $total=abs($final_price*(doubleval($row['org_cts'])));
+                                $total=abs($final_price*(number_format($row['org_cts'], 2, '.', '')));
 
                                 $image=array();
                                 if(isset($row['image_link'])){
@@ -574,8 +575,8 @@ class DiamondsController extends Controller {
                                     'barcode' => strval($row['barcode']),
                                     'packate_no' => strval($row['pktno']),
                                     'available_pcs' => 1,
-                                    'makable_cts' => doubleval($row['org_cts']),
-                                    'expected_polish_cts' => doubleval($row['exp_pol']),
+                                    'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
+                                    'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
                                     'rapaport_price' => $row['rap'],
                                     'discount' => $row['dis'],
                                     'refCategory_id' => $request->refCategory_id,
@@ -780,8 +781,8 @@ class DiamondsController extends Controller {
                                         'name' =>$name,
                                         'barcode' => strval($row['barcode']),
                                         'packate_no' => strval($row['pktno']),
-                                        'makable_cts' => doubleval($row['org_cts']),
-                                        'expected_polish_cts' => doubleval($row['exp_pol']),
+                                        'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
+                                        'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
                                         'rapaport_price' => $row['rap'],
                                         'discount' => $row['dis'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -809,8 +810,8 @@ class DiamondsController extends Controller {
                                         'barcode' => strval($row['barcode']),
                                         'packate_no' => strval($row['pktno']),
                                         'available_pcs' => 1,
-                                        'makable_cts' => doubleval($row['org_cts']),
-                                        'expected_polish_cts' => doubleval($row['exp_pol']),
+                                        'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
+                                        'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
                                         'rapaport_price' => $row['rap'],
                                         'discount' => $row['dis'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -916,6 +917,7 @@ class DiamondsController extends Controller {
                                 $row['discount_percent'] = doubleval($row['discount_percent']);
                                 $row['weight'] = doubleval($row['weight']);
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
+                                $total = number_format($total, 2, ".", "");
 
                                 $image=array();
                                 if(isset($row['image_link'])){
@@ -934,7 +936,7 @@ class DiamondsController extends Controller {
                                     'packate_no' => $row['stock'],
                                     'available_pcs' => 1,
                                     'discount' => $row['discount_percent'],
-                                    'expected_polish_cts' => $row['weight'],
+                                    'expected_polish_cts' => number_format($row['weight'],2, '.', ''),
                                     'rapaport_price' => $row['price'],
                                     'image' => $img_json,
                                     'video_link' => $row['video_link'],
@@ -1519,7 +1521,7 @@ class DiamondsController extends Controller {
                                         'actual_pcs' => 0,
                                         'available_pcs' => 1,
                                         'makable_cts' => 0,
-                                        'expected_polish_cts' => $row['weight'],
+                                        'expected_polish_cts' => number_format($row['weight'], 2, '.', ''),
                                         'rapaport_price' => $row['price'],
                                         'discount' => $row['discount_percent'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -1548,7 +1550,7 @@ class DiamondsController extends Controller {
                                         'barcode' => $row['certificate'],
                                         'packate_no' => $row['stock'],
                                         'makable_cts' => 0,
-                                        'expected_polish_cts' => $row['weight'],
+                                        'expected_polish_cts' => number_format($row['weight'], 2, '.', ''),
                                         'available_pcs' => 1,
                                         'rapaport_price' => $row['price'],
                                         'refCategory_id' => $request->refCategory_id,
@@ -1602,7 +1604,7 @@ class DiamondsController extends Controller {
                 }
                 $i=$i+1;
             }
-           
+
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
@@ -1634,7 +1636,7 @@ class DiamondsController extends Controller {
                     }
                 }
                 $i=$i+1;
-            }        
+            }
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
@@ -1751,8 +1753,8 @@ class DiamondsController extends Controller {
             $categories = DB::table('categories')
                 ->where('category_id',$request->refCategory_id)
                 ->where('is_active', 1)->where('is_deleted', 0)->first();
-                $discount=((100-$request->discount)/100);
-                $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
+            $discount=((100-$request->discount)/100);
+            $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
@@ -1770,10 +1772,11 @@ class DiamondsController extends Controller {
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
         }
 
+        $total = number_format($total, 2, ".", "");
         $discount=abs(($request->discount)/100);
 
-        $imgData = array();
-        if($request->hasfile('image')) {
+        $imgData = explode(',', $request->image);
+        /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -1785,7 +1788,7 @@ class DiamondsController extends Controller {
                 array_push($imgData,$imageName);
                 $i=$i+1;
             }
-        }
+        } */
         $image=json_encode($imgData);
 
         DB::table('diamonds')->insert([
@@ -1794,8 +1797,8 @@ class DiamondsController extends Controller {
             'packate_no' => $request->packate_no ?? 0,
             'actual_pcs' => $request->actual_pcs ?? 0,
             'available_pcs' => $request->available_pcs ?? 0,
-            'makable_cts' => $request->makable_cts ?? 0,
-            'expected_polish_cts' => $request->expected_polish_cts ?? 0,
+            'makable_cts' => $request->makable_cts ? number_format($request->makable_cts, 3, '.', '') : 0,
+            'expected_polish_cts' => $request->expected_polish_cts ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
             'remarks' => $request->remarks ?? 0,
             'rapaport_price' => $request->rapaport_price ?? 0,
             'discount' => $request->discount ? $discount : 0,
@@ -1857,8 +1860,8 @@ class DiamondsController extends Controller {
                 'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
                 'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
                 'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-                'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-                'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
+                'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
+                'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
                 'remarks' => isset($request->remarks) ? $request->remarks : 0,
                 'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
                 'discount' => isset($request->discount) ? $discount : 0,
@@ -2134,8 +2137,9 @@ class DiamondsController extends Controller {
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
         }
-        $imgData = array();
-        if($request->hasfile('image')) {
+        $total = number_format($total, 2, ".", "");
+        $imgData = explode(',', $request->image);
+        /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -2156,9 +2160,8 @@ class DiamondsController extends Controller {
                 array_push($imgData,$imageName);
                 $i=$i+1;
             }
-        }
+        } */
         $image=json_encode($imgData);
-
 
         DB::table('diamonds')->where('diamond_id', $request->id)->update([
             'name' => $name,
@@ -2166,8 +2169,8 @@ class DiamondsController extends Controller {
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
             'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-            'makable_cts' => isset($request->makable_cts) ? $request->makable_cts : 0,
-            'expected_polish_cts' => isset($request->expected_polish_cts) ? $request->expected_polish_cts : 0,
+            'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
+            'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
             'remarks' => isset($request->remarks) ? $request->remarks : 0,
             'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
             'discount' => isset($request->discount) ? $discount : 0,
@@ -2195,8 +2198,8 @@ class DiamondsController extends Controller {
                     'packate_no' => $request->packate_no ?? 0,
                     'actual_pcs' => $request->actual_pcs ?? 0,
                     'available_pcs' => $request->available_pcs ?? 0,
-                    'makable_cts' => $request->makable_cts ?? 0,
-                    'expected_polish_cts' => $request->expected_polish_cts ?? 0,
+                    'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
+                    'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
                     'remarks' => $request->remarks ?? 0,
                     'rapaport_price' => $request->rapaport_price ?? 0,
                     'discount' => isset($request->discount) ? $discount : 0,

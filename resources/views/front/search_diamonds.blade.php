@@ -235,7 +235,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-center">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
-                                                            @if ($category->slug == 'polish-diamonds')
+                                                            @if ($category->slug != 'rough-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
                                                             <th scope="col" class="text-center">Price/CT</th>
@@ -291,7 +291,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
-                                                            @if ($category->slug == 'polish-diamonds')
+                                                            @if ($category->slug != 'rough-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
                                                             <th scope="col" class="text-right">Price/CT</th>
@@ -311,7 +311,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <td scope="col" class="text-right">{{ $rv->carat }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->color }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->clarity }}</td>
-                                                            @if ($category->slug == 'polish-diamonds')
+                                                            @if ($category->slug != 'rough-diamonds')
                                                             <td scope="col" class="text-center">{{ $rv->cut }}</td>
                                                             @endif
                                                             <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
@@ -376,7 +376,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-right">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
-                                                            @if ($category->slug == 'polish-diamonds')
+                                                            @if ($category->slug != 'rough-diamonds')
                                                             <th scope="col" class="text-center">Cut</th>
                                                             @endif
                                                             <th scope="col" class="text-right">Price/CT</th>
