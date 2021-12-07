@@ -343,12 +343,12 @@ class DiamondController extends Controller {
                                 }
                             });
                         });
-                        caratSlider.noUiSlider.on("change", function () {
-                            if(onchange_call == true){
-                                $("#result-table").DataTable().destroy();
-                                getDiamonds(this.get(), [], "carat");
-                            }
-                        });
+                        // caratSlider.noUiSlider.on("change", function () {
+                        //     if(onchange_call == true){
+                        //         $("#result-table").DataTable().destroy();
+                        //         getDiamonds(this.get(), [], "carat");
+                        //     }
+                        // });
                     </script>
                 </div>';
 
