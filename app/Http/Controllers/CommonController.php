@@ -1196,7 +1196,7 @@ class CommonController extends Controller
         //******************* Atttribute groups Entry start *******************//
         $delete = DB::table('attributes')->truncate();        
         $attribute_array=array();        
-        foreach ($categories as $row){            
+                    
                 $data_array=array();
                 $data_array['name']='Round';
                 $data_array['attribute_group_id']=2;
@@ -2399,7 +2399,131 @@ class CommonController extends Controller
                     $data_array['date_added']=date("Y-m-d h:i:s");
                     $data_array['date_updated']=date("Y-m-d h:i:s");
                     array_push($attribute_array,$data_array);
-        }
+
+
+                    //GRIDLE CONDITION for polish
+                    $data_array=array();
+                    $data_array['name']='Medium To Slightly Thick (Faceted)';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=1;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Medium To Slightly Thick (Faceted)';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=2;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Medium (Faceted)';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=3;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Medium To Thick (Faceted)';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=4;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Slightly Thick To Thick (Faceted)';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=5;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Medium To Slightly Thick';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=6;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Slightly Thick To Thick';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=7;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Medium';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=8;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Thick';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=9;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    $data_array=array();
+                    $data_array['name']='Slightly Thick';
+                    $data_array['attribute_group_id']=27;
+                    $data_array['sort_order']=10;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+
+                    //LAB for polish
+                    $data_array=array();
+                    $data_array['name']='IGI';
+                    $data_array['attribute_group_id']=29;
+                    $data_array['sort_order']=1;
+                    $data_array['added_by']=1;                           
+                    $data_array['is_active']=1;
+                    $data_array['is_deleted']=0;
+                    $data_array['date_added']=date("Y-m-d h:i:s");
+                    $data_array['date_updated']=date("Y-m-d h:i:s");
+                    array_push($attribute_array,$data_array);
+        
         DB::table('attributes')->insert($attribute_array);
         //******************* labour charges Entry start *******************//
         $delete = DB::table('labour_charges')->delete();
