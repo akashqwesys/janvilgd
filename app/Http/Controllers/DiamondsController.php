@@ -553,7 +553,8 @@ class DiamondsController extends Controller {
                                 $amount=abs($price*doubleval($row['exp_pol']));
                                 $ro_amount=abs($amount/doubleval($row['org_cts']));
                                 $final_price=$ro_amount-$labour_charge_rough->amount;
-                                $total=abs($final_price*(number_format($row['org_cts'], 2, '.', '')));
+                                $total=abs($final_price* $row['org_cts']);
+                                $total = number_format($total, 2, '.', '');
 
                                 $image=array();
                                 if(isset($row['image_link'])){
@@ -1721,14 +1722,15 @@ class DiamondsController extends Controller {
         }
 
         $name_data = DB::table('attributes')->select('attributes.name as at_name','attribute_groups.name as ag_name', 'attributes.attribute_id as at_id', 'attributes.attribute_group_id as ag_id')
-               ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
-               ->whereIn('attributes.attribute_id',$batch_array1)->get();
+            ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
+            ->whereIn('attributes.attribute_id',$batch_array1)->get();
         $shape='';
         $color='';
         $clarity='';
 
         $new_attributes = $new_attributes_id = [];
         if(!empty($name_data)){
+            $i = 0;
             foreach ($name_data as $row){
                 if($row->ag_name=='SHAPE'){
                     $shape=$row->at_name.' Shape  • ';
@@ -1741,8 +1743,9 @@ class DiamondsController extends Controller {
                 }
                 $new_attributes[$row->ag_name] = $row->at_name;
                 // $new_attributes_id[$row->ag_id] = $row->at_id;
-                $new_attributes_id['attribute_group_id'] = $row->ag_id;
-                $new_attributes_id['attribute_id'] = $row->at_id;
+                $new_attributes_id[$i]['attribute_group_id'] = $row->ag_id;
+                $new_attributes_id[$i]['attribute_id'] = $row->at_id;
+                $i++;
             }
         }
 
@@ -1775,7 +1778,7 @@ class DiamondsController extends Controller {
         $total = number_format($total, 2, ".", "");
         $discount=abs(($request->discount)/100);
 
-        $imgData = explode(',', $request->image);
+        $imgData = $request->image ? explode(',', $request->image) : [];
         /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -2101,6 +2104,7 @@ class DiamondsController extends Controller {
         $clarity='';
         $new_attributes = $new_attributes_id = [];
         if (!empty($name_data)) {
+            $i = 0;
             foreach ($name_data as $row) {
                 if ($row->ag_name == 'SHAPE') {
                     $shape = $row->at_name . ' Shape  • ';
@@ -2113,12 +2117,12 @@ class DiamondsController extends Controller {
                 }
                 $new_attributes[$row->ag_name] = $row->at_name;
                 // $new_attributes_id[$row->ag_id] = $row->at_id;
-                $new_attributes_id['attribute_group_id'] = $row->ag_id;
-                $new_attributes_id['attribute_id'] = $row->at_id;
+                $new_attributes_id[$i]['attribute_group_id'] = $row->ag_id;
+                $new_attributes_id[$i]['attribute_id'] = $row->at_id;
+                $i++;
             }
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
-
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $discount=((100-$request->discount)/100);
@@ -2138,7 +2142,7 @@ class DiamondsController extends Controller {
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
         }
         $total = number_format($total, 2, ".", "");
-        $imgData = explode(',', $request->image);
+        $imgData = $request->image ? explode(',', $request->image) : [];
         /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
