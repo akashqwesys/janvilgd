@@ -92,7 +92,7 @@ function getDiamonds(values, array, group_id) {
     };
     if (global_category == 3) {
         columns_data = [
-            { data: 'barcode', name: 'barcode' },
+            { data: 'barcode_tag', name: 'barcode_tag' },
             { data: 'shape', name: 'shape' },
             { data: 'carat', name: 'carat' },
             { data: 'color', name: 'color' },
@@ -104,7 +104,7 @@ function getDiamonds(values, array, group_id) {
         ]
     } else {
         columns_data = [
-            { data: 'barcode', name: 'barcode' },
+            { data: 'barcode_tag', name: 'barcode_tag' },
             { data: 'shape', name: 'shape' },
             { data: 'makable_cts', name: 'makable_cts' },
             { data: 'carat', name: 'carat' },
@@ -165,17 +165,17 @@ function getDiamonds(values, array, group_id) {
             $(row).attr('data-price', data['total']);
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
-            $(row).children(':nth-child(3)').addClass('text-right');
+            $(row).children(':nth-child(3)').addClass('text-center');
             $(row).children(':nth-child(5)').addClass('text-center');
             $(row).children(':nth-child(6)').addClass('text-center');
-            $(row).children(':nth-child(7)').addClass('text-right');
+            $(row).children(':nth-child(7)').addClass('text-center');
             $(row).children(':nth-child(8)').addClass('text-right');
             $(row).children(':nth-child(9)').addClass('text-center');
 
             if (global_category == 3) {
                 $(row).children(':nth-child(4)').addClass('text-center');
             } else {
-                $(row).children(':nth-child(4)').addClass('text-right');
+                $(row).children(':nth-child(4)').addClass('text-center');
             }
             $(row).children('td').attr('scope', 'col');
         }
@@ -187,6 +187,9 @@ function getDiamonds(values, array, group_id) {
         table.columns.adjust();
     });
 }
+$(document).on('click', '#result-table tr', function() {
+    // $(this).find('td').eq('0').find('a').eq(0)[0].trigger('click');
+});
 // getDiamonds(global_search_values, global_search_array, global_group_id);
 
 $(document).on('click', '#result-table .diamond-checkbox', function() {
