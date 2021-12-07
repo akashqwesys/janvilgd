@@ -2028,11 +2028,11 @@ class DiamondsController extends Controller {
                 })
                 ->addColumn('cut', function ($row) {
                     if (isset($row['attributes']['CUT'])) {
-                        $clarity = $row['attributes']['CUT'];
+                        $cut = $row['attributes']['CUT'];
                     } else {
-                        $clarity = ' - ';
+                        $cut = ' - ';
                     }
-                    return  $clarity;
+                    return  $cut;
                 })
                 ->addColumn('total', function ($row) {
                     // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
