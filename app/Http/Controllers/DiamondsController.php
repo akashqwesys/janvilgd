@@ -256,6 +256,48 @@ class DiamondsController extends Controller {
                                             array_push($attr_group_array, $insert_array);
                                         }
                                     }
+                                    if (strtolower($atr_grp_row->name) === strtolower("CUT")) {
+                                        if (!empty($row['cut'])) {
+                                            $cut_grade = 0;
+                                            foreach ($attribute as $atr_row) {
+                                                if (strtolower($atr_row->name) == strtolower($row['cut']) && $atr_grp_row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                    $insert_array = array();
+                                                    $insert_array['refDiamond_id'] = $Id;
+                                                    $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $insert_array['refAttribute_id'] = $atr_row->attribute_id;
+                                                    $insert_array['value'] = 0;
+                                                    array_push($attr_group_array, $insert_array);
+                                                    $cut_grade = 1;
+                                                    // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+
+                                                }
+                                            }
+                                            if ($cut_grade == 0) {
+                                                DB::table('attributes')->insert([
+                                                    'name' => $row['cut'],
+                                                    'attribute_group_id' => $atr_grp_row->attribute_group_id,
+                                                    'added_by' => $request->session()->get('loginId'),
+                                                    'is_active' => 1,
+                                                    'is_deleted' => 0,
+                                                    'date_added' => date("Y-m-d h:i:s"),
+                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                ]);
+                                                $attr_id = DB::getPdo()->lastInsertId();
+                                                $insert_array = array();
+                                                $insert_array['refDiamond_id'] = $Id;
+                                                $insert_array['refAttribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $insert_array['refAttribute_id'] = $attr_id;
+                                                $insert_array['value'] = 0;
+                                                array_push($attr_group_array, $insert_array);
+                                                // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                            }
+                                            $new_attributes[$atr_grp_row->name] = $row['cut'];
+                                        }
+                                    }
                                     if (strtolower($atr_grp_row->name) === strtolower("LOCATION")) {
                                         if (!empty($row['location'])) {
                                             $location = 0;
