@@ -35,7 +35,7 @@
                                             <th scope="col" class="text-right">Carat</th>
                                             <th scope="col" class="text-center">Color</th>
                                             <th scope="col" class="text-center">Clarity</th>
-                                            @if ($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH'))
+                                            @if ($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH') || $data['cat_type'] == config('constant.CATEGORY_TYPE_4P'))
                                             <th scope="col" class="text-center">Cut</th>
                                             @endif
                                             <th scope="col" class="text-right">Price/CT</th>

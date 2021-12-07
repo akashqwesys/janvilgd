@@ -3,7 +3,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var table_columns=[];
-            <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){ ?>
+            <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH') || $data['cat_type'] == config('constant.CATEGORY_TYPE_4P')){ ?>
                 table_columns = [
                     { data: 'barcode', name: 'barcode' },
                     { data: 'shape', name: 'shape' },
@@ -11,8 +11,12 @@
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
                     { data: 'cut', name: 'cut' },
-                    { data: 'price_per_carat', name: 'price_per_carat' },
-                    { data: 'total', name: 'total' },
+                    // { data: 'price_per_carat', name: 'price_per_carat' },
+                    // { data: 'total', name: 'total' },
+
+                    { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+
                     { data: 'action', name: 'action' }
                 ];
             <?php } else {?>
@@ -23,8 +27,10 @@
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
-                    { data: 'price_per_carat', name: 'price_per_carat' },
-                    { data: 'total', name: 'total' },
+                    // { data: 'price_per_carat', name: 'price_per_carat' },
+                    // { data: 'total', name: 'total' },
+                    { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
                 ];
             <?php } ?>
