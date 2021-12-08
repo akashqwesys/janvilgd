@@ -5,10 +5,10 @@ var new_call = true;
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-    },
-    beforeSend: function(xhr) {
-        $(".cs-loader").show();
     }
+    // beforeSend: function(xhr) {
+    //     $(".cs-loader").show();
+    // }
 });
 
 $(document).ready(function() {
@@ -178,7 +178,7 @@ function getDiamonds(values, array, group_id) {
         "ajax": {
             'url': "/customer/list-diamonds",
             'data': function(data) {
-                // $(".cs-loader").show();
+                $(".cs-loader").show();
                 data.params = {
                     'attribute_values': selected_values,
                     'group_id': group_id,
