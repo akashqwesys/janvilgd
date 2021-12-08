@@ -136,13 +136,16 @@
             color: #808080;
         }
         /* .overlay {
-            left: 0;
-            top: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
             width: 100%;
-            height: 0px;
-            background: #92929292;
-            z-index: 1111;
-            display: none;
+            /* height: 100px; */
+            margin-left: -50%;
+            margin-top: -25px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
         } */
     </style>
 @endsection
@@ -224,7 +227,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
-                                            <div class="overlay cs-loader">
+                                            <div class="overlay cs-loader">                                            
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
                                                 </div>
