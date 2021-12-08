@@ -70,7 +70,7 @@
             position: relative;
         }
         .cs-loader {
-            position: relative;
+            position: absolute;
         }
         .float-right {
             float: right;
@@ -135,7 +135,7 @@
             text-align: right;
             color: #808080;
         }
-        .overlay {
+        /* .overlay {
             left: 0;
             top: 0;
             width: 100%;
@@ -143,7 +143,7 @@
             background: #92929292;
             z-index: 1111;
             display: none;
-        }
+        } */
     </style>
 @endsection
 @section('content')
@@ -226,7 +226,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                         <div class="search-diamond-table">
                                             <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
-                                                    <div class="overlay__content"><span class="spinner"></span></div>
+                                                    <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
                                                 </div>
                                             </div>
                                             <div class="">

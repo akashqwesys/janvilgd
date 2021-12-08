@@ -12,7 +12,7 @@ $(document).ready(function() {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
-    var table_recent = $("#recent-view").on("draw.dt", function () {
+    var table_recent = $("#recent-view").on("draw.dt", function() {
         $(this).find(".dataTables_empty").parents('tbody').empty();
     }).DataTable({
         "lengthChange": false,
@@ -24,7 +24,7 @@ $(document).ready(function() {
         "sScrollY": "500",
         "paging": false
     });
-    var table_compare = $("#compare-table").on("draw.dt", function () {
+    var table_compare = $("#compare-table").on("draw.dt", function() {
         $(this).find(".dataTables_empty").parents('tbody').empty();
     }).DataTable({
         "lengthChange": false,
@@ -147,6 +147,7 @@ function getDiamonds(values, array, group_id) {
     }
 
     var table = $('#result-table').DataTable({
+
         // columnDefs: [{
         //     className: 'control',
         //     orderable: false,
@@ -167,12 +168,13 @@ function getDiamonds(values, array, group_id) {
         'deferRender': true,
         "bScrollInfinite": true,
         'colReorder': true,
-        "language": {
-            "processing": "<img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'>",
-        },
+        // "language": {
+        //     "processing": "<img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'>",
+        // },
         "ajax": {
             'url': "/customer/list-diamonds",
             'data': function(data) {
+                $(".cs-loader").show();
                 data.params = {
                     'attribute_values': selected_values,
                     'group_id': group_id,
@@ -183,6 +185,7 @@ function getDiamonds(values, array, group_id) {
             },
             'complete': function(data) {
                 $('#result-tab').text('Results (' + data.responseJSON.recordsFiltered + ')');
+                $(".cs-loader").hide();
             }
         },
         columns: columns_data,

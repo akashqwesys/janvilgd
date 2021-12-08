@@ -236,7 +236,7 @@ class DiamondController extends Controller {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 filter-text diamond-cut ">
-                                    <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                                    <b>' . strtoupper($v['name']) . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                 </div>
                                     <div class="diamond-cut filter-item  col-md-10 col-sm-10">
 
@@ -417,7 +417,7 @@ class DiamondController extends Controller {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
                                     <div class="row">
                                         <div class="col-md-2 col-sm-2 filter-text diamond-cut ">
-                                            <b>' . $v['name'] . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
+                                            <b>' . strtoupper($v['name']) . '</b>&nbsp;<span class=""><i class="fas fa-question-circle"></i></span>
                                         </div>
                                         <div class="diamond-cut filter-item col-md-10 col-sm-10">
                                             <div class="range-sliders">
