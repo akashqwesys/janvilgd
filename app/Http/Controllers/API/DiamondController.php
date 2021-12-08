@@ -221,11 +221,11 @@ class DiamondController extends Controller
         if(!empty($diamonds) && isset($diamonds[0])){
 
             $diamonds[0]->image = json_decode($diamonds[0]->image);
-            $a = [];
+            /* $a = [];
             foreach ($diamonds[0]->image as $v1) {
                 $a[] = '/storage/other_images/' . $v1;
             }
-            $diamonds[0]->image = $a;
+            $diamonds[0]->image = $a; */
 
             $response_array['diamond_id'] = $diamonds[0]->diamond_id;
             $response_array['total'] = $diamonds[0]->total;
@@ -378,11 +378,11 @@ class DiamondController extends Controller
             $weight = 0;
             foreach ($diamonds as $value){
                 $value->image = json_decode($value->image);
-                $a = [];
+                /* $a = [];
                 foreach ($value->image as $v1) {
                     $a[] = '/storage/other_images/' . $v1;
                 }
-                $value->image = $a;
+                $value->image = $a; */
                 $subtotal += $value->price;
                 $weight += $value->carat;
                 // $response_array[] = (array) $value;
@@ -765,11 +765,11 @@ class DiamondController extends Controller
         if(!empty($diamonds[0]) && isset($diamonds[0])){
             foreach ($diamonds as $value){
                 $value->image = json_decode($value->image);
-                $a = [];
+                /* $a = [];
                 foreach ($value->image as $v1) {
                     $a[] = '/storage/other_images/' . $v1;
                 }
-                $value->image = $a;
+                $value->image = $a; */
                 array_push($response_array,$value);
             }
         }

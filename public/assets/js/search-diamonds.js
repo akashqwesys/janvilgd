@@ -111,40 +111,40 @@ function getDiamonds(values, array, group_id) {
     }
     if (global_category == 3) {
         columns_data = [
-            { data: 'barcode_tag', name: 'barcode_tag' },
-            { data: 'shape', name: 'shape' },
-            { data: 'carat', name: 'carat' },
-            { data: 'color', name: 'color' },
-            { data: 'clarity', name: 'clarity' },
-            { data: 'cut', name: 'cut' },
-            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'compare', name: 'compare' }
+            { data: 'barcode_tag', name: 'barcode_tag', width: '12%' },
+            { data: 'shape', name: 'shape', width: '11%' },
+            { data: 'carat', name: 'carat', width: '15%' },
+            { data: 'color', name: 'color', width: '8%' },
+            { data: 'clarity', name: 'clarity', width: '8%' },
+            { data: 'cut', name: 'cut', width: '8%' },
+            { data: 'price_per_carat', name: 'price_per_carat', width: '12%', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'total', name: 'total', width: '12%', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'compare', name: 'compare', width: '10%' }
         ]
     } else if (global_category == 2) {
         columns_data = [
-            { data: 'barcode_tag', name: 'barcode_tag' },
-            { data: 'shape', name: 'shape' },
-            { data: 'makable_cts', name: 'makable_cts' },
-            { data: 'carat', name: 'carat' },
-            { data: 'color', name: 'color' },
-            { data: 'clarity', name: 'clarity' },
-            { data: 'cut', name: 'cut' },
-            { data: 'price_per_carat', name: 'price_per_carat' },
-            { data: 'total', name: 'total' },
-            { data: 'compare', name: 'compare' }
+            { data: 'barcode_tag', name: 'barcode_tag', width: '12%' },
+            { data: 'shape', name: 'shape', width: '10%' },
+            { data: 'makable_cts', name: 'makable_cts', width: '12%' },
+            { data: 'carat', name: 'carat', width: '8%' },
+            { data: 'color', name: 'color', width: '8%' },
+            { data: 'clarity', name: 'clarity', width: '8%' },
+            { data: 'cut', name: 'cut', width: '9%' },
+            { data: 'price_per_carat', name: 'price_per_carat', width: '9%', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'total', name: 'total', width: '12%', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'compare', name: 'compare', width: '9%' }
         ]
     } else {
         columns_data = [
-            { data: 'barcode_tag', name: 'barcode_tag' },
-            { data: 'shape', name: 'shape' },
-            { data: 'makable_cts', name: 'makable_cts' },
-            { data: 'carat', name: 'carat' },
-            { data: 'color', name: 'color' },
-            { data: 'clarity', name: 'clarity' },
-            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'compare', name: 'compare' }
+            { data: 'barcode_tag', name: 'barcode_tag', width: '12%' },
+            { data: 'shape', name: 'shape', width: '11%' },
+            { data: 'makable_cts', name: 'makable_cts', width: '15%' },
+            { data: 'carat', name: 'carat', width: '8%' },
+            { data: 'color', name: 'color', width: '8%' },
+            { data: 'clarity', name: 'clarity', width: '8%' },
+            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$'), width: '12%' },
+            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$'), width: '12%' },
+            { data: 'compare', name: 'compare', width: '10%' }
         ]
     }
 
