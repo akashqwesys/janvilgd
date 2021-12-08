@@ -17,8 +17,6 @@ use DB;
 // use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 use App\Exports\DiamondExport;
-use App\Exports\DiamondExport4p;
-use App\Exports\DiamondExportPolish;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use DataTables;
@@ -680,11 +678,13 @@ class DiamondController extends Controller {
         if (isset($response['params']['export'])) {
 
             if($response['params']['export']=='export-admin'){
-                if($response['params']['discount']=='' || $response['params']['discount']==0){
-                    $response['params']['discount']=0;
+                if($response['discount']=='' || $response['discount']==0){
+                    $response['discount']=0;
                 }
-
-                $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['params']['category'])->where('is_deleted', 0)->first();
+                // $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();
+                $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['category'])->where('is_deleted', 0)->first();
+                $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
+                $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
 
                 $request->request->add(['web' => 'admin']);
                 $final_d = $aa->searchDiamonds($request);
@@ -738,6 +738,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
+
                             $price=abs($row['rapaport_price']*($discount-1));
                             $amount=abs($price*doubleval($row['expected_polish_cts']));
                             $ro_amount=abs($amount/doubleval($row['makable_cts']));
@@ -747,6 +748,7 @@ class DiamondController extends Controller {
                             $dummeyArray=array();
                             $dummeyArray['Barcode']=$row['barcode'];
                             $dummeyArray['Pktno']=$row['packate_no'];
+
                             $dummeyArray['Org Cts']=$row['makable_cts'];
                             $dummeyArray['Exp Pol']=$row['expected_polish_cts'];
                             $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
@@ -755,6 +757,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Location']=$row['attributes']['Location'];
                             $dummeyArray['Comment']=$row['attributes']['Comment'];
                             $dummeyArray['Discount']=$response['params']['discount'].'%';
+
 
                             if(isset($row['image'][0])){
                                 $dummeyArray['image-1']=$row['image'][0];
@@ -777,6 +780,7 @@ class DiamondController extends Controller {
                         $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
+
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*($discount-1));
 
                             $dummeyArray = array();
@@ -826,15 +830,17 @@ class DiamondController extends Controller {
                     }
                 }
 
-                $filename = time() . ".xlsx";
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                    Excel::store(new DiamondExport4p($data), "public/excel_export/".$filename);
+                    $filename=time().".xlsx";
+                    Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
+                    $filename=time().".xlsx";
                     Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-                    Excel::store(new DiamondExportPolish($data), "public/excel_export/".$filename);
+                    $filename=time().".xlsx";
+                    Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
                 }
 
                 $excel = public_path('storage/excel_export/'.$filename);
@@ -848,11 +854,12 @@ class DiamondController extends Controller {
                     // ->pluck('name')
                     ->first();
                 $diamonds = $data;
-                $fileName =  time() . '.' . 'pdf';
                 $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category'));
-                $pdf_d = public_path('pdf/' . $fileName);
-                $pdf->save($pdf_d);
-                return response()->download($pdf_d);
+                $path = public_path('pdf/');
+                $fileName =  time() . '.' . 'pdf';
+                $pdf->save($path . '/' . $fileName);
+                $pdf = public_path('pdf/' . $fileName);
+                return response()->download($pdf);
             }
         } else {
 

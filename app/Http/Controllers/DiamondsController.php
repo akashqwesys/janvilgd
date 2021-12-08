@@ -423,7 +423,7 @@ class DiamondsController extends Controller {
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
                                             }
-                                            $new_attributes[$atr_grp_row->name] = $row['clarity'];
+                                            $new_attributes[$atr_grp_row->name] = $org_clarity;
                                         }
                                     }
                                     if (strtolower($atr_grp_row->name) === strtolower("COLOR")) {

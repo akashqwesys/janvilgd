@@ -42,6 +42,18 @@
                 display: none !important;
             }
         </style>
+        <style>
+        .overlay {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: #6e6e6e38;
+            z-index: 1111;
+            display: none;
+        }
+        </style>
 
         @yield('css')
     </head>
@@ -407,7 +419,7 @@
                                                 </div>
                                                 <div class="dropdown-inner">
                                                     <ul class="link-list">
-                                                        <li><a href="admin/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                        <li><a href="{{route('logout')}}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -493,7 +505,11 @@
         }
         ?>
         <script type="text/javascript">
-            $(document).ready(function () {
+            function showloader(){                
+                    $("#append_loader").css("display","block");
+                    return true;
+                }
+            $(document).ready(function () {                
                 $('a[href$="#finish"]').attr("class", "submit_customers");
                 $('a[href$="#finish"]').addClass("d-none");
                 $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');

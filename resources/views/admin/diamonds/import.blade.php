@@ -1,5 +1,6 @@
 @extends('admin.header')
 @section('content')
+
 <div class="nk-content">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -13,8 +14,16 @@
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">                                                                                              
                      <div class="card">
-                        <div class="card-inner">                           
-                            <form method="POST" action="{{route('diamonds.import')}}" enctype="multipart/form-data">
+                     <div id='append_loader' class="overlay">
+                        <div class='d-flex justify-content-center' style="padding-top: 10%;">
+                            <div class='spinner-border text-success' role='status'>
+                                <span class='sr-only'>Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="card-inner">
+                                                   
+                            <form method="POST" action="{{route('diamonds.import')}}" enctype="multipart/form-data" onsubmit="showloader()">
                                 @csrf                              
                                  <div class="row g-3 align-center">
                                     <div class="col-lg-2">

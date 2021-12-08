@@ -251,7 +251,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @endif
                                                             <th scope="col" class="text-center">Price/CT</th>
                                                             <th scope="col" class="text-center">Price</th>
+                                                            @if (session('user-type') == "MASTER_ADMIN")
                                                             <th scope="col" class="text-center">Compare</th>
+                                                            @else
+                                                            <th scope="col" class="text-center">Action</th>
+                                                            @endif                                                                                                                                                                                
                                                         </tr>
                                                     </thead>
                                                     <tbody>

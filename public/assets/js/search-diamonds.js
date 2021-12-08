@@ -277,16 +277,16 @@ $(document).on('click', '.reset-btn', function() {
 });
 $(document).on('click', '#filter-toggle', function() {
     if ($('.filter-toggle').height() > 1) {
-        $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         $('.filter-toggle').css({
-            'height': 0,
-            'visibility': 'collapse'
+            'visibility': 'hidden',
         });
+        $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        $(".filter-toggle").animate({ height: '0px' });
     } else {
         $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        $(".filter-toggle").animate({ height: '60px' });
         $('.filter-toggle').css({
-            'height': 'auto',
-            'visibility': 'visible'
+            'visibility': 'visible',
         });
     }
 });
