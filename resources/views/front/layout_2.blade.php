@@ -272,6 +272,37 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
 <script type="text/javascript">
+	function addToCart (self) {
+		// var self = $(this);
+		var diamond_id = self.data('id');
+		var data = {
+			'diamond_id': diamond_id
+		};
+		$.ajax({
+			type: "POST",
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			url: "{{ route('add-to-cart') }}",
+			data: data,
+			success: function (res) {
+				if (res.suceess) {
+					$.toast({
+						heading: 'Success',
+						text: 'Diamond added in cart.',
+						icon: 'success',
+						position: 'top-right'
+					});
+					$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
+				}else{
+					$.toast({
+						heading: 'Error',
+						text: res.message,
+						icon: 'error',
+						position: 'top-right'
+					});
+				}
+			}
+		});
+	}
 	$(document).ready(function () {
 		$(document).on('click', '#click-whatsapp-link', function () {
 			//                staticBackdrop
@@ -342,7 +373,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 			});
 		});
 
-		$(document).on('click', '.add-to-cart', function () {
+		/* $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -372,7 +403,8 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}
 				}
 			});
-		});
+		}); */
+
 		$(document).on('click', '.removeFromCart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');

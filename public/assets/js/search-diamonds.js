@@ -208,10 +208,10 @@ function getDiamonds(values, array, group_id) {
             if (global_category == 2) {
                 $(row).children(':nth-child(8)').addClass('text-center');
                 $(row).children(':nth-child(9)').addClass('text-right');
-                $(row).children(':nth-child(10)').addClass('text-center');
+                $(row).children(':nth-child(10)').addClass('text-center exclude');
             } else {
                 $(row).children(':nth-child(8)').addClass('text-right');
-                $(row).children(':nth-child(9)').addClass('text-center');
+                $(row).children(':nth-child(9)').addClass('text-center exclude');
             }
             $(row).children('td').attr('scope', 'col');
         }
@@ -223,12 +223,22 @@ function getDiamonds(values, array, group_id) {
         table.columns.adjust();
     });
 }
-$(document).on('click', '#result-table tr', function() {
-    window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
+$(document).on('click', '#result-table tr', function(e) {
+    e.preventDefault();
+    if ($(e.target).hasClass('checkmark')) {
+        $(e.target).siblings('.diamond-checkbox').attr('checked', true);
+        $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
+        $(this).closest('tr').remove();
+    } else if ($(e.target).hasClass('add-to-cart')) {
+        addToCart($(e.target));
+        // $(e.target).trigger('click');
+    } else {
+        window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
+    }
 });
 // getDiamonds(global_search_values, global_search_array, global_group_id);
 
-$(document).on('click', '#result-table .diamond-checkbox', function() {
+/* $(document).on('click', '#result-table .diamond-checkbox', function() {
     $(this).attr('checked', true);
     $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
     $(this).closest('tr').remove();
@@ -237,7 +247,7 @@ $(document).on('click', '#compare-table .diamond-checkbox', function() {
     $(this).attr('checked', false);
     $('#result-table tbody').append($(this).closest('tr')[0].outerHTML);
     $(this).closest('tr').remove();
-});
+}); */
 $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond-temp').hide();
     $('.recent-tab-content .select-diamond').show();

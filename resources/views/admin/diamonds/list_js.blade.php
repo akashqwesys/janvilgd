@@ -10,7 +10,7 @@
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
-                    { data: 'cut', name: 'cut' },                   
+                    { data: 'cut', name: 'cut' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
 
@@ -23,8 +23,8 @@
                     { data: 'makable_cts', name: 'makable_cts' },
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
-                    { data: 'clarity', name: 'clarity' }, 
-                    { data: 'cut', name: 'cut' },                    
+                    { data: 'clarity', name: 'clarity' },
+                    { data: 'cut', name: 'cut' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
@@ -36,7 +36,7 @@
                     { data: 'makable_cts', name: 'makable_cts' },
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
-                    { data: 'clarity', name: 'clarity' },              
+                    { data: 'clarity', name: 'clarity' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
@@ -50,11 +50,11 @@
                         target: 'tr'
                     }
                 },
-                columnDefs: [{
+                /* columnDefs: [{
                     className: 'control',
                     orderable: false,
                     targets: 8
-                }],
+                }], */
                 "processing": true,
                 "serverSide": true,
                 "pageLength": 10,
