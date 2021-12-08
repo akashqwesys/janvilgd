@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class DiamondExportPolish implements FromCollection, WithHeadings
 {
     protected $data;
-  
+
     /**
      * Write code on Method
      *
@@ -18,7 +18,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     {
         $this->data = $data;
     }
-  
+
     /**
      * Write code on Method
      *
@@ -28,7 +28,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     {
         return collect($this->data);
     }
-  
+
     /**
      * Write code on Method
      *
@@ -62,12 +62,12 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Crown Angle',
             'Pavilion Angle',
             'Growth Type',
+            'Comment',
+            'Location',
             'image-1',
             'image-2',
             'image-3',
-            'image-4',
-            'Location',
-            'Comment'
+            'image-4'
         ];
     }
 }
