@@ -135,18 +135,18 @@
             text-align: right;
             color: #808080;
         }
-        /* .overlay {
+         /* .overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100%;
-            /* height: 100px; */
+            height: 100px;
             margin-left: -50%;
             margin-top: -25px;
             padding-top: 20px;
             text-align: center;
             font-size: 1.2em;
-        } */
+        }  */
     </style>
 @endsection
 @section('content')
