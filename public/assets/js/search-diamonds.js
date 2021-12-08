@@ -2,6 +2,9 @@ var global_search_values = [];
 var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
+
+
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -12,34 +15,12 @@ $(document).ready(function() {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
-    var table_recent = $("#recent-view").on("draw.dt", function() {
-        $(this).find(".dataTables_empty").parents('tbody').empty();
-    }).DataTable({
-        "lengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        'bSortable': false,
-        "ordering": false,
-        "sScrollX": "100%",
-        "sScrollY": "500",
-        "paging": false
-    });
-    var table_compare = $("#compare-table").on("draw.dt", function() {
-        $(this).find(".dataTables_empty").parents('tbody').empty();
-    }).DataTable({
-        "lengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        "ordering": false,
-        'bSortable': false,
-        "sScrollX": "100%",
-        "sScrollY": "500",
-        "paging": false
-    });
     setTimeout(() => {
         stop_on_change = 1;
         getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
+
+    // $(".cs-loader").show();
 });
 
 $(document).on('click', '.diamond-shape .item img', function() {
@@ -79,6 +60,35 @@ $(document).on('click', '.diamond-shape .item img', function() {
     }
 });
 
+
+$(document).ready(function() {
+    var table_recent = $("#recent-view").on("draw.dt", function() {
+        $(this).find(".dataTables_empty").parents('tbody').empty();
+    }).DataTable({
+        "lengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        'bSortable': false,
+        "ordering": false,
+        "sScrollX": "100%",
+        "sScrollY": "500",
+        "paging": false
+    });
+    var table_compare = $("#compare-table").on("draw.dt", function() {
+        $(this).find(".dataTables_empty").parents('tbody').empty();
+    }).DataTable({
+        "lengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        "ordering": false,
+        'bSortable': false,
+        "sScrollX": "100%",
+        "sScrollY": "500",
+        "paging": false
+    });
+});
+
+
 function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
         global_search_values = values;
@@ -86,7 +96,7 @@ function getDiamonds(values, array, group_id) {
         global_group_id = group_id;
         return false;
     }
-
+    // console.log(stop_on_change);
     var selected_values = [];
     if (values.length > 1 && typeof values == 'string') {
         var strArray = values.split(",");
@@ -106,7 +116,13 @@ function getDiamonds(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
-
+    var ajax_data = {
+        'attribute_values': selected_values,
+        'group_id': group_id,
+        'web': 'web',
+        'category': global_category,
+        'category_slug': global_category_slug
+    };
     if (global_category == 3) {
         columns_data = [
             { data: 'barcode_tag', name: 'barcode_tag' },
@@ -128,26 +144,25 @@ function getDiamonds(values, array, group_id) {
             { data: 'color', name: 'color' },
             { data: 'clarity', name: 'clarity' },
             { data: 'cut', name: 'cut' },
-            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'price_per_carat', name: 'price_per_carat' },
+            { data: 'total', name: 'total' },
             { data: 'compare', name: 'compare' }
         ]
     } else {
         columns_data = [
-            { data: 'barcode_tag', name: 'barcode_tag', width: '12%' },
-            { data: 'shape', name: 'shape', width: '11%' },
-            { data: 'makable_cts', name: 'makable_cts', width: '15%' },
-            { data: 'carat', name: 'carat', width: '8%' },
-            { data: 'color', name: 'color', width: '8%' },
-            { data: 'clarity', name: 'clarity', width: '8%' },
-            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$'), width: '12%' },
-            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$'), width: '12%' },
-            { data: 'compare', name: 'compare', width: '10%' }
+            { data: 'barcode_tag', name: 'barcode_tag' },
+            { data: 'shape', name: 'shape' },
+            { data: 'makable_cts', name: 'makable_cts' },
+            { data: 'carat', name: 'carat' },
+            { data: 'color', name: 'color' },
+            { data: 'clarity', name: 'clarity' },
+            { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+            { data: 'compare', name: 'compare' }
         ]
     }
 
     var table = $('#result-table').DataTable({
-
         // columnDefs: [{
         //     className: 'control',
         //     orderable: false,
@@ -169,12 +184,13 @@ function getDiamonds(values, array, group_id) {
         "bScrollInfinite": true,
         'colReorder': true,
         // "language": {
-        //     "processing": "<img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'>",
+        //     "processing": "",
         // },
         "ajax": {
             'url': "/customer/list-diamonds",
             'data': function(data) {
                 $(".cs-loader").show();
+
                 data.params = {
                     'attribute_values': selected_values,
                     'group_id': group_id,
@@ -307,26 +323,26 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
     } else {
         selected_values = strArray;
     }
-    var params_data = {};
-    params_data.params = {
-        'attribute_values': selected_values,
-        'group_id': group_id,
-        'category': global_category,
-        'export': export_value,
-        'discount': discount,
-        'category_slug': global_category_slug,
-        'web': 'web'
-    };
+
     $.ajax({
         type: 'get',
-        url: '/customer/search-diamonds',
-        data: params_data,
+        url: '/customer/list-diamonds',
+        data: {
+            'attribute_values': selected_values,
+            'group_id': group_id,
+            'category': global_category,
+            'export': export_value,
+            'discount': discount
+        },
         xhrFields: {
             responseType: 'blob'
         },
         success: function(response) {
+
             var blob = new Blob([response]);
+
             var link = document.createElement('a');
+
             link.href = window.URL.createObjectURL(blob);
 
             if (export_value == 'export') {
