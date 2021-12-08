@@ -65,7 +65,7 @@
                             <th scope="col" class="col1"> Carat </th>
                             <th scope="col" class="col2"> Color </th>
                             <th scope="col" class="col2"> Clarity </th>
-                            @if ($category->slug == 'polish-diamonds')
+                            @if ($category->slug != 'rough-diamonds')
                             <th scope="col" class="col2"> Cut </th>
                             @endif
                             <th scope="col" class="col1"> Price/CT </th>
@@ -101,7 +101,7 @@
                                 -
                                 @endif
                             </td>
-                            @if ($category->slug == 'polish-diamonds')
+                            @if ($category->slug != 'rough-diamonds')
                             <td class="col1" align="center">
                                 @if (isset($v['_source']['attributes']['CUT']))
                                 {{ $v['_source']['attributes']['CUT'] }}
@@ -119,7 +119,7 @@
                                 ${{number_format(round(($v['_source']['rapaport_price'] * (1-$v['_source']['discount'])), 2), 2, '.', ',')}}
                                 @endif
                             </td>
-                            <td class="col1" align="center"> ${{number_format(round($v['_source']['total'], 2), 2, '.', ',')}} </td>
+                            <td class="col1" align="right"> ${{number_format(round($v['_source']['total'], 2), 2, '.', ',')}} </td>
                         </tr>
                         @endforeach
                     </tbody>

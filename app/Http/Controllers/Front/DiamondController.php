@@ -566,7 +566,7 @@ class DiamondController extends Controller {
             }
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
-        $arr['category'] = $request->params['group_id'];
+        $arr['category'] = $request->params['category'];
         $arr['category_slug'] = $request->params['category_slug'];
         $arr['gateway'] = 'web';
 
@@ -659,35 +659,25 @@ class DiamondController extends Controller {
     {
         $response = $request->all();
         $user = Auth::user();
-        $file_name = $user->customer_id . '-' . $request->category;
-        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
-            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
-            $arr = json_decode($arr, true);
-        }
-        if (isset($response['attribute_values'])) {
-            if (is_array($response['attribute_values']) && $response['group_id'] != 'price' && $response['group_id'] != 'carat') {
-                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                $arr[$request->group_id] = $response;
-            } else {
-                if ($response['group_id'] == 'price') {
-                    $arr['price_min'] = $response['attribute_values'][0];
-                    $arr['price_max'] = $response['attribute_values'][1];
-                } else {
-                    $arr['carat_min'] = $response['attribute_values'][0];
-                    $arr['carat_max'] = $response['attribute_values'][1];
-                }
-            }
-            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
-        }
-        $arr['category'] = $request->category;
-        $arr['category_slug'] = $request->category_slug;
+        $file_name = $user->customer_id . '-' . $response['params']['category'];
+        $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
+        $arr = json_decode($arr, true);
+        $arr['category'] = $request->params['category'];
+        $arr['category_slug'] = $request->params['category_slug'];
         $arr['gateway'] = 'web';
+
+        $final_data = [];
         $aa = new APIDiamond;
         $request->request->add(['attr_array' => $arr]);
+        $result = $aa->searchDiamonds($request);
+        $data = $result->original['data'];
+        foreach ($data as $v) {
+            $final_data[] = $v['_source'];
+        }
 
-        if (isset($response['export'])) {
+        if (isset($response['params']['export'])) {
 
-            if($response['export']=='export-admin'){
+            if($response['params']['export']=='export-admin'){
                 if($response['discount']=='' || $response['discount']==0){
                     $response['discount']=0;
                 }
@@ -801,14 +791,13 @@ class DiamondController extends Controller {
                 return response()->download($excel);
             }
 
-            if($response['export']=='export'){
+            if($response['params']['export']=='export'){
                 $category = DB::table('categories')
                     ->select('name', 'slug')
-                    ->where('category_id', $request->category)
+                    ->where('category_id', $request->params['category'])
                     // ->pluck('name')
                     ->first();
-                $final_d = $aa->searchDiamonds($request);
-                $diamonds = $final_d->original['data'];
+                $diamonds = $data;
                 $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category'));
                 $path = public_path('pdf/');
                 $fileName =  time() . '.' . 'pdf';
@@ -817,222 +806,8 @@ class DiamondController extends Controller {
                 return response()->download($pdf);
             }
         } else {
-            $request->request->add(['web' => 'web']);
+
         }
-        if($arr['offset']>=1){
-            return $aa->searchDiamonds($request);
-        }
-
-        if ($request->ajax()) {
-
-            $q = null;
-            $ag_names = null;
-            $diamond_ids = DB::table('diamonds as d');
-            $ij = 0;
-            if (isset($request->web) && $request->web == 'admin') {
-                $all_attributes = DB::table('attribute_groups as ag')
-                    ->leftJoin('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
-                    ->select('a.attribute_id', 'ag.attribute_group_id')
-                    ->where('refCategory_id', $request->category)
-                    ->get();
-
-                $new_all_attributes = [];
-                $temp_grp_id = 0;
-                foreach ($all_attributes as $v) {
-                    if ($temp_grp_id != $v->attribute_group_id) {
-                        $temp_grp_id = $v->attribute_group_id;
-                        $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
-                    } else {
-                        $new_all_attributes[$v->attribute_group_id][] = $v->attribute_id;
-                    }
-                }
-
-                foreach ($new_all_attributes as $k => $v) {
-
-                    // $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and ';
-                    if (!(count($v) == 1 && empty($v[0]))) {
-                        // $q .= '("da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
-                        $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" in (' . implode(',', $v) . ') ) and ';
-                    } else {
-                        $q .= '("da' . $k . '"."refAttribute_group_id" = ' . $k . ' and "da' . $k . '"."refAttribute_id" = 0 ) and ';
-                    }
-
-                    $diamond_ids = $diamond_ids->join('diamonds_attributes as da' . $k, 'd.diamond_id', '=', 'da' . $k . '.refDiamond_id')
-                        ->join('attribute_groups as ag' . $k, 'da' . $k . '.refAttribute_group_id', '=', 'ag' . $k . '.attribute_group_id');
-
-                        if (!(count($v) == 1 && empty($v[0]))) {
-                            $diamond_ids = $diamond_ids->join('attributes as a' . $k, 'da' . $k . '.refAttribute_id', '=', 'a' . $k . '.attribute_id');
-                            $ag_names .= 'a' . $k . '.name as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-                        } else {
-                            $ag_names .= 'da' . $k . '.value as name_' . $ij . ', ag' . $k . '.name as ag_name_' . $ij . ', ';
-                        }
-
-                    $ij++;
-                }
-            } else {
-                $attr_to_send = [];
-                foreach ($response as $k => $v) {
-                    if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
-                        continue;
-                    }
-                    for ($i = 0; $i < count($v); $i++) {
-                        // $attr_to_send[$k]['should'][] = [ 'term' => [ 'attributes_id.'.$k => $v[$i] ] ];
-                        $v[$i] = intval($v[$i]);
-                    }
-                    $attr_to_send[] = [
-                        'nested' => [
-                            'query' => [
-                                'terms' => [
-                                    'attributes_id.attribute_id' => array_values($v)
-                                ]
-                            ],
-                            'path' => 'attributes_id'
-                        ]
-                    ];
-
-                }
-            }
-            $elastic_params = [
-                'index' => 'diamonds',
-                // 'from' => $request->offset' ?? 0,
-                'body'  => [
-                    'size'  => 5000,
-                    'query' => [
-                        'bool' => [
-                            'must' => [
-                                [
-                                    'bool' => [
-                                        'must' =>  $attr_to_send
-                                    ]
-                                ], [
-                                    'bool' => [
-                                        'must' => [
-                                            [ 'term' => [ 'refCategory_id' => [ 'value' => intval($request->category) ] ] ],
-                                            [
-                                                'range' => [
-                                                    'expected_polish_cts' => [
-                                                        'from' => intval($request->carat_min ?? 0),
-                                                        'to' => intval($request->carat_max ?? 5)
-                                                    ],
-                                                ]
-                                            ], [
-                                                'range' => [
-                                                    'total' => [
-                                                        'from' => intval($request->price_min ?? 0),
-                                                        'to' => intval($request->price_max ?? 3000)
-                                                    ],
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ];
-            $client = ClientBuilder::create()
-                ->setHosts(['localhost:9200'])
-                ->build();
-
-            $diamond_ids = $client->search($elastic_params);
-            // echo "<pre>"; print_r($diamond_ids); die;
-            // $diamond_ids=$client->search(['index' => 'diamonds']);
-
-
-            $final_d = $final_api = [];
-
-            if (isset($diamond_ids['hits']['hits'])) {
-                if(count($diamond_ids['hits']['hits']) < 1){
-                    if ($request->web == 'web' && $request->scroll == 0 ) {
-                        return $this->successResponse('Success', $final_d);
-                    }
-                    return $this->successResponse('No diamond found');
-                }
-            }
-
-            $final_d = $diamond_ids['hits']['hits'];
-
-            foreach ($final_d as $v) {
-                $final_data[] = $v['_source'];
-            }
-
-            return Datatables::of($final_data)
-                    // ->editColumn('barcode', function ($row) {
-                    //     return $row['barcode'];
-                    // })
-                    ->editColumn('carat', function ($row) {
-                        return $row['expected_polish_cts'];
-                    })
-                    ->addColumn('price_per_carat', function ($row) {
-                        $price_per_carat=0;
-                        if($row['refCategory_id']==1){
-                            $price_per_carat=$row['total']/$row['makable_cts'];
-                        }
-                        if($row['refCategory_id']==2){
-                            $price_per_carat=($row['rapaport_price'])*(100-$row['discount']);
-                        }
-                        if($row['refCategory_id']==3){
-                            $price_per_carat=($row['rapaport_price'])*(100-$row['discount']);
-                        }
-                        return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
-                    })
-                    ->addColumn('shape', function ($row) {
-                        if (isset($row['attributes']['SHAPE'])) {
-                            $shape = $row['attributes']['SHAPE'];
-                        } else {
-                            $shape = ' - ';
-                        }
-                        return $shape;
-                    })
-                    ->addColumn('makable_cts', function ($row) {
-                        return $row['_source']['makable_cts'];
-                    })
-                    ->addColumn('color', function ($row) {
-                        if (isset($row['attributes']['COLOR'])) {
-                            $color = $row['attributes']['COLOR'];
-                        } else {
-                            $color = ' - ';
-                        }
-                        return  $color;
-                    })
-                    ->addColumn('clarity', function ($row) {
-                        if (isset($row['attributes']['CLARITY'])) {
-                            $clarity = $row['attributes']['CLARITY'];
-                        } else {
-                            $clarity = ' - ';
-                        }
-                        return  $clarity;
-                    })
-                    ->addColumn('cut', function ($row) {
-                        if (isset($row['attributes']['CUT'])) {
-                            $clarity = $row['attributes']['CUT'];
-                        } else {
-                            $clarity = ' - ';
-                        }
-                        return  $clarity;
-                    })
-                    ->addColumn('total', function ($row) {
-                        return '$'.number_format(round($row['total'], 2), 2, '.', ',');
-                    })
-                    ->addColumn('compare', function ($row) {
-                        if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
-                            $cart_or_box = '<label class="custom-check-box">
-                                                <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
-                                                &nbsp;<span class="checkmark"></span>
-                                            </label>';
-                        } else {
-                            $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
-                        }
-
-                        return '<div class="compare-checkbox">
-                                    ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
-                                </div>';
-                    })
-                    ->escapeColumns([])
-                    ->make(true);
-        }
-
     }
 
     public function pdfpreview()

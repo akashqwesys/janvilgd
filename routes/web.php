@@ -89,11 +89,10 @@ Route::group( ['middleware' => ['auth']], function () {
 
     // Diamonds
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds'])->name('search-diamond');
+    Route::get('customer/search-diamonds', [HDiamond::class, 'searchDiamonds'])->name('search-diamond');
     Route::get('customer/single-diamonds/{barcode}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
-
-
     Route::get('customer/list-diamonds', [HDiamond::class, 'searchListDiamondsPolish'])->name('list-diamond');
+
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
     Route::post('customer/add-all-to-cart', [HDiamond::class, 'addAllToCart'])->name('add-all-to-cart');

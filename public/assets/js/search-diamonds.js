@@ -304,17 +304,20 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
     } else {
         selected_values = strArray;
     }
-
+    var params_data = {};
+    params_data.params = {
+        'attribute_values': selected_values,
+        'group_id': group_id,
+        'category': global_category,
+        'export': export_value,
+        'discount': discount,
+        'category_slug': global_category_slug,
+        'web': 'web'
+    };
     $.ajax({
         type: 'get',
-        url: '/customer/list-diamonds',
-        data: {
-            'attribute_values': selected_values,
-            'group_id': group_id,
-            'category': global_category,
-            'export': export_value,
-            'discount': discount
-        },
+        url: '/customer/search-diamonds',
+        data: params_data,
         xhrFields: {
             responseType: 'blob'
         },
