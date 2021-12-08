@@ -33,7 +33,6 @@
         .dataTables_filter {
             display: none;
         }
-
         .dataTable, .dataTables_scrollHeadInner {
             width:100% !important;
         }
@@ -72,7 +71,7 @@
         }
         .cs-loader {
             position: relative;
-        }       
+        }
         .float-right {
             float: right;
         }
@@ -135,7 +134,6 @@
             font-size: 13px;
             text-align: right;
             color: #808080;
-
         }
         .overlay {
             left: 0;
