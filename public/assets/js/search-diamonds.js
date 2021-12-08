@@ -2,9 +2,6 @@ var global_search_values = [];
 var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
-
-
-
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -19,8 +16,6 @@ $(document).ready(function() {
         stop_on_change = 1;
         getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
-
-    // $(".cs-loader").show();
 });
 
 $(document).on('click', '.diamond-shape .item img', function() {
@@ -60,7 +55,6 @@ $(document).on('click', '.diamond-shape .item img', function() {
     }
 });
 
-
 $(document).ready(function() {
     var table_recent = $("#recent-view").on("draw.dt", function() {
         $(this).find(".dataTables_empty").parents('tbody').empty();
@@ -87,7 +81,6 @@ $(document).ready(function() {
         "paging": false
     });
 });
-
 
 function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
@@ -116,13 +109,6 @@ function getDiamonds(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
-    var ajax_data = {
-        'attribute_values': selected_values,
-        'group_id': group_id,
-        'web': 'web',
-        'category': global_category,
-        'category_slug': global_category_slug
-    };
     if (global_category == 3) {
         columns_data = [
             { data: 'barcode_tag', name: 'barcode_tag' },
@@ -190,7 +176,6 @@ function getDiamonds(values, array, group_id) {
             'url': "/customer/list-diamonds",
             'data': function(data) {
                 $(".cs-loader").show();
-
                 data.params = {
                     'attribute_values': selected_values,
                     'group_id': group_id,
@@ -303,7 +288,6 @@ $(document).on('click', '#export-search-diamond,#export-search-diamond-admin', f
 });
 
 function exportDiamondTables(values, array, group_id, export_value, discount) {
-
     var selected_values = [];
     if (values.length > 1 && typeof values == 'string') {
         var strArray = values.split(",");
@@ -324,16 +308,21 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
         selected_values = strArray;
     }
 
+    var params_data = {};
+    params_data.params = {
+        'attribute_values': selected_values,
+        'group_id': group_id,
+        'category': global_category,
+        'export': export_value,
+        'discount': discount,
+        'category_slug': global_category_slug,
+        'web': 'web'
+    };
+
     $.ajax({
         type: 'get',
-        url: '/customer/list-diamonds',
-        data: {
-            'attribute_values': selected_values,
-            'group_id': group_id,
-            'category': global_category,
-            'export': export_value,
-            'discount': discount
-        },
+        url: '/customer/search-diamonds',
+        data: params_data,
         xhrFields: {
             responseType: 'blob'
         },
