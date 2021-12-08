@@ -20,7 +20,6 @@ $(document).ready(function() {
         getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
 });
-
 $(document).on('click', '.diamond-shape .item img', function() {
     var group_id = $(this).attr('data-group_id');
     var src_url = null;
