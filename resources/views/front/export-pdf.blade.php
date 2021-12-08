@@ -58,9 +58,9 @@
                             <th scope="col" class="col1"> Stock No </th>
                             <th scope="col" class="col2"> Shape </th>
                             @if ($category->slug == '4p-diamonds')
-                            <th scope="col" class="col2"> 4P Weight </th>
+                            <th scope="col" class="col2"> 4P Weight (CT)</th>
                             @elseif ($category->slug == 'rough-diamonds')
-                            <th scope="col" class="col2"> Rough Weight </th>
+                            <th scope="col" class="col2"> Rough Weight (CT)</th>
                             @endif
                             <th scope="col" class="col1"> Carat </th>
                             <th scope="col" class="col2"> Color </th>

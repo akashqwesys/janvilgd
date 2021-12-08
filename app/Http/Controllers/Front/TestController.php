@@ -237,7 +237,7 @@ class TestController extends Controller
                             "type" => "double"
                         ],
                         "image" => [
-                            "type" => "nested"
+                            "type" => "text"
                         ],
                         "is_active" => [
                             "type" => "byte"

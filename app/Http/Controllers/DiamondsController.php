@@ -154,14 +154,20 @@ class DiamondsController extends Controller {
                                 $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
                                 $total = number_format($total, 2, '.', '');
 
-                                $image=array();
-                                if(isset($row['image_link'])){
-                                    $image[0]=$row['image_1'];
-                                    $image[1]=$row['image_2'];
-                                    $image[2]=$row['image_3'];
-                                    $image[3]=$row['image_4'];
+                                $image = array();
+                                if (!empty($row['image_1'])) {
+                                    array_push($image, $row['image_1']);
                                 }
-                                $img_json= json_encode($image);
+                                if (!empty($row['image_2'])) {
+                                    array_push($image, $row['image_2']);
+                                }
+                                if (!empty($row['image_3'])) {
+                                    array_push($image, $row['image_3']);
+                                }
+                                if (!empty($row['image_4'])) {
+                                    array_push($image, $row['image_4']);
+                                }
+                                $img_json = json_encode($image);
 
                                 $name=$row['exp_pol_cts'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$org_clarity.' Clarity :: 4P Diamond';
 
@@ -598,14 +604,20 @@ class DiamondsController extends Controller {
                                 $total=abs($final_price* $row['org_cts']);
                                 $total = number_format($total, 2, '.', '');
 
-                                $image=array();
-                                if(isset($row['image_link'])){
-                                    $image[0]=$row['image_1'];
-                                    $image[1]=$row['image_2'];
-                                    $image[2]=$row['image_3'];
-                                    $image[3]=$row['image_4'];
+                                $image = array();
+                                if (!empty($row['image_1'])) {
+                                    array_push($image, $row['image_1']);
                                 }
-                                $img_json= json_encode($image);
+                                if (!empty($row['image_2'])) {
+                                    array_push($image, $row['image_2']);
+                                }
+                                if (!empty($row['image_3'])) {
+                                    array_push($image, $row['image_3']);
+                                }
+                                if (!empty($row['image_4'])) {
+                                    array_push($image, $row['image_4']);
+                                }
+                                $img_json = json_encode($image);
 
                                 $name=$row['exp_pol'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Rough Diamond';
 
@@ -962,14 +974,20 @@ class DiamondsController extends Controller {
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
                                 $total = number_format($total, 2, ".", "");
 
-                                $image=array();
-                                if(isset($row['image_link'])){
-                                    $image[0]=$row['image_1'];
-                                    $image[1]=$row['image_2'];
-                                    $image[2]=$row['image_3'];
-                                    $image[3]=$row['image_4'];
+                                $image = array();
+                                if (!empty($row['image_1'])) {
+                                    array_push($image, $row['image_1']);
                                 }
-                                $img_json= json_encode($image);
+                                if (!empty($row['image_2'])) {
+                                    array_push($image, $row['image_2']);
+                                }
+                                if (!empty($row['image_3'])) {
+                                    array_push($image, $row['image_3']);
+                                }
+                                if (!empty($row['image_4'])) {
+                                    array_push($image, $row['image_4']);
+                                }
+                                $img_json = json_encode($image);
 
                                 $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
 
@@ -1651,7 +1669,6 @@ class DiamondsController extends Controller {
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
-                // dd($responses);
             }
             $params = array();
             $params = ['body' => []];
@@ -1673,7 +1690,6 @@ class DiamondsController extends Controller {
                     ];
                     if ($i % 1000 == 0) {
                         $responses = $client->bulk($params);
-                        // dd($responses);
                         $params = ['body' => []];
                         unset($responses);
                     }
@@ -1683,7 +1699,6 @@ class DiamondsController extends Controller {
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
-                // dd($responses);
             }
         }
 

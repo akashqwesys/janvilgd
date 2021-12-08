@@ -353,8 +353,14 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
 
             link.click();
         },
-        error: function(blob) {
-            console.log(blob);
+        error: function(response) {
+            // console.log(response);
+            $.toast({
+                heading: 'Error',
+                text: response,
+                icon: 'error',
+                position: 'top-right'
+            });
         }
     });
 }

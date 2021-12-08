@@ -17,6 +17,8 @@ use DB;
 // use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
 use App\Exports\DiamondExport;
+use App\Exports\DiamondExport4p;
+use App\Exports\DiamondExportPolish;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use DataTables;
@@ -678,57 +680,66 @@ class DiamondController extends Controller {
         if (isset($response['params']['export'])) {
 
             if($response['params']['export']=='export-admin'){
-                if($response['discount']=='' || $response['discount']==0){
-                    $response['discount']=0;
+                if($response['params']['discount']=='' || $response['params']['discount']==0){
+                    $response['params']['discount']=0;
                 }
-                // $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();
-                $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['category'])->where('is_deleted', 0)->first();
-                $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
-                $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
+
+                $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['params']['category'])->where('is_deleted', 0)->first();
 
                 $request->request->add(['web' => 'admin']);
                 $final_d = $aa->searchDiamonds($request);
                 $diamonds = $final_d->original['data'];
 
-                if (!empty($diamonds)) {
-                    $data=array();
+                if (!empty($diamonds) && count($diamonds)) {
+                    $data = [];
+                    if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
+                        $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
+                        $discount = doubleval($response['params']['discount']);
+                        foreach ($diamonds as $row) {
+                            $row = $row['_source'];
+                            $total=abs(($row['rapaport_price'] * $row['expected_polish_cts'] * ($discount-1))) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
+
+                            $dummeyArray=array();
+                            $dummeyArray['BARCODE']=$row['barcode'];
+                            $dummeyArray['MAIN PKTNO']=$row['packate_no'];
+                            $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
+                            $dummeyArray['EXP POL SIZE']=$row['attributes']['EXP POL SIZE'];
+                            $dummeyArray['COLOR']=$row['attributes']['COLOR'];
+                            $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
+                            $dummeyArray['MKBL CTS']=$row['makable_cts'];
+                            $dummeyArray['EXP POL CTS']=$row['expected_polish_cts'];
+                            $dummeyArray['REMARKS']=$row['remarks'];
+                            $dummeyArray['HALF-CUT DIA']=$row['remarks'];
+                            $dummeyArray['REMARKS']=$row['remarks'];
+                            $dummeyArray['HALF-CUT HGT']=$row['attributes']['HALF-CUT HGT'];
+                            $dummeyArray['HALF-CUT DIA']=$row['attributes']['HALF-CUT DIA'];
+                            $dummeyArray['PO. DIAMETER']=$row['attributes']['PO. DIAMETER'];
+                            $dummeyArray['location']=$row['attributes']['LOCATION'];
+                            $dummeyArray['comment']=$row['attributes']['COMMENT'];
+                            $dummeyArray['DISCOUNT']=$response['params']['discount'].'%';
+
+                            if(isset($row['image'][0])){
+                                $dummeyArray['image-1']=$row['image'][0];
+                            }
+                            if(isset($row['image'][1])){
+                                $dummeyArray['image-2']=$row['image'][1];
+                            }
+                            if(isset($row['image'][2])){
+                                $dummeyArray['image-3']=$row['image'][2];
+                            }
+                            if(isset($row['image'][3])){
+                                $dummeyArray['image-4']=$row['image'][3];
+                            }
+                            $dummeyArray['VIDEO LINK']=$row['video_link'];
+
+                            array_push($data,$dummeyArray);
+                        }
+                    }
                     foreach ($diamonds as $row) {
                         $row = $row['_source'];
-                        if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                                $discount = doubleval($response['discount']);
-                                $total=abs(($row['rapaport_price'] * $row['expected_polish_cts'] * ($discount-1))) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
-
-                                $dummeyArray=array();
-                                $dummeyArray['Barcode']=$row['barcode'];
-                                $dummeyArray['Pktno']=$row['packate_no'];
-                                $dummeyArray['shape']=$row['attributes']['SHAPE'];
-                                // $dummeyArray['exp_pol_size']=$row['attributes']['EXP POL SIZE'];
-                                $dummeyArray['color']=$row['attributes']['COLOR'];
-                                $dummeyArray['clarity']=$row['attributes']['CLARITY'];
-                                $dummeyArray['makable_cts']=$row['makable_cts'];
-                                $dummeyArray['exp_pol']=$row['expected_polish_cts'];
-                                $dummeyArray['location']=$row['attributes']['LOCATION'];
-                                $dummeyArray['comment']=$row['attributes']['COMMENT'];
-                                $dummeyArray['discount']=$response['discount'].'%';
-
-                                if(isset($row['image'][0])){
-                                    $dummeyArray['image_1']=$row['image'][0];
-                                }
-                                if(isset($row['image'][1])){
-                                    $dummeyArray['image_2']=$row['image'][1];
-                                }
-                                if(isset($row['image'][2])){
-                                    $dummeyArray['image_3']=$row['image'][2];
-                                }
-                                if(isset($row['image'][3])){
-                                    $dummeyArray['image_4']=$row['image'][3];
-                                }
-                                $dummeyArray['video']='';
-
-                                array_push($data,$dummeyArray);
-                            }
                         if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-                            $discount = doubleval($response['discount']);
+                            $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
+                            $discount = doubleval($response['params']['discount']);
                             $price=abs($row['rapaport_price']*($discount-1));
                             $amount=abs($price*doubleval($row['expected_polish_cts']));
                             $ro_amount=abs($amount/doubleval($row['makable_cts']));
@@ -745,7 +756,7 @@ class DiamondController extends Controller {
                             $dummeyArray['clarity']=$row['attributes']['CLARITY'];
                             $dummeyArray['location']=$row['attributes']['LOCATION'];
                             $dummeyArray['comment']=$row['attributes']['COMMENT'];
-                            $dummeyArray['discount']=$response['discount'].'%';
+                            $dummeyArray['discount']=$response['params']['discount'].'%';
 
                             if(isset($row['image'][0])){
                                 $dummeyArray['image_1']=$row['image'][0];
@@ -765,7 +776,7 @@ class DiamondController extends Controller {
                         }
                         if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
 
-                            $discount = doubleval($response['discount']);
+                            $discount = doubleval($response['params']['discount']);
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*($discount-1));
 
                             $dummeyArray=array();
@@ -774,17 +785,15 @@ class DiamondController extends Controller {
                     }
                 }
 
+                $filename = time() . ".xlsx";
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
-                    $filename=time().".xlsx";
-                    Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
+                    Excel::store(new DiamondExport4p($data), "public/excel_export/".$filename);
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-                    $filename=time().".xlsx";
                     Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
                 }
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-                    $filename=time().".xlsx";
-                    Excel::store(new DiamondExport($data), "public/excel_export/".$filename);
+                    Excel::store(new DiamondExportPolish($data), "public/excel_export/".$filename);
                 }
 
                 $excel = public_path('storage/excel_export/'.$filename);
@@ -798,12 +807,11 @@ class DiamondController extends Controller {
                     // ->pluck('name')
                     ->first();
                 $diamonds = $data;
-                $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category'));
-                $path = public_path('pdf/');
                 $fileName =  time() . '.' . 'pdf';
-                $pdf->save($path . '/' . $fileName);
-                $pdf = public_path('pdf/' . $fileName);
-                return response()->download($pdf);
+                $pdf = PDF::loadView('front.export-pdf', compact('diamonds', 'category'));
+                $pdf_d = public_path('pdf/' . $fileName);
+                $pdf->save($pdf_d);
+                return response()->download($pdf_d);
             }
         } else {
 
