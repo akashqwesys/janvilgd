@@ -355,6 +355,12 @@ function getDiamonds(values, array, group_id) {
                     "dataType": "json",
                     "cache": false,
                     "success": function(json) {
+                        const objectArray = Object.entries(json);
+                        objectArray.forEach(([key, value]) => {
+                            if (key === 'recordsTotal') {
+                                $('#result-tab').text('Results (' + value + ')');
+                            }
+                        });
                         $(".cs-loader").hide();
                         cacheLastJson = $.extend(true, {}, json);
 
