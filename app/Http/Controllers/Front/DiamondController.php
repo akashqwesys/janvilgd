@@ -588,13 +588,13 @@ class DiamondController extends Controller {
         }
         $final_result=array();
         foreach($final_data as $row){
-                       
-            $row['carat']=$row['expected_polish_cts'];
-            $row['barcode_tag']=$row['barcode'] . " <a href='/customer/single-diamonds/" . $row['barcode'] ."' target='_blank'> </a>";            
+            $push_array=array();
+            $push_array['diamond_id'] =$row['diamond_id'];       
+            $push_array['carat']=$row['expected_polish_cts'];
+            $push_array['barcode_tag']=$row['barcode'] . " <a href='/customer/single-diamonds/" . $row['barcode'] ."' target='_blank'> </a>";            
 
-            $row['makable_cts']=$row['makable_cts'];
+            $push_array['makable_cts']=$row['makable_cts'];
             
-
             $price_per_carat=0;
             if($row['refCategory_id']==1){
                 $price_per_carat=$row['total']/$row['makable_cts'];
@@ -605,14 +605,14 @@ class DiamondController extends Controller {
             if($row['refCategory_id']==3){
                 $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
             }            
-            $row['price_per_carat']=(round($price_per_carat, 2));
+            $push_array['price_per_carat']=(round($price_per_carat, 2));
 
             if (isset($row['attributes']['SHAPE'])) {
                 $shape = $row['attributes']['SHAPE'];
             } else {
                 $shape = ' - ';
             }        
-            $row['shape']=$shape;
+            $push_array['shape']=$shape;
 
 
             if (isset($row['attributes']['COLOR'])) {
@@ -620,7 +620,7 @@ class DiamondController extends Controller {
             } else {
                 $color = ' - ';
             }            
-            $row['color']=$color;
+            $push_array['color']=$color;
 
 
             if (isset($row['attributes']['CLARITY'])) {
@@ -628,7 +628,7 @@ class DiamondController extends Controller {
             } else {
                 $clarity = ' - ';
             }            
-            $row['clarity']=$clarity;
+            $push_array['clarity']=$clarity;
 
 
             if (isset($row['attributes']['CUT'])) {
@@ -636,10 +636,10 @@ class DiamondController extends Controller {
             } else {
                 $cut = ' - ';
             }
-            $row['cut']=$cut;
+            $push_array['cut']=$cut;
 
 
-            $row['total']=(round($row['total'], 2));
+            $push_array['total']=(round($row['total'], 2));
 
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
                 $cart_or_box = "<label class='custom-check-box'>
@@ -649,8 +649,8 @@ class DiamondController extends Controller {
             } else {
                 $cart_or_box = "<button class='btn btn-primary add-to-cart btn-sm' data-id='v_diamond_id'>Add To Cart</button>";
             }           
-            $row['compare']="<div class='compare-checkbox'>".str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box)."</div>";
-            array_push($final_result,$row);
+            $push_array['compare']="<div class='compare-checkbox'>".str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box)."</div>";
+            array_push($final_result,$push_array);
         }
         $json_array=array();
         $json_array['data']=$final_result;
