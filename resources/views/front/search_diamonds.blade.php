@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
+        var user_id = {{ $customer_id }};
         var onchange_call=true;
         var global_category_slug = '{{ $category->slug }}';
         var table_scroll = '.search-diamond-table .table-responsive';
@@ -157,7 +158,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     $admin = false;
 }
 @endphp
-    <section class="diamond-cut-section">
+    <section class="diamond-cut-section">    
         <div class="container">
             <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
             <div class="diamond-cut-filter">

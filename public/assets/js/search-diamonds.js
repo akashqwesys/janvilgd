@@ -3,9 +3,9 @@ var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
 $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-    }
+    // headers: {
+    //     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    // }
     // beforeSend: function(xhr) {
     //     $(".cs-loader").show();
     // }
@@ -17,7 +17,7 @@ $(document).ready(function() {
     }
     setTimeout(() => {
         stop_on_change = 1;
-        getDiamonds(global_search_values, global_search_array, global_group_id);
+        putDiamondsJson(global_search_values, global_search_array, global_group_id);
     }, 1000);
 });
 $(document).on('click', '.diamond-shape .item img', function() {
@@ -50,41 +50,15 @@ $(document).on('click', '.diamond-shape .item img', function() {
     new_call = true;
     if (cnt == $('.diamond-shape .item img').length) {
         $('#result-table').DataTable().destroy();
-        getDiamonds(values_all, [], group_id);
+        putDiamondsJson(values_all, [], group_id);
     } else {
         $('#result-table').DataTable().destroy();
-        getDiamonds(values, [], group_id);
+        putDiamondsJson(values, [], group_id);
     }
 });
+putDiamondsJson(global_search_values, global_search_array, global_group_id);
 
-// $(document).ready(function() {
-//     var table_recent = $("#recent-view").on("draw.dt", function() {
-//         $(this).find(".dataTables_empty").parents('tbody').empty();
-//     }).DataTable({
-//         "lengthChange": false,
-//         "bFilter": false,
-//         "bInfo": false,
-//         'bSortable': false,
-//         "ordering": false,
-//         "sScrollX": "100%",
-//         "sScrollY": "500",
-//         "paging": false
-//     });
-//     var table_compare = $("#compare-table").on("draw.dt", function() {
-//         $(this).find(".dataTables_empty").parents('tbody').empty();
-//     }).DataTable({
-//         "lengthChange": false,
-//         "bFilter": false,
-//         "bInfo": false,
-//         "ordering": false,
-//         'bSortable': false,
-//         "sScrollX": "100%",
-//         "sScrollY": "500",
-//         "paging": false
-//     });
-// });
-
-function getDiamonds(values, array, group_id) {
+function putDiamondsJson(values, array, group_id) {
     if (stop_on_change === 0) {
         global_search_values = values;
         global_search_array = array;
@@ -111,6 +85,34 @@ function getDiamonds(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
+    // data.params = {
+    //     'attribute_values': selected_values,
+    //     'group_id': group_id,
+    //     'web': 'web',
+    //     'category': global_category,
+    //     'category_slug': global_category_slug
+    // }
+    $(".cs-loader").show();
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        },
+        url: '/customer/list-diamonds',
+        data: {
+            'attribute_values': selected_values,
+            'group_id': group_id,
+            'web': 'web',
+            'category': global_category,
+            'category_slug': global_category_slug
+        },
+        success: function(response) {
+            $("#result-table").DataTable().destroy();
+            getDiamonds();
+        }
+    });
+}
+
+function getDiamonds() {
     if (global_category == 3) {
         columns_data = [
             { data: 'barcode_tag', name: 'barcode_tag', /* width: '12%' */ },
@@ -149,57 +151,50 @@ function getDiamonds(values, array, group_id) {
             { data: 'compare', name: 'compare', /* width: '10%' */ }
         ]
     }
-
     var table = $('#result-table').DataTable({
-        // columnDefs: [{
-        //     className: 'control',
-        //     orderable: false,
-        //     targets: 0
-        // }],
         'scrollY': 500,
         'scrollX': true,
         'scroller': {
             loadingIndicator: true
         },
-        "lengthMenu": [10, 50, 100, 500, 1000],
-        'scrollCollaps': true,
+        "lengthMenu": [16777216],
+        // 'scrollCollaps': true,
         'buttons': false,
         "lengthChange": false,
         "bInfo": false,
-        "processing": true,
-        // "serverSide": true,
-        'deferRender': true,
-        "bScrollInfinite": true,
-        'colReorder': true,
-        'pageLength': 100,
-        "language": {
-            "processing": "",
-        },
-        "ajax": {
-            'url': "/customer/list-diamonds",
-            'data': function(data) {
-                $(".cs-loader").show();
-                data.params = {
-                    'attribute_values': selected_values,
-                    'group_id': group_id,
-                    'web': 'web',
-                    'category': global_category,
-                    'category_slug': global_category_slug
+        "pageLength": 16777216,
+        // "bScrollInfinite": true,
+        "ajax": '/storage/diamond-filters-user/' + user_id + '.txt',
+        'initComplete': function(settings, data) {
+            const objectArray = Object.entries(data);
+            objectArray.forEach(([key, value]) => {
+                if (key === 'recordsTotal') {
+                    $('#result-tab').text('Results (' + value + ')');
                 }
-            },
-            'complete': function(data) {
-                $('#result-tab').text('Results (' + data.responseJSON.recordsFiltered + ')');
-                $(".cs-loader").hide();
-            }
+            });
+            $(".cs-loader").hide();
         },
-        columns: columns_data,
-        "createdRow": function(row, data) {
+        'columns': columns_data,
+        "createdRow": function(row, data, index) {
+            const objectArray = Object.entries(data);
+            objectArray.forEach(([key, value]) => {
+                if (key === 'diamond_id') {
+                    $(row).attr('data-diamond', value);
+                }
+                if (key === 'barcode_tag') {
+                    $(row).attr('data-barcode', value);
+                }
+                if (key === 'image') {
+                    $(row).attr('data-image', (value.length > 0 ? value[0] : '/assets/images/No-Preview-Available.jpg'));
+                }
+                if (key === 'name') {
+                    $(row).attr('data-name', value);
+                }
+                if (key === 'total') {
+                    $(row).attr('data-price', value);
+                }
+            });
             $(row).addClass('removable_tr');
-            $(row).attr('data-diamond', data['diamond_id']);
-            $(row).attr('data-barcode', data['barcode']);
-            $(row).attr('data-image', (data['image'].length > 0 ? data['image'][0] : '/assets/images/No-Preview-Available.jpg'));
-            $(row).attr('data-name', data['name']);
-            $(row).attr('data-price', data['total']);
             $(row).children(':nth-child(1)').addClass('text-center');
             $(row).children(':nth-child(2)').addClass('text-center');
             $(row).children(':nth-child(3)').addClass('text-center');
@@ -222,9 +217,21 @@ function getDiamonds(values, array, group_id) {
     $('#myInput').on('keyup', function() {
         table.search(this.value).draw();
     });
-    $(window).resize(function() {
-        table.columns.adjust();
-    });
+    // $(window).resize(function() {
+    //     table.columns.adjust();
+    // });
+
+    // table.row.add({
+    //     "barcode_tag": "Tiger Nixon",
+    //     "shape": "System Architect",
+    //     "carat": "$3,120",
+    //     "color": "2011/04/25",
+    //     "clarity": "Edinburgh",
+    //     "cut": "5421",
+    //     "price_per_carat": "$3,120",
+    //     "total": "2011/04/25",
+    //     "compare": "Edinburgh"
+    // }).draw();
 }
 $(document).on('click', '#result-table tr', function(e) {
     e.preventDefault();
