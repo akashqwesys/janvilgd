@@ -280,7 +280,7 @@ function getDiamonds(values, array, group_id) {
     $.fn.dataTable.pipeline = function(opts) {
         // Configuration options
         var conf = $.extend({
-            pages: 10, // number of pages to cache
+            pages: 5, // number of pages to cache
             url: '', // script url
             data: null, // function or object with parameters to send to the server
             // matching how `ajax.data` works in DataTables
@@ -408,7 +408,7 @@ function getDiamonds(values, array, group_id) {
         },
         "ajax": $.fn.dataTable.pipeline({
             url: '/customer/list-diamonds',
-            pages: 10, // number of pages to cache
+            pages: 5, // number of pages to cache
             'data': function(data) {
                 $(".cs-loader").show();
                 data.params = {
