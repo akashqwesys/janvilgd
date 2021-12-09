@@ -157,12 +157,12 @@ function getDiamonds() {
         'scroller': {
             loadingIndicator: true
         },
-        "lengthMenu": [16777216],
+        "lengthMenu": [100],
         // 'scrollCollaps': true,
         'buttons': false,
         "lengthChange": false,
         "bInfo": false,
-        "pageLength": 16777216,
+        "pageLength": 100,
         // "bScrollInfinite": true,
         "ajax": '/storage/diamond-filters-user/' + user_id + '.txt',
         'initComplete': function(settings, data) {
