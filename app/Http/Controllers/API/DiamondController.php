@@ -155,7 +155,7 @@ class DiamondController extends Controller
                             ], [
                                 'bool' => [
                                     'must' => [
-                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['category']) ] ] ],
+                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['params']['category']) ] ] ],
                                         [
                                             'range' => [
                                                 'expected_polish_cts' => [

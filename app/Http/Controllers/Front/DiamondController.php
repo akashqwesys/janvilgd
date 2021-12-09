@@ -27,12 +27,6 @@ use Elasticsearch\ClientBuilder;
 class DiamondController extends Controller {
 
     public function home(Request $request) {
-
-        $user = Auth::user();
-        $customer_id=$user->customer_id;
-        if(session('user-type') == "MASTER_ADMIN"){
-            $customer_id.'-ADMIN';
-        }        
         $title = 'Search Diamonds';
         $category = DB::table('categories')->select('category_id', 'name', 'slug')->where('slug', $request->category)->first();
         if (!$category) {
@@ -54,14 +48,14 @@ class DiamondController extends Controller {
                 ->get()
                 ->toArray();
         if (!count($data)) {
-            return view('front.search_diamonds_empty', compact('title', 'category','customer_id'));
+            return view('front.search_diamonds_empty', compact('title', 'category'));
         }
         $html = null;
         $temp_grp_id = 0;
         $temp_var = 0;
         $final_attribute_groups_with_att = array();
 
-        
+        $user = Auth::user();
         $file_arr = [];
 
         foreach ($data as $row_data) {
@@ -174,8 +168,9 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("change", function (values, handle) {
                                 priceJs[handle].value = values[handle];
-                                if(onchange_call == true){                                    
-                                    putDiamondsJson(this.get(), [], "price");
+                                if(onchange_call == true){
+                                    $("#result-table").DataTable().destroy();
+                                    getDiamonds(this.get(), [], "price");
                                 }
                             });
                             // Listen to keydown events on the input field.
@@ -194,8 +189,8 @@ class DiamondController extends Controller {
                                     switch (e.which) {
                                         case 13:
                                             priceSlider.noUiSlider.setHandle(handle, this.value);
-                                            
-                                            putDiamondsJson(priceSlider.noUiSlider.get(), [], "price");
+                                            $("#result-table").DataTable().destroy();
+                                            getDiamonds(priceSlider.noUiSlider.get(), [], "price");
                                             break;
                                         case 38:
                                             // Get step to go increase slider value (up)
@@ -264,7 +259,7 @@ class DiamondController extends Controller {
                                         var array = " . json_encode($default_values) . ";
                                         if(onchange_call == true){
                                             $('#result-table').DataTable().destroy();
-                                            putDiamondsJson(vals, array, " . $k . ");
+                                            getDiamonds(vals, array, " . $k . ");
                                         }
                                     }
                             });
@@ -304,8 +299,8 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("change", function (values, handle) {
                               if(onchange_call == true){
-                                
-                                putDiamondsJson(this.get(), [], "carat");
+                                $("#result-table").DataTable().destroy();
+                                getDiamonds(this.get(), [], "carat");
                               }
                         });
                         // Listen to keydown events on the input field.
@@ -323,8 +318,8 @@ class DiamondController extends Controller {
                                 switch (e.which) {
                                     case 13:
                                         caratSlider.noUiSlider.setHandle(handle, this.value);
-                                        
-                                        putDiamondsJson(caratSlider.noUiSlider.get(), [], "carat");
+                                        $("#result-table").DataTable().destroy();
+                                        getDiamonds(caratSlider.noUiSlider.get(), [], "carat");
                                         break;
                                     case 38:
                                         // Get step to go increase slider value (up)
@@ -352,8 +347,8 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("change", function () {
                             if(onchange_call == true){
-                                
-                                putDiamondsJson(this.get(), [], "carat");
+                                $("#result-table").DataTable().destroy();
+                                getDiamonds(this.get(), [], "carat");
                             }
                         });
                     </script>
@@ -444,7 +439,7 @@ class DiamondController extends Controller {
                                         var array = " . json_encode($default_values) . ";
                                           if(onchange_call == true){
                                             $('#result-table').DataTable().destroy();
-                                            putDiamondsJson(vals, array, " . $k . ");
+                                            getDiamonds(vals, array, " . $k . ");
                                           }
                                     }
                             });
@@ -467,7 +462,7 @@ class DiamondController extends Controller {
             ->where('rvd.refCustomer_id', $user->customer_id)
             ->orderBy('rvd.updated_at', 'desc')
             ->get();
-        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category','customer_id'));
+        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category'));
     }
 
     public function addToCart(Request $request) {
@@ -546,141 +541,129 @@ class DiamondController extends Controller {
         // return Excel::download(new DiamondExport($data), 'users.xlsx');
     }
 
-    public function searchListDiamondsPolish(Request $request) { 
-        
-        $response = $request->all();
-        $user = Auth::user();
-        $customer_id=$user->customer_id;
-        if(session('user-type') == "MASTER_ADMIN"){
-            $customer_id.'-ADMIN';
-        } 
+    public function searchListDiamondsPolish(Request $request) {
 
-        $file_name = $user->customer_id . '-' . $response['category'];
+        $response = $request->all();
+
+        $user = Auth::user();
+        $file_name = $user->customer_id . '-' . $response['params']['category'];
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
             $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
             $arr = json_decode($arr, true);
         }
-        if (isset($response['attribute_values'])) {
-            if (is_array($response['attribute_values']) && $response['group_id'] != 'price' && $response['group_id'] != 'carat') {
-                $response = collect($response['attribute_values'])->pluck('attribute_id')->values()->all();
-                $arr[$request['group_id']] = $response;
+        if (isset($response['params']['attribute_values'])) {
+            if (is_array($response['params']['attribute_values']) && $response['params']['group_id'] != 'price' && $response['params']['group_id'] != 'carat') {
+                $response = collect($response['params']['attribute_values'])->pluck('attribute_id')->values()->all();
+                $arr[$request->params['group_id']] = $response;
             } else {
-                if ($response['group_id'] == 'price') {
-                    $arr['price_min'] = $response['attribute_values'][0];
-                    $arr['price_max'] = $response['attribute_values'][1];
+                if ($response['params']['group_id'] == 'price') {
+                    $arr['price_min'] = $response['params']['attribute_values'][0];
+                    $arr['price_max'] = $response['params']['attribute_values'][1];
                 } else {
-                    $arr['carat_min'] = $response['attribute_values'][0];
-                    $arr['carat_max'] = $response['attribute_values'][1];
+                    $arr['carat_min'] = $response['params']['attribute_values'][0];
+                    $arr['carat_max'] = $response['params']['attribute_values'][1];
                 }
             }
             file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
         }
-        $arr['category'] = $request['category'];
-        $arr['category_slug'] = $request['category_slug'];
-        $arr['gateway'] = 'web';    
-        $final_data=[];
-        $aa = new APIDiamond;
-        $request->request->add(['attr_array' => $arr]);
-        $result = $aa->searchDiamonds($request);
-        $data=$result->original['data'];
-        foreach ($data as $v) {
-            $final_data[] = $v['_source'];
+        $arr['category'] = $request->params['category'];
+        $arr['category_slug'] = $request->params['category_slug'];
+        $arr['gateway'] = 'web';
+
+        if ($request->ajax()) {
+            $final_data=[];
+            $aa = new APIDiamond;
+            $request->request->add(['attr_array' => $arr]);
+            $result = $aa->searchDiamonds($request);
+            $data=$result->original['data'];
+            foreach ($data as $v) {
+                $final_data[] = $v['_source'];
+            }
+
+            return Datatables::of($final_data)
+                ->editColumn('carat', function ($row) {
+                    return $row['expected_polish_cts'];
+                })
+                ->addColumn('barcode_tag', function ($row) {
+                    return $row['barcode'] . ' <a href="/customer/single-diamonds/' . $row['barcode'] . '" target="_blank"> </a>';
+                })
+                ->addColumn('price_per_carat', function ($row) {
+                    $price_per_carat=0;
+                    if($row['refCategory_id']==1){
+                        $price_per_carat=$row['total']/$row['makable_cts'];
+                    }
+                    if($row['refCategory_id']==2){
+                        $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
+                    }
+                    if($row['refCategory_id']==3){
+                        $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
+                    }
+                    return (round($price_per_carat, 2));
+                    // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
+                })
+                ->addColumn('shape', function ($row) {
+                    if (isset($row['attributes']['SHAPE'])) {
+                        $shape = $row['attributes']['SHAPE'];
+                    } else {
+                        $shape = ' - ';
+                    }
+                    return $shape;
+                })
+                ->addColumn('color', function ($row) {
+                    if (isset($row['attributes']['COLOR'])) {
+                        $color = $row['attributes']['COLOR'];
+                    } else {
+                        $color = ' - ';
+                    }
+                    return  $color;
+                })
+                ->addColumn('clarity', function ($row) {
+                    if (isset($row['attributes']['CLARITY'])) {
+                        $clarity = $row['attributes']['CLARITY'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('cut', function ($row) {
+                    if (isset($row['attributes']['CUT'])) {
+                        $clarity = $row['attributes']['CUT'];
+                    } else {
+                        $clarity = ' - ';
+                    }
+                    return  $clarity;
+                })
+                ->addColumn('total', function ($row) {
+                    // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
+                    return (round($row['total'], 2));
+                })
+                ->addColumn('compare', function ($row) {
+                    if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                        $cart_or_box = '<label class="custom-check-box">
+                                                    <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                                    &nbsp;<span class="checkmark"></span>
+                                                </label>';
+                    } else {
+                        $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+                    }
+                    return '<div class="compare-checkbox">
+                                ' . str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box) . '
+                            </div>';
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
-        $final_result=array();
-        foreach($final_data as $row){
-            $push_array=array();
-            $push_array['diamond_id'] =$row['diamond_id'];       
-            $push_array['carat']=$row['expected_polish_cts'];
-            $push_array['barcode_tag']=$row['barcode'] . " <a href='/customer/single-diamonds/" . $row['barcode'] ."' target='_blank'> </a>";            
-
-            $push_array['makable_cts']=$row['makable_cts'];
-            
-            $price_per_carat=0;
-            if($row['refCategory_id']==1){
-                $price_per_carat=$row['total']/$row['makable_cts'];
-            }
-            if($row['refCategory_id']==2){
-                $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
-            }
-            if($row['refCategory_id']==3){
-                $price_per_carat=($row['rapaport_price'])*((1-$row['discount']));
-            }            
-            $push_array['price_per_carat']=(round($price_per_carat, 2));
-
-            if (isset($row['attributes']['SHAPE'])) {
-                $shape = $row['attributes']['SHAPE'];
-            } else {
-                $shape = ' - ';
-            }        
-            $push_array['shape']=$shape;
-
-
-            if (isset($row['attributes']['COLOR'])) {
-                $color = $row['attributes']['COLOR'];
-            } else {
-                $color = ' - ';
-            }            
-            $push_array['color']=$color;
-
-
-            if (isset($row['attributes']['CLARITY'])) {
-                $clarity = $row['attributes']['CLARITY'];
-            } else {
-                $clarity = ' - ';
-            }            
-            $push_array['clarity']=$clarity;
-
-
-            if (isset($row['attributes']['CUT'])) {
-                $cut = $row['attributes']['CUT'];
-            } else {
-                $cut = ' - ';
-            }
-            $push_array['cut']=$cut;
-
-
-            $push_array['total']=(round($row['total'], 2));
-
-            if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
-                $cart_or_box = "<label class='custom-check-box'>
-                                            <input type='checkbox' class='diamond-checkbox' data-id='v_diamond_id' >
-                                            &nbsp;<span class='checkmark'></span>
-                                        </label>";
-            } else {
-                $cart_or_box = "<button class='btn btn-primary add-to-cart btn-sm' data-id='v_diamond_id'>Add To Cart</button>";
-            }           
-            $push_array['compare']="<div class='compare-checkbox'>".str_replace('v_diamond_id', $row['diamond_id'], $cart_or_box)."</div>";
-            array_push($final_result,$push_array);
-        }
-        $json_array=array();
-        $json_array['data']=$final_result;
-        $json_array['draw']=1;
-        $json_array['recordsTotal']=count($final_result);
-        $json_array['recordsFiltered']=count($final_result);
-
-        file_put_contents(base_path() . '/storage/app/public/diamond-filters-user/' .$customer_id.'.txt', json_encode($json_array, JSON_PRETTY_PRINT));  
-        
-        if (count($final_result)) {
-            $data = array(
-                'suceess' => true
-            );
-        } else {
-            $data = array(
-                'suceess' => false
-            );
-        }        
-        return response()->json($data);                
     }
 
     public function searchDiamonds(Request $request)
     {
         $response = $request->all();
         $user = Auth::user();
-        $file_name = $user->customer_id . '-' . $response['category'];
+        $file_name = $user->customer_id . '-' . $response['params']['category'];
         $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
         $arr = json_decode($arr, true);
-        $arr['category'] = $request['category'];
-        $arr['category_slug'] = $request['category_slug'];
+        $arr['category'] = $request->params['category'];
+        $arr['category_slug'] = $request->params['category_slug'];
         $arr['gateway'] = 'web';
 
         $final_data = [];
@@ -692,9 +675,9 @@ class DiamondController extends Controller {
             $final_data[] = $v['_source'];
         }
 
-        if (isset($response['export'])) {
+        if (isset($response['params']['export'])) {
 
-            if($response['export']=='export-admin'){
+            if($response['params']['export']=='export-admin'){
                 if($response['discount']=='' || $response['discount']==0){
                     $response['discount']=0;
                 }
@@ -711,7 +694,7 @@ class DiamondController extends Controller {
                     $data = [];
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
-                        $discount = doubleval($response['discount']);
+                        $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             $total=abs(($row['rapaport_price'] * $row['expected_polish_cts'] * ($discount-1))) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
@@ -729,7 +712,7 @@ class DiamondController extends Controller {
                             $dummeyArray['HALF-CUT DIA']=$row['attributes']['HALF-CUT DIA'];
                             $dummeyArray['HALF-CUT HGT']=$row['attributes']['HALF-CUT HGT'];
                             $dummeyArray['PO. DIAMETER']=$row['attributes']['PO. DIAMETER'];
-                            $dummeyArray['DISCOUNT']=$response['discount'].'%';
+                            $dummeyArray['DISCOUNT']=$response['params']['discount'].'%';
                             $dummeyArray['Location']=$row['attributes']['Location'];
                             $dummeyArray['Comment']=$row['attributes']['Comment'];
                             $dummeyArray['VIDEO LINK']=$row['video_link'];
@@ -751,7 +734,7 @@ class DiamondController extends Controller {
                         }
                     }
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-                        $discount = doubleval($response['discount']);
+                        $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -773,7 +756,7 @@ class DiamondController extends Controller {
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
                             $dummeyArray['Location']=$row['attributes']['Location'];
                             $dummeyArray['Comment']=$row['attributes']['Comment'];
-                            $dummeyArray['Discount']=$response['discount'].'%';
+                            $dummeyArray['Discount']=$response['params']['discount'].'%';
 
 
                             if(isset($row['image'][0])){
@@ -794,7 +777,7 @@ class DiamondController extends Controller {
                         }
                     }
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
-                        $discount = doubleval($response['discount']);
+                        $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
 
@@ -807,7 +790,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Weight'] = $row['expected_polish_cts'];
                             $dummeyArray['Clarity'] = $row['attributes']['CLARITY'];
                             $dummeyArray['Color'] = $row['attributes']['COLOR'];
-                            $dummeyArray['Discount Percent'] = $response['discount'] . '%';
+                            $dummeyArray['Discount Percent'] = $response['params']['discount'] . '%';
                             $dummeyArray['Video Link'] = $row['video_link'];
                             $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
                             $dummeyArray['Polish'] = $row['attributes']['POLISH'];
@@ -864,10 +847,10 @@ class DiamondController extends Controller {
                 return response()->download($excel);
             }
 
-            if($response['export']=='export'){
+            if($response['params']['export']=='export'){
                 $category = DB::table('categories')
                     ->select('name', 'slug')
-                    ->where('category_id', $request['category'])
+                    ->where('category_id', $request->params['category'])
                     // ->pluck('name')
                     ->first();
                 $diamonds = $data;

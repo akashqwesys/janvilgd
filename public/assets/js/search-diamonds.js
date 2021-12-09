@@ -3,9 +3,9 @@ var global_search_array = [];
 var global_group_id = 0;
 var new_call = true;
 $.ajaxSetup({
-    // headers: {
-    //     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-    // }
+    headers: {
+        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    }
     // beforeSend: function(xhr) {
     //     $(".cs-loader").show();
     // }
@@ -17,7 +17,7 @@ $(document).ready(function() {
     }
     setTimeout(() => {
         stop_on_change = 1;
-        putDiamondsJson(global_search_values, global_search_array, global_group_id);
+        getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
 });
 $(document).on('click', '.diamond-shape .item img', function() {
@@ -50,15 +50,168 @@ $(document).on('click', '.diamond-shape .item img', function() {
     new_call = true;
     if (cnt == $('.diamond-shape .item img').length) {
         $('#result-table').DataTable().destroy();
-        putDiamondsJson(values_all, [], group_id);
+        getDiamonds(values_all, [], group_id);
     } else {
         $('#result-table').DataTable().destroy();
-        putDiamondsJson(values, [], group_id);
+        getDiamonds(values, [], group_id);
     }
 });
-putDiamondsJson(global_search_values, global_search_array, global_group_id);
 
-function putDiamondsJson(values, array, group_id) {
+// $(document).ready(function() {
+//     var table_recent = $("#recent-view").on("draw.dt", function() {
+//         $(this).find(".dataTables_empty").parents('tbody').empty();
+//     }).DataTable({
+//         "lengthChange": false,
+//         "bFilter": false,
+//         "bInfo": false,
+//         'bSortable': false,
+//         "ordering": false,
+//         "sScrollX": "100%",
+//         "sScrollY": "500",
+//         "paging": false
+//     });
+//     var table_compare = $("#compare-table").on("draw.dt", function() {
+//         $(this).find(".dataTables_empty").parents('tbody').empty();
+//     }).DataTable({
+//         "lengthChange": false,
+//         "bFilter": false,
+//         "bInfo": false,
+//         "ordering": false,
+//         'bSortable': false,
+//         "sScrollX": "100%",
+//         "sScrollY": "500",
+//         "paging": false
+//     });
+// });
+
+
+// $(document).ready(function() {
+
+
+
+//     if (global_category == 3) {
+//         columns_data = [
+//             { data: 'barcode_tag', name: 'barcode_tag', /* width: '12%' */ },
+//             { data: 'shape', name: 'shape', /* width: '11%' */ },
+//             { data: 'carat', name: 'carat', /* width: '15%' */ },
+//             { data: 'color', name: 'color', /* width: '8%' */ },
+//             { data: 'clarity', name: 'clarity', /* width: '8%' */ },
+//             { data: 'cut', name: 'cut', /* width: '8%' */ },
+//             { data: 'price_per_carat', name: 'price_per_carat', /* width: '12%', */ render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+//             { data: 'total', name: 'total', /* width: '12%', */ render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+//             { data: 'compare', name: 'compare', /* width: '10%' */ }
+//         ]
+//     } else if (global_category == 2) {
+//         columns_data = [
+//             { data: 'barcode_tag', name: 'barcode_tag', /* width: '12%' */ },
+//             { data: 'shape', name: 'shape', /* width: '10%' */ },
+//             { data: 'makable_cts', name: 'makable_cts', /* width: '12%' */ },
+//             { data: 'carat', name: 'carat', /* width: '8%' */ },
+//             { data: 'color', name: 'color', /* width: '8%' */ },
+//             { data: 'clarity', name: 'clarity', /* width: '8%' */ },
+//             { data: 'cut', name: 'cut', /* width: '9%' */ },
+//             { data: 'price_per_carat', name: 'price_per_carat', /* width: '9%', */ render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+//             { data: 'total', name: 'total', /* width: '12%', */ render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+//             { data: 'compare', name: 'compare', /* width: '9%' */ }
+//         ]
+//     } else {
+//         columns_data = [
+//             { data: 'barcode_tag', name: 'barcode_tag', /* width: '12%' */ },
+//             { data: 'shape', name: 'shape', /* width: '11%' */ },
+//             { data: 'makable_cts', name: 'makable_cts', /* width: '15%' */ },
+//             { data: 'carat', name: 'carat', /* width: '8%' */ },
+//             { data: 'color', name: 'color', /* width: '8%' */ },
+//             { data: 'clarity', name: 'clarity', /* width: '8%' */ },
+//             { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$'), /* width: '12%' */ },
+//             { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$'), /* width: '12%' */ },
+//             { data: 'compare', name: 'compare', /* width: '10%' */ }
+//         ]
+//     }
+
+
+
+
+
+
+
+//     var table = $('#result-table').DataTable({
+//         // 'scrollY': 500,
+//         // "bScrollInfinite": true,
+//         paging: false,
+//         'dom': 'frt',
+//         "pageLength": 25,
+//         "ajax": '/storage/diamond-filters-user/13.txt',
+//         'columns': columns_data,
+//         "createdRow": function(row, data, index) {
+//             const objectArray = Object.entries(data);
+//             objectArray.forEach(([key, value]) => {
+//                 if (key === 'diamond_id') {
+//                     $(row).attr('data-diamond', value);
+//                 }
+//                 if (key === 'barcode_tag') {
+//                     $(row).attr('data-barcode', value);
+//                 }
+//                 if (key === 'image') {
+//                     $(row).attr('data-image', (value.length > 0 ? value[0] : '/assets/images/No-Preview-Available.jpg'));
+//                 }
+//                 if (key === 'name') {
+//                     $(row).attr('data-name', value);
+//                 }
+//                 if (key === 'total') {
+//                     $(row).attr('data-price', value);
+//                 }
+//             });
+//             $(row).addClass('removable_tr');
+//             $(row).children(':nth-child(1)').addClass('text-center');
+//             $(row).children(':nth-child(2)').addClass('text-center');
+//             $(row).children(':nth-child(3)').addClass('text-center');
+//             $(row).children(':nth-child(4)').addClass('text-center');
+//             $(row).children(':nth-child(5)').addClass('text-center');
+//             $(row).children(':nth-child(6)').addClass('text-center');
+//             $(row).children(':nth-child(7)').addClass('text-center');
+
+//             if (global_category == 2) {
+//                 $(row).children(':nth-child(8)').addClass('text-center');
+//                 $(row).children(':nth-child(9)').addClass('text-right');
+//                 $(row).children(':nth-child(10)').addClass('text-center exclude');
+//             } else {
+//                 $(row).children(':nth-child(8)').addClass('text-right');
+//                 $(row).children(':nth-child(9)').addClass('text-center exclude');
+//             }
+//             $(row).children('td').attr('scope', 'col');
+//         }
+//     });
+
+//     // Handle click on "Load more" button
+//     $('#btn-example-load-more').on('click', function() {
+//         // Load more data
+//         table.page.loadMore();
+//     });
+//     $('#myInput').on('keyup', function() {
+//         table.search(this.value).draw();
+//     });
+// });
+
+
+// function lazy_load_scroll() {
+//     var lastScrollTop = 0,
+//         delta = 5;
+//     $(table_scroll).scroll(function() {
+//         var nowScrollTop = $(this).scrollTop();
+//         if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
+//             if (nowScrollTop > lastScrollTop) {
+//                 // if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
+//                 // $('#btn-example-load-more').click();
+//                 // }
+//             }
+//             lastScrollTop = nowScrollTop;
+//         }
+//     });
+// }
+
+
+
+function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
         global_search_values = values;
         global_search_array = array;
@@ -85,34 +238,6 @@ function putDiamondsJson(values, array, group_id) {
     } else {
         selected_values = strArray;
     }
-    // data.params = {
-    //     'attribute_values': selected_values,
-    //     'group_id': group_id,
-    //     'web': 'web',
-    //     'category': global_category,
-    //     'category_slug': global_category_slug
-    // }
-    $(".cs-loader").show();
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/customer/list-diamonds',
-        data: {
-            'attribute_values': selected_values,
-            'group_id': group_id,
-            'web': 'web',
-            'category': global_category,
-            'category_slug': global_category_slug
-        },
-        success: function(response) {
-            $("#result-table").DataTable().destroy();
-            getDiamonds();
-        }
-    });
-}
-
-function getDiamonds() {
     if (global_category == 3) {
         columns_data = [
             { data: 'barcode_tag', name: 'barcode_tag', /* width: '12%' */ },
@@ -151,30 +276,154 @@ function getDiamonds() {
             { data: 'compare', name: 'compare', /* width: '10%' */ }
         ]
     }
-    var table = $('#result-table').DataTable({
+
+    $.fn.dataTable.pipeline = function(opts) {
+        // Configuration options
+        var conf = $.extend({
+            pages: 10, // number of pages to cache
+            url: '', // script url
+            data: null, // function or object with parameters to send to the server
+            // matching how `ajax.data` works in DataTables
+            method: 'GET' // Ajax HTTP method
+        }, opts);
+
+        // Private variables for storing the cache
+        var cacheLower = -1;
+        var cacheUpper = null;
+        var cacheLastRequest = null;
+        var cacheLastJson = null;
+
+        return function(request, drawCallback, settings) {
+            var ajax = false;
+            var requestStart = request.start;
+            var drawStart = request.start;
+            var requestLength = request.length;
+            var requestEnd = requestStart + requestLength;
+
+            if (settings.clearCache) {
+                // API requested that the cache be cleared
+                ajax = true;
+                settings.clearCache = false;
+            } else if (cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) {
+                // outside cached data - need to make a request
+                ajax = true;
+            } else if (JSON.stringify(request.order) !== JSON.stringify(cacheLastRequest.order) ||
+                JSON.stringify(request.columns) !== JSON.stringify(cacheLastRequest.columns) ||
+                JSON.stringify(request.search) !== JSON.stringify(cacheLastRequest.search)
+            ) {
+                // properties changed (ordering, columns, searching)
+                ajax = true;
+            }
+
+            // Store the request for checking next time around
+            cacheLastRequest = $.extend(true, {}, request);
+
+            if (ajax) {
+                // Need data from the server
+                if (requestStart < cacheLower) {
+                    requestStart = requestStart - (requestLength * (conf.pages - 1));
+
+                    if (requestStart < 0) {
+                        requestStart = 0;
+                    }
+                }
+
+                cacheLower = requestStart;
+                cacheUpper = requestStart + (requestLength * conf.pages);
+
+                request.start = requestStart;
+                request.length = requestLength * conf.pages;
+
+                // Provide the same `data` options as DataTables.
+                if (typeof conf.data === 'function') {
+                    // As a function it is executed with the data object as an arg
+                    // for manipulation. If an object is returned, it is used as the
+                    // data object to submit
+                    var d = conf.data(request);
+                    if (d) {
+                        $.extend(request, d);
+                    }
+                } else if ($.isPlainObject(conf.data)) {
+                    // As an object, the data given extends the default
+                    $.extend(request, conf.data);
+                }
+
+                return $.ajax({
+                    "type": conf.method,
+                    "url": conf.url,
+                    "data": request,
+                    "dataType": "json",
+                    "cache": false,
+                    "success": function(json) {
+                        $(".cs-loader").hide();
+                        cacheLastJson = $.extend(true, {}, json);
+
+                        if (cacheLower != drawStart) {
+                            json.data.splice(0, drawStart - cacheLower);
+                        }
+                        if (requestLength >= -1) {
+                            json.data.splice(requestLength, json.data.length);
+                        }
+
+                        drawCallback(json);
+                    }
+                });
+            } else {
+                json = $.extend(true, {}, cacheLastJson);
+                json.draw = request.draw; // Update the echo for each response
+                json.data.splice(0, requestStart - cacheLower);
+                json.data.splice(requestLength, json.data.length);
+
+                drawCallback(json);
+            }
+        }
+    };
+
+    // Register an API method that will empty the pipelined data, forcing an Ajax
+    // fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+    $.fn.dataTable.Api.register('clearPipeline()', function() {
+        return this.iterator('table', function(settings) {
+            settings.clearCache = true;
+        });
+    });
+
+
+    $('#result-table').DataTable({
+        "bInfo": false,
+        "lengthChange": false,
+        // "paging": false,        
+        "pageLength": 250,
+        "processing": true,
+        "serverSide": true,
         'scrollY': 500,
         'scrollX': true,
         'scroller': {
             loadingIndicator: true
         },
-        "lengthMenu": [100],
-        // 'scrollCollaps': true,
-        'buttons': false,
-        "lengthChange": false,
-        "bInfo": false,
-        "pageLength": 100,
-        // "bScrollInfinite": true,
-        "ajax": '/storage/diamond-filters-user/' + user_id + '.txt',
-        'initComplete': function(settings, data) {
-            const objectArray = Object.entries(data);
-            objectArray.forEach(([key, value]) => {
-                if (key === 'recordsTotal') {
-                    $('#result-tab').text('Results (' + value + ')');
+        "ajax": $.fn.dataTable.pipeline({
+            url: '/customer/list-diamonds',
+            pages: 10, // number of pages to cache
+            'data': function(data) {
+                $(".cs-loader").show();
+                data.params = {
+                    'attribute_values': selected_values,
+                    'group_id': group_id,
+                    'web': 'web',
+                    'category': global_category,
+                    'category_slug': global_category_slug
                 }
-            });
-            $(".cs-loader").hide();
-        },
-        'columns': columns_data,
+            },
+        }),
+        // 'initComplete': function(settings, data) {
+        //     const objectArray = Object.entries(data);
+        //     objectArray.forEach(([key, value]) => {
+        //         if (key === 'recordsTotal') {
+        //             $('#result-tab').text('Results (' + value + ')');
+        //         }
+        //     });
+        //     $(".cs-loader").hide();
+        // },
+        columns: columns_data,
         "createdRow": function(row, data, index) {
             const objectArray = Object.entries(data);
             objectArray.forEach(([key, value]) => {
@@ -214,16 +463,92 @@ function getDiamonds() {
             $(row).children('td').attr('scope', 'col');
         }
     });
-    $('#myInput').on('keyup', function() {
-        table.search(this.value).draw();
-    });
+
+
+    // var table = $('#result-table').DataTable({
+    //     // // // 'scrollCollaps': true,
+    //     // // "lengthChange": false,
+    //     "bInfo": false,
+    //     // // // // "serverSide": true,
+    //     "paging": false,
+    //     // // // destroy: true,
+    //     // // processing: true,
+    //     // // serverSide: true,
+    //     // // destroy: true,
+
+    //     // processing: true,
+    //     // // serverSide: true,
+    //     // destroy: false,
+
+    //     'scrollY': 500,
+    //     "pagingType": "full_numbers",
+    //     "ajax": {
+    //         'url': "/customer/list-diamonds",
+    //         'data': function(data) {
+    //             $(".cs-loader").show();
+    //             data.params = {
+    //                 'attribute_values': selected_values,
+    //                 'group_id': group_id,
+    //                 'web': 'web',
+    //                 'category': global_category,
+    //                 'category_slug': global_category_slug
+    //             }
+    //         },
+    //         'complete': function(data) {
+    //             $('#result-tab').text('Results (' + data.responseJSON.recordsFiltered + ')');
+    //             $(".cs-loader").hide();
+    //         }
+    //     },
+    //     columns: columns_data,
+    //     "createdRow": function(row, data, index) {
+    //         const objectArray = Object.entries(data);
+    //         objectArray.forEach(([key, value]) => {
+    //             if (key === 'diamond_id') {
+    //                 $(row).attr('data-diamond', value);
+    //             }
+    //             if (key === 'barcode_tag') {
+    //                 $(row).attr('data-barcode', value);
+    //             }
+    //             if (key === 'image') {
+    //                 $(row).attr('data-image', (value.length > 0 ? value[0] : '/assets/images/No-Preview-Available.jpg'));
+    //             }
+    //             if (key === 'name') {
+    //                 $(row).attr('data-name', value);
+    //             }
+    //             if (key === 'total') {
+    //                 $(row).attr('data-price', value);
+    //             }
+    //         });
+    //         $(row).addClass('removable_tr');
+    //         $(row).children(':nth-child(1)').addClass('text-center');
+    //         $(row).children(':nth-child(2)').addClass('text-center');
+    //         $(row).children(':nth-child(3)').addClass('text-center');
+    //         $(row).children(':nth-child(4)').addClass('text-center');
+    //         $(row).children(':nth-child(5)').addClass('text-center');
+    //         $(row).children(':nth-child(6)').addClass('text-center');
+    //         $(row).children(':nth-child(7)').addClass('text-center');
+
+    //         if (global_category == 2) {
+    //             $(row).children(':nth-child(8)').addClass('text-center');
+    //             $(row).children(':nth-child(9)').addClass('text-right');
+    //             $(row).children(':nth-child(10)').addClass('text-center exclude');
+    //         } else {
+    //             $(row).children(':nth-child(8)').addClass('text-right');
+    //             $(row).children(':nth-child(9)').addClass('text-center exclude');
+    //         }
+    //         $(row).children('td').attr('scope', 'col');
+    //     }
+    // });
+    // $('#myInput').on('keyup', function() {
+    //     table.search(this.value).draw();
+    // });
     // $(window).resize(function() {
     //     table.columns.adjust();
     // });
-
     // table.row.add({
     //     "barcode_tag": "Tiger Nixon",
     //     "shape": "System Architect",
+    //     "makable_cts": "0",
     //     "carat": "$3,120",
     //     "color": "2011/04/25",
     //     "clarity": "Edinburgh",
@@ -233,6 +558,88 @@ function getDiamonds() {
     //     "compare": "Edinburgh"
     // }).draw();
 }
+
+
+function getScrollDiamonds() {
+    // alert('hi');
+    // table.row.add({
+    //     "barcode_tag": "Tiger Nixon",
+    //     "shape": "System Architect",
+    //     "carat": "$3,120",
+    //     "color": "2011/04/25",
+    //     "clarity": "Edinburgh",
+    //     "cut": "5421",
+    //     "price_per_carat": "Tiger Nixon",
+    //     "total": "System Architect",
+    //     "compare": "$3,120"
+    // }).draw(false);
+
+
+    // var selected_values = [];
+    // if (values.length > 1 && typeof values == 'string') {
+    //     var strArray = values.split(",");
+    // }
+    // if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
+    //     var first_index = array.map(function(e) {
+    //         return e.name;
+    //     }).indexOf(strArray[0]);
+    //     var last_index = array.map(function(e) {
+    //         return e.name;
+    //     }).indexOf(strArray[1]);
+    //     for (let i = first_index; i <= last_index; i++) {
+    //         selected_values.push(array[i]);
+    //     }
+    // } else if (array.length === 0) {
+    //     selected_values = values;
+    // } else {
+    //     selected_values = strArray;
+    // }
+
+    // var params_data = {};
+    // params_data.params = {
+    //     'attribute_values': selected_values,
+    //     'group_id': group_id,
+    //     'web': 'web',
+    //     'category': global_category,
+    //     'category_slug': global_category_slug
+    // };
+
+    // $.ajax({
+    //     type: 'get',
+    //     url: '/customer/search-diamonds',
+    //     data: params_data,
+    //     success: function(response) {
+
+    //         var blob = new Blob([response]);
+
+    //         var link = document.createElement('a');
+
+    //         link.href = window.URL.createObjectURL(blob);
+
+    //         if (export_value == 'export') {
+    //             link.download = "Diamonds-data.pdf";
+    //         } else {
+    //             link.download = "Diamonds-data.xlsx";
+    //         }
+
+    //         link.click();
+    //     },
+    //     error: function(response) {
+    //         // console.log(response);
+    //         $.toast({
+    //             heading: 'Error',
+    //             text: response,
+    //             icon: 'error',
+    //             position: 'top-right'
+    //         });
+    //     }
+    // });
+}
+
+
+
+
+
 $(document).on('click', '#result-table tr', function(e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
