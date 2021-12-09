@@ -398,7 +398,7 @@ function getDiamonds(values, array, group_id) {
         "bInfo": false,
         "lengthChange": false,
         // "paging": false,        
-        "pageLength": 250,
+        "pageLength": 50,
         "processing": true,
         "serverSide": true,
         'scrollY': 500,
