@@ -2013,6 +2013,11 @@ class DiamondsController extends Controller {
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
             }
+
+
+
+            // echo '<pre>';print_r($final_data);die;
+
             return Datatables::of($final_data)
                 // ->addColumn('index', '')
                 ->editColumn('barcode', function ($row) {

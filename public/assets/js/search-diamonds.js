@@ -57,32 +57,32 @@ $(document).on('click', '.diamond-shape .item img', function() {
     }
 });
 
-$(document).ready(function() {
-    var table_recent = $("#recent-view").on("draw.dt", function() {
-        $(this).find(".dataTables_empty").parents('tbody').empty();
-    }).DataTable({
-        "lengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        'bSortable': false,
-        "ordering": false,
-        "sScrollX": "100%",
-        "sScrollY": "500",
-        "paging": false
-    });
-    var table_compare = $("#compare-table").on("draw.dt", function() {
-        $(this).find(".dataTables_empty").parents('tbody').empty();
-    }).DataTable({
-        "lengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        "ordering": false,
-        'bSortable': false,
-        "sScrollX": "100%",
-        "sScrollY": "500",
-        "paging": false
-    });
-});
+// $(document).ready(function() {
+//     var table_recent = $("#recent-view").on("draw.dt", function() {
+//         $(this).find(".dataTables_empty").parents('tbody').empty();
+//     }).DataTable({
+//         "lengthChange": false,
+//         "bFilter": false,
+//         "bInfo": false,
+//         'bSortable': false,
+//         "ordering": false,
+//         "sScrollX": "100%",
+//         "sScrollY": "500",
+//         "paging": false
+//     });
+//     var table_compare = $("#compare-table").on("draw.dt", function() {
+//         $(this).find(".dataTables_empty").parents('tbody').empty();
+//     }).DataTable({
+//         "lengthChange": false,
+//         "bFilter": false,
+//         "bInfo": false,
+//         "ordering": false,
+//         'bSortable': false,
+//         "sScrollX": "100%",
+//         "sScrollY": "500",
+//         "paging": false
+//     });
+// });
 
 function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
@@ -167,13 +167,14 @@ function getDiamonds(values, array, group_id) {
         "lengthChange": false,
         "bInfo": false,
         "processing": true,
-        "serverSide": true,
+        // "serverSide": true,
         'deferRender': true,
         "bScrollInfinite": true,
         'colReorder': true,
-        // "language": {
-        //     "processing": "",
-        // },
+        'pageLength': 100,
+        "language": {
+            "processing": "",
+        },
         "ajax": {
             'url': "/customer/list-diamonds",
             'data': function(data) {
