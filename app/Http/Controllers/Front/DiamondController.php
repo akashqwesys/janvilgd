@@ -572,19 +572,14 @@ class DiamondController extends Controller {
 
         if ($request->ajax()) {
             $final_data=[];
-            // $aa = new APIDiamond;
-            // $request->request->add(['attr_array' => $arr]);
-            // $result = $aa->searchDiamonds($request);
-            // $data=$result->original['data'];
-            // foreach ($data as $v) {
-            //     $final_data[] = $v['_source'];
-            // }
-            // file_put_contents(base_path() . '/storage/app/public/diamond-filters-user/13.txt', json_encode($final_data, JSON_PRETTY_PRINT));
-
-            // die;
-
-            $arr = file_get_contents(base_path() . '/storage/app/public/diamond-filters-user/13.txt');
-            $final_data = json_decode($arr, true);
+            $aa = new APIDiamond;
+            $request->request->add(['attr_array' => $arr]);
+            $result = $aa->searchDiamonds($request);
+            $data=$result->original['data'];
+            foreach ($data as $v) {
+                $final_data[] = $v['_source'];
+            }
+           
             
 
             return Datatables::of($final_data)
