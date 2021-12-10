@@ -121,7 +121,7 @@ class DiamondController extends Controller
         $response = $request->all();
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
-            if ($k == 'price_min' || $k == 'price_max' || $k == 'carat_min' || $k == 'carat_max' || $k == 'web' || $k == 'category' || $k == 'category_slug' || $k == 'gateway' || $k == 'offset') {
+            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode'])) {
                 continue;
             }
             for ($i = 0; $i < count($v); $i++) {
@@ -139,6 +139,49 @@ class DiamondController extends Controller
                 ]
             ];
         }
+        $all_conditions = [
+            [
+                'bool' => [
+                    'must' =>  $attr_to_send
+                ]
+            ], [
+                'bool' => [
+                    'must' => [
+                        ['term' => ['refCategory_id' => ['value' => intval($response['params']['category'])]]],
+                        [
+                            'range' => [
+                                'expected_polish_cts' => [
+                                    'from' => floatval($response['attr_array']['carat_min'] - 0.001 ?? 0),
+                                    'to' => floatval($response['attr_array']['carat_max'] + 0.001 ?? 5),
+                                    // 'include_lower' => true,
+                                    // 'include_upper' => true
+                                ],
+                            ]
+                        ], [
+                            'range' => [
+                                'total' => [
+                                    'from' => floatval($response['attr_array']['price_min'] - 0.001 ?? 0),
+                                    'to' => floatval($response['attr_array']['price_max'] + 0.001 ?? 3000),
+                                    // 'include_lower' => true,
+                                    // 'include_upper' => true,
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        if (!empty(trim($response['attr_array']['search_barcode']))) {
+            $filter = [
+                'bool' => [
+                    'must' => [
+                        ['term' => ['barcode' => $response['attr_array']['search_barcode']]]
+                    ]
+                ]
+            ];
+            array_push($all_conditions, $filter);
+        }
 
         $elastic_params = [
             'index' => 'diamonds',
@@ -147,48 +190,23 @@ class DiamondController extends Controller
                 'size'  => 10000,
                 'query' => [
                     'bool' => [
-                        'must' => [
-                            [
-                                'bool' => [
-                                    'must' =>  $attr_to_send
-                                ]
-                            ], [
-                                'bool' => [
-                                    'must' => [
-                                        [ 'term' => [ 'refCategory_id' => [ 'value' => intval($response['params']['category']) ] ] ],
-                                        [
-                                            'range' => [
-                                                'expected_polish_cts' => [
-                                                    'from' => floatval($response['attr_array']['carat_min']-0.01 ?? 0),
-                                                    'to' => floatval($response['attr_array']['carat_max']+0.01 ?? 5),
-                                                    // 'include_lower' => true,
-                                                    // 'include_upper' => true
-                                                ],
-                                            ]
-                                        ], [
-                                            'range' => [
-                                                'total' => [
-                                                    'from' => floatval($response['attr_array']['price_min']-0.01 ?? 0),
-                                                    'to' => floatval($response['attr_array']['price_max']+0.01 ?? 3000),
-                                                    // 'include_lower' => true,
-                                                    // 'include_upper' => true,
-                                                ],
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
+                        'must' => $all_conditions
                     ]
-                ]
+                ],
+                'sort' => [
+                    [
+                        $response['attr_array']['column'] => [ 'order' => $response['attr_array']['asc_desc'] ],
+                    ],
+                ],
             ]
         ];
+
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
-        // dd($elastic_params);
+
         $diamond_ids = $client->search($elastic_params);
-        // dd(count($diamond_ids['hits']['hits']));
+
         $final_d = $final_api = [];
 
         if (isset($diamond_ids['hits']['hits'])) {
@@ -200,11 +218,11 @@ class DiamondController extends Controller
             }
         }
         $final_d = $diamond_ids['hits']['hits'];
-        if ($response['attr_array']['gateway'] == 'api') {
-            return $this->successResponse('Success', array_values( $final_d));
-        } else {
+        // if ($response['attr_array']['gateway'] == 'api') {
+            // return $this->successResponse('Success', array_values( $final_d));
+        // } else {
             return $this->successResponse('Success', $final_d);
-        }
+        // }
     }
 
     public function detailshDiamonds($barcode)
@@ -214,7 +232,7 @@ class DiamondController extends Controller
             ->leftJoin('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->leftJoin('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'd.refCategory_id')
+            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'd.refCategory_id', 'd.available_pcs')
             ->where('d.barcode',$barcode)
             ->get();
 
@@ -241,6 +259,7 @@ class DiamondController extends Controller
             $response_array['name'] = $diamonds[0]->name;
             $response_array['ag_name'] = $diamonds[0]->ag_name;
             $response_array['refCategory_id'] = $diamonds[0]->refCategory_id;
+            $response_array['available_pcs'] = $diamonds[0]->available_pcs;
             // $response_array['data']=$diamonds[0];
 
             $response_array['attribute'] = [];
@@ -368,7 +387,7 @@ class DiamondController extends Controller
         $response_array=array();
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp')
+            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id')
             ->where('c.refCustomer_id',$customer_id)
             ->get();
             // ->toArray();
@@ -376,6 +395,7 @@ class DiamondController extends Controller
         if(!empty($diamonds[0]) && isset($diamonds[0])){
             $subtotal = 0;
             $weight = 0;
+            $rm_ids = [];
             foreach ($diamonds as $value){
                 $value->image = json_decode($value->image);
                 /* $a = [];
@@ -383,8 +403,12 @@ class DiamondController extends Controller
                     $a[] = '/storage/other_images/' . $v1;
                 }
                 $value->image = $a; */
-                $subtotal += $value->price;
-                $weight += $value->carat;
+                if ($value->available_pcs > 0) {
+                    $subtotal += $value->price;
+                    $weight += $value->carat;
+                } else {
+                    $rm_ids[] = $value->customer_cart_id;
+                }
                 // $response_array[] = (array) $value;
                 array_push($response_array, $value);
             }
@@ -650,6 +674,13 @@ class DiamondController extends Controller
             return $this->errorResponse($validator->errors()->all()[0]);
         }
         $customer_id = Auth::id();
+        $d_exist = DB::table('diamonds')
+            ->where('diamond_id', $request->diamond_id)
+            ->where('available_pcs', '>', 0)
+            ->first();
+        if (empty($d_exist)) {
+            return $this->errorResponse('Selected diamond is out of stock');
+        }
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -658,10 +689,13 @@ class DiamondController extends Controller
             $data_array = [
                 'refCustomer_id' => $customer_id,
                 'refDiamond_id' => $request->diamond_id,
-                'date_added' => date("Y-m-d h:i:s")
+                'date_added' => date("Y-m-d h:i:s"),
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s"),
+                'is_active' => 1
             ];
             $res=DB::table('customer_cart')->insert($data_array);
-            $Id = DB::getPdo()->lastInsertId();
+            // $Id = DB::getPdo()->lastInsertId();
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your cart');
             }

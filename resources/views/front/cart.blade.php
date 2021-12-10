@@ -83,7 +83,11 @@
                         <td>
                             <h5>{{$rv->diamond_name}}</h5>
                             <h4 class="cart-price">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
+                            @if ($rv->available_pcs == 1)
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
+                            @elseif ($rv->available_pcs == 0)
+                            <p class="text-danger"><b>This diamond is currently out of stock and it will removed from cart on your next visit.</b></p>
+                            @endif
                         </td>
                     </tr>
                     <?php

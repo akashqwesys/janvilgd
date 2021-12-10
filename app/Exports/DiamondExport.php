@@ -51,7 +51,8 @@ class DiamondExport implements FromCollection, WithHeadings
             'image-2',
             'image-3',
             'image-4',
-            'Video'
+            'Video',
+            'Price'
         ];
     }
 }

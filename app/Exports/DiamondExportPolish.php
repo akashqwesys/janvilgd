@@ -67,7 +67,8 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'image-1',
             'image-2',
             'image-3',
-            'image-4'
+            'image-4',
+            'Price'
         ];
     }
 }

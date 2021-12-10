@@ -149,7 +149,9 @@
                         <p>&nbsp;</p>
                         <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
                         <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}}</p>
+                        @if ($response['available_pcs'] == 1)
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
+                        @endif
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response['diamond_id']}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
@@ -391,4 +393,39 @@
             </div> -->
         </div>
     </section>
+    @endsection
+    @section('js')
+    <script>
+        $(document).on('click', '.add-to-cart', function () {
+			var self = $(this);
+			var diamond_id = self.data('id');
+			var data = {
+				'diamond_id': diamond_id
+			};
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "{{ route('add-to-cart') }}",
+				data: data,
+				success: function (res) {
+					if (res.suceess) {
+						$.toast({
+							heading: 'Success',
+							text: 'Diamond added in cart.',
+							icon: 'success',
+							position: 'top-right'
+						});
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
+					}else{
+						$.toast({
+							heading: 'Error',
+							text: res.message,
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		});
+    </script>
     @endsection
