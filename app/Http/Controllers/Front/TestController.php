@@ -260,6 +260,9 @@ class TestController extends Controller
                         "remarks" => [
                             "type" => "text"
                         ],
+                        "price_ct" => [
+                            "type" => "double"
+                        ],
                         "total" => [
                             "type" => "double"
                         ],

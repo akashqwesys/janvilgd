@@ -147,11 +147,12 @@ class RapaortController extends Controller
                                         $rapa_price = ($rapa_price + $rapa_price2) / 2;
                                     }
 
-
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
+                                    $price_per_carat = number_format(($rapa_price * $d_row->discount), 2, '.', '');
                                     $data_array = [
                                         'diamond_id'=>$d_row->diamond_id,
                                         'rapaport_price' => $rapa_price,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total
                                     ];
 
@@ -167,16 +168,18 @@ class RapaortController extends Controller
                                         $rapa_price = $row_rapa->rapaport_price;
                                     }
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1)));
-                                        $data_array = [
-                                             'diamond_id'=>$d_row->diamond_id,
-                                            'rapaport_price' => $rapa_price,
-                                            'total' => $total
-                                        ];
+                                    $price_per_carat = number_format(($rapa_price * $d_row->discount), 2, '.', '');
+                                    $data_array = [
+                                        'diamond_id'=>$d_row->diamond_id,
+                                        'rapaport_price' => $rapa_price,
+                                        'price_ct' => $price_per_carat,
+                                        'total' => $total
+                                    ];
 
-                                        if($rapa_price!=0){
-                                            array_push($value,$data_array);
-                                            // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
-                                        }
+                                    if($rapa_price!=0){
+                                        array_push($value,$data_array);
+                                        // Diamonds::where('diamond_id', $d_row->diamond_id)->update(['total' => DB::raw($data_array['total']), 'rapaport_price' => DB::raw($data_array['rapaport_price'])]);
+                                    }
                                 }
                             }
                         }
@@ -203,9 +206,11 @@ class RapaortController extends Controller
                                         $ro_amount = abs($amount / doubleval($d_row->makable_cts));
                                         $final_price = $ro_amount - $labour_charge_rough->amount;
                                         $total = abs($final_price * (doubleval($d_row->makable_cts)));
+                                        $price_per_carat = number_format(($total / $d_row->makable_cts), 2, '.', '');
                                         $data_array = [
                                             'diamond_id'=>$d_row->diamond_id,
                                             'rapaport_price' => $rapa_price,
+                                            'price_ct' => $price_per_carat,
                                             'total' => $total
                                         ];
 
@@ -227,38 +232,38 @@ class RapaortController extends Controller
 
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
-            ->build();    
-        if(count($value)){          
-            $params = array();                
-            $params = ['body' => []]; 
-            $i=0; 
-            foreach($value as $batch_row){                
-                $id='d_id_'.$batch_row['diamond_id'];              
-                unset($batch_row['diamond_id']);                                                   
+            ->build();
+        if(count($value)){
+            $params = array();
+            $params = ['body' => []];
+            $i=0;
+            foreach($value as $batch_row){
+                $id='d_id_'.$batch_row['diamond_id'];
+                unset($batch_row['diamond_id']);
                     $params["body"][]= [
                             "update" => [
-                                "_index" => 'diamonds',                                                        
+                                "_index" => 'diamonds',
                                 "_id" => $id,
                             ]
-                        ];        
+                        ];
                     $params["body"][]= [
                         "doc"=>$batch_row
-                    ];                           
+                    ];
                     if ($i % 1000 == 0) {
-                        $responses = $client->bulk($params); 
-                        //  dd($responses);                                                       
-                        $params = ['body' => []];                                
+                        $responses = $client->bulk($params);
+                        //  dd($responses);
+                        $params = ['body' => []];
                         unset($responses);
-                    }               
+                    }
                 $i=$i+1;
-            }                          
+            }
             // Send the last batch if it exists
-            if (!empty($params['body'])) {                
-                $responses = $client->bulk($params);                
+            if (!empty($params['body'])) {
+                $responses = $client->bulk($params);
             }
         }
 
-        $diamondsInstance = new Diamonds;        
+        $diamondsInstance = new Diamonds;
         $index = 'diamond_id';
         $chunked_new_record_array = array_chunk($value,10,true);
         foreach ($chunked_new_record_array as $new_record_chunk)

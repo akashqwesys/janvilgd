@@ -260,17 +260,17 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <th scope="col" class="text-center sorting" data-name="makable_cts">Rough Weight (CT)</th>
                                                             @endif
                                                             <th scope="col" class="text-center sorting" data-name="expected_polish_cts">Carat</th>
-                                                            <th scope="col" class="text-center sorting" data-name="">Color</th>
-                                                            <th scope="col" class="text-center sorting" data-name="">Clarity</th>
+                                                            <th scope="col" class="text-center sorting" data-name="COLOR">Color</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CLARITY">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="">Cut</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CUT">Cut</th>
                                                             @endif
                                                             <th scope="col" class="text-center sorting" data-name="">Price/CT</th>
-                                                            <th scope="col" class="text-center sorting" data-name="">Price</th>
+                                                            <th scope="col" class="text-center sorting" data-name="total">Price</th>
                                                             @if ($admin === true)
-                                                            <th scope="col" class="text-center sorting" data-name="">Compare</th>
+                                                            <th scope="col" class="text-center" data-name="compare">Compare</th>
                                                             @else
-                                                            <th scope="col" class="text-center sorting" data-name="">Action</th>
+                                                            <th scope="col" class="text-center" data-name="compare">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>

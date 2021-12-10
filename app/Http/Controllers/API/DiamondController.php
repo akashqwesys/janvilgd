@@ -182,6 +182,9 @@ class DiamondController extends Controller
             ];
             array_push($all_conditions, $filter);
         }
+        if (in_array($response['attr_array']['column'], ['SHAPE', 'COLOR', 'CLARITY', 'CUT'])) {
+            $response['attr_array']['column'] = 'attributes.' . $response['attr_array']['column'];
+        }
 
         $elastic_params = [
             'index' => 'diamonds',

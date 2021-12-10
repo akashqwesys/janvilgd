@@ -169,6 +169,7 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("change", function (values, handle) {
                                 priceJs[handle].value = values[handle];
+                                new_call = true;
                                 if(onchange_call == true){
                                     global_data_offset = 0;
                                     $("#result-table tbody").html("");
@@ -258,6 +259,7 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
+                                        new_call = true;
                                         if(onchange_call == true){
                                             global_data_offset = 0;
                                             $('#result-table tbody').html('');
@@ -300,6 +302,7 @@ class DiamondController extends Controller {
                             caratJs[handle].value = values[handle];
                         });
                         caratSlider.noUiSlider.on("change", function (values, handle) {
+                            new_call = true;
                             if(onchange_call == true){
                                 global_data_offset = 0;
                                 $("#result-table tbody").html("");
@@ -348,6 +351,7 @@ class DiamondController extends Controller {
                             });
                         });
                         caratSlider.noUiSlider.on("change", function () {
+                            new_call = true;
                             if(onchange_call == true){
                                 global_data_offset = 0;
                                 $("#result-table tbody").html("");
@@ -440,6 +444,7 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
+                                        new_call = true;
                                         if(onchange_call == true){
                                             global_data_offset = 0;
                                             $('#result-table tbody').html('');

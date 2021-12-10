@@ -59,6 +59,23 @@ $(document).on('change', '#myInput', function () {
     $('#result-table tbody').html('');
     getDiamonds(global_search_values, global_search_array, global_group_id);
 });
+$(document).on('click', '#result-table thead th', function () {
+    if ($(this).attr('data-name') == 'compare') {
+        return;
+    }
+    $('#result-table tbody').html('');
+    // $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
+    global_sort_column = $(this).attr('data-name');
+    if ($(this).hasClass('sorting_asc')) {
+        $(this).removeClass('sorting_asc').addClass('sorting');
+        global_sort_order = 'desc';
+    } else {
+        $(this).removeClass('sorting').addClass('sorting_asc');
+        global_sort_order = 'asc';
+    }
+    global_data_offset = 0;
+    getDiamonds(global_search_values, global_search_array, global_group_id);
+});
 function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
         global_search_values = values;
@@ -102,9 +119,9 @@ function getDiamonds(values, array, group_id) {
 
     $.ajax({
         beforeSend: function (xhr) {
-            // if (new_call === true) {
+            if (new_call === true) {
                 $(".cs-loader").show();
-            // }
+            }
         },
         type: "post",
         url: "/customer/list-diamonds",
@@ -120,30 +137,32 @@ function getDiamonds(values, array, group_id) {
             $('#result-tab').text('Results (' + response.data.length + ')');
 
             if (global_filter_data.length > 0) {
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < global_filter_data.length; i++) {
                     $('#result-table tbody').append(global_filter_data[i]);
                 }
-                global_data_offset += 50;
-            } else {
+
+            } else if (new_call === true && global_filter_data.length < 1) {
                 $('#result-table tbody').html('<tr><td class="text-center" colspan="9">No records found</td></tr>');
             }
             //set ajax_in_progress object false, after completion of ajax call
-            $(window).data('ajax_in_progress', false);
+            // $(window).data('ajax_in_progress', false);
+            new_call = false;
             var lastScrollTop = 0,
                 delta = 5;
             setTimeout(() => {
                 // lazy_load_scroll();
                 $(table_scroll).scroll(function () {
                     var nowScrollTop = $(this).scrollTop();
-                    // if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
+                    if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
                         if (nowScrollTop > lastScrollTop) {
                             clearTimeout($.data(this, 'scrollTimer'));
                             $.data(this, 'scrollTimer', setTimeout(function () {
+                                global_data_offset += 50;
                                 getDiamonds(global_search_values, global_search_array, global_group_id);
                             }, 250));
                         }
                         lastScrollTop = nowScrollTop;
-                    // }
+                    }
                 });
             }, 500);
         },
@@ -235,18 +254,7 @@ $(document).on('click', '#recent-view tbody tr', function (e) {
         window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
     }
 });
-// getDiamonds(global_search_values, global_search_array, global_group_id);
 
-/* $(document).on('click', '#result-table .diamond-checkbox', function() {
-    $(this).attr('checked', true);
-    $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
-    $(this).closest('tr').remove();
-});
-$(document).on('click', '#compare-table .diamond-checkbox', function() {
-    $(this).attr('checked', false);
-    $('#result-table tbody').append($(this).closest('tr')[0].outerHTML);
-    $(this).closest('tr').remove();
-}); */
 $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond-temp').hide();
     $('.recent-tab-content .select-diamond').show();

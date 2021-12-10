@@ -153,7 +153,7 @@ class DiamondsController extends Controller {
                                 $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                                 $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
                                 $total = number_format($total, 2, '.', '');
-
+                                $price_per_carat = number_format(($row['rapa'] * $row['discount']), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -480,6 +480,7 @@ class DiamondsController extends Controller {
                                         'rapaport_price' => $row['rapa'],
                                         'discount' => $row['discount'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'video_link' => strval($row['video_link']),
@@ -509,6 +510,7 @@ class DiamondsController extends Controller {
                                         'available_pcs' => 1,
                                         'rapaport_price' => $row['rapa'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'discount' => $row['discount'],
@@ -608,7 +610,7 @@ class DiamondsController extends Controller {
                                 $final_price=$ro_amount-$labour_charge_rough->amount;
                                 $total=abs($final_price* $row['org_cts']);
                                 $total = number_format($total, 2, '.', '');
-
+                                $price_per_carat = number_format(($total / $row['org_cts']), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -847,6 +849,7 @@ class DiamondsController extends Controller {
                                         'rapaport_price' => $row['rap'],
                                         'discount' => $row['dis'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'video_link'=>$row['video'],
@@ -876,6 +879,7 @@ class DiamondsController extends Controller {
                                         'rapaport_price' => $row['rap'],
                                         'discount' => $row['dis'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'video_link'=>$row['video'],
@@ -979,7 +983,7 @@ class DiamondsController extends Controller {
                                 $row['weight'] = doubleval($row['weight']);
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
                                 $total = number_format($total, 2, ".", "");
-
+                                $price_per_carat = number_format(($row['price'] * $row['discount_percent']), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -1604,6 +1608,7 @@ class DiamondsController extends Controller {
                                         'rapaport_price' => $row['price'],
                                         'discount' => $row['discount_percent'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'video_link' => strval($row['video_link']),
@@ -1633,6 +1638,7 @@ class DiamondsController extends Controller {
                                         'available_pcs' => 1,
                                         'rapaport_price' => $row['price'],
                                         'refCategory_id' => $request->refCategory_id,
+                                        'price_ct' => $price_per_carat,
                                         'total' => $total,
                                         'image' => $image,
                                         'discount' => $row['discount_percent'],
@@ -1825,29 +1831,25 @@ class DiamondsController extends Controller {
         }
 
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
+        $discount=((100-$request->discount)/100);
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
-
-            $categories = DB::table('categories')
-                ->where('category_id',$request->refCategory_id)
-                ->where('is_active', 1)->where('is_deleted', 0)->first();
-            $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
+            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
-
-            $discount=((100-$request->discount)/100);
             $price=abs($request->rapaport_price*($discount));
             $amount=abs($price*doubleval($request->expected_polish_cts));
             $ro_amount=abs($amount/doubleval($request->makable_cts));
             $final_price=$ro_amount-$labour_charge_rough->amount;
             $total=abs($final_price*(doubleval($request->makable_cts)));
+            $price_per_carat = number_format(($total / $request->makable_cts), 2, '.', '');
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
-            $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
+            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
         }
 
         $total = number_format($total, 2, ".", "");
@@ -1947,6 +1949,7 @@ class DiamondsController extends Controller {
                 'video_link' => isset($request->video_link) ? $request->video_link : NULL,
                 'image' => $imgData,
                 'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+                'price_ct' => $price_per_carat,
                 'total' => $total,
                 'added_by' => $request->session()->get('loginId'),
                 'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
@@ -2199,22 +2202,24 @@ class DiamondsController extends Controller {
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
 
+        $discount=((100-$request->discount)/100);
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
-            $discount=((100-$request->discount)/100);
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
+            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
-            $discount=((100-$request->discount)/100);
             $price=abs($request->rapaport_price*($discount));
             $amount=abs($price*doubleval($request->expected_polish_cts));
             $ro_amount=abs($amount/doubleval($request->makable_cts));
             $final_price=$ro_amount-$labour_charge_rough->amount;
             $total=abs($final_price*(doubleval($request->makable_cts)));
+            $price_per_carat = number_format(($total / $request->makable_cts), 2, '.', '');
         }
-        $discount=abs(($request->discount)/100);
+
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
+            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
         }
         $total = number_format($total, 2, ".", "");
         $imgData = $request->image ? explode(',', $request->image) : [];
@@ -2287,6 +2292,7 @@ class DiamondsController extends Controller {
                     'is_recommended' => $request->is_recommended ?? 0,
                     'video_link' => $request->video_link ?? NULL,
                     'refCategory_id' => $request->refCategory_id ?? 0,
+                    'price_ct' => $price_per_carat,
                     'total'=>$total,
                     'date_updated' => date("Y-m-d h:i:s"),
                     'attributes' => $new_attributes,
