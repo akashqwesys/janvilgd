@@ -74,6 +74,7 @@ $(document).on('click', '#result-table thead th', function () {
         global_sort_order = 'asc';
     }
     global_data_offset = 0;
+    new_call = true;
     getDiamonds(global_search_values, global_search_array, global_group_id);
 });
 function getDiamonds(values, array, group_id) {
