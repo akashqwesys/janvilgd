@@ -170,6 +170,8 @@ class DiamondController extends Controller {
                             priceSlider.noUiSlider.on("change", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 if(onchange_call == true){
+                                    global_data_offset = 0;
+                                    $("#result-table tbody").html("");
                                     getDiamonds(this.get(), [], "price");
                                 }
                             });
@@ -257,6 +259,8 @@ class DiamondController extends Controller {
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
                                         if(onchange_call == true){
+                                            global_data_offset = 0;
+                                            $('#result-table tbody').html('');
                                             getDiamonds(vals, array, " . $k . ");
                                         }
                                     }
@@ -296,9 +300,11 @@ class DiamondController extends Controller {
                             caratJs[handle].value = values[handle];
                         });
                         caratSlider.noUiSlider.on("change", function (values, handle) {
-                              if(onchange_call == true){
+                            if(onchange_call == true){
+                                global_data_offset = 0;
+                                $("#result-table tbody").html("");
                                 getDiamonds(this.get(), [], "carat");
-                              }
+                            }
                         });
                         // Listen to keydown events on the input field.
                         caratJs.forEach(function (input, handle) {
@@ -343,6 +349,8 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("change", function () {
                             if(onchange_call == true){
+                                global_data_offset = 0;
+                                $("#result-table tbody").html("");
                                 getDiamonds(this.get(), [], "carat");
                             }
                         });
@@ -432,9 +440,11 @@ class DiamondController extends Controller {
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
                                         var array = " . json_encode($default_values) . ";
-                                          if(onchange_call == true){
+                                        if(onchange_call == true){
+                                            global_data_offset = 0;
+                                            $('#result-table tbody').html('');
                                             getDiamonds(vals, array, " . $k . ");
-                                          }
+                                        }
                                     }
                             });
                             </script>";
@@ -560,6 +570,7 @@ class DiamondController extends Controller {
         $arr['column'] = $request->params['column'] ?? 'barcode';
         $arr['asc_desc'] = $request->params['asc_desc'] ?? 'asc';
         $arr['search_barcode'] = $request->params['search_barcode'] ?? null;
+        $arr['offset'] = $request->params['offset'];
 
         if ($request->ajax()) {
             $final_data=[];

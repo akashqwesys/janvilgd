@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
-        var onchange_call=true;
+        var onchange_call = true;
         var global_category_slug = '{{ $category->slug }}';
         var table_scroll = '.search-diamond-table .table-responsive';
         var global_data_offset = 0;

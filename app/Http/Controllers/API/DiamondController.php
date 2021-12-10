@@ -185,9 +185,9 @@ class DiamondController extends Controller
 
         $elastic_params = [
             'index' => 'diamonds',
-            // 'from' => $response['offset'] ?? 0,
+            'from' => $response['attr_array']['offset'] ?? 0,
             'body'  => [
-                'size'  => 10000,
+                'size'  => 50,
                 'query' => [
                     'bool' => [
                         'must' => $all_conditions

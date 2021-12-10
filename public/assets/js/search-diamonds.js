@@ -97,6 +97,7 @@ function getDiamonds(values, array, group_id) {
         'column': global_sort_column,
         'asc_desc': global_sort_order,
         'search_barcode': $('#myInput').val(),
+        'offset': global_data_offset
     };
 
     $.ajax({
@@ -118,9 +119,33 @@ function getDiamonds(values, array, group_id) {
             global_filter_data = response.data;
             $('#result-tab').text('Results (' + response.data.length + ')');
 
-            loadMoreData();
+            if (global_filter_data.length > 0) {
+                for (let i = 0; i < 50; i++) {
+                    $('#result-table tbody').append(global_filter_data[i]);
+                }
+                global_data_offset += 50;
+            } else {
+                $('#result-table tbody').html('<tr><td class="text-center" colspan="9">No records found</td></tr>');
+            }
             //set ajax_in_progress object false, after completion of ajax call
             $(window).data('ajax_in_progress', false);
+            var lastScrollTop = 0,
+                delta = 5;
+            setTimeout(() => {
+                // lazy_load_scroll();
+                $(table_scroll).scroll(function () {
+                    var nowScrollTop = $(this).scrollTop();
+                    // if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
+                        if (nowScrollTop > lastScrollTop) {
+                            clearTimeout($.data(this, 'scrollTimer'));
+                            $.data(this, 'scrollTimer', setTimeout(function () {
+                                getDiamonds(global_search_values, global_search_array, global_group_id);
+                            }, 250));
+                        }
+                        lastScrollTop = nowScrollTop;
+                    // }
+                });
+            }, 500);
         },
         failure: function (response) {
             $('.cs-loader').hide();
@@ -147,22 +172,25 @@ function loadMoreData () {
         $('#result-table tbody').html('<tr><td class="text-center" colspan="9">No records found</td></tr>');
     }
 }
+
 function lazy_load_scroll() {
     var lastScrollTop = 0,
         delta = 5;
     $(table_scroll).scroll(function () {
         var nowScrollTop = $(this).scrollTop();
+        // console.log($(window).data('ajax_in_progress'));
+        //check if any other ajax request is already in progress or not, if true then it exit here
+        // if ($(window).data('ajax_in_progress') === true)
+        //     return;
         //check, whether we reached at the bottom of page or not, true when we reach at the bottom
         if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
             if (nowScrollTop > lastScrollTop) {
-                if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
-                    for (let i = global_data_offset; i < (global_data_offset + 50); i++) {
-                        $('#result-table tbody').append(global_filter_data[i]);
-                    }
-                    global_data_offset += 50;
-                }
+                console.log(123);
+                // if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
+                    getDiamonds(global_search_values, global_search_array, global_group_id);
+                // }
                 //set ajax_in_progress object true, before making a ajax call
-                // $(window).data('ajax_in_progress', true);
+                $(window).data('ajax_in_progress', true);
                 // new_call = false;
             }
             lastScrollTop = nowScrollTop;
