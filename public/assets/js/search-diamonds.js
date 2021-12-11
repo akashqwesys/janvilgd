@@ -7,7 +7,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
     },
     beforeSend: function(xhr) {
-        $(".cs-loader").show();
+        // $(".cs-loader").show();
     }
 });
 
@@ -69,8 +69,8 @@ $(document).on('click', '#result-table thead th', function () {
     if ($(this).attr('data-name') == 'compare') {
         return;
     }
+    $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
     $('#result-table tbody').html('');
-    // $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
     global_sort_column = $(this).attr('data-name');
     if ($(this).hasClass('sorting_asc')) {
         $(this).removeClass('sorting_asc').addClass('sorting');

@@ -166,6 +166,25 @@
             background-position: center right;
             /* padding-right: 10px; */
         }
+        /* width */
+        .search-diamond-table ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        /* Track */
+        .search-diamond-table ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        .search-diamond-table ::-webkit-scrollbar-thumb {
+            background: #d2ab66;
+        }
+
+        /* Handle on hover */
+        .search-diamond-table ::-webkit-scrollbar-thumb:hover {
+            background: #c69743;
+        }
     </style>
 @endsection
 @section('content')
@@ -205,7 +224,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                 <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
+                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed ({{ count($recently_viewed) }})</button>
                             </li>
                             @if ($admin === true)
                             <li class="nav-item" role="presentation">
@@ -255,25 +274,25 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center sorting_asc" data-name="barcode">Stock No</th>
-                                                            <th scope="col" class="text-center sorting" data-name="SHAPE">Shape</th>
+                                                            <th scope="col" class="text-center sorting_asc" data-name="barcode" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center sorting" data-name="SHAPE" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="makable_cts">4P Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="makable_cts">Rough Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">Rough Weight (CT)</th>
                                                             @endif
-                                                            <th scope="col" class="text-center sorting" data-name="expected_polish_cts">Carat</th>
-                                                            <th scope="col" class="text-center sorting" data-name="COLOR">Color</th>
-                                                            <th scope="col" class="text-center sorting" data-name="CLARITY">Clarity</th>
+                                                            <th scope="col" class="text-center sorting" data-name="expected_polish_cts" style="width: 7%">Carat</th>
+                                                            <th scope="col" class="text-center sorting" data-name="COLOR" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CLARITY" style="width: 7%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="CUT">Cut</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CUT" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-center sorting" data-name="">Price/CT</th>
-                                                            <th scope="col" class="text-center sorting" data-name="total">Price</th>
+                                                            <th scope="col" class="text-center sorting" data-name="price_ct" style="width: 9%">Price/CT</th>
+                                                            <th scope="col" class="text-center sorting" data-name="total" style="width: 11%">Price</th>
                                                             @if ($admin === true)
-                                                            <th scope="col" class="text-center" data-name="compare">Compare</th>
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Compare</th>
                                                             @else
-                                                            <th scope="col" class="text-center" data-name="compare">Action</th>
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>
