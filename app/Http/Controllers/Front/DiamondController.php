@@ -586,7 +586,7 @@ class DiamondController extends Controller {
             $result = $aa->searchDiamonds($request);
             $data = $result->original['data']['diamonds'];
             if (count($data) < 1) {
-                return response()->json(['success' => 1, 'message' => 'No records found', 'data' => []]);
+                return response()->json(['success' => 1, 'message' => 'No records found', 'data' => [], 'count' => 0]);
             }
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
@@ -706,11 +706,15 @@ class DiamondController extends Controller {
             $arr['category'] = $request->params['category'];
             $arr['category_slug'] = $request->params['category_slug'];
             $arr['gateway'] = 'web';
+            $arr['column'] = $request->params['column'] ?? 'barcode';
+            $arr['asc_desc'] = $request->params['asc_desc'] ?? 'asc';
+            $arr['search_barcode'] = null;
+            $arr['export'] = 'export';
 
             $aa = new APIDiamond;
             $request->request->add(['attr_array' => $arr]);
             $result = $aa->searchDiamonds($request);
-            $data = $result->original['data'];
+            $data = $result->original['data']['diamonds'];
         }
 
         if (isset($response['params']['export'])) {

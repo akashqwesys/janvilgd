@@ -121,7 +121,7 @@ class DiamondController extends Controller
         $response = $request->all();
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
-            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode'])) {
+            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export'])) {
                 continue;
             }
             for ($i = 0; $i < count($v); $i++) {
@@ -185,12 +185,16 @@ class DiamondController extends Controller
         if (in_array($response['attr_array']['column'], ['SHAPE', 'COLOR', 'CLARITY', 'CUT'])) {
             $response['attr_array']['column'] = 'attributes.' . $response['attr_array']['column'];
         }
-
+        if (isset($response['attr_array']['export']) && $response['attr_array']['export'] == 'export') {
+            $data_size = 10000;
+        } else {
+            $data_size = 50;
+        }
         $elastic_params = [
             'index' => 'diamonds',
             'from' => $response['attr_array']['offset'] ?? 0,
             'body'  => [
-                'size'  => 50,
+                'size'  =>  $data_size,
                 'query' => [
                     'bool' => [
                         'must' => $all_conditions

@@ -209,7 +209,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                             </li>
                             @if ($admin === true)
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected Diamonds</button>
+                                <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected Diamonds (<span>0</span>)</button>
                             </li>
                             @endif
                         </ul>
