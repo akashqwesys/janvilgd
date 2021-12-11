@@ -167,6 +167,10 @@ class DiamondController extends Controller {
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
+                                if(onchange_call == true){
+                                    global_data_offset = 0;
+                                    $("#result-table tbody").html("");
+                                }
                             });
                             priceSlider.noUiSlider.on("set", function (values, handle) {
                                 priceJs[handle].value = values[handle];
@@ -302,6 +306,10 @@ class DiamondController extends Controller {
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
                             new_call = true;
+                            if(onchange_call == true){
+                                global_data_offset = 0;
+                                $("#result-table tbody").html("");
+                            }
                         });
                         caratSlider.noUiSlider.on("set", function (values, handle) {
                             new_call = true;

@@ -153,7 +153,7 @@ class DiamondsController extends Controller {
                                 $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                                 $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
                                 $total = number_format($total, 2, '.', '');
-                                $price_per_carat = number_format(($row['rapa'] * (1-$row['discount'])), 2, '.', '');
+                                $price_per_carat = number_format(($total / $row['exp_pol_cts']), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -983,7 +983,7 @@ class DiamondsController extends Controller {
                                 $row['weight'] = doubleval($row['weight']);
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
                                 $total = number_format($total, 2, ".", "");
-                                $price_per_carat = number_format(($row['price'] * (1-$row['discount_percent'])), 2, '.', '');
+                                $price_per_carat = number_format(($total / $row['weight']), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -1835,7 +1835,7 @@ class DiamondsController extends Controller {
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
-            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
+            $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
@@ -1849,7 +1849,7 @@ class DiamondsController extends Controller {
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
-            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
+            $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
 
         $total = number_format($total, 2, ".", "");
@@ -2205,7 +2205,7 @@ class DiamondsController extends Controller {
         $discount=((100-$request->discount)/100);
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
-            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
+            $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
@@ -2219,7 +2219,7 @@ class DiamondsController extends Controller {
 
         if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts) * ($discount-1));
-            $price_per_carat = number_format(($request->rapaport_price * $discount), 2, '.', '');
+            $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
         $total = number_format($total, 2, ".", "");
         $imgData = $request->image ? explode(',', $request->image) : [];

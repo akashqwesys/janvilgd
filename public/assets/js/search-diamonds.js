@@ -48,6 +48,8 @@ $(document).on('click', '.diamond-shape .item img', function() {
         }
     });
     new_call = true;
+    global_data_offset = 0;
+    $("#result-table tbody").html("");
     if (cnt == $('.diamond-shape .item img').length) {
         getDiamonds(values_all, [], group_id);
     } else {

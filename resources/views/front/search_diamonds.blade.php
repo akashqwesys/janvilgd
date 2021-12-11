@@ -26,6 +26,9 @@
 
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
+        #minPrice:focus-visible, #maxPrice:focus-visible, #minCarat:focus-visible, #maxCarat:focus-visible, #myInput:focus-visible {
+            outline: none;
+        }
         /* CSS for input range sliders */
         .diamond-cut-section {
             padding: 110px 0px;
