@@ -155,7 +155,7 @@ function getDiamonds(values, array, group_id) {
                 $(table_scroll).scroll(function () {
                     var nowScrollTop = $(this).scrollTop();
                     if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
-                        if (nowScrollTop > lastScrollTop) {
+                        if (nowScrollTop > lastScrollTop && lastScrollTop != 0) {
                             clearTimeout($.data(this, 'scrollTimer'));
                             $.data(this, 'scrollTimer', setTimeout(function () {
                                 global_data_offset += 50;

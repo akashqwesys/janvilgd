@@ -647,13 +647,14 @@ class DiamondController extends Controller {
                     }
                 }
 
-                if ($v['refCategory_id'] == 1) {
+                /* if ($v['refCategory_id'] == 1) {
                     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['total'] / $v['makable_cts']), 2, '.', ',') . '</td>';
                 } else {
                     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['rapaport_price']) * ((1 - $v['discount'])), 2, '.', ',') . '</td>';
-                }
+                } */
 
-                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
+                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
+                    <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
                     <td scope="col" class="text-center">
                             <div class="compare-checkbox">
                                 ' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
