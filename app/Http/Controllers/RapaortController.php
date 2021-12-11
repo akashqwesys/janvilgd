@@ -148,7 +148,7 @@ class RapaortController extends Controller
                                     }
 
                                     $total = abs(($rapa_price * $d_row->expected_polish_cts * ($d_row->discount - 1))) - ($labour_charge_4p->amount * $d_row->expected_polish_cts);
-                                    $price_per_carat = number_format(($rapa_price * $d_row->discount), 2, '.', '');
+                                    $price_per_carat = number_format(($rapa_price * (1-$d_row->discount)), 2, '.', '');
                                     $data_array = [
                                         'diamond_id'=>$d_row->diamond_id,
                                         'rapaport_price' => $rapa_price,

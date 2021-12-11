@@ -204,6 +204,17 @@ class DiamondController extends Controller
             ]
         ];
 
+        $elastic_count = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => $all_conditions
+                    ]
+                ]
+            ]
+        ];
+
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
@@ -217,14 +228,22 @@ class DiamondController extends Controller
                 if ($request->web == 'web' && $request->scroll == 0 ) {
                     return $this->successResponse('Success', $final_d);
                 }
-                return $this->successResponse('No diamond found');
+                return $this->successResponse('No diamond found', [
+                    'total_diamonds' => 0,
+                    'diamonds' => []
+                ]);
             }
         }
         $final_d = $diamond_ids['hits']['hits'];
-        // if ($response['attr_array']['gateway'] == 'api') {
-            // return $this->successResponse('Success', array_values( $final_d));
+        $diamonds_count = $client->count($elastic_count);
+
+        // if ($response['attr_array']['gateway'] == 'web') {
+
         // } else {
-            return $this->successResponse('Success', $final_d);
+            return $this->successResponse('Success', [
+                'total_diamonds' => $diamonds_count['count'],
+                'diamonds' => $final_d
+            ]);
         // }
     }
 

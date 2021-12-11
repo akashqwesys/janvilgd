@@ -135,7 +135,7 @@ function getDiamonds(values, array, group_id) {
             global_search_array = array;
             global_group_id = group_id;
             global_filter_data = response.data;
-            $('#result-tab').text('Results (' + response.data.length + ')');
+            $('#result-tab').text('Results (' + response.count + ')');
 
             if (global_filter_data.length > 0) {
                 for (let i = 0; i < global_filter_data.length; i++) {
@@ -155,7 +155,7 @@ function getDiamonds(values, array, group_id) {
                 $(table_scroll).scroll(function () {
                     var nowScrollTop = $(this).scrollTop();
                     if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
-                        if (nowScrollTop > lastScrollTop && lastScrollTop != 0) {
+                        if (nowScrollTop > lastScrollTop && lastScrollTop != 0 && global_filter_data.length > 1) {
                             clearTimeout($.data(this, 'scrollTimer'));
                             $.data(this, 'scrollTimer', setTimeout(function () {
                                 global_data_offset += 50;
@@ -261,7 +261,7 @@ $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond').show();
     $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.recent-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
-    $('.recent-tab-content .select-diamond .diamond-cost').text('$'+ $(this).attr('data-price'));
+    $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
 });
 $(document).on('mouseover', '#result-table tbody tr', function() {
@@ -269,7 +269,7 @@ $(document).on('mouseover', '#result-table tbody tr', function() {
     $('.result-tab-content .select-diamond').show();
     $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.result-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
-    $('.result-tab-content .select-diamond .diamond-cost').text('$' + $(this).attr('data-price'));
+    $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
 });
 $(document).on('mouseover', '#compare-table tbody tr', function() {
@@ -277,7 +277,7 @@ $(document).on('mouseover', '#compare-table tbody tr', function() {
     $('.compare-tab-content .select-diamond').show();
     $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
     $('.compare-tab-content .select-diamond .diamond-name').text($(this).attr('data-name'));
-    $('.compare-tab-content .select-diamond .diamond-cost').text('$' + $(this).attr('data-price'));
+    $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price'));
     $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
 });
 $(document).on('click', '.reset-btn', function() {

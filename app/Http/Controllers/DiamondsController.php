@@ -153,7 +153,7 @@ class DiamondsController extends Controller {
                                 $row['weight_loss'] = 100 - ((doubleval($row['exp_pol_cts']) * 100) / doubleval($row['mkbl_cts']));
                                 $total=abs(($row['rapa'] * $row['exp_pol_cts'] * ($row['discount']-1))) - ($labour_charge_4p->amount*$row['exp_pol_cts']);
                                 $total = number_format($total, 2, '.', '');
-                                $price_per_carat = number_format(($row['rapa'] * $row['discount']), 2, '.', '');
+                                $price_per_carat = number_format(($row['rapa'] * (1-$row['discount'])), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
@@ -983,7 +983,7 @@ class DiamondsController extends Controller {
                                 $row['weight'] = doubleval($row['weight']);
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
                                 $total = number_format($total, 2, ".", "");
-                                $price_per_carat = number_format(($row['price'] * $row['discount_percent']), 2, '.', '');
+                                $price_per_carat = number_format(($row['price'] * (1-$row['discount_percent'])), 2, '.', '');
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);

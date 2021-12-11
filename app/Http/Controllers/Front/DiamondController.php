@@ -166,8 +166,9 @@ class DiamondController extends Controller {
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
                                 priceJs[handle].value = values[handle];
+                                new_call = true;
                             });
-                            priceSlider.noUiSlider.on("change", function (values, handle) {
+                            priceSlider.noUiSlider.on("set", function (values, handle) {
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
                                 if(onchange_call == true){
@@ -300,8 +301,9 @@ class DiamondController extends Controller {
                         });
                         caratSlider.noUiSlider.on("update", function (values, handle) {
                             caratJs[handle].value = values[handle];
+                            new_call = true;
                         });
-                        caratSlider.noUiSlider.on("change", function (values, handle) {
+                        caratSlider.noUiSlider.on("set", function (values, handle) {
                             new_call = true;
                             if(onchange_call == true){
                                 global_data_offset = 0;
@@ -349,14 +351,6 @@ class DiamondController extends Controller {
                                         break;
                                 }
                             });
-                        });
-                        caratSlider.noUiSlider.on("change", function () {
-                            new_call = true;
-                            if(onchange_call == true){
-                                global_data_offset = 0;
-                                $("#result-table tbody").html("");
-                                getDiamonds(this.get(), [], "carat");
-                            }
                         });
                     </script>
                 </div>';
@@ -582,7 +576,7 @@ class DiamondController extends Controller {
             $aa = new APIDiamond;
             $request->request->add(['attr_array' => $arr]);
             $result = $aa->searchDiamonds($request);
-            $data = $result->original['data'];
+            $data = $result->original['data']['diamonds'];
             if (count($data) < 1) {
                 return response()->json(['success' => 1, 'message' => 'No records found', 'data' => []]);
             }
@@ -663,7 +657,12 @@ class DiamondController extends Controller {
                     </tr>';
                 $i++;
             }
-            return response()->json(['success' => 1, 'message' => 'Success', 'data' => $html]);
+            return response()->json([
+                'success' => 1,
+                'message' => 'Success',
+                'data' => $html,
+                'count' => $result->original['data']['total_diamonds']
+            ]);
         }
     }
 
