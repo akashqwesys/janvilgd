@@ -59,22 +59,22 @@ class DiamondController extends Controller
             $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
             $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
             if ($v->ag_name == 'SHAPE') {
-                if (in_array($v->image, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant.png';
-                } else if (in_array($v->image, ['Oval Brilliant', 'OV', 'Oval'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant.png';
-                } else if (in_array($v->image, ['Cushion', 'CU'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Cushion.png';
-                } else if (in_array($v->image, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant.png';
-                } else if (in_array($v->image, ['Princess Cut', 'PR', 'Princess'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut.png';
-                } else if (in_array($v->image, ['Emerald', 'EM'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Emerald.png';
-                } else if (in_array($v->image, ['Marquise', 'MQ'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Marquise.png';
-                } else if (in_array($v->image, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant.png';
+                if (in_array($v->name, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant_b.png';
+                } else if (in_array($v->name, ['Oval Brilliant', 'OV', 'Oval'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant_b.png';
+                } else if (in_array($v->name, ['Cushion', 'CU'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Cushion_b.png';
+                } else if (in_array($v->name, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant_b.png';
+                } else if (in_array($v->name, ['Princess Cut', 'PR', 'Princess'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut_b.png';
+                } else if (in_array($v->name, ['Emerald', 'EM'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Emerald_b.png';
+                } else if (in_array($v->name, ['Marquise', 'MQ'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Marquise_b.png';
+                } else if (in_array($v->name, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant_b.png';
                 }
             } else {
                 $v->image = $v->image == 0 ? null : $v->image;
@@ -118,7 +118,12 @@ class DiamondController extends Controller
 
     public function searchDiamonds(Request $request)
     {
-        $response = $request->all();
+        if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
+            $response['attr_array'] = $request->all();
+            $response['params']['category'] = $response['attr_array']['category'];
+        } else {
+            $response = $request->all();
+        }
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
             if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export'])) {
@@ -225,30 +230,20 @@ class DiamondController extends Controller
 
         $diamond_ids = $client->search($elastic_params);
 
-        $final_d = $final_api = [];
-
-        if (isset($diamond_ids['hits']['hits'])) {
-            if(count($diamond_ids['hits']['hits']) < 1){
-                if ($request->web == 'web' && $request->scroll == 0 ) {
-                    return $this->successResponse('Success', $final_d);
-                }
-                return $this->successResponse('No diamond found', [
-                    'total_diamonds' => 0,
-                    'diamonds' => []
-                ]);
-            }
+        $final_d = [];
+        if (isset($diamond_ids['hits']['hits']) && count($diamond_ids['hits']['hits']) < 1) {
+            return $this->successResponse('No diamond found', [
+                'total_diamonds' => 0,
+                'diamonds' => []
+            ]);
         }
         $final_d = $diamond_ids['hits']['hits'];
         $diamonds_count = $client->count($elastic_count);
 
-        // if ($response['attr_array']['gateway'] == 'web') {
-
-        // } else {
-            return $this->successResponse('Success', [
-                'total_diamonds' => $diamonds_count['count'],
-                'diamonds' => $final_d
-            ]);
-        // }
+        return $this->successResponse('Success', [
+            'total_diamonds' => $diamonds_count['count'],
+            'diamonds' => $final_d
+        ]);
     }
 
     public function detailshDiamonds($barcode)
