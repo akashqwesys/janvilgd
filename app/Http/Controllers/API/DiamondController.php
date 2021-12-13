@@ -258,8 +258,9 @@ class DiamondController extends Controller
             ->leftJoin('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->leftJoin('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
             ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'd.refCategory_id', 'd.available_pcs')
+            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'd.refCategory_id', 'd.available_pcs', 'da.value')
             ->where('d.barcode',$barcode)
+            ->orderBy('a.attribute_group_id')
             ->get();
 
         if(!empty($diamonds) && isset($diamonds[0])){
@@ -292,7 +293,7 @@ class DiamondController extends Controller
             foreach ($diamonds as $value){
                 $newArray = array();
                 $newArray['ag_name'] = $value->ag_name;
-                $newArray['at_name'] = $value->name;
+                $newArray['at_name'] = empty(trim($value->name)) ? $value->value : $value->name ;
                 $newArray['attribute_id'] = $value->attribute_id;
                 array_push($response_array['attribute'], $newArray);
             }
@@ -363,11 +364,11 @@ class DiamondController extends Controller
             ->get();
         foreach ($recommended as $v) {
             $v->image = json_decode($v->image);
-            $a = [];
-            foreach ($v->image as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
-            }
-            $v->image = $a;
+            // $a = [];
+            // foreach ($v->image as $v1) {
+            //     $a[] = '/storage/other_images/' . $v1;
+            // }
+            // $v->image = $a;
         }
 
         $similar_ids = collect($response_array['attribute'])
@@ -392,11 +393,11 @@ class DiamondController extends Controller
                 ->get();
             foreach ($similar as $v) {
                 $v->image = json_decode($v->image);
-                $a = [];
-                foreach ($v->image as $v1) {
-                    $a[] = '/storage/other_images/' . $v1;
-                }
-                $v->image = $a;
+                // $a = [];
+                // foreach ($v->image as $v1) {
+                //     $a[] = '/storage/other_images/' . $v1;
+                // }
+                // $v->image = $a;
             }
         } else {
             $similar = [];
