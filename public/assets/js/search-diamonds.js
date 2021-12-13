@@ -69,13 +69,13 @@ $(document).on('click', '#result-table thead th', function () {
     if ($(this).attr('data-name') == 'compare') {
         return;
     }
-    $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
     $('#result-table tbody').html('');
     global_sort_column = $(this).attr('data-name');
     if ($(this).hasClass('sorting_asc')) {
         $(this).removeClass('sorting_asc').addClass('sorting');
         global_sort_order = 'desc';
     } else {
+        $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
         $(this).removeClass('sorting').addClass('sorting_asc');
         global_sort_order = 'asc';
     }
