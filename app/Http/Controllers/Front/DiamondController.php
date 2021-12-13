@@ -784,7 +784,7 @@ class DiamondController extends Controller {
                             $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
-                            $dummeyArray['Location']=$row['attributes']['Location'];
+                            $dummeyArray['Location']=$row['attributes']['Location'] ?? null;
                             $dummeyArray['Comment']=$row['attributes']['Comment'] ?? null;
                             $dummeyArray['Discount']=$response['params']['discount'].'%';
 
