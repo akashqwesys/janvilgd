@@ -46,7 +46,7 @@ class AuthController extends Controller
                     $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use($request) {
-                    $q->where('mobile', $request->mobile);
+                    $q->orWhere('mobile', $request->mobile);
                 })
                 ->first();
             $otp = mt_rand(1111, 9999);
@@ -147,7 +147,7 @@ class AuthController extends Controller
                     $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
-                    $q->where('mobile', $request->mobile);
+                    $q->orWhere('mobile', $request->mobile);
                 })
                 ->first();
             if (!$user) {
@@ -201,7 +201,7 @@ class AuthController extends Controller
                     $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
-                    $q->where('mobile', $request->mobile);
+                    $q->orWhere('mobile', $request->mobile);
                 })
                 ->first();
             if (!$user) {
@@ -286,7 +286,7 @@ class AuthController extends Controller
                     $q->where('email', strtolower($request->email));
                 })
                 ->when($request->mobile, function ($q) use ($request) {
-                    $q->where('mobile', $request->mobile);
+                    $q->orWhere('mobile', $request->mobile);
                 })
                 ->first();
             if ($customer) {
@@ -351,7 +351,7 @@ class AuthController extends Controller
                     return $this->errorResponse('You are already registered');
                 }
             } else {
-                return $this->errorResponse('You are already registered...!');
+                return $this->errorResponse('Not a valid request...!');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
