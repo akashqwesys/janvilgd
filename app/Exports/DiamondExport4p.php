@@ -49,7 +49,6 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'HALF-CUT DIA',
             'HALF-CUT HGT',
             'PO. DIAMETER',
-            'DISCOUNT',
             'Location',
             'Comment',
             'VIDEO LINK',
@@ -57,6 +56,10 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'image-2',
             'image-3',
             'image-4',
+            'Labour Charges/CT',
+            'Rapaport Price/CT',
+            'DISCOUNT',
+            'Price/CT',
             'Price'
         ];
     }
