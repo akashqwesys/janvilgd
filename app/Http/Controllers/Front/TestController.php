@@ -50,7 +50,7 @@ class TestController extends Controller
         ];
         // $sql = [
         //     'body' => [
-        //         'query' => 'select * from diamonds where (attributes_id.value1 = 376 OR attributes_id.value1 = 375) and (attributes_id.value1 = 422 OR attributes_id.value1 = 425) and refCategory_id = 3 and (expected_polish_cts > 0.5 and expected_polish_cts < 0.6)'
+        //         'query' => 'select * from diamonds where diamond_id <> 12 and refCategory_id = 3 and (attributes_id.attribute_id = 376) and (expected_polish_cts > 0.5 and expected_polish_cts < 0.6)'
         //     ]
         // ];
         // $results = $client->sql()->translate($sql);

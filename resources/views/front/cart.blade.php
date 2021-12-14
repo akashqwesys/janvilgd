@@ -140,7 +140,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="text-center mb-4">Shipping Info</h5>
-                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">Monday: Monday, October 18th</span></p>
+                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
                         <p>Contact us at 800.691.0952 to schedule Saturday delivery, hold at a FedEx location, or to inquire about available delivery options.</p>
                         <h5>Need Help?</h5>
                         <p class="themecolor">Chat now or call <a href="tel:8006910952">800.691.0952</a></p>
