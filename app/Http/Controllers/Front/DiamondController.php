@@ -815,11 +815,11 @@ class DiamondController extends Controller {
                             $dummeyArray['Weight'] = $row['expected_polish_cts'];
                             $dummeyArray['Clarity'] = $row['attributes']['CLARITY'];
                             $dummeyArray['Color'] = $row['attributes']['COLOR'];
-                            $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
                             $dummeyArray['Discount Percent'] = $response['params']['discount'] . '%';
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
+                            $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
                             $dummeyArray['Polish'] = $row['attributes']['POLISH'];
                             $dummeyArray['Symmetry'] = $row['attributes']['SYMMETRY'];
                             $dummeyArray['Depth Percent'] = $row['attributes']['DEPTH PERCENT'];
