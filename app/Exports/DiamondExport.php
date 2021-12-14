@@ -38,24 +38,24 @@ class DiamondExport implements FromCollection, WithHeadings
     {
         return [
             'Barcode',
-            'Pktno',
+            'Pkt No',
             'Org Cts',
             'Exp Pol',
             'SHAPE',
             'COLOR',
             'CLARITY',
-            'Discount',
             'Labour Charges/CT',
             'Rapaport Price/CT',
+            'Discount',
             'Price/CT',
             'Price',
             'Location',
             'Comment',
+            'Video',
             'image-1',
             'image-2',
             'image-3',
             'image-4',
-            'Video'
         ];
     }
 }

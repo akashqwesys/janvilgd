@@ -780,27 +780,26 @@ class DiamondController extends Controller {
 
                             $dummeyArray=array();
                             $dummeyArray['Barcode']=$row['barcode'];
-                            $dummeyArray['Pktno']=$row['packate_no'];
-
+                            $dummeyArray['Pkt No']=$row['packate_no'];
                             $dummeyArray['Org Cts']=$row['makable_cts'];
                             $dummeyArray['Exp Pol']=$row['expected_polish_cts'];
                             $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
-                            $dummeyArray['Discount']=$response['params']['discount'].'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
+                            $dummeyArray['Discount']=$response['params']['discount'].'%';
                             $dummeyArray['Price/CT'] = round($total / $row['makable_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['Location']=$row['attributes']['Location'] ?? null;
                             $dummeyArray['Comment']=$row['attributes']['Comment'] ?? null;
+                            $dummeyArray['Video'] = $row['video_link'];
 
                             $dummeyArray['image-1'] = $row['image'][0] ?? null;
                             $dummeyArray['image-2'] = $row['image'][1] ?? null;
                             $dummeyArray['image-3'] = $row['image'][2] ?? null;
                             $dummeyArray['image-4'] = $row['image'][3] ?? null;
 
-                            $dummeyArray['Video'] = $row['video_link'];
                             array_push($data,$dummeyArray);
                         }
                     }
