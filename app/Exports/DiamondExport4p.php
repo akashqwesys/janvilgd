@@ -45,6 +45,11 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'CLARITY',
             'MKBL CTS',
             'EXP POL CTS',
+            'Labour Charges/CT',
+            'Rapaport Price/CT',
+            'DISCOUNT',
+            'Price/CT',
+            'Price',
             'REMARKS',
             'HALF-CUT DIA',
             'HALF-CUT HGT',
@@ -55,12 +60,7 @@ class DiamondExport4p implements FromCollection, WithHeadings
             'image-1',
             'image-2',
             'image-3',
-            'image-4',
-            'Labour Charges/CT',
-            'Rapaport Price/CT',
-            'DISCOUNT',
-            'Price/CT',
-            'Price'
+            'image-4'
         ];
     }
 }

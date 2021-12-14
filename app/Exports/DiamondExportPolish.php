@@ -43,8 +43,11 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Weight',
             'Clarity',
             'Color',
-            'Video Link',
             'Cut Grade',
+            'Rapaport Price/CT',
+            'Discount Percent',
+            'Price/CT',
+            'Price',
             'Polish',
             'Symmetry',
             'Depth Percent',
@@ -63,14 +66,11 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Growth Type',
             'Comment',
             'Location',
+            'Video Link',
             'image-1',
             'image-2',
             'image-3',
-            'image-4',
-            'Rapaport Price/CT',
-            'Discount Percent',
-            'Price/CT',
-            'Price'
+            'image-4'
         ];
     }
 }
