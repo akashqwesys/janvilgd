@@ -733,6 +733,7 @@ class DiamondController extends Controller {
                     $discount = doubleval((100 - $response['params']['discount']) / 100);
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
+
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             $total = abs($row['rapaport_price'] * $row['expected_polish_cts'] * $discount) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
