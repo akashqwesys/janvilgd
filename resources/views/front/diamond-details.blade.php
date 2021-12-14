@@ -298,13 +298,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <a href="/customer/single-diamonds/{{$r->barcode}}">
-                                    <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                 </a>
                             </div>
-                            <div>{{ $r->name }}</div>
-                            <div class="text-muted">{{ $r->barcode }}</div>
-                            <div class="mt-2"><h5><b>${{ number_format(round($r->price, 2), 2, '.', ',') }}</b></h5></div>
+                            <div>{{ $r['_source']['name'] }}</div>
+                            <div class="text-muted">{{ $r['_source']['barcode'] }}</div>
+                            <div class="mt-2"><h5><b>${{ number_format(round($r['_source']['total'], 2), 2, '.', ',') }}</b></h5></div>
                         </div>
                     </div>
                 </div>
