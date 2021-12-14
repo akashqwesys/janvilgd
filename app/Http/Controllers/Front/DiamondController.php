@@ -751,8 +751,8 @@ class DiamondController extends Controller {
                             $dummeyArray['HALF-CUT HGT']=$row['attributes']['HALF-CUT HGT'];
                             $dummeyArray['PO. DIAMETER']=$row['attributes']['PO. DIAMETER'];
                             $dummeyArray['DISCOUNT']=$response['params']['discount'].'%';
-                            $dummeyArray['Location']=$row['attributes']['Location'];
-                            $dummeyArray['Comment']=$row['attributes']['Comment'];
+                            $dummeyArray['Location']=$row['attributes']['Location'] ?? null;
+                            $dummeyArray['Comment']=$row['attributes']['Comment'] ?? null;
                             $dummeyArray['VIDEO LINK']=$row['video_link'];
 
                             $dummeyArray['image-1'] = $row['image'][0] ?? null;
@@ -829,8 +829,8 @@ class DiamondController extends Controller {
                             $dummeyArray['Crown Angle'] = $row['attributes']['CROWN ANGLE'];
                             $dummeyArray['Pavilion Angle'] = $row['attributes']['PAVILION ANGLE'];
                             $dummeyArray['Growth Type'] = $row['attributes']['GROWTH TYPE'];
-                            $dummeyArray['Comment'] = $row['attributes']['Comment'];
-                            $dummeyArray['Location'] = $row['attributes']['Location'];
+                            $dummeyArray['Comment'] = $row['attributes']['Comment'] ?? null;
+                            $dummeyArray['Location'] = $row['attributes']['Location'] ?? null;
 
                             $dummeyArray['image-1'] = $row['image'][0] ?? null;
                             $dummeyArray['image-2'] = $row['image'][1] ?? null;
