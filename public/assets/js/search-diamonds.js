@@ -231,9 +231,15 @@ function lazy_load_scroll() {
 $(document).on('click', '#result-table tbody tr', function(e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
-        $(e.target).siblings('.diamond-checkbox').attr('checked', true);
-        $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
-        $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) + 1);
+        if ($(e.target).siblings('.diamond-checkbox').attr('checked') == 'checked') {
+            $(e.target).siblings('.diamond-checkbox').attr('checked', false);
+            $('#compare-table tbody tr[data-diamond=' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + ']').remove();
+            $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) - 1);
+        } else {
+            $(e.target).siblings('.diamond-checkbox').attr('checked', true);
+            $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
+            $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) + 1);
+        }
         // $(this).closest('tr').remove();
     } else if ($(e.target).hasClass('add-to-cart')) {
         addToCart($(e.target));
@@ -247,7 +253,6 @@ $(document).on('click', '#result-table tbody tr', function(e) {
 $(document).on('click', '#compare-table tbody tr', function (e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
-        console.log($(e.target).siblings('.diamond-checkbox').attr('data-id'));
         $('#result-table tbody tr[data-diamond="' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + '"]').find('.diamond-checkbox').attr('checked', false);
         $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) - 1);
         $(this).closest('tr').remove();
