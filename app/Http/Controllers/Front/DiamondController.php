@@ -730,12 +730,12 @@ class DiamondController extends Controller {
 
                 if (!empty($diamonds) && count($diamonds)) {
                     $data = [];
+                    $discount = doubleval((100 - $response['params']['discount']) / 100);
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
-                        $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
-                            $total=abs(($row['rapaport_price'] * $row['expected_polish_cts'] * ($discount-1))) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
+                            $total = abs($row['rapaport_price'] * $row['expected_polish_cts'] * $discount) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
 
                             $dummeyArray=array();
                             $dummeyArray['BARCODE']=$row['barcode'];
@@ -764,12 +764,11 @@ class DiamondController extends Controller {
                         }
                     }
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
-                        $discount = doubleval($response['params']['discount']);
                         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
 
-                            $price=abs($row['rapaport_price']*($discount-1));
+                            $price=abs($row['rapaport_price']*$discount);
                             $amount=abs($price*doubleval($row['expected_polish_cts']));
                             $ro_amount=abs($amount/doubleval($row['makable_cts']));
                             $final_price=$ro_amount-$labour_charge_rough->amount;
@@ -801,7 +800,7 @@ class DiamondController extends Controller {
                         $discount = doubleval($response['params']['discount']);
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
-                            $total=abs($row['rapaport_price']*$row['expected_polish_cts']*($discount-1));
+                            $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$discount);
 
                             $dummeyArray = array();
                             $dummeyArray['Stock'] = $row['barcode'];
