@@ -96,13 +96,14 @@ class LabourChargesController extends Controller {
             ->build();
 
         $ids = [];
-        $cts=[];
-        $total=[];    
+        $cts = [];
+        $total = [];
+        $ppc = [];
         $labour_charge = LabourCharges::select('amount')->where('labour_charge_id',$request->id)->first();
-        $charge=$labour_charge->amount-$request->amount;
-        if($request->id==1){
+        $charge = $labour_charge->amount-$request->amount;
+        if($request->id == 1){
             $cat_id = DB::table('categories')->select('category_id')->where('category_type',1)->first();
-            $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*expected_polish_cts)")]);
+            Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*expected_polish_cts)")]);
             $params = [
                 'index' => 'diamonds',
                 'body'  => [
@@ -115,17 +116,18 @@ class LabourChargesController extends Controller {
                     ]
                 ]
             ];
-            $response = $client->search($params);            
+            $response = $client->search($params);
             if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
                 foreach ($response['hits']['hits'] as $v) {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['expected_polish_cts'];
                     $total[] = $v['_source']['total'];
+                    $ppc[] = $v['_source']['price_ct'];
                 }
             }
         }
-        if($request->id==2){
-            $cat_id = DB::table('categories')->select('category_id')->where('category_type',2)->first();
+        if($request->id == 2){
+            $cat_id = DB::table('categories')->select('category_id')->where('category_type', 2)->first();
             $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*makable_cts)")]);
             $params = [
                 'index' => 'diamonds',
@@ -146,33 +148,34 @@ class LabourChargesController extends Controller {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['makable_cts'];
                     $total[] = $v['_source']['total'];
+                    $ppc[] = $v['_source']['price_ct'];
                 }
             }
-        }     
-        if(count($ids)){          
-            $params = array();                
-            $params = ['body' => []]; 
-            $j=1; 
-            for ($i = 0; $i < count($ids); $i++) { 
-                $total_price=$total[$i]+($cts[$i] * $charge);   
+        }
+        if(count($ids)){
+            $params = array();
+            $params = ['body' => []];
+            $j=1;
+            for ($i = 0; $i < count($ids); $i++) {
+                $total_price=$total[$i]+($cts[$i] * $charge);
                 $batch_row=array();
-                $batch_row['total'] =  $total_price;                                                                                                    
+                $batch_row['total'] =  $total_price;
                     $params["body"][]= [
                             "update" => [
-                                "_index" => 'diamonds',                                                        
+                                "_index" => 'diamonds',
                                 "_id" => $ids[$i],
                             ]
-                        ];        
+                        ];
                     $params["body"][]= [
                         "doc"=>$batch_row
-                    ];                           
+                    ];
                     if ($j % 1000 == 0) {
-                        $responses = $client->bulk($params);                                
-                        $params = ['body' => []];                                
+                        $responses = $client->bulk($params);
+                        $params = ['body' => []];
                         unset($responses);
-                    }               
+                    }
                 $j=$j+1;
-            }            
+            }
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
@@ -198,7 +201,6 @@ class LabourChargesController extends Controller {
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true

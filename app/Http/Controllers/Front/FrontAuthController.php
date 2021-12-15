@@ -51,7 +51,7 @@ class FrontAuthController extends Controller
                         $q->where('email', strtolower($request->email));
                     })
                     ->when($request->mobile, function ($q) use ($request) {
-                        $q->where('mobile', $request->mobile);
+                        $q->orWhere('mobile', $request->mobile);
                     })
                     ->first();
                 $otp = mt_rand(1111, 9999);
@@ -194,7 +194,7 @@ class FrontAuthController extends Controller
                         $q->where('email', strtolower($request->email));
                     })
                     ->when($request->mobile, function ($q) use ($request) {
-                        $q->where('mobile', $request->mobile);
+                        $q->orWhere('mobile', $request->mobile);
                     })
                     ->first();
                 if ($exists) {
@@ -276,7 +276,7 @@ class FrontAuthController extends Controller
                         $q->where('email', $token[0]);
                     })
                     ->when($token[1], function ($q) use ($token) {
-                        $q->where('mobile', $token[1]);
+                        $q->orWhere('mobile', $token[1]);
                     })
                     ->first();
                     if (!$exists) {
@@ -319,7 +319,7 @@ class FrontAuthController extends Controller
                         $q->where('email', $email);
                     })
                     ->when($request->mobile, function ($q) use ($email) {
-                        $q->where('mobile', $email);
+                        $q->orWhere('mobile', $email);
                     })
                 ->first();
             if (!$user) {

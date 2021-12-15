@@ -40,6 +40,9 @@ class DashboardController extends Controller {
                 DB::raw('count(case when "refCategory_id" = '. $polish .' then 1 end) as total_polish'),
                 DB::raw('count(case when "refCategory_id" = '. $p4 .' then 1 end) as total_4p')
             )
+            ->where('available_pcs', '>', 0)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
             ->first();
 
         $recently_viewed = DB::table('recently_view_diamonds as r')

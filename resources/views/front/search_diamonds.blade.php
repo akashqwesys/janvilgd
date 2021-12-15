@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="/assets/nouislider/nouislider.css" />
     <script type="text/javascript">
         var global_category = {{ $category->category_id }};
-        var onchange_call=true;
+        var onchange_call = true;
         var global_category_slug = '{{ $category->slug }}';
         var table_scroll = '.search-diamond-table .table-responsive';
         var global_data_offset = 0;
         var stop_on_change = 0;
+        var global_sort_column = 'barcode';
+        var global_sort_order = 'asc';
+        var global_filter_data = [];
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
@@ -23,21 +26,16 @@
 
     <script src="/assets/js/search-diamonds.js"></script>
     <style>
-        div.dts div.dataTables_scrollBody {
-            background: unset;
+        #minPrice:focus-visible, #maxPrice:focus-visible, #minCarat:focus-visible, #maxCarat:focus-visible, #myInput:focus-visible {
+            outline: none;
         }
         /* CSS for input range sliders */
         .diamond-cut-section {
             padding: 110px 0px;
         }
-        .dataTables_filter {
-            display: none;
+        .loadedcontent {
+            min-height: 1200px;
         }
-        .dataTable, .dataTables_scrollHeadInner {
-            width:100% !important;
-        }
-        .loadedcontent {min-height: 1200px; }
-
         .range-sliders {
             width: 100%;
         }
@@ -147,6 +145,46 @@
             text-align: center;
             font-size: 1.2em;
         }  */
+        table thead th {
+            position: sticky;
+            top: 0;
+            background-color: #D2AB66 !important;
+            color: #FFFFFF;
+            z-index: 1;
+        }
+        table thead th.sorting_asc {
+            background-image: url(http://127.0.0.1:8000/admin_assets/images/sort_asc.png);
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center right;
+            /* padding-right: 10px; */
+        }
+        table thead th.sorting {
+            background-image: url(http://127.0.0.1:8000/admin_assets/images/sort_both.png);
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center right;
+            /* padding-right: 10px; */
+        }
+        /* width */
+        .search-diamond-table ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        /* Track */
+        .search-diamond-table ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        .search-diamond-table ::-webkit-scrollbar-thumb {
+            background: #d2ab66;
+        }
+
+        /* Handle on hover */
+        .search-diamond-table ::-webkit-scrollbar-thumb:hover {
+            background: #c69743;
+        }
     </style>
 @endsection
 @section('content')
@@ -186,11 +224,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                 <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed </button>
+                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed ({{ count($recently_viewed) }})</button>
                             </li>
                             @if ($admin === true)
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected Diamonds</button>
+                                <button class="nav-link" id="comparision-tab" data-bs-toggle="tab" data-bs-target="#comparision" type="button" role="tab" aria-controls="comparision" aria-selected="false">Selected Diamonds (<span>0</span>)</button>
                             </li>
                             @endif
                         </ul>
@@ -227,44 +265,43 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
-
-                                            <div class="overlay cs-loader">                                            
+                                            <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
                                                 </div>
                                             </div>
-                                            <div class="">
+                                            <div class="table-responsive">
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Stock No</th>
-                                                            <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-center sorting_asc" data-name="barcode" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center sorting" data-name="SHAPE" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">Rough Weight (CT)</th>
                                                             @endif
-                                                            <th scope="col" class="text-center">Carat</th>
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            <th scope="col" class="text-center">Clarity</th>
+                                                            <th scope="col" class="text-center sorting" data-name="expected_polish_cts" style="width: 7%">Carat</th>
+                                                            <th scope="col" class="text-center sorting" data-name="COLOR" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CLARITY" style="width: 7%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Cut</th>
+                                                            <th scope="col" class="text-center sorting" data-name="CUT" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-center">Price/CT</th>
-                                                            <th scope="col" class="text-center">Price</th>
-                                                            @if (session('user-type') == "MASTER_ADMIN")
-                                                            <th scope="col" class="text-center">Compare</th>
+                                                            <th scope="col" class="text-center sorting" data-name="price_ct" style="width: 9%">Price/CT</th>
+                                                            <th scope="col" class="text-center sorting" data-name="total" style="width: 11%">Price</th>
+                                                            @if ($admin === true)
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Compare</th>
                                                             @else
-                                                            <th scope="col" class="text-center">Action</th>
-                                                            @endif                                                                                                                                                                                
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Action</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
-                                                </table>                                                                                             
+                                                </table>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +331,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
-                                            <div class="">
+                                            <div class="table-responsive">
                                                 <table class="table" id="recent-view" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
@@ -305,7 +342,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @elseif ($category->slug == 'rough-diamonds')
                                                             <th scope="col" class="text-center">Rough Weight (CT)</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Carat</th>
+                                                            <th scope="col" class="text-center">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
                                                             <th scope="col" class="text-center">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
@@ -313,19 +350,24 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @endif
                                                             <th scope="col" class="text-right">Price/CT</th>
                                                             <th scope="col" class="text-right">Price</th>
-                                                            <th scope="col" class="text-center">Compare</th>
+                                                            @if ($admin == false)
+                                                            <th scope="col" class="text-center">Action</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($recently_viewed as $rv)
                                                         @php $rv_img = json_decode($rv->image); @endphp
-                                                        <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? '/storage/other_images/'.$rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
-                                                            <td scope="col" class="text-center">{{ $rv->barcode }}</td>
+                                                        <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? $rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
+                                                            <td scope="col" class="text-center">
+                                                                <a href="/customer/single-diamonds/{{ $rv->barcode }}" target="_blank"> </a>
+                                                                {{ $rv->barcode }}
+                                                            </td>
                                                             <td scope="col" class="text-center">{{ $rv->shape }}</td>
                                                             @if ($category->slug == '4p-diamonds' || $category->slug == 'rough-diamonds')
                                                             <td scope="col" class="text-center">{{ $rv->makable_cts }}</td>
                                                             @endif
-                                                            <td scope="col" class="text-right">{{ $rv->carat }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv->carat }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->color }}</td>
                                                             <td scope="col" class="text-center">{{ $rv->clarity }}</td>
                                                             @if ($category->slug != 'rough-diamonds')
@@ -333,14 +375,13 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @endif
                                                             <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
                                                             <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
-                                                            @if ($admin === true)
+                                                            @if ($admin == false)
                                                             <td scope="col" class="text-center">
-                                                                <div class="compare-checkbox">
-                                                                    <label class="custom-check-box">
-                                                                        <input type="checkbox" class="diamond-checkbox">
-                                                                        <span class="checkmark"></span>
-                                                                    </label>
-                                                                </div>
+                                                                @if ($rv->available_pcs == 0)
+                                                                    <b>Out of Stock</b>
+                                                                @else
+                                                                <button class="btn btn-primary add-to-cart btn-sm" data-id="{{ $rv->refDiamond_id }}">Add To Cart</button>
+                                                                @endif
                                                             </td>
                                                             @endif
                                                         </tr>
@@ -379,7 +420,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     </div>
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
-                                            <div class="">
+                                            <div class="table-responsive">
                                                 <table class="table" id="compare-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>

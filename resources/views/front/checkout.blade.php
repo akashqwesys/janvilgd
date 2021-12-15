@@ -32,7 +32,7 @@
 @section('content')
 <div class="overlay cs-loader">
     <div class="overlay__inner">
-    <div class="overlay__content"><span class="spinner"></span></div>
+    <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
     </div>
 </div>
 <section class="sub-header">

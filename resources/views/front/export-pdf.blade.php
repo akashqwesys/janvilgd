@@ -111,13 +111,7 @@
                             </td>
                             @endif
                             <td class="col1" align="center">
-                                @if ($category->slug == 'polish-diamonds')
-                                ${{number_format(round(($v['_source']['rapaport_price'] * (1-$v['_source']['discount'])), 2), 2, '.', ',')}}
-                                @elseif ($category->slug == 'rough-diamonds')
-                                ${{number_format(round(($v['_source']['total'] / $v['_source']['makable_cts']), 2), 2, '.', ',')}}
-                                @else
-                                ${{number_format(round(($v['_source']['rapaport_price'] * (1-$v['_source']['discount'])), 2), 2, '.', ',')}}
-                                @endif
+                                ${{number_format(round($v['_source']['price_ct'], 2), 2, '.', ',')}}
                             </td>
                             <td class="col1" align="right"> ${{number_format(round($v['_source']['total'], 2), 2, '.', ',')}} </td>
                         </tr>

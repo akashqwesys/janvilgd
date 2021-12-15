@@ -2035,12 +2035,12 @@ span.value.upper::before {
     color: #FFFFFF;
 }
 
-.search-diamond-table tbody tr:hover {
-    /*background-color: #D2AB66;*/
-    /*color: #FFFFFF;*/
-}
+/* .search-diamond-table tbody tr:hover {
+    background-color: #D2AB66;
+    color: #FFFFFF;
+} */
 
-.search-diamond-table tr:hover {
+.search-diamond-table tbody tr:hover *{
     background: #d2ab66;
     color: #fff;
 }

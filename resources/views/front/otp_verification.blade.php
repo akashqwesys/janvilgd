@@ -21,7 +21,7 @@
 <body>
     <div class="overlay cs-loader">
       <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
+        <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
       </div>
     </div>
     <div class="content-wrapper">
@@ -228,8 +228,8 @@
                 }
             });
         });
-    $( document ).ready(function() {    
-        $(".otp-list input").keyup(function(){          
+    $( document ).ready(function() {
+        $(".otp-list input").keyup(function(){
 		    var key = event.keyCode || event.charCode;
             if( key == 8 || key == 46 ){
                 $(this).prev("input[type='text']").focus();
@@ -237,6 +237,6 @@
 	    })
     });
     </script>
-    
+
 </body>
 </html>
