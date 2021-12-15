@@ -737,10 +737,10 @@ class DiamondController extends Controller {
 
                 $diamonds = $data;
 
-                 echo '<pre>';print_r($diamonds);die;
+                //  echo '<pre>';print_r($diamonds);die;
 
                 if (!empty($diamonds) && count($diamonds)) {
-                    $data = [];
+                    $data_1 = [];
                     $discount = doubleval((100 - $response['params']['discount']) / 100);
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
@@ -776,7 +776,7 @@ class DiamondController extends Controller {
                             $dummeyArray['image-2'] = $row['image'][1] ?? null;
                             $dummeyArray['image-3'] = $row['image'][2] ?? null;
                             $dummeyArray['image-4'] = $row['image'][3] ?? null;
-                            array_push($data,$dummeyArray);
+                            array_push($data_1,$dummeyArray);
                         }
                     }
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
@@ -812,14 +812,13 @@ class DiamondController extends Controller {
                             $dummeyArray['image-3'] = $row['image'][2] ?? null;
                             $dummeyArray['image-4'] = $row['image'][3] ?? null;
 
-                            array_push($data,$dummeyArray);
+                            array_push($data_1,$dummeyArray);
                         }
                     }
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$discount);
-
                             $dummeyArray = array();
                             $dummeyArray['Stock'] = $row['barcode'];
                             $dummeyArray['Availability'] = $row['available_pcs'];
@@ -856,11 +855,12 @@ class DiamondController extends Controller {
                             $dummeyArray['image-2'] = $row['image'][1] ?? null;
                             $dummeyArray['image-3'] = $row['image'][2] ?? null;
                             $dummeyArray['image-4'] = $row['image'][3] ?? null;
-                            array_push($data, $dummeyArray);
+                            array_push($data_1, $dummeyArray);
                         }
                     }
                 }
 
+                // echo '<pre>';print_r($data_1);die;
                 $filename=time().".xlsx";
                 if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                     Excel::store(new DiamondExport4p($data), "public/excel_export/".$filename);
