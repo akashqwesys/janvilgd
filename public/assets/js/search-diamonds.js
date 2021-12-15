@@ -56,7 +56,7 @@ $(document).on('click', '.diamond-shape .item img', function() {
         getDiamonds(values, [], group_id);
     }
 });
-$(document).on('keydown', '#myInput', function (e) {
+$(document).on('keyup', '#myInput', function(e) {
     if ([32, 9, 18, 16, 17, 20, 37, 38, 39, 40].includes(e.which)) {
         return;
     }
@@ -65,7 +65,7 @@ $(document).on('keydown', '#myInput', function (e) {
     new_call = true;
     getDiamonds(global_search_values, global_search_array, global_group_id);
 });
-$(document).on('click', '#result-table thead th', function () {
+$(document).on('click', '#result-table thead th', function() {
     if ($(this).attr('data-name') == 'compare') {
         return;
     }
@@ -75,7 +75,7 @@ $(document).on('click', '#result-table thead th', function () {
         $(this).removeClass('sorting_asc').addClass('sorting');
         global_sort_order = 'desc';
     } else {
-        $('#result-table thead th').removeClass('sorting_asc').addClass('sorting');
+        $('#result-table thead .sorting_yes').removeClass('sorting_asc').addClass('sorting');
         $(this).removeClass('sorting').addClass('sorting_asc');
         global_sort_order = 'asc';
     }
@@ -83,6 +83,7 @@ $(document).on('click', '#result-table thead th', function () {
     new_call = true;
     getDiamonds(global_search_values, global_search_array, global_group_id);
 });
+
 function getDiamonds(values, array, group_id) {
     if (stop_on_change === 0) {
         global_search_values = values;
@@ -125,7 +126,7 @@ function getDiamonds(values, array, group_id) {
     };
 
     $.ajax({
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
             if (new_call === true) {
                 $(".cs-loader").show();
             }
@@ -135,7 +136,7 @@ function getDiamonds(values, array, group_id) {
         data: params_data,
         // cache: false,
         dataType: "json",
-        success: function (response) {
+        success: function(response) {
             $('.cs-loader').hide();
             global_search_values = values;
             global_search_array = array;
@@ -149,11 +150,10 @@ function getDiamonds(values, array, group_id) {
                 for (let i = 0; i < global_filter_data.length; i++) {
                     $('#result-table tbody').append(global_filter_data[i]);
                 }
-
             } else if (new_call === true && response.count < 1) {
                 $('.result-tab-content .select-diamond-temp').show();
                 $('.result-tab-content .select-diamond').hide();
-                $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
+                // $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
             }
             //set ajax_in_progress object false, after completion of ajax call
             // $(window).data('ajax_in_progress', false);
@@ -162,12 +162,12 @@ function getDiamonds(values, array, group_id) {
                 delta = 5;
             setTimeout(() => {
                 // lazy_load_scroll();
-                $(table_scroll).scroll(function () {
+                $(table_scroll).scroll(function() {
                     var nowScrollTop = $(this).scrollTop();
                     if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
                         if (nowScrollTop > lastScrollTop && lastScrollTop != 0 && global_filter_data.length > 1) {
                             clearTimeout($.data(this, 'scrollTimer'));
-                            $.data(this, 'scrollTimer', setTimeout(function () {
+                            $.data(this, 'scrollTimer', setTimeout(function() {
                                 global_data_offset += 50;
                                 getDiamonds(global_search_values, global_search_array, global_group_id);
                             }, 250));
@@ -177,7 +177,7 @@ function getDiamonds(values, array, group_id) {
                 });
             }, 500);
         },
-        failure: function (response) {
+        failure: function(response) {
             $('.cs-loader').hide();
             $.toast({
                 heading: 'Error',
@@ -189,7 +189,7 @@ function getDiamonds(values, array, group_id) {
     });
 }
 
-function loadMoreData () {
+function loadMoreData() {
     if (global_filter_data.length > 0) {
         for (let i = global_data_offset; i < (global_data_offset + 50); i++) {
             $('#result-table tbody').append(global_filter_data[i]);
@@ -199,14 +199,14 @@ function loadMoreData () {
             lazy_load_scroll();
         }, 500);
     } else {
-        $('#result-table tbody').html('<tr><td class="text-center" colspan="9">No records found</td></tr>');
+        // $('#result-table tbody').html('<tr><td class="text-center" colspan="9">No records found</td></tr>');
     }
 }
 
 function lazy_load_scroll() {
     var lastScrollTop = 0,
         delta = 5;
-    $(table_scroll).scroll(function () {
+    $(table_scroll).scroll(function() {
         var nowScrollTop = $(this).scrollTop();
         // console.log($(window).data('ajax_in_progress'));
         //check if any other ajax request is already in progress or not, if true then it exit here
@@ -215,9 +215,9 @@ function lazy_load_scroll() {
         //check, whether we reached at the bottom of page or not, true when we reach at the bottom
         if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
             if (nowScrollTop > lastScrollTop) {
-                console.log(123);
+                // console.log(123);
                 // if ($(table_scroll).scrollTop() > ($('#result-table').height() * 80 / 100) - $(table_scroll).height()) {
-                    getDiamonds(global_search_values, global_search_array, global_group_id);
+                getDiamonds(global_search_values, global_search_array, global_group_id);
                 // }
                 //set ajax_in_progress object true, before making a ajax call
                 $(window).data('ajax_in_progress', true);
@@ -250,7 +250,7 @@ $(document).on('click', '#result-table tbody tr', function(e) {
         window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }
 });
-$(document).on('click', '#compare-table tbody tr', function (e) {
+$(document).on('click', '#compare-table tbody tr', function(e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
         $('#result-table tbody tr[data-diamond="' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + '"]').find('.diamond-checkbox').attr('checked', false);
@@ -264,7 +264,7 @@ $(document).on('click', '#compare-table tbody tr', function (e) {
         window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }
 });
-$(document).on('click', '#recent-view tbody tr', function (e) {
+$(document).on('click', '#recent-view tbody tr', function(e) {
     e.preventDefault();
     if ($(e.target).hasClass('add-to-cart')) {
         addToCart($(e.target));
@@ -326,7 +326,7 @@ $(document).on('click', '#export-search-diamond, #export-search-diamond-admin', 
         exportDiamondTables([], [], '', export_value, discount);
     } else {
         var ids = [];
-        $.each($('#compare-table tbody tr'), function (indexInArray, valueOfElement) {
+        $.each($('#compare-table tbody tr'), function(indexInArray, valueOfElement) {
             ids.push($(this).attr('data-diamond'));
         });
         exportDiamondTables(ids, [], 'selected', export_value, discount);
@@ -421,6 +421,7 @@ function roundLabel(el) {
     label_path.text(parseFloat(label_path.text()).toFixed(2));
 }
 onchange_call = false;
+
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("result-table");

@@ -145,6 +145,9 @@
             text-align: center;
             font-size: 1.2em;
         }  */
+        table{
+            height: 510px;
+        }
         table thead th {
             position: sticky;
             top: 0;
@@ -170,7 +173,7 @@
         .search-diamond-table ::-webkit-scrollbar {
             width: 6px;
         }
-
+        
         /* Track */
         .search-diamond-table ::-webkit-scrollbar-track {
             background: #f1f1f1;
@@ -274,21 +277,21 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center sorting_asc" data-name="barcode" style="width: 11%">Stock No</th>
-                                                            <th scope="col" class="text-center sorting" data-name="SHAPE" style="width: 11%">Shape</th>
+                                                            <th scope="col" class="text-center sorting_asc sorting_yes" data-name="barcode" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">4P Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 14%">4P Weight (CT)</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="makable_cts" style="width: 14%">Rough Weight (CT)</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 14%">Rough Weight (CT)</th>
                                                             @endif
-                                                            <th scope="col" class="text-center sorting" data-name="expected_polish_cts" style="width: 7%">Carat</th>
-                                                            <th scope="col" class="text-center sorting" data-name="COLOR" style="width: 7%">Color</th>
-                                                            <th scope="col" class="text-center sorting" data-name="CLARITY" style="width: 7%">Clarity</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="expected_polish_cts" style="width: 7%">Carat</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="COLOR" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CLARITY" style="width: 7%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting" data-name="CUT" style="width: 11%">Cut</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CUT" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-center sorting" data-name="price_ct" style="width: 9%">Price/CT</th>
-                                                            <th scope="col" class="text-center sorting" data-name="total" style="width: 11%">Price</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="price_ct" style="width: 9%">Price/CT</th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="total" style="width: 11%">Price</th>
                                                             @if ($admin === true)
                                                             <th scope="col" class="text-center" data-name="compare" style="width: 10%">Compare</th>
                                                             @else
