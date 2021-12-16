@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round($data['result']->weight_loss,2); ?>" readonly="">
+                                    <input type="hidden" class="form-control" name="weight_loss" id="weight_loss_input"  placeholder="Enter weight loss"  autocomplete="off" value="<?php echo round(intval($data['result']->weight_loss),2); ?>" readonly="">
 
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {
@@ -462,7 +462,7 @@
                                                 </div>
                                                 <div class="traffic-channel-data wieght_loss_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
-                                                    <div class="amount" id="display_wieght_loss"><?php echo round($data['result']->weight_loss,2); ?>%</div>
+                                                    <div class="amount" id="display_wieght_loss"><?php echo round(intval($data['result']->weight_loss),2); ?>%</div>
                                                 </div>
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
