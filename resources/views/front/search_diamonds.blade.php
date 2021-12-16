@@ -145,7 +145,7 @@
             text-align: center;
             font-size: 1.2em;
         }  */
-        table{
+        #result-table{
             height: 510px;
         }
         table thead th {
@@ -237,7 +237,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         </ul>
                     </div>
                     <div class="w-25 float-right text-right">
-                        <input type="text" class="form-controll" id="myInput">
+                        <input type="text" class="form-controll" id="myInput" placeholder="Search by Stock No">
                     </div>
 
                     <input type="hidden" id="offset_value" value="0">
@@ -245,7 +245,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                             <div class="result-tab-content">
                                 <div class="row">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
                                                 <div class="diamond-img mb-2">
@@ -266,7 +266,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0" style="padding-left: 0;">
                                         <div class="search-diamond-table">
                                             <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
@@ -292,10 +292,16 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @endif
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="price_ct" style="width: 9%">Price/CT</th>
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="total" style="width: 11%">Price</th>
-                                                            @if ($admin === true)
-                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Compare</th>
+                                                            @php
+                                                            $width=10;
+                                                            if($category->slug == '4p-diamonds'){
+                                                                $width=100;
+                                                            } 
+                                                            @endphp
+                                                            @if ($admin === true)                                                          
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Compare</th>
                                                             @else
-                                                            <th scope="col" class="text-center" data-name="compare" style="width: 10%">Action</th>
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>

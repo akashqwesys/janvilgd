@@ -603,7 +603,7 @@ class DiamondsController extends Controller {
                                 $row['dis']=$row['discount'];
                                 $row['dis'] = doubleval($row['dis']);
                                 $row['dis'] = str_replace('-', '', $row['dis']);
-
+                                
                                 $price=abs($row['rap']*($row['dis']-1));
                                 $amount=abs($price*doubleval($row['exp_pol']));
                                 $ro_amount=abs($amount/doubleval($row['org_cts']));
@@ -1000,6 +1000,8 @@ class DiamondsController extends Controller {
                                 $img_json = json_encode($image);
 
                                 $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
+
+                                
 
                                 $data_array = [
                                     'name' =>$name,
@@ -1833,6 +1835,7 @@ class DiamondsController extends Controller {
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
         $discount=((100-$request->discount)/100);
 
+        
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
             $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
@@ -1881,7 +1884,7 @@ class DiamondsController extends Controller {
             'expected_polish_cts' => $request->expected_polish_cts ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
             'remarks' => $request->remarks ?? 0,
             'rapaport_price' => $request->rapaport_price ?? 0,
-            'discount' => $request->discount ? $discount : 0,
+            'discount' => $request->discount ? ($request->discount/100) : 0,
             'weight_loss' => $request->weight_loss ?? 0,
             'video_link' => $request->video_link ?? NULL,
             'image' => $image,
@@ -1944,7 +1947,7 @@ class DiamondsController extends Controller {
                 'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
                 'remarks' => isset($request->remarks) ? $request->remarks : 0,
                 'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-                'discount' => isset($request->discount) ? $discount : 0,
+                'discount' => isset($request->discount) ? ($request->discount/100) : 0,
                 'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
                 'video_link' => isset($request->video_link) ? $request->video_link : NULL,
                 'image' => $imgData,
@@ -2148,6 +2151,7 @@ class DiamondsController extends Controller {
 
     public function update(Request $request) {
 
+        // echo $request->discount;die;
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -2202,7 +2206,7 @@ class DiamondsController extends Controller {
         }
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
 
-        $discount=((100-$request->discount)/100);
+        $discount=((100-$request->discount)/100);         
         if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
             $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
@@ -2246,7 +2250,7 @@ class DiamondsController extends Controller {
             }
         } */
         $image=json_encode($imgData);
-
+        
         DB::table('diamonds')->where('diamond_id', $request->id)->update([
             'name' => $name,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
@@ -2257,7 +2261,7 @@ class DiamondsController extends Controller {
             'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
             'remarks' => isset($request->remarks) ? $request->remarks : 0,
             'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-            'discount' => isset($request->discount) ? $discount : 0,
+            'discount' => isset($request->discount) ? ($request->discount/100) : 0,
             'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
             'image' => $image,
             'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
@@ -2286,7 +2290,7 @@ class DiamondsController extends Controller {
                     'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
                     'remarks' => $request->remarks ?? 0,
                     'rapaport_price' => $request->rapaport_price ?? 0,
-                    'discount' => isset($request->discount) ? $discount : 0,
+                    'discount' => isset($request->discount) ? ($request->discount/100) : 0,
                     'weight_loss' => $request->weight_loss ?? 0,
                     'image' => $imgData,
                     'is_recommended' => $request->is_recommended ?? 0,

@@ -623,7 +623,7 @@ class DiamondController extends Controller {
                 } else {
                     $a_tag = '<a href="javascript:void(0);"> ' . $v['barcode'] . '</a>';
                 }
-                $html[$i] .= '<td scope="col" class="text-center">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
+                $html[$i] .= '<td scope="col" class="text-right">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
 
                 if (isset($v['attributes']['SHAPE'])) {
                     $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
@@ -663,10 +663,13 @@ class DiamondController extends Controller {
                 } else {
                     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['rapaport_price']) * ((1 - $v['discount'])), 2, '.', ',') . '</td>';
                 } */
-
+                $width='';
+                if($request->params['category_slug'] == '4p-diamonds'){
+                    $width='style="width:100%"';
+                }
                 $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
                     <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
-                    <td scope="col" class="text-center">
+                    <td scope="col" class="text-center"'.$width.'>
                             <div class="compare-checkbox">
                                 ' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
                             </div>
