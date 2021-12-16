@@ -324,7 +324,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <div class="tab-pane fade" id="recently-viwed" role="tabpanel" aria-labelledby="recently-viwed-tab">
                             <div class="recent-tab-content">
                                 <div class="row">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
                                                 <div class="diamond-img">
@@ -415,7 +415,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         <div class="tab-pane fade" id="comparision" role="tabpanel" aria-labelledby="comparision-tab">
                             <div class="compare-tab-content">
                                 <div class="row">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
                                                 <div class="diamond-img">

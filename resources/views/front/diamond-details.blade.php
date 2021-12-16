@@ -1,8 +1,22 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
+<style>
+    .p1r {
+        padding: 1rem 1rem;
+        border: 1px solid #e2e2e2;
+        height: 100%;
+    }
+    .h-100 {
+        height: 100%;
+    }
+    .bg-lightgrey {
+        background: #e2e2e2;
+    }
+</style>
 @endsection
 @section('content')
+
 <section class="diamond-info-section" style="padding-top: 130px;">
     <div class="container">
         @if(!empty($response))
@@ -16,23 +30,29 @@
         if(!empty($attributes)){
 
             foreach($attributes as $row){
-                if($row['ag_name']=="COLOR"){
-                    $color=$row['at_name'];
+                if(isset($row['COLOR'])){
+                    $color=$row['COLOR'];
                 }
-                if($row['ag_name']=="EXP POL SIZE"){
-                    $size=$row['at_name'];
+                if(isset($row['SHAPE'])){
+                    $shape=$row['SHAPE'];
                 }
-                if($row['ag_name']=="CUT GRADE"){
-                    $cut=$row['at_name'];
+                if(isset($row['EXP POL SIZE'])){
+                    $size=$row['EXP POL SIZE'];
                 }
-                if($row['ag_name']=="CLARITY"){
-                    $clarity=$row['at_name'];
+                if(isset($row['CUT'])){
+                    $cut=$row['CUT'];
                 }
-                if($row['ag_name']=="CERTIFICATE"){
-                    $certificate=$row['at_name'];
+                if(isset($row['CLARITY'])){
+                    $clarity=$row['CLARITY'];
                 }
-                if($row['ag_name']=="CERTIFICATE URL"){
-                    $certificate_url=$row['at_name'];
+                if(isset($row['CERTIFICATE'])){
+                    $certificate=$row['CERTIFICATE'];
+                }
+                if(isset($row['CERTIFICATE URL'])){
+                    $certificate_url=$row['CERTIFICATE URL'];
+                }
+                if(isset($row['LAB'])){
+                    $lab=$row['LAB'];
                 }
             }
         }
@@ -88,7 +108,9 @@
                             <div>
                                 <div class="item" data-hash="slide{{ ++$i }}">
                                     <div class="carousel-slide-pic">
-                                        <img src="{{ $certificate_url }}" alt="Certificate">
+                                        <div class="align-items-center justify-content-center display-flex">
+                                            <a href="{{ $certificate_url }}" target="_blank"> Click here to see certificate</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +157,8 @@
                             <div>
                                 <div class="thumb">
                                     <div class="thumb-pic">
-                                        <img src="{{ $certificate_url }}" alt="Certificate">
+                                        {{-- <img src="{{ $certificate_url }}" alt="Certificate"> --}}
+                                        <a href="javascript:void(0);"> Certificate</a>
                                     </div>
                                 </div>
                             </div>
@@ -145,10 +168,14 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
-                        <h3 class="title">{{$response['diamond_name']}}</h3>
-                        <p>&nbsp;</p>
-                        <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
-                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}}</p>
+                        <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' Carat ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-2">CARAT: {{ $response['expected_polish_cts'] }}</div>
+                            <div class="col-md-6 mb-2">COLOR: {{ $response['attributes']['COLOR'] }}</div>
+                            <div class="col-md-6 mb-2">CLARITY: {{ $response['attributes']['CLARITY'] }}</div>
+                            <div class="col-md-6 mb-2">CUT: {{ $response['attributes']['CUT'] ?? '' }}</div>
+                        </div>
+                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}} USD</p>
                         @if ($response['available_pcs'] == 1)
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         @endif
@@ -157,53 +184,122 @@
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
                             <a href="Javascript:;" class="btn like add-to-wishlist" data-id="{{$response['diamond_id']}}"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
                         </div>
-                        <div class="mail-phone">
+                        {{-- <div class="mail-phone">
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
+                        </div> --}}
+                        <div class="text-center mb-2">
+                            Need Help?
                         </div>
-                        <div class="return-policy d-flex">
+                        <div class="help-box row bg-white mb-4 p-2 text-center">
+                            <div class="col-md-4">
+                                Whatsapp
+                                <div>1234567890</div>
+                            </div>
+                            <div class="col-md-4">
+                                <span><img src="/assets/images/envelope.svg" class="img-fluid"></span> &nbsp;Email Us
+                                <div>test@test.co</div>
+                            </div>
+                            <div class="col-md-4">
+                                <span><img src="/assets/images/phone.svg" class="img-fluid"></span> &nbsp;Call
+                                <a href="tel:">123456789</a>
+                            </div>
+                        </div>
+                        {{-- <div class="return-policy d-flex">
                             <img src="{{ asset(check_host().'assets/images') }}/delivery.svg" class="img-fluid me-2">
                             <p>Free Shipping, Free 30 Day Returns</p>
                         </div>
                         <div class="order-shiped d-flex align-items-baseline">
                             <img src="{{ asset(check_host().'assets/images') }}/book_calendar.svg" class="img-fluid me-2">
                             <p>Order loose diamond and your order ships by <br><span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col-md-12">
-                    <div class="accordion" id="accordionExample">
+                    {{-- <div class="accordion" id="accordionExample">
                         <div class="product-details-collapse-">
                             <div class="accordion-item">
                                 <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
                                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul class="row">
-                                            @foreach ($attributes as $a)
-                                            @if (!empty($a['at_name']))
-                                            <li class="col-12 col-md-6 col-lg-4 mb-2">{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    <div class="accordion-body"> --}}
+                                        <div class="row bg-white">
+                                            <div class="col-lg-4 col-md-4">
+                                                @php
+                                                    if ($response['category'] == 'rough-diamonds') {
+                                                        $display_col = 'col-lg-6';
+                                                    } else {
+                                                        $display_col = 'col-lg-4';
+                                                    }
+                                                    $cnt_attributes = count($attributes);
+                                                    $ceil = ceil($cnt_attributes / 3);
+                                                    $i = 1;
+                                                @endphp
+                                                <div class="col-12">
+                                                    <div class="row h-100">
+                                                        <div class="col-6 col-md-6 p1r bg-lightgrey">
+                                                            Stock No:
+                                                        </div>
+                                                        <div class="col-6 col-md-6 p1r">
+                                                            {{ $response['barcode'] }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @foreach ($attributes as $a)
+                                                @if (!empty($a['at_name']))
+                                                @if ($a['ag_name'] != 'CERTIFICATE' && $a['ag_name'] != 'CERTIFICATE URL')
+                                                @if ($i % $ceil == 0)
+
+                                        </div>
+
+
+                                            <div class="col-lg-4 col-md-4">
+                                                @endif
+                                                <div class="col-12">
+                                                    <div class="row h-100">
+                                                        <div class="col-6 col-md-6 p1r bg-lightgrey">
+                                                            {{ $a['ag_name'] }}:
+                                                        </div>
+                                                        <div class="col-6 col-md-6 p1r">
+                                                            {{ $a['at_name'] ?? 'N/A' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @php
+                                                    $i++;
+                                                @endphp
+                                                @endif
+                                                @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    {{-- </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             @if ($certificate)
-                            <div class="accordion-item">
-                                <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
+                            {{-- <div class="accordion-item">
+                                <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Certified By {{ $lab ?? '-' }}</button>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>Certificate No :</strong>{{$certificate}}<br>
-                                        <strong>Certificate URL :</strong>{{$certificate_url}}
-                                    </div>
+                                    <div class="accordion-body"> --}}
+                                        <div class="row bg-white mt-4 p-3" >
+                                            <div class="col-md-12 mb-2">
+                                                <strong>Certified By:</strong> {{ $lab ?? '-' }}<br>
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <strong>Certificate No:</strong> {{$certificate}}<br>
+                                            </div>
+                                            <div class="col-md-12 mb-2">
+                                                <strong>Certificate URL:</strong> <a href="{{$certificate_url}}" target="_blank"> {{$certificate_url}}</a>
+                                            </div>
+                                        </div>
+                                    {{-- </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             @endif
-                        </div>
-                    </div>
+                        {{-- </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -312,7 +408,7 @@
             </div>
         </div>
         @endif
-        <div class="order-details-content main-box">
+        {{-- <div class="order-details-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Order Details</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 mb-4 mb-md-0">
@@ -391,7 +487,7 @@
                     </table>
                 </div>
             </div> -->
-        </div>
+        </div> --}}
     </section>
     @endsection
     @section('js')

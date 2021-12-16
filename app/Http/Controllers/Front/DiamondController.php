@@ -980,13 +980,13 @@ class DiamondController extends Controller {
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->detailshDiamonds($barcode);
         if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
-            $attributes = $result->original['data']['attribute'];
+            $response = $result->original['data']['diamond'];
+            $attributes = $result->original['data']['diamond']['attributes'];
             $recommended = collect($result->original['data']['recommended'])->slice(-0, 4);
             $similar = collect($result->original['data']['similar'])->slice(-0, 4);
             $category = DB::table('categories')
                 ->select('slug')
-                ->where('category_id', $result->original['data']['refCategory_id'])
+                ->where('category_id', $result->original['data']['diamond']['refCategory_id'])
                 ->first();
             $response['category'] = $category->slug;
         } else {
