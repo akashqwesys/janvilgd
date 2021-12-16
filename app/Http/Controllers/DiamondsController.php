@@ -2080,9 +2080,9 @@ class DiamondsController extends Controller {
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row['date_added']);
                 })
-                ->editColumn('weight_loss', function ($row) {
-                    return round($row['weight_loss'],2);
-                })
+                // ->editColumn('weight_loss', function ($row) {
+                //     return round($row['weight_loss'],2);
+                // })
                 /* ->editColumn('is_active', function ($row) {
                     $active_inactive_button = '';
                     if ($row['is_active'] == 1) {
