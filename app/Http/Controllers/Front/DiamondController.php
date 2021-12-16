@@ -584,14 +584,7 @@ class DiamondController extends Controller {
             $aa = new APIDiamond;
             $request->request->add(['attr_array' => $arr]);
             $result = $aa->searchDiamonds($request);
-// <<<<<<< HEAD
-//             $data=$result->original['data'];
-//             foreach ($data as $v) {
-//                 $final_data[] = $v['_source'];
-//             }
-           
-            
-// =======
+
             $data = $result->original['data']['diamonds'];
             if (count($data) < 1) {
                 return response()->json(['success' => 1, 'message' => 'No records found', 'data' => [], 'count' => 0]);
@@ -616,7 +609,7 @@ class DiamondController extends Controller {
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '">';
+                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '">';
 
                 if (isset($v['attributes']['CERTIFICATE URL'])) {
                     $a_tag = '<a class="show-certi" href="' . $v['attributes']['CERTIFICATE URL'] . '" target="_blank"> ' . $v['barcode'] . '</a>';

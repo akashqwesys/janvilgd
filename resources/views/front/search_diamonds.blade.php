@@ -105,6 +105,7 @@
         }
         .select-diamond {
             display: none;
+            text-align: center;
         }
         .select-diamond-temp {
             height: 100%;
@@ -173,7 +174,7 @@
         .search-diamond-table ::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         /* Track */
         .search-diamond-table ::-webkit-scrollbar-track {
             background: #f1f1f1;
@@ -187,6 +188,9 @@
         /* Handle on hover */
         .search-diamond-table ::-webkit-scrollbar-thumb:hover {
             background: #c69743;
+        }
+        .select-diamond * {
+
         }
     </style>
 @endsection
@@ -251,7 +255,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <div class="diamond-img mb-2">
                                                     <img src="" class="img-fluid">
                                                 </div>
-                                                <h6 class="diamond-name"></h6>
+                                                <h6 class="diamond-shape"></h6>
+                                                <h6 class="diamond-color"></h6>
+                                                <h6 class="diamond-clarity"></h6>
                                                 <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
                                                 <p class="diamond-cost"></p>
                                                 <a href="javascript:void(0);" class="btn btn-primary"></a>
@@ -296,9 +302,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             $width=10;
                                                             if($category->slug == '4p-diamonds'){
                                                                 $width=100;
-                                                            } 
+                                                            }
                                                             @endphp
-                                                            @if ($admin === true)                                                          
+                                                            @if ($admin === true)
                                                             <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Compare</th>
                                                             @else
                                                             <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Action</th>
@@ -324,7 +330,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <div class="diamond-img">
                                                     <img src="" class="img-fluid">
                                                 </div>
-                                                <h6 class="diamond-name"></h6>
+                                                <h6 class="diamond-shape"></h6>
+                                                <h6 class="diamond-color"></h6>
+                                                <h6 class="diamond-clarity"></h6>
                                                 <p class="diamond-cost"></p>
                                                 <a href="javascript:void(0);" class="btn btn-primary"></a>
                                             </div>
@@ -367,7 +375,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <tbody>
                                                         @foreach ($recently_viewed as $rv)
                                                         @php $rv_img = json_decode($rv->image); @endphp
-                                                        <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? $rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}">
+                                                        <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? $rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}" data-carat="{{ $rv->carat }}" data-shape="{{ $rv->shape }}" data-color="{{ $rv->color }}" data-clarity="{{ $rv->clarity }}">
                                                             <td scope="col" class="text-center">
                                                                 <a href="/customer/single-diamonds/{{ $rv->barcode }}" target="_blank"> </a>
                                                                 {{ $rv->barcode }}
@@ -413,7 +421,9 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <div class="diamond-img">
                                                     <img src="" class="img-fluid">
                                                 </div>
-                                                <h6 class="diamond-name"></h6>
+                                                <h6 class="diamond-shape"></h6>
+                                                <h6 class="diamond-color"></h6>
+                                                <h6 class="diamond-clarity"></h6>
                                                 <p class="diamond-cost"></p>
                                                 <a href="javascript:void(0);" class="btn btn-primary"></a>
                                             </div>
