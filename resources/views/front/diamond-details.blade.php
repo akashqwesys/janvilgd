@@ -1,8 +1,34 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
+<style>
+    .p1r {
+        padding: 1rem 1rem;
+    }
+    .h-100 {
+        height: 100%;
+    }
+    .bg-lightgrey {
+        background: #e2e2e2;
+    }
+    .table td:nth-child(odd) {
+        background: #e2e2e2;
+        width: 16%;
+    }
+    .table td:nth-child(even) {
+        width: 17%;
+    }
+    .table td {
+        vertical-align: middle;
+        height: 50px;
+    }
+    .overflow-auto {
+        overflow: auto;
+    }
+</style>
 @endsection
 @section('content')
+
 <section class="diamond-info-section" style="padding-top: 130px;">
     <div class="container">
         @if(!empty($response))
@@ -16,23 +42,29 @@
         if(!empty($attributes)){
 
             foreach($attributes as $row){
-                if($row['ag_name']=="COLOR"){
-                    $color=$row['at_name'];
+                if(isset($row['COLOR'])){
+                    $color=$row['COLOR'];
                 }
-                if($row['ag_name']=="EXP POL SIZE"){
-                    $size=$row['at_name'];
+                if(isset($row['SHAPE'])){
+                    $shape=$row['SHAPE'];
                 }
-                if($row['ag_name']=="CUT GRADE"){
-                    $cut=$row['at_name'];
+                if(isset($row['EXP POL SIZE'])){
+                    $size=$row['EXP POL SIZE'];
                 }
-                if($row['ag_name']=="CLARITY"){
-                    $clarity=$row['at_name'];
+                if(isset($row['CUT'])){
+                    $cut=$row['CUT'];
                 }
-                if($row['ag_name']=="CERTIFICATE"){
-                    $certificate=$row['at_name'];
+                if(isset($row['CLARITY'])){
+                    $clarity=$row['CLARITY'];
                 }
-                if($row['ag_name']=="CERTIFICATE URL"){
-                    $certificate_url=$row['at_name'];
+                if(isset($row['CERTIFICATE'])){
+                    $certificate=$row['CERTIFICATE'];
+                }
+                if(isset($row['CERTIFICATE URL'])){
+                    $certificate_url=$row['CERTIFICATE URL'];
+                }
+                if(isset($row['LAB'])){
+                    $lab=$row['LAB'];
                 }
             }
         }
@@ -88,7 +120,9 @@
                             <div>
                                 <div class="item" data-hash="slide{{ ++$i }}">
                                     <div class="carousel-slide-pic">
-                                        <img src="{{ $certificate_url }}" alt="Certificate">
+                                        <div class="align-items-center justify-content-center display-flex">
+                                            <a href="{{ $certificate_url }}" target="_blank"> Click here to see certificate</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +169,8 @@
                             <div>
                                 <div class="thumb">
                                     <div class="thumb-pic">
-                                        <img src="{{ $certificate_url }}" alt="Certificate">
+                                        {{-- <img src="{{ $certificate_url }}" alt="Certificate"> --}}
+                                        <a href="javascript:void(0);"> Certificate</a>
                                     </div>
                                 </div>
                             </div>
@@ -145,65 +180,229 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
-                        <h3 class="title">{{$response['diamond_name']}}</h3>
-                        <p>&nbsp;</p>
-                        <!--<p>Ideal Cut • I Color • SI1 Clarity</p>-->
-                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}}</p>
+                        <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' Carat ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-2">CARAT: {{ $response['expected_polish_cts'] }}</div>
+                            <div class="col-md-6 mb-2">COLOR: {{ $response['attributes']['COLOR'] }}</div>
+                            <div class="col-md-6 mb-2">CLARITY: {{ $response['attributes']['CLARITY'] }}</div>
+                            <div class="col-md-6 mb-2">CUT: {{ $response['attributes']['CUT'] ?? '' }}</div>
+                        </div>
+                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}} USD</p>
+                        @if ($response['available_pcs'] == 1)
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
+                        @endif
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response['diamond_id']}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
                             <a href="Javascript:;" class="btn like add-to-wishlist" data-id="{{$response['diamond_id']}}"><img src="{{ asset(check_host().'assets/images') }}/heart.svg" class="img-fluid"></a>
                         </div>
-                        <div class="mail-phone">
+                        {{-- <div class="mail-phone">
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
+                        </div> --}}
+                        <div class="text-center mb-2">
+                            Need Help?
                         </div>
-                        <div class="return-policy d-flex">
+                        <div class="help-box row bg-white mb-4 p-2 text-center">
+                            <div class="col-md-4">
+                                <span><img src="/assets/images/whatsapp.svg" class="img-fluid"></span> &nbsp;Whatsapp
+                                <div><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
+                            </div>
+                            <div class="col-md-4">
+                                <span><img src="/assets/images/envelope.svg" class="img-fluid"></span> &nbsp;Email Us
+                                <div><a href="mailto:">test@test.co</a></div>
+                            </div>
+                            <div class="col-md-4">
+                                <span><img src="/assets/images/phone.svg" class="img-fluid"></span> &nbsp;Call
+                                <div><a href="tel:">123456789</a></div>
+                            </div>
+                        </div>
+                        {{-- <div class="return-policy d-flex">
                             <img src="{{ asset(check_host().'assets/images') }}/delivery.svg" class="img-fluid me-2">
                             <p>Free Shipping, Free 30 Day Returns</p>
                         </div>
                         <div class="order-shiped d-flex align-items-baseline">
                             <img src="{{ asset(check_host().'assets/images') }}/book_calendar.svg" class="img-fluid me-2">
                             <p>Order loose diamond and your order ships by <br><span>{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-md-12">
-                    <div class="accordion" id="accordionExample">
-                        <div class="product-details-collapse-">
-                            <div class="accordion-item">
-                                <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul class="row">
-                                            @foreach ($attributes as $a)
-                                            @if (!empty($a['at_name']))
-                                            <li class="col-12 col-md-6 col-lg-4 mb-2">{{ $a['ag_name'] }} - {{ $a['at_name'] ?? 'N/A' }}</li>
-                                            @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            @if ($certificate)
-                            <div class="accordion-item">
-                                <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Gia Certificate</button>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>Certificate No :</strong>{{$certificate}}<br>
-                                        <strong>Certificate URL :</strong>{{$certificate_url}}
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
+            @if ($response['category'] == 'polish-diamonds')
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>Depth:</td>
+                            <td>{{ $response['attributes']['DEPTH PERCENT'] ?? '-'}}</td>
+                            <td>Measurements(mm):</td>
+                            <td>{{ $response['attributes']['MEASUREMENTS'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Table:</td>
+                            <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}</td>
+                            <td>Flourescence:</td>
+                            <td>{{ $response['attributes']['FLOURESCENCE'] ?? 'None'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Polish:</td>
+                            <td>{{ $response['attributes']['POLISH'] ?? '-'}}</td>
+                            <td>Location:</td>
+                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>Symmetry:</td>
+                            <td>{{ $response['attributes']['SYMMETRY'] ?? '-'}}</td>
+                            <td rowspan="3">Comment:</td>
+                            <td rowspan="3">{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            <td>Girdle Condition:</td>
+                            <td>{{ $response['attributes']['GRIDLE CONDITION'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Cut Grade:</td>
+                            <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                            <td>Culet:</td>
+                            <td>{{ $response['attributes']['CULET SIZE'] ?? '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-3 bg-white p1r">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Certified By: {{ $response['attributes']['LAB'] ?? '-'}}
+                        </div>
+                        <div class="col-md-4">
+                            Certificate No: {{ $response['attributes']['CERTIFICATE'] }}
+                        </div>
+                        <div class="col-md-4">
+                            <span><img src="/assets/images/certificate.svg" style="width: 25px;"></span>
+                            <a href="{{ $response['attributes']['CERTIFICATE URL'] ?? 'javascript:void(0);' }}" target="_blank">View Diamond Report</a>
                         </div>
                     </div>
                 </div>
             </div>
+            @elseif ($response['category'] == '4p-diamonds')
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>4P Weight CTS:</td>
+                            <td>{{ $response['makable_cts'] }}</td>
+                            <td>Rapaport Price/CT:</td>
+                            <td>{{ $response['rapaport_price'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Exp Polish CTS:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Discount:</td>
+                            <td>{{ $response['discount'] * 100 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Exp Polish Size:</td>
+                            <td>{{ $response['attributes']['EXP POL SIZE'] ?? '-'}}</td>
+                            @php
+                                $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
+                            @endphp
+                            <td>Labour Charge:</td>
+                            <td>{{ $labour_charge_4p->amount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>HALF CUT DIA:</td>
+                            <td>{{ $response['attributes']['HALF-CUT DIA'] ?? '-'}}</td>
+                            <td>Price/CT:</td>
+                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            <td>HALF CUT HGT:</td>
+                            <td>{{ $response['attributes']['HALF-CUT HGT'] ?? '-'}}</td>
+                            <td>Price</td>
+                            <td>{{ $response['total'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cut Grade:</td>
+                            <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                            <td>PO DIAMETER:</td>
+                            <td>{{ $response['attributes']['PO. DIAMETER'] ?? '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>Rough Weight CTS:</td>
+                            <td>{{ $response['makable_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Exp Polish CTS:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Rapaport Price/CT:</td>
+                            <td>{{ $response['rapaport_price'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>Discount:</td>
+                            <td>{{ $response['discount'] * 100 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            @php
+                                $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
+                            @endphp
+                            <td>Labour Charge:</td>
+                            <td>{{ $labour_charge_rough->amount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Location:</td>
+                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                            <td>Price/CT:</td>
+                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Comment</td>
+                            <td>{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                            <td>Price</td>
+                            <td>{{ $response['total'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @endif
         </div>
         @endif
 
@@ -296,13 +495,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <a href="/customer/single-diamonds/{{$r->barcode}}">
-                                    <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                 </a>
                             </div>
-                            <div>{{ $r->name }}</div>
-                            <div class="text-muted">{{ $r->barcode }}</div>
-                            <div class="mt-2"><h5><b>${{ number_format(round($r->price, 2), 2, '.', ',') }}</b></h5></div>
+                            <div>{{ $r['_source']['name'] }}</div>
+                            <div class="text-muted">{{ $r['_source']['barcode'] }}</div>
+                            <div class="mt-2"><h5><b>${{ number_format(round($r['_source']['total'], 2), 2, '.', ',') }}</b></h5></div>
                         </div>
                     </div>
                 </div>
@@ -310,7 +509,7 @@
             </div>
         </div>
         @endif
-        <div class="order-details-content main-box">
+        {{-- <div class="order-details-content main-box">
             <h2 class="text-center"><img class="img-fluid title-diamond_img" src="{{ asset(check_host().'assets/images') }}/title-diamond.svg" alt=""> Order Details</h2>
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 mb-4 mb-md-0">
@@ -389,6 +588,41 @@
                     </table>
                 </div>
             </div> -->
-        </div>
+        </div> --}}
     </section>
+    @endsection
+    @section('js')
+    <script>
+        $(document).on('click', '.add-to-cart', function () {
+			var self = $(this);
+			var diamond_id = self.data('id');
+			var data = {
+				'diamond_id': diamond_id
+			};
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "{{ route('add-to-cart') }}",
+				data: data,
+				success: function (res) {
+					if (res.suceess) {
+						$.toast({
+							heading: 'Success',
+							text: 'Diamond added in cart.',
+							icon: 'success',
+							position: 'top-right'
+						});
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
+					}else{
+						$.toast({
+							heading: 'Error',
+							text: res.message,
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		});
+    </script>
     @endsection

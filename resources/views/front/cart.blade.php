@@ -83,7 +83,11 @@
                         <td>
                             <h5>{{$rv->diamond_name}}</h5>
                             <h4 class="cart-price">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
+                            @if ($rv->available_pcs == 1)
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
+                            @elseif ($rv->available_pcs == 0)
+                            <p class="text-danger"><b>This diamond is currently out of stock and it will removed from cart on your next visit.</b></p>
+                            @endif
                         </td>
                     </tr>
                     <?php
@@ -136,7 +140,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="text-center mb-4">Shipping Info</h5>
-                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">Monday: Monday, October 18th</span></p>
+                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
                         <p>Contact us at 800.691.0952 to schedule Saturday delivery, hold at a FedEx location, or to inquire about available delivery options.</p>
                         <h5>Need Help?</h5>
                         <p class="themecolor">Chat now or call <a href="tel:8006910952">800.691.0952</a></p>

@@ -42,6 +42,18 @@
                 display: none !important;
             }
         </style>
+        <style>
+        .overlay {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: #6e6e6e38;
+            z-index: 1111;
+            display: none;
+        }
+        </style>
 
         @yield('css')
     </head>
@@ -82,24 +94,24 @@
                                                                             </a>
                                                                             <ul class="nk-menu-sub">
                                                                                 <?php if (!empty(session('categories'))) {
-                                                                                    foreach (session('categories') as $cat_row) {  
+                                                                                    foreach (session('categories') as $cat_row) {
                                                                                         ?>
                                                                                 <li class="nk-menu-item">
                                                                                     <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
                                                                                 </li>
                                                                                 <?php
-                                                                                        
+
                                                                                     }
-                                                                                } ?>                                                                                                                                                               
-                                                                            </ul> 
-                                                                        </li>                                                                                                      
+                                                                                } ?>
+                                                                            </ul>
+                                                                        </li>
                                         <?php
                                     }
                                     ?>
 
                                     <?php
                                     if (!empty(session('menu'))) {
-                                        foreach (session('menu') as $session_row) {                                            
+                                        foreach (session('menu') as $session_row) {
                                             ?>
 
                                             <li class="nk-menu-heading">
@@ -124,7 +136,7 @@
                                     ?>
                                     <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
-                                        ?>                                               
+                                        ?>
                                         <li class="nk-menu-heading">
                                             <h6 class="overline-title text-primary-alt">Modules</h6>
                                         </li><!-- .nk-menu-item -->
@@ -133,11 +145,11 @@
                                                 <span class="nk-menu-icon"><em class="icon ni ni-menu"></em></span>
                                                 <span class="nk-menu-text">Modules</span>
                                             </a>
-                                        </li><!-- .nk-menu-item -->                                        
+                                        </li><!-- .nk-menu-item -->
                                         <?php
                                     }
                                     ?>
-                                        
+
                                         <li class="nk-menu-heading">
                                             <a href="/project-setup"><h6 class="overline-title text-primary-alt">Project Setup</h6></a>
                                         </li><!-- .nk-menu-item -->
@@ -407,7 +419,7 @@
                                                 </div>
                                                 <div class="dropdown-inner">
                                                     <ul class="link-list">
-                                                        <li><a href="admin/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                        <li><a href="{{route('logout')}}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -493,67 +505,71 @@
         }
         ?>
         <script type="text/javascript">
-$(document).ready(function () {
-    $('a[href$="#finish"]').attr("class", "submit_customers");
-    $('a[href$="#finish"]').addClass("d-none");
-    $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
+            function showloader(){                
+                    $("#append_loader").css("display","block");
+                    return true;
+                }
+            $(document).ready(function () {                
+                $('a[href$="#finish"]').attr("class", "submit_customers");
+                $('a[href$="#finish"]').addClass("d-none");
+                $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
 
-    $(document).on('click', '.submit_btn', function () {
-        $('.submit_btn').get(0).submit();
-    });
-            
-     if (<?php
-        if (!empty(session()->get('request_check'))) {
-            echo session()->get('request_check');
-        } else {
-            echo 0;
-        }
-        ?> === 1)
-    {
-                $.ajax({
-                    type: "POST",
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('rapaport.updatePrice') }}"
-                    // success: function (res) {                       
-                    // }
+                $(document).on('click', '.submit_btn', function () {
+                    $('.submit_btn').get(0).submit();
                 });
-<?php session(['request_check' => 0]); ?>
-    }
-    
-    
-    if (<?php
-        if (!empty(session()->get('error'))) {
-            echo session()->get('error');
-        } else {
-            echo 0;
-        }
-        ?> === 1)
-    {
-        $.toast({
-            heading: 'Error',
-            text: '<?php echo session()->get('message') ?>',
-            icon: 'error',
-            position: 'top-right'
-        });
-<?php session(['error' => 0]); ?>
-    }
-    if (<?php
-if (!empty(session()->get('success'))) {
-    echo session()->get('success');
-} else {
-    echo 0;
-}
-?> === 1)
-    {
-        $.toast({
-            heading: 'Success',
-            text: '<?php echo session()->get('message') ?>',
-            icon: 'success',
-            position: 'top-right'
-        });
-<?php session(['success' => 0]); ?>
-    }
-});
-        </script>
+
+                if (<?php
+                if (!empty(session()->get('request_check'))) {
+                    echo session()->get('request_check');
+                } else {
+                    echo 0;
+                }
+                ?> === 1)
+                {
+                    $.ajax({
+                        type: "POST",
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "{{ route('rapaport.updatePrice') }}"
+                        // success: function (res) {
+                            // }
+                        });
+                        <?php session(['request_check' => 0]); ?>
+                    }
+
+
+                    if (<?php
+                    if (!empty(session()->get('error'))) {
+                        echo session()->get('error');
+                    } else {
+                        echo 0;
+                    }
+                    ?> === 1)
+                    {
+                        $.toast({
+                            heading: 'Error',
+                            text: '<?php echo session()->get('message') ?>',
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                        <?php session(['error' => 0]); ?>
+                    }
+                    if (<?php
+                    if (!empty(session()->get('success'))) {
+                        echo session()->get('success');
+                    } else {
+                        echo 0;
+                    }
+                    ?> === 1)
+                    {
+                        $.toast({
+                            heading: 'Success',
+                            text: '<?php echo session()->get('message') ?>',
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                        <?php session(['success' => 0]); ?>
+                    }
+                });
+            </script>
     </body>
 </html>

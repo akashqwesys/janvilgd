@@ -153,7 +153,8 @@
                         'expected_polish_cts': expected_polish_cts,
                         'cat_type': diamondType
                     }; 
-                }                         
+                } 
+                $('#append_loader_rapa').empty();                        
                 $('#append_loader_rapa').append("<div class='d-flex justify-content-center'><div class='spinner-border text-dark' style='width: 5rem; height: 5rem;' role='status'><span class='sr-only'>Loading...</span></div></div>");
                 $.ajax({
                     type: "POST",

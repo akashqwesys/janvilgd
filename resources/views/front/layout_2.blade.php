@@ -47,7 +47,7 @@
 		    		<li class="nav-item">
 		    			<a class="nav-link" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
 		    		</li>
-					<li><a class="nav-link noti-badge" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+					<li><a class="nav-link noti-badge" id="global_cart_count" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      		<li><a class="nav-link" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		    		<li class="nav-item">
 						@auth
@@ -272,18 +272,49 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
 <script type="text/javascript">
+	function addToCart (self) {
+		// var self = $(this);
+		var diamond_id = self.data('id');
+		var data = {
+			'diamond_id': diamond_id
+		};
+		$.ajax({
+			type: "POST",
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			url: "{{ route('add-to-cart') }}",
+			data: data,
+			success: function (res) {
+				if (res.suceess) {
+					$.toast({
+						heading: 'Success',
+						text: 'Diamond added in cart.',
+						icon: 'success',
+						position: 'top-right'
+					});
+					$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
+				}else{
+					$.toast({
+						heading: 'Error',
+						text: res.message,
+						icon: 'error',
+						position: 'top-right'
+					});
+				}
+			}
+		});
+	}
 	$(document).ready(function () {
-            $(document).on('click', '#click-whatsapp-link', function () {
-//                staticBackdrop
-                var w_link=$("#watsapplink").val();
-                window.open(w_link, '_blank');
-//                window.location.href = w_link;
-            });
-            $(document).on('click', '#click-copy-link', function () {
-                var c_link=$("#copylink").val();
-                navigator.clipboard.writeText(c_link);
-            });
-            $(document).on('click', '#add-all-to-cart', function () {
+		$(document).on('click', '#click-whatsapp-link', function () {
+			//                staticBackdrop
+			var w_link=$("#watsapplink").val();
+			window.open(w_link, '_blank');
+			//                window.location.href = w_link;
+		});
+		$(document).on('click', '#click-copy-link', function () {
+			var c_link=$("#copylink").val();
+			navigator.clipboard.writeText(c_link);
+		});
+		$(document).on('click', '#add-all-to-cart', function () {
 			var share_cart_id = $("#share_cart_id").val();
 			var data = {
 				'share_cart_id': share_cart_id
@@ -312,39 +343,37 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
-            $(document).on('click', '#add-all-to-wishlist', function () {
-                      var share_wishlist_id = $("#share_wishlist_id").val();
-                      var data = {
-                              'share_wishlist_id': share_wishlist_id
-                      };
-                      $.ajax({
-                              type: "POST",
-                              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                              url: "{{ route('add-all-to-wishlist') }}",
-                              data: data,
-                              success: function (res) {
-                                      if (res.suceess) {
-                                              $.toast({
-                                                      heading: 'Success',
-                                                      text: 'Diamond added in wishlist.',
-                                                      icon: 'success',
-                                                      position: 'top-right'
-                                              });
-                                      }else{
-                                              $.toast({
-                                                      heading: 'Error',
-                                                      text: 'Oops, something went wrong...!',
-                                                      icon: 'error',
-                                                      position: 'top-right'
-                                              });
-                                      }
-                              }
-                      });
-              });
+		$(document).on('click', '#add-all-to-wishlist', function () {
+			var share_wishlist_id = $("#share_wishlist_id").val();
+			var data = {
+				'share_wishlist_id': share_wishlist_id
+			};
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "{{ route('add-all-to-wishlist') }}",
+				data: data,
+				success: function (res) {
+					if (res.suceess) {
+						$.toast({
+							heading: 'Success',
+							text: 'Diamond added in wishlist.',
+							icon: 'success',
+							position: 'top-right'
+						});
+					}else{
+						$.toast({
+							heading: 'Error',
+							text: 'Oops, something went wrong...!',
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		});
 
-
-
-            $(document).on('click', '.add-to-cart', function () {
+		/* $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -363,6 +392,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
 					}else{
 						$.toast({
 							heading: 'Error',
@@ -373,8 +403,9 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}
 				}
 			});
-		});
-            $(document).on('click', '.removeFromCart', function () {
+		}); */
+
+		$(document).on('click', '.removeFromCart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -393,22 +424,23 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
-						if (res.data.length > 0) {
-							$("#sub-total-td").text("$"+res.data['subtotal']);
-							$("#discount").text("$"+res.data['discount']);
-							$("#additional_discount").text("$"+res.data['additional_discount']);
-							$("#tax").text("$"+res.data['tax']);
-							$("#shipping").text("$"+res.data['shipping']);
-							$("#final-total-th div").text("$"+res.data['total']);
-						} else {
+						if (res.data.length == 0) {
 							$("#sub-total-td").text("$0");
 							$("#discount").text("$0");
 							$("#additional_discount").text("$0");
 							$("#tax").text("$0");
 							$("#shipping").text("$0");
 							$("#final-total-th div").text("$0");
+						} else {
+							$("#sub-total-td").text("$"+res.data.subtotal);
+							$("#discount").text("$"+res.data.discount);
+							$("#additional_discount").text("$"+res.data.additional_discount);
+							$("#tax").text("$"+res.data.tax);
+							$("#shipping").text("$"+res.data.shipping);
+							$("#final-total-th div").text("$"+res.data.total);
 						}
 						$("#diamond_"+diamond_id).remove();
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))-1);
 					}else{
 						$.toast({
 							heading: 'Error',
@@ -420,9 +452,6 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
-
-
-
 
 		$(document).on('click', '.add-to-wishlist', function () {
 			var self = $(this);

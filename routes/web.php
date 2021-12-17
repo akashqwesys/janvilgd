@@ -52,6 +52,8 @@ use App\Http\Controllers\Front\TestController;
 */
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/test-query', [TestController::class, 'index']);
+Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
+Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
 
 
 Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup');
@@ -77,7 +79,7 @@ Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile'
 Route::post('/getStates', [DropdownController::class, 'getStates']);
 Route::post('/getCities', [DropdownController::class, 'getCities']);
 
-Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+// Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
 Route::group( ['middleware' => ['auth']], function () {
 
@@ -87,8 +89,9 @@ Route::group( ['middleware' => ['auth']], function () {
 
     // Diamonds
     Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);
+    Route::post('customer/search-diamonds', [HDiamond::class, 'exportDiamonds'])->name('search-diamond');
     Route::get('customer/single-diamonds/{barcode}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
+    Route::post('customer/list-diamonds', [HDiamond::class, 'searchListDiamondsPolish'])->name('list-diamond');
 
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');

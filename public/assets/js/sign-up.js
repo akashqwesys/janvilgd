@@ -226,7 +226,6 @@ $("#msform").validate({
         } else {
             error.appendTo(element.parent().nextAll("div.errTxt"));
         }
-        console.log(element.attr('id'));
     },
     submitHandler: function(form) {
         // do other things for a valid form
