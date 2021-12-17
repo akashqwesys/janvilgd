@@ -13,6 +13,20 @@
     .bg-lightgrey {
         background: #e2e2e2;
     }
+    .table td:nth-child(odd) {
+        background: #e2e2e2;
+        width: 16%;
+    }
+    .table td:nth-child(even) {
+        width: 17%;
+    }
+    .table td {
+        vertical-align: middle;
+        height: 50px;
+    }
+    .overflow-auto {
+        overflow: auto;
+    }
 </style>
 @endsection
 @section('content')
@@ -193,16 +207,16 @@
                         </div>
                         <div class="help-box row bg-white mb-4 p-2 text-center">
                             <div class="col-md-4">
-                                Whatsapp
-                                <div>1234567890</div>
+                                <span><img src="/assets/images/whatsapp.svg" class="img-fluid"></span> &nbsp;Whatsapp
+                                <div><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
                             </div>
                             <div class="col-md-4">
                                 <span><img src="/assets/images/envelope.svg" class="img-fluid"></span> &nbsp;Email Us
-                                <div>test@test.co</div>
+                                <div><a href="mailto:">test@test.co</a></div>
                             </div>
                             <div class="col-md-4">
                                 <span><img src="/assets/images/phone.svg" class="img-fluid"></span> &nbsp;Call
-                                <a href="tel:">123456789</a>
+                                <div><a href="tel:">123456789</a></div>
                             </div>
                         </div>
                         {{-- <div class="return-policy d-flex">
@@ -217,91 +231,166 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-md-12">
-                    {{-- <div class="accordion" id="accordionExample">
-                        <div class="product-details-collapse-">
-                            <div class="accordion-item">
-                                <button class="accordion-button collapsed" id="headingOne" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Diamond Details</button>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body"> --}}
-                                        <div class="row bg-white">
-                                            <div class="col-lg-4 col-md-4">
-                                                @php
-                                                    if ($response['category'] == 'rough-diamonds') {
-                                                        $display_col = 'col-lg-6';
-                                                    } else {
-                                                        $display_col = 'col-lg-4';
-                                                    }
-                                                    $cnt_attributes = count($attributes);
-                                                    $ceil = ceil($cnt_attributes / 3);
-                                                    $i = 1;
-                                                @endphp
-                                                <div class="col-12">
-                                                    <div class="row h-100">
-                                                        <div class="col-6 col-md-6 p1r bg-lightgrey">
-                                                            Stock No:
-                                                        </div>
-                                                        <div class="col-6 col-md-6 p1r">
-                                                            {{ $response['barcode'] }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @foreach ($attributes as $a)
-                                                @if (!empty($a['at_name']))
-                                                @if ($a['ag_name'] != 'CERTIFICATE' && $a['ag_name'] != 'CERTIFICATE URL')
-                                                @if ($i % $ceil == 0)
-
-                                        </div>
-
-
-                                            <div class="col-lg-4 col-md-4">
-                                                @endif
-                                                <div class="col-12">
-                                                    <div class="row h-100">
-                                                        <div class="col-6 col-md-6 p1r bg-lightgrey">
-                                                            {{ $a['ag_name'] }}:
-                                                        </div>
-                                                        <div class="col-6 col-md-6 p1r">
-                                                            {{ $a['at_name'] ?? 'N/A' }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @php
-                                                    $i++;
-                                                @endphp
-                                                @endif
-                                                @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    {{-- </div>
-                                </div>
-                            </div> --}}
-                            @if ($certificate)
-                            {{-- <div class="accordion-item">
-                                <button class="accordion-button collapsed" id="headingTwo" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Certified By {{ $lab ?? '-' }}</button>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body"> --}}
-                                        <div class="row bg-white mt-4 p-3" >
-                                            <div class="col-md-12 mb-2">
-                                                <strong>Certified By:</strong> {{ $lab ?? '-' }}<br>
-                                            </div>
-                                            <div class="col-md-12 mb-2">
-                                                <strong>Certificate No:</strong> {{$certificate}}<br>
-                                            </div>
-                                            <div class="col-md-12 mb-2">
-                                                <strong>Certificate URL:</strong> <a href="{{$certificate_url}}" target="_blank"> {{$certificate_url}}</a>
-                                            </div>
-                                        </div>
-                                    {{-- </div>
-                                </div>
-                            </div> --}}
-                            @endif
-                        {{-- </div>
-                    </div> --}}
-                </div>
+            @if ($response['category'] == 'polish-diamonds')
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>Depth:</td>
+                            <td>{{ $response['attributes']['DEPTH PERCENT'] ?? '-'}}</td>
+                            <td>Measurements(mm):</td>
+                            <td>{{ $response['attributes']['MEASUREMENTS'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Table:</td>
+                            <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}</td>
+                            <td>Flourescence:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Polish:</td>
+                            <td>{{ $response['attributes']['POLISH'] ?? '-'}}</td>
+                            <td>Location:</td>
+                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>Symmetry:</td>
+                            <td>{{ $response['attributes']['SYMMETRY'] ?? '-'}}</td>
+                            <td rowspan="3">Comment:</td>
+                            <td rowspan="3">{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            <td>Girdle Condition:</td>
+                            <td>{{ $response['attributes']['GRIDLE CONDITION'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Cut Grade:</td>
+                            <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                            <td>Culet:</td>
+                            <td>{{ $response['attributes']['CULET SIZE'] ?? '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            @elseif ($response['category'] == '4p-diamonds')
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>4P Weight CTS:</td>
+                            <td>{{ $response['makable_cts'] }}</td>
+                            <td>Rapaport Price/CT:</td>
+                            <td>{{ $response['rapaport_price'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Exp Polish CTS:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Discount:</td>
+                            <td>{{ $response['discount'] * 100 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Exp Polish Size:</td>
+                            <td>{{ $response['attributes']['EXP POL SIZE'] ?? '-'}}</td>
+                            @php
+                                $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
+                            @endphp
+                            <td>Labour Charge:</td>
+                            <td>{{ $labour_charge_4p->amount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>HALF CUT DIA:</td>
+                            <td>{{ $response['attributes']['HALF-CUT DIA'] ?? '-'}}</td>
+                            <td>Price/CT:</td>
+                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            <td>HALF CUT HGT:</td>
+                            <td>{{ $response['attributes']['HALF-CUT HGT'] ?? '-'}}</td>
+                            <td>Price</td>
+                            <td>{{ $response['total'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cut Grade:</td>
+                            <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                            <td>PO DIAMETER:</td>
+                            <td>{{ $response['attributes']['PO. DIAMETER'] ?? '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="mt-5 overflow-auto">
+                <table class="table table-responsive bg-white">
+                    <tbody>
+                        <tr>
+                            <td>Stock No:</td>
+                            <td>{{ $response['barcode'] }}</td>
+                            <td>Rough Weight CTS:</td>
+                            <td>{{ $response['makable_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Shape:</td>
+                            <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
+                            <td>Exp Polish CTS:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Carat:</td>
+                            <td>{{ $response['expected_polish_cts'] }}</td>
+                            <td>Rapaport Price/CT:</td>
+                            <td>{{ $response['rapaport_price'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Color:</td>
+                            <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
+                            <td>Discount:</td>
+                            <td>{{ $response['discount'] * 100 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Clarity:</td>
+                            <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
+                            @php
+                                $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
+                            @endphp
+                            <td>Labour Charge:</td>
+                            <td>{{ $labour_charge_rough->amount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Location:</td>
+                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                            <td>Price/CT:</td>
+                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Comment</td>
+                            <td>{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                            <td>Price</td>
+                            <td>{{ $response['total'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @endif
         </div>
         @endif
 
