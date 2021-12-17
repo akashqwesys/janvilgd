@@ -247,7 +247,7 @@
                             <td>Table:</td>
                             <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}</td>
                             <td>Flourescence:</td>
-                            <td></td>
+                            <td>{{ $response['attributes']['FLOURESCENCE'] ?? 'None'}}</td>
                         </tr>
                         <tr>
                             <td>Carat:</td>
