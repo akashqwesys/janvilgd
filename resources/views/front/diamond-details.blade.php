@@ -11,19 +11,26 @@
     .bg-lightgrey {
         background: #e2e2e2;
     }
-    .table td:nth-child(odd) {
+    .detail-table td:nth-child(odd) {
         background: #e2e2e2;
         width: 16%;
     }
-    .table td:nth-child(even) {
+    .detail-table td:nth-child(even) {
         width: 17%;
     }
-    .table td {
+    .detail-table td {
         vertical-align: middle;
         height: 50px;
     }
     .overflow-auto {
         overflow: auto;
+    }
+    .mini-table td {
+        border: 1px solid;
+        color: #000;
+    }
+    .product--details p {
+        color: #000;
     }
 </style>
 @endsection
@@ -181,16 +188,32 @@
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
                         <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' Carat ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-2">CARAT: {{ $response['expected_polish_cts'] }}</div>
-                            <div class="col-md-6 mb-2">COLOR: {{ $response['attributes']['COLOR'] }}</div>
-                            <div class="col-md-6 mb-2">CLARITY: {{ $response['attributes']['CLARITY'] }}</div>
-                            <div class="col-md-6 mb-2">CUT: {{ $response['attributes']['CUT'] ?? '' }}</div>
+                        <div class="mb-3">
+                            <table class="table mini-table overflow-auto">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">Category</td>
+                                        <td colspan="2">{{ ucwords(str_replace('-', ' ', $response['category'])) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CARAT:</td>
+                                        <td>{{ $response['expected_polish_cts'] }}</td>
+                                        <td>COLOR: </td>
+                                        <td>{{ $response['attributes']['COLOR'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CLARITY:</td>
+                                        <td>{{ $response['attributes']['CLARITY'] }}</td>
+                                        <td>CUT: </td>
+                                        <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}} USD</p>
-                        @if ($response['available_pcs'] == 1)
+                        {{-- @if ($response['available_pcs'] == 1)
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
-                        @endif
+                        @endif --}}
                         <div class="cart-buy-btn">
                             <button class="btn btn-primary add-to-cart" data-id="{{$response['diamond_id']}}">Add To Cart</button>
                             <a href="Javascript:;" class="btn btn-primary">Buy Now</a>
@@ -231,7 +254,7 @@
             </div>
             @if ($response['category'] == 'polish-diamonds')
             <div class="mt-5 overflow-auto">
-                <table class="table table-responsive bg-white">
+                <table class="table detail-table table-responsive bg-white">
                     <tbody>
                         <tr>
                             <td>Stock No:</td>
@@ -296,7 +319,7 @@
             </div>
             @elseif ($response['category'] == '4p-diamonds')
             <div class="mt-5 overflow-auto">
-                <table class="table table-responsive bg-white">
+                <table class="table detail-table table-responsive bg-white">
                     <tbody>
                         <tr>
                             <td>Stock No:</td>
@@ -304,7 +327,7 @@
                             <td>4P Weight CTS:</td>
                             <td>{{ $response['makable_cts'] }}</td>
                             <td>Rapaport Price/CT:</td>
-                            <td>{{ $response['rapaport_price'] }}</td>
+                            <td>${{ number_format($response['rapaport_price'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Shape:</td>
@@ -312,7 +335,7 @@
                             <td>Exp Polish CTS:</td>
                             <td>{{ $response['expected_polish_cts'] }}</td>
                             <td>Discount:</td>
-                            <td>{{ $response['discount'] * 100 }}</td>
+                            <td>{{ $response['discount'] * 100 }}%</td>
                         </tr>
                         <tr>
                             <td>Carat:</td>
@@ -322,8 +345,8 @@
                             @php
                                 $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
                             @endphp
-                            <td>Labour Charge:</td>
-                            <td>{{ $labour_charge_4p->amount }}</td>
+                            <td>Labour Charge/CT:</td>
+                            <td>${{ number_format($labour_charge_4p->amount, 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Color:</td>
@@ -331,7 +354,7 @@
                             <td>HALF CUT DIA:</td>
                             <td>{{ $response['attributes']['HALF-CUT DIA'] ?? '-'}}</td>
                             <td>Price/CT:</td>
-                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                            <td>${{ number_format($response['price_ct'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Clarity:</td>
@@ -339,7 +362,7 @@
                             <td>HALF CUT HGT:</td>
                             <td>{{ $response['attributes']['HALF-CUT HGT'] ?? '-'}}</td>
                             <td>Price</td>
-                            <td>{{ $response['total'] }}</td>
+                            <td>${{ number_format($response['total'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Cut Grade:</td>
@@ -352,7 +375,7 @@
             </div>
             @else
             <div class="mt-5 overflow-auto">
-                <table class="table table-responsive bg-white">
+                <table class="table detail-table table-responsive bg-white">
                     <tbody>
                         <tr>
                             <td>Stock No:</td>
@@ -370,13 +393,13 @@
                             <td>Carat:</td>
                             <td>{{ $response['expected_polish_cts'] }}</td>
                             <td>Rapaport Price/CT:</td>
-                            <td>{{ $response['rapaport_price'] }}</td>
+                            <td>${{ number_format($response['rapaport_price'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Color:</td>
                             <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
                             <td>Discount:</td>
-                            <td>{{ $response['discount'] * 100 }}</td>
+                            <td>{{ $response['discount'] * 100 }}%</td>
                         </tr>
                         <tr>
                             <td>Clarity:</td>
@@ -384,20 +407,20 @@
                             @php
                                 $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
                             @endphp
-                            <td>Labour Charge:</td>
-                            <td>{{ $labour_charge_rough->amount }}</td>
+                            <td>Labour Charge (${{ $labour_charge_rough->amount }}/CT):</td>
+                            <td>${{ number_format(($labour_charge_rough->amount * $response['makable_cts']), 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Location:</td>
                             <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
                             <td>Price/CT:</td>
-                            <td>{{ $response['total'] / $response['expected_polish_cts'] }}</td>
+                            <td>${{ number_format($response['price_ct'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Comment</td>
                             <td>{{ $response['attributes']['Comment'] ?? '-'}}</td>
                             <td>Price</td>
-                            <td>{{ $response['total'] }}</td>
+                            <td>${{ number_format($response['total'], 2, '.', ',') }}</td>
                         </tr>
                     </tbody>
                 </table>

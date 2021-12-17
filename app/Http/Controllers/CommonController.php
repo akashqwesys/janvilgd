@@ -649,7 +649,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=1;
+                $data_array['sort_order']=0;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -771,7 +771,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=2;
+                $data_array['sort_order']=0;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -893,7 +893,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=1;
+                $data_array['sort_order']=0;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -1118,7 +1118,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=2;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -2526,7 +2526,7 @@ class CommonController extends Controller
 
         DB::table('attributes')->insert($attribute_array);
         //******************* labour charges Entry start *******************//
-        $delete = DB::table('labour_charges')->delete();
+        $delete = DB::table('labour_charges')->truncate();
         $labour_charges_array=array();
 
             $data_array=array();

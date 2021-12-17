@@ -109,11 +109,11 @@
         }
         .select-diamond-temp {
             height: 100%;
-            box-shadow: rgb(0 0 0 / 25%) 0px 0px 10px 0px;
+            /* box-shadow: rgb(0 0 0 / 25%) 0px 0px 10px 0px; */
             padding: 20px;
         }
-        .pt-25 {
-            padding-top: 25%;
+        .pt-40 {
+            padding-top: 40%;
         }
         .image-shapes {
             width: 35px;
@@ -189,6 +189,21 @@
         .search-diamond-table ::-webkit-scrollbar-thumb:hover {
             background: #c69743;
         }
+        .img-cs {
+            max-width: 250px;
+            height: auto;
+        }
+        .cat-name {
+            background-color: #D2AB66;
+            border-color: #D2AB66;
+            color: #FFFFFF;
+            padding: 8px 15px;
+            margin-bottom: 0.75rem;
+        }
+        .overlay {
+            top: 37px;
+            height: 92%;
+        }
     </style>
 @endsection
 @section('content')
@@ -249,18 +264,18 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
+                                                <div class="cat-name"></div>
                                                 <div class="diamond-img mb-2">
-                                                    <img src="" class="img-fluid">
+                                                    <img src="" class="img-cs">
                                                 </div>
-                                                <h6 class="diamond-shape"></h6>
-                                                <h6 class="diamond-color"></h6>
-                                                <h6 class="diamond-clarity"></h6>
+                                                <h5 class="diamond-shape"></h5>
+                                                <small class="diamond-clarity"></small>
                                                 <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
-                                                <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
-                                                <div class="pt-25">
+                                                <div class="pt-40">
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
@@ -280,12 +295,12 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center sorting_asc sorting_yes" data-name="barcode" style="width: 11%">Stock No <img src="/admin_assets/images/sort_asc.png"></th>
+                                                            <th scope="col" class="text-left sorting_asc sorting_yes" data-name="barcode" style="width: 11%">Stock No <img src="/admin_assets/images/sort_asc.png"></th>
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 11%">Shape <img src="/admin_assets/images/sort_both.png"></th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 14%">4P Weight (CT) <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 12%">4P Weight <img src="/admin_assets/images/sort_both.png"></th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 14%">Rough Weight (CT) <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 12%">Rough Weight <img src="/admin_assets/images/sort_both.png"></th>
                                                             @endif
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="expected_polish_cts" style="width: 7%">Carat <img src="/admin_assets/images/sort_both.png"></th>
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="COLOR" style="width: 7%">Color <img src="/admin_assets/images/sort_both.png"></th>
@@ -324,17 +339,18 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
+                                                <div class="cat-name"></div>
                                                 <div class="diamond-img mb-2">
-                                                    <img src="" class="img-fluid">
+                                                    <img src="" class="img-cs">
                                                 </div>
-                                                <h6 class="diamond-shape"></h6>
-                                                <h6 class="diamond-color"></h6>
-                                                <h6 class="diamond-clarity"></h6>
-                                                <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                                <h5 class="diamond-shape"></h5>
+                                                {{-- <h6 class="diamond-color"></h6> --}}
+                                                <small class="diamond-clarity"></small>
+                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
-                                                <div class="pt-25">
+                                                <div class="pt-40">
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
@@ -349,12 +365,12 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="recent-view" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Stock No</th>
+                                                            <th scope="col" class="text-left">Stock No</th>
                                                             <th scope="col" class="text-center">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
+                                                            <th scope="col" class="text-center">4P Weight</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
+                                                            <th scope="col" class="text-center">Rough Weight</th>
                                                             @endif
                                                             <th scope="col" class="text-center">Carat</th>
                                                             <th scope="col" class="text-center">Color</th>
@@ -373,7 +389,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                         @foreach ($recently_viewed as $rv)
                                                         @php $rv_img = json_decode($rv->image); @endphp
                                                         <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? $rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}" data-carat="{{ $rv->carat }}" data-shape="{{ $rv->shape }}" data-color="{{ $rv->color }}" data-clarity="{{ $rv->clarity }}">
-                                                            <td scope="col" class="text-center">
+                                                            <td scope="col" class="text-left">
                                                                 <a href="/customer/single-diamonds/{{ $rv->barcode }}" target="_blank"> </a>
                                                                 {{ $rv->barcode }}
                                                             </td>
@@ -415,17 +431,18 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
+                                                <div class="cat-name"></div>
                                                 <div class="diamond-img mb-2">
-                                                    <img src="" class="img-fluid">
+                                                    <img src="" class="img-cs">
                                                 </div>
-                                                <h6 class="diamond-shape"></h6>
-                                                <h6 class="diamond-color"></h6>
-                                                <h6 class="diamond-clarity"></h6>
-                                                <p class="diamond-cost"></p>
-                                                <a href="javascript:void(0);" class="btn btn-primary"></a>
+                                                <h5 class="diamond-shape"></h5>
+                                                {{-- <h6 class="diamond-color"></h6> --}}
+                                                <small class="diamond-clarity"></small>
+                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
-                                                <div class="pt-25">
+                                                <div class="pt-40">
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
@@ -440,22 +457,22 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="compare-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-center">Stock No</th>
-                                                            <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-left" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight (CT)</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">4P Weight</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight (CT)</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">Rough Weight</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Carat</th>
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            <th scope="col" class="text-center">Clarity</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Carat</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center" style="width: 8%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Cut</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Price/CT</th>
-                                                            <th scope="col" class="text-right">Price</th>
-                                                            <th scope="col" class="text-center">Compare</th>
+                                                            <th scope="col" class="text-right" style="width: 9%">Price/CT</th>
+                                                            <th scope="col" class="text-right" style="width: 11%">Price</th>
+                                                            <th scope="col" class="text-center" >Compare</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
