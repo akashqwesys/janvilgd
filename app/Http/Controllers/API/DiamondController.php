@@ -789,10 +789,23 @@ class DiamondController extends Controller
             $v->image = json_decode($v->image);
         }
 
-        $similar_ids = collect($diamonds['attributes'])
-            ->whereIn('ag_name', ['COLOR', 'CUT', 'CLARITY', 'SHAPE'])
-            ->pluck('attribute_id')
-            ->all();
+        if ($diamonds['refCategory_id'] == 1) {
+            $similar_ids = collect($diamonds['attributes_id'])
+                ->whereIn('attribute_group_id', [31, 1, 2])
+                ->pluck('attribute_id')
+                ->all();
+        } else if ($diamonds['refCategory_id'] == 2) {
+            $similar_ids = collect($diamonds['attributes_id'])
+                ->whereIn('attribute_group_id', [4, 6, 3, 13])
+                ->pluck('attribute_id')
+                ->all();
+        } else {
+            $similar_ids = collect($diamonds['attributes_id'])
+                ->whereIn('attribute_group_id', [12, 19, 11, 13])
+                ->pluck('attribute_id')
+                ->all();
+        }
+
         $raw_attr = null;
         if (count($similar_ids)) {
             $attr_to_send = [];

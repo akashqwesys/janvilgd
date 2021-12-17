@@ -73,10 +73,12 @@ $(document).on('click', '#result-table thead th', function() {
     global_sort_column = $(this).attr('data-name');
     if ($(this).hasClass('sorting_asc')) {
         $(this).removeClass('sorting_asc').addClass('sorting');
+        $(this).find('img').attr('src', '/admin_assets/images/sort_both.png');
         global_sort_order = 'desc';
     } else {
         $('#result-table thead .sorting_yes').removeClass('sorting_asc').addClass('sorting');
         $(this).removeClass('sorting').addClass('sorting_asc');
+        $(this).find('img').attr('src', '/admin_assets/images/sort_asc.png');
         global_sort_order = 'asc';
     }
     global_data_offset = 0;

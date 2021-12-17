@@ -38,6 +38,7 @@ class DiamondExport implements FromCollection, WithHeadings
     {
         return [
             'Barcode',
+            'Availability',
             'Pkt No',
             'Org Cts',
             'Exp Pol',

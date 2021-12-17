@@ -4,8 +4,6 @@
 <style>
     .p1r {
         padding: 1rem 1rem;
-        border: 1px solid #e2e2e2;
-        height: 100%;
     }
     .h-100 {
         height: 100%;
@@ -281,6 +279,20 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="mt-3 bg-white p1r">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Certified By: {{ $response['attributes']['LAB'] ?? '-'}}
+                        </div>
+                        <div class="col-md-4">
+                            Certificate No: {{ $response['attributes']['CERTIFICATE'] }}
+                        </div>
+                        <div class="col-md-4">
+                            <span><img src="/assets/images/certificate.svg" style="width: 25px;"></span>
+                            <a href="{{ $response['attributes']['CERTIFICATE URL'] ?? 'javascript:void(0);' }}" target="_blank">View Diamond Report</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             @elseif ($response['category'] == '4p-diamonds')
             <div class="mt-5 overflow-auto">

@@ -38,6 +38,7 @@ class DiamondExport4p implements FromCollection, WithHeadings
     {
         return [
             'BARCODE',
+            'Availability',
             'MAIN PKTNO',
             'SHAPE',
             'EXP POL SIZE',
