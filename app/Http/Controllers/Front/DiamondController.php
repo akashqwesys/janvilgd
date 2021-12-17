@@ -609,14 +609,14 @@ class DiamondController extends Controller {
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '">';
+                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '" data-category="' . ucwords(str_replace('-', ' ', $request->params['category_slug'])) . '">';
 
                 if (isset($v['attributes']['CERTIFICATE URL'])) {
                     $a_tag = '<a class="show-certi" href="' . $v['attributes']['CERTIFICATE URL'] . '" target="_blank"> ' . $v['barcode'] . '</a>';
                 } else {
                     $a_tag = '<a href="javascript:void(0);"> ' . $v['barcode'] . '</a>';
                 }
-                $html[$i] .= '<td scope="col" class="text-right">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
+                $html[$i] .= '<td scope="col" class="text-left">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
 
                 if (isset($v['attributes']['SHAPE'])) {
                     $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';

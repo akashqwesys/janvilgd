@@ -7,16 +7,16 @@
 	<meta name="twitter:card" content="photo" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/rSlider.min.css">
-    <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
-    <script src="/{{ check_host() }}assets/js/rSlider.js"></script>
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
-    <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
+	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/admin_assets/toast/jquery.toast.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/rSlider.js"></script>
     @yield('css')
 </head>
 <body>

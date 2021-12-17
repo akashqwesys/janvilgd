@@ -1995,7 +1995,7 @@ span.value.upper::before {
     position: relative;
     height: calc(100% - 40px);
     background-color: #FFFFFF;
-    padding: 25px;
+    /* padding: 25px; */
 }
 
 .selected-diamonds:before {
@@ -2010,12 +2010,12 @@ span.value.upper::before {
 
 .select-diamond {
     height: 100%;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .25);
+    /* box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .25); */
     padding: 20px;
 }
 
 .search-diamond-table .table-responsive {
-    height: 500px;
+    height: 520px;
 }
 
 .search-diamond-table .table {
@@ -4728,4 +4728,42 @@ label[for="id_upload"]:hover {
         padding: 20px 10px;
     }
     /*login & otp page css end*/
+}
+/* Custom container */
+.container,.container-fluid,.container-lg,.container-md,.container-sm,.container-xl,.container-xxl {
+    width: 100%;
+    padding-right: var(--bs-gutter-x,.50rem);
+    padding-left: var(--bs-gutter-x,.50rem);
+    margin-right: auto;
+    margin-left: auto
+}
+
+@media (min-width: 576px) {
+    .container,.container-sm {
+        max-width:540px
+    }
+}
+
+@media (min-width: 768px) {
+    .container,.container-md,.container-sm {
+        max-width:710px
+    }
+}
+
+@media (min-width: 992px) {
+    .container,.container-lg,.container-md,.container-sm {
+        max-width:950px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,.container-lg,.container-md,.container-sm,.container-xl {
+        max-width:1140px
+    }
+}
+
+@media (min-width: 1400px) {
+    .container,.container-lg,.container-md,.container-sm,.container-xl,.container-xxl {
+        max-width:1385px
+    }
 }

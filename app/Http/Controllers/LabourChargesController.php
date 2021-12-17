@@ -193,6 +193,7 @@ class LabourChargesController extends Controller {
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/labour-charges');
     }
+
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
 
@@ -213,6 +214,7 @@ class LabourChargesController extends Controller {
             return response()->json($data);
         }
     }
+
     public function status(Request $request) {
         if (isset($request['table_id'])) {
 
@@ -220,7 +222,7 @@ class LabourChargesController extends Controller {
                 'is_active' => $request['status'],
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+
             if ($res) {
                 $data = array(
                     'suceess' => true
