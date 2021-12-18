@@ -58,23 +58,32 @@ class DiamondController extends Controller
             $attr[$attr_groups[$j]]['name'] = $v->ag_name;
             $attr[$attr_groups[$j]]['attribute_group_id'] = $v->attribute_group_id;
             $attr[$attr_groups[$j]]['is_fix'] = $v->is_fix;
+            $v->image_g = null;
             if ($v->ag_name == 'SHAPE') {
-                if (in_array($v->name, ['Round Brilliant', 'ROUND', 'RO', 'BR'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Round_Brilliant_b.png';
+                if (in_array($v->name, ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                 } else if (in_array($v->name, ['Oval Brilliant', 'OV', 'Oval'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Oval_Brilliant_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
                 } else if (in_array($v->name, ['Cushion', 'CU'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Cushion_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
                 } else if (in_array($v->name, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Pear_Brilliant_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
                 } else if (in_array($v->name, ['Princess Cut', 'PR', 'Princess'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Princess_Cut_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
                 } else if (in_array($v->name, ['Emerald', 'EM'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Emerald_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
                 } else if (in_array($v->name, ['Marquise', 'MQ'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Marquise_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
                 } else if (in_array($v->name, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
-                    $v->image = '/assets/images/Diamond_Shapes_Heart_Brilliant_b.png';
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
                 }
             } else {
                 $v->image = $v->image == 0 ? null : $v->image;
@@ -82,7 +91,8 @@ class DiamondController extends Controller
             $attr[$attr_groups[$j]]['attributes'][] = [
                 'attribute_id' => $v->attribute_id,
                 'name' => $v->name,
-                'image' => $v->image
+                'image_b' => $v->image,
+                'image_g' => $v->image_g
             ];
         }
         // $new_attr = [];
