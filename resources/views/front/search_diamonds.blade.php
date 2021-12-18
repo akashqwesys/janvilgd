@@ -190,7 +190,7 @@
             background: #c69743;
         }
         .img-cs {
-            max-width: 250px;
+            max-width: 295px;
             height: auto;
         }
         .cat-name {
@@ -203,6 +203,9 @@
         .overlay {
             top: 37px;
             height: 92%;
+        }
+        #result-table, td {
+            height: auto;
         }
     </style>
 @endsection
@@ -271,7 +274,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <h5 class="diamond-shape"></h5>
                                                 <small class="diamond-clarity"></small>
                                                 <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
-                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <h5 class="diamond-cost mt-2"></h5>
                                                 <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
@@ -346,7 +349,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <h5 class="diamond-shape"></h5>
                                                 {{-- <h6 class="diamond-color"></h6> --}}
                                                 <small class="diamond-clarity"></small>
-                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <h5 class="diamond-cost mt-2"></h5>
                                                 <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
@@ -438,7 +441,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <h5 class="diamond-shape"></h5>
                                                 {{-- <h6 class="diamond-color"></h6> --}}
                                                 <small class="diamond-clarity"></small>
-                                                <h6 class="diamond-cost mt-2"></h6>
+                                                <h5 class="diamond-cost mt-2"></h5>
                                                 <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
                                             </div>
                                             <div class="select-diamond-temp">
