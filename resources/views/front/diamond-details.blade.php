@@ -28,9 +28,13 @@
     .mini-table td {
         border: 1px solid;
         color: #000;
+        font-size: smaller;
     }
     .product--details p {
         color: #000;
+    }
+    .img-cs {
+        width: 20px;
     }
 </style>
 @endsection
@@ -188,29 +192,26 @@
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
                         <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' Carat ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
-                        <div class="mb-3">
-                            <table class="table mini-table overflow-auto">
+                        <div class="mb-5 mt-5">
+                            <table class="table mini-table overflow-auto w-75">
                                 <tbody>
                                     <tr>
-                                        <td colspan="2">Category</td>
-                                        <td colspan="2">{{ ucwords(str_replace('-', ' ', $response['category'])) }}</td>
+                                        <td colspan="2" align="center">
+                                            Category: {{ ucwords(str_replace('-', ' ', $response['category'])) }}
+                                            </td>
                                     </tr>
                                     <tr>
-                                        <td>CARAT:</td>
-                                        <td>{{ $response['expected_polish_cts'] }}</td>
-                                        <td>COLOR: </td>
-                                        <td>{{ $response['attributes']['COLOR'] }}</td>
+                                        <td>CARAT: {{ $response['expected_polish_cts'] }}</td>
+                                        <td>COLOR: {{ $response['attributes']['COLOR'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td>CLARITY:</td>
-                                        <td>{{ $response['attributes']['CLARITY'] }}</td>
-                                        <td>CUT: </td>
-                                        <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
+                                        <td>CLARITY: {{ $response['attributes']['CLARITY'] }}</td>
+                                        <td>CUT: {{ $response['attributes']['CUT'] ?? '-'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}} USD</p>
+                        <p class="price">${{number_format(round($response['total'], 2), 2, '.', ',')}} </p>
                         {{-- @if ($response['available_pcs'] == 1)
                         <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="img-fluid"></span>Only One Available</p>
                         @endif --}}
@@ -228,16 +229,16 @@
                         </div>
                         <div class="help-box row bg-white mb-4 p-2 text-center">
                             <div class="col-md-4">
-                                <span><img src="/assets/images/whatsapp.svg" class="img-fluid"></span> &nbsp;Whatsapp
-                                <div><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
+                                <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;Whatsapp
+                                <div class="mt-2"><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
                             </div>
                             <div class="col-md-4">
-                                <span><img src="/assets/images/envelope.svg" class="img-fluid"></span> &nbsp;Email Us
-                                <div><a href="mailto:">test@test.co</a></div>
+                                <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;Email Us
+                                <div class="mt-2"><a href="mailto:">test@test.co</a></div>
                             </div>
                             <div class="col-md-4">
-                                <span><img src="/assets/images/phone.svg" class="img-fluid"></span> &nbsp;Call
-                                <div><a href="tel:">123456789</a></div>
+                                <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;Call
+                                <div class="mt-2"><a href="tel:">123456789</a></div>
                             </div>
                         </div>
                         {{-- <div class="return-policy d-flex">
@@ -278,7 +279,7 @@
                             <td>Polish:</td>
                             <td>{{ $response['attributes']['POLISH'] ?? '-'}}</td>
                             <td>Location:</td>
-                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                            <td>{{ $response['attributes']['LOCATION'] ?? '-'}}</td>
                         </tr>
                         <tr>
                             <td>Color:</td>
@@ -286,7 +287,7 @@
                             <td>Symmetry:</td>
                             <td>{{ $response['attributes']['SYMMETRY'] ?? '-'}}</td>
                             <td rowspan="3">Comment:</td>
-                            <td rowspan="3">{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                            <td rowspan="3">{{ $response['attributes']['COMMENT'] ?? '-'}}</td>
                         </tr>
                         <tr>
                             <td>Clarity:</td>

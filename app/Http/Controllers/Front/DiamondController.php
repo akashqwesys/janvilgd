@@ -485,7 +485,7 @@ class DiamondController extends Controller {
                         'must' => [
                             [
                                 'term' => [
-                                    'refCategory_id' => [ 'value' => 3 ],
+                                    'refCategory_id' => [ 'value' => $category->category_id ],
                                 ]
                             ],
                             [
