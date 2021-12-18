@@ -467,13 +467,40 @@ class DiamondController extends Controller {
         $file_name = $user->customer_id . '-' . $category->category_id;
         file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
         $recently_viewed = DB::table('recently_view_diamonds as rvd')
-            ->join('diamonds as d', 'rvd.refDiamond_id', '=', 'd.diamond_id')
-            ->select('rvd.refCustomer_id', 'rvd.refDiamond_id', 'rvd.refAttribute_group_id', 'rvd.refAttribute_id', 'rvd.carat', 'rvd.price', 'rvd.shape', 'rvd.cut', 'rvd.color', 'rvd.clarity', 'd.name', 'd.image', 'd.barcode', 'd.makable_cts', 'd.available_pcs')
-            ->where('d.refCategory_id', $category->category_id)
+            ->select('rvd.refDiamond_id', 'rvd.barcode')
             ->where('rvd.refCustomer_id', $user->customer_id)
             ->orderBy('rvd.updated_at', 'desc')
-            ->get();
-        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'recently_viewed', 'category'));
+            ->pluck('barcode')
+            ->toArray();
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_params = [
+            'index' => 'diamonds',
+            'size' => 20,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [
+                                'term' => [
+                                    'refCategory_id' => [ 'value' => 3 ],
+                                ]
+                            ],
+                            [
+                                'terms' => [
+                                    'barcode' => $recently_viewed
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $e_data = $client->search($elastic_params);
+        $e_data = $e_data['hits']['hits'];
+        return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'e_data', 'category'));
     }
 
     public function addToCart(Request $request) {
@@ -609,7 +636,7 @@ class DiamondController extends Controller {
                 } else {
                     $img_src = '/assets/images/No-Preview-Available.jpg';
                 }
-                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '" data-category="' . ucwords(str_replace('-', ' ', $request->params['category_slug'])) . '">';
+                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '" data-category="' . strtoupper(str_replace('-', ' ', $request->params['category_slug'])) . '">';
 
                 if (isset($v['attributes']['CERTIFICATE URL'])) {
                     $a_tag = '<a class="show-certi" href="' . $v['attributes']['CERTIFICATE URL'] . '" target="_blank"> ' . $v['barcode'] . '</a>';

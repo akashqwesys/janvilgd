@@ -29,6 +29,11 @@
         #minPrice:focus-visible, #maxPrice:focus-visible, #minCarat:focus-visible, #maxCarat:focus-visible, #myInput:focus-visible {
             outline: none;
         }
+        #myInput {
+            height: 2rem;
+            font-size: 16px;
+            background: white;
+        }
         /* CSS for input range sliders */
         .diamond-cut-section {
             padding: 110px 0px;
@@ -190,7 +195,7 @@
             background: #c69743;
         }
         .img-cs {
-            max-width: 295px;
+            max-width: 100%;
             height: auto;
         }
         .cat-name {
@@ -198,7 +203,7 @@
             border-color: #D2AB66;
             color: #FFFFFF;
             padding: 8px 15px;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
         .overlay {
             top: 37px;
@@ -246,7 +251,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                 <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed ({{ count($recently_viewed) }})</button>
+                                <button class="nav-link" id="recently-viwed-tab" data-bs-toggle="tab" data-bs-target="#recently-viwed" type="button" role="tab" aria-controls="recently-viwed" aria-selected="false">Recently Viewed ({{ count($e_data) }})</button>
                             </li>
                             @if ($admin === true)
                             <li class="nav-item" role="presentation">
@@ -256,7 +261,10 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         </ul>
                     </div>
                     <div class="w-25 float-right text-right">
-                        <input type="text" class="form-controll" id="myInput" placeholder="Search by Stock No">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="myInput" placeholder="Search by Stock No">
+                            <span class="input-group-text" id="myInput-search"><i class="fas fa-search"></i></span>
+                        </div>
                     </div>
 
                     <input type="hidden" id="offset_value" value="0">
@@ -342,7 +350,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                     <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
                                         <div class="selected-diamonds">
                                             <div class="select-diamond">
-                                                <div class="cat-name"></div>
+                                                <div class="cat-name">{{ strtoupper($category->name) }}</div>
                                                 <div class="diamond-img mb-2">
                                                     <img src="" class="img-cs">
                                                 </div>
@@ -368,52 +376,56 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                 <table class="table" id="recent-view" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-left">Stock No</th>
-                                                            <th scope="col" class="text-center">Shape</th>
+                                                            <th scope="col" class="text-left" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center">4P Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">4P Weight</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Rough Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">Rough Weight</th>
                                                             @endif
-                                                            <th scope="col" class="text-center">Carat</th>
-                                                            <th scope="col" class="text-center">Color</th>
-                                                            <th scope="col" class="text-center">Clarity</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Carat</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center" style="width: 8%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center">Cut</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-right">Price/CT</th>
-                                                            <th scope="col" class="text-right">Price</th>
+                                                            <th scope="col" class="text-right" style="width: 9%">Price/CT</th>
+                                                            <th scope="col" class="text-right" style="width: 11%">Price</th>
                                                             @if ($admin == false)
                                                             <th scope="col" class="text-center">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($recently_viewed as $rv)
-                                                        @php $rv_img = json_decode($rv->image); @endphp
-                                                        <tr data-diamond="{{ $rv->refDiamond_id }}" data-price="${{ number_format(round($rv->price, 2), 2, '.', ',') }}" data-name="{{ $rv->name }}" data-image="{{ count($rv_img) ? $rv_img[0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv->barcode }}" data-carat="{{ $rv->carat }}" data-shape="{{ $rv->shape }}" data-color="{{ $rv->color }}" data-clarity="{{ $rv->clarity }}">
+                                                        @foreach ($e_data as $rv)
+                                                        @php $rv = $rv['_source']; @endphp
+                                                        <tr data-diamond="{{ $rv['diamond_id'] }}" data-price="${{ number_format($rv['total'], 2, '.', ',') }}" data-name="{{ $rv['name'] }}" data-image="{{ count($rv['image']) ? $rv['image'][0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv['barcode'] }}" data-carat="{{ $rv['expected_polish_cts'] }}" data-shape="{{ $rv['attributes']['SHAPE'] }}" data-color="{{ $rv['attributes']['COLOR'] }}" data-clarity="{{ $rv['attributes']['CLARITY'] }}">
                                                             <td scope="col" class="text-left">
-                                                                <a href="/customer/single-diamonds/{{ $rv->barcode }}" target="_blank"> </a>
-                                                                {{ $rv->barcode }}
+                                                                @if (isset($rv['attributes']['CERTIFICATE URL']))
+                                                                <a class="show-certi" href="{{ $rv['attributes']['CERTIFICATE URL'] }}" target="_blank">{{ $rv['barcode'] }} </a>
+                                                                @else
+                                                                <a href="javascript:void(0);" >{{ $rv['barcode'] }} </a>
+                                                                @endif
+                                                                <a class="show-certi" href="/customer/single-diamonds/{{ $rv['barcode'] }}" target="_blank"> </a>
                                                             </td>
-                                                            <td scope="col" class="text-center">{{ $rv->shape }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['attributes']['SHAPE'] }}</td>
                                                             @if ($category->slug == '4p-diamonds' || $category->slug == 'rough-diamonds')
-                                                            <td scope="col" class="text-center">{{ $rv->makable_cts }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['makable_cts'] }}</td>
                                                             @endif
-                                                            <td scope="col" class="text-center">{{ $rv->carat }}</td>
-                                                            <td scope="col" class="text-center">{{ $rv->color }}</td>
-                                                            <td scope="col" class="text-center">{{ $rv->clarity }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['expected_polish_cts'] }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['attributes']['COLOR'] }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['attributes']['CLARITY'] }}</td>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <td scope="col" class="text-center">{{ $rv->cut }}</td>
+                                                            <td scope="col" class="text-center">{{ $rv['attributes']['CUT'] }}</td>
                                                             @endif
-                                                            <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
-                                                            <td scope="col" class="text-right">${{ number_format(round($rv->price, 2), 2, '.', ',') }}</td>
+                                                            <td scope="col" class="text-right">${{ number_format($rv['price_ct'], 2, '.', ',') }}</td>
+                                                            <td scope="col" class="text-right">${{ number_format($rv['total'], 2, '.', ',') }}</td>
                                                             @if ($admin == false)
                                                             <td scope="col" class="text-center">
-                                                                @if ($rv->available_pcs == 0)
-                                                                    <b>Out of Stock</b>
+                                                                @if ($rv['available_pcs'] == 0)
+                                                                <b>Out of Stock</b>
                                                                 @else
-                                                                <button class="btn btn-primary add-to-cart btn-sm" data-id="{{ $rv->refDiamond_id }}">Add To Cart</button>
+                                                                <button class="btn btn-primary add-to-cart btn-sm" data-id="{{ $rv['diamond_id'] }}">Add To Cart</button>
                                                                 @endif
                                                             </td>
                                                             @endif

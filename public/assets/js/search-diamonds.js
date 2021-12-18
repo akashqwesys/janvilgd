@@ -56,6 +56,9 @@ $(document).on('click', '.diamond-shape .item img', function() {
         getDiamonds(values, [], group_id);
     }
 });
+$(document).on('click', '#myInput-search', function(e) {
+    searchBarcode();
+});
 $(document).on('keydown', '#myInput', function(e) {
     /* if ([32, 9, 18, 16, 17, 20, 37, 38, 39, 40].includes(e.which)) {
         return;
@@ -63,11 +66,14 @@ $(document).on('keydown', '#myInput', function(e) {
     if (e.which != 13) {
         return;
     }
+    searchBarcode();
+});
+function searchBarcode () {
     global_data_offset = 0;
     $('#result-table tbody').html('');
     new_call = true;
     getDiamonds(global_search_values, global_search_array, global_group_id);
-});
+}
 $(document).on('click', '#result-table thead th', function() {
     if ($(this).attr('data-name') == 'compare') {
         return;
@@ -134,6 +140,8 @@ function getDiamonds(values, array, group_id) {
         beforeSend: function(xhr) {
             if (new_call === true) {
                 $(".cs-loader").show();
+                $('.result-tab-content .select-diamond-temp').show();
+                $('.result-tab-content .select-diamond').hide();
             }
         },
         type: "post",
@@ -157,9 +165,7 @@ function getDiamonds(values, array, group_id) {
                     $('#result-table tbody').append(global_filter_data[i]);
                 }
             } else if (new_call === true && response.count < 1) {
-                $('.result-tab-content .select-diamond-temp').show();
-                $('.result-tab-content .select-diamond').hide();
-                // $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
+                $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
             }
             //set ajax_in_progress object false, after completion of ajax call
             // $(window).data('ajax_in_progress', false);
@@ -241,6 +247,8 @@ $(document).on('click', '#result-table tbody tr', function(e) {
             $(e.target).siblings('.diamond-checkbox').attr('checked', false);
             $('#compare-table tbody tr[data-diamond=' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + ']').remove();
             $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) - 1);
+            $('.compare-tab-content .select-diamond-temp').show();
+            $('.compare-tab-content .select-diamond').hide();
         } else {
             $(e.target).siblings('.diamond-checkbox').attr('checked', true);
             $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
@@ -262,6 +270,8 @@ $(document).on('click', '#compare-table tbody tr', function(e) {
         $('#result-table tbody tr[data-diamond="' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + '"]').find('.diamond-checkbox').attr('checked', false);
         $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) - 1);
         $(this).closest('tr').remove();
+        $('.compare-tab-content .select-diamond-temp').show();
+        $('.compare-tab-content .select-diamond').hide();
     } else if ($(e.target).hasClass('add-to-cart')) {
         addToCart($(e.target));
     } else if ($(e.target).hasClass('show-certi')) {
@@ -274,16 +284,18 @@ $(document).on('click', '#recent-view tbody tr', function(e) {
     e.preventDefault();
     if ($(e.target).hasClass('add-to-cart')) {
         addToCart($(e.target));
-    } else {
+    } else if ($(e.target).hasClass('show-certi')) {
         window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
+    } else {
+        window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }
 });
 
 $(document).on('mouseover', '#recent-view tbody tr', function() {
     $('.recent-tab-content .select-diamond-temp').hide();
     $('.recent-tab-content .select-diamond').show();
-    $('.recent-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
-    $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
+    // $('.recent-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
+    $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
     $('.recent-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' Carat ' + $(this).attr('data-shape'));
     // $('.recent-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
     $('.recent-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
@@ -297,18 +309,19 @@ $(document).on('mouseover', '#result-table tbody tr', function() {
     $('.result-tab-content .select-diamond-temp').hide();
     $('.result-tab-content .select-diamond').show();
     $('.result-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
-    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
+    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
     $('.result-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' CT ' + $(this).attr('data-shape') + ' DIAMOND');
     // $('.result-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
     $('.result-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
     $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price') + ' USD');
     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+    $('.search-diamond-table .table-responsive').css('height', $('.result-tab-content .selected-diamonds').height() + 40 + 'px');
 });
 $(document).on('mouseover', '#compare-table tbody tr', function() {
     $('.compare-tab-content .select-diamond-temp').hide();
     $('.compare-tab-content .select-diamond').show();
     $('.compare-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
-    $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('View Diamond');
+    $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
     $('.compare-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' Carat ' + $(this).attr('data-shape'));
     // $('.compare-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
     $('.compare-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');

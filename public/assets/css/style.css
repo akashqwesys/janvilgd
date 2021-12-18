@@ -4738,6 +4738,12 @@ label[for="id_upload"]:hover {
     margin-left: auto
 }
 
+@media (min-width: 320px) {
+    .container,.container-sm {
+        max-width:340px
+    }
+}
+
 @media (min-width: 576px) {
     .container,.container-sm {
         max-width:540px
