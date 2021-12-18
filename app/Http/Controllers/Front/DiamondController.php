@@ -465,7 +465,8 @@ class DiamondController extends Controller {
         $file_arr['carat_min'] = $min_carat;
         $file_arr['carat_max'] = $max_carat;
         $file_name = $user->customer_id . '-' . $category->category_id;
-        file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
+        // file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
+        $request->session()->put('diamond_filters_' . $category->category_id, json_encode($file_arr));
         $recently_viewed = DB::table('recently_view_diamonds as rvd')
             ->select('rvd.refDiamond_id', 'rvd.barcode')
             ->where('rvd.refCustomer_id', $user->customer_id)
@@ -580,8 +581,8 @@ class DiamondController extends Controller {
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $response['params']['category'];
         if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
-            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
-            $arr = json_decode($arr, true);
+            // $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
+            $arr = json_decode($request->session()->get('diamond_filters_'. $response['params']['category']), true);
         }
         if (isset($response['params']['attribute_values'])) {
             if (is_array($response['params']['attribute_values']) && $response['params']['group_id'] != 'price' && $response['params']['group_id'] != 'carat') {
@@ -596,7 +597,8 @@ class DiamondController extends Controller {
                     $arr['carat_max'] = $response['params']['attribute_values'][1];
                 }
             }
-            file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
+            // file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($arr, JSON_PRETTY_PRINT));
+            $request->session()->put('diamond_filters_' . $request['params']['category'], json_encode($arr));
         }
         $arr['category'] = $request->params['category'];
         $arr['category_slug'] = $request->params['category_slug'];
