@@ -580,7 +580,8 @@ class DiamondController extends Controller {
         $response = $request->all();
         $user = Auth::user();
         $file_name = $user->customer_id . '-' . $response['params']['category'];
-        if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
+        // if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
+        if ($request->session()->has('diamond_filters_' . $response['params']['category'])) {
             // $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
             $arr = json_decode($request->session()->get('diamond_filters_'. $response['params']['category']), true);
         }
