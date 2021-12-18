@@ -406,7 +406,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                                 @else
                                                                 <a href="javascript:void(0);" >{{ $rv['barcode'] }} </a>
                                                                 @endif
-                                                                <a class="show-certi" href="/customer/single-diamonds/{{ $rv['barcode'] }}" target="_blank"> </a>
+                                                                <a href="/customer/single-diamonds/{{ $rv['barcode'] }}" target="_blank"> </a>
                                                             </td>
                                                             <td scope="col" class="text-center">{{ $rv['attributes']['SHAPE'] }}</td>
                                                             @if ($category->slug == '4p-diamonds' || $category->slug == 'rough-diamonds')
