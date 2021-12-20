@@ -21,6 +21,7 @@ $(document).ready(function() {
     }, 1000);
 });
 $(document).on('click', '.diamond-shape .item img', function() {
+    global_quick_call++;
     var group_id = $(this).attr('data-group_id');
     var src_url = null;
     if ($(this).attr('data-selected') == 1) {
@@ -137,7 +138,7 @@ function getDiamonds(values, array, group_id) {
     };
 
     $.ajax({
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             if (new_call === true) {
                 $(".cs-loader").show();
                 $('.result-tab-content .select-diamond-temp').show();
@@ -145,15 +146,52 @@ function getDiamonds(values, array, group_id) {
             }
         },
         type: "post",
-        url: "/customer/list-diamonds",
+        url: "/customer/save-filters",
         data: params_data,
-        // cache: false,
         dataType: "json",
-        success: function(response) {
-            $('.cs-loader').hide();
+        success: function (response) {
             global_search_values = values;
             global_search_array = array;
             global_group_id = group_id;
+        },
+        failure: function (response) {
+            $('.cs-loader').hide();
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+
+    setTimeout(() => {
+        if (global_quick_call > 0) {
+            clearTimeout($.data(this, 'quickCaller'));
+            $.data(this, 'quickCaller', setTimeout(function () {
+                nowGetDiamonds();
+            }, 500));
+        } else {
+            nowGetDiamonds();
+        }
+    }, 1000);
+}
+
+function nowGetDiamonds() {
+    var params_data = {};
+    params_data.params = {
+        'category': global_category,
+        'category_slug': global_category_slug
+    };
+    $.ajax({
+        beforeSend: function (xhr) {
+        },
+        type: "post",
+        url: "/customer/list-diamonds",
+        data: params_data,
+        dataType: "json",
+        success: function (response) {
+            $('.cs-loader').hide();
             global_filter_data = response.data;
             if (new_call === true) {
                 $('#result-tab').text('Results (' + response.count + ')');
@@ -174,12 +212,12 @@ function getDiamonds(values, array, group_id) {
                 delta = 5;
             setTimeout(() => {
                 // lazy_load_scroll();
-                $(table_scroll).scroll(function() {
+                $(table_scroll).scroll(function () {
                     var nowScrollTop = $(this).scrollTop();
                     if (Math.abs(lastScrollTop - nowScrollTop) >= delta) {
                         if (nowScrollTop > lastScrollTop && lastScrollTop != 0 && global_filter_data.length > 1) {
                             clearTimeout($.data(this, 'scrollTimer'));
-                            $.data(this, 'scrollTimer', setTimeout(function() {
+                            $.data(this, 'scrollTimer', setTimeout(function () {
                                 global_data_offset += 50;
                                 getDiamonds(global_search_values, global_search_array, global_group_id);
                             }, 250));
@@ -189,7 +227,7 @@ function getDiamonds(values, array, group_id) {
                 });
             }, 500);
         },
-        failure: function(response) {
+        failure: function (response) {
             $('.cs-loader').hide();
             $.toast({
                 heading: 'Error',
