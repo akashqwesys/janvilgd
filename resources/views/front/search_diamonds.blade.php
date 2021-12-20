@@ -25,7 +25,7 @@
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
     <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.scroller.min.js')}}" type="text/javascript" ></script>
 
-    <script src="/assets/js/search-diamonds.js"></script>
+    <script src="/assets/js/search-diamonds.js?v={{ time() }}"></script>
     <style>
         #minPrice:focus-visible, #maxPrice:focus-visible, #minCarat:focus-visible, #maxCarat:focus-visible, #myInput:focus-visible {
             outline: none;
