@@ -37,7 +37,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     public function headings() :array
     {
         return [
-            'Stock',
+            'BARCODE',
             'Availability',
             'Shape',
             'Weight',
@@ -58,14 +58,14 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Culet Size',
             'Girdle Percent',
             'Girdle Condition',
-            'Measurements',
+            // 'Measurements',
             'Pavilion Depth',
             'Crown Height',
             'Crown Angle',
             'Pavilion Angle',
             'Growth Type',
-            'Comment',
             'Location',
+            'Comment',
             'Video Link',
             'image-1',
             'image-2',

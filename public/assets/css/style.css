@@ -1425,7 +1425,7 @@ a {
     font-size: 36px;
     line-height: normal;
     font-weight: 400;
-    text-transform: capitalize;
+    text-transform: uppercase;
     text-align: center;
 }
 

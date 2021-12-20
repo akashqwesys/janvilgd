@@ -191,7 +191,7 @@ class DiamondController extends Controller
             $filter = [
                 'bool' => [
                     'must' => [
-                        ['term' => ['barcode' => $response['attr_array']['search_barcode']]]
+                        ['term' => ['barcode_search' => $response['attr_array']['search_barcode']]]
                     ]
                 ]
             ];
@@ -201,7 +201,7 @@ class DiamondController extends Controller
             $response['attr_array']['column'] = 'attributes.' . $response['attr_array']['column'];
         }
         if (isset($response['attr_array']['export']) && $response['attr_array']['export'] == 'export') {
-            $data_size = 10000;
+            $data_size = 9500;
         } else {
             $data_size = 50;
         }

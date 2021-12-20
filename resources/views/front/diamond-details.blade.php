@@ -36,6 +36,9 @@
     .img-cs {
         width: 20px;
     }
+    .text-theme {
+        color: #D2AB66;
+    }
 </style>
 @endsection
 @section('content')
@@ -191,22 +194,24 @@
                 </div>
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-5">
                     <div class="product--details">
-                        <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' Carat ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
-                        <div class="mb-5 mt-5">
+                        <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' CARAT ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
+                        <div class="mb-4 mt-4">
                             <table class="table mini-table overflow-auto w-75">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" align="center">
-                                            Category: {{ ucwords(str_replace('-', ' ', $response['category'])) }}
-                                            </td>
+                                            <div class="text-uppercase">
+                                                Category: {{ ucwords(str_replace('-', ' ', $response['category'])) }}
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>CARAT: {{ $response['expected_polish_cts'] }}</td>
-                                        <td>COLOR: {{ $response['attributes']['COLOR'] }}</td>
+                                        <td width="50%">CARAT: {{ $response['expected_polish_cts'] }}</td>
+                                        <td width="50%">COLOR: {{ $response['attributes']['COLOR'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td>CLARITY: {{ $response['attributes']['CLARITY'] }}</td>
-                                        <td>CUT: {{ $response['attributes']['CUT'] ?? '-'}}</td>
+                                        <td width="50%">CLARITY: {{ $response['attributes']['CLARITY'] }}</td>
+                                        <td width="50%">CUT: {{ $response['attributes']['CUT'] ?? '-'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -224,20 +229,20 @@
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
                         </div> --}}
-                        <div class="text-center mb-2">
-                            Need Help?
-                        </div>
                         <div class="help-box row bg-white mb-4 p-2 text-center">
+                            <div class="text-center text-theme mb-3">
+                                NEED HELP?
+                            </div>
                             <div class="col-md-4">
-                                <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;Whatsapp
+                                <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;WHATSAPP
                                 <div class="mt-2"><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
                             </div>
                             <div class="col-md-4">
-                                <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;Email Us
+                                <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;EMAIL US
                                 <div class="mt-2"><a href="mailto:">test@test.co</a></div>
                             </div>
                             <div class="col-md-4">
-                                <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;Call
+                                <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;CALL
                                 <div class="mt-2"><a href="tel:">123456789</a></div>
                             </div>
                         </div>
@@ -262,44 +267,58 @@
                             <td>{{ $response['barcode'] }}</td>
                             <td>Depth:</td>
                             <td>{{ $response['attributes']['DEPTH PERCENT'] ?? '-'}}</td>
-                            <td>Measurements(mm):</td>
-                            <td>{{ $response['attributes']['MEASUREMENTS'] ?? '-'}}</td>
+                            <td>Rapaport Price/CT:</td>
+                            <td>${{ number_format($response['rapaport_price'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Shape:</td>
                             <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
                             <td>Table:</td>
                             <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}</td>
-                            <td>Flourescence:</td>
-                            <td>{{ $response['attributes']['FLOURESCENCE'] ?? 'None'}}</td>
+                            <td>Discount:</td>
+                            <td>{{ $response['discount'] * 100 }}%</td>
                         </tr>
                         <tr>
                             <td>Carat:</td>
                             <td>{{ $response['expected_polish_cts'] }}</td>
-                            <td>Polish:</td>
-                            <td>{{ $response['attributes']['POLISH'] ?? '-'}}</td>
-                            <td>Location:</td>
-                            <td>{{ $response['attributes']['LOCATION'] ?? '-'}}</td>
+                            <td>Girdle Condition:</td>
+                            <td>{{ $response['attributes']['GRIDLE CONDITION'] ?? '-'}}</td>
+                            <td>Price/CT:</td>
+                            <td>${{ number_format($response['price_ct'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Color:</td>
                             <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
-                            <td>Symmetry:</td>
-                            <td>{{ $response['attributes']['SYMMETRY'] ?? '-'}}</td>
-                            <td rowspan="3">Comment:</td>
-                            <td rowspan="3">{{ $response['attributes']['COMMENT'] ?? '-'}}</td>
+                            <td>Culet:</td>
+                            <td>{{ $response['attributes']['CULET SIZE'] ?? '-'}}</td>
+                            <td>Price:</td>
+                            <td>${{ number_format($response['total'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Clarity:</td>
                             <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
-                            <td>Girdle Condition:</td>
-                            <td>{{ $response['attributes']['GRIDLE CONDITION'] ?? '-'}}</td>
+                            <td>Measurements:</td>
+                            <td>{{ $response['attributes']['MEASUREMENTS'] ?? '-'}}</td>
+                            <td rowspan="4">Comment:</td>
+                            <td rowspan="4">{{ $response['attributes']['COMMENT'] ?? '-'}}</td>
                         </tr>
                         <tr>
                             <td>Cut Grade:</td>
                             <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
-                            <td>Culet:</td>
-                            <td>{{ $response['attributes']['CULET SIZE'] ?? '-'}}</td>
+                            <td>Flourescence:</td>
+                            <td>{{ $response['attributes']['FLOURESCENCE'] ?? 'None'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Polish:</td>
+                            <td>{{ $response['attributes']['POLISH'] ?? '-'}}</td>
+                            <td>Growth Type:</td>
+                            <td>{{ $response['attributes']['GROWTH TYPE'] ?? '-'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Symmetry:</td>
+                            <td>{{ $response['attributes']['SYMMETRY'] ?? '-'}}</td>
+                            <td>Location:</td>
+                            <td>{{ $response['attributes']['LOCATION'] ?? '-'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -352,7 +371,7 @@
                         <tr>
                             <td>Color:</td>
                             <td>{{ $response['attributes']['COLOR'] ?? '-'}}</td>
-                            <td>HALF CUT DIA:</td>
+                            <td>HALF-CUT DIA:</td>
                             <td>{{ $response['attributes']['HALF-CUT DIA'] ?? '-'}}</td>
                             <td>Price/CT:</td>
                             <td>${{ number_format($response['price_ct'], 2, '.', ',') }}</td>
@@ -360,7 +379,7 @@
                         <tr>
                             <td>Clarity:</td>
                             <td>{{ $response['attributes']['CLARITY'] ?? '-'}}</td>
-                            <td>HALF CUT HGT:</td>
+                            <td>HALF-CUT HGT:</td>
                             <td>{{ $response['attributes']['HALF-CUT HGT'] ?? '-'}}</td>
                             <td>Price</td>
                             <td>${{ number_format($response['total'], 2, '.', ',') }}</td>
@@ -368,7 +387,7 @@
                         <tr>
                             <td>Cut Grade:</td>
                             <td>{{ $response['attributes']['CUT'] ?? '-'}}</td>
-                            <td>PO DIAMETER:</td>
+                            <td>PO. DIAMETER:</td>
                             <td>{{ $response['attributes']['PO. DIAMETER'] ?? '-'}}</td>
                         </tr>
                     </tbody>
@@ -517,15 +536,16 @@
                 @foreach ($similar as $r)
                 <div class="col-md-3 mb-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="text-center">
+                        <div class="card-body text-center">
+                            <div class=" mb-2">
                                 <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
                                     <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                 </a>
                             </div>
-                            <div>{{ $r['_source']['name'] }}</div>
-                            <div class="text-muted">{{ $r['_source']['barcode'] }}</div>
-                            <div class="mt-2"><h5><b>${{ number_format(round($r['_source']['total'], 2), 2, '.', ',') }}</b></h5></div>
+                            <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                            <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                            <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                            <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                         </div>
                     </div>
                 </div>

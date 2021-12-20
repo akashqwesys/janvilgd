@@ -40,7 +40,7 @@ class TestController extends Controller
 
         $all = [
             'scroll' => '30s',          // how long between scroll requests. should be small!
-            'size'   => 10000,             // how many results *per shard* you want back
+            'size'   => 100,             // how many results *per shard* you want back
             'index' => 'diamonds',
             'body'  => [
                 'query' => [
@@ -197,7 +197,17 @@ class TestController extends Controller
             // 'id'    => 'diamond_id',
             'body' => [
                 'settings' => [
-                    'number_of_shards' => 1
+                    'number_of_shards' => 1,
+
+                    "analysis" => [
+                        "normalizer" => [
+                            "analyzer_case_insensitive" => [
+                                "type" => "custom",
+                                "filter" => ["lowercase"]
+                            ]
+                        ]
+                    ]
+
                 ],
                 'mappings' => [
                     'properties' => [
@@ -218,6 +228,10 @@ class TestController extends Controller
                         ],
                         "barcode" => [
                             "type" => "keyword"
+                        ],
+                        "barcode_search" => [
+                            "type" => "keyword",
+                            "normalizer" => "analyzer_case_insensitive"
                         ],
                         "date_added" => [
                             "type" => "date",

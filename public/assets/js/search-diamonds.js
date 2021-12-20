@@ -177,7 +177,6 @@ function getDiamonds(values, array, group_id) {
     }, 1000);
 }
 
-
 function nowGetDiamonds() {
     var params_data = {};
     params_data.params = {
@@ -204,6 +203,7 @@ function nowGetDiamonds() {
                     $('#result-table tbody').append(global_filter_data[i]);
                 }
             } else if (new_call === true && response.count < 1) {
+                $('.result-tab-content .select-diamond-temp p').text('There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.');
                 $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
             }
             //set ajax_in_progress object false, after completion of ajax call
@@ -288,10 +288,12 @@ $(document).on('click', '#result-table tbody tr', function(e) {
             $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) - 1);
             $('.compare-tab-content .select-diamond-temp').show();
             $('.compare-tab-content .select-diamond').hide();
+            $('.compare-tab-content .select-diamond-temp p').text('There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.');
         } else {
             $(e.target).siblings('.diamond-checkbox').attr('checked', true);
             $('#compare-table tbody').append($(this).closest('tr')[0].outerHTML);
             $('#comparision-tab span').text(parseInt($('#comparision-tab span').text()) + 1);
+            $('.compare-tab-content .select-diamond-temp p').text('Hover over a labgrown to see further details/information.');
         }
         // $(this).closest('tr').remove();
     } else if ($(e.target).hasClass('add-to-cart')) {
@@ -368,7 +370,7 @@ $(document).on('mouseover', '#compare-table tbody tr', function() {
     $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
 });
 $(document).on('click', '.reset-btn', function() {
-    location.reload();
+    location.reload(true);
 });
 $(document).on('click', '#filter-toggle', function() {
     if ($('.filter-toggle').height() > 1) {
