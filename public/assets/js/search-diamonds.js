@@ -177,6 +177,7 @@ function getDiamonds(values, array, group_id) {
     }, 1000);
 }
 
+
 function nowGetDiamonds() {
     var params_data = {};
     params_data.params = {
