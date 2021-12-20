@@ -170,11 +170,11 @@ function getDiamonds(values, array, group_id) {
             clearTimeout($.data(this, 'quickCaller'));
             $.data(this, 'quickCaller', setTimeout(function () {
                 nowGetDiamonds();
-            }, 500));
+            }, 250));
         } else {
             nowGetDiamonds();
         }
-    }, 1000);
+    }, 500);
 }
 
 function nowGetDiamonds() {
