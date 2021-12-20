@@ -261,7 +261,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                             @endif
                         </ul>
                     </div>
-                    <div class="w-25 float-right text-right">
+                    <div class="float-right text-right">
                         <div class="input-group">
                             <input type="text" class="form-control" id="myInput" placeholder="Search by Stock No">
                             <span class="input-group-text" id="myInput-search"><i class="fas fa-search"></i></span>
@@ -291,7 +291,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
-                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    <p>Hover over a labgrown to see further details/information.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -366,7 +366,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <div class="text-center mb-3">
                                                         <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
                                                     </div>
+                                                    @if (count($e_data))
+                                                    <p>Hover over a labgrown to see further details/information.</p>
+                                                    @else
                                                     <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

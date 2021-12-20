@@ -906,39 +906,42 @@ class DiamondController extends Controller {
 
             if($response['params']['export']=='export-admin'){
                 if($response['params']['discount']=='' || $response['params']['discount']==0){
-                    $response['params']['discount']=0;
+                    $discount = 0;
+                } else {
+                    $discount = doubleval((100 - $response['params']['discount']) / 100);
                 }
                 // $rapaport = DB::table('rapaport')->orderBy('rapaport_price','desc')->get();
                 $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['params']['category'])->where('is_deleted', 0)->first();
 
                 $diamonds = $data;
 
-                //  echo '<pre>';print_r($diamonds);die;
-
                 if (!empty($diamonds) && count($diamonds)) {
                     $data = [];
-                    $discount = doubleval((100 - $response['params']['discount']) / 100);
+
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_4P')) {
                         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
 
                         foreach ($diamonds as $row) {
-
                             $row = $row['_source'];
+                            if ($discount == 0) {
+                                $discount = 1 - $row['discount'];
+                            }
                             $total = abs($row['rapaport_price'] * $row['expected_polish_cts'] * $discount) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
 
                             $dummeyArray=array();
                             $dummeyArray['BARCODE']=$row['barcode'];
-                            $dummeyArray['Availability'] = $row['available_pcs'];
                             $dummeyArray['MAIN PKTNO']=$row['packate_no'];
+                            $dummeyArray['Availability'] = $row['available_pcs'] == 1 ? 'YES' : 'NO';
                             $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
                             $dummeyArray['EXP POL SIZE']=$row['attributes']['EXP POL SIZE'];
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
+                            $dummeyArray['CUT']=$row['attributes']['CUT'];
                             $dummeyArray['MKBL CTS']=$row['makable_cts'];
                             $dummeyArray['EXP POL CTS']=$row['expected_polish_cts'];
-                            $dummeyArray['Labour Charges/CT'] = $labour_charge_4p->amount;
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['DISCOUNT'] = $response['params']['discount'].'%';
+                            $dummeyArray['Discount'] = ($discount * 100) .'%';
+                            $dummeyArray['Labour Charges/CT'] = $labour_charge_4p->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['REMARKS']=$row['remarks'];
@@ -960,7 +963,9 @@ class DiamondController extends Controller {
                         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
-
+                            if ($discount == 0) {
+                                $discount = 1 - $row['discount'];
+                            }
                             $price=abs($row['rapaport_price']*$discount);
                             $amount=abs($price*doubleval($row['expected_polish_cts']));
                             $ro_amount=abs($amount/doubleval($row['makable_cts']));
@@ -969,21 +974,21 @@ class DiamondController extends Controller {
 
                             $dummeyArray=array();
                             $dummeyArray['Barcode']=$row['barcode'];
-                            $dummeyArray['Availability'] = $row['available_pcs'];
                             $dummeyArray['Pkt No']=$row['packate_no'];
+                            $dummeyArray['Availability'] = $row['available_pcs'] == 1 ? 'YES' : 'NO';
                             $dummeyArray['Org Cts']=$row['makable_cts'];
                             $dummeyArray['Exp Pol']=$row['expected_polish_cts'];
                             $dummeyArray['SHAPE']=$row['attributes']['SHAPE'];
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
-                            $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount']=$response['params']['discount'].'%';
+                            $dummeyArray['Discount']=($discount * 100) .'%';
+                            $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['makable_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['Location']=$row['attributes']['LOCATION'] ?? null;
                             $dummeyArray['Comment']=$row['attributes']['COMMENT'] ?? null;
-                            $dummeyArray['Video'] = $row['video_link'];
+                            $dummeyArray['Video Link'] = $row['video_link'];
 
                             $dummeyArray['image-1'] = $row['image'][0] ?? null;
                             $dummeyArray['image-2'] = $row['image'][1] ?? null;
@@ -996,17 +1001,20 @@ class DiamondController extends Controller {
                     if ($cat_type->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
+                            if ($discount == 0) {
+                                $discount = 1 - $row['discount'];
+                            }
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$discount);
 
                             $dummeyArray = array();
-                            $dummeyArray['Stock'] = $row['barcode'];
-                            $dummeyArray['Availability'] = $row['available_pcs'];
+                            $dummeyArray['BARCODE'] = $row['barcode'];
+                            $dummeyArray['Availability'] = $row['available_pcs'] == 1 ? 'YES' : 'NO';
                             $dummeyArray['SHAPE'] = $row['attributes']['SHAPE'];
                             $dummeyArray['Weight'] = $row['expected_polish_cts'];
                             $dummeyArray['Clarity'] = $row['attributes']['CLARITY'];
                             $dummeyArray['Color'] = $row['attributes']['COLOR'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount Percent'] = $response['params']['discount'] . '%';
+                            $dummeyArray['Discount Percent'] = ($discount * 100) . '%';
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
@@ -1020,14 +1028,14 @@ class DiamondController extends Controller {
                             $dummeyArray['Culet Size'] = $row['attributes']['CULET SIZE'];
                             $dummeyArray['Girdle Percent'] = $row['attributes']['GIRDLE PERCENT'];
                             $dummeyArray['Girdle Condition'] = $row['attributes']['GRIDLE CONDITION'];
-                            $dummeyArray['Measurements'] = $row['attributes']['MEASUREMENTS'];
+                            // $dummeyArray['Measurements'] = $row['attributes']['MEASUREMENTS'];
                             $dummeyArray['Pavilion Depth'] = $row['attributes']['PAVILION DEPTH'];
                             $dummeyArray['Crown Height'] = $row['attributes']['CROWN HEIGHT'];
                             $dummeyArray['Crown Angle'] = $row['attributes']['CROWN ANGLE'];
                             $dummeyArray['Pavilion Angle'] = $row['attributes']['PAVILION ANGLE'];
                             $dummeyArray['Growth Type'] = $row['attributes']['GROWTH TYPE'];
-                            $dummeyArray['Comment']=$row['attributes']['COMMENT'] ?? null;
                             $dummeyArray['Location']=$row['attributes']['LOCATION'] ?? null;
+                            $dummeyArray['Comment']=$row['attributes']['COMMENT'] ?? null;
 
                             $dummeyArray['Video Link'] = $row['video_link'];
                             $dummeyArray['image-1'] = $row['image'][0] ?? null;
