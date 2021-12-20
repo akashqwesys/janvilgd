@@ -885,7 +885,8 @@ class DiamondController extends Controller {
             $data = $data['hits']['hits'];
         } else  {
             $file_name = $user->customer_id . '-' . $response['params']['category'];
-            $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
+            // $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
+            $arr = $request->session()->get('diamond_filters_' . $response['params']['category']);
             $arr = json_decode($arr, true);
             $arr['category'] = $request->params['category'];
             $arr['category_slug'] = $request->params['category_slug'];
