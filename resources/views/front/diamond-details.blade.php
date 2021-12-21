@@ -210,7 +210,7 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="2" align="center">
-                                            <div class="text-uppercase">
+                                            <div class="text-uppercase" style="font-size: initial;">
                                                 Category: {{ ucwords(str_replace('-', ' ', $response['category'])) }}
                                             </div>
                                         </td>
