@@ -39,6 +39,16 @@
     .text-theme {
         color: #D2AB66;
     }
+    @media (min-width: 1200px) {
+        .w-85 {
+            width: 95%;
+        }
+    }
+    @media (min-width: 1400px) {
+        .w-85 {
+            width: 85%;
+        }
+    }
 </style>
 @endsection
 @section('content')
@@ -229,21 +239,23 @@
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
                         </div> --}}
-                        <div class="help-box row bg-white mb-4 p-2 text-center">
-                            <div class="text-center text-theme mb-3">
-                                NEED HELP?
-                            </div>
-                            <div class="col-md-4">
-                                <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;WHATSAPP
-                                <div class="mt-2"><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
-                            </div>
-                            <div class="col-md-4">
-                                <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;EMAIL US
-                                <div class="mt-2"><a href="mailto:">test@test.co</a></div>
-                            </div>
-                            <div class="col-md-4">
-                                <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;CALL
-                                <div class="mt-2"><a href="tel:">123456789</a></div>
+                        <div class="help-box bg-white mb-4 p-2 text-center w-85">
+                            <div class="row">
+                                <div class="text-center text-theme mb-3">
+                                    NEED HELP?
+                                </div>
+                                <div class="col-md-4">
+                                    <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;WHATSAPP
+                                    <div class="mt-2"><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;EMAIL US
+                                    <div class="mt-2"><a href="mailto:">test@test.co</a></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;CALL
+                                    <div class="mt-2"><a href="tel:">123456789</a></div>
+                                </div>
                             </div>
                         </div>
                         {{-- <div class="return-policy d-flex">

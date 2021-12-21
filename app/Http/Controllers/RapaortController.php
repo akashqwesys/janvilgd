@@ -227,9 +227,6 @@ class RapaortController extends Controller
             }
         }
 
-
-        // echo '<pre>';print_r($value);die;
-
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
             ->build();
@@ -282,7 +279,6 @@ class RapaortController extends Controller
             $request->clarity = str_replace(' ', '', $request->clarity);
 
             if ($request->cat_type == config('constant.CATEGORY_TYPE_4P')) {
-
 
                 $org_clarity = $request->clarity;
                 $request->clarity2 = '';
@@ -373,13 +369,6 @@ class RapaortController extends Controller
         $rapa_type = DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->first();
         DB::table('rapaport')->where('refRapaport_type_id', $request->rapaport_type_id)->delete();
 
-
-        // $exist_file = DB::table('customer_company_details')->where('refCustomer_id', $request->id)->first();
-        // if ($exist_file) {
-        //     if(file_exists('/public/user_files/' . $exist_file->pan_gst_attachment)){
-        //         unlink(base_path('/storage/app/public/user_files/' . $exist_file->pan_gst_attachment));
-        //     }
-        // }
         $csv = time() . '_' . preg_replace('/\s+/', '_', $request->file('file')->getClientOriginalName());
         $request->file('file')->storeAs("public/user_files", $csv);
 
