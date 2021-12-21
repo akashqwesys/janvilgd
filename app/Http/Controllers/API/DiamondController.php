@@ -248,6 +248,65 @@ class DiamondController extends Controller
             ]);
         }
         $final_d = $diamond_ids['hits']['hits'];
+        if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
+            $final_api = [];
+            $url = url('/');
+            $i = 0;
+            foreach ($final_d as $v) {
+                $final_api[$i]['_index'] = $v['_index'];
+                $final_api[$i]['_type'] = $v['_type'];
+                $final_api[$i]['_id'] = $v['_id'];
+                $final_api[$i]['_score'] = $v['_score'];
+                $final_api[$i]['_source']['diamond_id'] = $v['_source']['diamond_id'];
+                $final_api[$i]['_source']['actual_pcs'] = $v['_source']['actual_pcs'];
+                $final_api[$i]['_source']['remarks'] = $v['_source']['remarks'];
+                $final_api[$i]['_source']['weight_loss'] = $v['_source']['weight_loss'];
+                $final_api[$i]['_source']['is_recommended'] = $v['_source']['is_recommended'];
+                $final_api[$i]['_source']['name'] = $v['_source']['name'];
+                $final_api[$i]['_source']['barcode'] = $v['_source']['barcode'];
+                $final_api[$i]['_source']['barcode_search'] = $v['_source']['barcode_search'];
+                $final_api[$i]['_source']['packate_no'] = $v['_source']['packate_no'];
+                $final_api[$i]['_source']['makable_cts'] = $v['_source']['makable_cts'];
+                $final_api[$i]['_source']['expected_polish_cts'] = $v['_source']['expected_polish_cts'];
+                $final_api[$i]['_source']['available_pcs'] = $v['_source']['available_pcs'];
+                $final_api[$i]['_source']['rapaport_price'] = $v['_source']['rapaport_price'];
+                $final_api[$i]['_source']['refCategory_id'] = $v['_source']['refCategory_id'];
+                $final_api[$i]['_source']['price_ct'] = $v['_source']['price_ct'];
+                $final_api[$i]['_source']['total'] = $v['_source']['total'];
+
+                if (in_array($v['_source']['attributes']['SHAPE'], ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Oval Brilliant', 'OV', 'Oval'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Cushion', 'CU'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Princess Cut', 'PR', 'Princess'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Emerald', 'EM'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Marquise', 'MQ'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                }
+
+                $final_api[$i]['_source']['discount'] = $v['_source']['discount'];
+                $final_api[$i]['_source']['video_link'] = $v['_source']['video_link'];
+                $final_api[$i]['_source']['added_by'] = $v['_source']['added_by'];
+                $final_api[$i]['_source']['is_active'] = $v['_source']['is_active'];
+                $final_api[$i]['_source']['is_deleted'] = $v['_source']['is_deleted'];
+                $final_api[$i]['_source']['date_added'] = $v['_source']['date_added'];
+                $final_api[$i]['_source']['date_updated'] = $v['_source']['date_updated'];
+                $final_api[$i]['_source']['attributes'] = $v['_source']['attributes'];
+                $final_api[$i]['_source']['attributes_id'] = $v['_source']['attributes_id'];
+                $final_api[$i]['sort'] = $v['sort'];
+
+                $i++;
+            }
+            $final_d = $final_api;
+        }
         $diamonds_count = $client->count($elastic_count);
 
         return $this->successResponse('Success', [

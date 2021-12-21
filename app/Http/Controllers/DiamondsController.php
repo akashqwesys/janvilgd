@@ -2012,7 +2012,7 @@ class DiamondsController extends Controller {
                         ]
                     ]
                 ];
-            }else{
+            } else {
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->where('is_deleted',0)->orderBy('diamond_id', 'desc')->get();
                 $params = [
                     'size'   => 10000,
@@ -2035,6 +2035,7 @@ class DiamondsController extends Controller {
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
             }
+
             return Datatables::of($final_data)
                 // ->addColumn('index', '')
                 ->editColumn('barcode', function ($row) {
@@ -2044,17 +2045,7 @@ class DiamondsController extends Controller {
                     return $row['expected_polish_cts'];
                 })
                 ->addColumn('price_per_carat', function ($row) {
-                    $price_per_carat = 0;
-                    if ($row['refCategory_id'] == 1) {
-                        $price_per_carat = $row['total'] / $row['makable_cts'];
-                    }
-                    if ($row['refCategory_id'] == 2) {
-                        $price_per_carat = ($row['rapaport_price']) * ((1 - $row['discount']));
-                    }
-                    if ($row['refCategory_id'] == 3) {
-                        $price_per_carat = ($row['rapaport_price']) * ((1 - $row['discount']));
-                    }
-                    return (round($price_per_carat, 2));
+                    return ($row['price_ct']);
                     // return '$'.number_format(round($price_per_carat, 2), 2, '.', ',');
                 })
                 ->addColumn('shape', function ($row) {
@@ -2091,7 +2082,7 @@ class DiamondsController extends Controller {
                 })
                 ->addColumn('total', function ($row) {
                     // return '$'.number_format(round($row['total'], 2), 2, '.', ',');
-                    return (round($row['total'], 2));
+                    return ($row['total']);
                 })
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row['date_added']);
