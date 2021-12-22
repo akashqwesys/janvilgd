@@ -248,7 +248,6 @@ class RapaortController extends Controller
                     ];
                     if ($i % 1000 == 0) {
                         $responses = $client->bulk($params);
-                        //  dd($responses);
                         $params = ['body' => []];
                         unset($responses);
                     }
@@ -259,10 +258,18 @@ class RapaortController extends Controller
                 $responses = $client->bulk($params);
             }
         }
+        $chunk = [];
+        foreach ($value as $v) {
+            $chunk[] = [
+                'diamond_id' => $v['diamond_id'],
+                'rapaport_price' => $v['rapaport_price'],
+                'total' => $v['total']
+            ];
+        }
 
         $diamondsInstance = new Diamonds;
         $index = 'diamond_id';
-        $chunked_new_record_array = array_chunk($value,10,true);
+        $chunked_new_record_array = array_chunk($chunk, 10, true);
         foreach ($chunked_new_record_array as $new_record_chunk)
         {
             Batch::update($diamondsInstance, $new_record_chunk, $index);

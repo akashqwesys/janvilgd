@@ -55,9 +55,6 @@ Route::get('/test-query', [TestController::class, 'index']);
 Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
 Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
 
-
-Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup');
-
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
@@ -141,6 +138,11 @@ Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 /************************************  Master Admin Route *******************************/
 /*--------------------------------------------------------------------------------------*/
 Route::prefix('admin')->group(function () {
+
+Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup')->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-elastic', [CommonController::class, 'createElasticIndex'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-diamonds', [CommonController::class, 'truncateDiamonds'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
 Route::get('/dashboard', [CustomAuthController::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);

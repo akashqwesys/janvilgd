@@ -122,7 +122,7 @@ class LabourChargesController extends Controller {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['expected_polish_cts'];
                     $total[] = $v['_source']['total'];
-                    $ppc[] = $v['_source']['price_ct'];
+                    // $ppc[] = $v['_source']['price_ct'];
                 }
             }
         }
@@ -131,6 +131,7 @@ class LabourChargesController extends Controller {
             $res=Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*makable_cts)")]);
             $params = [
                 'index' => 'diamonds',
+                'size' => 10000,
                 'body'  => [
                     'query' => [
                         'bool' => [
@@ -142,16 +143,16 @@ class LabourChargesController extends Controller {
                 ]
             ];
             $response = $client->search($params);
-            $ids = [];
             if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
                 foreach ($response['hits']['hits'] as $v) {
                     $ids[] = $v['_id'];
                     $cts[] = $v['_source']['makable_cts'];
                     $total[] = $v['_source']['total'];
-                    $ppc[] = $v['_source']['price_ct'];
+                    // $ppc[] = $v['_source']['price_ct'];
                 }
             }
         }
+
         if(count($ids)){
             $params = array();
             $params = ['body' => []];
@@ -159,7 +160,8 @@ class LabourChargesController extends Controller {
             for ($i = 0; $i < count($ids); $i++) {
                 $total_price=$total[$i]+($cts[$i] * $charge);
                 $batch_row=array();
-                $batch_row['total'] =  $total_price;
+                $batch_row['total'] = $total_price;
+                $batch_row['price_ct'] = $total_price / $cts[$i];
                     $params["body"][]= [
                             "update" => [
                                 "_index" => 'diamonds',

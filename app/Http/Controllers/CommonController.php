@@ -5,7 +5,8 @@ use Illuminate\Http\Request;
 use DB;
 use Hash;
 use Session;
-use DataTables;
+// use DataTables;
+use Elasticsearch\ClientBuilder;
 
 class CommonController extends Controller
 {
@@ -2554,6 +2555,127 @@ class CommonController extends Controller
             DB::table('labour_charges')->insert($labour_charges_array);
 
         successOrErrorMessage("Project Setup Done", 'success');
+        return redirect('admin/dashboard');
+    }
+
+    public function createElasticIndex()
+    {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+
+        $client->indices()->delete(['index' => 'diamonds']);
+
+        $params = [
+            'index' => 'diamonds',
+            // 'id'    => 'diamond_id',
+            'body' => [
+                'settings' => [
+                    'number_of_shards' => 1,
+
+                    "analysis" => [
+                        "normalizer" => [
+                            "analyzer_case_insensitive" => [
+                                "type" => "custom",
+                                "filter" => ["lowercase"]
+                            ]
+                        ]
+                    ]
+
+                ],
+                'mappings' => [
+                    'properties' => [
+                        "diamond_id" => [
+                            "type" => "long"
+                        ],
+                        'name' => [
+                            'type' => 'text'
+                        ],
+                        "actual_pcs" => [
+                            "type" => "long"
+                        ],
+                        "added_by" => [
+                            "type" => "long"
+                        ],
+                        "available_pcs" => [
+                            "type" => "long"
+                        ],
+                        "barcode" => [
+                            "type" => "keyword"
+                        ],
+                        "barcode_search" => [
+                            "type" => "keyword",
+                            "normalizer" => "analyzer_case_insensitive"
+                        ],
+                        "date_added" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "date_updated" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "discount" => [
+                            "type" => "float"
+                        ],
+                        "expected_polish_cts" => [
+                            "type" => "double"
+                        ],
+                        "makable_cts" => [
+                            "type" => "double"
+                        ],
+                        "image" => [
+                            "type" => "text"
+                        ],
+                        "is_active" => [
+                            "type" => "byte"
+                        ],
+                        "is_deleted" => [
+                            "type" => "byte"
+                        ],
+                        "is_recommended" => [
+                            "type" => "byte"
+                        ],
+                        "packate_no" => [
+                            "type" => "text"
+                        ],
+                        "rapaport_price" => [
+                            "type" => "double"
+                        ],
+                        "refCategory_id" => [
+                            "type" => "integer"
+                        ],
+                        "remarks" => [
+                            "type" => "text"
+                        ],
+                        "price_ct" => [
+                            "type" => "double"
+                        ],
+                        "total" => [
+                            "type" => "double"
+                        ],
+                        "weight_loss" => [
+                            "type" => "text"
+                        ],
+                        "attributes" => [
+                            "type" => "flattened"
+                        ],
+                        "attributes_id" => [
+                            "type" => "nested"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $client->indices()->create($params);
+        return redirect('admin/dashboard');
+    }
+
+    public function truncateDiamonds()
+    {
+        DB::table('diamonds')->truncate();
+        DB::table('diamonds_attributes')->truncate();
         return redirect('admin/dashboard');
     }
 
