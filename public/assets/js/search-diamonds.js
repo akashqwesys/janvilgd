@@ -240,6 +240,12 @@ function nowGetDiamonds() {
     });
 }
 
+window.addEventListener('resize', function (event) {
+    $("#result-table tbody").html('');
+    new_call = true;
+    getDiamonds(global_search_values, global_search_array, global_group_id);
+}, true);
+
 function loadMoreData() {
     if (global_filter_data.length > 0) {
         for (let i = global_data_offset; i < (global_data_offset + 50); i++) {
