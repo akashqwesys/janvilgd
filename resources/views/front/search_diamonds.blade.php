@@ -520,6 +520,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
     });
 
     $(document).on('click', '#export-search-diamond-admin-modal', function () {
+        $('#export-discount').val('');
         $("#staticBackdrop1").modal("show");
     });
     onchange_call = true;
