@@ -940,7 +940,7 @@ class DiamondController extends Controller {
                             $dummeyArray['MKBL CTS']=$row['makable_cts'];
                             $dummeyArray['EXP POL CTS']=$row['expected_polish_cts'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount'] = ($discount * 100) .'%';
+                            $dummeyArray['Discount'] = 100 - ($discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_4p->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
@@ -982,7 +982,7 @@ class DiamondController extends Controller {
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount']=($discount * 100) .'%';
+                            $dummeyArray['Discount']= 100 - ($discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['makable_cts'], 2);
                             $dummeyArray['Price'] = $total;
@@ -1014,7 +1014,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Clarity'] = $row['attributes']['CLARITY'];
                             $dummeyArray['Color'] = $row['attributes']['COLOR'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount Percent'] = ($discount * 100) . '%';
+                            $dummeyArray['Discount Percent'] = 100 - ($discount * 100) . '%';
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
