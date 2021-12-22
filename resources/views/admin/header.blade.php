@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="zxx" class="js">
-    <head>
-        <base href="../">
-        <meta charset="utf-8">
-        <meta name="author" content="Softnio">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- Fav Icon  -->
-        <link rel="shortcut icon" href="{{ asset(check_host().'admin_assets/images/favicon.png') }}">
-        <!-- Page Title  -->
-        <title><?php echo $data['title']; ?></title>
-        <!-- StyleSheets  -->
-        <link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css?ver=1.9.2') }}" rel="stylesheet">
-        <!--<link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css') }}" rel="stylesheet">-->
-        <link href="{{ asset(check_host().'admin_assets/assets/css/theme.css?ver=1.9.2') }}" rel="stylesheet">
-        <style>
-            .removeimg {
-                width:100px;
-                height:100px;
-                position:relative;
-            }
-            .removeimg img {
-                max-width:100%;
-                max-height:100%;
-                border-radius: 5px;
-            }
-            .removeimg span {
-                border-radius: 50px;
-                display:block;
-                width:15px;
-                height:15px;
-                padding: 0;
-                line-height: 50px;
-                position:absolute;
-                top:-4px;
-                right:-4px;
-                overflow:hidden;
-            }
-            .d-none{
-                display: none !important;
-            }
-        </style>
-        <style>
+<head>
+    <base href="../">
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="{{ asset(check_host().'admin_assets/images/favicon.png') }}">
+    <!-- Page Title  -->
+    <title><?php echo $data['title']; ?></title>
+    <!-- StyleSheets  -->
+    <link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css?ver=1.9.2') }}" rel="stylesheet">
+    <!--<link href="{{ asset(check_host().'admin_assets/assets/css/dashlite.css') }}" rel="stylesheet">-->
+    <link href="{{ asset(check_host().'admin_assets/assets/css/theme.css?ver=1.9.2') }}" rel="stylesheet">
+    <style>
+        .removeimg {
+            width:100px;
+            height:100px;
+            position:relative;
+        }
+        .removeimg img {
+            max-width:100%;
+            max-height:100%;
+            border-radius: 5px;
+        }
+        .removeimg span {
+            border-radius: 50px;
+            display:block;
+            width:15px;
+            height:15px;
+            padding: 0;
+            line-height: 50px;
+            position:absolute;
+            top:-4px;
+            right:-4px;
+            overflow:hidden;
+        }
+        .d-none{
+            display: none !important;
+        }
         .overlay {
             left: 0;
             top: 0;
@@ -53,10 +51,9 @@
             z-index: 1111;
             display: none;
         }
-        </style>
-
-        @yield('css')
-    </head>
+    </style>
+    @yield('css')
+</head>
     <body class="nk-body bg-lighter npc-default has-sidebar ">
         <div class="nk-app-root">
             <!-- main @s -->
@@ -80,36 +77,32 @@
                         <div class="nk-sidebar-content">
                             <div class="nk-sidebar-menu" data-simplebar>
                                 <ul class="nk-menu">
-
-                                <?php
+                                    <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
                                         ?>
-                                                    <li class="nk-menu-heading">
+                                        <li class="nk-menu-heading">
                                             <h6 class="overline-title text-primary-alt">Diamonds</h6>
                                         </li><!-- .nk-menu-item -->
-                                       <li class="nk-menu-item has-sub">
-                                                                            <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
-                                                                                <span class="nk-menu-text">Diamonds</span>
-                                                                            </a>
-                                                                            <ul class="nk-menu-sub">
-                                                                                <?php if (!empty(session('categories'))) {
-                                                                                    foreach (session('categories') as $cat_row) {
-                                                                                        ?>
-                                                                                <li class="nk-menu-item">
-                                                                                    <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
-                                                                                </li>
-                                                                                <?php
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
+                                                <span class="nk-menu-text">Diamonds</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <?php if (!empty(session('categories'))) {
+                                                    foreach (session('categories') as $cat_row) {
+                                                        ?>
+                                                        <li class="nk-menu-item">
+                                                            <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
+                                                        </li>
+                                                        <?php
 
-                                                                                    }
-                                                                                } ?>
-                                                                            </ul>
-                                                                        </li>
+                                                    }
+                                                } ?>
+                                            </ul>
+                                        </li>
                                         <?php
                                     }
-                                    ?>
-
-                                    <?php
                                     if (!empty(session('menu'))) {
                                         foreach (session('menu') as $session_row) {
                                             ?>
@@ -133,8 +126,6 @@
                                             }
                                         }
                                     }
-                                    ?>
-                                    <?php
                                     if (session('user-type') == "MASTER_ADMIN") {
                                         ?>
                                         <li class="nk-menu-heading">
@@ -150,9 +141,21 @@
                                     }
                                     ?>
 
-                                        <li class="nk-menu-heading">
-                                            <a href="/project-setup"><h6 class="overline-title text-primary-alt">Project Setup</h6></a>
-                                        </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-heading">
+                                        <a href="/admin/project-setup">
+                                            <h6 class="overline-title text-primary-alt" id="project-setup-link"> Project Setup</h6>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-heading">
+                                        <a href="/admin/truncate-elastic">
+                                            <h6 class="overline-title text-primary-alt" id="truncate-elastic-link"> Truncate Elastic Diamonds</h6>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-heading">
+                                        <a href="/admin/truncate-diamonds">
+                                            <h6 class="overline-title text-primary-alt" id="truncate-diamonds-link"> Truncate PG Diamonds</h6>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
                                 </ul><!-- .nk-menu -->
                             </div><!-- .nk-sidebar-menu -->
                         </div><!-- .nk-sidebar-content -->
@@ -505,11 +508,16 @@
         }
         ?>
         <script type="text/javascript">
-            function showloader(){                
+            $(document).on('click', '#project-setup-link, #truncate-elastic-link, #truncate-diamonds-link', function() {
+                if (!confirm('Are you sure, you want to execute this command?')) {
+                    return false;
+                }
+            });
+            function showloader(){
                     $("#append_loader").css("display","block");
                     return true;
                 }
-            $(document).ready(function () {                
+            $(document).ready(function () {
                 $('a[href$="#finish"]').attr("class", "submit_customers");
                 $('a[href$="#finish"]').addClass("d-none");
                 $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
