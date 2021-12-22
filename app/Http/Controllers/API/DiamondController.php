@@ -37,18 +37,74 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $data = DB::table('attributes as a')
-            ->join('attribute_groups as ag', 'a.attribute_group_id', '=', 'ag.attribute_group_id')
-            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix')
+        $data = DB::table('attribute_groups as ag')
+            ->join('attributes as a', 'ag.attribute_group_id', '=', 'a.attribute_group_id')
+            ->joinSub('SELECT "refAttribute_id", MAX(diamond_attribute_id) FROM diamonds_attributes group by "refAttribute_id"', 'da', function ($join) {
+                $join->on('da.refAttribute_id', '=', 'a.attribute_id');
+            })
+            ->select('a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'a.image', 'ag.is_fix', 'ag.refCategory_id', 'a.sort_order')
             ->where('ag.refCategory_id', $request->category)
+            ->where('ag.field_type', 1)
+            ->where('a.is_active', 1)
+            ->where('a.is_deleted', 0)
             ->orderBy('ag.sort_order')
             ->orderBy('a.attribute_group_id')
             ->get()
             ->toArray();
-        $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
-        $j = 0;
-        $attr = [];
-        foreach ($data as $v) {
+
+        // $attr_groups = collect($data)->pluck('attribute_group_id')->unique()->values()->all();
+
+        $temp_grp_id = 0;
+        $temp_var = 0;
+        $final_attribute_groups_with_att = array();
+        foreach ($data as $row_data) {
+            if ($temp_grp_id != $row_data->attribute_group_id) {
+                if ($temp_grp_id !== 0) {
+                    usort($final_attribute_groups_with_att[$temp_grp_id]['attributes'], function ($a, $b) {
+                        return $a['sort_order'] - $b['sort_order'];
+                    });
+                }
+                $temp_grp_id = $row_data->attribute_group_id;
+                $final_attribute_groups_with_att[$row_data->attribute_group_id]['name'] = $row_data->ag_name;
+                $final_attribute_groups_with_att[$row_data->attribute_group_id]['attribute_group_id'] = $row_data->attribute_group_id;
+                $final_attribute_groups_with_att[$row_data->attribute_group_id]['is_fix'] = $row_data->is_fix;
+                $temp_var = 0;
+            }
+            $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['attribute_id'] = $row_data->attribute_id;
+            $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['name'] = $row_data->name;
+
+            if ($row_data->ag_name == 'SHAPE') {
+                if (in_array($row_data->name, ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
+                } else if (in_array($row_data->name, ['Oval Brilliant', 'OV', 'Oval'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
+                } else if (in_array($row_data->name, ['Cushion', 'CU'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
+                } else if (in_array($row_data->name, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
+                } else if (in_array($row_data->name, ['Princess Cut', 'PR', 'Princess'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
+                } else if (in_array($row_data->name, ['Emerald', 'EM'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
+                } else if (in_array($row_data->name, ['Marquise', 'MQ'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
+                } else if (in_array($row_data->name, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                }
+            } else {
+                $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = $row_data->image == 0 ? null : $row_data->image;
+            }
+
+            $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['sort_order'] = $row_data->sort_order;
+            $temp_var++;
+        }
+        if ($temp_grp_id !== 0) {
+            usort($final_attribute_groups_with_att[$temp_grp_id]['attributes'], function ($a, $b) {
+                return $a['sort_order'] - $b['sort_order'];
+            });
+        }
+
+        /* foreach ($data as $v) {
             if ($v->ag_name == 'GRIDLE CONDITION') {
                 continue;
             }
@@ -94,13 +150,12 @@ class DiamondController extends Controller
                 'image_b' => $v->image,
                 'image_g' => $v->image_g
             ];
-        }
-        // $new_attr = [];
-        foreach ($attr as $k => $v) {
+        } */
+        foreach ($final_attribute_groups_with_att as $k => $v) {
             if (count($v['attributes']) > 1) {
-                $attr[$k]['skip'] = 0;
+                $final_attribute_groups_with_att[$k]['skip'] = 0;
             } else {
-                $attr[$k]['skip'] = 1;
+                $final_attribute_groups_with_att[$k]['skip'] = 1;
             }
         }
         $max = DB::table('diamonds')
@@ -119,7 +174,7 @@ class DiamondController extends Controller
         } else {
             $max_price = $min_carat = $max_carat = $min_price = 0;
         }
-        $main_data['attribute_groups'] = array_values($attr);
+        $main_data['attribute_groups'] = array_values($final_attribute_groups_with_att);
         $main_data['price'] = ['min' => $min_price, 'max' => $max_price];
         $main_data['carat'] = ['min' => $min_carat, 'max' => $max_carat];
 
