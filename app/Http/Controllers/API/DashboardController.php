@@ -21,6 +21,7 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request)
     {
+        $user = Auth::user();
         $sliders = DB::table('sliders')
             ->select('title', 'image', 'video_link')
             ->where('is_active', 1)
@@ -82,6 +83,7 @@ class DashboardController extends Controller
             'recommended' => $recommended,
             'offer_sale' => $offer_sale,
             'latest_collection' => $latest,
+            'total_cart' => DB::table('customer_cart')->select('id')->where('refCustomer_id', $user->customer_id)->count()
         ];
         return $this->successResponse('Success', $data);
     }
