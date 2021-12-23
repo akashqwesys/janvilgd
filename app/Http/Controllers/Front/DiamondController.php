@@ -914,7 +914,7 @@ class DiamondController extends Controller {
                 $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $response['params']['category'])->where('is_deleted', 0)->first();
 
                 $diamonds = $data;
-
+                // dd($diamonds);
                 if (!empty($diamonds) && count($diamonds)) {
                     $data = [];
 
@@ -924,9 +924,11 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $discount = 1 - $row['discount'];
+                                $for_discount = 1 - $row['discount'];
+                            } else {
+                                $for_discount = $discount;
                             }
-                            $total = abs($row['rapaport_price'] * $row['expected_polish_cts'] * $discount) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
+                            $total = abs($row['rapaport_price'] * $row['expected_polish_cts'] * $for_discount) - ($labour_charge_4p->amount*$row['expected_polish_cts']);
 
                             $dummeyArray=array();
                             $dummeyArray['BARCODE']=$row['barcode'];
@@ -940,7 +942,7 @@ class DiamondController extends Controller {
                             $dummeyArray['MKBL CTS']=$row['makable_cts'];
                             $dummeyArray['EXP POL CTS']=$row['expected_polish_cts'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount'] = 100 - ($discount * 100) .'%';
+                            $dummeyArray['Discount'] = 100 - ($for_discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_4p->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
@@ -964,9 +966,11 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $discount = 1 - $row['discount'];
+                                $for_discount = 1 - $row['discount'];
+                            } else {
+                                $for_discount = $discount;
                             }
-                            $price=abs($row['rapaport_price']*$discount);
+                            $price=abs($row['rapaport_price']*$for_discount);
                             $amount=abs($price*doubleval($row['expected_polish_cts']));
                             $ro_amount=abs($amount/doubleval($row['makable_cts']));
                             $final_price=$ro_amount-$labour_charge_rough->amount;
@@ -982,7 +986,7 @@ class DiamondController extends Controller {
                             $dummeyArray['COLOR']=$row['attributes']['COLOR'];
                             $dummeyArray['CLARITY']=$row['attributes']['CLARITY'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount']= 100 - ($discount * 100) .'%';
+                            $dummeyArray['Discount']= 100 - ($for_discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['makable_cts'], 2);
                             $dummeyArray['Price'] = $total;
@@ -1002,9 +1006,11 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $discount = 1 - $row['discount'];
+                                $for_discount = 1 - $row['discount'];
+                            } else {
+                                $for_discount = $discount;
                             }
-                            $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$discount);
+                            $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$for_discount);
 
                             $dummeyArray = array();
                             $dummeyArray['BARCODE'] = $row['barcode'];
@@ -1014,7 +1020,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Clarity'] = $row['attributes']['CLARITY'];
                             $dummeyArray['Color'] = $row['attributes']['COLOR'];
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
-                            $dummeyArray['Discount Percent'] = 100 - ($discount * 100) . '%';
+                            $dummeyArray['Discount Percent'] = 100 - ($for_discount * 100) . '%';
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
                             $dummeyArray['Price'] = $total;
                             $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
