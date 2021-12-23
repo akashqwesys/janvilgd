@@ -30,7 +30,7 @@
 		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
 		    </button> -->
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		      <ul class="navbar-nav">
+		      <ul class="navbar-nav">			 
 		        <li class="nav-item">
 					<a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>

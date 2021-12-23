@@ -26,17 +26,36 @@
 		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
 		    </button> -->
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		      <ul class="navbar-nav">
-		        <li class="nav-item">
-					<a class="nav-link active" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+
+			<ul class="navbar-nav">				
+				<li class="nav-item">
+					<a class="nav-link" href="/home">Home</a>
 		        </li>
-		        <li class="nav-item">
-					<a class="nav-link active" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/about-us">About</a>
 		        </li>
-		        <li class="nav-item">
-					<a class="nav-link active" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
-		        </li>
-		      </ul>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Our Product
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">					
+						<li>
+							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+						</li>
+						<li >
+							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+						</li>
+
+					</ul>
+				</li>				
+				<li class="nav-item">
+					<a class="nav-link" href="/contact">Contact</a>
+				</li>				
+			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
 		    	<ul class="navbar-nav ms-auto">
