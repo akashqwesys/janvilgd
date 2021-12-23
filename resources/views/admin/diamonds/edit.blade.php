@@ -432,7 +432,7 @@
                                                     @php
                                                     if($data['result']->refCategory_id==1){
                                                         @endphp
-                                                        <div class="amount" id="display_price">$<?php echo round(abs($data['result']->total/$data['result']->makable_cts)); ?></div>
+                                                        <div class="amount" id="display_price">$<?php echo round(abs($data['result']->total/$data['result']->makable_cts), 2); ?></div>
                                                         @php
                                                     }else{
                                                         @endphp
