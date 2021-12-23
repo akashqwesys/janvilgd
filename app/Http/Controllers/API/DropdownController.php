@@ -23,16 +23,18 @@ class DropdownController extends Controller
             ->where('is_deleted', 0)
             ->get();
 
-        $state = DB::table('state')
-            ->select('state_id', 'name')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
+        $state = DB::table('state as s')
+            ->join('country as c', 's.refCountry_id', '=', 'c.country_id')
+            ->select('s.state_id', 's.name', 'c.country_id')
+            ->where('s.is_active', 1)
+            ->where('s.is_deleted', 0)
             ->get();
 
-        $city = DB::table('city')
-            ->select('city_id', 'name')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
+        $city = DB::table('city as c')
+            ->join('state as s', 'c.refState_id', '=', 's.state_id')
+            ->select('c.city_id', 'c.name', 's.state_id')
+            ->where('c.is_active', 1)
+            ->where('c.is_deleted', 0)
             ->get();
 
         $categories = DB::table('categories')
