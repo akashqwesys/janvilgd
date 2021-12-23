@@ -44,24 +44,16 @@ class SettingsController extends Controller {
         if ($request->ajax()) {
             $data = Settings::select('setting_id', 'key', 'value', 'updated_by', 'date_updated')->latest()->orderBy('setting_id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
-                            ->addColumn('index', '')
-                    ->editColumn('date_updated', function ($row) {
-                                return date_formate($row->date_updated);
-                            })
-//                    ->editColumn('is_deleted', function ($row) {
-//                                $delete_button='';
-//                                if($row->is_deleted==1){
-//                                    $delete_button='<span class="badge badge-danger">Deleted</span>';
-//                                }
-//                                return $delete_button;
-//                            })
-                            ->addColumn('action', function ($row) {
-                                $actionBtn = '<a href="/admin/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
-                                return $actionBtn;
-                            })
-                            ->escapeColumns([])
-                            ->make(true);
+                ->addColumn('index', '')
+                ->editColumn('date_updated', function ($row) {
+                    return date_formate($row->date_updated);
+                })
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="/admin/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                    return $actionBtn;
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
     }
 
@@ -107,7 +99,7 @@ class SettingsController extends Controller {
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -127,7 +119,7 @@ class SettingsController extends Controller {
                 'is_active' => $request['status'],
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true

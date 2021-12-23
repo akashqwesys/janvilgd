@@ -46,11 +46,11 @@ class DashboardController extends Controller
             ->get();
         foreach ($latest as $v) {
             $v->image = json_decode($v->image);
-            $a = [];
+            /* $a = [];
             foreach ($v->image as $v1) {
                 $a[] = '/storage/other_images/' . $v1;
             }
-            $v->image = $a;
+            $v->image = $a; */
         }
 
         $recommended = DB::table('diamonds as d')
@@ -65,18 +65,18 @@ class DashboardController extends Controller
             ->get();
         foreach ($recommended as $v) {
             $v->image = json_decode($v->image);
-            $a = [];
+            /* $a = [];
             foreach ($v->image as $v1) {
                 $a[] = '/storage/other_images/' . $v1;
             }
-            $v->image = $a;
+            $v->image = $a; */
         }
 
         $offer_sale = DB::table('settings')
             ->select('key', 'value', 'attachment')
             ->where('key', 'offer_sale')
             ->first();
-        $offer_sale->attachment = '/storage/user_files/' . $offer_sale->attachment;
+        $offer_sale->attachment = url('/') . '/storage/user_files/' . $offer_sale->attachment;
         $data = [
             'sliders' => $sliders,
             'recommended' => $recommended,
