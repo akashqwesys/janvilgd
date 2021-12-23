@@ -1506,8 +1506,8 @@ a {
 }
 
 .product--details .title {
-    font-size: 28px;
-    /* font-weight: 300; */
+    font-size: 1.3rem;
+    font-weight: bold;
     text-align: left;
     margin-bottom: 0;
 }
@@ -1520,7 +1520,7 @@ a {
 }
 
 .product--details .price {
-    font-size: 28px;
+    font-size: 25px;
 }
 
 .product--details .price~p {

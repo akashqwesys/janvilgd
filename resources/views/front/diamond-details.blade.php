@@ -30,6 +30,21 @@
         color: #000;
         font-size: smaller;
     }
+    .mini-table-2 td {
+        border: none;
+        color: #000;
+        font-size: smaller;
+        padding: 0.25rem 0.25rem;
+    }
+    .mini-table-2  {
+        border: 1px solid;
+    }
+    .mini-table-2 a {
+        color : #272727;
+    }
+    .mini-table-2 a:hover {
+        color : #D2AB66;
+    }
     .product--details p {
         color: #000;
     }
@@ -239,24 +254,29 @@
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
                         </div> --}}
-                        <div class="help-box bg-white mb-4 p-2 text-center w-85">
-                            <div class="row">
-                                <div class="text-center text-theme mb-3">
-                                    NEED HELP?
-                                </div>
-                                <div class="col-md-4">
-                                    <span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;WHATSAPP
-                                    <div class="mt-2"><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;EMAIL US
-                                    <div class="mt-2"><a href="mailto:">test@test.co</a></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <span><img src="/assets/images/phone.svg" class="img-cs"></span> &nbsp;CALL
-                                    <div class="mt-2"><a href="tel:">123456789</a></div>
-                                </div>
-                            </div>
+                        <div class="help-box mb-4 w-75">
+                            <table class="table mini-table-2 text-center overflow-auto">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3" align="center">
+                                            <div class="text-center p-2">
+                                                NEED HELP?
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="34%"><span><img src="/assets/images/whatsapp_n.svg" class="img-cs"></span> &nbsp;WHATSAPP</td>
+                                        <td width="33%"><span><img src="/assets/images/envelope.svg" class="img-cs"></span> &nbsp;EMAIL US</td>
+                                        <td width="33%"><span><img src="/assets/images/phone.svg" class="" style="width: 16px;"></span> &nbsp;CALL</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="34%"><div class=""><a href="https://api.whatsapp.com/send?phone=1234567890" target="_blank"> 1234567890</a></div></td>
+                                        <td width="33%"><div class=""><a href="mailto:">test@test.co</a></div></td>
+                                        <td width="33%"><div class=""><a href="tel:">123456789</a></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                         {{-- <div class="return-policy d-flex">
                             <img src="{{ asset(check_host().'assets/images') }}/delivery.svg" class="img-fluid me-2">
@@ -278,7 +298,7 @@
                             <td>Stock No:</td>
                             <td>{{ $response['barcode'] }}</td>
                             <td>Depth:</td>
-                            <td>{{ $response['attributes']['DEPTH PERCENT'] ?? '-'}}</td>
+                            <td>{{ $response['attributes']['DEPTH PERCENT'] ?? '-'}}%</td>
                             <td>Rapaport Price/CT:</td>
                             <td>${{ number_format($response['rapaport_price'], 2, '.', ',') }}</td>
                         </tr>
@@ -286,7 +306,7 @@
                             <td>Shape:</td>
                             <td>{{ $response['attributes']['SHAPE'] ?? '-'}}</td>
                             <td>Table:</td>
-                            <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}</td>
+                            <td>{{ $response['attributes']['TABLE PERCENT'] ?? '-'}}%</td>
                             <td>Discount:</td>
                             <td>{{ $response['discount'] * 100 }}%</td>
                         </tr>
