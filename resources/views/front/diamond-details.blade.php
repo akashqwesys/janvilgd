@@ -464,13 +464,13 @@
                         </tr>
                         <tr>
                             <td>Location:</td>
-                            <td>{{ $response['attributes']['Location'] ?? '-'}}</td>
+                            <td>{{ $response['attributes']['LOCATION'] ?? '-'}}</td>
                             <td>Price/CT:</td>
                             <td>${{ number_format($response['price_ct'], 2, '.', ',') }}</td>
                         </tr>
                         <tr>
                             <td>Comment</td>
-                            <td>{{ $response['attributes']['Comment'] ?? '-'}}</td>
+                            <td>{{ $response['attributes']['COMMENT'] ?? '-'}}</td>
                             <td>Price</td>
                             <td>${{ number_format($response['total'], 2, '.', ',') }}</td>
                         </tr>
