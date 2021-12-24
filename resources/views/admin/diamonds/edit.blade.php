@@ -24,7 +24,6 @@
     }
 </style>
 
-
 <div class="nk-content">
     <!--    @if(Session::has('designation_add'))
         <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
@@ -288,8 +287,8 @@
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
                                                                 <div class="removeimg">
-                                                                    <img src="{{ '/storage/other_images/' . $img_row }}" style="height: 150px;width:150px;"/>
-                                                                    <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id"></span>
+                                                                    <img src="{{ $img_row }}" style="height: 150px;width:150px;"/>
+                                                                    <span class="btn btn-xs btn-danger delete_img_button" data-id="<?php echo $data['result']->diamond_id; ?>" data-inc="<?php echo $i; ?>" data-image="<?php echo $img_row; ?>" data-table="diamonds" data-wherefield="diamond_id">X</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -440,8 +439,6 @@
                                                         @php
                                                     }
                                                     @endphp
-
-
                                                 </div>
                                                 <div class="traffic-channel-data makable_cts_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span id="display_makable_cts_text">Makable CTS</span></div>
@@ -461,14 +458,25 @@
                                                     <div class="amount" id="display_labour_charges"></div>
                                                 </div>
                                                 <div class="traffic-channel-data wieght_loss_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Weight loss</span></div>
                                                     <div class="amount" id="display_wieght_loss"><?php echo round(($data['result']->weight_loss), 2); ?>%</div>
                                                 </div>
+                                                @if ($data['result']->refCategory_id == 1)
+                                                <div class="traffic-channel-data total_labour_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Total Labour Charges</span></div>
+                                                    <div class="amount" id="display_total_labour">$<?php echo round(($data['result']->makable_cts * $data['labour_charge_rough']), 2); ?></div>
+                                                </div>
+                                                @endif
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span><h6>Current Price in USD($)</h6></span></div>
                                                     <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price">$<?php echo number_format($data['result']->total,2); ?></div>
                                                 </div>
+                                                @if ($data['result']->refCategory_id == 2)
+                                                <div class="traffic-channel-data alert-danger mt-2" style="width:100%">
+                                                    <b>Note: Here Price/CT = Rapaport Price x Discount</b>
+                                                </div>
+                                                @endif
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->
                                     </div>
