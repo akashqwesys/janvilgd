@@ -901,16 +901,23 @@ class DiamondController extends Controller
             return $this->errorResponse('No such diamond found');
         }
 
-        $recommended = DB::table('diamonds')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->where('is_recommended', 1)
-            ->orderBy('diamond_id', 'desc')
-            ->limit(5)
-            ->get();
-        foreach ($recommended as $v) {
-            $v->image = json_decode($v->image);
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['is_recommended' => ['value' => 1]]]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $recommended = $client->search($elastic_params);
+        if ($recommended['hits']['hits'] && count($recommended['hits']['hits'])) {
+            $recommended = $recommended['hits']['hits'];
+        } else {
+            $recommended = [];
         }
 
         if ($diamonds['refCategory_id'] == 1) {

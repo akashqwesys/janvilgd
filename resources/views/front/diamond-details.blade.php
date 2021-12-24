@@ -545,15 +545,16 @@
                 @foreach ($recommended as $r)
                 <div class="col-md-3 mb-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <a href="/customer/single-diamonds/{{$r->barcode}}">
-                                    <img src="{{ count($r->image) ? $r->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                        <div class="card-body text-center">
+                            <div class="mb-2">
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                 </a>
                             </div>
-                            <div>{{ $r->name }}</div>
-                            <div class="text-muted">{{ $r->barcode }}</div>
-                            <div class="mt-2"><h5><b>${{ number_format(round($r->price, 2), 2, '.', ',') }}</b></h5></div>
+                            <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                            <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                            <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                            <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                         </div>
                     </div>
                 </div>
