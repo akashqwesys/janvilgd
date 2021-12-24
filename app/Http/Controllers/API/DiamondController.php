@@ -979,7 +979,7 @@ class DiamondController extends Controller
             $elastic_params = [
                 'index' => 'diamonds',
                 'body'  => [
-                    'size'  =>  5,
+                    'size'  =>  10,
                     'query' => [
                         'bool' => [
                             'must' => $all_conditions
@@ -999,7 +999,7 @@ class DiamondController extends Controller
                 $final_similar[] = $v;
                 $not_ids[] = $v['_source']['diamond_id'];
             }
-            $limit = 5 - count($similar['hits']['hits']);
+            $limit = 10 - count($similar['hits']['hits']);
             if ($limit > 0) {
                 $attr_to_send = [];
                 $i = 0;

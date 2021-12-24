@@ -1,9 +1,11 @@
 @extends('front.layout_2')
 @section('title', $title)
 @section('css')
+<link rel="stylesheet" href="/assets/owlcarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/owlcarousel/owl.theme.default.min.css">
 <style>
     .p1r {
-        padding: 1rem 1rem;
+        padding: 0.8rem;
     }
     .h-100 {
         height: 100%;
@@ -21,6 +23,7 @@
     .detail-table td {
         vertical-align: middle;
         height: 50px;
+        font-size: smaller;
     }
     .overflow-auto {
         overflow: auto;
@@ -63,6 +66,9 @@
         .w-85 {
             width: 85%;
         }
+    }
+    .fs-small {
+        font-size: smaller;
     }
 </style>
 @endsection
@@ -354,7 +360,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="mt-3 bg-white p1r">
+                <div class="mt-3 bg-white p1r fs-small">
                     <div class="row">
                         <div class="col-md-4">
                             Certified By: {{ $response['attributes']['LAB'] ?? '-'}}
@@ -363,7 +369,7 @@
                             Certificate No: {{ $response['attributes']['CERTIFICATE'] }}
                         </div>
                         <div class="col-md-4">
-                            <span><img src="/assets/images/certificate.svg" style="width: 25px;"></span>
+                            <span><img src="/assets/images/certificate.svg" style="height: 20px;"></span>
                             <a href="{{ $response['attributes']['CERTIFICATE URL'] ?? 'javascript:void(0);' }}" target="_blank">View Diamond Report</a>
                         </div>
                     </div>
@@ -542,23 +548,25 @@
         <div class="recommended-diamonds-box">
             <h4 class="mb-4">Recommended Diamonds</h4>
             <div class="row">
-                @foreach ($recommended as $r)
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-body- p-1 text-center">
-                            <div class="mb-2">
-                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
-                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
-                                </a>
+                <div class="owl-carousel">
+                    @foreach ($recommended as $r)
+                    <div class="col-md-3- mb-3">
+                        <div class="card">
+                            <div class="card-body- p-1 text-center">
+                                <div class="mb-2">
+                                    <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                        <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                    </a>
+                                </div>
+                                <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                                <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                                <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                             </div>
-                            <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
-                            <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
-                            <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
-                            <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
         </div>
         @endif
@@ -566,23 +574,25 @@
         <div class="similar-diamonds-box">
             <h4 class="mb-4">Similar Diamonds</h4>
             <div class="row">
-                @foreach ($similar as $r)
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-body- p-1 text-center">
-                            <div class=" mb-2">
-                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
-                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
-                                </a>
+                <div class="owl-carousel">
+                    @foreach ($similar as $r)
+                    <div class="col-md-3- mb-3">
+                        <div class="card">
+                            <div class="card-body- p-1 text-center">
+                                <div class=" mb-2">
+                                    <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                        <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                    </a>
+                                </div>
+                                <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                                <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                                <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                             </div>
-                            <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
-                            <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
-                            <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
-                            <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}" class="btn btn-primary w-100">VIEW DIAMOND</a>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
         </div>
         @endif
@@ -669,7 +679,18 @@
     </section>
     @endsection
     @section('js')
+    <script src="/assets/owlcarousel/owl.carousel.min.js"></script>
     <script>
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            items:4,
+            loop:true,
+            margin:25,
+            autoplay:true,
+            autoplayTimeout:3000,
+            autoplayHoverPause:true,
+            checkVisible: true
+        });
         $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
