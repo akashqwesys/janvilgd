@@ -16,7 +16,7 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <form method="POST" action="{{route('settings.update')}}">
+                            <form method="POST" action="{{route('settings.update')}}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->setting_id }}">
                                 <div class="row g-3 align-center">
