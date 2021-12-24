@@ -462,7 +462,7 @@
                                                 </div>
                                                 <div class="traffic-channel-data wieght_loss_div">
                                                     <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
-                                                    <div class="amount" id="display_wieght_loss"><?php echo round(intval($data['result']->weight_loss),2); ?>%</div>
+                                                    <div class="amount" id="display_wieght_loss"><?php echo round(($data['result']->weight_loss), 2); ?>%</div>
                                                 </div>
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
