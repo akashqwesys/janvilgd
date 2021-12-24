@@ -23,7 +23,7 @@
     .detail-table td {
         vertical-align: middle;
         height: 50px;
-        font-size: smaller;
+        /* font-size: smaller; */
     }
     .overflow-auto {
         overflow: auto;
@@ -31,12 +31,12 @@
     .mini-table td {
         border: 1px solid;
         color: #000;
-        font-size: smaller;
+        /* font-size: smaller; */
     }
     .mini-table-2 td {
         border: none;
         color: #000;
-        font-size: smaller;
+        /* font-size: smaller; */
         padding: 0.25rem 0.25rem;
     }
     .mini-table-2  {
@@ -231,7 +231,7 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="2" align="center">
-                                            <div class="text-uppercase" style="font-size: initial;">
+                                            <div class="text-uppercase" style="font-size: 17px;">
                                                 Category: {{ ucwords(str_replace('-', ' ', $response['category'])) }}
                                             </div>
                                         </td>
@@ -360,7 +360,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="mt-3 bg-white p1r fs-small">
+                <div class="mt-3 bg-white p1r">
                     <div class="row">
                         <div class="col-md-4">
                             Certified By: {{ $response['attributes']['LAB'] ?? '-'}}
@@ -544,16 +544,16 @@
                 </div>
             </div>
         </div> --}}
-        @if (count($recommended))
-        <div class="recommended-diamonds-box">
-            <h4 class="mb-4">Recommended Diamonds</h4>
+        @if (count($similar))
+        <div class="similar-diamonds-box">
+            <h4 class="mb-4">Similar Diamonds</h4>
             <div class="row">
                 <div class="owl-carousel">
-                    @foreach ($recommended as $r)
+                    @foreach ($similar as $r)
                     <div class="col-md-3- mb-3">
                         <div class="card">
                             <div class="card-body- p-1 text-center">
-                                <div class="mb-2">
+                                <div class=" mb-2">
                                     <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
                                         <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                     </a>
@@ -570,16 +570,16 @@
             </div>
         </div>
         @endif
-        @if (count($similar))
-        <div class="similar-diamonds-box">
-            <h4 class="mb-4">Similar Diamonds</h4>
+        @if (count($recommended))
+        <div class="recommended-diamonds-box">
+            <h4 class="mb-4">Recommended Diamonds</h4>
             <div class="row">
                 <div class="owl-carousel">
-                    @foreach ($similar as $r)
+                    @foreach ($recommended as $r)
                     <div class="col-md-3- mb-3">
                         <div class="card">
                             <div class="card-body- p-1 text-center">
-                                <div class=" mb-2">
+                                <div class="mb-2">
                                     <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
                                         <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                     </a>
