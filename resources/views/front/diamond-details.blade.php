@@ -545,7 +545,7 @@
                 @foreach ($recommended as $r)
                 <div class="col-md-3 mb-3">
                     <div class="card">
-                        <div class="card-body text-center">
+                        <div class="card-body- p-1 text-center">
                             <div class="mb-2">
                                 <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
                                     <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
@@ -569,7 +569,7 @@
                 @foreach ($similar as $r)
                 <div class="col-md-3 mb-3">
                     <div class="card">
-                        <div class="card-body text-center">
+                        <div class="card-body- p-1 text-center">
                             <div class=" mb-2">
                                 <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
                                     <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">

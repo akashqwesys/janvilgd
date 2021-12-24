@@ -400,13 +400,19 @@
                                                     <div class="amount" id="display_discount"></div>
                                                 </div>
                                                 <div class="traffic-channel-data labour_charges_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Labour Charges/CT</span></div>
                                                     <div class="amount" id="display_labour_charges"></div>
                                                 </div>
                                                 <div class="traffic-channel-data wieght_loss_div">
-                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Wieght loss</span></div>
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Weight loss</span></div>
                                                     <div class="amount" id="display_wieght_loss"></div>
                                                 </div>
+                                                @if (session('add_category') == 1)
+                                                <div class="traffic-channel-data total_labour_div">
+                                                    <div class="title text-dark"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>Total Labour Charges</span></div>
+                                                    <div class="amount" id="display_total_labour"></div>
+                                                </div>
+                                                @endif
                                                 <div class="traffic-channel-data" style="width:100%">
                                                     <hr>
                                                     <div class="title text-dark text-center align-center"><span class="dot dot-lg sq" data-bg="#1f327f"></span><span>
@@ -414,6 +420,11 @@
                                                         </span></div>
                                                     <div class="amount text-center align-center" style="font-size:25px;font-weight: 800;" id="display_current_price"></div>
                                                 </div>
+                                                @if (session('add_category') == 2)
+                                                <div class="traffic-channel-data alert-danger mt-2" style="width:100%">
+                                                    <b>Note: Here Price/CT = Rapaport Price x Discount</b>
+                                                </div>
+                                                @endif
                                             </div><!-- .traffic-channel-group -->
                                         </div><!-- .traffic-channel -->
                                     </div>
