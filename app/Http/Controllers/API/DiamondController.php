@@ -922,17 +922,17 @@ class DiamondController extends Controller
 
         if ($diamonds['refCategory_id'] == 1) {
             $similar_ids = collect($diamonds['attributes_id'])
-                ->whereIn('attribute_group_id', [31, 1, 2])
+                ->whereIn('attribute_group_id', [2, 3, 1])
                 ->pluck('attribute_id')
                 ->all();
         } else if ($diamonds['refCategory_id'] == 2) {
             $similar_ids = collect($diamonds['attributes_id'])
-                ->whereIn('attribute_group_id', [4, 6, 3, 13])
+                ->whereIn('attribute_group_id', [10, 8, 7, 6])
                 ->pluck('attribute_id')
                 ->all();
         } else {
             $similar_ids = collect($diamonds['attributes_id'])
-                ->whereIn('attribute_group_id', [12, 19, 11, 13])
+                ->whereIn('attribute_group_id', [18, 17, 16, 24])
                 ->pluck('attribute_id')
                 ->all();
         }
