@@ -100,7 +100,7 @@ class OrderController extends Controller
             $cart = new APIDiamond;
             $result = $cart->getCart();
             $cart_data = $result->original['data'];
-            if (count($exists) < 2) {
+            if (count($exists) < 1) {
                 return $this->errorResponse('We are unable to find your selected address');
             } else if (!count($cart_data)) {
                 return $this->errorResponse('Your cart is empty');

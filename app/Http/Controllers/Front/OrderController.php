@@ -43,8 +43,11 @@ class OrderController extends Controller {
     {
         // $customer = Auth::user();
         $token = explode('---', base64_decode($request->token));
-        $request->shipping_company_id = $token[0];
-        $request->billing_company_id = $token[1];
+        $request->request->add([
+            'shipping_company_id' => $token[0],
+            'billing_company_id' => $token[1]
+        ]);
+
         $api = new APIOrder;
         $data = $api->saveMyOrder($request);
         if ($data->original['flag'] == true) {
