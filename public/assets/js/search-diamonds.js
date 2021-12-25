@@ -362,7 +362,7 @@ $(document).on('mouseover', '#result-table tbody tr', function() {
     $('.result-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
     $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price') + ' USD');
     $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
-    $('.search-diamond-table .table-responsive').css('height', $('.result-tab-content .selected-diamonds').height() + 40 + 'px');
+    // $('.search-diamond-table .table-responsive').css('height', $('.result-tab-content .selected-diamonds').height() + 40 + 'px');
 });
 $(document).on('mouseover', '#compare-table tbody tr', function() {
     $('.compare-tab-content .select-diamond-temp').hide();
