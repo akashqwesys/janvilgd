@@ -11,8 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
     @yield('css')
 </head>
 <body>
@@ -27,7 +27,7 @@
 		    </button> -->
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-			<ul class="navbar-nav">				
+			<ul class="navbar-nav">
 				<li class="nav-item">
 					<a class="nav-link" href="/">Home</a>
 		        </li>
@@ -39,7 +39,7 @@
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Our Product
 					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">					
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li>
 							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 						</li>
@@ -51,10 +51,10 @@
 						</li>
 
 					</ul>
-				</li>				
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/contact">Contact</a>
-				</li>				
+				</li>
 			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
