@@ -25,7 +25,7 @@ class CreateOrderDiamondsTable extends Migration
             $table->float('rapaport_price');
             $table->float('price');
             $table->float('discount');
-            $table->string('weight_loss',10);
+            $table->string('weight_loss', 30);
             $table->text('video_link');
             $table->text('images');
             $table->foreignId('refCategory_id');
