@@ -404,6 +404,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                     <tbody>
                                                         @foreach ($e_data as $rv)
                                                         @php $rv = $rv['_source']; @endphp
+                                                        @if ($rv['available_pcs'] > 0)
                                                         <tr data-diamond="{{ $rv['diamond_id'] }}" data-price="${{ number_format($rv['total'], 2, '.', ',') }}" data-name="{{ $rv['name'] }}" data-image="{{ count($rv['image']) ? $rv['image'][0] : '/assets/images/No-Preview-Available.jpg'}}" data-barcode="{{ $rv['barcode'] }}" data-carat="{{ $rv['expected_polish_cts'] }}" data-shape="{{ $rv['attributes']['SHAPE'] }}" data-color="{{ $rv['attributes']['COLOR'] }}" data-clarity="{{ $rv['attributes']['CLARITY'] }}">
                                                             <td scope="col" class="text-left">
                                                                 @if (isset($rv['attributes']['CERTIFICATE URL']))
@@ -427,14 +428,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             <td scope="col" class="text-right">${{ number_format($rv['total'], 2, '.', ',') }}</td>
                                                             @if ($admin == false)
                                                             <td scope="col" class="text-center">
-                                                                @if ($rv['available_pcs'] == 0)
-                                                                <b>Out of Stock</b>
-                                                                @else
                                                                 <button class="btn btn-primary add-to-cart btn-sm" data-id="{{ $rv['diamond_id'] }}">Add To Cart</button>
-                                                                @endif
                                                             </td>
                                                             @endif
                                                         </tr>
+                                                        @endif
                                                         @endforeach
                                                     </tbody>
                                                 </table>

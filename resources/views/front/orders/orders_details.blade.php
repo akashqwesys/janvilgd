@@ -17,6 +17,9 @@
     hr {
         margin: 2rem 0;
     }
+    .img-cs {
+        width: 200px;
+    }
 </style>
 @endsection
 
@@ -62,9 +65,10 @@
                                 @php $hr = '<hr>'; @endphp
                                 @if ($temp_id != $o->order_id)
                                     @php $temp_id = $o->order_id; $hr = null; @endphp
+                                <h3 class="mb-3"><i>Order #: {{ $o->order_id }}</i></h3>
                                 <div class="row mb-3">
                                     <div class="col col-md-6 col-lg-6 bd-right">
-                                        <div class="mb-1 pb-1 bd-bottom bd-top">Billing Address</div>
+                                        <div class="mb-1 p-1 bd-bottom bd-top">Billing Address</div>
                                         <div>{{ $o->billing_company_name }}</div>
                                         <div>{{ $o->billing_company_office_address }}</div>
                                         <div>{{ $o->billing_city .' - '. $o->billing_company_office_pincode }}</div>
@@ -84,19 +88,19 @@
                                 </div>
                                 @endif
 
-                                <div class="row">
-                                    <div class="col col-12 col-lg-4">
-                                        <div class="order-prouct-image mb-3">
-                                            <img src="{{ $o->images[0] }}" alt="product" class="img-fluid">
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-lg-8">
-                                        <div class="order-prouct-details">
+                                <div class="mb-3">
+                                    {{-- <div class="col col-12 col-lg-4"> --}}
+                                        <span class="order-prouct-image mb-3">
+                                            <img src="{{ $o->images[0] }}" alt="product" class="img-cs">
+                                        </span>
+                                    {{-- </div>
+                                    <div class="col col-12 col-lg-8"> --}}
+                                        <div class="order-prouct-details d-inline-block mx-2">
                                             <h4 class="product-name">{{ $o->diamond_name }}</h4>
                                             <p>Barcode: {{ $o->barcode }}</p>
-                                            <p class="product-price">${{ round($o->price, 2) }}</p>
+                                            <p class="product-price">${{ number_format(round($o->price, 2), 2, '.', ',') }}</p>
                                         </div>
-                                    </div>
+                                    {{-- </div> --}}
                                 </div>
                             </div>
                             {!! $hr !!}

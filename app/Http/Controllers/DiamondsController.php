@@ -1014,8 +1014,6 @@ class DiamondsController extends Controller {
 
                                 $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
 
-
-
                                 $data_array = [
                                     'name' =>$name,
                                     'barcode' => $row['certificate'],

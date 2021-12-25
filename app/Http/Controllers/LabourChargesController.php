@@ -164,13 +164,13 @@ class LabourChargesController extends Controller {
                 $batch_row=array();
                 $batch_row['total'] = $total_price;
                 $batch_row['price_ct'] = $total_price / $cts[$i];
-                    $params["body"][]= [
+                    $params["body"][] = [
                             "update" => [
                                 "_index" => 'diamonds',
                                 "_id" => $ids[$i],
                             ]
                         ];
-                    $params["body"][]= [
+                    $params["body"][] = [
                         "doc"=>$batch_row
                     ];
                     if ($j % 1000 == 0) {

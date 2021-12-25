@@ -907,7 +907,8 @@ class DiamondController extends Controller
                 'query' => [
                     'bool' => [
                         'must' => [
-                            ['term' => ['is_recommended' => ['value' => 1]]]
+                            ['term' => ['is_recommended' => ['value' => 1]]],
+                            ['term' => ['refCategory_id' => ['value' => $diamonds['refCategory_id']]]],
                         ]
                     ]
                 ]
