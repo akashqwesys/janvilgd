@@ -271,6 +271,13 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
+
+<script>
+$(document).ready(function() {	
+	$('li .active').removeClass('active');	
+	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+});
+</script>
 <script type="text/javascript">
 	function addToCart (self) {
 		// var self = $(this);

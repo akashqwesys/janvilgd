@@ -15,6 +15,7 @@ use App\Mail\EmailVerification;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Elasticsearch\ClientBuilder;
 
 class OrderController extends Controller
 {
@@ -55,11 +56,11 @@ class OrderController extends Controller
 
         foreach ($orders as $v) {
             $v->images = json_decode($v->images);
-            $a = [];
-            foreach ($v->images as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
-            }
-            $v->images = $a;
+            // $a = [];
+            // foreach ($v->images as $v1) {
+            //     $a[] = '/storage/other_images/' . $v1;
+            // }
+            // $v->images = $a;
         }
         $data = ['orders' => $orders];
 
@@ -106,6 +107,10 @@ class OrderController extends Controller
                 return $this->errorResponse('Your cart is empty');
             }
 
+            $subtotal = floatval(str_replace(',', '', $cart_data['summary']['subtotal']));
+            $total = floatval(str_replace(',', '', $cart_data['summary']['total']));
+            $weight = floatval(str_replace(',', '', $cart_data['summary']['weight']));
+
             $shipping_info = collect($cart_data['all_company_details'])
                 ->where('customer_company_id', $request->shipping_company_id)
                 ->values()
@@ -116,8 +121,8 @@ class OrderController extends Controller
                 ->all();
             $discount = DB::table('discounts')
                 ->select('discount_id', 'name', 'discount')
-                ->where('from_amount', '<=', intval($cart_data['summary']['subtotal']))
-                ->where('to_amount', '>=', intval($cart_data['summary']['subtotal']))
+                ->where('from_amount', '<=', intval($subtotal))
+                ->where('to_amount', '>=', intval($subtotal))
                 ->first();
             $tax = DB::table('customer as c')
                 ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
@@ -127,8 +132,8 @@ class OrderController extends Controller
                 ->first();
             $shipping = DB::table('delivery_charges')
                 ->select('delivery_charge_id', 'name', 'amount')
-                ->where('from_weight', '<=', (intval($cart_data['summary']['weight']) - 1))
-                ->where('to_weight', '>=', (intval($cart_data['summary']['weight']) + 1))
+                ->where('from_weight', '<=', (intval($weight) - 1))
+                ->where('to_weight', '>=', (intval($weight) + 1))
                 ->first();
 
             $order = new Order;
@@ -159,7 +164,7 @@ class OrderController extends Controller
             $order->refState_id_shipping = $shipping_info[0]->refState_id;
             $order->refCountry_id_shipping = $shipping_info[0]->refCountry_id;
             $order->shipping_company_pan_gst_no = $shipping_info[0]->pan_gst_no;
-            $order->sub_total = $cart_data['summary']['subtotal'];
+            $order->sub_total = $subtotal;
             $order->refDelivery_charge_id = $shipping->delivery_charge_id ?? 0;
             $order->delivery_charge_name = $shipping->name ?? 0;
             $order->delivery_charge_amount = $shipping->amount ?? 0;
@@ -169,7 +174,7 @@ class OrderController extends Controller
             $order->refTax_id = $tax->tax_id ?? 0;
             $order->tax_name = $tax->name ?? 0;
             $order->tax_amount = $tax->amount ?? 0;
-            $order->total_paid_amount = $cart_data['summary']['total'];
+            $order->total_paid_amount = $total;
             $order->added_by = 0;
             $order->date_added = date('Y-m-d H:i:s');
             $order->date_updated = date('Y-m-d H:i:s');
@@ -192,8 +197,16 @@ class OrderController extends Controller
                 ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name')
                 ->where('c.refCustomer_id', $customer->customer_id)
                 ->get();
-            $od = [];
+            $od = $d_ids = [];
+            $params = [];
             foreach ($diamonds as $v) {
+                $params["body"][] = [
+                    "delete" => [
+                        "_index" => 'diamonds',
+                        "_id" => 'd_id_' . $v->diamond_id,
+                    ]
+                ];
+                $d_ids[] = $v->diamond_id;
                 $od[] = [
                     'refOrder_id' => $order->order_id,
                     'refDiamond_id' => $v->diamond_id,
@@ -213,6 +226,13 @@ class OrderController extends Controller
                     'updated_at' => date('Y-m-d H:i:s')
                 ];
             }
+            $client = ClientBuilder::create()
+                ->setHosts(['localhost:9200'])
+                ->build();
+            $client->bulk($params);
+
+            DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+
             DB::table('order_diamonds')->insert($od);
 
             DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();

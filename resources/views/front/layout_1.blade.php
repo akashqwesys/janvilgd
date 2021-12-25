@@ -29,32 +29,54 @@
 
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" href="/">Home</a>
+					<a class="nav-link" href="/">HOME</a>
 		        </li>
-				<li class="nav-item">
-					<a class="nav-link" href="/about-us">About</a>
-		        </li>
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="/about-us">ABOUT</a>
+		        </li> -->
 
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Our Product
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					OUR COMPANY
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li>
-							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+							<a class="dropdown-item" href="/about-us">ABOUT US</a>
 						</li>
 						<li >
-							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+							<a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+							<a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/grading">GRADING</a>
+						</li>
+
+					</ul>
+				</li>
+
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						OUR PRODUCT
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
+						</li>
+						<li >
+							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
 						</li>
 
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/contact">Contact</a>
-				</li>
+					<a class="nav-link" href="/contact">CONTACT</a>
+				</li>				
 			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
@@ -238,6 +260,12 @@
 <script src="/{{ check_host() }}assets/js/parallax.js"></script>
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
+<script>
+$(document).ready(function(){
+	$('li .active').removeClass('active');	
+	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 	
+});
+</script>
 @yield('js')
 </body>
 </html>

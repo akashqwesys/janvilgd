@@ -91,7 +91,10 @@ class CustomersController extends Controller {
             if ($request->is_approved==1 || $request->is_approved==0) {
                 $data = $data->where('customer_company_details.is_approved', $request->is_approved);
             }
-            $data = $data->latest()->orderBy('customer_id','desc')->get();
+            $data = $data->orderBy('customer_id', 'desc')
+                ->groupBy('customer_id')
+                ->groupBy('customer_company_details.is_approved')
+                ->get();
 
             // $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
