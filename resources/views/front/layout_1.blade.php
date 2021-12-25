@@ -239,22 +239,19 @@
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
-	$(document).ready(function(){
-
-$(".nav .dropdown").focusin( function (){
-   $(this).find(".dropdown-menu").each(function(){
-	 $(this).css({"display":'block','opacity':'1','top':'60px'}); 
-   });
-});
-
-  $(".nav .dropdown").focusout( function (){
-   $(this).find(".dropdown-menu").each(function(){
-	 $(this).css({"display":'block','opacity':'0','top':'0px'}); 
-   });
-});
-$(document).ready(function() {	
+$(document).ready(function(){
 	$('li .active').removeClass('active');	
-	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 	
+
+	$(".nav .dropdown").focusin( function (){
+		$(this).find(".dropdown-menu").each(function(){
+			$(this).css({"display":'block','opacity':'1','top':'60px'}); 
+		});
+	});
+	$(".nav .dropdown").focusout( function (){
+		$(this).find(".dropdown-menu").each(function(){
+		$(this).css({"display":'block','opacity':'0','top':'0px'}); 
+	});
 });
 </script>
 @yield('js')
