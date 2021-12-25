@@ -106,6 +106,7 @@ class LabourChargesController extends Controller {
             Diamonds::where('refCategory_id', $cat_id->category_id)->update(['total'=> DB::raw("total+($charge*expected_polish_cts)")]);
             $params = [
                 'index' => 'diamonds',
+                'size' => 10000,
                 'body'  => [
                     'query' => [
                         'bool' => [
@@ -125,6 +126,7 @@ class LabourChargesController extends Controller {
                     // $ppc[] = $v['_source']['price_ct'];
                 }
             }
+
         }
         if($request->id == 2){
             $cat_id = DB::table('categories')->select('category_id')->where('category_type', 2)->first();
