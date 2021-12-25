@@ -236,7 +236,7 @@ a {
 }
 
 a:hover {
-    color: #0a58ca
+    color: #d2ab66
 }
 
 a:not([href]):not([class]),
@@ -2948,14 +2948,14 @@ fieldset:disabled .btn {
 .btn-primary:hover {
     color: #fff;
     background-color: #0b5ed7;
-    border-color: #0a58ca
+    border-color: #d2ab66
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
     color: #fff;
     background-color: #0b5ed7;
-    border-color: #0a58ca;
+    border-color: #d2ab66;
     box-shadow: 0 0 0 .25rem rgba(49, 132, 253, .5)
 }
 
@@ -2965,7 +2965,7 @@ fieldset:disabled .btn {
 .btn-primary:active,
 .show>.btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #0a58ca;
+    background-color: #d2ab66;
     border-color: #0a53be
 }
 
@@ -3626,7 +3626,7 @@ fieldset:disabled .btn {
 }
 
 .btn-link:hover {
-    color: #0a58ca
+    color: #d2ab66
 }
 
 .btn-link.disabled,
@@ -4150,7 +4150,7 @@ fieldset:disabled .btn {
 
 .nav-link:focus,
 .nav-link:hover {
-    color: #0a58ca
+    color: #d2ab66
 }
 
 .nav-link.disabled {
@@ -4935,14 +4935,14 @@ fieldset:disabled .btn {
 
 .page-link:hover {
     z-index: 2;
-    color: #0a58ca;
+    color: #d2ab66;
     background-color: #e9ecef;
     border-color: #dee2e6
 }
 
 .page-link:focus {
     z-index: 3;
-    color: #0a58ca;
+    color: #d2ab66;
     background-color: #e9ecef;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
@@ -6629,7 +6629,7 @@ fieldset:disabled .btn {
 
 .link-primary:focus,
 .link-primary:hover {
-    color: #0a58ca
+    color: #d2ab66
 }
 
 .link-secondary {
