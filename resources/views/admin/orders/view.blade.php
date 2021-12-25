@@ -13,7 +13,7 @@
         @endif-->
     <div class="container-fluid">
         <div class="nk-content-inner">
-            
+
             <div class="nk-content-body">
                 <div class="nk-block nk-block-lg">
                     <div class="card">
@@ -82,26 +82,26 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Subtotal</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->sub_total,2)}}</td>
+                                        <td style="text-align: right;">$ {{round(floatval($data['result']->sub_total),2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Discount</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->discount_amount,2)}}</td>
+                                        <td style="text-align: right;">$ {{round(floatval($data['result']->discount_amount),2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->tax_amount,2)}}</td>
+                                        <td style="text-align: right;">$ {{round(floatval($data['result']->tax_amount),2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Shipping Charge</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->delivery_charge_amount,2)}}</td>
+                                        <td style="text-align: right;">$ {{round(floatval($data['result']->delivery_charge_amount),2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>
                                                 <h6>Total</h6>
                                             </b></td>
                                         <td style="text-align: right;"><b>
-                                                <h6>$ {{round($data['result']->total_paid_amount,2)}}</h6>
+                                                <h6>$ {{round(floatval($data['result']->total_paid_amount),2)}}</h6>
                                             </b></td>
                                     </tr>
 

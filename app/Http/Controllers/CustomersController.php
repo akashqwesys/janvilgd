@@ -83,78 +83,76 @@ class CustomersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
 
-                    $data = DB::table('customer')->select('customer.*', 'city.name as city_name','state.name as state_name','country.name as country_name','customer_company_details.is_approved','customer_company_details.pan_gst_attachment')
-                    ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
-                    ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
-                    ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
-                    ->join('customer_company_details', 'customer_company_details.refCustomer_id', '=', 'customer.customer_id');
-                    if ($request->is_approved==1 || $request->is_approved==0) {
-                        $data = $data->where('customer_company_details.is_approved',$request->is_approved);
-                    }
-                    $data = $data->latest()->orderBy('customer_id','desc')->get();
+            $data = DB::table('customer')->select('customer.*', 'customer_company_details.is_approved')
+            // ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
+            // ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
+            // ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
+            ->join('customer_company_details', 'customer_company_details.refCustomer_id', '=', 'customer.customer_id');
+            if ($request->is_approved==1 || $request->is_approved==0) {
+                $data = $data->where('customer_company_details.is_approved', $request->is_approved);
+            }
+            $data = $data->latest()->orderBy('customer_id','desc')->get();
 
-//            $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
+            // $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
-                            ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {
-                                return date_formate($row->date_added);
-                            })
-                            ->editColumn('is_active', function ($row) {
-                                $active_inactive_button = '';
-                                if ($row->is_active == 1) {
-                                    $active_inactive_button = '<span class="badge badge-success">Active</span>';
-                                }
-                                if ($row->is_active == 0) {
-                                    $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
-                                }
-                                return $active_inactive_button;
-                            })
-                            ->editColumn('is_approved', function ($row) {
-                                $active_inactive_button = '';
-                                if ($row->is_approved == 1) {
-                                    $active_inactive_button = '<span class="badge badge-success">Verified</span>';
-                                }
-                                if ($row->is_approved == 0) {
-                                    $active_inactive_button = '<span class="badge badge-danger">UnVerified</span>';
-                                }
-                                return $active_inactive_button;
-                            })
-                            ->editColumn('is_deleted', function ($row) {
-                                $delete_button = '';
-                                if ($row->is_deleted == 1) {
-                                    $delete_button = '<span class="badge badge-danger">Deleted</span>';
-                                }
-                                return $delete_button;
-                            })
-                            ->addColumn('action', function ($row) {
-                                if ($row->is_active == 1) {
-                                    $str = '<em class="icon ni ni-cross"></em>';
-                                    $class = "btn-danger";
-                                }
-                                if ($row->is_active == 0) {
-                                    $str = '<em class="icon ni ni-check-thick"></em>';
-                                    $class = "btn-success";
-                                }
+                // ->addIndexColumn()
+                ->addColumn('index', '')
+                ->editColumn('date_added', function ($row) {
+                    return date_formate($row->date_added);
+                })
+                ->editColumn('is_active', function ($row) {
+                    $active_inactive_button = '';
+                    if ($row->is_active == 1) {
+                        $active_inactive_button = '<span class="badge badge-success">Active</span>';
+                    }
+                    if ($row->is_active == 0) {
+                        $active_inactive_button = '<span class="badge badge-danger">inActive</span>';
+                    }
+                    return $active_inactive_button;
+                })
+                ->editColumn('is_approved', function ($row) {
+                    $active_inactive_button = '';
+                    if ($row->is_approved == 1) {
+                        $active_inactive_button = '<span class="badge badge-success">Verified</span>';
+                    }
+                    if ($row->is_approved == 0) {
+                        $active_inactive_button = '<span class="badge badge-danger">UnVerified</span>';
+                    }
+                    return $active_inactive_button;
+                })
+                ->editColumn('is_deleted', function ($row) {
+                    $delete_button = '';
+                    if ($row->is_deleted == 1) {
+                        $delete_button = '<span class="badge badge-danger">Deleted</span>';
+                    }
+                    return $delete_button;
+                })
+                ->addColumn('action', function ($row) {
+                    if ($row->is_active == 1) {
+                        $str = '<em class="icon ni ni-cross"></em>';
+                        $class = "btn-danger";
+                    }
+                    if ($row->is_active == 0) {
+                        $str = '<em class="icon ni ni-check-thick"></em>';
+                        $class = "btn-success";
+                    }
+                    $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id"> <em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
+                    // $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank"> Attachement <em class="icon ni ni-eye-fill"></em></a>';
 
-                                
-                                $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
-                                $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank">&nbsp;Attachement&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
-                                
-                                if ($row->is_approved == 1) {
-                                    $str = 'UnVerify';
-                                    $class = "btn-danger";
-                                }
-                                if ($row->is_approved == 0) {
-                                    $str = 'Verify';
-                                    $class = "btn-success";
-                                }
-                                $actionBtn.=' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_approved . '" data-table="customer_company_details" data-wherefield="refCustomer_id" data-module="customers">' . $str . '</button>';
-                                $actionBtn.=' <a href="/admin/customer-login-by-admin/'. encrypt($row->email,false).'" class="btn btn-xs text-white btn-primary">Login</a>';
-                                return $actionBtn;
-                            })
-                            ->escapeColumns([])
-                            ->make(true);
+                    if ($row->is_approved == 1) {
+                        $str = 'UnVerify';
+                        $class = "btn-danger";
+                    }
+                    if ($row->is_approved == 0) {
+                        $str = 'Verify';
+                        $class = "btn-success";
+                    }
+                    $actionBtn.=' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_approved . '" data-table="customer_company_details" data-wherefield="refCustomer_id" data-module="customers">' . $str . '</button>';
+                    $actionBtn.=' <a href="/admin/customer-login-by-admin/'. encrypt($row->email,false).'" class="btn btn-xs text-white btn-primary">Login</a>';
+                    return $actionBtn;
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
     }
 
