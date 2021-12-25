@@ -2035,6 +2035,10 @@ span.value.upper::before {
     color: #d2ab66;
 }
 
+.nav-item a:hover {
+    color: #d2ab66;
+}
+
 .dropdown-menu li a:hover {
     background-color: #000 !important;
     color: #d2ab66;
