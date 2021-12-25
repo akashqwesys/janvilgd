@@ -53,13 +53,8 @@
 					</ul>
 				</li>
 				<li class="nav-item">
-<<<<<<< Updated upstream
-					<a class="nav-link" href="/contact">Contact</a>
-				</li>
-=======
 					<a class="nav-link" href="/contact">CONTACT</a>
 				</li>				
->>>>>>> Stashed changes
 			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
