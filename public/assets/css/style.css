@@ -2031,6 +2031,7 @@ span.value.upper::before {
 
 .dropdown-menu {
     padding: 0 0 !important;
+    top: 60px !important;
 }
 
 .dropdown-menu li:hover {
