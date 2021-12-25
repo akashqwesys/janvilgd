@@ -12,8 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
     <link rel="stylesheet" href="/admin_assets/toast/jquery.toast.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v={{ time() }}">
+	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/rSlider.js"></script>
@@ -30,7 +30,7 @@
 		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
 		    </button> -->
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		      <ul class="navbar-nav">			 
+		      <ul class="navbar-nav">
 		        <li class="nav-item">
 					<a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
