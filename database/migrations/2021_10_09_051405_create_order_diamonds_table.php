@@ -18,16 +18,18 @@ class CreateOrderDiamondsTable extends Migration
             $table->foreignId('refOrder_id');
             $table->foreignId('refDiamond_id');
             $table->text('barcode');
-            $table->string('makable_cts',30);
-            $table->string('expected_polish_cts',30);
+            $table->text('name');
+            $table->float('makable_cts');
+            $table->float('expected_polish_cts');
             $table->text('remarks');
-            $table->string('rapaport_price',30);
-            $table->string('discount',30);
+            $table->float('rapaport_price');
+            $table->float('price');
+            $table->float('discount');
             $table->string('weight_loss',10);
             $table->text('video_link');
             $table->text('images');
             $table->foreignId('refCategory_id');
-            $table->timestamps();  
+            $table->timestamps();
         });
     }
 

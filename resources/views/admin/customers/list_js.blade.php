@@ -1,19 +1,19 @@
 <?php if ($data['title'] == 'List-Customers') {
     ?>
     <script type="text/javascript">
-        $(document).ready(function () { 
+        $(document).ready(function () {
             list_customers(2);
             $('#is_approved').on('change', function () {
                 var is_approved = $("#is_approved").children("option").filter(":selected").val();
-                $('#table').DataTable().destroy();                   
+                $('#table').DataTable().destroy();
                 list_customers(is_approved);
             });
-            
+
             function list_customers(is_approved){
-                
+
                 var data = {
                     'is_approved': is_approved
-                };                
+                };
                 var table = $('#table').DataTable({
                 responsive: {
                     details: {
@@ -25,32 +25,32 @@
                         className: 'control',
                         orderable: false,
                         targets: 0
-                    }],                
+                    }],
                 "processing": true,
                 "serverSide": true,
                 "pageLength": 10,
                 "paginationType": "full_numbers",
-                
-                "ajax": {                    
+
+                "ajax": {
                     'url': "{{ route('customers.list') }}",
                     'data': data
-                },                                             
+                },
 //                ajax: "{{ route('customers.list') }}",
-                columns: [                    
+                columns: [
                     {data: 'index', name: 'index'},
-                    {data: 'name', name: 'name'},                   
+                    {data: 'name', name: 'name'},
                     {data: 'mobile', name: 'mobile'},
                     {data: 'email', name: 'email'},
-                    {data: 'address', name: 'address'},
-                    {data: 'pincode', name: 'pincode'},
-                    {data: 'city_name', name: 'city_name'},
-                    {data: 'state_name', name: 'state_name'},
-                    {data: 'country_name', name: 'country_name'},            
-                    {data: 'refCustomerType_id', name: 'refCustomerType_id'},
-                    {data: 'restrict_transactions', name: 'restrict_transactions'},
-                    {data: 'added_by', name: 'added_by'},                                       
+                    // {data: 'address', name: 'address'},
+                    // {data: 'pincode', name: 'pincode'},
+                    // {data: 'city_name', name: 'city_name'},
+                    // {data: 'state_name', name: 'state_name'},
+                    // {data: 'country_name', name: 'country_name'},
+                    // {data: 'refCustomerType_id', name: 'refCustomerType_id'},
+                    // {data: 'restrict_transactions', name: 'restrict_transactions'},
+                    // {data: 'added_by', name: 'added_by'},
                     {data: 'is_active', name: 'is_active',className: "is_active"},
-                    {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
+                    // {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
                     {data: 'is_approved', name: 'is_approved',className: "is_approved"},
                     {data: 'date_added', name: 'date_added'},
                     {
@@ -60,12 +60,12 @@
                         searchable: true
                     }
                 ],
-                "createdRow": function (row, data, dataIndex) {                    
-                    $(row).addClass('tr_'+data['customer_id']);                      
+                "createdRow": function (row, data, dataIndex) {
+                    $(row).addClass('tr_'+data['customer_id']);
                 }
             });
             }
-            
+
         });
     </script>
     <script type="text/javascript">
@@ -98,9 +98,9 @@
                     }
                 });
             });
-        });    
+        });
     </script>
-    <script type="text/javascript">     
+    <script type="text/javascript">
         $(document).ready(function () {
             $(document).on('click', '.active_inactive_button', function () {
                 var self = $(this);
@@ -109,7 +109,7 @@
                 var module = self.attr('data-module');
                 var status_main=1;
                 if(status==1){
-                    status_main=0;                    
+                    status_main=0;
                 }
                 var wherefield = self.attr('data-wherefield');
                 if (!confirm('Are you sure want to update?'))
@@ -130,30 +130,30 @@
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
-                            if(status==1){                                
+                            if(status==1){
                                 if(table==="customer_company_details"){
                                     $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-danger">Unverified</span>');
                                     self.html('Verify');
-                                }else{                                
-                                    $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');  
+                                }else{
+                                    $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');
                                     self.html('<em class="icon ni ni-check-thick"></em>');
-                                }                                                                
+                                }
                                 self.attr("data-status",0);
                                 self.removeClass('btn-danger');
                                 self.addClass('btn-success');
                             }
                             if(status==0){
                                 if(table==="customer_company_details"){
-                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-success">Verified</span>'); 
+                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-success">Verified</span>');
                                     self.html('UnVerify');
                                 }else{
-                                   $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>'); 
+                                   $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>');
                                    self.html('<em class="icon ni ni-cross"></em>');
                                 }
-                                self.attr("data-status",1);                                
+                                self.attr("data-status",1);
                                 self.removeClass('btn-success');
                                 self.addClass('btn-danger');
-                            }                            
+                            }
                             $('#append_loader').empty();
                         }
                     }
