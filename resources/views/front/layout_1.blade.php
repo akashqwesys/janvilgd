@@ -31,9 +31,31 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/">HOME</a>
 		        </li>
-				<li class="nav-item">
+				<!-- <li class="nav-item">
 					<a class="nav-link" href="/about-us">ABOUT</a>
-		        </li>
+		        </li> -->
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					OUR COMPANY
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="/about-us">ABOUT US</a>
+						</li>
+						<li >
+							<a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/grading">GRADING</a>
+						</li>
+
+					</ul>
+				</li>
+
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
