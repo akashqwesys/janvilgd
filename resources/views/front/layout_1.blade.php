@@ -242,16 +242,6 @@
 $(document).ready(function(){
 	$('li .active').removeClass('active');	
 	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 	
-
-	$(".nav .dropdown").focusin( function (){
-		$(this).find(".dropdown-menu").each(function(){
-			$(this).css({"display":'block','opacity':'1','top':'60px'}); 
-		});
-	});
-	$(".nav .dropdown").focusout( function (){
-		$(this).find(".dropdown-menu").each(function(){
-		$(this).css({"display":'block','opacity':'0','top':'0px'}); 
-	});
 });
 </script>
 @yield('js')
