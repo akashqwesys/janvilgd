@@ -97,16 +97,17 @@ class InformativePagesController extends Controller {
     }
 
     public function update(Request $request) {
+        $data = json_decode($request->data);
 
-        DB::table('informative_pages')->where('informative_page_id', $request->id)->update([
-            'name' => $request->name,
-            'content' => clean_html($request->content),
-            'slug' => clean_string($request->slug),
+        DB::table('informative_pages')->where('informative_page_id', $data->id)->update([
+            'name' => $data->name,
+            'content' => clean_html($data->content),
+            'slug' => clean_string($data->slug),
             'updated_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request,"updated", 'informative-pages', $request->id);
+        activity($request, "updated", 'informative-pages', $data->id);
         // successOrErrorMessage("Data updated Successfully", 'success');
         // return redirect('admin/informative-pages');
         return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/admin/informative-pages']);

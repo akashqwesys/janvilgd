@@ -131,13 +131,20 @@
     $(document).on('click', '#submitForm', function(e) {
         e.preventDefault();
         var formData = new FormData($('#myForm')[0]);
+        var myjson = {
+            'id': <?php echo $data['result']->informative_page_id; ?>,
+            'name': $('#name').val(),
+            'content': $('#summernote-basic-id').val(),
+            'slug': $('#slug').val()
+        };
         $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             type: "post",
             enctype: 'multipart/form-data',
             url: "/admin/informative-pages/update",
-            data: formData,
-            processData: false,
-            contentType: false,
+            data: { 'data': JSON.stringify(myjson) },
+            // processData: false,
+            // contentType: false,
             cache: false,
             dataType: "json",
             success: function (response) {
