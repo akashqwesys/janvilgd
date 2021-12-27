@@ -2039,6 +2039,12 @@ span.value.upper::before {
     width: 100%;
     color: #d2ab66;
 }
+.dropdown-menu li {
+    width: 100%;
+}
+.dropdown-menu li.bg-cs-dark:hover {
+    background-color: #000 !important;
+}
 
 .nav-item a:hover {
     color: #d2ab66;
@@ -2049,14 +2055,18 @@ span.value.upper::before {
     color: #d2ab66;
 }
 
-.navbar-nav .active {
-    color: #d2ab66 !important;
+.dropdown-menu li.bg-cs-dark a:hover {
     background-color: #000 !important;
 }
 
+.navbar-nav .active {
+    /* color: #d2ab66 !important; */
+    /* background-color: #000 !important; */
+}
+
 .active .nav-link {
-    color: #d2ab66 !important;
-    background-color: #000 !important;
+    /* color: #d2ab66 !important; */
+    /* background-color: #000 !important; */
 }
 
 .list-unstyled li a:hover {

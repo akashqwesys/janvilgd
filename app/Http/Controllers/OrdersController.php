@@ -51,52 +51,66 @@ class OrdersController extends Controller
                 $hash = $element['barcode'];
                 $unique_array[$hash] = $element;
             }
+            dd($unique_array);
             $result = array_values($unique_array);
             foreach($unique_array as $row){
                 array_push($barcode_array, $row['barcode']);
             }
 
             $labour_charge_4p = DB::table('labour_charges')
-            ->where('is_active', 1)
-            ->where('labour_charge_id', 1)
-            ->where('is_deleted', 0)
-            ->first();
+                ->where('is_active', 1)
+                ->where('labour_charge_id', 1)
+                ->where('is_deleted', 0)
+                ->first();
 
             $labour_charge_rough = DB::table('labour_charges')
-            ->where('is_active', 1)
-            ->where('labour_charge_id', 2)
-            ->where('is_deleted', 0)
-            ->first();
+                ->where('is_active', 1)
+                ->where('labour_charge_id', 2)
+                ->where('is_deleted', 0)
+                ->first();
 
             $customer = DB::table('customer')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->where('customer_id',$request->refCustomer_id)
-            ->first();
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->where('customer_id', $request->refCustomer_id)
+                ->first();
 
             $shipping_address = DB::table('customer_company_details')
-            ->where('customer_company_id',$request->refCustomer_company_id_shipping)
-            ->first();
+                ->where('customer_company_id', $request->refCustomer_company_id_shipping)
+                ->first();
 
             $billing_address = DB::table('customer_company_details')
-            ->where('customer_company_id',$request->refCustomer_company_id_billing)
-            ->first();
+                ->where('customer_company_id',$request->refCustomer_company_id_billing)
+                ->first();
 
             $payment_mode = DB::table('payment_modes')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->where('payment_mode_id',$request->payment_mode_id)
-            ->first();
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->where('payment_mode_id',$request->payment_mode_id)
+                ->first();
+
+            $tax = DB::table('customer as c')
+                ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+                ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+                ->select('t.tax_id', 't.name', 't.amount')
+                ->where('c.customer_id', $customer->customer_id)
+                ->first();
 
             $diamonds = DB::table('diamonds')->select('diamonds.*','categories.category_type')
-            ->join('categories', 'categories.category_id', '=', 'diamonds.refCategory_id')
-            ->where('diamonds.is_active', 1)
-            ->where('diamonds.is_deleted', 0)
-            ->where('diamonds.available_pcs', '<>', 0)
-            ->whereIn('diamonds.barcode', $barcode_array)
-            ->get();
+                ->join('categories', 'categories.category_id', '=', 'diamonds.refCategory_id')
+                ->where('diamonds.is_active', 1)
+                ->where('diamonds.is_deleted', 0)
+                ->where('diamonds.available_pcs', '<>', 0)
+                ->whereIn('diamonds.barcode', $barcode_array)
+                ->get();
 
             if(!empty($diamonds)){
+
+                /* $shipping = DB::table('delivery_charges')
+                    ->select('delivery_charge_id', 'name', 'amount')
+                    ->where('from_weight', '<=', (intval($weight) - 1))
+                    ->where('to_weight', '>=', (intval($weight) + 1))
+                    ->first(); */
 
                 DB::table('orders')->insert([
                     'refCustomer_id' => $request->refCustomer_id,
@@ -129,16 +143,16 @@ class OrdersController extends Controller
                     'refCountry_id_shipping' => $shipping_address->refCountry_id,
                     'shipping_company_pan_gst_no' => $shipping_address->pan_gst_no,
 
-                    'refDelivery_charge_id'=>0,
-                    'delivery_charge_name'=>0,
-                    'delivery_charge_amount'=>0,
-                    'refDiscount_id'=>0,
-                    'discount_name'=>0,
-                    'discount_amount'=>0,
-                    'refTax_id'=>0,
-                    'tax_name'=>0,
-                    'tax_amount'=>0,
-                    'added_by'=>$request->session()->get('loginId'),
+                    'refDelivery_charge_id' => 0,
+                    'delivery_charge_name' => 0,
+                    'delivery_charge_amount' => 0,
+                    'refDiscount_id' => 0,
+                    'discount_name' => 0,
+                    'discount_amount' => 0,
+                    'refTax_id' => $tax->tax_id ?? 0,
+                    'tax_name' => $tax->name ?? 0,
+                    'tax_amount' => $tax->amount ?? 0,
+                    'added_by'=> $request->session()->get('loginId'),
                     'sub_total' => 0,
                     'total_paid_amount' => 0,
                     'date_added' => date("Y-m-d h:i:s"),
@@ -167,15 +181,15 @@ class OrdersController extends Controller
                         if($row->barcode==$u_array['barcode']){
                             if ($row->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $discount = str_replace('-', '', $u_array['discount']);
-                                $discount = doubleval($discount);
-                                $total=abs(($row->rapaport_price * $row->expected_polish_cts * ($discount-1))) - ($labour_charge_4p->amount*$row->expected_polish_cts);
+                                $discount = doubleval((100 - $discount) / 100);
+                                $total=abs(($row->rapaport_price * $row->expected_polish_cts * $discount)) - ($labour_charge_4p->amount*$row->expected_polish_cts);
                                 $subtotal=$subtotal+$total;
                             }
                             if ($row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
                                 $discount = str_replace('-', '', $u_array['discount']);
-                                $discount = doubleval($discount);
+                                $discount = doubleval((100 - $discount) / 100);
 
-                                $price=abs($row->rapaport_price*($discount-1));
+                                $price=abs($row->rapaport_price*$discount);
                                 $amount=abs($price*doubleval($row->expected_polish_cts));
                                 $ro_amount=abs($amount/doubleval($row->makable_cts));
                                 $final_price=$ro_amount-$labour_charge_rough->amount;
@@ -184,8 +198,8 @@ class OrdersController extends Controller
                             }
                             if ($row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
                                 $discount = str_replace('-', '', $u_array['discount']);
-                                $discount = doubleval($discount);
-                                $total=abs($row->rapaport_price*$row->expected_polish_cts*($discount-1));
+                                $discount = doubleval((100 - $discount) / 100);
+                                $total=abs($row->rapaport_price*$row->expected_polish_cts*$discount);
                                 $subtotal=$subtotal+$total;
                             }
                             $batch_d['refOrder_id']=$Id;
@@ -223,7 +237,7 @@ class OrdersController extends Controller
                 }
             }
         }
-        activity($request, "inserted", 'orders',$Id);
+        activity($request, "inserted", 'orders', $Id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/orders');
     }
