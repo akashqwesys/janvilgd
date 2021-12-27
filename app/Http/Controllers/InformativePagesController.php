@@ -86,17 +86,18 @@ class InformativePagesController extends Controller {
 
     public function edit($id) {
         $result = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated', 'default_content')->where('informative_page_id', $id)->first();
-        if(!empty($result)){
-            $str= str_replace('&lt;','<', $result->content);
-            $str1= str_replace('&gt;','>', $str);
+        /* if(!empty($result)){
+            $str = str_replace('&lt;','<', $result->content);
+            $str1 = str_replace('&gt;','>', $str);
             $result->content= $str1;
-        }
+        } */
         $data['title'] = 'Edit-Informative-Pages';
         $data['result'] = $result;
         return view('admin.informativePages.edit', ["data" => $data]);
     }
 
     public function update(Request $request) {
+
         DB::table('informative_pages')->where('informative_page_id', $request->id)->update([
             'name' => $request->name,
             'content' => clean_html($request->content),
@@ -105,9 +106,10 @@ class InformativePagesController extends Controller {
             'is_active' => 1,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        activity($request,"updated",'informative-pages',$request->id);
-        successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('admin/informative-pages');
+        activity($request,"updated", 'informative-pages', $request->id);
+        // successOrErrorMessage("Data updated Successfully", 'success');
+        // return redirect('admin/informative-pages');
+        return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/admin/informative-pages']);
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {

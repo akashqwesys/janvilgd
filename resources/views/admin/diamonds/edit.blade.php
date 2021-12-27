@@ -204,7 +204,7 @@
                                     <div class="row g-3 align-center d-none" id="packate_no">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
+                                                <label class="form-label float-md-right" for="packate_no">Packet No:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -407,7 +407,7 @@
                             </div>
 
                             <div class="col-md-6" id="ajaxForm">
-                            <div id='append_loader_rapa'></div>
+                                <div id='append_loader_rapa'></div>
                                 <div class="card bg-lighter text-dark align-items-center">
                                     <div class="card-inner">
                                         <div class="align-items-center">
@@ -474,7 +474,7 @@
                                                 </div>
                                                 @if ($data['result']->refCategory_id == 2)
                                                 <div class="traffic-channel-data alert-danger mt-2" style="width:100%">
-                                                    <b>NOTE : HERE Price/CT = Rapaport Price/CT - Discount %</b>
+                                                    <b>NOTE: HERE Price/CT = Rapaport Price/CT - Discount %</b>
                                                 </div>
                                                 @endif
                                             </div><!-- .traffic-channel-group -->
