@@ -2032,6 +2032,7 @@ span.value.upper::before {
 .dropdown-menu {
     padding: 0 0 !important;
     top: 60px !important;
+    background-color: #d4d5d8 !important;
 }
 
 .dropdown-menu li:hover {
@@ -2039,9 +2040,11 @@ span.value.upper::before {
     width: 100%;
     color: #d2ab66;
 }
+
 .dropdown-menu li {
     width: 100%;
 }
+
 .dropdown-menu li.bg-cs-dark:hover {
     background-color: #000 !important;
 }
@@ -2087,6 +2090,7 @@ span.value.upper::before {
 .search-diamond-table .table {
     font-size: 14px;
 }
+
 
 /* .search-diamond-table .table thead {
     position: sticky;
