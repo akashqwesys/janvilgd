@@ -33,19 +33,6 @@
         });
     </script>
 <?php } ?>
-<?php if ($data['title'] == 'Edit-Informative-Pages') {
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#back_to_default').on('click', function () {
-                $("#summernote-basic-id").summernote('code','');
-                $("#summernote-basic-id").summernote('code',$("#default_content_hidden_input").val());
-//              $("#summernote-basic-id").val($("#default_content_hidden_input").val());
-            });
-        });
-    </script>
-<?php } ?>
-
 
 <?php if ($data['title'] == 'Add-Order') {
     ?>
