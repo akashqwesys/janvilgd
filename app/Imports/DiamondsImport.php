@@ -14,10 +14,10 @@ class DiamondsImport implements ToArray, WithHeadingRow, WithEvents
 {
     public $sheetNames;
     public $sheetData;
-	
+
     public function __construct(){
         $this->sheetNames = [];
-	$this->sheetData = [];
+	    $this->sheetData = [];
     }
     public function array(array $array)
     {
@@ -28,11 +28,11 @@ class DiamondsImport implements ToArray, WithHeadingRow, WithEvents
         return [
             BeforeSheet::class => function(BeforeSheet $event) {
             	$this->sheetNames[] = $event->getSheet()->getTitle();
-            } 
+            }
         ];
     }
     public function model(array $row)
-    {  
+    {
         return $row;
     }
 }

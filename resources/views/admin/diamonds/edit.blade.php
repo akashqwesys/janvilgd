@@ -474,7 +474,7 @@
                                                 </div>
                                                 @if ($data['result']->refCategory_id == 2)
                                                 <div class="traffic-channel-data alert-danger mt-2" style="width:100%">
-                                                    <b>Note: Here Price/CT = Rapaport Price x Discount</b>
+                                                    <b>NOTE : HERE Price/CT = Rapaport Price/CT - Discount %</b>
                                                 </div>
                                                 @endif
                                             </div><!-- .traffic-channel-group -->
