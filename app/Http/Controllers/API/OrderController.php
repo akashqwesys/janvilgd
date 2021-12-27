@@ -143,7 +143,7 @@ class OrderController extends Controller
             $order->email_id = $customer->email;
             $order->refPayment_mode_id = 1;
             $order->payment_mode_name = 'COD';
-            $order->refTransaction_id = mt_rand(1111, 9999);
+            $order->refTransaction_id = mt_rand(111111, 999999);
             $order->refCustomer_company_id_billing = $billing_info[0]->customer_company_id;
             $order->billing_company_name = $billing_info[0]->name;
             $order->billing_company_office_no = $billing_info[0]->office_no;

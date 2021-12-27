@@ -548,9 +548,16 @@
         <div class="similar-diamonds-box">
             <h4 class="mb-4">Similar Diamonds</h4>
             <div class="row">
-                <div class="owl-carousel">
+                @php
+                if (count($similar) > 4) {
+                    echo '<div class="owl-carousel-1">';
+                    $cols = '';
+                } else {
+                    $cols = 'col-md-3 col-6';
+                }
+                @endphp
                     @foreach ($similar as $r)
-                    <div class="col-md-3- mb-3">
+                    <div class="{{ $cols }} mb-3">
                         <div class="card">
                             <div class="card-body- p-1 text-center">
                                 <div class=" mb-2">
@@ -566,7 +573,9 @@
                         </div>
                     </div>
                     @endforeach
+                @if (count($similar) > 4)
                 </div>
+                @endif
             </div>
         </div>
         @endif
@@ -574,9 +583,16 @@
         <div class="recommended-diamonds-box">
             <h4 class="mb-4">Recommended Diamonds</h4>
             <div class="row">
-                <div class="owl-carousel">
+                @php
+                if (count($recommended) > 4) {
+                    echo '<div class="owl-carousel-2">';
+                    $cols = '';
+                } else {
+                    $cols = 'col-md-3 col-6';
+                }
+                @endphp
                     @foreach ($recommended as $r)
-                    <div class="col-md-3- mb-3">
+                    <div class="{{ $cols }} mb-3">
                         <div class="card">
                             <div class="card-body- p-1 text-center">
                                 <div class="mb-2">
@@ -592,7 +608,9 @@
                         </div>
                     </div>
                     @endforeach
+                @if (count($recommended) > 4)
                 </div>
+                @endif
             </div>
         </div>
         @endif
@@ -680,17 +698,31 @@
     @endsection
     @section('js')
     <script src="/assets/owlcarousel/owl.carousel.min.js"></script>
-    <script>
-        var owl = $('.owl-carousel');
-        owl.owlCarousel({
-            items:4,
-            loop:true,
-            margin:25,
-            autoplay:true,
-            autoplayTimeout:3000,
-            autoplayHoverPause:true,
-            checkVisible: true
-        });
+    <script type="text/javascript">
+        var cnt_similar = @php echo count($similar); @endphp;
+        if (cnt_similar > 4) {
+            var owl_1 = $('.owl-carousel-1');
+            owl_1.owlCarousel({
+                items:4,
+                loop:true,
+                margin:25,
+                autoplay:true,
+                autoplayTimeout:3000,
+                autoplayHoverPause:true
+            });
+        }
+        var cnt_recommended = @php echo count($recommended); @endphp;
+        if (cnt_recommended > 4) {
+            var owl_2 = $('.owl-carousel-2');
+            owl_2.owlCarousel({
+                items:4,
+                loop:true,
+                margin:25,
+                autoplay:true,
+                autoplayTimeout:3000,
+                autoplayHoverPause:true
+            });
+        }
         $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');

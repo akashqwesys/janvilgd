@@ -2035,7 +2035,7 @@ span.value.upper::before {
 }
 
 .dropdown-menu li:hover {
-    background-color: #000 !important;
+    /* background-color: #000 !important; */
     width: 100%;
     color: #d2ab66;
 }
@@ -2045,7 +2045,7 @@ span.value.upper::before {
 }
 
 .dropdown-menu li a:hover {
-    background-color: #000 !important;
+    /* background-color: #000 !important; */
     color: #d2ab66;
 }
 
@@ -2061,7 +2061,7 @@ span.value.upper::before {
 
 .list-unstyled li a:hover {
     color: #d2ab66 !important;
-    background-color: #000 !important;
+    /* background-color: #000 !important; */
 }
 
 .select-diamond {
@@ -2077,7 +2077,6 @@ span.value.upper::before {
 .search-diamond-table .table {
     font-size: 14px;
 }
-
 
 /* .search-diamond-table .table thead {
     position: sticky;
