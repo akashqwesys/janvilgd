@@ -25,6 +25,7 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
+                            <input type="hidden" name="default_content" id="default_content_hidden_input" value="{!! $data['result']->default_content !!}">
                             <form method="POST" action="{{route('informative-pages.update')}}">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->informative_page_id }}">
@@ -52,7 +53,6 @@
                                         <div class="form-control-wrap">
                                             <textarea id="summernote-basic-id" name="content">{!! $data['result']->content !!}</textarea>
                                         </div>
-                                        <input type="hidden" name="default_content" id="default_content_hidden_input" value="{!! $data['result']->default_content !!}">
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-1">
                                         <div class="form-group">
@@ -79,14 +79,14 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <button type="button" class="btn btn-xs btn-warning" id="back_to_default">Back to defautl</button>
+                                                <button type="button" class="btn btn-xs btn-warning" id="back_to_default">Back to default</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                                                                               
+
                                 <hr>
-                                <div class="row g-3">                                 
+                                <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-1">
                                         <div class="form-group mt-2">
                                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -119,5 +119,13 @@
         .catch( error => {
             console.error( error );
         } ); */
+
+        $(document).ready(function () {
+            $('#back_to_default').on('click', function () {
+                $("#summernote-basic-id").summernote('code', '');
+                $("#summernote-basic-id").summernote('code', $("#default_content_hidden_input").val());
+                // $("#summernote-basic-id").val($("#default_content_hidden_input").val());
+            });
+        });
 </script>
 @endsection
