@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <input type="hidden" name="default_content" id="default_content_hidden_input" value="{!! $data['result']->default_content !!}">
-                            <form method="POST" action="{{route('informative-pages.update')}}">
+                            <form method="POST" action="{{route('informative-pages.update')}}" id="myForm">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->informative_page_id }}">
                                 <div class="row g-3 align-center">
@@ -89,7 +89,7 @@
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-1">
                                         <div class="form-group mt-2">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+                                            <button type="submit" id="submitForm" class="btn btn-lg btn-primary btn-block">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -120,12 +120,43 @@
             console.error( error );
         } ); */
 
-        $(document).ready(function () {
-            $('#back_to_default').on('click', function () {
-                $("#summernote-basic-id").summernote('code', '');
-                $("#summernote-basic-id").summernote('code', $("#default_content_hidden_input").val());
-                // $("#summernote-basic-id").val($("#default_content_hidden_input").val());
-            });
+    $(document).ready(function () {
+        $('#back_to_default').on('click', function () {
+            $("#summernote-basic-id").summernote('code', '');
+            $("#summernote-basic-id").summernote('code', $("#default_content_hidden_input").val());
+            // $("#summernote-basic-id").val($("#default_content_hidden_input").val());
         });
+    });
+
+    $(document).on('click', '#submitForm', function(e) {
+        e.preventDefault();
+        var formData = new FormData($('#myForm')[0]);
+        $.ajax({
+            type: "post",
+            enctype: 'multipart/form-data',
+            url: "/admin/informative-pages/update",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            dataType: "json",
+            success: function (response) {
+                $('.cs-loader').hide();
+                if (response.success == 1) {
+                    setTimeout(() => {
+                        window.location = response.url;
+                    }, 2000);
+                }
+            },
+            failure: function (response) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Oops, something went wrong...!',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+        });
+    });
 </script>
 @endsection

@@ -196,7 +196,7 @@
                                     <div class="row g-3 align-center d-none" id="packate_no">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="form-label float-md-right" for="packate_no">Packate No:</label>
+                                                <label class="form-label float-md-right" for="packate_no">Packat No:</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
