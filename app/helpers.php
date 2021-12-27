@@ -86,7 +86,7 @@ if (!function_exists('clean_string')) {
 
 if (!function_exists('activity')) {
 
-    function activity($request, $activity, $module,$id=0) {
+    function activity($request, $activity, $module, $id=0) {
         $agent = new \Jenssegers\Agent\Agent;
         $device = 'None';
         if ($agent->isDesktop()) {
