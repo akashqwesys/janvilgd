@@ -2923,7 +2923,8 @@ textarea.form-control.is-invalid {
 }
 
 .btn:hover {
-    color: #212529
+    color: #212529;
+    border: 1px solid #fff !important;
 }
 
 .btn-check:focus+.btn,
