@@ -40,43 +40,40 @@
 					OUR COMPANY
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li>
+						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/about-us">ABOUT US</a>
 						</li>
-						<li >
+						<li  class="bg-cs-dark">
 							<a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
 						</li>
-						<li>
+						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
 						</li>
-						<li>
+						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/grading">GRADING</a>
 						</li>
-
 					</ul>
 				</li>
-
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						OUR PRODUCT
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li>
+						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
 						</li>
-						<li >
+						<li  class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
 						</li>
-						<li>
+						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
 						</li>
-
 					</ul>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/contact">CONTACT</a>
-				</li>				
+				</li>
 			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
@@ -262,8 +259,8 @@
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
 $(document).ready(function(){
-	$('li .active').removeClass('active');	
-	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 	
+	$('li .active').removeClass('active');
+	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 });
 </script>
 @yield('js')
