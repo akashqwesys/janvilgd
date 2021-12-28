@@ -13,8 +13,15 @@
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
                     <div class="card">
+                        <div id='append_loader' class="overlay">
+                            <div class='d-flex justify-content-center' style="padding-top: 10%;">
+                                <div class='spinner-border text-success' role='status'>
+                                    <span class='sr-only'>Loading...</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-inner">
-                            <form method="POST" action="{{route('orders.import')}}" enctype="multipart/form-data">
+                            <form method="POST" action="{{route('orders.import')}}" enctype="multipart/form-data" onsubmit="showloader()">
                                 @csrf
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
@@ -51,7 +58,7 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <select class="form-select form-control" id="refCustomer_company_id_shipping" name="refCustomer_company_id_shipping" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                    <option value="" disabled="" selected="">------ Select Shipping Address ------</option>                                                    
+                                                    <option value="" disabled="" selected="">------ Select Shipping Address ------</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -67,7 +74,7 @@
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <select class="form-select form-control" id="refCustomer_company_id_billing" name="refCustomer_company_id_billing" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                    <option value="" disabled="" selected="">------ Select Billing Address ------</option>                                                    
+                                                    <option value="" disabled="" selected="">------ Select Billing Address ------</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -91,7 +98,7 @@
                                                             <option value="{{ $row->payment_mode_id }}" >{{ $row->name }}</option>
                                                     <?php
                                                         }
-                                                    } ?>                                                    
+                                                    } ?>
                                                 </select>
                                             </div>
                                         </div>
