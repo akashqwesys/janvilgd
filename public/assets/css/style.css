@@ -604,6 +604,25 @@ a {
     margin: 0 auto;
 }
 
+.animate-div {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.card-body .description {
+    min-height: 4rem !important;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 /*.landing-section .landing-content .app-btn {
     margin-top: 30px;
