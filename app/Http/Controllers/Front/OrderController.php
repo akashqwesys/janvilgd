@@ -66,10 +66,13 @@ class OrderController extends Controller {
         return view('front.orders.my_orders', compact('title', 'orders'));
     }
 
-    public function orderDetails(Request $request)
+    public function orderDetails(Request $request, $transaction_id, $order_id)
     {
         $api = new APIOrder;
-        $data = $api->myOrderDetails($request);
+        $data = $api->myOrderDetails($request, $transaction_id, $order_id);
+        if ($data->original['flag'] == false) {
+            return redirect('/customer/my-orders')->with(['error' => 1, 'message' => $data->original['message']]);
+        }
         $orders = $data->original['data']['orders'];
         $title = 'Order Details';
         return view('front.orders.orders_details', compact('title', 'orders'));

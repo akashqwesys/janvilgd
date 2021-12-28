@@ -5,12 +5,7 @@
 @endsection
 @section('content')
 <div class="nk-content">
-    <!--    @if(Session::has('designation_add'))
-        <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
-            <em class="icon ni ni-alert-circle"></em>
-            <strong>{{Session::get('designation_add')}}</strong>
-        </div>
-        @endif-->
+
     <div class="container-fluid">
         <div class="nk-content-inner">
 
@@ -58,25 +53,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                    foreach($data['diamonds'] as $d_row){
-                                    @endphp
+                                    @foreach ($data['diamonds'] as $d_row)
                                     <tr>
                                         <td>{{$d_row['barcode']}}</td>
                                         <td>{{$d_row['expected_polish_cts']}}</td>
-                                        @php
-                                        foreach($d_row['attributes'] as $d_attr){
-                                        @endphp
-                                        <td>{{$d_attr}}</td>
-                                        @php
-                                        }
-                                        @endphp
+                                        @foreach ($d_row['attributes'] as $d_attr)
+                                            <td>{{$d_attr}}</td>
+                                        @endforeach
                                         <td style="text-align: right;">$ {{$d_row['total']}}</td>
                                     </tr>
-                                    @php
-                                    }
-                                    @endphp
-
+                                    @endforeach
                                     <tr style="background-color: lightgray;">
                                         <td colspan="6" style="text-align: right;">&nbsp;</td>
                                     </tr>
@@ -98,11 +84,11 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>
-                                                <h6>Total</h6>
-                                            </b></td>
+                                            <h6>Total</h6>
+                                        </b></td>
                                         <td style="text-align: right;"><b>
-                                                <h6>$ {{round(floatval($data['result']->total_paid_amount),2)}}</h6>
-                                            </b></td>
+                                            <h6>$ {{round(floatval($data['result']->total_paid_amount),2)}}</h6>
+                                        </b></td>
                                     </tr>
 
                                 </tbody>
@@ -110,7 +96,6 @@
                             <br>
                             <table class="table dt-responsive nowrap table-bordered">
                                 <tbody>
-
                                 </tbody>
                             </table>
                         </div>
@@ -133,20 +118,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                    if(!empty($data['order_history'])){
-                                    foreach($data['order_history'] as $oh_row){
-                                    @endphp
-                                    <tr>
-                                        <td>{{$oh_row->order_status_name}}</td>
-                                        <td>{{$oh_row->comment}}</td>
-                                        <td>{{date_time_formate($oh_row->date_added)}}</td>
-                                    </tr>
-                                    @php
-                                    }
-                                    }
-                                    @endphp
-
+                                    @if(!empty($data['order_history']))
+                                        @foreach($data['order_history'] as $oh_row)
+                                            <tr>
+                                                <td>{{$oh_row->order_status_name}}</td>
+                                                <td>{{$oh_row->comment}}</td>
+                                                <td>{{date_time_formate($oh_row->date_added)}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             <br>
@@ -168,9 +148,9 @@
                                                     <option value="" disabled="" selected="">------ Select Order Status ------</option>
                                                     <?php if (!empty($data['order_sts'])) {
                                                         foreach ($data['order_sts'] as $row) {
-                                                    ?>
+                                                            ?>
                                                             <option value="{{ $row->name }}">{{ $row->name }}</option>
-                                                    <?php
+                                                            <?php
                                                         }
                                                     } ?>
                                                 </select>

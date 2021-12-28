@@ -42,29 +42,57 @@ class OrderController extends Controller
         return $this->successResponse('Success', $data);
     }
 
-    public function myOrderDetails(Request $request)
+    public function myOrderDetails(Request $request, $transaction_id, $order_id)
     {
-        $customer = Auth::user();
-        $orders = DB::table('orders as o')
-            ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
-            ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
-            // ->join('categories as c', 'c.category_id', '=', 'od.refCategory_id')
-            ->select('o.order_id', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price')
-            ->where('o.refCustomer_id', $customer->customer_id)
-            ->get()
-            ->toArray();
+        try {
+            $req = [
+                'transaction_id' => $transaction_id,
+                'order_id' => $order_id
+            ];
+            $rules = [
+                'transaction_id' => ['required', 'integer'],
+                'order_id' => ['required', 'integer']
+            ];
 
-        foreach ($orders as $v) {
-            $v->images = json_decode($v->images);
-            // $a = [];
-            // foreach ($v->images as $v1) {
-            //     $a[] = '/storage/other_images/' . $v1;
-            // }
-            // $v->images = $a;
+            $message = [
+                'transaction_id.required' => 'Invalid Request 1',
+                'transaction_id.integer' => 'Invalid Request 2',
+                'order_id.required' => 'Invalid Request 3',
+                'order_id.integer' => 'Invalid Request 4'
+            ];
+
+            $validator = Validator::make($req, $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+
+            $customer = Auth::user();
+            $orders = DB::table('orders as o')
+                ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+                ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
+                // ->join('categories as c', 'c.category_id', '=', 'od.refCategory_id')
+                ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price')
+                ->where('o.refCustomer_id', $customer->customer_id)
+                ->where('o.order_id', $request->order_id)
+                ->where('o.refTransaction_id', $request->transaction_id)
+                ->get()
+                ->toArray();
+
+            foreach ($orders as $v) {
+                $v->images = json_decode($v->images);
+                // $a = [];
+                // foreach ($v->images as $v1) {
+                //     $a[] = '/storage/other_images/' . $v1;
+                // }
+                // $v->images = $a;
+            }
+            $data = ['orders' => $orders];
+
+            return $this->successResponse('Success', $data);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
         }
-        $data = ['orders' => $orders];
-
-        return $this->successResponse('Success', $data);
     }
 
     public function saveMyOrder(Request $request)
@@ -129,6 +157,7 @@ class OrderController extends Controller
                 ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
                 ->select('t.tax_id', 't.name', 't.amount')
                 ->where('c.customer_id', $customer->customer_id)
+                ->where('ccd.customer_company_id', $request->shipping_company_id)
                 ->first();
             $shipping = DB::table('delivery_charges')
                 ->select('delivery_charge_id', 'name', 'amount')
@@ -194,7 +223,7 @@ class OrderController extends Controller
 
             $diamonds = DB::table('customer_cart as c')
                 ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
-                ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name')
+                ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name', 'd.discount')
                 ->where('c.refCustomer_id', $customer->customer_id)
                 ->get();
             $od = $d_ids = [];
@@ -217,7 +246,7 @@ class OrderController extends Controller
                     'expected_polish_cts' => $v->carat,
                     'remarks' => $v->remarks,
                     'rapaport_price' => $v->mrp,
-                    'discount' => 0,
+                    'discount' => $v->discount,
                     'weight_loss' => $v->weight_loss,
                     'video_link' => $v->video_link,
                     'images' => $v->image,
