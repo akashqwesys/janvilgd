@@ -74,7 +74,9 @@ class OrderController extends Controller {
             return redirect('/customer/my-orders')->with(['error' => 1, 'message' => $data->original['message']]);
         }
         $orders = $data->original['data']['orders'];
+        $status = $data->original['data']['status'];
+        $diamonds = $data->original['data']['diamonds'];
         $title = 'Order Details';
-        return view('front.orders.orders_details', compact('title', 'orders'));
+        return view('front.orders.orders_details', compact('title', 'orders', 'status', 'diamonds'));
     }
 }

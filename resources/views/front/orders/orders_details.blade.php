@@ -23,6 +23,9 @@
     .cs-card {
         box-shadow: 0px 1px 5px #c2c2c2;
     }
+    .table {
+        color: unset;
+    }
 </style>
 @endsection
 
@@ -37,7 +40,7 @@
         <div class="profile-content">
             <h2 class="title">Janvi LGD</h2>
             <div class="row main-box">
-                <div class="col col-12 col-sm-12 col-md-4 col-lg-3">
+                <div class="col col-12 col-sm-12 col-md-3 col-lg-2">
                     <div class="navbar-tabs">
                         <ul class="list-unstyled mb-0">
                             <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
@@ -50,7 +53,7 @@
                     </div>
                     <hr>
                 </div>
-                <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
+                <div class="col col-12 col-sm-12 col-md-9 col-lg-10">
                     <div class="order-info">
                         @if(!count($orders))
                         <div class="text-center">
@@ -62,69 +65,117 @@
                         </div>
                         @else
                         <div class="order-details p-4">
-                            @php $temp_id = 0; $hr = null; @endphp
-                            @foreach ($orders as $o)
-                            <div>
-                                @php $hr = '<hr>'; @endphp
-                                @if ($temp_id != $o->order_id)
-                                    @php $temp_id = $o->order_id; $hr = null; @endphp
-                                <h3 class="mb-2 text-primary"><i>Order #: {{ $o->order_id }}</i></h3>
-                                <div>Transaction ID: <b>{{ $o->refTransaction_id }}</b></div>
-                                <div>Sub Total: <b>${{ $o->sub_total }}</b></div>
-                                <div>Discount: <b>${{ $o->discount_amount }}</b></div>
-                                <div>Tax: <b>${{ $o->tax_amount }}</b></div>
-                                <div>Shipping Charges: <b>${{ $o->delivery_charge_amount }}</b></div>
-                                <div>Total Amount: <b>${{ $o->total_paid_amount }}</b></div>
-                                <div class="">Payment Mode: <b>{{ $o->payment_mode_name }}</b></div>
-                                <div class="">Order Status: <b>{{ $o->order_status_name }}</b></div>
-                                <div class="mb-3">Order Date: <b>{{ date(' dS F Y, l', strtotime($o->created_at)) }}</b></div>
-                                <div class="table-responsive mb-3">
-                                    <table class="table table-striped table-bordered-">
-                                        <thead>
-                                            <tr class="bg-dark text-primary">
-                                                <th>Billing Address</th>
-                                                <th>Shipping Address</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                            <h3 class="text-primary" >Order #{{ $orders[0]->order_id }}</h3>
+                            <hr>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="50%">Billing Address</th>
+                                        <th width="50%">Shipping Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div>{{ $orders[0]->billing_company_name }}</div>
+                                            <div>{{ $orders[0]->billing_company_office_address }}</div>
+                                            <div>{{ $orders[0]->billing_city .' - '. $orders[0]->billing_company_office_pincode }}</div>
+                                            <div>{{ $orders[0]->billing_state .', '. $orders[0]->billing_country }}</div>
+                                            <div>Mo: {{ $orders[0]->billing_company_office_no }}</div>
+                                            <div>Email: {{ $orders[0]->billing_company_office_email }}</div>
+                                        </td>
+                                        <td>
+                                            <div>{{ $orders[0]->shipping_company_name }}</div>
+                                            <div>{{ $orders[0]->shipping_company_office_address }}</div>
+                                            <div>{{ $orders[0]->shipping_city .' - '. $orders[0]->shipping_company_office_pincode }}</div>
+                                            <div>{{ $orders[0]->shipping_state .', '. $orders[0]->shipping_country }}</div>
+                                            <div>Mo: {{ $orders[0]->shipping_company_office_no }}</div>
+                                            <div>Email: {{ $orders[0]->shipping_company_office_email }}</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Barcode</th>
+                                        <th>Carat</th>
+                                        <th>Shape</th>
+                                        <th>Color</th>
+                                        <th>Clarity</th>
+                                        <th style="text-align: right;">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($diamonds as $o)
+                                    <tr>
+                                        <td>{{ $o['barcode'] }}</td>
+                                        <td>{{ $o['expected_polish_cts'] }}</td>
+                                        @foreach ( $o['attributes'] as $d_attr)
+                                            <td>{{$d_attr}}</td>
+                                        @endforeach
+                                        <td style="text-align: right;">${{ $o['total'] }}</td>
+                                    </tr>
+                                    @endforeach
+                                    <tr style="background-color: lightgray;">
+                                        <td colspan="6" style="text-align: right;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right;"><b>Subtotal</b></td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->sub_total, 2, '.', ',') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right;"><b>Discount</b></td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->discount_amount, 2, '.', ',') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right;"><b>Tax</b></td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->tax_amount, 2, '.', ',') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right;"><b>Shipping Charge</b></td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->delivery_charge_amount, 2, '.', ',') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: right;">
+                                            <b> Total </b>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <b> ${{ number_format($orders[0]->total_paid_amount, 2, '.', ',') }}</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-4">
+                                <h5>Order Updates</h5>
+                                <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Comment</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(count($status))
+                                        @foreach($status as $s)
                                             <tr>
-                                                <td width="50%">
-                                                    <div>{{ $o->billing_company_name }}</div>
-                                                    <div>{{ $o->billing_company_office_address }}</div>
-                                                    <div>{{ $o->billing_city .' - '. $o->billing_company_office_pincode }}</div>
-                                                    <div>{{ $o->billing_state .', '. $o->billing_country }}</div>
-                                                    <div>Mo: {{ $o->billing_company_office_no }}</div>
-                                                    <div>Email: {{ $o->billing_company_office_email }}</div>
-                                                </td>
-                                                <td width="50%">
-                                                    <div>{{ $o->shipping_company_name }}</div>
-                                                    <div>{{ $o->shipping_company_office_address }}</div>
-                                                    <div>{{ $o->shipping_city .' - '. $o->shipping_company_office_pincode }}</div>
-                                                    <div>{{ $o->shipping_state .', '. $o->shipping_country }}</div>
-                                                    <div>Mo: {{ $o->shipping_company_office_no }}</div>
-                                                    <div>Email: {{ $o->shipping_company_office_email }}</div>
-                                                </td>
+                                                <td>{{ $s->order_status_name }}</td>
+                                                <td>{{ $s->comment }}</td>
+                                                <td>{{ $s->date_added }}</td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                @endif
-
-                                <div class="mb-4 cs-card">
-                                    <span class="order-prouct-image mb-3">
-                                        <img src="{{ $o->images[0] }}" alt="product" class="img-cs">
-                                    </span>
-                                    <div class="order-prouct-details d-inline-block mx-2">
-                                        <h4 class="product-name">{{ $o->diamond_name }}</h4>
-                                        <p>Barcode: {{ $o->barcode }}</p>
-                                        <p class="product-price">${{ number_format(round($o->price, 2), 2, '.', ',') }}</p>
-                                    </div>
-                                </div>
+                                        @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="3">No updates yet</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
                             </div>
-                            {!! $hr !!}
-                            @endforeach
-                            @endif
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -145,21 +196,7 @@ $.ajaxSetup({
     }
 });
 $(document).on('click', '.edit-btn', function () {
-    $('#customer_company_id').val($(this).attr('data-id'));
-    $('#company_name').val($(this).attr('data-name'));
-    $('#company_office_no').val($(this).attr('data-company_office_no'));
-    $('#company_email').val($(this).attr('data-company_email'));
-    $('#company_gst_pan').val($(this).attr('data-company_gst_pan'));
-    $('#company_address').val($(this).attr('data-company_address'));
-    $('#company_pincode').val($(this).attr('data-company_pincode'));
-    $('#company_country').val($(this).attr('data-company_country')).trigger('change');
-    setTimeout(() => {
-        $('#company_state').val($(this).attr('data-company_state')).trigger('change');
-    }, 1000);
-    setTimeout(() => {
-        $('#company_city').val($(this).attr('data-company_city'));
-    }, 2000);
-    $('#exampleModal').modal('show');
+
 });
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('div.errTxt').html('');
