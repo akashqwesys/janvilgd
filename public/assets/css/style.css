@@ -108,6 +108,38 @@ section {
     padding: 100px 0;
 }
 
+.go-corner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    background-color: #d2ab66;
+    border-radius: 0 4px 0 32px;
+}
+
+.go-arrow {
+    margin-top: -4px;
+    margin-right: -4px;
+    color: white;
+    font-family: courier, sans;
+}
+
+.card {
+    border-radius: 32px 32px 32px 32px !important;
+}
+
+.card:hover {
+    border-radius: 32px 32px 32px 32px;
+    color: #d2ab66;
+    transition: all 0.3s ease-out;
+    background-color: #000;
+}
+
 .btn {
     font-size: 16px;
     padding: 8px 15px;
@@ -634,6 +666,7 @@ a {
 }
 
 .grown-diamonds-btn {
+    border: 1px solid #fff;
     display: block;
 }
 
@@ -2032,6 +2065,7 @@ span.value.upper::before {
 .dropdown-menu {
     padding: 0 0 !important;
     top: 60px !important;
+    background-color: #d4d5d8 !important;
 }
 
 .dropdown-menu li:hover {
@@ -2039,9 +2073,11 @@ span.value.upper::before {
     width: 100%;
     color: #d2ab66;
 }
+
 .dropdown-menu li {
     width: 100%;
 }
+
 .dropdown-menu li.bg-cs-dark:hover {
     background-color: #000 !important;
 }
@@ -2087,6 +2123,7 @@ span.value.upper::before {
 .search-diamond-table .table {
     font-size: 14px;
 }
+
 
 /* .search-diamond-table .table thead {
     position: sticky;

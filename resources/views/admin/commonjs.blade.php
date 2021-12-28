@@ -39,6 +39,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#import_order_refCustomer_id').on('change', function () {
+                $('#append_loader').show();
                 var refCustomer_id = $(this).val();
                 $.ajax({
                     type: "POST",
@@ -60,6 +61,7 @@
                         });
                     }
                 });
+                $('#append_loader').hide();
             });
         });
     </script>
@@ -495,7 +497,7 @@
             });
             $('#refCategory_id').on('change', function () {
                 var refCategory_id = $(this).val();
-                $("#add-diamond-form")[0].reset();
+                $("#add_diamond_form")[0].reset();
                 $("#refCategory_id").val(refCategory_id);
                 show_diamond_form_field();
             });
