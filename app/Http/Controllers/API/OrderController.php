@@ -126,13 +126,24 @@ class OrderController extends Controller
                     ->orWhere('customer_company_id', $request->billing_company_id);
                 })
                 ->get();
+
+            $diamonds = DB::table('customer_cart as c')
+                ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
+                ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name', 'd.discount')
+                ->where('d.available_pcs', '<>', 0)
+                ->where('c.refCustomer_id', $customer->customer_id)
+                ->get();
+            if (count($diamonds) == 0) {
+                return $this->errorResponse('Selected diamonds are currently out of stock...!');
+            }
+
             $cart = new APIDiamond;
             $result = $cart->getCart();
             $cart_data = $result->original['data'];
             if (count($exists) < 1) {
-                return $this->errorResponse('We are unable to find your selected address');
+                return $this->errorResponse('We are unable to find your selected address...!');
             } else if (!count($cart_data)) {
-                return $this->errorResponse('Your cart is empty');
+                return $this->errorResponse('Your cart is empty...!');
             }
 
             $subtotal = floatval(str_replace(',', '', $cart_data['summary']['subtotal']));
@@ -221,11 +232,6 @@ class OrderController extends Controller
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
 
-            $diamonds = DB::table('customer_cart as c')
-                ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
-                ->select('d.diamond_id', 'd.barcode', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.refCategory_id', 'd.makable_cts', 'd.remarks', 'd.weight_loss', 'd.video_link', 'd.name', 'd.discount')
-                ->where('c.refCustomer_id', $customer->customer_id)
-                ->get();
             $od = $d_ids = [];
             $params = [];
             foreach ($diamonds as $v) {

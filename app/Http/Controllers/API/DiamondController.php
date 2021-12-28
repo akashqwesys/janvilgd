@@ -1290,7 +1290,7 @@ class DiamondController extends Controller
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
             ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id')
-            ->where('c.refCustomer_id',$customer_id)
+            ->where('c.refCustomer_id', $customer_id)
             ->get();
             // ->toArray();
 
@@ -1311,7 +1311,6 @@ class DiamondController extends Controller
                 } else {
                     $rm_ids[] = $value->customer_cart_id;
                 }
-                // $response_array[] = (array) $value;
                 array_push($response_array, $value);
             }
         }
@@ -1365,28 +1364,6 @@ class DiamondController extends Controller
             ->where('is_active',1)
             ->where('is_deleted',0)
             ->get();
-
-        /* $billing_state = DB::table('state')
-            ->where('refCountry_id',$users_details->refCountry_id)
-            ->where('is_active',1)
-            ->where('is_deleted',0)
-            ->get();
-        $billing_city = DB::table('city')
-            ->where('refState_id',$users_details->refState_id)
-            ->where('is_active',1)
-            ->where('is_deleted',0)
-            ->get();
-
-        $shipping_state = DB::table('state')
-            ->where('refCountry_id',$company_details->refCountry_id)
-            ->where('is_active',1)
-            ->where('is_deleted',0)
-            ->get();
-        $shipping_city = DB::table('city')
-            ->where('refState_id',$company_details->refState_id)
-            ->where('is_active',1)
-            ->where('is_deleted',0)
-            ->get(); */
 
         $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;

@@ -45,7 +45,8 @@ class OrdersController extends Controller
     public function csvOrder(Request $request)
     {
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
-        if (!empty($res)) {
+
+        if (count($res)) {
             $barcode_array = [];
             $unique_array = [];
             foreach($res[0] as $element) {
@@ -106,7 +107,7 @@ class OrdersController extends Controller
                 ->whereIn('diamonds.barcode', $barcode_array)
                 ->get();
 
-            if(!empty($diamonds)) {
+            if(count($diamonds)) {
 
                 DB::table('orders')->insert([
                     'refCustomer_id' => $request->refCustomer_id,
@@ -161,7 +162,7 @@ class OrdersController extends Controller
                 if(!empty($order_Id)){
                     DB::table('order_updates')->insert([
                         'refOrder_id' => $order_Id,
-                        'order_status_name' => "PENDING",
+                        'order_status_name' => "COMPLETED",
                         'comment' => "No comment",
                         'is_deleted' => 0,
                         'added_by' => $request->session()->get('loginId'),
@@ -264,9 +265,13 @@ class OrdersController extends Controller
 
                     DB::table('order_diamonds')->insert($batch_data);
                     activity($request, "inserted", 'orders', $order_Id);
-                    successOrErrorMessage("Data added Successfully", 'success');
+                    successOrErrorMessage("Order added successfully", 'success');
                 }
+            } else {
+                successOrErrorMessage("Imported diamonds are not available in the stock", 'error');
             }
+        } else {
+            successOrErrorMessage("Sheet is Empty", 'error');
         }
         return redirect('admin/orders');
     }
@@ -304,7 +309,7 @@ class OrdersController extends Controller
             'is_deleted' => 0,
             'date_added' => date("Y-m-d h:i:s")
         ]);
-        $Id = DB::getPdo()->lastInsertId();
+        // $Id = DB::getPdo()->lastInsertId();
         activity($request, "updated", 'orders', $request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/orders/edit/' . $request->id);
@@ -313,36 +318,37 @@ class OrdersController extends Controller
     public function edit($id)
     {
         $diamonds = DB::table('order_diamonds as od')->select('od.*','ag.name as ag_name','a.name as a_name')
-        ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
-        ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-        ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-        ->where('od.refOrder_id', $id)
-        ->whereIn('ag.name',['COLOR','CLARITY','SHAPE'])
-        ->get()
-        ->toArray();
+            ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+            ->where('od.refOrder_id', $id)
+            ->whereIn('ag.name',['COLOR','CLARITY','SHAPE'])
+            ->get()
+            ->toArray();
 
         $final_d = [];
         foreach ($diamonds as $v_row) {
-            for ($i=0; $i < 2; $i++) {
-                $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
-            }
+            // for ($i=0; $i < 2; $i++) {
+            // }
+            $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
             $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
-            $final_d[$v_row->refDiamond_id]['total'] = $v_row->total;
+            $final_d[$v_row->refDiamond_id]['total'] = $v_row->price;
             $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
         }
 
         $order_sts = DB::table('order_statuses')->orderby('sort_order', 'asc')->get();
-        $order_history = DB::table('order_updates')->orderby('order_update_id', 'DESC')->get();
-        $result = DB::table('orders')->select('orders.*','city_billing.name as billing_city_name','state_billing.name as billing_state_name','country_billing.name as billing_country_name','city_shipping.name as shipping_city_name','state_shipping.name as shipping_state_name','country_shipping.name as shipping_country_name')
-        ->join('city as city_billing', 'city_billing.city_id', '=', 'orders.refCity_id_billing')
-        ->join('state as state_billing', 'state_billing.state_id', '=', 'orders.refState_id_billing')
-        ->join('country as country_billing', 'country_billing.country_id', '=', 'orders.refCountry_id_billing')
+        $order_history = DB::table('order_updates')->where('refOrder_id', $id)->orderby('order_update_id', 'DESC')->get();
+        $result = DB::table('orders')
+            ->select('orders.*','city_billing.name as billing_city_name','state_billing.name as billing_state_name','country_billing.name as billing_country_name','city_shipping.name as shipping_city_name','state_shipping.name as shipping_state_name','country_shipping.name as shipping_country_name')
+            ->join('city as city_billing', 'city_billing.city_id', '=', 'orders.refCity_id_billing')
+            ->join('state as state_billing', 'state_billing.state_id', '=', 'orders.refState_id_billing')
+            ->join('country as country_billing', 'country_billing.country_id', '=', 'orders.refCountry_id_billing')
 
-        ->join('city as city_shipping', 'city_shipping.city_id', '=', 'orders.refCity_id_shipping')
-        ->join('state as state_shipping', 'state_shipping.state_id', '=', 'orders.refState_id_shipping')
-        ->join('country as country_shipping', 'country_shipping.country_id', '=', 'orders.refCountry_id_shipping')
-        ->where('order_id', $id)
-        ->first();
+            ->join('city as city_shipping', 'city_shipping.city_id', '=', 'orders.refCity_id_shipping')
+            ->join('state as state_shipping', 'state_shipping.state_id', '=', 'orders.refState_id_shipping')
+            ->join('country as country_shipping', 'country_shipping.country_id', '=', 'orders.refCountry_id_shipping')
+            ->where('order_id', $id)
+            ->first();
 
         $address_list = DB::table('customer_company_details')->select('customer_company_details.*', 'city.name as city_name', 'state.name as state_name', 'country.name as country_name')
             ->join('city', 'city.city_id', '=', 'customer_company_details.refCity_id')
@@ -372,16 +378,14 @@ class OrdersController extends Controller
 
         $final_d = [];
         foreach ($diamonds as $v_row) {
-            for ($i=0; $i < 2; $i++) {
-                $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
-            }
+            $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
             $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
             $final_d[$v_row->refDiamond_id]['total'] = $v_row->price;
             $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
         }
-        dd($diamonds);
+
         $order_sts = DB::table('order_statuses')->orderby('sort_order', 'asc')->get();
-        $order_history = DB::table('order_updates')->orderby('order_update_id', 'DESC')->get();
+        $order_history = DB::table('order_updates')->where('refOrder_id', $id)->orderby('order_update_id', 'DESC')->get();
         $result = DB::table('orders')
             ->select('orders.*','city_billing.name as billing_city_name','state_billing.name as billing_state_name','country_billing.name as billing_country_name','city_shipping.name as shipping_city_name','state_shipping.name as shipping_state_name','country_shipping.name as shipping_country_name')
             ->join('city as city_billing', 'city_billing.city_id', '=', 'orders.refCity_id_billing')
@@ -400,7 +404,7 @@ class OrdersController extends Controller
             ->join('country', 'country.country_id', '=', 'customer_company_details.refCountry_id')
             ->where('refCustomer_id', $result->refCustomer_id)
             ->get();
-        $data['title'] = 'Edit-Orders';
+        $data['title'] = 'View-Orders';
         $data['address_list'] = $address_list;
         $data['diamonds'] = $final_d;
         $data['order_sts'] = $order_sts;

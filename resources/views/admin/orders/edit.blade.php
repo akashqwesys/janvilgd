@@ -224,14 +224,14 @@
 
                                 </tbody>
                             </table>
-                            <br>
-                            <h3 class="nk-block-title page-title" style="display: inline;">Add Order History</h3>
+
+                            <h3 class="nk-block-title page-title mt-5" >Add Order History</h3>
                             <hr>
                             <form method="POST" action="{{route('orders.addOrderHistory')}}">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->order_id }}">
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-right" for="order_status_name">Order Status:</label>
                                         </div>
@@ -254,12 +254,12 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-md-right" for="comment">Comment:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-11">
+                                    <div class="col-lg-10">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
                                                 <textarea name="comment" class="form-control form-control-sm" id="cf-default-textarea" placeholder="Enter comment"></textarea>

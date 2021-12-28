@@ -129,11 +129,11 @@ section {
     font-family: courier, sans;
 }
 
-.card {
+.cs-home-card {
     border-radius: 32px 32px 32px 32px !important;
 }
 
-.card:hover {
+.cs-home-card:hover {
     border-radius: 32px 32px 32px 32px;
     color: #d2ab66;
     transition: all 0.3s ease-out;
