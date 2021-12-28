@@ -20,6 +20,9 @@
     .img-cs {
         width: 200px;
     }
+    .cs-card {
+        box-shadow: 0px 1px 5px #c2c2c2;
+    }
 </style>
 @endsection
 
@@ -42,7 +45,7 @@
                             <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
                             <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
-                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Orders Details</a></li>
+                            {{-- <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Orders Details</a></li> --}}
                         </ul>
                     </div>
                     <hr>
@@ -65,42 +68,57 @@
                                 @php $hr = '<hr>'; @endphp
                                 @if ($temp_id != $o->order_id)
                                     @php $temp_id = $o->order_id; $hr = null; @endphp
-                                <h3 class="mb-3"><i>Order #: {{ $o->order_id }}</i></h3>
-                                <div class="row mb-3">
-                                    <div class="col col-md-6 col-lg-6 bd-right">
-                                        <div class="mb-1 p-1 bd-bottom bd-top">Billing Address</div>
-                                        <div>{{ $o->billing_company_name }}</div>
-                                        <div>{{ $o->billing_company_office_address }}</div>
-                                        <div>{{ $o->billing_city .' - '. $o->billing_company_office_pincode }}</div>
-                                        <div>{{ $o->billing_state .', '. $o->billing_country }}</div>
-                                        <div>Mo: {{ $o->billing_company_office_no }}</div>
-                                        <div>Email: {{ $o->billing_company_office_email }}</div>
-                                    </div>
-                                    <div class="col col-md-6 col-lg-6 bd-left">
-                                        <div class="mb-1 p-1 bd-bottom bd-top">Shipping Address</div>
-                                        <div>{{ $o->shipping_company_name }}</div>
-                                        <div>{{ $o->shipping_company_office_address }}</div>
-                                        <div>{{ $o->shipping_city .' - '. $o->shipping_company_office_pincode }}</div>
-                                        <div>{{ $o->shipping_state .', '. $o->shipping_country }}</div>
-                                        <div>Mo: {{ $o->shipping_company_office_no }}</div>
-                                        <div>Email: {{ $o->shipping_company_office_email }}</div>
-                                    </div>
+                                <h3 class="mb-2 text-primary"><i>Order #: {{ $o->order_id }}</i></h3>
+                                <div>Transaction ID: <b>{{ $o->refTransaction_id }}</b></div>
+                                <div>Sub Total: <b>${{ $o->sub_total }}</b></div>
+                                <div>Discount: <b>${{ $o->discount_amount }}</b></div>
+                                <div>Tax: <b>${{ $o->tax_amount }}</b></div>
+                                <div>Shipping Charges: <b>${{ $o->delivery_charge_amount }}</b></div>
+                                <div>Total Amount: <b>${{ $o->total_paid_amount }}</b></div>
+                                <div class="">Payment Mode: <b>{{ $o->payment_mode_name }}</b></div>
+                                <div class="">Order Status: <b>{{ $o->order_status_name }}</b></div>
+                                <div class="mb-3">Order Date: <b>{{ date(' dS F Y, l', strtotime($o->created_at)) }}</b></div>
+                                <div class="table-responsive mb-3">
+                                    <table class="table table-striped table-bordered-">
+                                        <thead>
+                                            <tr class="bg-dark text-primary">
+                                                <th>Billing Address</th>
+                                                <th>Shipping Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%">
+                                                    <div>{{ $o->billing_company_name }}</div>
+                                                    <div>{{ $o->billing_company_office_address }}</div>
+                                                    <div>{{ $o->billing_city .' - '. $o->billing_company_office_pincode }}</div>
+                                                    <div>{{ $o->billing_state .', '. $o->billing_country }}</div>
+                                                    <div>Mo: {{ $o->billing_company_office_no }}</div>
+                                                    <div>Email: {{ $o->billing_company_office_email }}</div>
+                                                </td>
+                                                <td width="50%">
+                                                    <div>{{ $o->shipping_company_name }}</div>
+                                                    <div>{{ $o->shipping_company_office_address }}</div>
+                                                    <div>{{ $o->shipping_city .' - '. $o->shipping_company_office_pincode }}</div>
+                                                    <div>{{ $o->shipping_state .', '. $o->shipping_country }}</div>
+                                                    <div>Mo: {{ $o->shipping_company_office_no }}</div>
+                                                    <div>Email: {{ $o->shipping_company_office_email }}</div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 @endif
 
-                                <div class="mb-3">
-                                    {{-- <div class="col col-12 col-lg-4"> --}}
-                                        <span class="order-prouct-image mb-3">
-                                            <img src="{{ $o->images[0] }}" alt="product" class="img-cs">
-                                        </span>
-                                    {{-- </div>
-                                    <div class="col col-12 col-lg-8"> --}}
-                                        <div class="order-prouct-details d-inline-block mx-2">
-                                            <h4 class="product-name">{{ $o->diamond_name }}</h4>
-                                            <p>Barcode: {{ $o->barcode }}</p>
-                                            <p class="product-price">${{ number_format(round($o->price, 2), 2, '.', ',') }}</p>
-                                        </div>
-                                    {{-- </div> --}}
+                                <div class="mb-4 cs-card">
+                                    <span class="order-prouct-image mb-3">
+                                        <img src="{{ $o->images[0] }}" alt="product" class="img-cs">
+                                    </span>
+                                    <div class="order-prouct-details d-inline-block mx-2">
+                                        <h4 class="product-name">{{ $o->diamond_name }}</h4>
+                                        <p>Barcode: {{ $o->barcode }}</p>
+                                        <p class="product-price">${{ number_format(round($o->price, 2), 2, '.', ',') }}</p>
+                                    </div>
                                 </div>
                             </div>
                             {!! $hr !!}

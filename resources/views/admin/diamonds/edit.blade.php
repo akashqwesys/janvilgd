@@ -89,6 +89,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row g-3 align-center d-none" id="packate_no">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-label float-md-right" for="packate_no">Packet No:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off" value="<?php echo $data['result']->packate_no; ?>">
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row g-3 align-center d-none" id="makable_cts">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -196,26 +211,9 @@
                                     }
                                     ?>
 
-
-                                     <input type="hidden" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">
+                                    <input type="hidden" class="form-control" name="actual_pcs"  placeholder="Enter actual pcs" autocomplete="off" value="<?php echo $data['result']->actual_pcs; ?>">
 
                                     <input type="hidden" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off" value="<?php echo $data['result']->available_pcs; ?>">
-
-                                    <div class="row g-3 align-center d-none" id="packate_no">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="packate_no">Packet No:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="packate_no"  placeholder="Enter packate no"  autocomplete="off" value="<?php echo $data['result']->packate_no; ?>">
-                                                </div>
-                                                <div class="errTxt"></div>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="row g-3 align-center d-none" id="remarks">
                                         <div class="col-lg-4">
@@ -384,7 +382,11 @@
                                                                         }
                                                                     }
                                                                 ?>
+                                                                @if ($row->name == 'COMMENT')
+                                                                <textarea class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off" rows="6">{{ $value }}</textarea>
+                                                                @else
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
+                                                                @endif
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
                                                         </div>
