@@ -93,7 +93,7 @@ class InformativePagesController extends Controller {
         } */
         $data['title'] = 'Edit-Informative-Pages';
         $data['result'] = $result;
-        return view('admin.informativePages.edit', ["data" => $data]);
+        return view('admin.informativePages.edit2', ["data" => $data]);
     }
 
     public function update(Request $request) {

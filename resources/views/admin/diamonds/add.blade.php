@@ -81,6 +81,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row g-3 align-center d-none" id="packate_no">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-label float-md-right" for="packate_no">Packet No:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" name="packate_no" placeholder="Enter packate no" autocomplete="off">
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row g-3 align-center d-none" id="makable_cts">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -176,8 +191,8 @@
                                     ?>
 
                                     <input type="hidden" class="form-control" name="actual_pcs" placeholder="Enter actual pcs" autocomplete="off">
-                                    <input type="hidden" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off">
-                                    <div class="row g-3 align-center d-none" id="available_pcs">
+                                    <input type="hidden" class="form-control" name="available_pcs" placeholder="Enter available pcs" autocomplete="off" value="1">
+                                    {{-- <div class="row g-3 align-center d-none" id="available_pcs">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="available_pcs">Available pcs:</label>
@@ -191,23 +206,8 @@
                                                 <div class="errTxt"></div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="row g-3 align-center d-none" id="packate_no">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="packate_no">Packat No:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="packate_no" placeholder="Enter packate no" autocomplete="off">
-                                                </div>
-                                                <div class="errTxt"></div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row g-3 align-center d-none" id="remarks">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -285,44 +285,41 @@
                                         </div>
                                     </div>
 
-
                                     <hr>
                                     <?php
                                     foreach ($data['attribute_groups'] as $row) {
                                         if ($row->is_fix === 0) {
                                     ?>
-                                            <?php
-                                            if ($row->field_type === 1) {
-                                            ?>
+                                        <?php
+                                        if ($row->field_type === 1) {
+                                        ?>
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
 
-                                                <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
-
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
-                                                        </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label float-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="form-control-wrap">
-                                                                <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">
-                                                                    <option value="default" selected="">------ Select ------</option>
-                                                                    <?php
-                                                                    foreach ($data['attributes'] as $atr_row) {
-
-                                                                        if ($row->attribute_group_id == $atr_row->attribute_group_id) {
-                                                                    ?>
-                                                                            <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
-                                                                    <?php
-                                                                        }
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select form-control" name="attribute_group_id_value[]" tabindex="-1" aria-hidden="true" data-search="on">
+                                                                <option value="default" selected="">------ Select ------</option>
+                                                                <?php
+                                                                foreach ($data['attributes'] as $atr_row) {
+                                                                    if ($row->attribute_group_id == $atr_row->attribute_group_id) {
+                                                                ?>
+                                                                        <option value="<?php echo $atr_row->attribute_id . '_' . $row->attribute_group_id; ?>"><?php echo $atr_row->name; ?></option>
+                                                                <?php
                                                                     }
-                                                                    ?>
-                                                                </select>
-                                                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                                            </div>
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                             <?php
                                             }
                                             if ($row->field_type === 0) {
@@ -332,23 +329,27 @@
                                                 }
                                             ?>
 
-                                                <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
+                                            <div class="row g-3 align-center attr_grp_<?php echo $row->refCategory_id; ?> d-none attr_group">
 
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <div class="form-control-wrap">
-                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">
-                                                                <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
-                                                            </div>
-                                                            <div class="errTxt"></div>
-                                                        </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <div class="form-control-wrap">
+                                                            @if ($row->name == 'COMMENT')
+                                                            <textarea class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off" rows="6"></textarea>
+                                                            @else
+                                                            <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">
+                                                            @endif
+                                                            <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
+                                                        </div>
+                                                        <div class="errTxt"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     <?php
                                             }
                                         }
