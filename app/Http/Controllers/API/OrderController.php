@@ -72,12 +72,35 @@ class OrderController extends Controller
                 ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
                 ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
                 // ->join('categories as c', 'c.category_id', '=', 'od.refCategory_id')
-                ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price')
+                ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price', 'od.expected_polish_cts')
                 ->where('o.refCustomer_id', $customer->customer_id)
                 ->where('o.order_id', $request->order_id)
                 ->where('o.refTransaction_id', $request->transaction_id)
                 ->get()
                 ->toArray();
+
+            $diamonds = DB::table('order_diamonds as od')
+                ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+                ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+                ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+                ->select('od.*', 'ag.name as ag_name', 'a.name as a_name')
+                ->where('od.refOrder_id', $request->order_id)
+                ->whereIn('ag.name', ['COLOR', 'CLARITY', 'SHAPE'])
+                ->get()
+                ->toArray();
+
+            $final_d = [];
+            foreach ($diamonds as $v_row) {
+                $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
+                $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
+                $final_d[$v_row->refDiamond_id]['total'] = $v_row->price;
+                $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
+            }
+
+            $order_updates = DB::table('order_updates')
+                ->where('refOrder_id', $request->order_id)
+                ->orderby('order_update_id', 'DESC')
+                ->get();
 
             foreach ($orders as $v) {
                 $v->images = json_decode($v->images);
@@ -87,7 +110,7 @@ class OrderController extends Controller
                 // }
                 // $v->images = $a;
             }
-            $data = ['orders' => $orders];
+            $data = ['orders' => $orders, 'diamonds' => $final_d, 'status' => $order_updates];
 
             return $this->successResponse('Success', $data);
         } catch (\Exception $e) {
