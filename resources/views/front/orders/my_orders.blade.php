@@ -65,49 +65,49 @@
                         </div>
                         @else
                         <div class="order-details p-4">
-                            @foreach ($orders as $o)
-                            <div>
-                                <h3 class="mb-2"><i><a href="/customer/order-details/{{ $o->refTransaction_id }}/{{ $o->order_id }}">Order #: {{ $o->order_id }}</a></i></h3>
-                                <div>Transaction ID: <b>{{ $o->refTransaction_id }}</b></div>
-                                <div>Total Amount: <b>${{ $o->total_paid_amount }}</b></div>
-                                <div class="">Payment Mode: <b>{{ $o->payment_mode_name }}</b></div>
-                                <div class="">Order Status: <b>{{ $o->order_status_name }}</b></div>
-                                <div class="mb-2">Order Date: <b>{{ date(' dS F Y, l', strtotime($o->created_at)) }}</b></div>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered-">
-                                        <thead>
-                                            <tr class="bg-dark text-primary">
-                                                <th>Billing Address</th>
-                                                <th>Shipping Address</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td width="50%">
-                                                    <div>{{ $o->billing_company_name }}</div>
-                                                    <div>{{ $o->billing_company_office_address }}</div>
-                                                    <div>{{ $o->billing_city .' - '. $o->billing_company_office_pincode }}</div>
-                                                    <div>{{ $o->billing_state .', '. $o->billing_country }}</div>
-                                                    <div>Mo: {{ $o->billing_company_office_no }}</div>
-                                                    <div>Email: {{ $o->billing_company_office_email }}</div>
-                                                </td>
-                                                <td width="50%">
-                                                    <div>{{ $o->shipping_company_name }}</div>
-                                                    <div>{{ $o->shipping_company_office_address }}</div>
-                                                    <div>{{ $o->shipping_city .' - '. $o->shipping_company_office_pincode }}</div>
-                                                    <div>{{ $o->shipping_state .', '. $o->shipping_country }}</div>
-                                                    <div>Mo: {{ $o->shipping_company_office_no }}</div>
-                                                    <div>Email: {{ $o->shipping_company_office_email }}</div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <hr>
+                            <h3 class="text-primary mb-4">My Orders</h3>
+                            <div class="table-responsive">
+                                <table class="table table-striped- table-bordered">
+                                    <thead>
+                                        <tr class="bg-dark text-primary">
+                                            <th width="20%" class="text-right">Order ID</th>
+                                            <th width="20%" class="text-right">Transaction ID</th>
+                                            <th width="20%" class="text-right">Total Amount</th>
+                                            <th width="20%" class="text-right">Placed On</th>
+                                            <th width="20%" class="text-right">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (count($orders))
+                                        @foreach ($orders as $o)
+                                        <tr>
+                                            <td class="text-right">
+                                                <div>{{ $o->order_id }}</div>
+                                            </td>
+                                            <td class="text-right">
+                                                <div>{{ $o->refTransaction_id }}</div>
+                                            </td>
+                                            <td class="text-right">
+                                                <div>${{ number_format($o->total_paid_amount, 2, '.', ',') }}</div>
+                                            </td>
+                                            <td class="text-right">
+                                                <div>{{ $o->created_at }}</div>
+                                            </td>
+                                            <td class="text-right">
+                                                <a href="/customer/order-details/{{ $o->refTransaction_id }}/{{ $o->order_id }}">View Details</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="5" align="center">No Orders Placed Yet</td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
                             </div>
-                            @endforeach
-                            @endif
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
