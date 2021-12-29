@@ -31,10 +31,26 @@
                     <div class="row g-gs">
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body">
-                                    <span class="title">Last Day's Orders</span>
-                                    <span class="title float-right">10</span>
-                                </div>
+                                <a class="card-body" href="/admin/orders?filter=yesterday">
+                                    <span class="title">Yesterday's Orders</span>
+                                    <span class="title float-right">{{ $orders->last_day }}</span>
+                                </a>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <a class="card-body" href="/admin/orders?filter=7days">
+                                    <span class="title">Last 7 Days Orders</span>
+                                    <span class="title float-right">{{ $orders->last_day }}</span>
+                                </a>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <a class="card-body" href="/admin/orders?filter=30days">
+                                    <span class="title">Last 30 Days Orders</span>
+                                    <span class="title float-right">{{ $orders->last_day }}</span>
+                                </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
