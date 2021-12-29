@@ -55,12 +55,12 @@
 
                 @if(!empty($response['diamonds']))
                 <h2 class="me-auto mb-0">Shopping Bag</h2>
-                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
+                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share Your Cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
                 <input type="hidden" id="copylink" value="">
                 @endif
             </div>
-            <div class="col col-12 col-md-12 col-lg-8">
+            <div class="col col-12 col-md-12 col-lg-8 card p-4">
                 <?php
                 $total=0;
                 if(!empty($response['diamonds'])){
@@ -81,8 +81,13 @@
                             </a>
                         </td>
                         <td>
-                            <h5>{{$rv->diamond_name}}</h5>
-                            <h4 class="cart-price">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
+                            <h5>{{ $rv->carat . ' CT ' . explode(' ', $rv->diamond_name)[2] . ' DIAMOND'}}</h5>
+                            <p class="">{{ $rv->ct_name }}</p>
+                            @php
+                                $name = explode('•', $rv->diamond_name);
+                            @endphp
+                            <p class="">{{ $name[1] . ' • ' . explode('::', $name[2])[0] }}</p>
+                            <h4 class="cart-price pt-2">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
                             {{-- @if ($rv->available_pcs == 1)
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p> --}}
                             @if ($rv->available_pcs == 0)
@@ -120,7 +125,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td>Tax</td>
+                                    <td>Tax (Tentative)</td>
                                     <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
                                 </tr>
                                 <tr>

@@ -1289,7 +1289,8 @@ class DiamondController extends Controller
         $response_array=array();
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id')
+            ->join('categories as ct', 'd.refCategory_id', '=', 'ct.category_id')
+            ->select('d.diamond_id', 'd.total','d.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id', 'ct.name as ct_name')
             ->where('c.refCustomer_id', $customer_id)
             ->get();
             // ->toArray();

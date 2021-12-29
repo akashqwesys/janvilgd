@@ -864,7 +864,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=4;
+                $data_array['sort_order']=1;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -879,7 +879,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=3;
+                $data_array['sort_order']=2;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -909,7 +909,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=9;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -924,7 +924,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=10;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -939,7 +939,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=17;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -954,7 +954,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=16;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -969,7 +969,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=11;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -984,7 +984,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=5;
+                $data_array['sort_order']=3;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
@@ -999,7 +999,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=6;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1014,7 +1014,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=12;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1029,7 +1029,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=13;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1044,7 +1044,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=19;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1059,7 +1059,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=8;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1074,7 +1074,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=14;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1089,7 +1089,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=18;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1104,7 +1104,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=15;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1119,7 +1119,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=2;
+                $data_array['sort_order']=4;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1134,7 +1134,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=5;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1149,7 +1149,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=1;
-                $data_array['sort_order']=0;
+                $data_array['sort_order']=7;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1164,7 +1164,7 @@ class CommonController extends Controller
                 $data_array['field_type']=0;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=0;
-                $data_array['sort_order']=15;
+                $data_array['sort_order']=21;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -1179,7 +1179,7 @@ class CommonController extends Controller
                 $data_array['field_type']=1;
                 $data_array['refCategory_id']=$row->category_id;
                 $data_array['is_required']=0;
-                $data_array['sort_order']=16;
+                $data_array['sort_order']=20;
                 $data_array['added_by']=1;
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
@@ -2722,11 +2722,10 @@ class CommonController extends Controller
 //        }
 //    }
     public function delete_image(Request $request) {
-//         print_r($_REQUEST);die;
         if (isset($_REQUEST['table_id'])) {
 
             $result = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->first();
-//            print_r($result);die;
+
             $image_array= json_decode($result->image);
             if(!empty($image_array)){
                 $i=0;
@@ -2742,8 +2741,8 @@ class CommonController extends Controller
                 'image' =>$new_image_json,
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-//            activity($request,"deleted",$_REQUEST['module']);
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+            // activity($request,"deleted",$_REQUEST['module']);
+            // $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true

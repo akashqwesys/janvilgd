@@ -129,18 +129,18 @@ section {
     font-family: courier, sans;
 }
 
-.card {
+.card-2 {
     border-radius: 32px 32px 32px 32px !important;
 }
 
-.card:hover {
+.card-2:hover {
     border-radius: 32px 32px 32px 32px;
     color: #d2ab66;
     transition: all 0.3s ease-out;
     background-color: #000;
 }
 
-.card:hover .description {
+.card-2:hover .description {
     color: #fff !important;
 }
 
@@ -342,7 +342,7 @@ a {
 }
 
 .card {
-    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px #c0c0c0;
     border: 0;
     border-radius: 0;
 }
@@ -1086,7 +1086,7 @@ a {
 }
 
 .cart-table td:first-child {
-    width: 25%;
+    width: 20%;
     padding: 0 15px 0 0;
     position: relative;
 }
@@ -1107,7 +1107,7 @@ a {
 }
 
 .cart-table td {
-    padding: 15px;
+    padding: 10px 15px;
 }
 
 .close {
@@ -1122,7 +1122,7 @@ a {
     width: 16px;
 }
 
-.cart-table h5,
+/* .cart-table h5,
 .cart-table h4 {
     font-weight: normal;
 }
@@ -1130,7 +1130,7 @@ a {
 .cart-price {
     padding: 20px 0 10px;
     color: #808080;
-}
+} */
 
 .cart-table p {
     margin-bottom: 5px;
