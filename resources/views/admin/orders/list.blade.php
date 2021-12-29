@@ -113,12 +113,15 @@
         }, 1000);
     } else {
         startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+        setTimeout(() => {
+            $('#dateRange').val('');
+        }, 500);
     }
     $('#dateRange').daterangepicker({
         minDate  : "2021-12-01",
         maxDate  : moment(),
         showDropdowns: true,
-        autoUpdateInput: date_filter == '' ? false : true,
+        autoUpdateInput: true,
         locale: {
             format: 'YYYY-MM-DD'
         },
@@ -136,9 +139,9 @@
         endDate  : endDate,
     });
     $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
-        $('#dateRange').daterangepicker().autoUpdateInput = true;
         startDate = (picker == undefined) ? $(this).val().substr(0,10) : picker.startDate.format('YYYY-MM-DD');
         endDate = (picker == undefined) ? $(this).val().substr(13,24) : picker.endDate.format('YYYY-MM-DD');
+        // $('#dateRange').daterangepicker().autoUpdateInput = true;
         table.clear().draw();
     });
     $(document).on('click', '#refreshData', function(){
