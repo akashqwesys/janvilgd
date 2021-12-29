@@ -14,12 +14,17 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
 	<style>		
-		.zoom img {		
-			transition: 1s;
-			top: 1.5rem;
-			position: relative;
-			z-index: 9999;			
+		.zoom>img {		
+			transition: width 1s;
+			top: 15px;    
+			position: absolute;
+			z-index: 9999;
+			width: 10.6rem;
 		} 
+		.navbar {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+		}		
 	</style>
 	
     @yield('css')
@@ -138,7 +143,6 @@
 		<button class="live-chat-btn" onclick="openForm()">
 			<img src="/{{ check_host() }}assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid" >
 		</button>
-
 		<div class="chat-popup" id="myForm">
 			<div class="chat-header">
 				<a href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo" ></a>
@@ -274,18 +278,16 @@ $(document).ready(function(){
 
 	$(window).scroll(function(){
 		
-		if($(window).scrollTop() >= 60) {
+		if($(window).scrollTop() >= 60) {			
 			$(".zoom img").css({
-				'transition': '1s',
-				'width': '80%',
-				'top': '0rem'		
+				'transition': 'width 1s',
+				'width': '8rem'						
         	});
         }
 		if($(window).scrollTop() <= 50) {
 			$(".zoom img").css({
-				'transition': '1s',
-            	'width': '100%',
-				'top': '1.5rem'
+				'transition': 'width 1s',				
+            	'width': '11rem'				
         	});
         }		        
        
