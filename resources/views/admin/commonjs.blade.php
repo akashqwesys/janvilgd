@@ -403,7 +403,7 @@
                     $("#display_exp_pol_cts_text").text("Carat weight");
 
                     $("#expected_polish_cts_label").html('');
-                    $("#expected_polish_cts_label").text('Weight:');
+                    $("#expected_polish_cts_label").text('Carat:');
 
                     $("#barcode").addClass("d-none");
                     $("#packate_no").addClass("d-none");
