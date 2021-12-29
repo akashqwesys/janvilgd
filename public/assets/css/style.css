@@ -129,10 +129,6 @@ section {
     font-family: courier, sans;
 }
 
-.card-2 {
-    border-radius: 32px 32px 32px 32px !important;
-}
-
 .card-2:hover {
     border-radius: 32px 32px 32px 32px;
     color: #d2ab66;
@@ -140,7 +136,7 @@ section {
     background-color: #000;
 }
 
-.card-2:hover .description {
+.card2:hover .description {
     color: #fff !important;
 }
 
@@ -1121,6 +1117,7 @@ a {
 .close svg {
     width: 16px;
 }
+
 
 /* .cart-table h5,
 .cart-table h4 {
