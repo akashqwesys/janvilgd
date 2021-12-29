@@ -19,7 +19,7 @@
 			top: 15px;    
 			position: absolute;
 			z-index: 9999;
-			width: 10.6rem;
+			width: 11rem;
 		} 
 		.navbar {
 			padding-top: 1rem;
