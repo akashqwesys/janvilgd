@@ -140,10 +140,6 @@ section {
     color: #fff !important;
 }
 
-.landing-section {
-    min-height: 500px;
-}
-
 .btn {
     font-size: 16px;
     padding: 8px 15px;
@@ -1101,6 +1097,7 @@ a {
 .cart-table tr:first-child {
     padding-top: 0;
 }
+
 
 /* .cart-table tr:last-child {
     border: 0;
