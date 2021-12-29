@@ -136,6 +136,7 @@
         endDate  : endDate,
     });
     $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+        $('#dateRange').daterangepicker().autoUpdateInput = true;
         startDate = (picker == undefined) ? $(this).val().substr(0,10) : picker.startDate.format('YYYY-MM-DD');
         endDate = (picker == undefined) ? $(this).val().substr(13,24) : picker.endDate.format('YYYY-MM-DD');
         table.clear().draw();
