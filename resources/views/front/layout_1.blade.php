@@ -16,6 +16,9 @@
 	<style>		
 		.zoom img {		
 			transition: 1s;
+			top: 1.5rem;
+			position: relative;
+			z-index: 9999;			
 		} 
 	</style>
 	
@@ -274,13 +277,15 @@ $(document).ready(function(){
 		if($(window).scrollTop() >= 60) {
 			$(".zoom img").css({
 				'transition': '1s',
-				'width': '80%'			
+				'width': '80%',
+				'top': '0rem'		
         	});
         }
 		if($(window).scrollTop() <= 50) {
 			$(".zoom img").css({
 				'transition': '1s',
-            	'width': '100%'	
+            	'width': '100%',
+				'top': '1.5rem'
         	});
         }		        
        
