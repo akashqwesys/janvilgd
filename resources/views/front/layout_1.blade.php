@@ -24,10 +24,7 @@
 		.navbar {
 			padding-top: 1rem;
 			padding-bottom: 1rem;
-		}	
-		.process-black{
-			min-height: 100vh;
-		}	
+		}			
 	</style>
 	
     @yield('css')
