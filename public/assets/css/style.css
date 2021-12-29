@@ -602,7 +602,11 @@ a {
     max-width: 950px;
     width: 100%;
     margin: 0 auto;
-    padding-top: 10%;
+    padding-top: 8%;
+}
+
+.landing-content .section-head div {
+    padding-bottom: 8% !important;
 }
 
 .animate-div {
