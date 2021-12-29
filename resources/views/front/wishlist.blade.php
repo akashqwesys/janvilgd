@@ -70,22 +70,22 @@
         </div>
         <div class="row">
             @if(!empty($response))
-            @foreach($response as $row)
-            <div class="col col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" id="diamond_{{$row->diamond_id}}">
-                <div class="card wish-card">
-                    <div class="card-body">
-                        <a class="close removeFromWishlist" href="Javascript:;" data-id="{{$row->diamond_id}}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
-                            </svg>
-                        </a>
-                        <a href="/customer/single-diamonds/{{$row->barcode}}"><img class="img-fluid cart-product-img" src="{{ count($row->image) ? $row->image[0] : '/assets/images/No-Preview-Available.jpg' }}" alt="No-Preview-Available">  </a>
-                        <h5>{{ substr($row->diamond_name, 0, strpos($row->diamond_name, '::'))}}</h5>
-                        <p class="price">${{number_format(round($row->total, 2), 2, '.', ',')}}</p>
-                        <a href="Javascript:;" class="btn btn-primary add-to-cart" data-id="{{$row->diamond_id}}">Add to cart</a>
+            @foreach($response as $r)
+                <div class="col-md-3 col-6 mb-3" id="diamond_{{$r['_source']['diamond_id']}}">
+                    <div class="card">
+                        <div class="card-body- p-1 text-center">
+                            <div class=" mb-2">
+                                <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                </a>
+                            </div>
+                            <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                            <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                            <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                            <a href="javascript:void(0);" class="btn btn-primary w-100 add-to-cart">ADD TO CART</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
             @endif
         </div>
