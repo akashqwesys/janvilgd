@@ -259,7 +259,7 @@
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
 $(document).ready(function(){
-	$('li .active').removeClass('active');
+	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 });
 </script>

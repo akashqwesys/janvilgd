@@ -273,9 +273,9 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
 
 <script>
-$(document).ready(function() {	
-	$('li .active').removeClass('active');	
-	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+$(document).ready(function() {
+	$('ul.dropdown-menu li .active').removeClass('active');
+	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 });
 </script>
 <script type="text/javascript">
@@ -332,7 +332,7 @@ $(document).ready(function() {
 				url: "{{ route('add-all-to-cart') }}",
 				data: data,
 				success: function (res) {
-					if (res.suceess) {
+					if (res.success) {
 						$.toast({
 							heading: 'Success',
 							text: 'Diamond added in cart.',
@@ -342,7 +342,7 @@ $(document).ready(function() {
 					}else{
 						$.toast({
 							heading: 'Error',
-							text: 'Oops, something went wrong...!',
+							text: res.message,
 							icon: 'error',
 							position: 'top-right'
 						});
@@ -361,7 +361,7 @@ $(document).ready(function() {
 				url: "{{ route('add-all-to-wishlist') }}",
 				data: data,
 				success: function (res) {
-					if (res.suceess) {
+					if (res.success) {
 						$.toast({
 							heading: 'Success',
 							text: 'Diamond added in wishlist.',
@@ -371,7 +371,7 @@ $(document).ready(function() {
 					}else{
 						$.toast({
 							heading: 'Error',
-							text: 'Oops, something went wrong...!',
+							text: res.message,
 							icon: 'error',
 							position: 'top-right'
 						});
