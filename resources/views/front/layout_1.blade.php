@@ -13,13 +13,19 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
+	<style>		
+		.zoom img {		
+			transition: 1s;
+		} 
+	</style>
+	
     @yield('css')
 </head>
 <body>
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
 		  <div class="container">
-		    <a class="navbar-brand" href="/">
+		    <a class="navbar-brand zoom" href="/">
 				<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" >
 			</a>
 		    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -259,10 +265,29 @@
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
 $(document).ready(function(){
-	$('li .active').removeClass('active');
+	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+
+
+	$(window).scroll(function(){
+		
+		if($(window).scrollTop() >= 60) {
+			$(".zoom img").css({
+				'transition': '1s',
+				'width': '80%'			
+        	});
+        }
+		if($(window).scrollTop() <= 50) {
+			$(".zoom img").css({
+				'transition': '1s',
+            	'width': '100%'	
+        	});
+        }		        
+       
+    });
 });
 </script>
+
 @yield('js')
 </body>
 </html>

@@ -1393,46 +1393,66 @@ class DiamondController extends Controller
 
     public function getSharableCart($share_cart_id)
     {
-        $diamond_id=DB::table('share_cart')->where('share_cart_id',$share_cart_id)->first();
-        $response_array=array();
+        $diamond_id = DB::table('share_cart')->where('share_cart_id', $share_cart_id)->first();
         if(!empty($diamond_id)){
             $dimond_id_1= json_decode($diamond_id->refDiamond_id);
-            $diamonds = DB::table('diamonds as d')
-                ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
-                ->whereIn('d.diamond_id', $dimond_id_1)
-                ->get();
-            if(!empty($diamonds) && isset($diamonds[0])){
-                foreach ($diamonds as $value){
-                    array_push($response_array,$value);
-                }
+            $client = ClientBuilder::create()
+                ->setHosts(['localhost:9200'])
+                ->build();
+            $elastic_params = [
+                'index' => 'diamonds',
+                'body'  => [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                ['terms' => ['diamond_id' => $dimond_id_1]]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+            $diamonds = $client->search($elastic_params);
+
+            if(isset($diamonds['hits']['hits']) && count($diamonds['hits']['hits'])){
+                return $this->successResponse('Success', $diamonds);
+            } else {
+                return $this->errorResponse('This link is not valid');
             }
+        } else {
+            return $this->errorResponse('No Product in your cart to share');
         }
-        if (!count($response_array)) {
-            return $this->errorResponse('This link is not valid');
-        }
-        return $this->successResponse('Success', $response_array);
     }
 
     public function getSharableWishlist($share_wishlist_id)
     {
-        $diamond_id=DB::table('share_wishlist')->where('share_wishlist_id',$share_wishlist_id)->first();
-        $response_array=array();
-        if(!empty($diamond_id)){
-            $dimond_id_1= json_decode($diamond_id->refDiamond_id);
-            $diamonds = DB::table('diamonds as d')
-                ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price')
-                ->whereIn('d.diamond_id', $dimond_id_1)
-                ->get();
-            if(!empty($diamonds) && isset($diamonds[0])){
-                foreach ($diamonds as $value){
-                    array_push($response_array,$value);
-                }
+        $diamond_id=DB::table('share_wishlist')->where('share_wishlist_id', $share_wishlist_id)->first();
+        if (!empty($diamond_id)) {
+            $dimond_id_1 = json_decode($diamond_id->refDiamond_id);
+            $client = ClientBuilder::create()
+                ->setHosts(['localhost:9200'])
+                ->build();
+            $elastic_params = [
+                'index' => 'diamonds',
+                'body'  => [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                ['terms' => ['diamond_id' => $dimond_id_1]]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+            $diamonds = $client->search($elastic_params);
+
+            if (isset($diamonds['hits']['hits']) && count($diamonds['hits']['hits'])) {
+                return $this->successResponse('Success', $diamonds);
+            } else {
+                return $this->errorResponse('This link is not valid');
             }
+        } else {
+            return $this->errorResponse('No Product in your wishlist to share');
         }
-        if (!count($response_array)) {
-            return $this->errorResponse('This link is not valid');
-        }
-        return $this->successResponse('Success', $response_array);
     }
 
     public function addAllToCart(Request $request)
@@ -1467,7 +1487,9 @@ class DiamondController extends Controller
                     $data_array = [
                         'refCustomer_id' => $customer_id,
                         'refDiamond_id' => $d_row,
-                        'date_added' => date("Y-m-d h:i:s")
+                        'date_added' => date("Y-m-d h:i:s"),
+                        'created_at' => date("Y-m-d h:i:s"),
+                        'updated_at' => date("Y-m-d h:i:s")
                     ];
                     $res=DB::table('customer_cart')->insert($data_array);
                     $Id = DB::getPdo()->lastInsertId();
@@ -1477,10 +1499,10 @@ class DiamondController extends Controller
                 }
             }
             if($i==0){
-                return $this->errorResponse('All diamonds is already in your cart');
+                return $this->errorResponse('All diamonds are already in your cart');
             }
             if($i==1){
-                return $this->successResponse('Success',[],3);
+                return $this->successResponse('Success', [], 3);
             }
         }
         return $this->errorResponse('No data found');
@@ -1670,27 +1692,34 @@ class DiamondController extends Controller
     public function getWishlist()
     {
         $customer_id = Auth::id();
-        $response_array=array();
-        $diamonds = DB::table('customer_whishlist as cw')
+        $diamond_ids = DB::table('customer_whishlist as cw')
             ->join('diamonds as d', 'cw.refdiamond_id', '=', 'd.diamond_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp')
-            ->where('cw.refCustomer_id',$customer_id)
-            ->get();
-        if(!empty($diamonds[0]) && isset($diamonds[0])){
-            foreach ($diamonds as $value){
-                $value->image = json_decode($value->image);
-                /* $a = [];
-                foreach ($value->image as $v1) {
-                    $a[] = '/storage/other_images/' . $v1;
-                }
-                $value->image = $a; */
-                array_push($response_array,$value);
-            }
-        }
-        if (!count($response_array)) {
+            ->select('cw.refdiamond_id')
+            ->where('cw.refCustomer_id', $customer_id)
+            ->pluck('refdiamond_id')
+            ->toArray();
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['terms' => ['diamond_id' => $diamond_ids]]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $diamonds = $client->search($elastic_params);
+
+        if (isset($diamonds['hits']['hits']) && count($diamonds['hits']['hits'])) {
+            return $this->successResponse('Success', $diamonds);
+        } else {
             return $this->errorResponse('Your wishlist is empty');
         }
-        return $this->successResponse('Success', $response_array);
     }
 
     public function addToWishlist(Request $request)

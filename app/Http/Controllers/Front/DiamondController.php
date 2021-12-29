@@ -532,11 +532,12 @@ class DiamondController extends Controller {
         $result = $diamond_api_controller->addAllToCart($request);
         if (!empty($result->original['code']) && $result->original['code']==3) {
             $data = array(
-                'suceess' => true
+                'success' => true
             );
         } else {
             $data = array(
-                'suceess' => false
+                'success' => false,
+                'message' => $result->original['message']
             );
         }
         return response()->json($data);
@@ -547,11 +548,12 @@ class DiamondController extends Controller {
         $result = $diamond_api_controller->addAllToWishlist($request);
         if (!empty($result->original['code']) && $result->original['code']==3) {
             $data = array(
-                'suceess' => true
+                'success' => true
             );
         } else {
             $data = array(
-                'suceess' => false
+                'success' => false,
+                'message' => $result->original['message']
             );
         }
         return response()->json($data);
@@ -1152,22 +1154,24 @@ class DiamondController extends Controller {
         $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getSharableCart($share_cart_id);
-        if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
+        if ($result->original['flag'] == false) {
+            return redirect('/customer/dashboard')->with(['error' => 1, 'message' => $result->original['message']]);
         }
+        $response = $result->original['data']['hits']['hits'];
         $title = 'Sharable-Cart';
-        return view('front.sharable-cart', compact('title', 'response','share_cart_id'));
+        return view('front.sharable-cart', compact('title', 'response', 'share_cart_id'));
     }
 
     public function getSharableWishlist($share_wishlist_id) {
         $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getSharableWishlist($share_wishlist_id);
-        if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
+        if ($result->original['flag'] == false) {
+            return redirect('/customer/dashboard')->with(['error' => 1, 'message' => $result->original['message']]);
         }
+        $response = $result->original['data']['hits']['hits'];
         $title = 'Sharable-Wishlist';
-        return view('front.sharable-wishlist', compact('title', 'response','share_wishlist_id'));
+        return view('front.sharable-wishlist', compact('title', 'response', 'share_wishlist_id'));
     }
 
     public function diamondDetails($barcode) {
@@ -1230,9 +1234,10 @@ class DiamondController extends Controller {
         $response=array();
         $diamond_api_controller = new DiamondApi;
         $result = $diamond_api_controller->getWishlist();
-        if (!empty($result->original['data'])) {
-            $response = $result->original['data'];
+        if ($result->original['flag'] == false) {
+            return redirect('/customer/dashboard')->with(['error' => 1, 'message' => $result->original['message']]);
         }
+        $response = $result->original['data']['hits']['hits'];
         $title = 'Wishlist';
         return view('front.wishlist', compact('title', 'response'));
     }
