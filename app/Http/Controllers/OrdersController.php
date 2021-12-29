@@ -14,10 +14,10 @@ use Elasticsearch\ClientBuilder;
 
 class OrdersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data['title'] = 'List-Orders';
-        return view('admin.orders.list', ["data" => $data]);
+        return view('admin.orders.list', ["data" => $data, 'request' => $request]);
     }
 
     public function customerAddress (Request $request)
@@ -279,13 +279,22 @@ class OrdersController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-
-            $data = DB::table('orders')->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated')->latest()->orderBy('order_id', 'desc')->get();
+            $data = DB::table('orders')
+                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated');
+            if (isset($request->startDate) && !empty($request->startDate)) {
+                if ($request->startDate != $request->endDate) {
+                    $data = $data->whereRaw("DATE(date_added) >= '".$request->startDate."' AND DATE(date_added) <= '".$request->endDate."'");
+                } else {
+                    $data = $data->whereRaw("DATE(date_added) = '".$request->startDate."'");
+                }
+            }
+            $data = $data->orderBy('order_id', 'desc')
+                ->get();
             return Datatables::of($data)
                 ->addColumn('index', '')
-                ->editColumn('date_updated', function ($row) {
-                    return date_formate($row->date_updated);
-                })
+                // ->editColumn('date_updated', function ($row) {
+                //     return date_formate($row->date_updated);
+                // })
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row->date_added);
                 })

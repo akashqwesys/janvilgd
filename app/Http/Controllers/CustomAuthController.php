@@ -9,12 +9,14 @@ use App\Models\User;
 use DB;
 class CustomAuthController extends Controller {
 
-    public function home() {
+    public function home()
+    {
         $data['title']='Home';
         return view('admin.home',["data"=>$data]);
     }
 
-    public function accessDenied() {
+    public function accessDenied()
+    {
         $data['title']='Access-Denied';
         return view('admin.accessDenied',["data"=>$data]);
     }
@@ -26,14 +28,17 @@ class CustomAuthController extends Controller {
         return redirect('/customer/dashboard');
     }
 
-    public function loginView() {
+    public function loginView()
+    {
         if(Session()->has('loginId')){
             return redirect('/admin/dashboard');
         }
         $data['title']='Login';
         return view('admin.login',["data"=>$data]);
     }
-    public function userLogin(Request $request) {
+
+    public function userLogin(Request $request)
+    {
         $password=md5($request->password);
         $pass=hash('sha256', $password);
         $request->validate([
@@ -69,12 +74,24 @@ class CustomAuthController extends Controller {
         }
     }
 
-    public function dashboard() {
-        $data['title']= config("constants.ADMIN_DASHBOARD_TITLE");
-        return view('admin.dashboard',["data"=>$data]);
+    public function dashboard()
+    {
+        $data['title'] = 'Dashboard';
+        $last_day = date('Y-m-d', strtotime(date('Y-m-d') . ' - 1 day'));
+        $last_7 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 7 days'));
+        $last_30 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 30 days'));
+        $orders = DB::table('orders')
+            ->select(
+                DB::raw("count(case when DATE(date_added) = (CURRENT_DATE - INTERVAL '1 day') then 1 end) as last_day"),
+                DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
+                DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30"),
+            )
+            ->first();
+        return view('admin.dashboard', compact('orders', 'data'));
     }
 
-    public function logout() {
+    public function logout()
+    {
         Session::flush();
         return redirect('/admin/login');
     }

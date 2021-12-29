@@ -602,6 +602,11 @@ a {
     max-width: 950px;
     width: 100%;
     margin: 0 auto;
+    padding-top: 8%;
+}
+
+.landing-content .section-head div {
+    padding-bottom: 8% !important;
 }
 
 .animate-div {
@@ -1097,6 +1102,7 @@ a {
 .cart-table tr:first-child {
     padding-top: 0;
 }
+
 
 /* .cart-table tr:last-child {
     border: 0;

@@ -471,8 +471,6 @@
         <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
         <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
         @yield('script')
-
-
         @include('admin.designation.designation_list_js')
         @include('admin.blogs.list_js')
         @include('admin.categories.list_js')
