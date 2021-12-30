@@ -26,6 +26,9 @@
 		.navbar {
 			padding-top: 1rem;
 			padding-bottom: 1rem;
+		}
+		.card-body1{
+			padding:20px !important;
 		}			
 	</style>
 	
