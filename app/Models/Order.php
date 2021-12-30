@@ -50,6 +50,7 @@ class Order extends Model
         'tax_amount',
         'total_paid_amount',
         'added_by',
+        'order_type',
         'date_added',
         'date_updated'
     ];

@@ -13,8 +13,8 @@ class CommonController extends Controller
 
     public function projectSetup() {
 
-        $delete = DB::table('modules')->truncate();
         //******************* Parent Modules Entry Start *******************//
+        $delete = DB::table('modules')->truncate();
         $modules_array=array();
         $parent_modules = DB::table('modules')->where('parent_id',0)->first();
         if(empty($parent_modules)){
@@ -63,7 +63,6 @@ class CommonController extends Controller
 
 
         //******************* Sub Modules Entry Start *******************//
-
         $parent_modules = DB::table('modules')->where('parent_id','>=', 1)->first();
         if(empty($parent_modules)){
             $parent_modules = DB::table('modules')->where('parent_id',0)->get();
@@ -429,7 +428,6 @@ class CommonController extends Controller
             }
             DB::table('modules')->insert($modules_array);
         }
-
         //******************* Sub Modules Entry End *******************//
 
 
@@ -484,7 +482,6 @@ class CommonController extends Controller
 
 
         //******************* Informative Pages Entry Start *******************//
-
         $delete = DB::table('informative_pages')->truncate();
         $informative_pages_array=array();
 
@@ -620,7 +617,6 @@ class CommonController extends Controller
 
         DB::table('informative_pages')->insert($informative_pages_array);
         //******************* Informative Pages Entry End *******************//
-
 
 
         //******************* Atttribute groups Entry start *******************//
@@ -1193,8 +1189,7 @@ class CommonController extends Controller
         //******************* Atttribute groups Entry end *******************//
 
 
-
-        //******************* Atttribute groups Entry start *******************//
+        //******************* Atttributes Entry start *******************//
         $delete = DB::table('attributes')->truncate();
         $attribute_array=array();
 
@@ -2526,7 +2521,10 @@ class CommonController extends Controller
                     array_push($attribute_array,$data_array);
 
         DB::table('attributes')->insert($attribute_array);
-        //******************* labour charges Entry start *******************//
+        //******************* Atttributes Entry end *******************//
+
+
+        //******************* Labour Charges Entry start *******************//
         $delete = DB::table('labour_charges')->truncate();
         $labour_charges_array=array();
 
@@ -2552,7 +2550,52 @@ class CommonController extends Controller
             $data_array['date_updated']=date("Y-m-d h:i:s");
             array_push($labour_charges_array,$data_array);
 
-            DB::table('labour_charges')->insert($labour_charges_array);
+        DB::table('labour_charges')->insert($labour_charges_array);
+        //******************* Labour Charges Entry end *******************//
+
+
+        //******************* Order Statuses Entry start *******************//
+        DB::table('order_statuses')->truncate();
+        $order_statuses_array = array();
+
+            $data_array = array();
+            $data_array['order_status_id'] = 1;
+            $data_array['name'] = 'PENDING';
+            $data_array['sort_order'] = 0;
+            $data_array['is_active'] = 1;
+            $data_array['is_deleted'] = 0;
+            $data_array['date_added'] = date("Y-m-d h:i:s");
+            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($order_statuses_array, $data_array);
+
+            $data_array = array();
+            $data_array['order_status_id'] = 2;
+            $data_array['name'] = 'COMPLETED';
+            $data_array['sort_order'] = 1;
+            $data_array['is_active'] = 1;
+            $data_array['is_deleted'] = 0;
+            $data_array['date_added'] = date("Y-m-d h:i:s");
+            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($order_statuses_array, $data_array);
+
+            $data_array = array();
+            $data_array['order_status_id'] = 3;
+            $data_array['name'] = 'CANCELLED';
+            $data_array['sort_order'] = 2;
+            $data_array['is_active'] = 1;
+            $data_array['is_deleted'] = 0;
+            $data_array['date_added'] = date("Y-m-d h:i:s");
+            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($order_statuses_array, $data_array);
+
+        DB::table('order_statuses')->insert($order_statuses_array);
+        //******************* Labour Charges Entry end *******************//
 
         successOrErrorMessage("Project Setup Done", 'success');
         return redirect('admin/dashboard');

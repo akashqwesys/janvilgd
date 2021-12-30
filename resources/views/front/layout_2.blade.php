@@ -17,13 +17,26 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/rSlider.js"></script>
+	<style>		
+		.zoom>img {		
+			transition: width 1s;
+			top: 15px;    
+			position: absolute;
+			z-index: 9999;
+			width: 11rem;
+		} 
+		.navbar {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+		}			
+	</style>
     @yield('css')
 </head>
 <body>
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
 		  <div class="container">
-		    <a class="navbar-brand" href="/">
+		    <a class="navbar-brand zoom" href="/">
 				<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" >
 			</a>
 		    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -276,6 +289,26 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 $(document).ready(function() {
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+
+
+
+	$(window).scroll(function(){
+		
+		if($(window).scrollTop() >= 60) {			
+			$(".zoom img").css({
+				'transition': 'width 1s',
+				'width': '8rem'						
+        	});
+        }
+		if($(window).scrollTop() <= 50) {
+			$(".zoom img").css({
+				'transition': 'width 1s',				
+            	'width': '11rem'				
+        	});
+        }		        
+       
+    });
+
 });
 </script>
 <script type="text/javascript">

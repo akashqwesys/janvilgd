@@ -74,22 +74,6 @@ class CustomAuthController extends Controller {
         }
     }
 
-    public function dashboard()
-    {
-        $data['title'] = 'Dashboard';
-        $last_day = date('Y-m-d', strtotime(date('Y-m-d') . ' - 1 day'));
-        $last_7 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 7 days'));
-        $last_30 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 30 days'));
-        $orders = DB::table('orders')
-            ->select(
-                DB::raw("count(case when DATE(date_added) = (CURRENT_DATE - INTERVAL '1 day') then 1 end) as last_day"),
-                DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
-                DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30"),
-            )
-            ->first();
-        return view('admin.dashboard', compact('orders', 'data'));
-    }
-
     public function logout()
     {
         Session::flush();

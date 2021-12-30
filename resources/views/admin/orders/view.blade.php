@@ -129,58 +129,6 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <br>
-                            <h3 class="nk-block-title page-title" style="display: inline;">Add Order History</h3>
-                            <hr>
-                            <form method="POST" action="{{route('orders.addOrderHistory')}}">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $data['result']->order_id }}">
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
-                                        <div class="form-group">
-                                            <label class="form-label float-right" for="order_status_name">Order Status:</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="order_status_name" name="order_status_name" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                    <option value="" disabled="" selected="">------ Select Order Status ------</option>
-                                                    <?php if (!empty($data['order_sts'])) {
-                                                        foreach ($data['order_sts'] as $row) {
-                                                            ?>
-                                                            <option value="{{ $row->name }}">{{ $row->name }}</option>
-                                                            <?php
-                                                        }
-                                                    } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
-                                        <div class="form-group">
-                                            <label class="form-label float-md-right" for="comment">Comment:</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-11">
-                                        <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <textarea name="comment" class="form-control form-control-sm" id="cf-default-textarea" placeholder="Enter comment"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row g-3">
-                                    <div class="col-sm-12 col-md-2 offset-md-2">
-                                        <div class="form-group mt-2">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div><!-- card -->
                 </div><!-- .nk-block -->

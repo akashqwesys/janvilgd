@@ -6,74 +6,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
-    <title>Index</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="//assets/images/favicon-icon.png">
+    <title>
+        <!-- @yield('title') -->
+    </title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-icon.png">
 
-    <link rel="stylesheet" type="text/css" href="//assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//assets/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="//assets/css/slick.css">
-    <link rel="stylesheet" type="text/css" href="//assets/css/custom.css">
-    <link rel="stylesheet" type="text/css" href="//assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css?v={{ time() }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css?v={{ time() }}">
     <style>
-        #myVideo {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 50%;
-            min-height: 50%;
+        .zoom>img {
+            transition: width 1s;
+            top: 15px;
+            position: absolute;
+            z-index: 9999;
+            width: 11rem;
+        }
+        
+        .navbar {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
     </style>
+
+    <!-- @yield('css') -->
 </head>
 
 <body>
     <header class="header-style-2">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="/">
-                    <img src="//assets/images/logo.png" class="img-fluid">
+                <a class="navbar-brand zoom" href="/">
+                    <img src="assets/images/logo.png" class="img-fluid">
                 </a>
                 <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		      <img src="//assets/images/menu-icon.svg">
+		      <img src="assets/images/menu-icon.svg">
 		    </button> -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">HOME</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/about-us">About</a>
+                        <!-- <li class="nav-item">
+					<a class="nav-link" href="/about-us">ABOUT</a>
+		        </li> -->
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					OUR COMPANY
+					</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/about-us">ABOUT US</a>
+                                </li>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
+                                </li>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
+                                </li>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/grading">GRADING</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Our Product
+						OUR PRODUCT
 					</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+                                <li class="bg-cs-dark">
+                                    <a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
                                 </li>
-
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contact">Contact</a>
+                            <a class="nav-link" href="/contact">CONTACT</a>
                         </li>
                     </ul>
                 </div>
                 <div class="ms-auto header-right-menu">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="//assets/images/menu-icon.svg"></a>
+                            <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="assets/images/menu-icon.svg"></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/customer/login"><img src="//assets/images/user.svg"></a>
+                            <!-- @auth -->
+                            <!-- <a class="nav-link active" aria-current="page" href="/customer/logout"><img src="assets/images/mono-exit.svg" ></a> -->
+                            <!-- @endauth -->
+                            <!-- @guest -->
+                            <a class="nav-link active" aria-current="page" href="/customer/login"><img src="assets/images/user.svg"></a>
+                            <!-- @endguest -->
                         </li>
                     </ul>
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -109,23 +142,20 @@
         </nav>
     </header>
 
-    <div class="content-wrapper">
+    <div class='content-wrapper'>
         <!-- LANDING SECTION -->
-        <section class="landing-section p-0">
-            <div class="landing-bg">               
-                <img src="assets/images/PSNM1.gif" alt="PSNM" data-pagespeed-url-hash="4209866710" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
-            </div>
-            <div class="landing-content">
-                <div class="container">
-                    <div class="section-head"><img src="assets/images/logo-slider.png" class="img-fluid" alt="img" data-pagespeed-url-hash="753056528" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
-                        <p class="description">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normalIt is a long established fact that
-                            a reader will be distracted by the readable content of a page when looking at its layout. </p>
-                        <div class="flex social-btns">
-                            <a class="app-btn blu flex vert" href="javascript:;"> <img src="assets/images/apple.png" alt="" data-pagespeed-url-hash="3401533139" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
-                                <p>Available on the <br> <span class="big-txt">App Store</span></p>
+        <section class='landing-section p-0'>
+            <div class='landing-bg'> <img src='assets/images/PSNM1.gif' alt='PSNM1' data-pagespeed-url-hash='4209866710' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> </div>
+            <div class='landing-content'>
+                <div class='container'>
+                    <div class='section-head'>
+                        <p class='description'>“A diamond that suits you, affordability at its best. We offer 100% genuine diamonds. A transparent, flawless piece of this stone, especially when cut and polished, valued as a precious gem.’’</p>
+                        <div class='flex social-btns'>
+                            <a class='app-btn blu flex vert' href='javascript:;'> <img src='assets/images/apple.png' alt='' data-pagespeed-url-hash='3401533139' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
+                                <p>Available on the <br> <span class='big-txt'>App Store</span></p>
                             </a>
-                            <a class="app-btn blu flex vert" href="javascript:;"> <img src="assets/images/playstore.png" alt="" data-pagespeed-url-hash="1398266034" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
-                                <p>Get it on <br> <span class="big-txt">Google Play</span></p>
+                            <a class='app-btn blu flex vert' href='javascript:;'> <img src='assets/images/playstore.png' alt='' data-pagespeed-url-hash='1398266034' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
+                                <p>Get it on <br> <span class='big-txt'>Google Play</span></p>
                             </a>
                         </div>
                     </div>
@@ -133,133 +163,155 @@
             </div>
         </section>
         <!-- UNEARTHING SECTION -->
-        <section class="unearthing-section">
-            <div class="container">
-                <div class="section-head">
-                    <h2 class="title">What are lab grown diamonds?</h2>
+        <section class='unearthing-section'>
+            <div class='container'>
+                <div class='section-head'>
+                    <h2 class='title'>What are lab grown diamonds?</h2>
                 </div>
-                <div class="section-content">
-                    <div class="row align-items-center">
-                        <div class="col col-12 col-sm-12 col-md-6">
-                            <div class="unearthing-img"><img src="/assets/images/diamond.gif" class="img-fluid" alt="img" data-pagespeed-url-hash="2920935452" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></div>
+                <div class='section-content'>
+                    <div class='row align-items-center'>
+                        <div class='col col-12 col-sm-12 col-md-6'>
+                            <div class='unearthing-img'><img src='assets/images/diamond.gif' class='img-fluid' alt='img' data-pagespeed-url-hash='2920935452' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'></div>
                         </div>
-                        <div class="col col-12 col-sm-12 col-md-6">
-                            <div class="unearthing-details">
-                                <p class="description">as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum'
-                                    will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Various versions have evolved over the years,
-                                    sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        <div class='col col-12 col-sm-12 col-md-6'>
+                            <div class='unearthing-details'>
+                                <p class='description'>Lab Overgrown Diamonds are just like test tube babies grown from a single seed of Diamond under the same heat and pressure like in the crust of mama earth. They're ecologically friendly as they don't scar the earth with
+                                    mining. Since they avoid the smirch of blood-diamonds there has been a worldwide acceptance for this order. And, most importantly, Lab Grown Diamonds more invariant, yet cheaper than earth- mined- trapped diamonds.
+                                </p>
+                                <p>First over, a lab- grown diamond is chemically, physically and optically identical to a mined-trapped diamond. Naturally being diamonds are forged in the crushing pressure and immense heat of the Earth's mantle around 100
+                                    country miles underground. Utmost were formed between 1bn and 3bn times ago at a time when our earth was hotter than it's moment. There's little to separate lab grown diamonds from those that do naturally other than
+                                    the way they're made.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col col-12 text-center mb-3">
-                        <h3 class="text-uppercase">Our Products</h3>
+        </section>
+
+        <!-- Process-Black -->
+        <section class='we-have-section text-white' data-parallax='scroll'>
+            <div class='container'>
+                <div class='row justify-content-right'>
+                    <div class='col col-12'>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class='unearthing-section'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col col-12 text-center mb-3'>
+                        <h3 class='text-uppercase'>Our Products</h3>
                     </div>
                     <!-- <div class='col col-12 col-md-2 mb-4 mb-md-0'></div><div class='col col-12 col-md-8 mb-4 mb-md-0'></div><div class='col col-12 col-md-2 mb-4 mb-md-0'></div> --></div>
-                <div class="row justify-content-center">
-                    <div class="col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card" style="margin-right:10px;">
-                        <div class="card-body">
-                            <h4 class="text-center">Polish Diamonds</h4>
-                            <p class="description text-center"> We are manufacturer of CVD IGI Certified Lab-Grown Diamonds </p>
+                <div class='row justify-content-center '>
+                    <div class='col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card' style='margin-right:10px;'>
+                        <div class='card-body'>
+                            <h4 class='text-center'>Polish Diamonds</h4>
+                            <p class='description text-center'> We are manufacturer of CVD IGI Certified Lab-Grown Diamonds (Type2a). </p>
                             <hr> <b>Carat Size: </b>0.30 carat To 3 carat<br> <b>Color: </b>D To J<br> <b>Clarity: </b>VVS, VS, SI<br> <b>Shape: </b>Round and Fancy
                             <p></p>
-                            <a href="login" class="btn btn-primary grown-diamonds-btn"> <span class="col-md-3"> <img class="title-diamond_img" src="/assets/images/Polish.png" alt="" data-pagespeed-url-hash="1281385418" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> </span>
-                                <span class="col-md-9">Buy Now</span>
-                            </a>
+                            <a href='login' class='btn btn-primary grown-diamonds-btn'> <span class='col-md-3'> <img class='title-diamond_img' src='/assets/images/Polish.png' alt='' data-pagespeed-url-hash='1281385418' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> </span> <span class='col-md-9'>Buy Now</span>                                </a>
+                            <div class='go-corner' href='#'>
+                                <div class='go-arrow'> → </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card" style="margin-right:10px;">
-                        <div class="card-body">
-                            <h4 class="text-center">4p Diamonds</h4>
-                            <p class="description text-center"> We are manufacturer of CVD IGI Certified Lab-Grown Diamonds </p>
-                            <hr> <b>Carat Size: </b>0.30 carat To 3 carat<br> <b>Color: </b>D To J<br> <b>Clarity: </b>VVS, VS, SI<br> <b>Shape: </b>Round and Fancy
-                            <p></p>
-                            <a href="login" class="btn btn-primary grown-diamonds-btn"><img class="title-diamond_img" src="/assets/images/4p.png" alt="" data-pagespeed-url-hash="2838713985" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Buy Now</a>
+                    <div class='col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card' style='margin-right:10px;'>
+                        <div class='card-body'>
+                            <h4 class='text-center'>4p Diamonds</h4>
+                            <p class='description text-center'> The 4P Diamonds are a new addition to the diamond market. </p>
+                            <hr> <b>Carat Size: </b>0.30 carat To 3 carat<br> <b>Color: </b>E To G<br> <b>Clarity: </b>VVS, VS, SI<br> <b>Cut: </b>Excellent
+                            <p></p> <br>
+                            <a href='login' class='btn btn-primary grown-diamonds-btn'><img class='title-diamond_img' src='/assets/images/4p.png' alt='' data-pagespeed-url-hash='2838713985' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> Buy Now</a>
+                            <div class='go-corner' href='#'>
+                                <div class='go-arrow'> → </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card" style="margin-right:10px;">
-                        <div class="card-body">
-                            <h4 class="text-center">Rough Diamonds</h4>
-                            <p class="description text-center"> We are manufacturer of CVD IGI Certified Lab-Grown Diamonds </p>
-                            <hr> <b>Carat Size: </b>0.30 carat To 3 carat<br> <b>Color: </b>D To J<br> <b>Clarity: </b>VVS, VS, SI<br> <b>Shape: </b>Round and Fancy
-                            <p></p>
-                            <a href="login" class="btn btn-primary grown-diamonds-btn"><img class="title-diamond_img" src="/assets/images/Rough.png" alt="" data-pagespeed-url-hash="2917607242" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Buy Now</a>
+                    <div class='col col-12 col-md-4 col-lg-3 mb-4 mb-md-0 card' style='margin-right:10px;'>
+                        <div class='card-body'>
+                            <h4 class='text-center'>Rough Diamonds</h4>
+                            <p class='description text-center'> Best Quality Lab Created Rough in wide range of Colors &amp;amp; Clarity. </p>
+                            <hr> <b>Rough Weight: </b>0.30 carat To 8 carat<br> <b>Color: </b>E To G<br> <b>Clarity: </b>VS, VVS<br> <b>Shape: </b>Round and Fancy
+                            <p></p> <br>
+                            <a href='login' class='btn btn-primary grown-diamonds-btn'><img class='title-diamond_img' src='/assets/images/Rough.png' alt='' data-pagespeed-url-hash='2917607242' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> Buy Now</a>
+                            <div class='go-corner' href='#'>
+                                <div class='go-arrow'> → </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- WHAT WE FOLLOW SECTION -->
-        <section class="follow-section text-white" data-parallax="scroll" data-image-src="assets/images/follow.jpg">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col col-12 col-sm-12 col-md-6">
-                        <div class="follow-details">
-                            <h2 class="title mb-4"> What We Follow?</h2>
-                            <p class="mb-4 pb-3 text-white">as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-                                uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Various versions have evolved over the years, sometimes
-                                by accident, sometimes on purpose (injected humour and the like).</p><a href="grading" class="btn btn-primary">Read More</a></div>
+        <section class='follow-section text-white' data-parallax='scroll' data-image-src='assets/images/follow.jpg'>
+            <div class='container'>
+                <div class='row align-items-center'>
+                    <div class='col col-12 col-sm-12 col-md-6'>
+                        <div class='follow-details'>
+                            <h2 class='title mb-4'> What We Follow?</h2>
+                            <p class='mb-4 pb-3 text-white'>To conduct complete translucency and detailed information, we grade our Lab Grown Diamonds in a veritably comprehensive manner. We always wanted our guests to read diamonds rather than view/ check; hence we decided to grade
+                                in a veritably detailed way. Now with all information together, our guests do not need to check any diamonds as they can read the grading details and can fantasize-how the diamond will look?</p><a href='grading' class='btn btn-primary'>Read More</a></div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- about SECTION -->
-        <section class="about-home-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col col-12 col-md-7"><img class="img-fluid w-100" src="assets/images/About-us-3.jpg" alt="" data-pagespeed-url-hash="461072352" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></div>
-                    <div class="col col-12 col-md-5">
-                        <div class="about-box">
+        <section class='about-home-section'>
+            <div class='container'>
+                <div class='row align-items-center'>
+                    <div class='col col-12 col-md-7'><img class='img-fluid w-100' src='assets/images/About-us-3.png' alt='' data-pagespeed-url-hash='461072352' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'></div>
+                    <div class='col col-12 col-md-5'>
+                        <div class='about-box'>
                             <h2>About Us</h2>
-                            <p>As opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-                                uncover many web sites still in their infancy.</p><a href="about" class="btn btn-primary">Read More</a></div>
+                            <p>Janvi Diamonds is one of the world’s top diamond exporters with a vast force of high quality diamonds of all cuts and sizes. To enable us to supply the stylish diamonds to our guests around the world we're also one of the top
+                                diamond manufacturers in the world. With our worldwide moxie across the diamond assiduity we give the zenith of service to retailers around the globe.</p><a href='about' class='btn btn-primary'>Read More</a></div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- WHAT WE HAVE SECTION -->
-        <section class="we-have-section text-white" data-parallax="scroll" data-image-src="assets/images/what-we-have-1.jpg">
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col col-12 col-md-6">
+        <section class='we-have-section text-white' data-parallax='scroll' data-image-src='assets/images/What-we-have-2.jpg'>
+            <div class='container'>
+                <div class='row justify-content-right'>
+                    <div class='col col-12 col-md-6'>
                         <h2>What We Have?</h2>
-                        <p class="text-white">as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-                            uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Various versions have evolved over the years, sometimes
-                            by accident, sometimes on purpose (injected humour and the like).</p><a href="diamonds" class="btn btn-primary">Read More</a></div>
+                        <p class='text-white'>Janvi's Diamonds are perfect for forever!!<br>We offer vast range of designs, exquisite quality, certified craftsmanship and a number of cuts. Explore the beauty of diamonds with Janvi’s diamonds, made just for you. <br>We have
+                            high quality lab grown diamonds. lab diamonds are 40-50 less precious than mined-trapped diamonds of similar quality. You can buy a much larger and better quality diamonds if you choose lab grown diamonds over mined-trapped
+                            diamonds in the same budget.</p><a href='diamonds' class='btn btn-primary'>Read More</a></div>
                 </div>
             </div>
         </section>
         <!-- CORE VALUES SECTION -->
-        <section class="core-values-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col col-12 col-md-12 col-lg-6 mb-4 mb-lg-0">
+        <section class='core-values-section'>
+            <div class='container'>
+                <div class='row align-items-center'>
+                    <div class='col col-12 col-md-12 col-lg-6 mb-4 mb-lg-0'>
                         <h2>Core Values</h2>
-                        <p>as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
-                            uncover many web sites still in their infancy.</p>
+                        <p>We are dealing exclusively in lab - grown diamonds which are created using extreme pressure and heat, but inside a machine rather than the intestine of the Earth.</p>
                     </div>
-                    <div class="col col-12 col-md-6 col-lg-3">
-                        <div class="card core-value-card">
-                            <div class="card-body"><img class="img-fluid" src="assets/images/Environmental Superiority-1.svg" alt="" data-pagespeed-url-hash="2178070905" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" width="30%">
-                                <h4>Excellence at Work</h4>
-                                <p>Editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+                    <div class='col col-12 col-md-6 col-lg-3'>
+                        <div class='card core-value-card'>
+                            <div class='card-body'><img class='img-fluid' src='assets/images/Superior Quality.svg' alt='' data-pagespeed-url-hash='2178070905' onload='pagespeed.CriticalImages.checkImageForCriticality(this);' width='30%'>
+                                <h4>Superior Quality</h4>
+                                <p>Our diamonds are the best in the world. They are always of a high quality. We make sure that all our customers get the best value for their money.</p>
                             </div>
                         </div>
-                        <div class="card core-value-card">
-                            <div class="card-body"><img class="img-fluid" src="assets/images/Environmental Superiority-2.svg" alt="" data-pagespeed-url-hash="2178070905" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" width="30%">
-                                <h4>Excellence at Work</h4>
-                                <p>Editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+                        <div class='card core-value-card'>
+                            <div class='card-body'><img class='img-fluid' src='assets/images/Transparency.svg' alt='' data-pagespeed-url-hash='2178070905' onload='pagespeed.CriticalImages.checkImageForCriticality(this);' width='30%'>
+                                <h4>Transparency</h4>
+                                <p>We grade our lab- grown diamonds which reflects the quality of a diamond, but also the rarity of it. Diamonds are graded on their different measurements (such as clarity, cut, color, and carat weight).</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col col-12 col-md-6 col-lg-3">
-                        <div class="card core-value-card">
-                            <div class="card-body"><img class="img-fluid" src="assets/images/Transparency.svg" alt="" data-pagespeed-url-hash="2178070905" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" width="30%">
-                                <h4>Excellence at Work</h4>
-                                <p>Editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+                    <div class='col col-12 col-md-6 col-lg-3'>
+                        <div class='card core-value-card'>
+                            <div class='card-body'><img class='img-fluid' src='assets/images/Environmental Superiority-1.svg' alt='' data-pagespeed-url-hash='2178070905' onload='pagespeed.CriticalImages.checkImageForCriticality(this);' width='30%'>
+                                <h4>Environmental Superiority</h4>
+                                <p>When you buy lab diamond jewellery from Janvi Diamonds, you're investing in the future of humanity, as you're directly supporting exploration and development in cutting edge technology</p>
                             </div>
                         </div>
                     </div>
@@ -267,56 +319,56 @@
             </div>
         </section>
         <!-- BLOG SECTION -->
-        <section class="home-blog-section p-0">
-            <div class="container p-0">
-                <div class="row g-0">
-                    <div class="col col-12 col-md-6">
-                        <div class="blog-box text-white">
-                            <h2><img class="img-fluid title-diamond_img" src="assets/images/title-diamond.svg" alt="" data-pagespeed-url-hash="3523125347" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Latest Blogs</h2>
-                            <p class="text-white">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                            <div class="text-center mt-4"><a href="blog" class="btn btn-primary">Read More</a></div>
+        <section class='home-blog-section p-0'>
+            <div class='container p-0'>
+                <div class='row g-0'>
+                    <div class='col col-12 col-md-6'>
+                        <div class='blog-box text-white'>
+                            <h2><img class='img-fluid title-diamond_img' src='assets/images/title-diamond.svg' alt='' data-pagespeed-url-hash='3523125347' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> Latest Blogs</h2>
+                            <p class='text-white'>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                            <div class='text-center mt-4'><a href='blog' class='btn btn-primary'>Read More</a></div>
                         </div>
                     </div>
-                    <div class="col col-12 col-md-6">
-                        <div class="home-blog-list custom-slick-arrow">
-                            <div class="bolg-item"><img class="img-fluid" src="assets/images/blog-single-1.jpg" alt="" data-pagespeed-url-hash="3893797572" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                    <div class='col col-12 col-md-6'>
+                        <div class='home-blog-list custom-slick-arrow'>
+                            <div class='bolg-item'><img class='img-fluid' src='assets/images/blog-single-1.jpg' alt='' data-pagespeed-url-hash='3893797572' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>It is a long established fact that a reader will be.</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href="single-blog" class="btn btn-primary btn-black">Read More</a></div>
-                            <div class="bolg-item"><img class="img-fluid" src="assets/images/blog-single-1.jpg" alt="" data-pagespeed-url-hash="3893797572" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href='single-blog' class='btn btn-primary btn-black'>Read More</a></div>
+                            <div class='bolg-item'><img class='img-fluid' src='assets/images/blog-single-1.jpg' alt='' data-pagespeed-url-hash='3893797572' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>It is a long established fact that a reader will be.</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href="single-blog" class="btn btn-primary btn-black">Read More</a></div>
-                            <div class="bolg-item"><img class="img-fluid" src="assets/images/blog-single-1.jpg" alt="" data-pagespeed-url-hash="3893797572" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href='single-blog' class='btn btn-primary btn-black'>Read More</a></div>
+                            <div class='bolg-item'><img class='img-fluid' src='assets/images/blog-single-1.jpg' alt='' data-pagespeed-url-hash='3893797572' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>It is a long established fact that a reader will be.</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href="single-blog" class="btn btn-primary btn-black">Read More</a></div>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p><a href='single-blog' class='btn btn-primary btn-black'>Read More</a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- CLIENTS SAY SECTION -->
-        <section class="home-blog-section p-0">
-            <div class="container p-0">
-                <div class="row g-0">
-                    <div class="col col-12 col-md-6 order-1 order-md-0">
-                        <div class="home-client-list custom-slick-arrow">
-                            <div class="client-item"><img class="img-fluid" src="assets/images/user.jpg" alt="" data-pagespeed-url-hash="4115964488" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+        <section class='home-blog-section p-0'>
+            <div class='container p-0'>
+                <div class='row g-0'>
+                    <div class='col col-12 col-md-6 order-1 order-md-0'>
+                        <div class='home-client-list custom-slick-arrow'>
+                            <div class='client-item'><img class='img-fluid' src='assets/images/user.jpg' alt='' data-pagespeed-url-hash='4115964488' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>Martin williams <span>-Potential customer</span></h4>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p>
                             </div>
-                            <div class="client-item"><img class="img-fluid" src="assets/images/user.jpg" alt="" data-pagespeed-url-hash="4115964488" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                            <div class='client-item'><img class='img-fluid' src='assets/images/user.jpg' alt='' data-pagespeed-url-hash='4115964488' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>Martin williams <span>-Potential customer</span></h4>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p>
                             </div>
-                            <div class="client-item"><img class="img-fluid" src="assets/images/user.jpg" alt="" data-pagespeed-url-hash="4115964488" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                            <div class='client-item'><img class='img-fluid' src='assets/images/user.jpg' alt='' data-pagespeed-url-hash='4115964488' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'>
                                 <h4>Martin williams <span>-Potential customer</span></h4>
                                 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using....</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col col-12 col-md-6">
-                        <div class="blog-box text-white">
-                            <h2><img class="img-fluid title-diamond_img" src="assets/images/title-diamond.svg" alt="" data-pagespeed-url-hash="3523125347" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> Clients Say</h2>
-                            <p class="text-white">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of usingIt is a long established fact that a reader will be distracted by the readable content
+                    <div class='col col-12 col-md-6'>
+                        <div class='blog-box text-white'>
+                            <h2><img class='img-fluid title-diamond_img' src='assets/images/title-diamond.svg' alt='' data-pagespeed-url-hash='3523125347' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> Clients Say</h2>
+                            <p class='text-white'>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of usingIt is a long established fact that a reader will be distracted by the readable content
                                 of a page when looking at its layout. The point of usingIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of usingIt is a long established
                                 fact that a reader will be distracted by the readable content.</p>
                         </div>
@@ -325,15 +377,14 @@
             </div>
         </section>
         <!-- PARTNERS SECTION -->
-        <section class="partners-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col col-12">
-                        <h2 class="text-center">Our Partners</h2>
-                        <div class="partners-slider custom-slick-arrow"><img src="assets/images/partners.png" alt="" data-pagespeed-url-hash="3051449720" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"><img src="assets/images/partners.png" alt="" data-pagespeed-url-hash="3051449720"
-                                onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
-                            <img src="assets/images/partners.png" alt="" data-pagespeed-url-hash="3051449720" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"><img src="assets/images/partners.png" alt="" data-pagespeed-url-hash="3051449720"
-                                onload="pagespeed.CriticalImages.checkImageForCriticality(this);"><img src="assets/images/partners.png" alt="" data-pagespeed-url-hash="3051449720" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></div>
+        <section class='partners-section'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col col-12'>
+                        <h2 class='text-center'>Our Partners</h2>
+                        <div class='partners-slider custom-slick-arrow'><img src='assets/images/partners.png' alt='' data-pagespeed-url-hash='3051449720' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'><img src='assets/images/partners.png' alt='' data-pagespeed-url-hash='3051449720'
+                                onload='pagespeed.CriticalImages.checkImageForCriticality(this);'> <img src='assets/images/partners.png' alt='' data-pagespeed-url-hash='3051449720' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'><img src='assets/images/partners.png'
+                                alt='' data-pagespeed-url-hash='3051449720' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'><img src='assets/images/partners.png' alt='' data-pagespeed-url-hash='3051449720' onload='pagespeed.CriticalImages.checkImageForCriticality(this);'></div>
                     </div>
                 </div>
             </div>
@@ -342,13 +393,12 @@
 
     <div class="live-chat">
         <button class="live-chat-btn" onclick="openForm()">
-			<img src="//assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid" >
+			<img src="assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid" >
 		</button>
-
         <div class="chat-popup" id="myForm">
             <div class="chat-header">
-                <a href="/"><img src="//assets/images/logo.png" class="img-fluid" alt="logo"></a>
-                <button type="button" class="btn cancel" onclick="closeForm()"><img src="//assets/images/close.svg" alt="close" class="img-fluid" ></button>
+                <a href="/"><img src="assets/images/logo.png" class="img-fluid" alt="logo"></a>
+                <button type="button" class="btn cancel" onclick="closeForm()"><img src="assets/images/close.svg" alt="close" class="img-fluid" ></button>
             </div>
             <div class="chat-body">
                 <div class="chat-container">
@@ -367,7 +417,7 @@
         <div class="container">
             <div class="footer-form">
                 <div class="d-flex align-items-center">
-                    <img src="//assets/images/envelope.svg" class="img-fluid">
+                    <img src="assets/images/envelope.svg" class="img-fluid">
                     <p class="mb-0">Signup Newsletter</p>
                 </div>
                 <form class="footer_form">
@@ -423,7 +473,7 @@
                                 <ul class="country_address_links">
                                     <li>
                                         <span class="flag-icon">
-											<img src="//assets/images/india.png" alt="" >
+											<img src="assets/images/india.png" alt="" >
 										</span>
                                         <span class="location">India</span>
                                         <div class="location-address">
@@ -436,7 +486,7 @@
                                     </li>
                                     <li>
                                         <span class="flag-icon">
-											<img src="//assets/images/usa.png" alt="" >
+											<img src="assets/images/usa.png" alt="" >
 										</span>
                                         <span class="location">USA</span>
                                         <div class="location-address">
@@ -452,19 +502,19 @@
                                 <p class="social-media-link"><span>Connect With :</span></p>
                                 <ul class="list-unstyled social-link mb-0">
                                     <li class="link-item">
-                                        <a href="https://www.facebook.com/" target="_blank"><img src="//assets/images/facebook.svg" class="img-fluid"></a>
+                                        <a href="https://www.facebook.com/" target="_blank"><img src="assets/images/facebook.svg" class="img-fluid"></a>
                                     </li>
                                     <li class="link-item">
-                                        <a href="https://www.instagram.com/" target="_blank"><img src="//assets/images/instagram.svg" class="img-fluid"></a>
+                                        <a href="https://www.instagram.com/" target="_blank"><img src="assets/images/instagram.svg" class="img-fluid"></a>
                                     </li>
                                     <li class="link-item">
-                                        <a href="https://twitter.com/" target="_blank"><img src="//assets/images/twitter.svg" class="img-fluid"></a>
+                                        <a href="https://twitter.com/" target="_blank"><img src="assets/images/twitter.svg" class="img-fluid"></a>
                                     </li>
                                     <li class="link-item">
-                                        <a href="https://www.youtube.com/" target="_blank"><img src="//assets/images/youtube.svg" class="img-fluid"></a>
+                                        <a href="https://www.youtube.com/" target="_blank"><img src="assets/images/youtube.svg" class="img-fluid"></a>
                                     </li>
                                     <li class="link-item">
-                                        <a href="javascript:;" target="_blank"><img src="//assets/images/whatsapp.svg" class="img-fluid"></a>
+                                        <a href="javascript:;" target="_blank"><img src="assets/images/whatsapp.svg" class="img-fluid"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -478,11 +528,37 @@
         </div>
         </div>
     </footer>
-    <script src="//assets/js/jquery-3.6.0.min.js"></script>
-    <script src="//assets/js/bootstrap.bundle.min.js"></script>
-    <script src="//assets/js/parallax.js"></script>
-    <script src="//assets/js/slick.min.js"></script>
-    <script src="//assets/js/custom.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/parallax.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('ul.dropdown-menu li .active').removeClass('active');
+            $('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+
+
+            $(window).scroll(function() {
+
+                if ($(window).scrollTop() >= 60) {
+                    $(".zoom img").css({
+                        'transition': 'width 1s',
+                        'width': '8rem'
+                    });
+                }
+                if ($(window).scrollTop() <= 50) {
+                    $(".zoom img").css({
+                        'transition': 'width 1s',
+                        'width': '11rem'
+                    });
+                }
+
+            });
+        });
+    </script>
+
+    <!-- @yield('js') -->
 </body>
 
 </html>
