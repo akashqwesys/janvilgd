@@ -239,6 +239,7 @@ class OrderController extends Controller
             $order->tax_amount = $tax->amount ?? 0;
             $order->total_paid_amount = $total;
             $order->added_by = 0;
+            $order->order_type = 1;
             $order->date_added = date('Y-m-d H:i:s');
             $order->date_updated = date('Y-m-d H:i:s');
             $order->save();
