@@ -692,6 +692,7 @@ a {
 .grown-diamonds-btn {
     border: 1px solid #fff;
     display: block;
+    text-transform: uppercase;
 }
 
 .grown-diamonds-btn img {
@@ -778,7 +779,10 @@ a {
     background-size: cover;
     background-repeat: no-repeat;
 }
+.follow-section p {
+    color: #fff;
 
+}
 
 /* Follow Section End */
 
@@ -822,6 +826,7 @@ a {
 
 .card.core-value-card img {
     margin-bottom: 25px;
+    width: 50px;
 }
 
 
@@ -4926,4 +4931,12 @@ label[for="id_upload"]:hover {
     .container-xxl {
         max-width: 1385px
     }
+}
+
+
+
+/*css by bhumi*/
+/*css by bhumi*/
+.unearthing-section .card {
+    height: 100%;
 }
