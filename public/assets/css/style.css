@@ -2117,7 +2117,7 @@ span.value.upper::before {
     .dropdown:hover .dropdown-menu {
         display: block;
         opacity: 1;
-        top: 60px;
+        top: 55px;
     }
     .vrau {
         display: block;
@@ -2127,7 +2127,7 @@ span.value.upper::before {
 
 .dropdown-menu {
     padding: 0 0 !important;
-    top: 60px !important;
+    top: 55px !important;
     background-color: #d4d5d8 !important;
 }
 
