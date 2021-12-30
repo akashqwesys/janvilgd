@@ -98,7 +98,7 @@ class InformativePagesController extends Controller {
 
     public function update(Request $request) {
         $data = json_decode($request->data);
-
+        // echo '<pre>';print_r($data);die;        
         DB::table('informative_pages')->where('informative_page_id', $data->id)->update([
             'name' => $data->name,
             'content' => clean_html($data->content),
