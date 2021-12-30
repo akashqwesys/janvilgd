@@ -108,6 +108,21 @@ section {
     padding: 50px 0;
 }
 
+.ls-3 {
+    letter-spacing: 3px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
+.ls-4 {
+    letter-spacing: 4px !important;
+    font-weight: 700 !important;
+}
+
+.ls-5 {
+    letter-spacing: 5px;
+}
+
 .go-corner {
     display: flex;
     align-items: center;
@@ -119,7 +134,23 @@ section {
     top: 0;
     right: 0;
     background-color: #d2ab66;
-    border-radius: 0 4px 0 32px;
+    border-radius: 0 0px 0 32px;
+}
+
+.card-shadow {
+    box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.card-body1 {
+    text-align: center !important;
+}
+
+.text-theme {
+    color: #d2ab66 !important;
+}
+
+.bg-black {
+    background-color: #000 !important;
 }
 
 .go-arrow {
@@ -130,13 +161,13 @@ section {
 }
 
 .card-2:hover {
-    border-radius: 32px 32px 32px 32px;
+    /* border-radius: 0px 32px 0px 0px; */
     color: #d2ab66;
     transition: all 0.3s ease-out;
     background-color: #000;
 }
 
-.card2:hover .description {
+.card-2:hover .description {
     color: #fff !important;
 }
 
@@ -602,11 +633,11 @@ a {
     max-width: 950px;
     width: 100%;
     margin: 0 auto;
-    padding-top: 8%;
+    padding-top: 13%;
 }
 
 .landing-content .section-head div {
-    padding-bottom: 8% !important;
+    padding-bottom: 13% !important;
 }
 
 .animate-div {
@@ -779,10 +810,11 @@ a {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
 .follow-section p {
     color: #fff;
-
 }
+
 
 /* Follow Section End */
 
@@ -4934,9 +4966,11 @@ label[for="id_upload"]:hover {
 }
 
 
+/*css by bhumi*/
+
 
 /*css by bhumi*/
-/*css by bhumi*/
+
 .unearthing-section .card {
     height: 100%;
 }
