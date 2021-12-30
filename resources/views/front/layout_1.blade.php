@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
+
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>		
 		.zoom>img {		
 			transition: width 1s;
@@ -267,6 +269,8 @@
 </footer>
 <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
 <script src="/{{ check_host() }}assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 <script src="/{{ check_host() }}assets/js/parallax.js"></script>
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
@@ -298,3 +302,15 @@ $(document).ready(function(){
 @yield('js')
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
