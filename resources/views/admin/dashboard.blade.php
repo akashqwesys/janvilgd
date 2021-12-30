@@ -15,6 +15,9 @@
         transition: 0.5s;
         box-shadow: 0px 10px 30px 0px #616a8f;
     }
+    .orders-revenue, .carats-revenue, .cancelled-revenue {
+        height: 200px;
+    }
 </style>
 @endsection
 @section('content')
