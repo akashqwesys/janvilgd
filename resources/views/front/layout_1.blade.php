@@ -276,9 +276,9 @@
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
 $(document).ready(function(){
+	AOS.init();
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
-
 
 	$(window).scroll(function(){
 		
