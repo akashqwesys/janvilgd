@@ -35,11 +35,11 @@
             padding-left: 20px !important;
         }
 		#myVideo {
-		position: fixed;
+		
 		right: 0;
 		bottom: 0;
 		min-width: 100%;
-		min-height: 6rem;
+		min-height: 50rem;
 		}			
 	</style>
 	
