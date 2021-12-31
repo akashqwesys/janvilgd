@@ -30,9 +30,13 @@ class DashboardController extends Controller {
         ->first();
 
         $pending_orders = DB::table('orders as o')
-            ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
-            ->where('ou.order_status_name', 'PENDING')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('order_updates as ou')
+                    ->where('ou.order_status_name', 'COMPLETED');
+            })
             ->orderBy('o.order_id', 'desc')
             ->limit(5)
             ->get();
@@ -53,6 +57,9 @@ class DashboardController extends Controller {
             ->get();
 
         $recent_customers = DB::table('orders as o')
+            ->joinSub('SELECT "refCustomer_id", MAX(order_id) FROM orders group by "refCustomer_id"', 'o1', function ($join) {
+                $join->on('o.refCustomer_id', '=', 'o1.refCustomer_id');
+            })
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
             ->where('o.order_type', 1)
             ->orderBy('o.order_id', 'desc')
