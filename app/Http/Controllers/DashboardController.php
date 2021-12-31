@@ -35,6 +35,7 @@ class DashboardController extends Controller {
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('order_updates as ou')
+                    ->whereColumn('ou.refOrder_id', 'o.order_id')
                     ->where('ou.order_status_name', 'COMPLETED');
             })
             ->orderBy('o.order_id', 'desc')
