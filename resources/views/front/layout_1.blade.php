@@ -38,8 +38,8 @@
 		
 		right: 0;
 		bottom: 0;
-		min-width: 100%;
-		min-height: 50rem;
+		width: 100%;
+		min-height: 600px;
 		}			
 	</style>
 	
