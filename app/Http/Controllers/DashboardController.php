@@ -57,15 +57,15 @@ class DashboardController extends Controller {
             ->limit(5)
             ->get();
 
-        $recent_customers = DB::table('orders as o')
-            ->joinSub('SELECT "refCustomer_id", MAX(order_id) FROM orders group by "refCustomer_id"', 'o1', function ($join) {
-                $join->on('o.refCustomer_id', '=', 'o1.refCustomer_id');
-            })
-            ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
+        $recent_customers = DB::table('customer as c')
+            ->join('orders as o', 'o.refCustomer_id', '=', 'c.customer_id')
+            ->select('c.name', 'c.customer_id', 'c.email', 'o.order_id')
             ->where('o.order_type', 1)
             ->orderBy('o.order_id', 'desc')
-            ->limit(5)
-            ->get();
+            ->limit(10)
+            ->get()
+            ->toArray();
+        $recent_customers = array_unique($recent_customers);
 
         return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers'));
     }

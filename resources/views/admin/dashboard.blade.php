@@ -18,6 +18,9 @@
     .orders-revenue, .carats-revenue, .cancelled-revenue {
         height: 200px;
     }
+    .user-action {
+        color: #000000;
+    }
 </style>
 @endsection
 @section('content')
@@ -177,10 +180,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">{{ $p->name }}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
-                                            </div>
-                                            <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <span class="sub-text">{{ $p->email }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -671,7 +671,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
                                     beginAtZero: false
