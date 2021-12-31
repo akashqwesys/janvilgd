@@ -294,7 +294,7 @@ class OrdersController extends Controller
 
             $updates = DB::table('order_updates')
                 ->select('refOrder_id')
-                ->where('order_status_name', 'PENDING')
+                ->where('order_status_name', 'COMPLETED')
                 ->pluck('refOrder_id')
                 ->toArray();
 
@@ -308,7 +308,7 @@ class OrdersController extends Controller
                 })
                 ->addColumn('action', function ($row) use ($updates){
                     $actionBtn = '';
-                    if (in_array($row->order_id, $updates)) {
+                    if (!in_array($row->order_id, $updates)) {
                         $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
                     }
                     $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary">&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
