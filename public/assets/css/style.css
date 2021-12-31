@@ -633,11 +633,11 @@ a {
     max-width: 950px;
     width: 100%;
     margin: 0 auto;
-    padding-top: 13%;
+    padding-top: 20%;
 }
 
 .landing-content .section-head div {
-    padding-bottom: 13% !important;
+    padding-bottom: 14% !important;
 }
 
 .animate-div {
@@ -2104,9 +2104,8 @@ span.value.upper::before {
     left: 0;
 }
 
-#header-content {
-    position: absolute;
-    bottom: 10px;
+#header-content1 {
+    top: 16rem !important;
 }
 
 @media (min-width: 768px) {
