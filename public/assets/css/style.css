@@ -2104,6 +2104,11 @@ span.value.upper::before {
     left: 0;
 }
 
+#header-content {
+    position: absolute;
+    bottom: 10px;
+}
+
 @media (min-width: 768px) {
     .dropdown .dropdown-menu {
         display: block;
