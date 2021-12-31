@@ -39,7 +39,7 @@
 		right: 0;
 		bottom: 0;
 		width: 100%;
-		min-height: 600px;
+		min-height: 100%;
 		object-fit: cover;
     	object-position: center;
 		}			
