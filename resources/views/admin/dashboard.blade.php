@@ -499,7 +499,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
                                     beginAtZero: false
@@ -585,7 +585,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
                                     beginAtZero: false
@@ -758,7 +758,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 position: NioApp.State.isRTL ? "right" : "left",
                                 ticks: {
@@ -863,7 +863,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 position: NioApp.State.isRTL ? "right" : "left",
                                 ticks: {
@@ -968,7 +968,7 @@
                         },
                         scales: {
                             yAxes: [{
-                                display: false,
+                                display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 position: NioApp.State.isRTL ? "right" : "left",
                                 ticks: {

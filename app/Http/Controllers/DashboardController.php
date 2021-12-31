@@ -65,6 +65,11 @@ class DashboardController extends Controller {
             ->limit(10)
             ->get()
             ->toArray();
+        for ($i = 0; $i < count($recent_customers); $i++) {
+            if (isset($recent_customers[$i + 1]) && $recent_customers[$i]->customer_id == $recent_customers[$i + 1]->customer_id) {
+                unset($recent_customers[$i]);
+            }
+        }
         $recent_customers = array_unique($recent_customers);
 
         return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers'));
