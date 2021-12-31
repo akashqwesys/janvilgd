@@ -70,7 +70,6 @@ class DashboardController extends Controller {
                 unset($recent_customers[$i]);
             }
         }
-        $recent_customers = array_unique($recent_customers);
 
         return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers'));
     }
