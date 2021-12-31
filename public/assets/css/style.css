@@ -473,8 +473,7 @@ a {
 /* HEADER STYLE 2 CSS START  */
 
 .header-style-2 {
-    /* position: fixed; */
-    position: sticky;
+    position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
