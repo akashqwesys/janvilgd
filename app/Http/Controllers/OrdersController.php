@@ -182,7 +182,7 @@ class OrdersController extends Controller
                         if($row->barcode == $u_array['barcode']){
                             $discount = str_replace('-', '', $u_array['discount']);
                             $discount = doubleval((100 - $discount) / 100);
-                            if ($row->category_type == config('constant.CATEGORY_TYPE_4P')) {
+                            /* if ($row->category_type == config('constant.CATEGORY_TYPE_4P')) {
                                 $total = abs(($row->rapaport_price * $row->expected_polish_cts * $discount)) - ($labour_charge_4p->amount*$row->expected_polish_cts);
                             }
                             if ($row->category_type == config('constant.CATEGORY_TYPE_ROUGH')) {
@@ -194,8 +194,8 @@ class OrdersController extends Controller
                             }
                             if ($row->category_type == config('constant.CATEGORY_TYPE_POLISH')) {
                                 $total = abs($row->rapaport_price*$row->expected_polish_cts*$discount);
-                            }
-                            $subtotal += $total;
+                            } */
+                            $subtotal += $row->total;
                             $weight += $row->expected_polish_cts;
                             $batch_d['refOrder_id'] = $order_Id;
                             $batch_d['refDiamond_id'] = $row->diamond_id;

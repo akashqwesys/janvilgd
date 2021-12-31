@@ -20,9 +20,20 @@ class DashboardController extends Controller {
             DB::raw("count(case when DATE(date_added) = CURRENT_DATE then 1 end) as today"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE)) then total_paid_amount else 0 end) as monthly_revenue"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) then total_paid_amount else 0 end) as quaterly_revenue"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '12 month')) then total_paid_amount else 0 end) as yearly_revenue"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then total_paid_amount else 0 end) as monthly_revenue"),
+            DB::raw("sum(
+                case
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 1 and (EXTRACT(MONTH FROM date_added) = 1 or EXTRACT(MONTH FROM date_added) = 2 or EXTRACT(MONTH FROM date_added) = 3) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 2 and (EXTRACT(MONTH FROM date_added) = 4 or EXTRACT(MONTH FROM date_added) = 5 or EXTRACT(MONTH FROM date_added) = 6) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 3 and (EXTRACT(MONTH FROM date_added) = 7 or EXTRACT(MONTH FROM date_added) = 8 or EXTRACT(MONTH FROM date_added) = 9) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 4 and (EXTRACT(MONTH FROM date_added) = 10 or EXTRACT(MONTH FROM date_added) = 11 or EXTRACT(MONTH FROM date_added) = 12) then total_paid_amount
+                    else 0 end
+                ) as quaterly_revenue"),
+            DB::raw("sum(
+                case
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '12 month')) then total_paid_amount
+                    else 0 end
+                ) as yearly_revenue"),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'PENDING\' and "refOrder_id" = orders.order_id) then 1 end) as pending_orders'),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
             // DB::raw("count(case when order_type = 0 then 1 end) as offline_orders"),

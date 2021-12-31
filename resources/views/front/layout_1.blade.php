@@ -33,7 +33,16 @@
 		.row1 {
             padding-right: 20px !important;
             padding-left: 20px !important;
-        }			
+        }
+		#myVideo {
+		
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		min-height: 100%;
+		object-fit: cover;
+    	object-position: center;
+		}			
 	</style>
 	
     @yield('css')

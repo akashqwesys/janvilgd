@@ -68,19 +68,19 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Subtotal</b></td>
-                                        <td style="text-align: right;">$ {{round(floatval($data['result']->sub_total),2)}}</td>
+                                        <td style="text-align: right;">$ {{round($data['result']->sub_total, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Discount</b></td>
-                                        <td style="text-align: right;">$ {{round(floatval($data['result']->discount_amount),2)}}</td>
+                                        <td style="text-align: right;">$ {{round($data['result']->sub_total * $data['result']->discount_amount / 100, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">$ {{round(floatval($data['result']->tax_amount),2)}}</td>
+                                        <td style="text-align: right;">$ {{round($data['result']->sub_total * $data['result']->tax_amount / 100, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Shipping Charge</b></td>
-                                        <td style="text-align: right;">$ {{round(floatval($data['result']->delivery_charge_amount),2)}}</td>
+                                        <td style="text-align: right;">$ {{round($data['result']->delivery_charge_amount, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>

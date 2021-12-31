@@ -607,7 +607,7 @@ a {
 
 .landing-section .landing-content:after {
     content: '';
-    background: rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.5); */
     position: absolute;
     top: 0;
     bottom: 0;
@@ -633,11 +633,11 @@ a {
     max-width: 950px;
     width: 100%;
     margin: 0 auto;
-    padding-top: 20%;
+    padding-top: 15%;
 }
 
 .landing-content .section-head div {
-    padding-bottom: 14% !important;
+    padding-bottom: 15% !important;
 }
 
 .animate-div {
