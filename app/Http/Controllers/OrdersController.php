@@ -152,6 +152,7 @@ class OrdersController extends Controller
                     'added_by'=> $request->session()->get('loginId'),
                     'sub_total' => 0,
                     'total_paid_amount' => 0,
+                    'order_type' => 0,
                     'date_added' => date("Y-m-d h:i:s"),
                     'date_updated' => date("Y-m-d h:i:s"),
                     'created_at' => date("Y-m-d h:i:s"),
@@ -290,6 +291,13 @@ class OrdersController extends Controller
             }
             $data = $data->orderBy('order_id', 'desc')
                 ->get();
+
+            $updates = DB::table('order_updates')
+                ->select('refOrder_id')
+                ->where('order_status_name', 'PENDING')
+                ->pluck('refOrder_id')
+                ->toArray();
+
             return Datatables::of($data)
                 ->addColumn('index', '')
                 // ->editColumn('date_updated', function ($row) {
@@ -298,8 +306,11 @@ class OrdersController extends Controller
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row->date_added);
                 })
-                ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                ->addColumn('action', function ($row) use ($updates){
+                    $actionBtn = '';
+                    if (in_array($row->order_id, $updates)) {
+                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                    }
                     $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary">&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
                     return $actionBtn;
                 })
@@ -326,6 +337,15 @@ class OrdersController extends Controller
 
     public function edit($id)
     {
+        $updates = DB::table('order_updates')
+            ->select('refOrder_id')
+            ->where('order_status_name', 'COMPLETED')
+            ->where('refOrder_id', $id)
+            ->pluck('refOrder_id')
+            ->toArray();
+        if (!empty($updates)) {
+            return redirect('/admin/orders');
+        }
         $diamonds = DB::table('order_diamonds as od')->select('od.*','ag.name as ag_name','a.name as a_name')
             ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')

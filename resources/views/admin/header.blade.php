@@ -462,6 +462,7 @@
         <!-- JavaScript -->
         <script src="{{ asset(check_host().'admin_assets/assets/js/bundle.js?ver=1.9.2') }}"></script>
         <script src="{{ asset(check_host().'admin_assets/assets/js/scripts.js?ver=1.9.2') }}"></script>
+        {{-- <script src="{{ asset(check_host().'admin_assets/js/charts/gd-default.js') }}"></script> --}}
 
         <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/assets/css/editors/summernote.css')}}">
         <script type="text/javascript" nonce='S51U26wMQz' src="{{ asset(check_host().'admin_assets/assets/js/libs/editors/summernote.js')}}"></script>
