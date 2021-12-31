@@ -40,6 +40,8 @@
 		bottom: 0;
 		width: 100%;
 		min-height: 600px;
+		object-fit: cover;
+    	object-position: center;
 		}			
 	</style>
 	
