@@ -1242,6 +1242,22 @@ class DiamondController extends Controller {
         return view('front.wishlist', compact('title', 'response'));
     }
 
+    public function getUpdatedTax(Request $request)
+    {
+        $tax = DB::table('customer as c')
+            ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+            ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+            ->select('t.tax_id', 't.name', 't.amount')
+            ->where('c.customer_id', Auth::id())
+            ->where('ccd.customer_company_id', $request->shipping_company_id)
+            ->first();
+        if ($tax) {
+            return response()->json(['success' => 1, 'tax' => $tax->amount]);
+        } else {
+            return response()->json(['success' => 1, 'tax' => 0]);
+        }
+    }
+
     public function clearDiamondsFromDB(Request $request) {
         DB::table($request->table)->truncate();
         // DB::table('diamonds')->truncate();

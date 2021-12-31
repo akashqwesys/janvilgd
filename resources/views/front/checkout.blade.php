@@ -231,7 +231,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td>Tax</td>
+                                    <td>Tax (Tentative)</td>
                                     <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
                                 </tr>
                                 <tr>
@@ -406,6 +406,23 @@
             $('#checkout-btn').attr('disabled', true);
         }
         $('#shipping-address-block').html('<div>'+$('option:selected', this).attr('data-name')+'</div><div>'+$('option:selected', this).attr('data-office_address')+'</div><div>'+$('option:selected', this).attr('data-city_name')+' - '+$('option:selected', this).attr('data-pincode')+'</div><div>'+$('option:selected', this).attr('data-state_name')+', '+$('option:selected', this).attr('data-country_name')+'</div><div>Mobile: '+$('option:selected', this).attr('data-office_no')+'</div><div>Email: '+$('option:selected', this).attr('data-official_email')+'</div>');
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: "/customer/get-updated-tax",
+            data: {'shipping_company_id': $(this).val()},
+            success: function (res) {
+                $( ".cs-loader" ).hide();
+                if (res.success) {
+                    var tax = parseFloat($("#sub-total-td").text().replace(',', '').substring(1)) * parseFloat(res.tax) / 100;
+                    var total = parseFloat($("#final-total-th div").text().replace(',', '').substring(1)) - parseFloat($("#tax").text().replace(',', '').substring(1)) + tax;
+                    $("#tax").text("$"+tax.toFixed(2));
+                    $("#final-total-th div").text(total.toLocaleString("en-US", {style:"currency", currency:"USD"}));
+                }
+            }
+        });
+
     });
     $(document).on('click', '#checkout-btn', function() {
         var token = window.btoa($('#shipping-select').val()+'---'+$('#billing-select').val());
