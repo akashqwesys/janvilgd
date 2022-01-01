@@ -98,6 +98,8 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::post('customer/add-all-to-cart', [HDiamond::class, 'addAllToCart'])->name('add-all-to-cart');
     Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
 
+    Route::post('customer/get-updated-tax', [HDiamond::class, 'getUpdatedTax']);
+
     Route::post('customer/generate-share-cart-link', [HDiamond::class, 'createShareCartLink'])->name('generate-share-cart-link');
     Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
     Route::get('customer/sharable-cart/{id}', [HDiamond::class, 'getSharableCart'])->name('get-sharable-cart');

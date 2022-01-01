@@ -127,11 +127,11 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Discount</b></td>
-                                        <td style="text-align: right;">${{ number_format($orders[0]->discount_amount, 2, '.', ',') }}</td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->sub_total * $orders[0]->discount_amount / 100, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">${{ number_format($orders[0]->tax_amount, 2, '.', ',') }}</td>
+                                        <td style="text-align: right;">${{ number_format($orders[0]->sub_total * $orders[0]->tax_amount / 100, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="text-align: right;"><b>Shipping Charge</b></td>

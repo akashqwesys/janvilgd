@@ -199,28 +199,22 @@
                                             <div class="card-tools"> </div>
                                         </div>
                                     </div>
+                                    @foreach ($top_customers as $p)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>AB</span>
+                                                <span>{{ $p->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                <span class="sub-text">info@softnio.com</span>
+                                                <span class="lead-text">{{ $p->name }}</span>
+                                                <span class="sub-text">{{ $p->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <small>{{ $p->repeative }}</small>
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -235,28 +229,22 @@
                                             <div class="card-tools"> </div>
                                         </div>
                                     </div>
+                                    @foreach ($bottom_customers as $p)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>AB</span>
+                                                <span>{{ $p->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                <span class="sub-text">info@softnio.com</span>
+                                                <span class="lead-text">{{ $p->name }}</span>
+                                                <span class="sub-text">{{ $p->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger mr-n1" data-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <small>{{ $p->repeative }}</small>
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -1013,34 +1001,40 @@
             _barChart4P();
             _barChartRough();
         });
+        function getMonthName(n) {
+            const current = new Date();
+            current.setDate(current.getDate() - (n * 30));
+            return current.toLocaleString('default', { month: 'short' });
+        }
+        // const month_names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
         var ordersRevenue = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             stacked: true,
             datasets: [{
                 label: "Total Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [11000, 8000, 12500, 5500, 9500, 14299]
+                data: [<?= $chart_orders->cur_month5 ?>, <?= $chart_orders->cur_month4 ?>, <?= $chart_orders->cur_month3 ?>, <?= $chart_orders->cur_month2 ?>, <?= $chart_orders->cur_month1 ?>, <?= $chart_orders->cur_month ?>]
             }]
         };
         var caratsRevenue = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             stacked: true,
             datasets: [{
                 label: "Total Carats",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [11000, 8000, 12500, 5500, 9500, 14299]
+                data: [<?= $chart_carats->cur_month5 ?>, <?= $chart_carats->cur_month4 ?>, <?= $chart_carats->cur_month3 ?>, <?= $chart_carats->cur_month2 ?>, <?= $chart_carats->cur_month1 ?>, <?= $chart_carats->cur_month ?>]
             }]
         };
         var cancelledRevenue = {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             stacked: true,
             datasets: [{
-                label: "Total Carats",
+                label: "Total Cancelled Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [11000, 8000, 12500, 5500, 9500, 14299]
+                data: [<?= $cancel_orders->cur_month5 ?>, <?= $cancel_orders->cur_month4 ?>, <?= $cancel_orders->cur_month3 ?>, <?= $cancel_orders->cur_month2 ?>, <?= $cancel_orders->cur_month1 ?>, <?= $cancel_orders->cur_month ?>]
             }]
         };
         var barChartPolish = {

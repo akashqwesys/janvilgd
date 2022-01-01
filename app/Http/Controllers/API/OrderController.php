@@ -193,9 +193,10 @@ class OrderController extends Controller
                 ->where('c.customer_id', $customer->customer_id)
                 ->where('ccd.customer_company_id', $request->shipping_company_id)
                 ->first();
+
             $shipping = DB::table('delivery_charges')
                 ->select('delivery_charge_id', 'name', 'amount')
-                ->where('from_weight', '<=', (intval($weight) - 1))
+                ->where('from_weight', '<=', intval($weight))
                 ->where('to_weight', '>=', (intval($weight) + 1))
                 ->first();
 

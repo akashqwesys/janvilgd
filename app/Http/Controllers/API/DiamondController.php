@@ -1340,7 +1340,7 @@ class DiamondController extends Controller
             ->first();
         $shipping = DB::table('delivery_charges')
             ->select('amount')
-            ->where('from_weight', '<=', (intval($weight) - 1))
+            ->where('from_weight', '<=', intval($weight))
             ->where('to_weight', '>=', (intval($weight) + 1))
             ->pluck('amount')
             ->first();

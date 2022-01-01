@@ -20,9 +20,20 @@ class DashboardController extends Controller {
             DB::raw("count(case when DATE(date_added) = CURRENT_DATE then 1 end) as today"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE)) then total_paid_amount else 0 end) as monthly_revenue"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) then total_paid_amount else 0 end) as quaterly_revenue"),
-            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '12 month')) then total_paid_amount else 0 end) as yearly_revenue"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then total_paid_amount else 0 end) as monthly_revenue"),
+            DB::raw("sum(
+                case
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 1 and (EXTRACT(MONTH FROM date_added) = 1 or EXTRACT(MONTH FROM date_added) = 2 or EXTRACT(MONTH FROM date_added) = 3) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 2 and (EXTRACT(MONTH FROM date_added) = 4 or EXTRACT(MONTH FROM date_added) = 5 or EXTRACT(MONTH FROM date_added) = 6) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 3 and (EXTRACT(MONTH FROM date_added) = 7 or EXTRACT(MONTH FROM date_added) = 8 or EXTRACT(MONTH FROM date_added) = 9) then total_paid_amount
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(QUARTER FROM date_added) = 4 and (EXTRACT(MONTH FROM date_added) = 10 or EXTRACT(MONTH FROM date_added) = 11 or EXTRACT(MONTH FROM date_added) = 12) then total_paid_amount
+                    else 0 end
+                ) as quaterly_revenue"),
+            DB::raw("sum(
+                case
+                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '12 month')) then total_paid_amount
+                    else 0 end
+                ) as yearly_revenue"),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'PENDING\' and "refOrder_id" = orders.order_id) then 1 end) as pending_orders'),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
             // DB::raw("count(case when order_type = 0 then 1 end) as offline_orders"),
@@ -71,7 +82,56 @@ class DashboardController extends Controller {
             }
         }
 
-        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers'));
+        $top_customers = DB::table('orders')
+            ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+            ->groupByRaw('"refCustomer_id", email_id, name')
+            ->orderBy('repeative', 'desc')
+            ->limit(5)
+            ->get();
+
+        $bottom_customers = DB::table('orders')
+            ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+            ->groupByRaw('"refCustomer_id", email_id, name')
+            ->orderBy('repeative', 'asc')
+            ->limit(5)
+            ->get();
+
+        $chart_orders = DB::table('orders')
+        ->select(
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then 1 end) as cur_month"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) then 1 end) as cur_month1"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) then 1 end) as cur_month2"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) then 1 end) as cur_month3"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '4 month')) then 1 end) as cur_month4"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) then 1 end) as cur_month5")
+        )
+        ->first();
+
+        $chart_carats = DB::table('order_diamonds')
+        ->select(
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) then expected_polish_cts else 0 end) as cur_month"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) then expected_polish_cts else 0 end) as cur_month1"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) then expected_polish_cts else 0 end) as cur_month2"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) then expected_polish_cts else 0 end) as cur_month3"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '4 month')) then expected_polish_cts else 0 end) as cur_month4"),
+            DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) then expected_polish_cts else 0 end) as cur_month5")
+        )
+        ->first();
+
+        $cancel_orders = DB::table('orders as o')
+        ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+        ->select(
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then 1 end) as cur_month"),
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) then 1 end) as cur_month1"),
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) then 1 end) as cur_month2"),
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) then 1 end) as cur_month3"),
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '4 month')) then 1 end) as cur_month4"),
+            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) then 1 end) as cur_month5")
+        )
+        ->where('order_status_name', 'CANCELLED')
+        ->first();
+
+        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders'));
     }
 
 }
