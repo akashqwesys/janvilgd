@@ -1244,7 +1244,7 @@ a {
 }
 
 .clarity-section .clarity-content {
-    background-image: url('../images/WHAT IS-DIAMOND-CLARITY.jpg');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/WHAT IS-DIAMOND-CLARITY.jpg');
     background-size: cover;
     padding: 80px 40px;
     background-position: center;
