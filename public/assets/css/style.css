@@ -1229,6 +1229,12 @@ a {
     margin: auto;
 }
 
+.grading-img-box {
+    box-shadow: -3px -2px 8px 1px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: -3px -2px 8px 1px rgba(0, 0, 0, 0.63);
+    -moz-box-shadow: -3px -2px 8px 1px rgba(0, 0, 0, 0.63);
+}
+
 .wish-card .price {
     color: #808080;
 }
