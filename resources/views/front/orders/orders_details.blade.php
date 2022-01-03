@@ -100,6 +100,7 @@
                                 <thead>
                                     <tr>
                                         <th>Barcode</th>
+                                        <th>Category</th>
                                         <th>Carat</th>
                                         <th>Shape</th>
                                         <th>Color</th>
@@ -111,6 +112,7 @@
                                     @foreach ($diamonds as $o)
                                     <tr>
                                         <td>{{ $o['barcode'] }}</td>
+                                        <td>{{ $o['cat_name'] }}</td>
                                         <td>{{ $o['expected_polish_cts'] }}</td>
                                         @foreach ( $o['attributes'] as $d_attr)
                                             <td>{{$d_attr}}</td>
@@ -119,26 +121,26 @@
                                     </tr>
                                     @endforeach
                                     <tr style="background-color: lightgray;">
-                                        <td colspan="6" style="text-align: right;">&nbsp;</td>
+                                        <td colspan="7" style="text-align: right;">&nbsp;</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="text-align: right;"><b>Subtotal</b></td>
+                                        <td colspan="6" style="text-align: right;"><b>Subtotal</b></td>
                                         <td style="text-align: right;">${{ number_format($orders[0]->sub_total, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="text-align: right;"><b>Discount</b></td>
+                                        <td colspan="6" style="text-align: right;"><b>Discount</b></td>
                                         <td style="text-align: right;">${{ number_format($orders[0]->sub_total * $orders[0]->discount_amount / 100, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="text-align: right;"><b>Tax</b></td>
+                                        <td colspan="6" style="text-align: right;"><b>Tax</b></td>
                                         <td style="text-align: right;">${{ number_format($orders[0]->sub_total * $orders[0]->tax_amount / 100, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="text-align: right;"><b>Shipping Charge</b></td>
+                                        <td colspan="6" style="text-align: right;"><b>Shipping Charge</b></td>
                                         <td style="text-align: right;">${{ number_format($orders[0]->delivery_charge_amount, 2, '.', ',') }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" style="text-align: right;">
+                                        <td colspan="6" style="text-align: right;">
                                             <b> Total </b>
                                         </td>
                                         <td style="text-align: right;">

@@ -80,10 +80,11 @@ class OrderController extends Controller
                 ->toArray();
 
             $diamonds = DB::table('order_diamonds as od')
+                ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
                 ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
                 ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
                 ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-                ->select('od.*', 'ag.name as ag_name', 'a.name as a_name')
+                ->select('od.*', 'ag.name as ag_name', 'a.name as a_name', 'c.name as cat_name')
                 ->where('od.refOrder_id', $request->order_id)
                 ->whereIn('ag.name', ['COLOR', 'CLARITY', 'SHAPE'])
                 ->get()
@@ -92,6 +93,7 @@ class OrderController extends Controller
             $final_d = [];
             foreach ($diamonds as $v_row) {
                 $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
+                $final_d[$v_row->refDiamond_id]['cat_name'] = $v_row->cat_name;
                 $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
                 $final_d[$v_row->refDiamond_id]['total'] = $v_row->price;
                 $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
