@@ -29,6 +29,8 @@
                     $('#append_loader').hide();
                     data.startDate = startDate;
                     data.endDate =  endDate;
+                    data.customer_id = customer_id;
+                    data.order_status = order_status;
                 },
                 'complete': function (data) {
                     $('#append_loader').hide();

@@ -62,6 +62,9 @@ class OrderController extends Controller {
         $api = new APIOrder;
         $data = $api->myOrders($request);
         $orders = $data->original['data']['orders'];
+        if (count($orders)) {
+            $orders = collect($orders)->groupBy('order_id')->values()->toArray();
+        }
         $title = 'My Orders';
         return view('front.orders.my_orders', compact('title', 'orders'));
     }

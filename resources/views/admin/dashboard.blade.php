@@ -493,7 +493,7 @@
                                 display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
-                                    beginAtZero: false
+                                    beginAtZero: true
                                 }
                             }],
                             xAxes: [{
@@ -579,7 +579,7 @@
                                 display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
-                                    beginAtZero: false
+                                    beginAtZero: true
                                 }
                             }],
                             xAxes: [{
@@ -665,7 +665,7 @@
                                 display: true,
                                 stacked: _get_data.stacked ? _get_data.stacked : false,
                                 ticks: {
-                                    beginAtZero: false
+                                    beginAtZero: true
                                 }
                             }],
                             xAxes: [{

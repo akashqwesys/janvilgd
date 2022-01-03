@@ -82,19 +82,19 @@
                                         @foreach ($orders as $o)
                                         <tr>
                                             <td class="text-right">
-                                                <div>{{ $o->order_id }}</div>
+                                                <div>{{ $o[0]->order_id }}</div>
                                             </td>
                                             <td class="text-right">
-                                                <div>{{ $o->refTransaction_id }}</div>
+                                                <div>{{ $o[0]->refTransaction_id }}</div>
                                             </td>
                                             <td class="text-right">
-                                                <div>${{ number_format($o->total_paid_amount, 2, '.', ',') }}</div>
+                                                <div>${{ number_format($o[0]->total_paid_amount, 2, '.', ',') }}</div>
                                             </td>
                                             <td class="text-right">
-                                                <div>{{ $o->created_at }}</div>
+                                                <div>{{ $o[0]->created_at }}</div>
                                             </td>
                                             <td class="text-right">
-                                                <a href="/customer/order-details/{{ $o->refTransaction_id }}/{{ $o->order_id }}">View Details</a>
+                                                <a href="/customer/order-details/{{ $o[0]->refTransaction_id }}/{{ $o[0]->order_id }}">View Details</a>
                                             </td>
                                         </tr>
                                         @endforeach
