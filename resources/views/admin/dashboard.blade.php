@@ -391,6 +391,14 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
+                                    <span class="title">Average Weight Loss</span>
+                                    <span class="title float-right">{{ round($weight_loss->av_weight_loss / $weight_loss->cn_weight_loss, 2) }}%</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
                                     <span class="title">Monthly Revenue</span>
                                     <span class="title float-right">{{ $orders->monthly_revenue }}</span>
                                 </div>
@@ -409,6 +417,46 @@
                                 <div class="card-body hv-effect" >
                                     <span class="title">Yearly Revenue</span>
                                     <span class="title float-right">{{ $orders->yearly_revenue }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Shape</span>
+                                    <span class="title float-right">{{ 1 }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Carat</span>
+                                    <span class="title float-right">{{ 1 }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Color</span>
+                                    <span class="title float-right">{{ 1 }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Clarity</span>
+                                    <span class="title float-right">{{ 1 }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Cut</span>
+                                    <span class="title float-right">{{ 1 }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->

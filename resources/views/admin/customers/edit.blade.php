@@ -1,21 +1,42 @@
 @extends('admin.header')
-@section('content')
-
+@section('css')
 <style>
     .actions ul li button {
-    display: inline-block;
-    position: relative;
-    color: #fff;
-    font-weight: 500;
-    transition: all .4s ease;
-    border-color: #1f327f;
-    background: #1f327f;
-    padding: 0.4375rem 1rem;
-    font-size: 0.8125rem;
-    line-height: 1rem;
-    border-radius: 4px;
-}
+        display: inline-block;
+        position: relative;
+        color: #fff;
+        font-weight: 500;
+        transition: all .4s ease;
+        border-color: #1f327f;
+        background: #1f327f;
+        padding: 0.4375rem 1rem;
+        font-size: 0.8125rem;
+        line-height: 1rem;
+        border-radius: 4px;
+    }
+    .add-edit-delete-btn {
+        float: right;
+    }
+    .add-edit-delete-btn img {
+        width: 15px;
+        height: 15px;
+        filter: brightness(0) invert(1);
+    }
+    .custom-modal .form-group .input-icon {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        width: 20px;
+        margin: auto;
+    }
+    .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
+        padding-left: 40px;
+    }
 </style>
+@endsection
+@section('content')
+
 <div class="nk-content">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -29,13 +50,12 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <form  method="POST" action="{{route('customers.update')}}" enctype="multipart/form-data" class="nk-wizard nk-wizard-simple is-alter">
+                            <h5>Personal Details</h5>
+                            <hr>
+                            <form  method="POST" action="{{route('customers.update')}}" enctype="multipart/form-data" class="">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->customer_id }}">
-                                <div class="nk-wizard-head">
-                                    <h5>Step 1</h5>
-                                </div>
-                                <div class="nk-wizard-content">
+                                <div class="nk-wizard-content-">
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-1">
                                             <div class="form-group">
@@ -218,236 +238,220 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="nk-wizard-head">
-                                    <h5>Step 2</h5>
-                                </div>
-                                <div class="nk-wizard-content">
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="company_name">Company Name:</label>
-                                            </div>
-                                        </div>
+                                        <div class="col-lg-1"></div>
                                         <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="company_name" id="company_name" placeholder="Enter name" required="" autocomplete="off" value="{{ $data['result2']->name }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="office_no">Office no:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="office_no" id="office_no" placeholder="Enter mobile number" autocomplete="off" value="{{ $data['result2']->office_no }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="official_email">Email:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="email" class="form-control" name="official_email" id="official_email" placeholder="Enter email" autocomplete="off" value="{{ $data['result2']->official_email }}">
-                                                    @if($errors->has('email'))
-                                                    <span class="text-danger">{{ $errors->first('official_email') }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-right" for="designation_id">Designation:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <select class="form-control" id="designation_id" name="designation_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                        <option value="">------ Select Country ------</option>
-                                                        <?php
-                                                        if (!empty($data['designation'])) {
-                                                            foreach ($data['designation'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->id }}" {{ set_selected($row->id,$data['result2']->refDesignation_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="office_address">Office Address:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <textarea name="office_address" class="form-control form-control-sm" id="office_address" placeholder="Enter address">{{ $data['result2']->office_address }}</textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="office_pincode">Office Pincode:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="office_pincode" id="office_pincode" placeholder="Enter pincode" autocomplete="off" value="{{ $data['result2']->pincode }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-right" for="office_country_id">Company Country:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <select class="form-control" id="office_country_id" name="office_country_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                        <option value="">------ Select Country ------</option>
-                                                        <?php
-                                                        if (!empty($data['country'])) {
-                                                            foreach ($data['country'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->country_id }}" {{ set_selected($row->country_id,$data['result2']->refCountry_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            <button class="btn btn-primary" type="submit">SAVE</button>
                                         </div>
                                     </div>
 
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-right" for="office_state_id">Company State:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <select class="form-control" id="office_state_id" name="office_state_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                        <option value="">------ Select State ------</option>
-                                                        <?php
-                                                        if (!empty($data['state'])) {
-                                                            foreach ($data['state'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->state_id }}" {{ set_selected($row->state_id,$data['result2']->refState_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-right" for="office_city_id">Company City:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <select class="form-control" id="office_city_id" name="office_city_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                        <option value="">------ Select City ------</option>
-                                                        <?php
-                                                        if (!empty($data['city'])) {
-                                                            foreach ($data['city'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->city_id }}" {{ set_selected($row->city_id,$data['result2']->refCity_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="pan_gst_no">PAN or GST No:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="pan_gst_no" id="pan_gst_no" placeholder="Enter pan or gst no" autocomplete="off" value="{{ $data['result2']->pan_gst_no }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
-                                            <div class="form-group">
-                                                <label class="form-label float-md-right" for="pan_gst_no_file">PAN/GST Files:</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <div class="form-control-wrap">
-                                                    <div class="custom-file">
-                                                        <input type="file" name="pan_gst_no_file" class="custom-file-input" id="pan_gst_no_file">
-                                                        <label class="custom-file-label" for="pan_gst_no_file">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 align-center">
-                                    <div class="col-md-11 offset-1">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" data-msg="Required" class="custom-control-input required" name="is_approved" id="is_approved" required value="1" {{ set_cheked(1, $data['result2']->is_approved)}}>
-                                            <label class="custom-control-label" for="is_approved">Is Approved</label>
-                                        </div>
-                                    </div>
-                                    </div>
                                 </div>
+
+
                             </form>
                         </div>
                     </div>
                 </div><!-- .nk-block -->
+                <div class="nk-block nk-block-lg">
+                    <div class="card">
+                        <div class="card-inner">
+                            <h5>Company Details</h5>
+                            <hr>
+                            <div class="row">
+                                @php
+                                    $company = $data['result2'];
+                                @endphp
+                                @for ($i = 0; $i < count($company); $i++)
+                                <div class="col col-12 col-xl-6">
+                                    <table class="table address-details table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <h6 class="float-left">Address - {{ $i+1 }}</h6>
+                                                    <div class="add-edit-delete-btn">
+                                                        <a href="javascript:void(0);"
+                                                            class="edit-btn btn btn-primary btn-sm"
+                                                            data-id="{{ $company[$i]->customer_company_id }}"
+                                                            data-name="{{ $company[$i]->name }}"
+                                                            data-company_office_no="{{ $company[$i]->office_no }}"
+                                                            data-company_email="{{ $company[$i]->official_email }}"
+                                                            data-company_gst_pan="{{ $company[$i]->pan_gst_no }}"
+                                                            data-company_country="{{ $company[$i]->refCountry_id }}"
+                                                            data-company_state="{{ $company[$i]->refState_id }}"
+                                                            data-company_city="{{ $company[$i]->refCity_id }}"
+                                                            data-company_address="{{ $company[$i]->office_address }}"
+                                                            data-company_pincode="{{ $company[$i]->pincode }}"
+                                                            >
+                                                            <img src="/assets/images/edit.svg">
+                                                        </a>
+                                                        <a href="javascript:void(0);"
+                                                            class="delete-btn btn btn-primary btn-sm"
+                                                            data-id="{{ $company[$i]->customer_company_id }}"
+                                                            >
+                                                            <img src="/assets/images/close.svg">
+                                                        </a>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>Company Name</td>
+                                                <td>{{ $company[$i]->name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Company Office No</td>
+                                                <td>{{ $company[$i]->office_no }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Compant Email ID</td>
+                                                <td>{{ $company[$i]->official_email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Company GST/PAN</td>
+                                                <td>{{ $company[$i]->pan_gst_no }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country</td>
+                                                <td>{{ $company[$i]->country_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>State</td>
+                                                <td>{{ $company[$i]->state_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>City</td>
+                                                <td>{{ $company[$i]->city_name }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Address Modal -->
+<div class="custom-modal add-address modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="add-address-content">
+                    <h3 class="title mb-4">Add New Address</h3>
+                    <div class="add-address-form">
+                        <form class="add-form row" method="POST" action="/customer/save-addresses" enctype="multipart/form-data" id="companyForm">
+                            @csrf
+                            <input type="hidden" name="customer_company_id" id="customer_company_id">
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Company Name">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="email" class="form-control" id="company_email" name="company_email" placeholder="Company Email Address">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_country" name="company_country">
+                                        <option value="" >Select Country</option>
+                                        @foreach ($data['country'] as $c)
+                                        <option value="{{ $c->country_id }}" >{{ $c->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_state" name="company_state">
+                                        <option value="" >Select State</option>
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_city" name="company_city">
+                                        <option value="" >Select City</option>
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-8">
+                                <div class="form-group">
+                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <input type="text" class="form-control" id="company_address" name="company_address" placeholder="Company Address" >
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-12">
+                                <div class="form-group">
+                                    <div class="upload-file-box">
+                                        <div class="file-upload-box">
+                                            <div class="file-select text-center m-auto">
+                                                {{-- <img src="/assets/images/upload-file-icon.svg" alt="icn" class="img-fluid mb-3"> --}}
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="id_upload" name="id_upload" id="id_upload" aria-describedby="inputGroupFileAddon01" accept="image/jpeg,image/png,application/pdf">
+                                                        <label class="custom-file-label ml-auto mr-auto" for="id_upload">Drag An Image Here</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <p class="mb-0 mt-3">Business Identity Proof (scan and upload only .jpg, .jpeg, .png and .pdf files)</p>
+                                </div>
+                            </div>
+                            <div class="col col-12 col-md-12 mb-0">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -527,5 +531,183 @@
             }
         });
     });
+
+$(document).on('click', '.edit-btn', function () {
+    $('#customer_company_id').val($(this).attr('data-id'));
+    $('#company_name').val($(this).attr('data-name'));
+    $('#company_office_no').val($(this).attr('data-company_office_no'));
+    $('#company_email').val($(this).attr('data-company_email'));
+    $('#company_gst_pan').val($(this).attr('data-company_gst_pan'));
+    $('#company_address').val($(this).attr('data-company_address'));
+    $('#company_pincode').val($(this).attr('data-company_pincode'));
+    $('#company_country').val($(this).attr('data-company_country')).trigger('change');
+    setTimeout(() => {
+        $('#company_state').val($(this).attr('data-company_state')).trigger('change');
+    }, 1000);
+    setTimeout(() => {
+        $('#company_city').val($(this).attr('data-company_city'));
+    }, 2000);
+    $('#exampleModal').modal('show');
+});
+$(document).on('click', '.delete-btn', function () {
+    if(!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/customer/deleteMyCompany",
+        data: { 'customer_company_id': $(this).attr('data-id') },
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $.toast({
+                    heading: 'Success',
+                    text: response.message,
+                    icon: 'success',
+                    position: 'top-right'
+                });
+                $(this).closest('.col').remove();
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$("#exampleModal").on('hidden.bs.modal', function(){
+    $('div.errTxt').html('');
+});
+$(document).on('change', '#company_country', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getStates",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#company_state').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$(document).on('change', '#company_state', function () {
+    $.ajax({
+        type: "POST",
+        url: "/getCities",
+        data: { 'id': $(this).val() },
+        // cache: false,
+        context: this,
+        dataType: 'JSON',
+        success: function (response) {
+            $('.cs-loader').hide();
+            if (response.error) {
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+            else {
+                $('#company_city').html(response.data);
+            }
+        },
+        failure: function (response) {
+            $.toast({
+                heading: 'Error',
+                text: 'Oops, something went wrong...!',
+                icon: 'error',
+                position: 'top-right'
+            });
+        }
+    });
+});
+$("#companyForm").validate({
+    errorClass: 'red-error',
+    errorElement: 'div',
+    rules: {
+        company_name: {required: true, minlength: 4, maxlength: 200},
+        company_office_no: { required: true, rangelength: [10, 11]},
+        company_email: {required: true, email: true},
+        company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+        company_address: {required: true, rangelength: [10, 200]},
+        company_country: {required: true},
+        company_state: {required: true},
+        company_city: {required: true},
+        company_pincode: { required: true, number: true},
+        id_upload: {
+            required: function (element) {
+                return $('#customer_company_id').val() == '';
+            }
+        }
+    },
+    messages: {
+        company_name: {required: "Please enter your company name"},
+        company_email: {
+            required: "Please enter your email address",
+            email: "Your email address must be in the format of name@domain.com"
+        },
+        company_office_no: {
+            required: "Please enter your mobile number",
+            number: "Your contact number should only consist of numeric digits"
+        },
+        company_email: { required: "Please enter your company email address"},
+        company_gst_pan: {required: "Please enter your company GST or PAN"},
+        company_address: {required: "Please enter your company address"},
+        company_country: {required: "Please select the country"},
+        company_state: {required: "Please select the state/province"},
+        company_city: {required: "Please enter the city name"},
+        company_pincode: {required: "Please enter the pincode"},
+        id_upload: {required: "Please select the identity proof"}
+    },
+    errorPlacement: function(error, element) {
+        if (element.attr('id') == 'id_upload') {
+            error.appendTo( element.closest('.file-upload-box').nextAll("div.errTxt") );
+        } else {
+            error.appendTo( element.parent().nextAll("div.errTxt") );
+        }
+    },
+    submitHandler: function(form) {
+        // do other things for a valid form
+        form.submit();
+    }
+});
+$(document).on('change', '#id_upload', function () {
+    $(this).next('label').text($(this)[0].files[0].name);
+});
 </script>
 @endsection

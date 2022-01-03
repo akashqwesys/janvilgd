@@ -171,7 +171,14 @@ class CustomersController extends Controller {
         $data['state'] = $state;
         $data['country'] = $country;
         $result = DB::table('customer')->where('customer_id', $id)->first();
-        $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->first();
+        // $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->get();
+        $result2 = DB::table('customer_company_details as ccd')
+            ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
+            ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
+            ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
+            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+            ->where('ccd.refCustomer_id', $id)
+            ->get();
         $data['title'] = 'Edit-Customers';
         $data['result'] = $result;
         $data['result2'] = $result2;
@@ -179,7 +186,7 @@ class CustomersController extends Controller {
     }
 
     public function update(Request $request) {
-        if (isset($request->pan_gst_no_file)) {
+        /* if (isset($request->pan_gst_no_file)) {
             $request->validate([
                 'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:6000',
             ]);
@@ -194,7 +201,7 @@ class CustomersController extends Controller {
             DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
                 'pan_gst_attachment' => $pan_gst_no_file,
             ]);
-        }
+        } */
 
         DB::table('customer')->where('customer_id', $request->id)->update([
             'name' => $request->name,
@@ -209,7 +216,7 @@ class CustomersController extends Controller {
             'restrict_transactions' => $request->restrict_transactions,
             'date_updated' => date("Y-m-d h:i:s")
         ]);
-        DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
+        /* DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
             'refCustomer_id' => $request->id,
             'name' => $request->company_name,
             'office_no' => $request->office_no,
@@ -225,7 +232,7 @@ class CustomersController extends Controller {
             'approved_by' => $request->session()->get('loginId'),
             'is_approved' => $request->is_approved,
             'approved_date_time' => date("Y-m-d h:i:s")
-        ]);
+        ]); */
 
         activity($request, "updated", 'customers');
         successOrErrorMessage("Data updated Successfully", 'success');
