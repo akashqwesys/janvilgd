@@ -146,13 +146,13 @@
                                                     <select class="form-control" id="refState_id" name="refState_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
                                                         <option value="">------ Select State ------</option>
                                                         <?php
-                                                        if (!empty($data['state'])) {
+                                                        /* if (!empty($data['state'])) {
                                                             foreach ($data['state'] as $row) {
                                                                 ?>
                                                                 <option value="{{ $row->state_id }}">{{ $row->name }}</option>
                                                                 <?php
                                                             }
-                                                        }
+                                                        } */
                                                         ?>
                                                     </select>
                                                 </div>
@@ -171,13 +171,13 @@
                                                     <select class="form-control" id="refCity_id" name="refCity_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
                                                         <option value="">------ Select City ------</option>
                                                         <?php
-                                                        if (!empty($data['city'])) {
+                                                        /* if (!empty($data['city'])) {
                                                             foreach ($data['city'] as $row) {
                                                                 ?>
                                                                 <option value="{{ $row->city_id }}">{{ $row->name }}</option>
                                                                 <?php
                                                             }
-                                                        }
+                                                        } */
                                                         ?>
                                                     </select>
                                                 </div>
@@ -454,4 +454,77 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(document).on('change', '#refCountry_id', function () {
+        $.ajax({
+            type: "POST",
+            url: "/getStates",
+            data: { 'id': $(this).val() },
+            // cache: false,
+            context: this,
+            dataType: 'JSON',
+            success: function (response) {
+                $('.cs-loader').hide();
+                if (response.error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+                else {
+                    $('#refState_id').html(response.data);
+                }
+            },
+            failure: function (response) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Oops, something went wrong...!',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+        });
+    });
+    $(document).on('change', '#refState_id', function () {
+        $.ajax({
+            type: "POST",
+            url: "/getCities",
+            data: { 'id': $(this).val() },
+            // cache: false,
+            context: this,
+            dataType: 'JSON',
+            success: function (response) {
+                $('.cs-loader').hide();
+                if (response.error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+                else {
+                    $('#refCity_id').html(response.data);
+                }
+            },
+            failure: function (response) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Oops, something went wrong...!',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+        });
+    });
+</script>
 @endsection

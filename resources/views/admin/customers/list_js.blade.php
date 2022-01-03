@@ -67,8 +67,7 @@
             }
 
         });
-    </script>
-    <script type="text/javascript">
+
         $(document).ready(function () {
             $(document).on('click', '.delete_button', function () {
                 var self = $(this);
@@ -99,8 +98,7 @@
                 });
             });
         });
-    </script>
-    <script type="text/javascript">
+
         $(document).ready(function () {
             $(document).on('click', '.active_inactive_button', function () {
                 var self = $(this);

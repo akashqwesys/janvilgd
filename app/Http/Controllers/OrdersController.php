@@ -17,7 +17,15 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         $data['title'] = 'List-Orders';
-        return view('admin.orders.list', ["data" => $data, 'request' => $request]);
+        $customers = DB::table('customer')
+            ->select('customer_id', 'email', 'mobile', 'name')
+            ->orderBy('customer_id', 'desc')
+            ->get();
+        $order_status = DB::table('order_statuses')
+            ->select('order_status_id', 'name')
+            ->orderby('sort_order', 'asc')
+            ->get();
+        return view('admin.orders.list', ["data" => $data, 'request' => $request, 'customers' => $customers, 'order_status' => $order_status]);
     }
 
     public function customerAddress (Request $request)
@@ -282,14 +290,35 @@ class OrdersController extends Controller
         if ($request->ajax()) {
             $data = DB::table('orders')
                 ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated');
-            if (isset($request->startDate) && !empty($request->startDate)) {
-                if ($request->startDate != $request->endDate) {
-                    $data = $data->whereRaw("DATE(date_added) >= '".$request->startDate."' AND DATE(date_added) <= '".$request->endDate."'");
+            if (isset($request->order_status) && !empty($request->order_status)) {
+                if ($request->order_status == 'PENDING') {
+                    $data = $data->whereNotExists(function ($query) {
+                        $query->select(DB::raw(1))
+                            ->from('order_updates as ou')
+                            ->whereColumn('ou.refOrder_id', 'orders.order_id')
+                            ->where('ou.order_status_name', 'COMPLETED');
+                    });
+                } else if ($request->order_status == 'COMPLETED') {
+                    $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
+                        ->where('ou.order_status_name', 'COMPLETED');
+                } else if ($request->order_status == 'CANCELLED') {
+                    $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
+                        ->where('ou.order_status_name', 'CANCELLED');
                 } else {
-                    $data = $data->whereRaw("DATE(date_added) = '".$request->startDate."'");
+                    $data = $data->where('orders.order_type', 0);
                 }
             }
-            $data = $data->orderBy('order_id', 'desc')
+            if (isset($request->startDate) && !empty($request->startDate)) {
+                if ($request->startDate != $request->endDate) {
+                    $data = $data->whereRaw("DATE(orders.date_added) >= '".$request->startDate."' AND DATE(orders.date_added) <= '".$request->endDate."'");
+                } else {
+                    $data = $data->whereRaw("DATE(orders.date_added) = '".$request->startDate."'");
+                }
+            }
+            if (isset($request->customer_id) && !empty($request->customer_id)) {
+                $data = $data->where('orders.refCustomer_id', $request->customer_id);
+            }
+            $data = $data->orderBy('orders.order_id', 'desc')
                 ->get();
 
             $updates = DB::table('order_updates')

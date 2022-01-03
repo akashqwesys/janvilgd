@@ -12,6 +12,9 @@
     .ni-clock {
         font-size: 1.25rem;
     }
+    .accordion-s3 .accordion-head {
+        padding: 1rem 0 1rem 2.25rem;
+    }
 </style>
 @endsection
 @section('content')
@@ -30,13 +33,7 @@
                                             <h4 class="nk-block-title">Orders list</h4>
                                         </div>
                                         <div class="col-md-8 text-center">
-                                            <!-- Date and time range -->
-                                            <div class="input-group form-group date-range">
-                                                <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="ni ni-clock"></i></span>
-                                                </div>
-                                                <input type="text" class="form-control float-right" id="dateRange" placeholder="Select The Date Range" value="">
-                                            </div>
+
                                         </div>
                                         <div class="col-md-2">
                                             <a style="float: right;" href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>
@@ -45,6 +42,66 @@
                                 </div>
                             </div><!-- .nk-block-head-content -->
                         </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <div id="accordion-2" class="accordion accordion-s3">
+                                    <div class="accordion-item">
+                                        <a href="#" class="accordion-head" data-toggle="collapse" data-target="#accordion-item-2-1">
+                                            <h6 class="title">Select Date Range</h6>
+                                            <span class="accordion-icon"></span>
+                                        </a>
+                                        <div class="accordion-body collapse show" id="accordion-item-2-1" data-parent="#accordion-2">
+                                            <div class="accordion-inner">
+                                                <!-- Date and time range -->
+                                                <div class="input-group form-group date-range">
+                                                    <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="ni ni-clock"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control float-right" id="dateRange" placeholder="Select The Date Range" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <a href="#" class="accordion-head collapsed" data-toggle="collapse" data-target="#accordion-item-2-2">
+                                            <h6 class="title">Select Customers</h6>
+                                            <span class="accordion-icon"></span>
+                                        </a>
+                                        <div class="accordion-body collapse" id="accordion-item-2-2" data-parent="#accordion-2">
+                                            <div class="accordion-inner">
+                                                <div class="">
+                                                    <select id="orderCustomers" class="form-control form-select" data-search="on" data-placeholder="--------- Select Customer ---------">
+                                                        <option value="" disabled="" selected=""> --------- Select Customer ---------</option>
+                                                        @foreach ($customers as $c)
+                                                        <option value="{{ $c->customer_id }}">{{ $c->name . ' (' . ($c->email ?? $c->mobile) . ')' }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <a href="#" class="accordion-head collapsed" data-toggle="collapse" data-target="#accordion-item-2-3">
+                                            <h6 class="title">Select Order Status</h6>
+                                            <span class="accordion-icon"></span>
+                                        </a>
+                                        <div class="accordion-body collapse" id="accordion-item-2-3" data-parent="#accordion-2">
+                                            <div class="accordion-inner">
+                                                <div class="">
+                                                    <select id="orderStatus" class="form-control form-select" data-search="on" data-placeholder="--------- Select Order Status ---------">
+                                                        <option value="" disabled="" selected=""> --------- Select Order Status ---------</option>
+                                                        @foreach ($order_status as $o)
+                                                        <option value="{{ $o->name }}">{{ $o->name }}</option>
+                                                        @endforeach
+                                                        <option value="OFFLINE">OFFLINE</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- .card-preview -->
                         <div class="card card-preview">
                             <div id='append_loader' class="overlay">
                                 <div class='d-flex justify-content-center' style="padding-top: 10%;">
@@ -95,6 +152,8 @@
 <script type="text/javascript">
     var startDate = null;
     var endDate = moment().format('YYYY-MM-DD');
+    var customer_id = null;
+    var order_status = null;
     var date_filter = '{{ $request["filter"] }}';
     if (date_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
@@ -142,6 +201,14 @@
         startDate = (picker == undefined) ? $(this).val().substr(0,10) : picker.startDate.format('YYYY-MM-DD');
         endDate = (picker == undefined) ? $(this).val().substr(13,24) : picker.endDate.format('YYYY-MM-DD');
         // $('#dateRange').daterangepicker().autoUpdateInput = true;
+        table.clear().draw();
+    });
+    $(document).on('change', '#orderCustomers', function(){
+        customer_id = $(this).val();
+        table.clear().draw();
+    });
+    $(document).on('change', '#orderStatus', function(){
+        order_status = $(this).val();
         table.clear().draw();
     });
     $(document).on('click', '#refreshData', function(){
