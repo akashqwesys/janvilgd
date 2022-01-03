@@ -352,8 +352,9 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-preview">
                                 <div class="card-inner">
-                                    <div class="card-head">
+                                    <div class="card-title">
                                         <h6 class="title">Polish Diamonds</h6>
+                                        <p>Import and Sales ratio of last 3 months</p>
                                     </div>
                                     <div class="nk-ck-sm">
                                         <canvas class="bar-chart-polish" id="barChartPolish"></canvas>
@@ -364,8 +365,9 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-preview">
                                 <div class="card-inner">
-                                    <div class="card-head">
+                                    <div class="card-title">
                                         <h6 class="title">4P Diamonds</h6>
+                                        <p>Import and Sales ratio of last 3 months</p>
                                     </div>
                                     <div class="nk-ck-sm">
                                         <canvas class="bar-chart-4p" id="barChart4P"></canvas>
@@ -376,8 +378,9 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-preview">
                                 <div class="card-inner">
-                                    <div class="card-head">
+                                    <div class="card-title">
                                         <h6 class="title">Rough Diamonds</h6>
+                                        <p>Import and Sales ratio of last 3 months</p>
                                     </div>
                                     <div class="nk-ck-sm">
                                         <canvas class="bar-chart-rough" id="barChartRough"></canvas>
@@ -396,7 +399,7 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Quaterly Revenue</span>
+                                    <span class="title">Quarterly Revenue</span>
                                     <span class="title float-right">{{ $orders->quaterly_revenue }}</span>
                                 </div>
                             </div><!-- .card -->
@@ -1006,7 +1009,6 @@
             current.setDate(current.getDate() - (n * 30));
             return current.toLocaleString('default', { month: 'short' });
         }
-        // const month_names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
         var ordersRevenue = {
             labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
@@ -1014,7 +1016,7 @@
             datasets: [{
                 label: "Total Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= $chart_orders->cur_month5 ?>, <?= $chart_orders->cur_month4 ?>, <?= $chart_orders->cur_month3 ?>, <?= $chart_orders->cur_month2 ?>, <?= $chart_orders->cur_month1 ?>, <?= $chart_orders->cur_month ?>]
+                data: [<?= $chart_orders->cur_month6 ?>, <?= $chart_orders->cur_month5 ?>, <?= $chart_orders->cur_month4 ?>, <?= $chart_orders->cur_month3 ?>, <?= $chart_orders->cur_month2 ?>, <?= $chart_orders->cur_month1 ?>]
             }]
         };
         var caratsRevenue = {
@@ -1024,7 +1026,7 @@
             datasets: [{
                 label: "Total Carats",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= $chart_carats->cur_month5 ?>, <?= $chart_carats->cur_month4 ?>, <?= $chart_carats->cur_month3 ?>, <?= $chart_carats->cur_month2 ?>, <?= $chart_carats->cur_month1 ?>, <?= $chart_carats->cur_month ?>]
+                data: [<?= round($chart_carats->cur_month6, 2) ?>, <?= round($chart_carats->cur_month5, 2) ?>, <?= round($chart_carats->cur_month4, 2) ?>, <?= round($chart_carats->cur_month3, 2) ?>, <?= round($chart_carats->cur_month2, 2) ?>, <?= round($chart_carats->cur_month1, 2) ?>]
             }]
         };
         var cancelledRevenue = {
@@ -1034,46 +1036,46 @@
             datasets: [{
                 label: "Total Cancelled Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= $cancel_orders->cur_month5 ?>, <?= $cancel_orders->cur_month4 ?>, <?= $cancel_orders->cur_month3 ?>, <?= $cancel_orders->cur_month2 ?>, <?= $cancel_orders->cur_month1 ?>, <?= $cancel_orders->cur_month ?>]
+                data: [<?= $cancel_orders->cur_month6 ?>, <?= $cancel_orders->cur_month5 ?>, <?= $cancel_orders->cur_month4 ?>, <?= $cancel_orders->cur_month3 ?>, <?= $cancel_orders->cur_month2 ?>, <?= $cancel_orders->cur_month1 ?>]
             }]
         };
         var barChartPolish = {
-            labels: ["Jan", "Feb", "Mar"],
+            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [110, 80, 125]
+                data: [<?= $import->cur_month3_pl ?>, <?= $import->cur_month2_pl ?>, <?= $import->cur_month1_pl ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [75, 50, 100]
+                data: [<?= $export->cur_month3_pl ?>, <?= $export->cur_month2_pl ?>, <?= $export->cur_month1_pl ?>]
             }]
         };
         var barChart4P = {
-            labels: ["Jan", "Feb", "Mar"],
+            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [110, 80, 125]
+                data: [<?= $import->cur_month3_4p ?>, <?= $import->cur_month2_4p ?>, <?= $import->cur_month1_4p ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [75, 50, 100]
+                data: [<?= $export->cur_month3_4p ?>, <?= $export->cur_month2_4p ?>, <?= $export->cur_month1_4p ?>]
             }]
         };
         var barChartRough = {
-            labels: ["Jan", "Feb", "Mar"],
+            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [110, 80, 125]
+                data: [<?= $import->cur_month3_rg ?>, <?= $import->cur_month2_rg ?>, <?= $import->cur_month1_rg ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [75, 50, 100]
+                data: [<?= $export->cur_month3_rg ?>, <?= $export->cur_month2_rg ?>, <?= $export->cur_month1_rg ?>]
             }]
         };
     }(NioApp, jQuery);
