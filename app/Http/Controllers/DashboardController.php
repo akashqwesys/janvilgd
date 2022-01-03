@@ -176,7 +176,7 @@ class DashboardController extends Controller {
             ->where('c.slug', '4p-diamonds')
             ->first();
 
-        $trending = DB::table('orders as o')
+        /* $trending = DB::table('orders as o')
             ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
             ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
             ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
@@ -189,7 +189,7 @@ class DashboardController extends Controller {
                     ->whereColumn('ou.refOrder_id', 'o.order_id')
                     ->where('ou.order_status_name', 'COMPLETED');
             })
-            ->first();
+            ->first(); */
 
         return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss'));
     }
