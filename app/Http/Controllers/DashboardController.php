@@ -167,7 +167,31 @@ class DashboardController extends Controller {
         ->where('order_status_name', 'COMPLETED')
         ->first();
 
-        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export'));
+        $weight_loss = DB::table('diamonds as d')
+            ->join('categories as c', 'd.refCategory_id', '=', 'c.category_id')
+            ->select(
+                DB::raw("sum(case when d.weight_loss IS NOT NULL then CAST(d.weight_loss AS DECIMAL) else 0 end) as av_weight_loss"),
+                DB::raw("count(case when d.weight_loss IS NOT NULL then 1 end) as cn_weight_loss")
+                )
+            ->where('c.slug', '4p-diamonds')
+            ->first();
+
+        $trending = DB::table('orders as o')
+            ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
+            ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
+            ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
+            ->select(
+
+            )
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('order_updates as ou')
+                    ->whereColumn('ou.refOrder_id', 'o.order_id')
+                    ->where('ou.order_status_name', 'COMPLETED');
+            })
+            ->first();
+
+        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss'));
     }
 
 }

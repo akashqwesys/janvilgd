@@ -1,6 +1,5 @@
 @extends('admin.header')
-@section('content')
-
+@section('css')
 <style>
     .actions ul li button {
     display: inline-block;
@@ -16,6 +15,9 @@
     border-radius: 4px;
 }
 </style>
+@endsection
+@section('content')
+
 <div class="nk-content">
     <div class="container-fluid">
         <div class="nk-content-inner">

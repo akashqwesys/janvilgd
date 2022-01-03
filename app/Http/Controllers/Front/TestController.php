@@ -281,7 +281,7 @@ class TestController extends Controller
                             "type" => "double"
                         ],
                         "weight_loss" => [
-                            "type" => "text"
+                            "type" => "double"
                         ],
                         "attributes" => [
                             "type" => "flattened"
