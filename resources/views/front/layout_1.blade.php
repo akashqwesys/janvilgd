@@ -42,12 +42,122 @@
 		min-height: 100%;
 		object-fit: cover;
     	object-position: center;
-		}			
+		}
+		
+		/* iframe {
+			height:calc(100vh - 4px);
+			width:calc(100vw - 4px);
+			box-sizing: border-box;
+		} */
 	</style>
 	
     @yield('css')
 </head>
 <body>
+<!-- <iframe src="https://www.youtube.com/embed/AabGrt5l4JQ?version=3&enablejsapi=1&rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1&disablekb=1&loop=1&playlist=AabGrt5l4JQ" frameborder="0" allowfullscreen width="1280" height="720"></iframe> -->
+<!-- 
+
+
+
+<script>
+	"use strict";
+if (document.readyState !== 'loading') init();
+else document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+    if (window.runOnce) return;
+
+    if (typeof YT === 'undefined') {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    var iframes = [];
+    
+    for (var iframe of document.querySelectorAll("iframe[src]")) {
+        var src = iframe.getAttribute("src");
+        if (src.includes("youtube.com/embed/")) {
+            if(!src.includes("enablejsapi=1"))
+                if(src.includes("?"))
+                    iframe.setAttribute("src", src + "&enablejsapi=1");
+                else
+                    iframe.setAttribute("src", src + "?enablejsapi=1");
+
+            iframes.push(iframe);
+        }
+    }
+
+    var overlayStyles = {
+        display: "none",
+        content:"",
+        position: "absolute",
+        left: 0,
+        right: 0,
+        cursor: "pointer",
+        backgroundColor: "black",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+    };
+
+    window.onYouTubeIframeAPIReady = function() {
+        iframes.forEach(function(iframe) {
+            var overlay = document.createElement('div');
+            for (var style in overlayStyles) {
+                overlay.style[style] = overlayStyles[style];
+            }
+            
+            var wrapper = document.createElement('div');
+            wrapper.style.display = "inline-block";
+            wrapper.style.position = "relative";
+
+            iframe.parentNode.insertBefore(wrapper, iframe);
+            
+            wrapper.appendChild(overlay);
+            wrapper.appendChild(iframe);
+            
+            var onPlayerStateChange = function(event) {
+                if (event.data == YT.PlayerState.ENDED) {
+                    overlay.style.backgroundImage = "url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCI+PHBhdGggZD0iTTI1NSAxMDJWMEwxMjcuNSAxMjcuNSAyNTUgMjU1VjE1M2M4NC4xNSAwIDE1MyA2OC44NSAxNTMgMTUzcy02OC44NSAxNTMtMTUzIDE1My0xNTMtNjguODUtMTUzLTE1M0g1MWMwIDExMi4yIDkxLjggMjA0IDIwNCAyMDRzMjA0LTkxLjggMjA0LTIwNC05MS44LTIwNC0yMDQtMjA0eiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==)";
+                    overlay.style.backgroundSize = "64px 64px";
+                    overlay.style.top = 0;
+                    overlay.style.bottom = 0;
+                    overlay.style.display = "inline-block";
+                } else if (event.data == YT.PlayerState.PAUSED) {
+                    overlay.style.backgroundImage = "url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHdpZHRoPSIxNzA2LjY2NyIgaGVpZ2h0PSIxNzA2LjY2NyIgdmlld0JveD0iMCAwIDEyODAgMTI4MCI+PHBhdGggZD0iTTE1Ny42MzUgMi45ODRMMTI2MC45NzkgNjQwIDE1Ny42MzUgMTI3Ny4wMTZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+)";
+                    overlay.style.backgroundSize = "40px 40px";
+                    overlay.style.top = "0px";
+                    overlay.style.bottom = "0px";
+                    overlay.style.display = "inline-block";
+                } else if (event.data == YT.PlayerState.PLAYING) {
+                    overlay.style.display = "none";
+                }
+            };            
+            var player  = new YT.Player(iframe, {
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });        
+            wrapper.addEventListener("click", function() {
+                var playerState = player.getPlayerState();
+                if (playerState == YT.PlayerState.ENDED) {
+                    player.seekTo(0);
+                } else if (playerState == YT.PlayerState.PAUSED) {
+                    player.playVideo();
+                }
+            });
+        });
+    };
+    window.runOnce = true;
+}
+	</script>
+
+
+
+
+ -->
+
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
 		  <div class="container">
@@ -292,6 +402,8 @@
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script>
 $(document).ready(function(){
+
+
 	AOS.init();
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
