@@ -181,7 +181,7 @@ class UserController extends Controller
                         'view' => 'emails.commonEmail'
                     ])
                 ); */
-
+            customer_activity('updated', $customer->name . ' has updated the profile', '/customer/my-account');
             return $this->successResponse('Profile updated successfully', ['personal' => $data]);
 
         } catch (\Exception $e) {
@@ -283,6 +283,12 @@ class UserController extends Controller
             }
 
             $company->save();
+
+            if ($request->customer_company_id) {
+                customer_activity('updated', $customer->name . ' has updated company (' . $company->name . ')', '/customer/my-account');
+            } else {
+                customer_activity('inserted', $customer->name . ' has added new company (' . $company->name . ')', '/customer/my-account');
+            }
 
             /* $admin_email = DB::table('settings')
             ->select('value')

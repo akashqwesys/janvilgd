@@ -19,6 +19,15 @@
 @endsection
 @section('content')
 <!-- content @s -->
+@php
+    if (in_array($request->filter, ['PENDING', 'COMPLETED', 'OFFLINE'])) {
+        $ac3 = 'show';
+        $ac1 = '';
+    } else {
+        $ac1 = 'show';
+        $ac3 = '';
+    }
+@endphp
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -33,7 +42,6 @@
                                             <h4 class="nk-block-title">Orders list</h4>
                                         </div>
                                         <div class="col-md-8 text-center">
-
                                         </div>
                                         <div class="col-md-2">
                                             <a style="float: right;" href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>
@@ -50,7 +58,7 @@
                                             <h6 class="title">Select Date Range</h6>
                                             <span class="accordion-icon"></span>
                                         </a>
-                                        <div class="accordion-body collapse show" id="accordion-item-2-1" data-parent="#accordion-2">
+                                        <div class="accordion-body collapse {{ $ac1 }}" id="accordion-item-2-1" data-parent="#accordion-2">
                                             <div class="accordion-inner">
                                                 <!-- Date and time range -->
                                                 <div class="input-group form-group date-range">
@@ -85,7 +93,7 @@
                                             <h6 class="title">Select Order Status</h6>
                                             <span class="accordion-icon"></span>
                                         </a>
-                                        <div class="accordion-body collapse" id="accordion-item-2-3" data-parent="#accordion-2">
+                                        <div class="accordion-body collapse {{ $ac3 }}" id="accordion-item-2-3" data-parent="#accordion-2">
                                             <div class="accordion-inner">
                                                 <div class="">
                                                     <select id="orderStatus" class="form-control form-select" data-search="on" data-placeholder="--------- Select Order Status ---------">
@@ -154,18 +162,18 @@
     var endDate = moment().format('YYYY-MM-DD');
     var customer_id = null;
     var order_status = null;
-    var date_filter = '{{ $request["filter"] }}';
-    if (date_filter == 'yesterday') {
+    var order_filter = '{{ $request["filter"] }}';
+    if (order_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
         }, 1000);
-    } else if (date_filter == '30days') {
+    } else if (order_filter == '30days') {
         startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
         }, 1000);
-    } else if (date_filter == '7days') {
+    } else if (order_filter == '7days') {
         startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
@@ -175,6 +183,11 @@
         setTimeout(() => {
             $('#dateRange').val('');
         }, 500);
+    }
+    if (['PENDING', 'COMPLETED', 'OFFLINE'].includes(order_filter)) {
+        setTimeout(() => {
+            $('#orderStatus').val(order_filter).trigger('change');
+        }, 1000);
     }
     $('#dateRange').daterangepicker({
         minDate  : "2021-12-01",

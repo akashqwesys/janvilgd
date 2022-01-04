@@ -17,6 +17,7 @@ use App\Http\Controllers\TransportController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\UserActivityController;
+use App\Http\Controllers\CustomerActivityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CityController;
@@ -348,7 +349,6 @@ Route::post('user-role/status', [UserRolesController::class, 'status'])->name('u
 /***************  City route end *************/
 
 
-
 /***************  User Activity route *************/
 Route::get('user-activity', [UserActivityController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('user-activity/list', [UserActivityController::class, 'list'])->name('user-activity.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -356,6 +356,12 @@ Route::post('user-activity/delete', [UserActivityController::class, 'delete'])->
 Route::post('user-activity/status', [UserActivityController::class, 'status'])->name('user-activity.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  User Activity route end *************/
+
+
+/***************  Customer Activity route *************/
+Route::get('customer-activities', [CustomerActivityController::class, 'index'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('customer-activities/list', [CustomerActivityController::class, 'list'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Customer Activity route end *************/
 
 
 /***************  Users route *************/

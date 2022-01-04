@@ -21,6 +21,10 @@
     .user-action {
         color: #000000;
     }
+    .nk-activity-action {
+        margin-left: auto;
+        color: #8094ae;
+    }
 </style>
 @endsection
 @section('content')
@@ -74,7 +78,7 @@
                                                 <h6 class="title">Pending Orders</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=PENDING" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +110,7 @@
                                                 <h6 class="title">Completed Orders</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=COMPLETED" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +142,7 @@
                                                 <h6 class="title">Offline Orders</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=OFFLINE" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
@@ -256,20 +260,25 @@
                                             <h6 class="title">Customers Activities</h6>
                                         </div>
                                         <div class="card-tools">
-                                            <a href="html/user-list-regular.html" class="link">View All</a>
+                                            <a href="/admin/customer-activities" class="link">View All</a>
                                         </div>
                                     </div>
                                 </div>
                                 <ul class="nk-activity">
+                                     @foreach ($customer_activity as $c)
                                     <li class="nk-activity-item">
                                         <div class="user-avatar bg-primary-dim">
-                                            <span>AB</span>
+                                            <span>{{ $c->subject[0] }}</span>
                                         </div>
                                         <div class="nk-activity-data">
-                                            <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                            <span class="time">2 hours ago</span>
+                                            <div class="label">{{ $c->subject }}</div>
+                                            <span class="time">{{ date('dS F Y, \a\t H:i A', strtotime($c->created_at)) }}</span>
+                                        </div>
+                                        <div class="nk-activity-action">
+                                            <div class="label">{{ $c->device }}</div>
                                         </div>
                                     </li>
+                                    @endforeach
                                 </ul>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -281,20 +290,25 @@
                                             <h6 class="title">Employees Activities</h6>
                                         </div>
                                         <div class="card-tools">
-                                            <a href="html/user-list-regular.html" class="link">View All</a>
+                                            <a href="/admin/user-activity" class="link">View All</a>
                                         </div>
                                     </div>
                                 </div>
                                 <ul class="nk-activity">
+                                    @foreach ($employee_activity as $e)
                                     <li class="nk-activity-item">
                                         <div class="user-avatar bg-primary-dim">
-                                            <span>AB</span>
+                                            <span>{{ $e->name[0] }}</span>
                                         </div>
                                         <div class="nk-activity-data">
-                                            <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                            <span class="time">2 hours ago</span>
+                                            <div class="label">{{ $e->subject . ' by ' . $e->name}}</div>
+                                            <span class="time">{{ date('dS F Y, \a\t H:i A', strtotime($e->date_added)) }}</span>
+                                        </div>
+                                        <div class="nk-activity-action">
+                                            <div class="label">{{ $e->device }}</div>
                                         </div>
                                     </li>
+                                    @endforeach
                                 </ul>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -392,7 +406,7 @@
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
                                     <span class="title">Average Weight Loss</span>
-                                    <span class="title float-right">{{ round($weight_loss->av_weight_loss / $weight_loss->cn_weight_loss, 2) }}%</span>
+                                    <span class="title float-right">{{ $weight_loss->av_weight_loss ? round($weight_loss->av_weight_loss / $weight_loss->cn_weight_loss, 2) : 0 }}%</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -423,40 +437,112 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Shape</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                    <span class="title">Top Ordered Polish Shape</span>
+                                    <span class="title float-right">{{ $trending_polish[0]->shape ?? '-' }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Carat</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                    <span class="title">Top Ordered Polish Carat</span>
+                                    <span class="title float-right">{{ $trending_polish[1]->carat ?? '-' }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Color</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                    <span class="title">Top Ordered Polish Color</span>
+                                    <span class="title float-right">{{ $trending_polish[2]->color ?? '-' }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Clarity</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                    <span class="title">Top Ordered Polish Clarity</span>
+                                    <span class="title float-right">{{ $trending_polish[3]->clarity ?? '-' }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Cut</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                    <span class="title">Top Ordered Polish Cut</span>
+                                    <span class="title float-right">{{ $trending_polish[4]->cut ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered 4P Shape</span>
+                                    <span class="title float-right">{{ $trending_4p[0]->shape ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered 4P Carat</span>
+                                    <span class="title float-right">{{ $trending_4p[1]->carat ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered 4P Color</span>
+                                    <span class="title float-right">{{ $trending_4p[2]->color ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered 4P Clarity</span>
+                                    <span class="title float-right">{{ $trending_4p[3]->clarity ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered 4P Cut</span>
+                                    <span class="title float-right">{{ $trending_4p[4]->cut ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Rough Shape</span>
+                                    <span class="title float-right">{{ $trending_rough[0]->shape ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Rough Carat</span>
+                                    <span class="title float-right">{{ $trending_rough[1]->carat ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Rough Color</span>
+                                    <span class="title float-right">{{ $trending_rough[2]->color ?? '-' }}</span>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card card-bordered">
+                                <div class="card-body hv-effect" >
+                                    <span class="title">Top Ordered Rough Clarity</span>
+                                    <span class="title float-right">{{ $trending_rough[3]->clarity ?? '-' }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->

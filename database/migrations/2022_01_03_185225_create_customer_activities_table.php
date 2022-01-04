@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCustomerActivityTable extends Migration
+class CreateCustomerActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class AddCustomerActivityTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_activity', function (Blueprint $table) {
-            $table->id('customer_activity_id'); 
+        Schema::create('customer_activities', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('refCustomer_id');
-            $table->foreignId('refModule_id');
             $table->text('activity');
             $table->text('subject');
             $table->text('url');
-            $table->string('device',20);
-            $table->string('ip_address',30);            
-            $table->dateTime('date_added');             
-            $table->timestamps();   
+            $table->string('device', 20);
+            $table->string('ip_address');
+            $table->timestamps();
         });
     }
 
@@ -34,6 +32,6 @@ class AddCustomerActivityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_activity');
+        Schema::dropIfExists('customer_activities');
     }
 }
