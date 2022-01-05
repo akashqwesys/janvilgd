@@ -14,11 +14,19 @@ class ChangeWeightLoss extends Migration
     public function up()
     {
         Schema::table('diamonds', function (Blueprint $table) {
-            $table->float('weight_loss')->nullable()->change();
+            $table->dropColumn('weight_loss');
         });
 
         Schema::table('order_diamonds', function (Blueprint $table) {
-            $table->float('weight_loss')->nullable()->change();
+            $table->dropColumn('weight_loss');
+        });
+
+        Schema::table('diamonds', function (Blueprint $table) {
+            $table->float('weight_loss')->nullable();
+        });
+
+        Schema::table('order_diamonds', function (Blueprint $table) {
+            $table->float('weight_loss')->nullable();
         });
     }
 
@@ -29,6 +37,6 @@ class ChangeWeightLoss extends Migration
      */
     public function down()
     {
-        //
+
     }
 }

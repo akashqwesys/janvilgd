@@ -3182,6 +3182,32 @@ class CommonController extends Controller
         DB::table('most_ordered_diamonds')->insert($mvd);
         //******************* Most Ordered Diamonds Entry end *******************//
 
+
+        //******************* Most Ordered Diamonds Entry start *******************//
+        DB::table('most_viewed_diamonds')->truncate();
+        DB::table('most_viewed_diamonds')->insert([
+            [
+                'refCategory_id' => 1,
+                'views_cnt' => 0,
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s")
+            ],
+            [
+                'refCategory_id' => 2,
+                'views_cnt' => 0,
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s")
+            ],
+            [
+                'refCategory_id' => 3,
+                'views_cnt' => 0,
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s")
+            ]
+        ]);
+        //******************* Most Ordered Diamonds Entry end *******************//
+
+
         $this->createElasticIndex();
         $this->truncateDiamonds();
         DB::table('customer_cart')->truncate();

@@ -75,29 +75,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Pending Orders</h6>
+                                                <h6 class="title">Pending Orders ({{ count($pending_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
                                                 <a href="/admin/orders?filter=PENDING" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($pending_orders as $p)
+                                    @if (count($pending_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $pending_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $pending_orders[$i]->name . ' (#' . $pending_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $pending_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $pending_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -107,29 +109,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Completed Orders</h6>
+                                                <h6 class="title">Completed Orders ({{ count($completed_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
                                                 <a href="/admin/orders?filter=COMPLETED" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($completed_orders as $p)
+                                    @if (count($completed_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $completed_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $completed_orders[$i]->name . ' (#' . $completed_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $completed_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $completed_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -139,29 +143,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Offline Orders</h6>
+                                                <h6 class="title">Offline Orders ({{ count($offline_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
                                                 <a href="/admin/orders?filter=OFFLINE" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($offline_orders as $p)
+                                    @if (count($offline_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $offline_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $offline_orders[$i]->name . ' (#' . $offline_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $offline_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $offline_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -433,119 +439,229 @@
                                     <span class="title float-right">{{ $orders->yearly_revenue }}</span>
                                 </div>
                             </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Polish Shape</span>
-                                    <span class="title float-right">{{ $trending_polish[0]->shape ?? '-' }}</span>
+                                <div class="card-body" >
+                                    <span class="title">Polish Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[2]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_polish ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- .card -->
+                            <div class="card card-bordered">
+                                <div class="card-body" >
+                                    <span class="title">4P Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[1]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_4p ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- .card -->
+                            <div class="card card-bordered">
+                                <div class="card-body" >
+                                    <span class="title">Rough Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[0]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_rough ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Polish Carat</span>
-                                    <span class="title float-right">{{ $trending_polish[1]->carat ?? '-' }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered Polish Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CUT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->cut ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Polish Color</span>
-                                    <span class="title float-right">{{ $trending_polish[2]->color ?? '-' }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered 4P Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CUT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->cut ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Polish Clarity</span>
-                                    <span class="title float-right">{{ $trending_polish[3]->clarity ?? '-' }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered Rough Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Polish Cut</span>
-                                    <span class="title float-right">{{ $trending_polish[4]->cut ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered 4P Shape</span>
-                                    <span class="title float-right">{{ $trending_4p[0]->shape ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered 4P Carat</span>
-                                    <span class="title float-right">{{ $trending_4p[1]->carat ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered 4P Color</span>
-                                    <span class="title float-right">{{ $trending_4p[2]->color ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered 4P Clarity</span>
-                                    <span class="title float-right">{{ $trending_4p[3]->clarity ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered 4P Cut</span>
-                                    <span class="title float-right">{{ $trending_4p[4]->cut ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Rough Shape</span>
-                                    <span class="title float-right">{{ $trending_rough[0]->shape ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Rough Carat</span>
-                                    <span class="title float-right">{{ $trending_rough[1]->carat ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Rough Color</span>
-                                    <span class="title float-right">{{ $trending_rough[2]->color ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Rough Clarity</span>
-                                    <span class="title float-right">{{ $trending_rough[3]->clarity ?? '-' }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
+
                     </div>
                 </div><!-- .nk-block -->
             </div>
