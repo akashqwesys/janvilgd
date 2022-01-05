@@ -20,12 +20,27 @@
 @section('content')
 <!-- content @s -->
 @php
-    if (in_array($request->filter, ['PENDING', 'COMPLETED', 'OFFLINE'])) {
+    if (in_array($request->filter, ['PENDING', 'COMPLETED', 'OFFLINE', 'CANCELLED'])) {
         $ac3 = 'show';
         $ac1 = '';
-    } else {
-        $ac1 = 'show';
+        $ac4 = '';
+        $collapse1 = 'collapsed';
+        $collapse3 = '';
+        $collapse4 = 'collapsed';
+    } else if (in_array($request->filter, ['polish', '4p', 'rough'])) {
         $ac3 = '';
+        $ac1 = '';
+        $ac4 = 'show';
+        $collapse1 = 'collapsed';
+        $collapse3 = 'collapsed';
+        $collapse4 = '';
+     } else {
+        $ac3 = '';
+        $ac1 = '';
+        $ac4 = '';
+        $collapse1 = 'collapsed';
+        $collapse3 = 'collapsed';
+        $collapse4 = 'collapsed';
     }
 @endphp
 <div class="nk-content ">
@@ -41,9 +56,10 @@
                                         <div class="col-md-2">
                                             <h4 class="nk-block-title">Orders list</h4>
                                         </div>
-                                        <div class="col-md-8 text-center">
+                                        <div class="col-md-7 text-center">
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
+                                            <button class="btn btn-primary" id="clear-filters"> Clear Filters</button>
                                             <a style="float: right;" href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>
                                         </div>
                                     </div>
@@ -54,7 +70,7 @@
                             <div class="card-inner">
                                 <div id="accordion-2" class="accordion accordion-s3">
                                     <div class="accordion-item">
-                                        <a href="#" class="accordion-head" data-toggle="collapse" data-target="#accordion-item-2-1">
+                                        <a href="#" class="accordion-head {{ $collapse1 }}" data-toggle="collapse" data-target="#accordion-item-2-1">
                                             <h6 class="title">Select Date Range</h6>
                                             <span class="accordion-icon"></span>
                                         </a>
@@ -89,7 +105,7 @@
                                         </div>
                                     </div>
                                     <div class="accordion-item">
-                                        <a href="#" class="accordion-head collapsed" data-toggle="collapse" data-target="#accordion-item-2-3">
+                                        <a href="#" class="accordion-head {{ $collapse3 }}" data-toggle="collapse" data-target="#accordion-item-2-3">
                                             <h6 class="title">Select Order Status</h6>
                                             <span class="accordion-icon"></span>
                                         </a>
@@ -102,6 +118,24 @@
                                                         <option value="{{ $o->name }}">{{ $o->name }}</option>
                                                         @endforeach
                                                         <option value="OFFLINE">OFFLINE</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <a href="#" class="accordion-head {{ $collapse4 }}" data-toggle="collapse" data-target="#accordion-item-2-4">
+                                            <h6 class="title">Select Diamond Category</h6>
+                                            <span class="accordion-icon"></span>
+                                        </a>
+                                        <div class="accordion-body collapse {{ $ac4 }}" id="accordion-item-2-4" data-parent="#accordion-2">
+                                            <div class="accordion-inner">
+                                                <div class="">
+                                                    <select id="d-category" class="form-control form-select" data-search="on" data-placeholder="--------- Select Diamond Category ---------">
+                                                        <option value="" disabled="" selected=""> --------- Select Diamond Category ---------</option>
+                                                        <option value="3">POLISH</option>
+                                                        <option value="2">4P</option>
+                                                        <option value="1">ROUGH</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -158,11 +192,15 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
-    var startDate = null;
+    var startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
     var endDate = moment().format('YYYY-MM-DD');
     var customer_id = null;
     var order_status = null;
+    var category = null;
     var order_filter = '{{ $request["filter"] }}';
+    setTimeout(() => {
+        $('#dateRange').val('');
+    }, 500);
     if (order_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
@@ -178,17 +216,16 @@
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
         }, 1000);
-    } else {
-        startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-        setTimeout(() => {
-            $('#dateRange').val('');
-        }, 500);
-    }
-    if (['PENDING', 'COMPLETED', 'OFFLINE'].includes(order_filter)) {
+    } else if (['PENDING', 'COMPLETED', 'OFFLINE', 'CANCELLED'].includes(order_filter)) {
         setTimeout(() => {
             $('#orderStatus').val(order_filter).trigger('change');
         }, 1000);
+    } else if (['polish', '4p', 'rough'].includes(order_filter)) {
+        setTimeout(() => {
+            $('#d-category').val(order_filter == 'polish' ? 3 : (order_filter == '4p' ? 2 : 1)).trigger('change');
+        }, 1000);
     }
+
     $('#dateRange').daterangepicker({
         minDate  : "2021-12-01",
         maxDate  : moment(),
@@ -222,6 +259,16 @@
     });
     $(document).on('change', '#orderStatus', function(){
         order_status = $(this).val();
+        table.clear().draw();
+    });
+    $(document).on('change', '#d-category', function(){
+        category = $(this).val();
+        table.clear().draw();
+    });
+    $(document).on('click', '#clear-filters', function(){
+        $('.accordion-head').attr('class', 'accordion-head collapsed');
+        $('.accordion-body').attr('class', 'accordion-body collapse');
+        startDate = endDate = customer_id = order_status = category = null;
         table.clear().draw();
     });
     $(document).on('click', '#refreshData', function(){

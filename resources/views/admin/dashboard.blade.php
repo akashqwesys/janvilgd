@@ -58,8 +58,8 @@
                                 <a class="card-body hv-effect" href="/admin/orders?filter=7days">
                                     <span class="title">Last 7 Days Orders</span>
                                     <span class="title float-right">{{ $orders->last_7 }}</span>
-                                </div><!-- .card -->
-                            </a>
+                                </a>
+                            </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
@@ -323,7 +323,9 @@
                                 <div class="card-inner">
                                     <div class="card-title-group align-start mb-2">
                                         <div class="card-title">
-                                            <h6 class="title">Total Orders</h6>
+                                            <h6 class="title">
+                                                <a href="/admin/orders" class="">Total Orders</a>
+                                            </h6>
                                             <p>Total number of orders in last 6 months</p>
                                         </div>
                                     </div>
@@ -357,7 +359,9 @@
                                 <div class="card-inner">
                                     <div class="card-title-group align-start mb-2">
                                         <div class="card-title">
-                                            <h6 class="title">Total Cancelled Orders</h6>
+                                            <h6 class="title">
+                                                <a href="/admin/orders?filter=CANCELLED" class="">Total Cancelled Orders</a>
+                                            </h6>
                                             <p>Total cancelled orders in last 6 months</p>
                                         </div>
                                     </div>
@@ -441,43 +445,42 @@
                             </div><!-- .card -->
                             <div class="card card-bordered">
                                 <div class="card-body" >
-                                    <span class="title">Polish Views/Orders</span>
+                                    <span class="title"><a href="/admin/orders?filter=polish">Polish Views/Orders</a></span>
                                     <table width="100%" class="mt-1">
                                         <tbody>
                                             <tr>
-                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[2]->views_cnt }}</div></td>
-                                                <td><div class="text-right">{{ $vs_orders->total_polish ?? 0 }}</div></td>
+                                                <td width="50%" style="border-right: 1px solid;" align="center"><div>{{ $vs_views[2]->views_cnt }}</div></td>
+                                                <td align="center"><div class="text-right-">{{ $vs_orders->total_polish ?? 0 }}</div></td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <hr>
+                                    <div>
+                                        <span class="title"><a href="/admin/orders?filter=4p">4P Views/Orders</a></span>
+                                        <table width="100%" class="mt-1">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="50%" style="border-right: 1px solid;" align="center"><div>{{ $vs_views[1]->views_cnt }}</div></td>
+                                                    <td align="center"><div class="text-right-">{{ $vs_orders->total_4p ?? 0 }}</div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <span class="title"><a href="/admin/orders?filter=rough">Rough Views/Orders</a></span>
+                                        <table width="100%" class="mt-1">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="50%" style="border-right: 1px solid;" align="center"><div>{{ $vs_views[0]->views_cnt }}</div></td>
+                                                    <td align="center"><div class="text-right-">{{ $vs_orders->total_rough ?? 0 }}</div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
-                            <div class="card card-bordered">
-                                <div class="card-body" >
-                                    <span class="title">4P Views/Orders</span>
-                                    <table width="100%" class="mt-1">
-                                        <tbody>
-                                            <tr>
-                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[1]->views_cnt }}</div></td>
-                                                <td><div class="text-right">{{ $vs_orders->total_4p ?? 0 }}</div></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div><!-- .card -->
-                            <div class="card card-bordered">
-                                <div class="card-body" >
-                                    <span class="title">Rough Views/Orders</span>
-                                    <table width="100%" class="mt-1">
-                                        <tbody>
-                                            <tr>
-                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[0]->views_cnt }}</div></td>
-                                                <td><div class="text-right">{{ $vs_orders->total_rough ?? 0 }}</div></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div><!-- .card -->
+
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered card-full">
