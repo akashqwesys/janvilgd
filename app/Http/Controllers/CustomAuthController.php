@@ -21,11 +21,15 @@ class CustomAuthController extends Controller {
         return view('admin.accessDenied',["data"=>$data]);
     }
 
-    public function auth_admin_customer($token)
+    public function auth_admin_customer(Request $request, $token)
     {
         $user = DB::table('customer')->select('customer_id')->where('email', decrypt($token, false))->first();
         Auth::loginUsingId($user->customer_id);
-        return redirect('/customer/dashboard');
+        if ($request->redirect) {
+            return redirect($request->redirect);
+        } else {
+            return redirect('/customer/dashboard');
+        }
     }
 
     public function loginView()

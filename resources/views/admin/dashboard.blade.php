@@ -21,6 +21,10 @@
     .user-action {
         color: #000000;
     }
+    .nk-activity-action {
+        margin-left: auto;
+        color: #8094ae;
+    }
 </style>
 @endsection
 @section('content')
@@ -71,29 +75,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Pending Orders</h6>
+                                                <h6 class="title">Pending Orders ({{ count($pending_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=PENDING" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($pending_orders as $p)
+                                    @if (count($pending_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $pending_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $pending_orders[$i]->name . ' (#' . $pending_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $pending_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $pending_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -103,29 +109,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Completed Orders</h6>
+                                                <h6 class="title">Completed Orders ({{ count($completed_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=COMPLETED" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($completed_orders as $p)
+                                    @if (count($completed_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $completed_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $completed_orders[$i]->name . ' (#' . $completed_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $completed_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $completed_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -135,29 +143,31 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Offline Orders</h6>
+                                                <h6 class="title">Offline Orders ({{ count($offline_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                <a href="/admin/orders?filter=OFFLINE" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach ($offline_orders as $p)
+                                    @if (count($offline_orders))
+                                    @for ($i = 0; $i < 5; $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $offline_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name . ' (#' . $p->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $p->email_id }}</span>
+                                                <span class="lead-text">{{ $offline_orders[$i]->name . ' (#' . $offline_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $offline_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $p->total_paid_amount }}</small>
+                                                <small>${{ $offline_orders[$i]->total_paid_amount }}</small>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    @endfor
+                                    @endif
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -256,20 +266,25 @@
                                             <h6 class="title">Customers Activities</h6>
                                         </div>
                                         <div class="card-tools">
-                                            <a href="html/user-list-regular.html" class="link">View All</a>
+                                            <a href="/admin/customer-activities" class="link">View All</a>
                                         </div>
                                     </div>
                                 </div>
                                 <ul class="nk-activity">
+                                     @foreach ($customer_activity as $c)
                                     <li class="nk-activity-item">
                                         <div class="user-avatar bg-primary-dim">
-                                            <span>AB</span>
+                                            <span>{{ $c->subject[0] }}</span>
                                         </div>
                                         <div class="nk-activity-data">
-                                            <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                            <span class="time">2 hours ago</span>
+                                            <div class="label">{{ $c->subject }}</div>
+                                            <span class="time">{{ date('dS F Y, \a\t H:i A', strtotime($c->created_at)) }}</span>
+                                        </div>
+                                        <div class="nk-activity-action">
+                                            <div class="label">{{ $c->device }}</div>
                                         </div>
                                     </li>
+                                    @endforeach
                                 </ul>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -281,20 +296,25 @@
                                             <h6 class="title">Employees Activities</h6>
                                         </div>
                                         <div class="card-tools">
-                                            <a href="html/user-list-regular.html" class="link">View All</a>
+                                            <a href="/admin/user-activity" class="link">View All</a>
                                         </div>
                                     </div>
                                 </div>
                                 <ul class="nk-activity">
+                                    @foreach ($employee_activity as $e)
                                     <li class="nk-activity-item">
                                         <div class="user-avatar bg-primary-dim">
-                                            <span>AB</span>
+                                            <span>{{ $e->name[0] }}</span>
                                         </div>
                                         <div class="nk-activity-data">
-                                            <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                            <span class="time">2 hours ago</span>
+                                            <div class="label">{{ $e->subject . ' by ' . $e->name}}</div>
+                                            <span class="time">{{ date('dS F Y, \a\t H:i A', strtotime($e->date_added)) }}</span>
+                                        </div>
+                                        <div class="nk-activity-action">
+                                            <div class="label">{{ $e->device }}</div>
                                         </div>
                                     </li>
+                                    @endforeach
                                 </ul>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -392,7 +412,7 @@
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
                                     <span class="title">Average Weight Loss</span>
-                                    <span class="title float-right">{{ round($weight_loss->av_weight_loss / $weight_loss->cn_weight_loss, 2) }}%</span>
+                                    <span class="title float-right">{{ $weight_loss->av_weight_loss ? round($weight_loss->av_weight_loss / $weight_loss->cn_weight_loss, 2) : 0 }}%</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -419,47 +439,229 @@
                                     <span class="title float-right">{{ $orders->yearly_revenue }}</span>
                                 </div>
                             </div><!-- .card -->
-                        </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Shape</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                                <div class="card-body" >
+                                    <span class="title">Polish Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[2]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_polish ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- .card -->
+                            <div class="card card-bordered">
+                                <div class="card-body" >
+                                    <span class="title">4P Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[1]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_4p ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- .card -->
+                            <div class="card card-bordered">
+                                <div class="card-body" >
+                                    <span class="title">Rough Views/Orders</span>
+                                    <table width="100%" class="mt-1">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%" style="border-right: 1px solid;"><div>{{ $vs_views[0]->views_cnt }}</div></td>
+                                                <td><div class="text-right">{{ $vs_orders->total_rough ?? 0 }}</div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Carat</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered Polish Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CUT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_polish[0]->cut ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Color</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered 4P Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CUT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_4p[0]->cut ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Clarity</span>
-                                    <span class="title float-right">{{ 1 }}</span>
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner-group">
+                                    <div class="card-inner">
+                                        <div class="card-title-group">
+                                            <div class="card-title">
+                                                <h6 class="title">Most Ordered Rough Diamonds</h6>
+                                            </div>
+                                            <div class="card-tools"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">SHAPE</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->shape ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CARAT</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->carat ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">COLOR</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->color ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner card-inner-md">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <span class="lead-text">CLARITY</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <span class="lead-text">{{ $trending_rough[0]->clarity ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
-                                    <span class="title">Top Ordered Cut</span>
-                                    <span class="title float-right">{{ 1 }}</span>
-                                </div>
-                            </div><!-- .card -->
-                        </div><!-- .col -->
+
                     </div>
                 </div><!-- .nk-block -->
             </div>

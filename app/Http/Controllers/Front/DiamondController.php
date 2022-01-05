@@ -58,6 +58,7 @@ class DiamondController extends Controller {
 
         $user = Auth::user();
         $file_arr = [];
+        customer_activity('search', $user->name . ' has searched diamonds', '/customer/search-diamonds/'.$category->slug);
 
         foreach ($data as $row_data) {
             if ($temp_grp_id != $row_data->attribute_group_id) {
@@ -907,6 +908,7 @@ class DiamondController extends Controller {
         if (isset($response['params']['export'])) {
 
             if($response['params']['export']=='export-admin'){
+                activity($request, 'exported', $user->name . ' has exported diamonds for admin');
                 if($response['params']['discount']=='' || $response['params']['discount']==0){
                     $discount = 0;
                 } else {
@@ -1071,6 +1073,7 @@ class DiamondController extends Controller {
             }
 
             if($response['params']['export']=='export'){
+                activity($request, 'exported', $user->name . ' has exported diamonds for customer');
                 $category = DB::table('categories')
                     ->select('name', 'slug')
                     ->where('category_id', $request->params['category'])
@@ -1084,8 +1087,6 @@ class DiamondController extends Controller {
                 $pdf = public_path('pdf/' . $fileName);
                 return response()->download($pdf);
             }
-        } else {
-
         }
     }
 
@@ -1259,7 +1260,7 @@ class DiamondController extends Controller {
     }
 
     public function clearDiamondsFromDB(Request $request) {
-        DB::table($request->table)->truncate();
+        // DB::table($request->table)->truncate();
         // DB::table('diamonds')->truncate();
         // DB::table('diamonds_attributes')->truncate();
     }

@@ -183,12 +183,15 @@ class DiamondController extends Controller
 
     public function searchDiamonds(Request $request)
     {
+        $user = Auth::user();
         if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
             $response['attr_array'] = $request->all();
             $response['params']['category'] = $response['attr_array']['category'];
+            customer_activity('search', $user->name . ' has searched diamonds');
         } else {
             $response = $request->all();
         }
+
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
             if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export'])) {
@@ -844,6 +847,7 @@ class DiamondController extends Controller
 
     public function detailshDiamonds($barcode)
     {
+        $user = Auth::user();
         $response_array = array();
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
@@ -900,6 +904,55 @@ class DiamondController extends Controller
         } else {
             return $this->errorResponse('No such diamond found');
         }
+        customer_activity('viewed', $user->name . ' has seen a diamond (' . $barcode . ')', '/customer/single-diamonds/' . $barcode);
+
+        /* DB::table('most_viewed_diamonds')
+            ->where('shape', $diamonds['attributes']['SHAPE'])
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('shape_cnt', 1);
+
+        DB::table('most_viewed_diamonds')
+            ->where('color', $diamonds['attributes']['COLOR'])
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('color_cnt', 1);
+
+        DB::table('most_viewed_diamonds')
+            ->where('clarity', $diamonds['attributes']['CLARITY'])
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('clarity_cnt', 1);
+
+        DB::table('most_viewed_diamonds')
+            ->where('cut', $diamonds['attributes']['CUT'])
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('cut_cnt', 1);
+
+        $mvd_exists = DB::table('most_viewed_diamonds')
+            ->where('carat', $diamonds['expected_polish_cts'])
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->first();
+        if ($mvd_exists) {
+            DB::table('most_viewed_diamonds')
+                ->where('carat', $diamonds['expected_polish_cts'])
+                ->where('refCategory_id', $diamonds['refCategory_id'])
+                ->increment('carat_cnt', 1);
+        } else {
+            DB::table('most_viewed_diamonds')
+            ->insert([
+                'refCategory_id' => $diamonds['refCategory_id'],
+                'carat' => $diamonds['expected_polish_cts'],
+                'shape_cnt' => 0,
+                'color_cnt' => 0,
+                'carat_cnt' => 1,
+                'clarity_cnt' => 0,
+                'cut_cnt' => 0,
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s")
+            ]);
+        } */
+
+        DB::table('most_viewed_diamonds')
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('views_cnt', 1);
 
         $elastic_params = [
             'index' => 'diamonds',
@@ -1471,7 +1524,8 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $share_cart = DB::table('share_cart')
                 ->where('share_cart_id',$request->share_cart_id)
                 ->first();
@@ -1502,6 +1556,7 @@ class DiamondController extends Controller
                 return $this->errorResponse('All diamonds are already in your cart');
             }
             if($i==1){
+                customer_activity('inserted', $user->name . ' has added multiple diamonds to cart', '/customer/cart');
                 return $this->successResponse('Success', [], 3);
             }
         }
@@ -1524,7 +1579,8 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $share_wishlist = DB::table('share_wishlist')
                 ->where('share_wishlist_id',$request->share_wishlist_id)
                 ->first();
@@ -1553,7 +1609,8 @@ class DiamondController extends Controller
                 return $this->errorResponse('All diamonds is already in your wishlist');
             }
             if($i==1){
-                return $this->successResponse('Success',[],3);
+                customer_activity('inserted', $user->name . ' has added multiple diamonds to wishlist', '/customer/wishlist');
+                return $this->successResponse('Success', [], 3);
             }
         }
         return $this->errorResponse('No data found');
@@ -1575,7 +1632,8 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $d_exist = DB::table('diamonds')
             ->where('diamond_id', $request->diamond_id)
             ->where('available_pcs', '>', 0)
@@ -1601,6 +1659,7 @@ class DiamondController extends Controller
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your cart');
             }
+            customer_activity('inserted', $user->name . ' has added diamond to cart (' . $d_exist->barcode . ')', '/customer/cart');
             return $this->successResponse('Success', [], 3);
         } else{
             return $this->errorResponse('Selected diamond is already in the cart');
@@ -1623,7 +1682,8 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $exist_cart = DB::table('customer_cart')
                 ->where('refDiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -1635,13 +1695,19 @@ class DiamondController extends Controller
             ->where('refDiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
-            return $this->successResponse('Success', [] ,3);
+            $d_exist = DB::table('diamonds')
+                ->select('barcode')
+                ->where('diamond_id', $request->diamond_id)
+                ->first();
+            customer_activity('deleted', $user->name . ' has removed diamond from cart (' . $d_exist->barcode . ')', '/customer/cart');
+            return $this->successResponse('Success', [], 3);
         }
     }
 
     public function createShareCartLink(Request $request)
     {
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $cart_data = DB::table('customer_cart')
                 ->where('refCustomer_id',$customer_id)
                 ->get();
@@ -1653,11 +1719,12 @@ class DiamondController extends Controller
             $data_array = [
                 'refDiamond_id' => json_encode($refDiamond_id_array)
             ];
-            $res=DB::table('share_cart')->insert($data_array);
+            DB::table('share_cart')->insert($data_array);
             $Id = DB::getPdo()->lastInsertId();
             if (empty($Id)) {
                 return $this->errorResponse('Sorry, we are not able to generate link');
             }
+            customer_activity('shared', $user->name . ' has created a link to share cart', '/customer/sharable-cart/' . $Id);
             return $this->successResponse('Success', $Id);
         } else {
             return $this->errorResponse('Your Cart is empty');
@@ -1666,7 +1733,8 @@ class DiamondController extends Controller
 
     public function createShareWishlistLink(Request $request)
     {
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $wishlist_data = DB::table('customer_whishlist')
                 ->where('refCustomer_id',$customer_id)
                 ->get();
@@ -1683,6 +1751,7 @@ class DiamondController extends Controller
             if (empty($Id)) {
                 return $this->errorResponse('Sorry, we are not able to generate link');
             }
+            customer_activity('shared', $user->name . ' has created a link to share wishlist', '/customer/sharable-wishlist/' . $Id);
             return $this->successResponse('Success', $Id);
         } else {
             return $this->errorResponse('Your Wishlist is empty');
@@ -1739,7 +1808,16 @@ class DiamondController extends Controller
             return $this->errorResponse($validator->errors()->all()[0]);
         }
 
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
+        $d_exist = DB::table('diamonds')
+            ->select('barcode')
+            ->where('diamond_id', $request->diamond_id)
+            ->where('available_pcs', '>', 0)
+            ->first();
+        if (empty($d_exist)) {
+            return $this->errorResponse('Selected diamond is out of stock');
+        }
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -1751,11 +1829,12 @@ class DiamondController extends Controller
                 'date_added' => date("Y-m-d h:i:s")
             ];
             $res=DB::table('customer_whishlist')->insert($data_array);
-            $Id = DB::getPdo()->lastInsertId();
+            // $Id = DB::getPdo()->lastInsertId();
             if (empty($res)) {
                 return $this->errorResponse('Sorry, we are not able to add this diamond to your wishlist');
             }
-            return $this->successResponse('Success',[],3);
+            customer_activity('inserted', $user->name . ' has added diamond to wishlist (' . $d_exist->barcode . ')', '/customer/wishlist');
+            return $this->successResponse('Success', [], 3);
         } else {
             return $this->errorResponse('Selected diamond is already there in your wishlist');
         }
@@ -1777,7 +1856,8 @@ class DiamondController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $customer_id = Auth::id();
+        $user = Auth::user();
+        $customer_id = $user->customer_id;
         $exist_wishlist = DB::table('customer_whishlist')
                 ->where('refdiamond_id',$request->diamond_id)
                 ->where('refCustomer_id',$customer_id)
@@ -1789,6 +1869,11 @@ class DiamondController extends Controller
             ->where('refdiamond_id',$request->diamond_id)
             ->where('refCustomer_id',$customer_id)
             ->delete();
+            $d_exist = DB::table('diamonds')
+                ->select('barcode')
+                ->where('diamond_id', $request->diamond_id)
+                ->first();
+            customer_activity('deleted', $user->name . ' has removed diamond from wishlist (' . $d_exist->barcode . ')', '/customer/cart');
             return $this->successResponse('Success', [], 3);
         }
     }

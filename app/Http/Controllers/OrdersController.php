@@ -268,6 +268,66 @@ class OrdersController extends Controller
                     $client = ClientBuilder::create()
                         ->setHosts(['localhost:9200'])
                         ->build();
+                    $elastic_params = [
+                        'index' => 'diamonds',
+                        'body'  => [
+                            'query' => [
+                                'bool' => [
+                                    'must' => [
+                                        ['terms' => ['diamond_id' => $d_ids]],
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ];
+                    $get_attributes = $client->search($elastic_params);
+                    // $get_shapes = $get_color = $get_carat = $get_clarity = $get_cut = [];
+                    foreach ($get_attributes['hits']['hits'] as $v) {
+                        $v = $v['_source'];
+                        DB::table('most_ordered_diamonds')
+                        ->where('shape', $v['attributes']['SHAPE'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->increment('shape_cnt', 1);
+
+                        DB::table('most_ordered_diamonds')
+                        ->where('color', $v['attributes']['COLOR'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->increment('color_cnt', 1);
+
+                        DB::table('most_ordered_diamonds')
+                        ->where('clarity', $v['attributes']['CLARITY'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->increment('clarity_cnt', 1);
+
+                        DB::table('most_ordered_diamonds')
+                        ->where('cut', $v['attributes']['CUT'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->increment('cut_cnt', 1);
+
+                        $mvd_exists = DB::table('most_ordered_diamonds')
+                        ->where('carat', $v['expected_polish_cts'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->first();
+                        if ($mvd_exists) {
+                            DB::table('most_ordered_diamonds')
+                                ->where('carat', $v['expected_polish_cts'])
+                                ->where('refCategory_id', $v['refCategory_id'])
+                                ->increment('carat_cnt', 1);
+                        } else {
+                            DB::table('most_ordered_diamonds')
+                            ->insert([
+                                'refCategory_id' => $v['refCategory_id'],
+                                'carat' => $v['expected_polish_cts'],
+                                'shape_cnt' => 0,
+                                'color_cnt' => 0,
+                                'carat_cnt' => 1,
+                                'clarity_cnt' => 0,
+                                'cut_cnt' => 0,
+                                'created_at' => date("Y-m-d h:i:s"),
+                                'updated_at' => date("Y-m-d h:i:s")
+                            ]);
+                        }
+                    }
                     $client->bulk($params);
 
                     DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);

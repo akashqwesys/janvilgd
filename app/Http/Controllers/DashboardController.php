@@ -14,6 +14,25 @@ class DashboardController extends Controller {
         $last_day = date('Y-m-d', strtotime(date('Y-m-d') . ' - 1 day'));
         $last_7 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 7 days'));
         $last_30 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 30 days'));
+        /* $start = new DateTime();
+        $start->setTime(0, 0, 0);
+        $end = new DateTime();
+        $end->setTime(23, 59, 59);
+        $year = date('Y');
+        $start->setDate($year, 4, 1);
+        if ($start <= 12) {
+            $end->setDate($year + 1, 3, 31);
+        } else {
+            $start->setDate($year - 1, 4, 1);
+            $end->setDate($year, 3, 31);
+        } */
+        if (date('m') <= 03) {
+            $start_year = date('Y-m-d', strtotime((date('Y')-1) . '-04-01'));
+            $end_year = date('Y-m-d', strtotime(date('Y') . '-03-31'));
+        } else {
+            $start_year = date('Y-m-d', strtotime(date('Y') . '-04-01'));
+            $end_year = date('Y-m-d', strtotime((date('Y')+1) . '-03-31'));
+        }
         $orders = DB::table('orders')
         ->select(
             // DB::raw("count(case when DATE(date_added) = (CURRENT_DATE - INTERVAL '1 day') then 1 end) as last_day"),
@@ -31,8 +50,7 @@ class DashboardController extends Controller {
                 ) as quaterly_revenue"),
             DB::raw("sum(
                 case
-                    when EXTRACT(Year FROM date_added) = EXTRACT(Year FROM CURRENT_DATE) and EXTRACT(MONTH FROM date_added) <= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(MONTH FROM date_added) >= EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '12 month')) then total_paid_amount
-                    else 0 end
+                    when DATE(date_added) <= '" . $start_year . "' and DATE(date_added) >= '" . $end_year . "' then total_paid_amount else 0 end
                 ) as yearly_revenue"),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'PENDING\' and "refOrder_id" = orders.order_id) then 1 end) as pending_orders'),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
@@ -50,7 +68,7 @@ class DashboardController extends Controller {
                     ->where('ou.order_status_name', 'COMPLETED');
             })
             ->orderBy('o.order_id', 'desc')
-            ->limit(5)
+            // ->limit(5)
             ->get();
 
         $completed_orders = DB::table('orders as o')
@@ -58,14 +76,14 @@ class DashboardController extends Controller {
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
             ->where('ou.order_status_name', 'COMPLETED')
             ->orderBy('o.order_id', 'desc')
-            ->limit(5)
+            // ->limit(5)
             ->get();
 
         $offline_orders = DB::table('orders as o')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
             ->where('o.order_type', 0)
             ->orderBy('o.order_id', 'desc')
-            ->limit(5)
+            // ->limit(5)
             ->get();
 
         $recent_customers = DB::table('customer as c')
@@ -176,22 +194,52 @@ class DashboardController extends Controller {
             ->where('c.slug', '4p-diamonds')
             ->first();
 
-        /* $trending = DB::table('orders as o')
-            ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
-            ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
-            ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
-            ->select(
+        $customer_activity = DB::table('customer_activities')
+            ->select('id', 'activity', 'subject', 'created_at', 'device')
+            ->orderBy('id', 'desc')
+            ->limit(5)
+            ->get();
 
-            )
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou')
-                    ->whereColumn('ou.refOrder_id', 'o.order_id')
-                    ->where('ou.order_status_name', 'COMPLETED');
-            })
-            ->first(); */
+        $employee_activity = DB::table('user_activity as ua')
+            ->join('users as u', 'ua.refUser_id', '=', 'u.id')
+            ->select('ua.user_activity_id', 'ua.activity', 'ua.subject', 'ua.date_added', 'u.name', 'ua.device')
+            ->orderBy('ua.user_activity_id', 'desc')
+            ->limit(5)
+            ->get();
 
-        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss'));
+        $trending_rough = DB::table('most_ordered_diamonds')
+            ->select('shape', 'carat', 'color', 'clarity', 'id')
+            ->where('refCategory_id', 1)
+            ->orderByRaw('shape_cnt desc, carat_cnt desc, color_cnt desc, clarity_cnt desc')
+            ->limit(5)
+            ->get();
+        $trending_4p = DB::table('most_ordered_diamonds')
+            ->select('shape', 'carat', 'color', 'clarity', 'cut', 'id')
+            ->where('refCategory_id', 2)
+            ->orderByRaw('shape_cnt desc, carat_cnt desc, color_cnt desc, clarity_cnt desc, cut_cnt desc')
+            ->limit(5)
+            ->get();
+        $trending_polish = DB::table('most_ordered_diamonds')
+            ->select('shape', 'carat', 'color', 'clarity', 'cut', 'id')
+            ->where('refCategory_id', 3)
+            ->orderByRaw('shape_cnt desc, carat_cnt desc, color_cnt desc, clarity_cnt desc, cut_cnt desc')
+            ->limit(5)
+            ->get();
+
+        $vs_views = DB::table('most_viewed_diamonds')
+            ->select('refCategory_id', 'views_cnt')
+            ->orderBy('refCategory_id', 'asc')
+            ->get();
+
+        $vs_orders = DB::table('order_diamonds')
+        ->select(
+            DB::raw("count(case when \"refCategory_id\" = 1 then 1 end) as total_rough"),
+            DB::raw("count(case when \"refCategory_id\" = 2 then 1 end) as total_4p"),
+            DB::raw("count(case when \"refCategory_id\" = 3 then 1 end) as total_polish")
+        )
+        ->first();
+
+        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders'));
     }
 
 }

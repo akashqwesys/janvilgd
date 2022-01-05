@@ -92,10 +92,10 @@ if (!function_exists('activity')) {
         if ($agent->isDesktop()) {
             $device = "web";
         }
-        if ($agent->isMobile()) {
+        else if ($agent->isMobile()) {
             $device = "mobile";
         }
-        if ($agent->isTablet()) {
+        else if ($agent->isTablet()) {
             $device = "mobile";
         }
 
@@ -104,6 +104,10 @@ if (!function_exists('activity')) {
             $module_name = $module;
         }
         else if($module == "diamonds"){
+            $module_id = 0;
+            $module_name = $module;
+        }
+        else if (strpos($module, "export") !== false) {
             $module_id = 0;
             $module_name = $module;
         }
@@ -120,13 +124,40 @@ if (!function_exists('activity')) {
             'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
             'device' => $device,
             'ip_address' => get_client_ip(),
-            'date_added' => date("yy-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s")
         ]);
     }
 
 }
-if (!function_exists('moduleId')) {
+if (!function_exists('customer_activity')) {
 
+    function customer_activity($activity, $subject, $url = null, $id = 0)
+    {
+        $agent = new \Jenssegers\Agent\Agent;
+        $device = 'None';
+        if ($agent->isDesktop()) {
+            $device = "web";
+        }
+        if ($agent->isMobile()) {
+            $device = "mobile";
+        }
+        if ($agent->isTablet()) {
+            $device = "mobile";
+        }
+
+        DB::table('customer_activities')->insert([
+            'refCustomer_id' => Auth::id(),
+            'activity' => $activity,
+            'subject' => $subject,
+            'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . ($url ?? $_SERVER['REQUEST_URI']),
+            'device' => $device,
+            'ip_address' => get_client_ip(),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+    }
+}
+if (!function_exists('moduleId')) {
     function moduleId($module_name) {
         $res = array();
         foreach (session('module') as $row) {
@@ -136,7 +167,6 @@ if (!function_exists('moduleId')) {
         }
         return $res;
     }
-
 }
 if (!function_exists('get_client_ip')) {
 
