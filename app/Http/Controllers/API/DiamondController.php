@@ -950,6 +950,10 @@ class DiamondController extends Controller
             ]);
         } */
 
+        DB::table('most_viewed_diamonds')
+            ->where('refCategory_id', $diamonds['refCategory_id'])
+            ->increment('views_cnt', 1);
+
         $elastic_params = [
             'index' => 'diamonds',
             'body'  => [
