@@ -1193,1332 +1193,1329 @@ class CommonController extends Controller
         $delete = DB::table('attributes')->truncate();
         $attribute_array=array();
 
-                $data_array=array();
-                $data_array['name']='Round';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=1;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Oval';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=2;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Heart';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=3;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Pear';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=4;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Princess';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=5;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Radiant';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=6;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Asscher';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=7;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Emerald';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=8;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Cushion';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=9;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Marquise';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=11;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Baguette';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=12;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Triangle';
-                $data_array['attribute_group_id']=2;
-                $data_array['sort_order']=13;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-
-
-                //shape for 4p
-                $data_array=array();
-                $data_array['name']='Round';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=1;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Oval';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=2;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Heart';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=3;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Pear';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=4;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Princess';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=5;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Radiant';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=6;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Asscher';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=7;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Emerald';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=8;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Cushion';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=9;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Marquise';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=11;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Baguette';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=12;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Triangle';
-                $data_array['attribute_group_id']=10;
-                $data_array['sort_order']=13;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                //shape for polish
-                $data_array=array();
-                $data_array['name']='Round';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=1;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Oval';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=2;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Heart';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=3;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Pear';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=4;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Princess';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=5;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Radiant';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=6;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Asscher';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=7;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Emerald';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=8;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Cushion';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=9;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Marquise';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=11;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Baguette';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=12;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='Triangle';
-                $data_array['attribute_group_id']=18;
-                $data_array['sort_order']=13;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-
-
-                //clarity for rough
-                $data_array=array();
-                $data_array['name']='IF';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=1;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VVS1';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=2;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VVS2';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=3;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VS1';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=4;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VS2';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=5;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI1';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=6;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI2';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=7;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI3';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=8;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I1';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=9;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I2';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=10;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I3';
-                $data_array['attribute_group_id']=1;
-                $data_array['sort_order']=11;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-
-                //clarity for polish
-                $data_array=array();
-                $data_array['name']='IF';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=1;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VVS1';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=2;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VVS2';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=3;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VS1';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=4;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='VS2';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=5;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI1';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=6;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI2';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=7;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='SI3';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=8;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I1';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=9;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I2';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=10;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-                $data_array=array();
-                $data_array['name']='I3';
-                $data_array['attribute_group_id']=16;
-                $data_array['sort_order']=11;
-                $data_array['added_by']=1;
-                $data_array['is_active']=1;
-                $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
-                array_push($attribute_array,$data_array);
-
-
-                 //clarity for 4p
-                 $data_array=array();
-                 $data_array['name']='VS';
-                 $data_array['attribute_group_id']=7;
-                 $data_array['sort_order']=1;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='SI';
-                 $data_array['attribute_group_id']=7;
-                 $data_array['sort_order']=2;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-
-                 //color for 4p
-                 $data_array=array();
-                 $data_array['name']='D-E';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=1;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='E-F';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=2;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='F-G';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=3;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='G-H';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=4;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='H-I';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=5;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='I-J';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=6;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='J-K';
-                 $data_array['attribute_group_id']=8;
-                 $data_array['sort_order']=7;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 //color for Polish
-                 $data_array=array();
-                 $data_array['name']='D';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=1;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='E';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=2;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='F';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=3;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='G';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=4;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='H';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=5;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='I';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=6;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='J';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=7;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-                 $data_array=array();
-                 $data_array['name']='K';
-                 $data_array['attribute_group_id']=17;
-                 $data_array['sort_order']=8;
-                 $data_array['added_by']=1;
-                 $data_array['is_active']=1;
-                 $data_array['is_deleted']=0;
-                 $data_array['date_added']=date("Y-m-d h:i:s");
-                 $data_array['date_updated']=date("Y-m-d h:i:s");
-                 array_push($attribute_array,$data_array);
-
-
-                  //color for Rough
-                  $data_array=array();
-                  $data_array['name']='D';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=1;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='E';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=2;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='F';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=3;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='G';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=4;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='H';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=5;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='I';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=6;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='J';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=7;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='K';
-                  $data_array['attribute_group_id']=3;
-                  $data_array['sort_order']=8;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  //cut for Polish
-                  $data_array=array();
-                  $data_array['name']='IDEAL';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=1;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='EXCELLENT';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=2;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='VERY GOOD';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=3;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='GOOD';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=4;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-
-                  $data_array=array();
-                  $data_array['name']='FAIR';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=5;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='POOR';
-                  $data_array['attribute_group_id']=24;
-                  $data_array['sort_order']=6;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-
-                  //cut for 4p
-                  $data_array=array();
-                  $data_array['name']='IDEAL';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=1;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='EXCELLENT';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=2;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='VERY GOOD';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=3;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='GOOD';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=4;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-
-                  $data_array=array();
-                  $data_array['name']='FAIR';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=5;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-                  $data_array=array();
-                  $data_array['name']='POOR';
-                  $data_array['attribute_group_id']=6;
-                  $data_array['sort_order']=6;
-                  $data_array['added_by']=1;
-                  $data_array['is_active']=1;
-                  $data_array['is_deleted']=0;
-                  $data_array['date_added']=date("Y-m-d h:i:s");
-                  $data_array['date_updated']=date("Y-m-d h:i:s");
-                  array_push($attribute_array,$data_array);
-
-
-                   //polish for polish
-                   $data_array=array();
-                   $data_array['name']='IDEAL';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=1;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-                   $data_array=array();
-                   $data_array['name']='EXCELLENT';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=2;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-                   $data_array=array();
-                   $data_array['name']='VERY GOOD';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=3;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-                   $data_array=array();
-                   $data_array['name']='GOOD';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=4;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-
-                   $data_array=array();
-                   $data_array['name']='FAIR';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=5;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-                   $data_array=array();
-                   $data_array['name']='POOR';
-                   $data_array['attribute_group_id']=33;
-                   $data_array['sort_order']=6;
-                   $data_array['added_by']=1;
-                   $data_array['is_active']=1;
-                   $data_array['is_deleted']=0;
-                   $data_array['date_added']=date("Y-m-d h:i:s");
-                   $data_array['date_updated']=date("Y-m-d h:i:s");
-                   array_push($attribute_array,$data_array);
-
-                    //SYMMETRY for polish
-                    $data_array=array();
-                    $data_array['name']='IDEAL';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=1;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='EXCELLENT';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=2;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='VERY GOOD';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=3;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='GOOD';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=4;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-
-                    $data_array=array();
-                    $data_array['name']='FAIR';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=5;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='POOR';
-                    $data_array['attribute_group_id']=34;
-                    $data_array['sort_order']=6;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-
-                    //GRIDLE CONDITION for polish
-                    $data_array=array();
-                    $data_array['name']='Medium To Slightly Thick (Faceted)';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=1;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Medium To Slightly Thick (Faceted)';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=2;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Medium (Faceted)';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=3;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Medium To Thick (Faceted)';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=4;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Slightly Thick To Thick (Faceted)';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=5;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Medium To Slightly Thick';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=6;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Slightly Thick To Thick';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=7;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Medium';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=8;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Thick';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=9;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    $data_array=array();
-                    $data_array['name']='Slightly Thick';
-                    $data_array['attribute_group_id']=27;
-                    $data_array['sort_order']=10;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
-
-                    //LAB for polish
-                    $data_array=array();
-                    $data_array['name']='IGI';
-                    $data_array['attribute_group_id']=29;
-                    $data_array['sort_order']=1;
-                    $data_array['added_by']=1;
-                    $data_array['is_active']=1;
-                    $data_array['is_deleted']=0;
-                    $data_array['date_added']=date("Y-m-d h:i:s");
-                    $data_array['date_updated']=date("Y-m-d h:i:s");
-                    array_push($attribute_array,$data_array);
+            $data_array=array();
+            $data_array['name']='Round';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Oval';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Heart';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Pear';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Princess';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Radiant';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Asscher';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Emerald';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Cushion';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Marquise';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=11;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Baguette';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=12;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Triangle';
+            $data_array['attribute_group_id']=2;
+            $data_array['sort_order']=13;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+
+            //shape for 4p
+            $data_array=array();
+            $data_array['name']='Round';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Oval';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Heart';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Pear';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Princess';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Radiant';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Asscher';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Emerald';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Cushion';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Marquise';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=11;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Baguette';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=12;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Triangle';
+            $data_array['attribute_group_id']=10;
+            $data_array['sort_order']=13;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //shape for polish
+            $data_array=array();
+            $data_array['name']='Round';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Oval';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Heart';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Pear';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Princess';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Radiant';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Asscher';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Emerald';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Cushion';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Marquise';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=11;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Baguette';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=12;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Triangle';
+            $data_array['attribute_group_id']=18;
+            $data_array['sort_order']=13;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //clarity for rough
+            $data_array=array();
+            $data_array['name']='IF';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VVS1';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VVS2';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VS1';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VS2';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI1';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI2';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI3';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I1';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I2';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=10;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I3';
+            $data_array['attribute_group_id']=1;
+            $data_array['sort_order']=11;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //clarity for polish
+            $data_array=array();
+            $data_array['name']='IF';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VVS1';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VVS2';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VS1';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VS2';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI1';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI2';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI3';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I1';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I2';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=10;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I3';
+            $data_array['attribute_group_id']=16;
+            $data_array['sort_order']=11;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //clarity for 4p
+            $data_array=array();
+            $data_array['name']='VS';
+            $data_array['attribute_group_id']=7;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='SI';
+            $data_array['attribute_group_id']=7;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //color for 4p
+            $data_array=array();
+            $data_array['name']='D-E';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='E-F';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='F-G';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='G-H';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='H-I';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I-J';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='J-K';
+            $data_array['attribute_group_id']=8;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //color for Polish
+            $data_array=array();
+            $data_array['name']='D';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='E';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='F';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='G';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='H';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='J';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='K';
+            $data_array['attribute_group_id']=17;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //color for Rough
+            $data_array=array();
+            $data_array['name']='D';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='E';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='F';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='G';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='H';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='I';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='J';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='K';
+            $data_array['attribute_group_id']=3;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //cut for Polish
+            $data_array=array();
+            $data_array['name']='IDEAL';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='EXCELLENT';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VERY GOOD';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='GOOD';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            $data_array=array();
+            $data_array['name']='FAIR';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='POOR';
+            $data_array['attribute_group_id']=24;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //cut for 4p
+            $data_array=array();
+            $data_array['name']='IDEAL';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='EXCELLENT';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VERY GOOD';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='GOOD';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='FAIR';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='POOR';
+            $data_array['attribute_group_id']=6;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //polish for polish
+            $data_array=array();
+            $data_array['name']='IDEAL';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='EXCELLENT';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VERY GOOD';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='GOOD';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            $data_array=array();
+            $data_array['name']='FAIR';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='POOR';
+            $data_array['attribute_group_id']=33;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //SYMMETRY for polish
+            $data_array=array();
+            $data_array['name']='IDEAL';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='EXCELLENT';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='VERY GOOD';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='GOOD';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            $data_array=array();
+            $data_array['name']='FAIR';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='POOR';
+            $data_array['attribute_group_id']=34;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+
+            //GRIDLE CONDITION for polish
+            $data_array=array();
+            $data_array['name']='Medium To Slightly Thick (Faceted)';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Medium To Slightly Thick (Faceted)';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=2;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Medium (Faceted)';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=3;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Medium To Thick (Faceted)';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=4;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Slightly Thick To Thick (Faceted)';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=5;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Medium To Slightly Thick';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=6;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Slightly Thick To Thick';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=7;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Medium';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=8;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Thick';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=9;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            $data_array=array();
+            $data_array['name']='Slightly Thick';
+            $data_array['attribute_group_id']=27;
+            $data_array['sort_order']=10;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
+
+            //LAB for polish
+            $data_array=array();
+            $data_array['name']='IGI';
+            $data_array['attribute_group_id']=29;
+            $data_array['sort_order']=1;
+            $data_array['added_by']=1;
+            $data_array['is_active']=1;
+            $data_array['is_deleted']=0;
+            $data_array['date_added']=date("Y-m-d h:i:s");
+            $data_array['date_updated']=date("Y-m-d h:i:s");
+            array_push($attribute_array,$data_array);
 
         DB::table('attributes')->insert($attribute_array);
         //******************* Atttributes Entry end *******************//
@@ -2595,8 +2592,607 @@ class CommonController extends Controller
             array_push($order_statuses_array, $data_array);
 
         DB::table('order_statuses')->insert($order_statuses_array);
-        //******************* Labour Charges Entry end *******************//
+        //******************* Order Statuses Entry end *******************//
 
+        //******************* Most Ordered Diamonds Entry start *******************//
+        DB::table('most_ordered_diamonds')->truncate();
+        $mvd = array();
+
+        // ------------------------ Rough Category ----------------------
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Round';
+            $data_array['color'] = 'D';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VVS1';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Oval';
+            $data_array['color'] = 'E';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VVS2';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Heart';
+            $data_array['color'] = 'F';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VS1';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Pear';
+            $data_array['color'] = 'G';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VS2';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Princess';
+            $data_array['color'] = 'H';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI1';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Emerald';
+            $data_array['color'] = 'I';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI2';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Cushion';
+            $data_array['color'] = 'J';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'IF';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Radiant';
+            $data_array['color'] = 'K';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI3';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Asscher';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I1';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Marquise';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I2';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Baguette';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I3';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 1;
+            $data_array['shape'] = 'Triangle';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+
+        // ----------------------------- 4P Category ----------------------------------
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Round';
+            $data_array['color'] = 'D-E';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VS';
+            $data_array['cut'] = 'IDEAL';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Oval';
+            $data_array['color'] = 'E-F';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI';
+            $data_array['cut'] = 'EXCELLENT';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Heart';
+            $data_array['color'] = 'F-G';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = 'VERY GOOD';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Pear';
+            $data_array['color'] = 'G-H';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = 'GOOD';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Princess';
+            $data_array['color'] = 'H-I';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = 'FAIR';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Emerald';
+            $data_array['color'] = 'I-J';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = 'POOR';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Cushion';
+            $data_array['color'] = 'J-K';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Radiant';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Asscher';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Marquise';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Baguette';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 2;
+            $data_array['shape'] = 'Triangle';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+
+        // --------------------------- Polish Category ----------------------------------
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Round';
+            $data_array['color'] = 'D';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VVS1';
+            $data_array['cut'] = 'IDEAL';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Oval';
+            $data_array['color'] = 'E';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VVS2';
+            $data_array['cut'] = 'EXCELLENT';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Heart';
+            $data_array['color'] = 'F';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VS1';
+            $data_array['cut'] = 'VERY GOOD';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Pear';
+            $data_array['color'] = 'G';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'VS2';
+            $data_array['cut'] = 'GOOD';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Princess';
+            $data_array['color'] = 'H';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI1';
+            $data_array['cut'] = 'FAIR';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Emerald';
+            $data_array['color'] = 'I';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI2';
+            $data_array['cut'] = 'POOR';
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Cushion';
+            $data_array['color'] = 'J';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'IF';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Radiant';
+            $data_array['color'] = 'K';
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'SI3';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Asscher';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I1';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Marquise';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I2';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Baguette';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = 'I3';
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+            $data_array = array();
+            $data_array['refCategory_id'] = 3;
+            $data_array['shape'] = 'Triangle';
+            $data_array['color'] = null;
+            $data_array['carat'] = 0;
+            $data_array['clarity'] = null;
+            $data_array['cut'] = null;
+            $data_array['shape_cnt'] = 0;
+            $data_array['color_cnt'] = 0;
+            $data_array['carat_cnt'] = 0;
+            $data_array['clarity_cnt'] = 0;
+            $data_array['cut_cnt'] = 0;
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($mvd, $data_array);
+
+        DB::table('most_ordered_diamonds')->insert($mvd);
+        //******************* Most Ordered Diamonds Entry end *******************//
+
+        $this->createElasticIndex();
+        $this->truncateDiamonds();
+        DB::table('customer_cart')->truncate();
+        DB::table('customer_whishlist')->truncate();
+        DB::table('most_ordered_diamonds')->truncate();
+        DB::table('orders')->truncate();
+        DB::table('order_diamonds')->truncate();
+        DB::table('order_updates')->truncate();
+        DB::table('recently_view_diamonds')->truncate();
+        DB::table('share_cart')->truncate();
+        DB::table('share_wishlist')->truncate();
         successOrErrorMessage("Project Setup Done", 'success');
         return redirect('admin/dashboard');
     }
@@ -2722,48 +3318,48 @@ class CommonController extends Controller
         return redirect('admin/dashboard');
     }
 
-//    public function delete(Request $request) {
-//        if (isset($_REQUEST['table_id'])) {
-//
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-//                'is_deleted' => 1,
-//                'date_updated' => date("Y-m-d h:i:s")
-//            ]);
-//            activity($request,"deleted",$_REQUEST['module']);
-////            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
-//            if ($res) {
-//                $data = array(
-//                    'suceess' => true
-//                );
-//            } else {
-//                $data = array(
-//                    'suceess' => false
-//                );
-//            }
-//            return response()->json($data);
-//        }
-//    }
-//    public function status(Request $request) {
-//        if (isset($_REQUEST['table_id'])) {
-//
-//            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
-//                'is_active' => $_REQUEST['status'],
-//                'date_updated' => date("Y-m-d h:i:s")
-//            ]);
-////            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
-//            if ($res) {
-//                $data = array(
-//                    'suceess' => true
-//                );
-//            } else {
-//                $data = array(
-//                    'suceess' => false
-//                );
-//            }
-//            activity($request,"updated",$_REQUEST['module']);
-//            return response()->json($data);
-//        }
-//    }
+   /* public function delete(Request $request) {
+       if (isset($_REQUEST['table_id'])) {
+
+           $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+               'is_deleted' => 1,
+               'date_updated' => date("Y-m-d h:i:s")
+           ]);
+           activity($request,"deleted",$_REQUEST['module']);
+        //    $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+           if ($res) {
+               $data = array(
+                   'suceess' => true
+               );
+           } else {
+               $data = array(
+                   'suceess' => false
+               );
+           }
+           return response()->json($data);
+       }
+   }
+   public function status(Request $request) {
+       if (isset($_REQUEST['table_id'])) {
+
+           $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
+               'is_active' => $_REQUEST['status'],
+               'date_updated' => date("Y-m-d h:i:s")
+           ]);
+        //    $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
+           if ($res) {
+               $data = array(
+                   'suceess' => true
+               );
+           } else {
+               $data = array(
+                   'suceess' => false
+               );
+           }
+           activity($request,"updated",$_REQUEST['module']);
+           return response()->json($data);
+       }
+   } */
     public function delete_image(Request $request) {
         if (isset($_REQUEST['table_id'])) {
 
