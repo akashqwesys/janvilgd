@@ -3183,7 +3183,7 @@ class CommonController extends Controller
         //******************* Most Ordered Diamonds Entry end *******************//
 
 
-        //******************* Most Ordered Diamonds Entry start *******************//
+        //******************* Most Viewed Diamonds Entry start *******************//
         DB::table('most_viewed_diamonds')->truncate();
         DB::table('most_viewed_diamonds')->insert([
             [
@@ -3205,14 +3205,13 @@ class CommonController extends Controller
                 'updated_at' => date("Y-m-d h:i:s")
             ]
         ]);
-        //******************* Most Ordered Diamonds Entry end *******************//
+        //******************* Most Viewed Diamonds Entry end *******************//
 
 
         $this->createElasticIndex();
         $this->truncateDiamonds();
         DB::table('customer_cart')->truncate();
         DB::table('customer_whishlist')->truncate();
-        DB::table('most_ordered_diamonds')->truncate();
         DB::table('orders')->truncate();
         DB::table('order_diamonds')->truncate();
         DB::table('order_updates')->truncate();

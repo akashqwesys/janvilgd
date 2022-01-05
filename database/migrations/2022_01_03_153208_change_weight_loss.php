@@ -27,6 +27,8 @@ class ChangeWeightLoss extends Migration
 
         Schema::table('order_diamonds', function (Blueprint $table) {
             $table->float('weight_loss')->nullable();
+            $table->text('images')->nullable()->change();
+            $table->text('video_link')->nullable()->change();
         });
     }
 
