@@ -325,10 +325,12 @@ class OrderController extends Controller
                     ->where('refCategory_id', $v['refCategory_id'])
                     ->increment('clarity_cnt', 1);
 
-                DB::table('most_ordered_diamonds')
-                    ->where('cut', $v['attributes']['CUT'])
-                    ->where('refCategory_id', $v['refCategory_id'])
-                    ->increment('cut_cnt', 1);
+                if ($v['refCategory_id'] != 1) {
+                    DB::table('most_ordered_diamonds')
+                        ->where('cut', $v['attributes']['CUT'])
+                        ->where('refCategory_id', $v['refCategory_id'])
+                        ->increment('cut_cnt', 1);
+                }
 
                 $mvd_exists = DB::table('most_ordered_diamonds')
                     ->where('carat', $v['expected_polish_cts'])

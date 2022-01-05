@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
                                     @if (count($pending_orders))
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @for ($i = 0; $i < (count($pending_orders) < 5 ? count($pending_orders) : 5); $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
@@ -94,7 +94,7 @@
                                                 <span class="sub-text">{{ $pending_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $pending_orders[$i]->total_paid_amount }}</small>
+                                                <small>${{ number_format(round($pending_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
                                         </div>
                                     </div>
                                     @if (count($completed_orders))
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @for ($i = 0; $i < (count($completed_orders) < 5 ? count($completed_orders) : 5); $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
@@ -128,7 +128,7 @@
                                                 <span class="sub-text">{{ $completed_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $completed_orders[$i]->total_paid_amount }}</small>
+                                                <small>${{ number_format(round($completed_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -151,7 +151,7 @@
                                         </div>
                                     </div>
                                     @if (count($offline_orders))
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @for ($i = 0; $i < (count($offline_orders) < 5 ? count($offline_orders) : 5); $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
@@ -162,7 +162,7 @@
                                                 <span class="sub-text">{{ $offline_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ $offline_orders[$i]->total_paid_amount }}</small>
+                                                <small>${{ number_format(round($offline_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -186,11 +186,11 @@
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $p->name[0] }}</span>
+                                                <span>{{ $p[0]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $p->name }}</span>
-                                                <span class="sub-text">{{ $p->email }}</span>
+                                                <span class="lead-text">{{ $p[0]->name }}</span>
+                                                <span class="sub-text">{{ $p[0]->email }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -420,7 +420,7 @@
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
                                     <span class="title">Monthly Revenue</span>
-                                    <span class="title float-right">{{ $orders->monthly_revenue }}</span>
+                                    <span class="title float-right">${{ number_format(round($orders->monthly_revenue, 2), 2, '.', ',') }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -428,7 +428,7 @@
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
                                     <span class="title">Quarterly Revenue</span>
-                                    <span class="title float-right">{{ $orders->quaterly_revenue }}</span>
+                                    <span class="title float-right">${{ number_format(round($orders->quaterly_revenue, 2), 2, '.', ',') }}</span>
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -436,7 +436,7 @@
                             <div class="card card-bordered">
                                 <div class="card-body hv-effect" >
                                     <span class="title">Yearly Revenue</span>
-                                    <span class="title float-right">{{ $orders->yearly_revenue }}</span>
+                                    <span class="title float-right">${{ number_format(round($orders->yearly_revenue, 2), 2, '.', ',') }}</span>
                                 </div>
                             </div><!-- .card -->
                             <div class="card card-bordered">

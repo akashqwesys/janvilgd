@@ -33,6 +33,7 @@ class DashboardController extends Controller {
             $start_year = date('Y-m-d', strtotime(date('Y') . '-04-01'));
             $end_year = date('Y-m-d', strtotime((date('Y')+1) . '-03-31'));
         }
+
         $orders = DB::table('orders')
         ->select(
             // DB::raw("count(case when DATE(date_added) = (CURRENT_DATE - INTERVAL '1 day') then 1 end) as last_day"),
@@ -50,7 +51,7 @@ class DashboardController extends Controller {
                 ) as quaterly_revenue"),
             DB::raw("sum(
                 case
-                    when DATE(date_added) <= '" . $start_year . "' and DATE(date_added) >= '" . $end_year . "' then total_paid_amount else 0 end
+                    when DATE(date_added) >= '" . $start_year . "' and DATE(date_added) <= '" . $end_year . "' then total_paid_amount else 0 end
                 ) as yearly_revenue"),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'PENDING\' and "refOrder_id" = orders.order_id) then 1 end) as pending_orders'),
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
@@ -94,11 +95,12 @@ class DashboardController extends Controller {
             ->limit(10)
             ->get()
             ->toArray();
-        for ($i = 0; $i < count($recent_customers); $i++) {
+        $recent_customers = collect($recent_customers)->groupBy('customer_id')->values()->toArray();
+        /* for ($i = 0; $i < count($recent_customers); $i++) {
             if (isset($recent_customers[$i + 1]) && $recent_customers[$i]->customer_id == $recent_customers[$i + 1]->customer_id) {
                 unset($recent_customers[$i]);
             }
-        }
+        } */
 
         $top_customers = DB::table('orders')
             ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
