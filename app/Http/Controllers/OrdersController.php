@@ -380,6 +380,14 @@ class OrdersController extends Controller
             if (isset($request->customer_id) && !empty($request->customer_id)) {
                 $data = $data->where('orders.refCustomer_id', $request->customer_id);
             }
+            if (isset($request->category) && !empty($request->category)) {
+                $data = $data->whereExists(function ($query) use($request) {
+                    $query->select(DB::raw(1))
+                        ->from('order_diamonds as od')
+                        ->whereColumn('od.refOrder_id', 'orders.order_id')
+                        ->where('od.refCategory_id', $request->category);
+                });
+            }
             $data = $data->orderBy('orders.order_id', 'desc')
                 ->get();
 

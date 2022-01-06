@@ -31,6 +31,7 @@
                     data.endDate =  endDate;
                     data.customer_id = customer_id;
                     data.order_status = order_status;
+                    data.category = category;
                 },
                 'complete': function (data) {
                     $('#append_loader').hide();
