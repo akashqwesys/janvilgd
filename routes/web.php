@@ -39,6 +39,7 @@ use App\Http\Controllers\Front\UserController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController as AdminDashboard;
 
 use App\Http\Controllers\Front\TestController;
@@ -153,6 +154,11 @@ Route::get('/dashboard', [AdminDashboard::class, 'dashboard'])->middleware(['isL
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 
 Route::get('/customer-login-by-admin/{token}', [CustomAuthController::class, 'auth_admin_customer'])->name('customer-login-by-admin')->middleware('isLoggedIn');
+
+// Reports
+Route::get('/report-orders', [ReportController::class, 'reportOrders'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-diamonds', [ReportController::class, 'reportDiamonds'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+
 
 /***************  Designation route *************/
 Route::get('designation', [DesignationController::class, 'index'])->middleware('isLoggedIn','getMenu','accessPermission','modifyPermission');
