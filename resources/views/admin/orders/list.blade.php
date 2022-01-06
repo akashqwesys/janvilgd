@@ -13,34 +13,19 @@
         font-size: 1.25rem;
     }
     .accordion-s3 .accordion-head {
-        padding: 1rem 0 1rem 2.25rem;
+        padding: 0 0 0 2.25rem;
     }
 </style>
 @endsection
 @section('content')
 <!-- content @s -->
 @php
-    if (in_array($request->filter, ['PENDING', 'COMPLETED', 'OFFLINE', 'CANCELLED'])) {
-        $ac3 = 'show';
+    if ($request->filter || $request->date_range_filter) {
+        $ac1 = 'show';
+        $collapse1 = '';
+    } else {
         $ac1 = '';
-        $ac4 = '';
         $collapse1 = 'collapsed';
-        $collapse3 = '';
-        $collapse4 = 'collapsed';
-    } else if (in_array($request->filter, ['polish', '4p', 'rough'])) {
-        $ac3 = '';
-        $ac1 = '';
-        $ac4 = 'show';
-        $collapse1 = 'collapsed';
-        $collapse3 = 'collapsed';
-        $collapse4 = '';
-     } else {
-        $ac3 = '';
-        $ac1 = '';
-        $ac4 = '';
-        $collapse1 = 'collapsed';
-        $collapse3 = 'collapsed';
-        $collapse4 = 'collapsed';
     }
 @endphp
 <div class="nk-content ">
@@ -71,72 +56,74 @@
                                 <div id="accordion-2" class="accordion accordion-s3">
                                     <div class="accordion-item">
                                         <a href="#" class="accordion-head {{ $collapse1 }}" data-toggle="collapse" data-target="#accordion-item-2-1">
-                                            <h6 class="title">Select Date Range</h6>
+                                            <h6 class="title">Select Filters</h6>
                                             <span class="accordion-icon"></span>
                                         </a>
                                         <div class="accordion-body collapse {{ $ac1 }}" id="accordion-item-2-1" data-parent="#accordion-2">
-                                            <div class="accordion-inner">
-                                                <!-- Date and time range -->
-                                                <div class="input-group form-group date-range">
-                                                    <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="ni ni-clock"></i></span>
+                                            <div class="accordion-inner pt-3">
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="row">
+                                                            <div class="col-md-4 m-auto">
+                                                                <b>Select Date Range</b>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <!-- Date and time range -->
+                                                                <div class="input-group form-group date-range">
+                                                                    <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="ni ni-clock"></i></span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control float-right" id="dateRange" placeholder="Select The Date Range" value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <input type="text" class="form-control float-right" id="dateRange" placeholder="Select The Date Range" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <a href="#" class="accordion-head collapsed" data-toggle="collapse" data-target="#accordion-item-2-2">
-                                            <h6 class="title">Select Customers</h6>
-                                            <span class="accordion-icon"></span>
-                                        </a>
-                                        <div class="accordion-body collapse" id="accordion-item-2-2" data-parent="#accordion-2">
-                                            <div class="accordion-inner">
-                                                <div class="">
-                                                    <select id="orderCustomers" class="form-control form-select" data-search="on" data-placeholder="--------- Select Customer ---------">
-                                                        <option value="" disabled="" selected=""> --------- Select Customer ---------</option>
-                                                        @foreach ($customers as $c)
-                                                        <option value="{{ $c->customer_id }}">{{ $c->name . ' (' . ($c->email ?? $c->mobile) . ')' }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <a href="#" class="accordion-head {{ $collapse3 }}" data-toggle="collapse" data-target="#accordion-item-2-3">
-                                            <h6 class="title">Select Order Status</h6>
-                                            <span class="accordion-icon"></span>
-                                        </a>
-                                        <div class="accordion-body collapse {{ $ac3 }}" id="accordion-item-2-3" data-parent="#accordion-2">
-                                            <div class="accordion-inner">
-                                                <div class="">
-                                                    <select id="orderStatus" class="form-control form-select" data-search="on" data-placeholder="--------- Select Order Status ---------">
-                                                        <option value="" disabled="" selected=""> --------- Select Order Status ---------</option>
-                                                        @foreach ($order_status as $o)
-                                                        <option value="{{ $o->name }}">{{ $o->name }}</option>
-                                                        @endforeach
-                                                        <option value="OFFLINE">OFFLINE</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <a href="#" class="accordion-head {{ $collapse4 }}" data-toggle="collapse" data-target="#accordion-item-2-4">
-                                            <h6 class="title">Select Diamond Category</h6>
-                                            <span class="accordion-icon"></span>
-                                        </a>
-                                        <div class="accordion-body collapse {{ $ac4 }}" id="accordion-item-2-4" data-parent="#accordion-2">
-                                            <div class="accordion-inner">
-                                                <div class="">
-                                                    <select id="d-category" class="form-control form-select" data-search="on" data-placeholder="--------- Select Diamond Category ---------">
-                                                        <option value="" disabled="" selected=""> --------- Select Diamond Category ---------</option>
-                                                        <option value="3">POLISH</option>
-                                                        <option value="2">4P</option>
-                                                        <option value="1">ROUGH</option>
-                                                    </select>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="row">
+                                                            <div class="col-md-4 m-auto">
+                                                                <b>Select Customer</b>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select id="orderCustomers" class="form-control form-select" data-search="on" data-placeholder="--------- Select Customer ---------">
+                                                                    <option value="" disabled="" selected=""> --------- Select Customer ---------</option>
+                                                                    @foreach ($customers as $c)
+                                                                    <option value="{{ $c->customer_id }}">{{ $c->name . ' (' . ($c->email ?? $c->mobile) . ')' }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="row">
+                                                            <div class="col-md-4 m-auto">
+                                                                <b>Select Order Status</b>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select id="orderStatus" class="form-control form-select" data-search="on" data-placeholder="--------- Select Order Status ---------">
+                                                                    <option value="" disabled="" selected=""> --------- Select Order Status ---------</option>
+                                                                    @foreach ($order_status as $o)
+                                                                    <option value="{{ $o->name }}">{{ $o->name }}</option>
+                                                                    @endforeach
+                                                                    <option value="OFFLINE">OFFLINE</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="row">
+                                                            <div class="col-md-4 m-auto">
+                                                                <b>Select Diamond Attributes</b>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select id="d-category" class="form-control form-select" data-search="on" data-placeholder="--------- Select Diamond Category ---------">
+                                                                    <option value="" disabled="" selected=""> --------- Select Diamond Category ---------</option>
+                                                                    <option value="3">POLISH</option>
+                                                                    <option value="2">4P</option>
+                                                                    <option value="1">ROUGH</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,7 +165,6 @@
         </div>
     </div>
 </div>
-<div id='append_loader'></div>
 <!-- content @e -->
 @endsection
 @section('script')
@@ -198,9 +184,19 @@
     var order_status = null;
     var category = null;
     var order_filter = '{{ $request["filter"] }}';
-    setTimeout(() => {
-        $('#dateRange').val('');
-    }, 500);
+    var date_filter = '{{ $request["date_range_filter"] }}';
+    if (date_filter) {
+        startDate = date_filter.split(' - ')[0];
+        endDate = date_filter.split(' - ')[1];
+        setTimeout(() => {
+            $('#dateRange').val(date_filter);
+            $('#dateRange').trigger('apply.daterangepicker');
+        }, 500);
+    } else {
+        setTimeout(() => {
+            $('#dateRange').val('');
+        }, 500);
+    }
     if (order_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
