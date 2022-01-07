@@ -758,7 +758,8 @@ class DiamondController extends Controller {
         ]);
     }
 
-    public function searchListPt2(Request $request)
+    // Method is working with elastic search
+    /* public function searchListPt2(Request $request)
     {
         $response = $request->all();
         if ($request->ajax()) {
@@ -798,6 +799,7 @@ class DiamondController extends Controller {
                 } else {
                     $a_tag = '<a href="javascript:void(0);"> ' . $v['barcode'] . '</a>';
                 }
+
                 $html[$i] .= '<td scope="col" class="text-left">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
 
                 if (isset($v['attributes']['SHAPE'])) {
@@ -805,7 +807,6 @@ class DiamondController extends Controller {
                 } else {
                     $html[$i] .= '<td scope="col" class="text-center"> - </td>';
                 }
-
 
                 if ($request->params['category_slug'] != 'polish-diamonds') {
                     $html[$i] .= '<td scope="col" class="text-center">' . $v['makable_cts'] . '</td>';
@@ -833,16 +834,117 @@ class DiamondController extends Controller {
                     }
                 }
 
-                /* if ($v['refCategory_id'] == 1) {
-                    $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['total'] / $v['makable_cts']), 2, '.', ',') . '</td>';
-                } else {
-                    $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['rapaport_price']) * ((1 - $v['discount'])), 2, '.', ',') . '</td>';
-                } */
+                // if ($v['refCategory_id'] == 1) {
+                //     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['total'] / $v['makable_cts']), 2, '.', ',') . '</td>';
+                // } else {
+                //     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['rapaport_price']) * ((1 - $v['discount'])), 2, '.', ',') . '</td>';
+                // }
                 $width = '';
                 if ($request->params['category_slug'] == '4p-diamonds') {
                     $width = 'style="width:100%"';
                 }
                 $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
+                    <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
+                    <td scope="col" class="text-center"' . $width . '>
+                            <div class="compare-checkbox">
+                                ' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
+                            </div>
+                        </td>
+                    </tr>';
+                $i++;
+            }
+            return response()->json([
+                'success' => 1,
+                'message' => 'Success',
+                'data' => $html,
+                'count' => $result->original['data']['total_diamonds']
+            ]);
+        }
+    } */
+
+    public function searchListPt2(Request $request)
+    {
+        $response = $request->all();
+        if ($request->ajax()) {
+            $final_data = [];
+            $aa = new APIDiamond;
+            $request->request->add(['attr_array' => json_decode($request->session()->get('diamond_filters_' . $response['params']['category']), true)]);
+            $result = $aa->searchDiamonds($request);
+
+            $data = $result->original['data']['diamonds'];
+            if (count($data) < 1) {
+                return response()->json(['success' => 1, 'message' => 'No records found', 'data' => [], 'count' => 0]);
+            }
+
+            $final_data = $data;
+            if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
+                $cart_or_box = '<label class="custom-check-box">
+                                    <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
+                                    <span class="checkmark"></span>
+                                </label>';
+            } else {
+                $cart_or_box = '<button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button>';
+            }
+            $html = [];
+            $i = 0;
+            foreach ($final_data as $v) {
+                if (count($v['image'])) {
+                    $img_src = $v['image'][0];
+                } else {
+                    $img_src = '/assets/images/No-Preview-Available.jpg';
+                }
+                $html[$i] = '<tr class="" data-diamond="' . $v['diamond_id'] . '" data-price="$' . number_format($v['total'], 2, '.', ',') . '" data-name="' . $v['name'] . '" data-image="' . $img_src . '" data-barcode="' . $v['barcode'] . '" data-color="' . $v['attributes']['COLOR'] . '" data-clarity="' . $v['attributes']['CLARITY'] . '" data-shape="' . $v['attributes']['SHAPE'] . '" data-carat="' . $v['expected_polish_cts'] . '" data-category="' . strtoupper(str_replace('-', ' ', $request->params['category_slug'])) . '">';
+
+                if (isset($v['attributes']['CERTIFICATE URL'])) {
+                    $a_tag = '<a class="show-certi" href="' . $v['attributes']['CERTIFICATE URL'] . '" target="_blank"> ' . $v['barcode'] . '</a>';
+                } else {
+                    $a_tag = '<a href="javascript:void(0);"> ' . $v['barcode'] . '</a>';
+                }
+
+                $html[$i] .= '<td scope="col" class="text-left">' . $a_tag . ' <a href="/customer/single-diamonds/' . $v['barcode'] . '" target="_blank"> </a> </td>';
+
+                if (isset($v['attributes']['SHAPE'])) {
+                    $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['SHAPE'] . '</td>';
+                } else {
+                    $html[$i] .= '<td scope="col" class="text-center"> - </td>';
+                }
+
+                if ($request->params['category_slug'] != 'polish-diamonds') {
+                    $html[$i] .= '<td scope="col" class="text-center">' . $v['makable_cts'] . '</td>';
+                }
+
+                $html[$i] .= '<td scope="col" class="text-center">' . $v['expected_polish_cts'] . '</td>';
+
+                if (isset($v['attributes']['COLOR'])) {
+                    $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['COLOR'] . '</td>';
+                } else {
+                    $html[$i] .= '<td scope="col" class="text-center"> - </td>';
+                }
+
+                if (isset($v['attributes']['CLARITY'])) {
+                    $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['CLARITY'] . '</td>';
+                } else {
+                    $html[$i] .= '<td scope="col" class="text-center"> - </td>';
+                }
+
+                if ($request->params['category_slug'] != 'rough-diamonds') {
+                    if (isset($v['attributes']['CUT'])) {
+                        $html[$i] .= '<td scope="col" class="text-center">' . $v['attributes']['CUT'] . '</td>';
+                    } else {
+                        $html[$i] .= '<td scope="col" class="text-center"> - </td>';
+                    }
+                }
+
+                // if ($v['refCategory_id'] == 1) {
+                //     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['total'] / $v['makable_cts']), 2, '.', ',') . '</td>';
+                // } else {
+                //     $html[$i] .= '<td scope="col" class="text-right">$' . number_format(($v['rapaport_price']) * ((1 - $v['discount'])), 2, '.', ',') . '</td>';
+                // }
+                $width = '';
+                if ($request->params['category_slug'] == '4p-diamonds') {
+                    $width = 'style="width:100%"';
+                }
+                $html[$i] .= '<td scope="col" class="text-right">$' . 1 . '</td>
                     <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
                     <td scope="col" class="text-center"' . $width . '>
                             <div class="compare-checkbox">

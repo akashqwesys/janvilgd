@@ -181,7 +181,8 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $main_data);
     }
 
-    public function searchDiamonds(Request $request)
+    // Method is working with elastic search
+    /* public function searchDiamonds(Request $request)
     {
         $user = Auth::user();
         if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
@@ -369,6 +370,133 @@ class DiamondController extends Controller
 
         return $this->successResponse('Success', [
             'total_diamonds' => $diamonds_count['count'],
+            'diamonds' => $final_d
+        ]);
+    } */
+
+    public function searchDiamonds(Request $request)
+    {
+        $user = Auth::user();
+        if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
+            $response['attr_array'] = $request->all();
+            $response['params']['category'] = $response['attr_array']['category'];
+            customer_activity('search', $user->name . ' has searched diamonds');
+        } else {
+            $response = $request->all();
+        }
+
+        $attr_filters = null;
+        foreach ($response['attr_array'] as $k => $v) {
+            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export'])) {
+                continue;
+            }
+            $attr_filters .= '(';
+            for ($i = 0; $i < count($v); $i++) {
+                $v[$i] = intval($v[$i]);
+                $attr_filters .= "\"attributes_id\"->'$k'->>'attribute_id' = '$v[$i]' ";
+                if ($i < count($v) - 1) {
+                    $attr_filters .= "or ";
+                }
+            }
+            $attr_filters .= ') and ';
+        }
+        if (isset($response['attr_array']['export']) && $response['attr_array']['export'] == 'export') {
+            $data_size = 9500;
+        } else {
+            $data_size = 50;
+        }
+        /*
+        2 Syntax for json containing values (not keys) from given array
+        1 - "attributes" ->> 'SHAPE' = 'Round' or "attributes" ->> 'SHAPE' = 'Oval'
+        2 - "attributes" @? '$.SHAPE ? (@ == "Round" || @ == "Oval")'
+        */
+        $diamonds = DB::table('diamonds')
+            ->select('diamond_id', 'barcode', 'refCategory_id', 'is_active', 'is_deleted', 'date_added', 'created_at', 'makable_cts', 'expected_polish_cts', 'rapaport_price', 'discount', 'packate_no', 'actual_pcs', 'available_pcs', 'remarks', 'video_link', 'image', 'total', 'is_recommended', 'name', 'weight_loss', 'attributes', 'attributes_id')
+            ->whereRaw(rtrim($attr_filters, ' and '))
+            ->where('refCategory_id', intval($response['params']['category']))
+            ->where('expected_polish_cts', '>=', floatval($response['attr_array']['carat_min'] - 0.001 ?? 0))
+            ->where('expected_polish_cts', '<=', floatval($response['attr_array']['carat_max'] + 0.001 ?? 5))
+            ->where('total', '>=', floatval($response['attr_array']['price_min'] - 0.001 ?? 0))
+            ->where('total', '<=', floatval($response['attr_array']['price_max'] + 0.001 ?? 20000));
+        if (!empty(trim($response['attr_array']['search_barcode']))) {
+            $diamonds = $diamonds->where('barcode', trim($response['attr_array']['search_barcode']));
+        }
+        if (in_array($response['attr_array']['column'], ['SHAPE', 'COLOR', 'CLARITY', 'CUT'])) {
+            $response['attr_array']['column'] = "\"attributes\"->>'" . $response['attr_array']['column'] . "'";
+        }
+        $diamonds = $diamonds->orderByRaw($response['attr_array']['column'] . ' ' . $response['attr_array']['asc_desc']);
+        $diamonds_count = $diamonds->count();
+        $diamonds = $diamonds->offset($response['attr_array']['offset'] ?? 0)
+            ->limit($data_size)
+            ->get();
+
+        if (count($diamonds) < 1) {
+            return $this->successResponse('No diamond found', [
+                'total_diamonds' => 0,
+                'diamonds' => []
+            ]);
+        }
+        if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
+            $api_call = true;
+        } else {
+            $api_call = false;
+        }
+        $final_d = [];
+        $url = url('/');
+        $i = 0;
+        foreach ($diamonds as $v) {
+            $final_d[$i]['diamond_id'] = $v->diamond_id;
+            $final_d[$i]['actual_pcs'] = $v->actual_pcs;
+            $final_d[$i]['remarks'] = $v->remarks;
+            $final_d[$i]['weight_loss'] = $v->weight_loss;
+            $final_d[$i]['is_recommended'] = $v->is_recommended;
+            $final_d[$i]['name'] = $v->name;
+            $final_d[$i]['barcode'] = $v->barcode;
+            $final_d[$i]['packate_no'] = $v->packate_no;
+            $final_d[$i]['makable_cts'] = $v->makable_cts;
+            $final_d[$i]['expected_polish_cts'] = $v->expected_polish_cts;
+            $final_d[$i]['available_pcs'] = $v->available_pcs;
+            $final_d[$i]['rapaport_price'] = $v->rapaport_price;
+            $final_d[$i]['refCategory_id'] = $v->refCategory_id;
+            // $final_d[$i]['price_ct'] = $v->price_ct;
+            $final_d[$i]['total'] = $v->total;
+            $final_d[$i]['attributes'] = $v->attributes = json_decode($v->attributes, true);
+            $final_d[$i]['attributes_id'] = json_decode($v->attributes_id, true);
+            if ($api_call === true) {
+                if (in_array($v->attributes['SHAPE'], ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Oval Brilliant', 'OV', 'Oval'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Cushion', 'CU'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Princess Cut', 'PR', 'Princess'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Princess_Cut_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Emerald', 'EM'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Emerald_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Marquise', 'MQ'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                }
+            } else {
+                $final_d[$i]['image'] = json_decode($v->image);
+            }
+
+            $final_d[$i]['discount'] = $v->discount;
+            $final_d[$i]['video_link'] = $v->video_link;
+            $final_d[$i]['is_active'] = $v->is_active;
+            $final_d[$i]['is_deleted'] = $v->is_deleted;
+            $final_d[$i]['date_added'] = $v->date_added;
+            $final_d[$i]['created_at'] = $v->created_at;
+            // $final_d[$i]['sort'] = $v->sort;
+
+            $i++;
+        }
+
+        return $this->successResponse('Success', [
+            'total_diamonds' => $diamonds_count,
             'diamonds' => $final_d
         ]);
     }
