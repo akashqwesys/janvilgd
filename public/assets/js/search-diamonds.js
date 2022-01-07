@@ -88,6 +88,7 @@ $(document).on('click', '#result-table thead th', function() {
     } else {
         $('#result-table thead .sorting_yes').removeClass('sorting_asc').addClass('sorting');
         $(this).removeClass('sorting').addClass('sorting_asc');
+        $('#result-table thead .sorting_yes').find('img').attr('src', '/admin_assets/images/sort_both.png');
         $(this).find('img').attr('src', '/admin_assets/images/sort_asc.png');
         global_sort_order = 'asc';
     }

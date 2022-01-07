@@ -181,8 +181,8 @@ class DiamondController extends Controller
         return $this->successResponse('Success', $main_data);
     }
 
-    // Method is working with elastic search
-    /* public function searchDiamonds(Request $request)
+    // Method is working with elastic search (DON'T DELETE IT)
+    public function searchDiamonds(Request $request)
     {
         $user = Auth::user();
         if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
@@ -372,9 +372,10 @@ class DiamondController extends Controller
             'total_diamonds' => $diamonds_count['count'],
             'diamonds' => $final_d
         ]);
-    } */
+    }
 
-    public function searchDiamonds(Request $request)
+    // Method is working with PostgreSQL (DON'T DELETE IT)
+    /* public function searchDiamonds(Request $request)
     {
         $user = Auth::user();
         if (isset($request->all()['gateway']) && $request->all()['gateway'] == 'api') {
@@ -405,11 +406,11 @@ class DiamondController extends Controller
         } else {
             $data_size = 50;
         }
-        /*
-        2 Syntax for json containing values (not keys) from given array
-        1 - "attributes" ->> 'SHAPE' = 'Round' or "attributes" ->> 'SHAPE' = 'Oval'
-        2 - "attributes" @? '$.SHAPE ? (@ == "Round" || @ == "Oval")'
-        */
+
+        // 2 Syntax for json containing values (not keys) from given array
+        // 1 - "attributes" ->> 'SHAPE' = 'Round' or "attributes" ->> 'SHAPE' = 'Oval'
+        // 2 - "attributes" @? '$.SHAPE ? (@ == "Round" || @ == "Oval")'
+
         $diamonds = DB::table('diamonds')
             ->select('diamond_id', 'barcode', 'refCategory_id', 'is_active', 'is_deleted', 'date_added', 'created_at', 'makable_cts', 'expected_polish_cts', 'rapaport_price', 'discount', 'packate_no', 'actual_pcs', 'available_pcs', 'remarks', 'video_link', 'image', 'total', 'is_recommended', 'name', 'weight_loss', 'attributes', 'attributes_id')
             ->whereRaw(rtrim($attr_filters, ' and '))
@@ -499,7 +500,7 @@ class DiamondController extends Controller
             'total_diamonds' => $diamonds_count,
             'diamonds' => $final_d
         ]);
-    }
+    } */
 
     public function detailshDiamondsOld($barcode)
     {
