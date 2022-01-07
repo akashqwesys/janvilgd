@@ -758,8 +758,8 @@ class DiamondController extends Controller {
         ]);
     }
 
-    // Method is working with elastic search
-    /* public function searchListPt2(Request $request)
+    // Method is working with elastic search (DON'T DELETE IT)
+    public function searchListPt2(Request $request)
     {
         $response = $request->all();
         if ($request->ajax()) {
@@ -860,9 +860,10 @@ class DiamondController extends Controller {
                 'count' => $result->original['data']['total_diamonds']
             ]);
         }
-    } */
+    }
 
-    public function searchListPt2(Request $request)
+    // Method is working with PostgreSQL (DON'T DELETE IT)
+    /* public function searchListPt2(Request $request)
     {
         $response = $request->all();
         if ($request->ajax()) {
@@ -961,7 +962,7 @@ class DiamondController extends Controller {
                 'count' => $result->original['data']['total_diamonds']
             ]);
         }
-    }
+    } */
 
     public function exportDiamonds(Request $request)
     {
