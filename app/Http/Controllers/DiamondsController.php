@@ -1669,6 +1669,10 @@ class DiamondsController extends Controller {
                                     ];
                                     array_push($batch_elastics,$params);
                                 }
+                                /* DB::table('diamonds')->where('diamond_id', $Id)->update([
+                                    'attributes' => json_encode($new_attributes),
+                                    'attributes_id' => json_encode($new_attributes_id)
+                                ]); */
                             }
                         }
                     }
