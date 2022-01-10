@@ -26,7 +26,7 @@ class DashboardController extends Controller {
             $start->setDate($year - 1, 4, 1);
             $end->setDate($year, 3, 31);
         } */
-        if (date('m') <= 03) {
+        if (date('m') <= 3) {
             $start_year = date('Y-m-d', strtotime((date('Y')-1) . '-04-01'));
             $end_year = date('Y-m-d', strtotime(date('Y') . '-03-31'));
         } else {
@@ -241,7 +241,7 @@ class DashboardController extends Controller {
         )
         ->first();
 
-        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders'));
+        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
     }
 
 }
