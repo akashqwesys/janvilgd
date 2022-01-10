@@ -16,8 +16,8 @@
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
-                                    <div class="row">
-
+                                    <div class="row-">
+                                        <h5>{{ $heading }}</h5>
                                     </div>
                                 </div>
                             </div><!-- .nk-block-head-content -->

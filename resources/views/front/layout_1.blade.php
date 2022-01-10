@@ -28,7 +28,7 @@
 			padding-bottom: 1rem;
 		}
 		.card-body1{
-			padding:20px !important;
+			padding: 20px 20px 0px 20px !important;
 		}
 		.row1 {
             padding-right: 20px !important;

@@ -1052,7 +1052,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Discount'] = 100 - ($for_discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_4p->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
-                            $dummeyArray['Price'] = $total;
+                            $dummeyArray['Price'] = round($total, 2);
                             $dummeyArray['REMARKS']=$row['remarks'];
                             $dummeyArray['HALF-CUT DIA']=$row['attributes']['HALF-CUT DIA'];
                             $dummeyArray['HALF-CUT HGT']=$row['attributes']['HALF-CUT HGT'];
@@ -1096,7 +1096,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Discount']= 100 - ($for_discount * 100) .'%';
                             $dummeyArray['Labour Charges/CT'] = $labour_charge_rough->amount;
                             $dummeyArray['Price/CT'] = round($total / $row['makable_cts'], 2);
-                            $dummeyArray['Price'] = $total;
+                            $dummeyArray['Price'] = round($total, 2);
                             $dummeyArray['Location']=$row['attributes']['LOCATION'] ?? null;
                             $dummeyArray['Comment']=$row['attributes']['COMMENT'] ?? null;
                             $dummeyArray['Video Link'] = $row['video_link'];
@@ -1129,7 +1129,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Rapaport Price/CT'] = $row['rapaport_price'];
                             $dummeyArray['Discount Percent'] = 100 - ($for_discount * 100) . '%';
                             $dummeyArray['Price/CT'] = round($total / $row['expected_polish_cts'], 2);
-                            $dummeyArray['Price'] = $total;
+                            $dummeyArray['Price'] = round($total, 2);
                             $dummeyArray['Cut Grade'] = $row['attributes']['CUT'];
                             $dummeyArray['Polish'] = $row['attributes']['POLISH'];
                             $dummeyArray['Symmetry'] = $row['attributes']['SYMMETRY'];

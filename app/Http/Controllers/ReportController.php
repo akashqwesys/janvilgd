@@ -16,6 +16,7 @@ class ReportController extends Controller
         $data['title'] = 'Orders Report';
         $filter = null;
         if ($request->order_type == 'total_orders') {
+            $heading = 'Total Orders';
             $column_name = 'Total Orders';
             $orders = DB::table('orders')
             ->select(
@@ -36,6 +37,7 @@ class ReportController extends Controller
 
         }
         else if ($request->order_type == 'cancelled_orders') {
+            $heading = 'Cancelled Orders';
             $column_name = 'Cancelled Orders';
             $orders = DB::table('orders as o')
             ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
@@ -57,6 +59,7 @@ class ReportController extends Controller
             ->first();
             $filter = '&filter=CANCELLED';
         } else {
+            $heading = 'Total Carats Sold';
             $column_name = 'Total Carats Sold';
             $orders = DB::table('order_diamonds')
             ->select(
@@ -75,7 +78,7 @@ class ReportController extends Controller
             )
             ->first();
         }
-        return view('admin.reports.orders', compact('request', 'data', 'orders', 'column_name', 'filter'));
+        return view('admin.reports.orders', compact('request', 'data', 'orders', 'column_name', 'filter', 'heading'));
     }
 
     public function reportDiamonds(Request $request)
@@ -83,6 +86,7 @@ class ReportController extends Controller
         $data['title'] = 'Diamonds Report';
         $filter = null;
         if ($request->category == 'polish') {
+            $heading = 'Polish Diamonds';
             $import = DB::table('diamonds as d')
             ->join('categories as c', 'd.refCategory_id', '=', 'c.category_id')
             ->select(
@@ -121,8 +125,10 @@ class ReportController extends Controller
             )
             ->where('order_status_name', 'COMPLETED')
             ->first();
+            $filter = '&filter=polish';
         }
         else if ($request->category == '4p') {
+            $heading = '4P Diamonds';
             $import = DB::table('diamonds as d')
             ->join('categories as c', 'd.refCategory_id', '=', 'c.category_id')
             ->select(
@@ -161,8 +167,10 @@ class ReportController extends Controller
             )
             ->where('order_status_name', 'COMPLETED')
             ->first();
+            $filter = '&filter=4p';
         }
         else {
+            $heading = 'Rough Diamonds';
             $import = DB::table('diamonds as d')
             ->join('categories as c', 'd.refCategory_id', '=', 'c.category_id')
             ->select(
@@ -201,7 +209,79 @@ class ReportController extends Controller
             )
             ->where('order_status_name', 'COMPLETED')
             ->first();
+            $filter = '&filter=rough';
         }
-        return view('admin.reports.diamonds', compact('request', 'data', 'import', 'export', 'filter'));
+        return view('admin.reports.diamonds', compact('request', 'data', 'import', 'export', 'filter', 'heading'));
+    }
+
+    public function reportCustomers(Request $request)
+    {
+        $data['title'] = 'Customers Report';
+        $filter = null;
+        if ($request->customer_type == 'recent') {
+            $heading = 'Recent Customers';
+            $customers = DB::table('customer as c')
+                ->join('orders as o', 'c.customer_id', '=', 'o.refCustomer_id')
+                ->select('c.name', 'c.email', 'o.date_added', 'c.customer_id')
+                ->where('o.order_type', 1)
+                ->orderBy('o.order_id', 'desc')
+                ->limit(20)
+                ->get()
+                ->toArray();
+            $customers = collect($customers)->groupBy('customer_id')->values()->toArray();
+
+        } else if ($request->customer_type == 'top') {
+            $heading = 'Top Customers';
+            $customers = DB::table('orders')
+                ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+                ->groupByRaw('"refCustomer_id", email_id, name')
+                ->orderBy('repeative', 'desc')
+                ->limit(10)
+                ->get();
+        } else {
+            $heading = 'Bottom Customers';
+            $customers = DB::table('orders')
+                ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+                ->groupByRaw('"refCustomer_id", email_id, name')
+                ->orderBy('repeative', 'asc')
+                ->limit(10)
+                ->get();
+        }
+        return view('admin.reports.customers', compact('request', 'data', 'customers', 'filter', 'heading'));
+    }
+
+    public function reportAttributes(Request $request)
+    {
+        $data['title'] = 'Diamond Attributes Report';
+        $filter = null;
+        if ($request->customer_type == 'recent') {
+            $heading = 'Recent Customers';
+            $customers = DB::table('customer as c')
+            ->join('orders as o', 'c.customer_id', '=', 'o.refCustomer_id')
+            ->select('c.name', 'c.email', 'o.date_added', 'c.customer_id')
+            ->where('o.order_type', 1)
+            ->orderBy('o.order_id', 'desc')
+                ->limit(20)
+                ->get()
+                ->toArray();
+            $customers = collect($customers)->groupBy('customer_id')->values()->toArray();
+        } else if ($request->customer_type == 'top') {
+            $heading = 'Top Customers';
+            $customers = DB::table('orders')
+            ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+                ->groupByRaw('"refCustomer_id", email_id, name')
+                ->orderBy('repeative', 'desc')
+                ->limit(10)
+                ->get();
+        } else {
+            $heading = 'Bottom Customers';
+            $customers = DB::table('orders')
+            ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+                ->groupByRaw('"refCustomer_id", email_id, name')
+                ->orderBy('repeative', 'asc')
+                ->limit(10)
+                ->get();
+        }
+        return view('admin.reports.customers', compact('request', 'data', 'customers', 'filter', 'heading'));
     }
 }

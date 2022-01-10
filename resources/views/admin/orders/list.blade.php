@@ -112,11 +112,11 @@
                                                     <div class="col-md-6 mb-3">
                                                         <div class="row">
                                                             <div class="col-md-4 m-auto">
-                                                                <b>Select Diamond Attributes</b>
+                                                                <b>Select Diamond Category</b>
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <select id="d-category" class="form-control form-select" data-search="on" data-placeholder="--------- Select Diamond Category ---------">
-                                                                    <option value="" disabled="" selected=""> --------- Select Diamond Category ---------</option>
+                                                                <select id="d-category" class="form-control form-select" data-search="on" data-placeholder="------- Select Diamond Category -------">
+                                                                    <option value="" disabled="" selected=""> ------- Select Diamond Category -------</option>
                                                                     <option value="3">POLISH</option>
                                                                     <option value="2">4P</option>
                                                                     <option value="1">ROUGH</option>
@@ -186,6 +186,7 @@
     var order_filter = '{{ $request["filter"] }}';
     var date_filter = '{{ $request["date_range_filter"] }}';
     if (date_filter) {
+        console.log(1);
         startDate = date_filter.split(' - ')[0];
         endDate = date_filter.split(' - ')[1];
         setTimeout(() => {

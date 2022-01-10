@@ -177,7 +177,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Recent Customers</h6>
+                                                <h6 class="title">
+                                                   <a href="/admin/report-customers?customer_type=recent"> Recent Customers </a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
@@ -204,7 +206,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Top Customers</h6>
+                                                <h6 class="title">
+                                                   <a href="/admin/report-customers?customer_type=top"> Top Customers </a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
@@ -234,7 +238,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Bottom Customers</h6>
+                                                <h6 class="title">
+                                                   <a href="/admin/report-customers?customer_type=bottom"> Bottom Customers </a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
@@ -422,26 +428,41 @@
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
+                                <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime(date('Y-m-d'))) . ' - ' . date('Y-m-t', strtotime(date('Y-m-d')))}}">
                                     <span class="title">Monthly Revenue</span>
                                     <span class="title float-right">${{ number_format(round($orders->monthly_revenue, 2), 2, '.', ',') }}</span>
-                                </div>
+                                </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
+                        @php
+                        if (date('m') >= 1 && date('m') <= 3) {
+                            $q_start = date('Y-m-d', strtotime(date('Y') . '-01-01'));
+                            $q_end = date('Y-m-d', strtotime(date('Y') . '-03-31'));
+                        } else if (date('m') >= 4 && date('m') <= 6) {
+                            $q_start = date('Y-m-d', strtotime(date('Y') . '-04-01'));
+                            $q_end = date('Y-m-d', strtotime(date('Y') . '-06-31'));
+                        } else if (date('m') >= 7 && date('m') <= 9) {
+                            $q_start = date('Y-m-d', strtotime(date('Y') . '-07-01'));
+                            $q_end = date('Y-m-d', strtotime(date('Y') . '-09-31'));
+                        } else {
+                            $q_start = date('Y-m-d', strtotime(date('Y') . '-010-01'));
+                            $q_end = date('Y-m-d', strtotime(date('Y') . '-12-31'));
+                        }
+                        @endphp
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
+                                <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime($q_start)) . ' - ' . date('Y-m-t', strtotime($q_end))}}">
                                     <span class="title">Quarterly Revenue</span>
                                     <span class="title float-right">${{ number_format(round($orders->quaterly_revenue, 2), 2, '.', ',') }}</span>
-                                </div>
+                                </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered">
-                                <div class="card-body hv-effect" >
+                                <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime($start_year)) . ' - ' . date('Y-m-t', strtotime($end_year))}}">
                                     <span class="title">Yearly Revenue</span>
                                     <span class="title float-right">${{ number_format(round($orders->yearly_revenue, 2), 2, '.', ',') }}</span>
-                                </div>
+                                </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="col-md-6 col-lg-4">
@@ -450,7 +471,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Most Ordered Polish Diamonds</h6>
+                                                <h6 class="title">
+                                                    <a href="/admin/orders?category=polish&shape={{ ($trending_polish[0]->shape ?? '') . '&carat=' . ($trending_polish[0]->carat ?? '') . '&color=' . ($trending_polish[0]->color ?? '') . '&clarity=' . ($trending_polish[0]->clarity ?? '') . '&cut=' . ($trending_polish[0]->cut ?? '') }}"> Most Ordered Polish Diamonds</a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
@@ -514,7 +537,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Most Ordered 4P Diamonds</h6>
+                                                <h6 class="title">
+                                                    <a href="/admin/orders?category=4p&shape={{ ($trending_4p[0]->shape ?? '') . '&carat=' . ($trending_4p[0]->carat ?? '') . '&color=' . ($trending_4p[0]->color ?? '') . '&clarity=' . ($trending_4p[0]->clarity ?? '') . '&cut=' . ($trending_4p[0]->cut ?? '') }}"> Most Ordered 4P Diamonds</a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
@@ -578,7 +603,9 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Most Ordered Rough Diamonds</h6>
+                                                <h6 class="title">
+                                                    <a href="/admin/orders?category=rough&shape={{ ($trending_rough[0]->shape ?? '') . '&carat=' . ($trending_rough[0]->carat ?? '') . '&color=' . ($trending_rough[0]->color ?? '') . '&clarity=' . ($trending_rough[0]->clarity ?? '') }}"> Most Ordered Rough Diamonds</a>
+                                                </h6>
                                             </div>
                                             <div class="card-tools"> </div>
                                         </div>
