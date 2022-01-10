@@ -158,6 +158,8 @@ Route::get('/customer-login-by-admin/{token}', [CustomAuthController::class, 'au
 // Reports
 Route::get('/report-orders', [ReportController::class, 'reportOrders'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 Route::get('/report-diamonds', [ReportController::class, 'reportDiamonds'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-customers', [ReportController::class, 'reportCustomers'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-attributes', [ReportController::class, 'reportAttributes'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
 
 /***************  Designation route *************/
