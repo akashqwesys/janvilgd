@@ -472,7 +472,8 @@
                                         <div class="card-title-group">
                                             <div class="card-title">
                                                 <h6 class="title">
-                                                    <a href="/admin/orders?category=polish&shape={{ ($trending_polish[0]->shape ?? '') . '&carat=' . ($trending_polish[0]->carat ?? '') . '&color=' . ($trending_polish[0]->color ?? '') . '&clarity=' . ($trending_polish[0]->clarity ?? '') . '&cut=' . ($trending_polish[0]->cut ?? '') }}"> Most Ordered Polish Diamonds</a>
+                                                    {{-- <a href="/admin/orders?filter=polish&shape={{ ($trending_polish[0]->shape ?? '') . '&carat=' . ($trending_polish[0]->carat ?? '') . '&color=' . ($trending_polish[0]->color ?? '') . '&clarity=' . ($trending_polish[0]->clarity ?? '') . '&cut=' . ($trending_polish[0]->cut ?? '') }}"> Most Ordered Polish Diamonds</a> --}}
+                                                     Most Ordered Polish Diamonds
                                                 </h6>
                                             </div>
                                             <div class="card-tools"> </div>
@@ -538,7 +539,7 @@
                                         <div class="card-title-group">
                                             <div class="card-title">
                                                 <h6 class="title">
-                                                    <a href="/admin/orders?category=4p&shape={{ ($trending_4p[0]->shape ?? '') . '&carat=' . ($trending_4p[0]->carat ?? '') . '&color=' . ($trending_4p[0]->color ?? '') . '&clarity=' . ($trending_4p[0]->clarity ?? '') . '&cut=' . ($trending_4p[0]->cut ?? '') }}"> Most Ordered 4P Diamonds</a>
+                                                    Most Ordered 4P Diamonds
                                                 </h6>
                                             </div>
                                             <div class="card-tools"> </div>
@@ -604,7 +605,7 @@
                                         <div class="card-title-group">
                                             <div class="card-title">
                                                 <h6 class="title">
-                                                    <a href="/admin/orders?category=rough&shape={{ ($trending_rough[0]->shape ?? '') . '&carat=' . ($trending_rough[0]->carat ?? '') . '&color=' . ($trending_rough[0]->color ?? '') . '&clarity=' . ($trending_rough[0]->clarity ?? '') }}"> Most Ordered Rough Diamonds</a>
+                                                    Most Ordered Rough Diamonds
                                                 </h6>
                                             </div>
                                             <div class="card-tools"> </div>

@@ -312,7 +312,7 @@ function init() {
 								<li class="item"><a href="/gallery">Gallery</a></li>
 								<li class="item"><a href="/media">Media</a></li>
 								<li class="item"><a href="/events">Events</a></li>
-								<li class="item"><a href="/business-policy">Business Policy</a></li>
+								<!-- <li class="item"><a href="/business-policy">Business Policy</a></li> -->
 								<li class="item"><a href="/blog">Blogs</a></li>
 							</ul>
 						</div>
@@ -324,7 +324,7 @@ function init() {
 								<li class="item"><a href="/order-details">Order Details</a></li>
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
-								<li class="item"><a href="Javascript:;">Support Now</a></li>
+								<li class="item"><a href="/contact">Contact Us</a></li>
 								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
 								<li class="item"><a href="/grading">Grading</a></li>
 							</ul>
@@ -334,7 +334,12 @@ function init() {
 						<div class="quick-link-content">
 							<h4 class="title">My Account</h4>
 							<ul class="list-unstyled footer-link mb-0">
+								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								@endauth
+								@guest
+								<li class="item"><a href="/customer/login">Login</a></li>
+								@endguest
 								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
 								<li class="item"><a href="/customer/checkout">Checkout</a></li>
 								<li class="item"><a href="/customer/cart">Cart</a></li>
