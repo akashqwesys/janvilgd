@@ -1031,7 +1031,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - $row['discount'];
+                                $for_discount = 1 - round($row['discount'], 2);
                             } else {
                                 $for_discount = $discount;
                             }
@@ -1073,7 +1073,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - $row['discount'];
+                                $for_discount = 1 - round($row['discount'], 2);
                             } else {
                                 $for_discount = $discount;
                             }
@@ -1113,7 +1113,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - $row['discount'];
+                                $for_discount = 1 - round($row['discount'], 2);
                             } else {
                                 $for_discount = $discount;
                             }

@@ -186,7 +186,6 @@
     var order_filter = '{{ $request["filter"] }}';
     var date_filter = '{{ $request["date_range_filter"] }}';
     if (date_filter) {
-        console.log(1);
         startDate = date_filter.split(' - ')[0];
         endDate = date_filter.split(' - ')[1];
         setTimeout(() => {
