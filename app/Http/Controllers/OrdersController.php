@@ -31,7 +31,8 @@ class OrdersController extends Controller
     public function customerAddress (Request $request)
     {
         if($request->refCustomer_id){
-            $address_list = DB::table('customer_company_details')->select('customer_company_details.*', 'city.name as city_name', 'state.name as state_name', 'country.name as country_name')
+            $address_list = DB::table('customer_company_details')
+            ->select('customer_company_details.*', 'city.name as city_name', 'state.name as state_name', 'country.name as country_name')
             ->join('city', 'city.city_id', '=', 'customer_company_details.refCity_id')
             ->join('state', 'state.state_id', '=', 'customer_company_details.refState_id')
             ->join('country', 'country.country_id', '=', 'customer_company_details.refCountry_id')
@@ -473,7 +474,7 @@ class OrdersController extends Controller
             ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             ->select('od.*','ag.name as ag_name','a.name as a_name', 'c.name as cat_name')
             ->where('od.refOrder_id', $id)
-            ->whereIn('ag.name',['COLOR','CLARITY','SHAPE'])
+            ->whereIn('ag.name', ['COLOR','CLARITY','SHAPE'])
             ->get()
             ->toArray();
 
@@ -488,7 +489,7 @@ class OrdersController extends Controller
             $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
         }
 
-        $order_sts = DB::table('order_statuses')->orderby('sort_order', 'asc')->get();
+        $order_sts = DB::table('order_statuses')->where('name', '<>', 'PENDING')->orderby('sort_order', 'asc')->get();
         $order_history = DB::table('order_updates')->where('refOrder_id', $id)->orderby('order_update_id', 'DESC')->get();
         $result = DB::table('orders')
             ->select('orders.*','city_billing.name as billing_city_name','state_billing.name as billing_state_name','country_billing.name as billing_country_name','city_shipping.name as shipping_city_name','state_shipping.name as shipping_state_name','country_shipping.name as shipping_country_name')
@@ -513,6 +514,7 @@ class OrdersController extends Controller
         $data['order_sts'] = $order_sts;
         $data['order_history'] = $order_history;
         $data['result'] = $result;
+        $data['admin_name'] = DB::table('users')->select('name')->where('id', session()->get('loginId'))->pluck('name')->first();
         return view('admin.orders.edit', ["data" => $data]);
     }
 
@@ -631,5 +633,56 @@ class OrdersController extends Controller
             activity($request, "updated", $request['module'], $request['table_id']);
             return response()->json($data);
         }
+    }
+
+    public function getBarcodes(Request $request)
+    {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_params = [
+            'index' => 'diamonds',
+            'size' => 50,
+            'from' => $request['page'] ? $request['page']+50 : 0,
+            'body' => [
+                'query' => [
+                    'prefix' => ['barcode_search' => $request['q']]
+                ],
+                'fields' => ['barcode'],
+                '_source' => false
+            ]
+        ];
+        $get = $client->search($elastic_params);
+        if (count($get['hits']['hits'])) {
+            $data = [];
+            foreach ($get['hits']['hits'] as $v) {
+                $data[] = [
+                    'id' => $v['fields']['barcode'][0],
+                    'text' => $v['fields']['barcode'][0]
+                ];
+            }
+            return response()->json(['items' => $data, 'total_count' => count($data)]);
+        } else {
+            return response()->json(['items' => []]);
+        }
+    }
+
+    public function createInvoice(Request $request)
+    {
+        $data['title'] = 'Create Invoice';
+        $order_id = DB::table('orders')->select('order_id')->orderBy('order_id', 'desc')->pluck('order_id')->first();
+        $customers = DB::table('customer')
+            ->select('customer_id', 'name', 'email')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('customer_id', 'asc')
+            ->get();
+        $country = DB::table('country')
+            ->select('country_id', 'name')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+        $payment_modes = DB::table('payment_modes')->where('is_active', 1)->where('is_deleted', 0)->get();
+        return view('admin.orders.invoice', compact('data', 'customers', 'payment_modes', 'country', 'order_id'));
     }
 }
