@@ -2286,6 +2286,10 @@ span.value.upper::before {
     color: black;
 }
 
+ul li b {
+    color: black;
+}
+
 .privacy-policy-point .details {
     font-size: 16px;
     color: #808080;
