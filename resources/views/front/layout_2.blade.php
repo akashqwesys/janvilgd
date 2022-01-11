@@ -195,6 +195,10 @@
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
 								@endauth
+								@guest
+								<li class="item"><a href="/customer/login">Login</a></li>
+								@endguest
+								<li class="item"><a href="/customer/login">Login</a></li>
 								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
 								<li class="item"><a href="/customer/checkout">Checkout</a></li>
 								<li class="item"><a href="/customer/cart">Cart</a></li>

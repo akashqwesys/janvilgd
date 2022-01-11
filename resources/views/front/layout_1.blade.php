@@ -253,7 +253,7 @@ function init() {
 		    				<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
+		    				<!-- <li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li> -->
 		    				<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
 		    			</ul>

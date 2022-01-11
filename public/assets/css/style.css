@@ -2279,12 +2279,41 @@ span.value.upper::before {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 15px;
+    color: #d2ab66;
+}
+
+.privacy-policy-point .details b {
+    color: black;
 }
 
 .privacy-policy-point .details {
-    font-size: 18px;
-    margin-bottom: 0;
+    font-size: 16px;
     color: #808080;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.privacy-policy-point ul {
+    list-style: none;
+}
+
+.privacy-policy-point ul li::before {
+    content: "\2022";
+    color: #d2ab66;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    font-size: 25px;
+    margin-left: -1em;
+}
+
+.privacy-policy-point ul li {
+    font-size: 16px;
+    color: #808080;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 
