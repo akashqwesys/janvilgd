@@ -32,6 +32,7 @@
                     data.customer_id = customer_id;
                     data.order_status = order_status;
                     data.category = category;
+                    data.shape = 'Round';
                 },
                 'complete': function (data) {
                     $('#append_loader').hide();

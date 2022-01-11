@@ -381,12 +381,33 @@ class OrdersController extends Controller
                 $data = $data->where('orders.refCustomer_id', $request->customer_id);
             }
             if (isset($request->category) && !empty($request->category)) {
-                $data = $data->whereExists(function ($query) use($request) {
-                    $query->select(DB::raw(1))
-                        ->from('order_diamonds as od')
-                        ->whereColumn('od.refOrder_id', 'orders.order_id')
-                        ->where('od.refCategory_id', $request->category);
-                });
+                if (isset($request->shape) && !empty($request->shape)) {
+                    /* if ($request->category == 3) {
+                        $attr_ids = DB::table('attributes')
+                        ->select(
+                            DB::raw("case when attribute_group_id = 18 and name = '$request->shape' then attribute_id end as shape_id"),
+                            DB::raw("case when attribute_group_id = 17 and name = '$request->color' then attribute_id end as color_id"),
+                            DB::raw("case when attribute_group_id = 16 and name = '$request->clarity' then attribute_id end as clarity_id"),
+                            DB::raw("case when attribute_group_id = 24 and name = '$request->cut' then attribute_id end as cut_id"),
+                        )
+                        ->first();
+                    }
+                    $data = $data->whereExists(function ($query) use ($request) {
+                        $query->select(DB::raw(1))
+                            ->from('order_diamonds as od')
+                            ->whereColumn('od.refOrder_id', 'orders.order_id')
+                            ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+                            ->where('refAttribute_id', $attr_ids->shape_id)
+                            ->where('od.refCategory_id', $request->category);
+                    }); */
+                } else {
+                    $data = $data->whereExists(function ($query) use($request) {
+                        $query->select(DB::raw(1))
+                            ->from('order_diamonds as od')
+                            ->whereColumn('od.refOrder_id', 'orders.order_id')
+                            ->where('od.refCategory_id', $request->category);
+                    });
+                }
             }
             $data = $data->orderBy('orders.order_id', 'desc')
                 ->get();
