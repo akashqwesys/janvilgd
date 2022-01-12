@@ -114,10 +114,10 @@
                                         <td>{{ $o['barcode'] }}</td>
                                         <td>{{ $o['cat_name'] }}</td>
                                         <td>{{ $o['expected_polish_cts'] }}</td>
-                                        @foreach ( $o['attributes'] as $d_attr)
-                                            <td>{{$d_attr}}</td>
-                                        @endforeach
-                                        <td style="text-align: right;">${{ $o['total'] }}</td>
+                                        <td>{{ $o['attributes']['SHAPE'] }}</td>
+                                        <td>{{ $o['attributes']['COLOR'] }}</td>
+                                        <td>{{ $o['attributes']['CLARITY'] }}</td>
+                                        <td style="text-align: right;">${{ number_format($o['total'], 2, '.', ',') }}</td>
                                     </tr>
                                     @endforeach
                                     <tr style="background-color: lightgray;">
