@@ -5040,7 +5040,11 @@ label[for="id_upload"]:hover {
 }
 
 .infodiv {
-    background-image: url(/public/assets/images/map.jpg);
+    background-image: url(../images/map.jpg);
+}
+
+.contact-section {
+    background-image: url(../images/map2.jpg);
 }
 
 .contact-info {
