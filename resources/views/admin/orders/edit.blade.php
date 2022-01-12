@@ -15,9 +15,19 @@
         <div class="nk-content-inner">
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
-                    <div class="nk-block-between">
-                        <h3 class="nk-block-title page-title" style="display: inline;">Edit Order</h3>
-                        <a style="float: right;" href="/admin/orders" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
+                    <div class="nk-block-between- row">
+                        <div class="col-md-2">
+                            <h3 class="nk-block-title page-title" >Edit Order</h3>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="">
+                                <button class="btn btn-success mr-3" id="acceptOrder" data-value="UNPAID">ACCEPT</button>
+                                <button class="btn btn-danger" id="declineOrder" data-value="CANCELLED">DECLINE</button>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <a style="float: right;" href="/admin/orders" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
+                        </div>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
@@ -221,12 +231,12 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="order_status_name" name="order_status_name" required="" tabindex="-1" aria-hidden="true" data-search="on">
-                                                    <option value="" disabled="" selected="">------ Select Order Status ------</option>
+                                                <select class="form-select form-control" id="order_status_name" name="order_status_name" required="" tabindex="-1" aria-hidden="true" data-search="on" data-placeholder="----- Select Order Status -----">
+                                                    <option value="" disabled="" selected="">----- Select Order Status -----</option>
                                                     <?php if (!empty($data['order_sts'])) {
                                                         foreach ($data['order_sts'] as $row) {
                                                     ?>
-                                                            <option value="{{ $row->name }}">{{ $row->name }}</option>
+                                                    <option value="{{ $row->name }}">{{ $row->name }}</option>
                                                     <?php
                                                         }
                                                     } ?>
@@ -253,7 +263,7 @@
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-2">
                                         <div class="form-group mt-2">
-                                            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+                                            <button type="submit" class="btn btn-lg btn-primary btn-block" id="updateOrder">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -266,4 +276,15 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script type="text/javascript">
+    $(document).on('click', '#acceptOrder, #declineOrder', function() {
+        $('#order_status_name').val($(this).attr('data-value')).trigger('change');
+        $('#cf-default-textarea').val('<?= $data['admin_name'] ?>' + ' has ' + $(this).attr('data-value').toLowerCase() + ' order');
+        setTimeout(() => {
+            $('#updateOrder').trigger('click');
+        }, 100);
+    });
+</script>
 @endsection

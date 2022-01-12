@@ -1,7 +1,5 @@
 @extends('admin.header')
-
-@section('content')
-
+@section('css')
 <style>
     #ajaxForm{
         width:200px;
@@ -23,7 +21,8 @@
         filter: alpha(opacity=40);
     }
 </style>
-
+@endsection
+@section('content')
 <div class="nk-content">
     <!--    @if(Session::has('designation_add'))
         <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
@@ -185,12 +184,12 @@
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                            <input type="hidden" name="attribute_group_name[]" value="{{ $row->name }}" >
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
-
                                                                 <?php
                                                                     $value='';
                                                                     foreach ($data['diamond_attributes'] as $d_a_row) {
@@ -199,6 +198,7 @@
                                                                         }
                                                                     }
                                                                 ?>
+                                                                <input type="hidden" name="attribute_group_name_v[]" value="{{ $value }}" >
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
@@ -369,6 +369,7 @@
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                            <input type="hidden" name="attribute_group_name[]" value="{{ $row->name }}" >
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -387,6 +388,7 @@
                                                                 @else
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
                                                                 @endif
+                                                                <input type="hidden" name="attribute_group_name_v[]" value="{{ $value }}" >
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
                                                         </div>

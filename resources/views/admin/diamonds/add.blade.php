@@ -1,5 +1,5 @@
 @extends('admin.header')
-@section('content')
+@section('css')
 <style>
     #ajaxForm{
         width:200px;
@@ -24,6 +24,8 @@
         color: red;
     }
 </style>
+@endsection
+@section('content')
 
 <div class="nk-content">
     <div class="container-fluid">
@@ -172,11 +174,13 @@
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                            <input type="hidden" name="attribute_group_name[]" value="{{ $row->name }}" >
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <div class="form-control-wrap">
+                                                                <input type="hidden" name="attribute_group_name_v[]" value="" >
                                                                 <input type="text" class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off">
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
@@ -334,11 +338,13 @@
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="form-label float-md-right" for="attribute_group_id_value"><?php echo $row->name; ?>:</label>
+                                                        <input type="hidden" name="attribute_group_name[]" value="{{ $row->name }}" >
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <div class="form-control-wrap">
+                                                            <input type="hidden" name="attribute_group_name_v[]" value="" >
                                                             @if ($row->name == 'COMMENT')
                                                             <textarea class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off" rows="6"></textarea>
                                                             @else
