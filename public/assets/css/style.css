@@ -3694,6 +3694,7 @@ label[for="id_upload"]:hover {
 
 .country_address_links .location-address {
     display: none;
+    border-radius: 0px 10px 10px 10px;
 }
 
 .country_address_links {
