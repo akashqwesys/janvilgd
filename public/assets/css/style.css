@@ -3722,7 +3722,7 @@ label[for="id_upload"]:hover {
     position: absolute;
     width: 100%;
     background: #d2ab66;
-    padding: 10px;
+    /* padding: 10px; */
     z-index: 1;
 }
 
