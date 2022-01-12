@@ -5030,3 +5030,152 @@ label[for="id_upload"]:hover {
 .unearthing-section .card {
     height: 100%;
 }
+
+
+/*  contact us page by vasim  */
+
+.contact {
+    /* padding: 4%;
+    height: 400px; */
+}
+
+.infodiv {
+    background-image: url(../images/map.jpg);
+}
+
+.contact-info {
+    margin-top: 10%;
+}
+
+.contact-info img {
+    margin-bottom: 15%;
+}
+
+.contact-info h2 {
+    margin-bottom: 10%;
+}
+
+.contact-info h3 {
+    background-color: #fff;
+    color: #D2AB66;
+    font-weight: 700;
+    align-items: right;
+    text-align: right;
+    margin-right: -0.8rem;
+    padding: 9px;
+    text-align: center;
+    box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+}
+
+.contact-info p span {
+    position: absolute;
+}
+
+.contact-info p span img {
+    width: 10%;
+    align-items: center;
+    margin: auto 0;
+}
+
+.datadiv {
+    background: #fff;
+    padding: 3%;
+}
+
+.contact-form label {
+    font-weight: 600;
+}
+
+.contact-form button {
+    background: #D2AB66;
+    color: #fff;
+    font-weight: 600;
+    width: 25%;
+}
+
+.contact-form button:focus {
+    box-shadow: none;
+}
+
+.contact-info ul .firstli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.contact-info ul .firstli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/location.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.contact-info ul .secondli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.contact-info ul .secondli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/email.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.contact-info ul .thirdli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.contact-info ul .thirdli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/call.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.contact-info ul li {
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 10px;
+}
+
+.boxshadow {
+    box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 3px 30px -2px rgba(0, 0, 0, 0.7);
+}
+
+.contact-info a {
+    border: 0px !important;
+}
+
+.contact-info a:hover {
+    border: 0px !important;
+}
