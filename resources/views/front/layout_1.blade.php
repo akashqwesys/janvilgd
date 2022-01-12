@@ -413,7 +413,7 @@ function init() {
     window.intlTelInput(input, {
       // allowDropdown: false,
       // autoHideDialCode: false,
-      // autoPlaceholder: "off",
+      autoPlaceholder: "off",
       // dropdownContainer: document.body,
       // excludeCountries: ["us"],
       // formatOnDisplay: false,
