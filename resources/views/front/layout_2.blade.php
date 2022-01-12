@@ -243,9 +243,7 @@
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/{{ check_host() }}assets/images/twitter.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/{{ check_host() }}assets/images/youtube.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>								
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -255,7 +253,7 @@
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGE</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. Pvt ltd.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>

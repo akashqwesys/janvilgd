@@ -355,15 +355,67 @@ function init() {
 							<div class="footer-info">
 								<ul class="country_address_links">
 									<li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 										<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
 										</span>
 										<span class="location">India</span>
 										<div class="location-address">
-											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
+											<div class="location_inner contact">
+														<div class="row">            
+													<div class="col-md-4 infodiv boxshadow">
+														<div class="contact-info">
+															<h3>Contact Us</h3><br>
+															<ul>
+																<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+																<li class="secondli">info@mywebsite.com</li>
+																<li class="thirdli">+1 (291) 939 9321</li>
+															</ul>
+															<br>
+															<a class="btn" href="https://goo.gl/maps/PtNLVBLpCF4tSbnY7"><img src="assets/images/placeholder.png" width="40%" data-toggle="tooltip" data-placement="top" title="Click to view location"></a>
+														</div>
+													</div>
+												</div>
+											</div>        
 											</div>
 										</div>
 									</li>
@@ -385,9 +437,7 @@ function init() {
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/{{ check_host() }}assets/images/twitter.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/{{ check_host() }}assets/images/youtube.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>									
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -397,7 +447,7 @@ function init() {
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGE</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. Pvt ltd.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>
