@@ -5205,3 +5205,70 @@ label[for="id_upload"]:hover {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 0;
 }
+
+.location_inner ul .firstli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.location_inner ul .firstli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/location.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.location_inner ul .secondli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.location_inner ul .secondli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/email.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.location_inner ul .thirdli {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    list-style: none;
+    line-height: 30px;
+}
+
+.location_inner ul .thirdli::before {
+    flex-shrink: 0;
+    display: block;
+    content: '';
+    margin-right: 10px;
+    background: url('../images/call.png') no-repeat left center;
+    height: 33px;
+    width: 33px;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.location_inner ul li {
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 10px;
+}

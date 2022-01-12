@@ -359,7 +359,7 @@ function init() {
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
 										</span>
 										<span class="location">India</span>
-										<div class="location-address">
+										<div class="location-address boxshadow">
 											<div class="location_inner">
 												<ul>
 													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
