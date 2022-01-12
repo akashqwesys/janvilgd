@@ -361,20 +361,11 @@ function init() {
 										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<div class="row contact">            
-													<div class="col-md-4 infodiv boxshadow">
-														<div class="contact-info">
-															<h3>Contact Us</h3><br>
-															<ul>
-																<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
-																<li class="secondli">info@mywebsite.com</li>
-																<li class="thirdli">+1 (291) 939 9321</li>
-															</ul>
-															<br>
-															<a class="btn" href="https://goo.gl/maps/PtNLVBLpCF4tSbnY7"><img src="assets/images/placeholder.png" width="40%" data-toggle="tooltip" data-placement="top" title="Click to view location"></a>
-														</div>
-													</div>
-												</div>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
 											</div>        
 										</div>										
 									</li>
