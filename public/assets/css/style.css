@@ -5220,8 +5220,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/location.png') no-repeat left center;
-    height: 20px;
-    width: 20px;
+    height: 22px;
+    width: 22px;
     background-size: contain;
     vertical-align: middle;
 }
@@ -5240,8 +5240,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/email.png') no-repeat left center;
-    height: 20px;
-    width: 20px;
+    height: 22px;
+    width: 22px;
     background-size: contain;
     vertical-align: middle;
 }
@@ -5260,8 +5260,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/call.png') no-repeat left center;
-    height: 20px;
-    width: 20px;
+    height: 22px;
+    width: 22px;
     background-size: contain;
     vertical-align: middle;
 }
@@ -5269,6 +5269,6 @@ label[for="id_upload"]:hover {
 .location_inner ul li {
     color: #fff;
     /* font-weight: 700; */
-    font-size: 12px;
+    font-size: 14px;
     padding-top: 10px;
 }
