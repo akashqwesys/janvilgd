@@ -359,7 +359,7 @@ function init() {
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
 										</span>
 										<span class="location">India</span>
-										<div class="location-address boxshadow">
+										<div class="location-address">
 											<div class="location_inner">
 												<ul>
 													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
@@ -370,16 +370,18 @@ function init() {
 										</div>										
 									</li>
 									<li>
-										<span class="flag-icon">
+									<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
 										</span>
-										<span class="location">USA</span>
+										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-											</div>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
+											</div>        
 										</div>
 									</li>
 								</ul>
