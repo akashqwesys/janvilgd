@@ -5268,7 +5268,7 @@ label[for="id_upload"]:hover {
 
 .location_inner ul li {
     color: #fff;
-    font-weight: 700;
+    /* font-weight: 700; */
     font-size: 16px;
     padding-top: 10px;
 }
