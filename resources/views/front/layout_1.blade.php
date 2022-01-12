@@ -361,7 +361,7 @@ function init() {
 										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-														<div class="row contact">            
+												<div class="row contact">            
 													<div class="col-md-4 infodiv boxshadow">
 														<div class="contact-info">
 															<h3>Contact Us</h3><br>
@@ -376,8 +376,7 @@ function init() {
 													</div>
 												</div>
 											</div>        
-											</div>
-										</div>
+										</div>										
 									</li>
 									<li>
 										<span class="flag-icon">
