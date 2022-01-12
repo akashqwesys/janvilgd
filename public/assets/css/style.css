@@ -5211,7 +5211,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 10px;
+    line-height: 15px;
 }
 
 .location_inner ul .firstli::before {
@@ -5231,7 +5231,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 10px;
+    line-height: 15px;
 }
 
 .location_inner ul .secondli::before {
@@ -5251,7 +5251,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 10px;
+    line-height: 15px;
 }
 
 .location_inner ul .thirdli::before {
@@ -5269,6 +5269,6 @@ label[for="id_upload"]:hover {
 .location_inner ul li {
     color: #fff;
     /* font-weight: 700; */
-    font-size: 16px;
+    font-size: 12px;
     padding-top: 10px;
 }
