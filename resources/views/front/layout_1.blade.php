@@ -399,7 +399,7 @@ function init() {
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. Pvt ltd.</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. PVT LTD.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>
