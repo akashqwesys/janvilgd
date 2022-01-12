@@ -5211,7 +5211,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 30px;
+    line-height: 10px;
 }
 
 .location_inner ul .firstli::before {
@@ -5220,8 +5220,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/location.png') no-repeat left center;
-    height: 33px;
-    width: 33px;
+    height: 13px;
+    width: 13px;
     background-size: contain;
     vertical-align: middle;
 }
@@ -5231,7 +5231,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 30px;
+    line-height: 10px;
 }
 
 .location_inner ul .secondli::before {
@@ -5240,8 +5240,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/email.png') no-repeat left center;
-    height: 33px;
-    width: 33px;
+    height: 13px;
+    width: 13px;
     background-size: contain;
     vertical-align: middle;
 }
@@ -5251,7 +5251,7 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 30px;
+    line-height: 10px;
 }
 
 .location_inner ul .thirdli::before {
@@ -5260,8 +5260,8 @@ label[for="id_upload"]:hover {
     content: '';
     margin-right: 10px;
     background: url('../images/call.png') no-repeat left center;
-    height: 33px;
-    width: 33px;
+    height: 13px;
+    width: 13px;
     background-size: contain;
     vertical-align: middle;
 }
