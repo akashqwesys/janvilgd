@@ -322,13 +322,13 @@ function init() {
 					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
-							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="/order-details">Order Details</a></li>
+							<ul class="list-unstyled footer-link mb-0">	
+							<li class="item"><a href="/manufacturing">Manufacturing</a></li>
+								<li class="item"><a href="/grading">Grading</a></li>							
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="/contact">Contact Us</a></li>
-								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="/grading">Grading</a></li>
+							
 							</ul>
 						</div>
 					</div>
@@ -338,6 +338,7 @@ function init() {
 							<ul class="list-unstyled footer-link mb-0">
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/order-details">Order Details</a></li>
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>

@@ -182,12 +182,11 @@
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="/customer/order-details">Order Details</a></li>
-								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
-								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
-								<li class="item"><a href="Javascript:;">Support Now</a></li>
 								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
 								<li class="item"><a href="/grading">Grading</a></li>
+								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
+								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
+								<li class="item"><a href="Javascript:;">Support Now</a></li>							
 							</ul>
 						</div>
 					</div>
@@ -197,11 +196,11 @@
 							<ul class="list-unstyled footer-link mb-0">
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/customer/order-details">Order Details</a></li>
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>
-								@endguest
-								<li class="item"><a href="/customer/login">Login</a></li>
+								@endguest								
 								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
 								<li class="item"><a href="/customer/checkout">Checkout</a></li>
 								<li class="item"><a href="/customer/cart">Cart</a></li>
