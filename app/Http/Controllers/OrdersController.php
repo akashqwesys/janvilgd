@@ -451,17 +451,63 @@ class OrdersController extends Controller
 
     public function addOrderHistory(Request $request)
     {
-        DB::table('order_updates')->insert([
-            'order_status_name' => $request->order_status_name,
-            'refOrder_id' => $request->id,
-            'comment' => $request->comment,
-            'added_by' => $request->session()->get('loginId'),
-            'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s")
-        ]);
-        // $Id = DB::getPdo()->lastInsertId();
-        activity($request, "updated", 'orders', $request->id);
-        successOrErrorMessage("Data updated Successfully", 'success');
+        $exists = DB::table('order_updates')
+            ->select('order_status_name')
+            ->where('order_status_name', $request->order_status_name)
+            ->first();
+        if ($exists) {
+            successOrErrorMessage("Cannot duplicate the order status", 'error');
+        } else {
+            if ($request->order_status_name == 'CANCELLED') {
+                $client = ClientBuilder::create()
+                ->setHosts(['localhost:9200'])
+                ->build();
+                $params = [
+                        'index' => 'diamonds',
+                        'id'    => 'd_id_' . $Id,
+                        'body'  => [
+                            'diamond_id' => $Id,
+                            'name' => $name,
+                            'barcode' => isset($request->barcode) ? $request->barcode : 0,
+                            'barcode_search' => isset($request->barcode) ? $request->barcode : 0,
+                            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+                            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
+                            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
+                            'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
+                            'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
+                            'remarks' => isset($request->remarks) ? $request->remarks : 0,
+                            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
+                            'discount' => isset($request->discount) ? ($request->discount / 100) : 0,
+                            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
+                            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
+                            'image' => $imgData,
+                            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
+                            'price_ct' => $price_per_carat,
+                            'total' => $total,
+                            'added_by' => $request->session()->get('loginId'),
+                            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
+                            'is_active' => 1,
+                            'is_deleted' => 0,
+                            'date_added' => date("Y-m-d h:i:s"),
+                            'date_updated' => date("Y-m-d h:i:s"),
+                            'attributes' => $new_attributes,
+                            'attributes_id' => array_values($new_attributes_id)
+                        ]
+                    ];
+                $client->create($params);
+            }
+            DB::table('order_updates')->insert([
+                'order_status_name' => $request->order_status_name,
+                'refOrder_id' => $request->id,
+                'comment' => $request->comment,
+                'added_by' => $request->session()->get('loginId'),
+                'is_deleted' => 0,
+                'date_added' => date("Y-m-d h:i:s")
+            ]);
+            // $Id = DB::getPdo()->lastInsertId();
+            activity($request, "updated", 'orders', $request->id);
+            successOrErrorMessage("Data updated Successfully", 'success');
+        }
         return redirect('admin/orders/edit/' . $request->id);
     }
 
