@@ -11,9 +11,9 @@ class DashboardController extends Controller {
     public function dashboard()
     {
         $data['title'] = 'Dashboard';
-        $last_day = date('Y-m-d', strtotime(date('Y-m-d') . ' - 1 day'));
-        $last_7 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 7 days'));
-        $last_30 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 30 days'));
+        $last_day = date('Y-m-d', strtotime(date('Y-m-d')));
+        $last_7 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 6 days'));
+        $last_30 = date('Y-m-d', strtotime(date('Y-m-d') . ' - 29 days'));
         /* $start = new DateTime();
         $start->setTime(0, 0, 0);
         $end = new DateTime();
@@ -66,7 +66,7 @@ class DashboardController extends Controller {
                 $query->select(DB::raw(1))
                     ->from('order_updates as ou')
                     ->whereColumn('ou.refOrder_id', 'o.order_id')
-                    ->where('ou.order_status_name', 'COMPLETED');
+                    ->whereNotIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
             })
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
