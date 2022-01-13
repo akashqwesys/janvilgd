@@ -207,12 +207,12 @@ function init() {
 						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
 						</li>
-						<li  class="bg-cs-dark">
+						<!-- <li  class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
 						</li>
 						<li class="bg-cs-dark">
 							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
-						</li>
+						</li> -->
 					</ul>
 				</li>
 				<li class="nav-item">
@@ -247,8 +247,8 @@ function init() {
 		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
+		    				<!-- <li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li> -->
 		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
@@ -399,7 +399,7 @@ function init() {
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. PVT. LTD.</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD PVT. LTD.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>

@@ -20,14 +20,14 @@
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">
-	<style>		
-		.zoom>img {		
+	<style>
+		.zoom>img {
 			transition: width 1s;
-			top: 15px;    
+			top: 15px;
 			position: absolute;
 			z-index: 9999;
 			width: 11rem;
-		} 
+		}
 		.navbar {
 			padding-top: 1rem;
 			padding-bottom: 1rem;
@@ -40,14 +40,14 @@
             padding-left: 20px !important;
         }
 		#myVideo {
-		
+
 		right: 0;
 		bottom: 0;
 		width: 100%;
 		min-height: 100%;
 		object-fit: cover;
     	object-position: center;
-		}			
+		}
 	</style>
     @yield('css')
 </head>
@@ -66,12 +66,12 @@
 		        <li class="nav-item">
 					<a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
 		        </li>
-		        <li class="nav-item">
+		        <!-- <li class="nav-item">
 					<a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
 		        </li>
 		        <li class="nav-item">
 					<a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
-		        </li>
+		        </li> -->
 		      </ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
@@ -103,8 +103,8 @@
 		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
+		    				<!-- <li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
+		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li> -->
 		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
@@ -186,7 +186,7 @@
 								<li class="item"><a href="/grading">Grading</a></li>
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
-								<li class="item"><a href="Javascript:;">Support Now</a></li>							
+								<li class="item"><a href="Javascript:;">Support Now</a></li>
 							</ul>
 						</div>
 					</div>
@@ -200,7 +200,7 @@
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>
-								@endguest								
+								@endguest
 								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
 								<li class="item"><a href="/customer/checkout">Checkout</a></li>
 								<li class="item"><a href="/customer/cart">Cart</a></li>
@@ -224,8 +224,8 @@
 													<li class="secondli">info@mywebsite.com</li>
 													<li class="thirdli">+1 (291) 939 9321</li>
 												</ul>
-											</div>        
-										</div>										
+											</div>
+										</div>
 									</li>
 									<li>
 									<span class="flag-icon">
@@ -239,7 +239,7 @@
 													<li class="secondli">info@mywebsite.com</li>
 													<li class="thirdli">+1 (291) 939 9321</li>
 												</ul>
-											</div>        
+											</div>
 										</div>
 									</li>
 								</ul>
@@ -247,7 +247,7 @@
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>								
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -257,7 +257,7 @@
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. PVT. LTD.</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD PVT. LTD.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>
@@ -349,20 +349,20 @@ $(document).ready(function() {
 
 
 	$(window).scroll(function(){
-		
-		if($(window).scrollTop() >= 60) {			
+
+		if($(window).scrollTop() >= 60) {
 			$(".zoom img").css({
 				'transition': 'width 1s',
-				'width': '8rem'						
+				'width': '8rem'
         	});
         }
 		if($(window).scrollTop() <= 50) {
 			$(".zoom img").css({
-				'transition': 'width 1s',				
-            	'width': '11rem'				
+				'transition': 'width 1s',
+            	'width': '11rem'
         	});
-        }		        
-       
+        }
+
     });
 
 });
@@ -527,6 +527,8 @@ $(document).ready(function() {
 							$("#tax").text("$0");
 							$("#shipping").text("$0");
 							$("#final-total-th div").text("$0");
+							$('.order-summary-card').remove();
+							$('.cart-card').removeClass('col-md-4 col-lg-4').addClass('col-md-12 col-lg-12');
 						} else {
 							$("#sub-total-td").text("$"+res.data.subtotal);
 							$("#discount").text("$"+res.data.discount);

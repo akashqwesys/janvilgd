@@ -239,7 +239,7 @@
                                     <td align="right" id="shipping">${{ isset($response['summary']) ? $response['summary']['shipping'] : 0 }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Total Amount</th>
                                     <th id="final-total-th"><div class="text-right">${{ isset($response['summary']) ? $response['summary']['total'] : 0 }}</div></td>
                                 </tr>
                             </tbody>
