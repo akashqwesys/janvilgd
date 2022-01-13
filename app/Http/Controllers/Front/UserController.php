@@ -22,7 +22,22 @@ class UserController extends Controller
         $api = $data->myAccount($request);
         $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
-        return view('front.profile.my_account', compact('title', 'company', 'customer'));
+        $country = DB::table('country')
+            ->select('country_id', 'name')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        $state = DB::table('state')
+            ->select('state_id', 'name')
+            ->where('refCountry_id', $customer->refCountry_id)
+            ->get();
+
+        $city = DB::table('city')
+            ->select('city_id', 'name')
+            ->where('refState_id', $customer->refState_id)
+            ->get();
+        return view('front.profile.my_account', compact('title', 'company', 'customer', 'country', 'state', 'city'));
     }
 
     public function getMyProfile(Request $request)
