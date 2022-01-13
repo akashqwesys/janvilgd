@@ -491,6 +491,8 @@ Route::post('orders/save-invoice', [OrdersController::class, 'saveInvoice'])->mi
 
 Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/getBarcodes', [OrdersController::class, 'getBarcodes'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/get-updated-tax', [OrdersController::class, 'getUpdatedTax'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::post('orders/getDiamonds', [OrdersController::class, 'getDiamonds'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
 /***************  Orders route end *************/
 

@@ -52,6 +52,8 @@ class Order extends Model
         'added_by',
         'order_type',
         'date_added',
-        'date_updated'
+        'date_updated',
+        'billing_remarks',
+        'shipping_remarks'
     ];
 }
