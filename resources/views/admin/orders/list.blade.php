@@ -41,11 +41,12 @@
                                         <div class="col-md-2">
                                             <h4 class="nk-block-title">Orders list</h4>
                                         </div>
-                                        <div class="col-md-7 text-center">
+                                        <div class="col-md-5 text-center">
                                         </div>
-                                        <div class="col-md-3">
-                                            <button class="btn btn-primary" id="clear-filters"> Clear Filters</button>
-                                            <a style="float: right;" href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary">&nbsp;&nbsp;Import Excel<em class="icon ni ni-plus"></em></a>
+                                        <div class="col-md-5 text-right">
+                                            <button class="btn btn-primary mr-2" id="clear-filters"> Clear Filters</button>
+                                            <a href="/admin/orders/create-invoice" class="btn btn-icon btn-primary mr-2">&nbsp;&nbsp; Create Invoice<em class="icon ni ni-plus"></em></a>
+                                            <a href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary mr-2">&nbsp;&nbsp; Import Excel<em class="icon ni ni-plus"></em></a>
                                         </div>
                                     </div>
                                 </div>

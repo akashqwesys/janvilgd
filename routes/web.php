@@ -474,7 +474,7 @@ Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])
 /***************  Diamonds route end *************/
 
 
-/***************  Blogs route *************/
+/***************  Orders route *************/
 Route::get('orders', [OrdersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -483,12 +483,18 @@ Route::get('orders/view/{id}', [OrdersController::class, 'view'])->name('orders.
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/add/import', [OrdersController::class, 'csvOrder'])->name('orders.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
 Route::get('orders/add/import-excel', [OrdersController::class, 'addExcel'])->name('orders.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
-Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-//Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
-/***************  Blogs route end *************/
+Route::get('orders/create-invoice', [OrdersController::class, 'createInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/save-invoice', [OrdersController::class, 'saveInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
+Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/getBarcodes', [OrdersController::class, 'getBarcodes'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/get-updated-tax', [OrdersController::class, 'getUpdatedTax'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::post('orders/getDiamonds', [OrdersController::class, 'getDiamonds'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+//Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
+/***************  Orders route end *************/
 
 
 /***************  Diamonds route *************/

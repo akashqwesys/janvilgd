@@ -59,10 +59,10 @@
                                         <td>{{$d_row['barcode']}}</td>
                                         <td>{{$d_row['cat_name']}}</td>
                                         <td>{{$d_row['expected_polish_cts']}}</td>
-                                        @foreach ($d_row['attributes'] as $d_attr)
-                                            <td>{{$d_attr}}</td>
-                                        @endforeach
-                                        <td style="text-align: right;">$ {{$d_row['total']}}</td>
+                                        <td>{{ $d_row['attributes']['SHAPE'] }}</td>
+                                        <td>{{ $d_row['attributes']['COLOR'] }}</td>
+                                        <td>{{ $d_row['attributes']['CLARITY'] }}</td>
+                                        <td style="text-align: right;">$ {{ number_format($d_row['total'], 2, '.', ',') }}</td>
                                     </tr>
                                     @endforeach
                                     <tr style="background-color: lightgray;">
@@ -70,26 +70,26 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Subtotal</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->sub_total, 2)}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->sub_total, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Discount</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->sub_total * $data['result']->discount_amount / 100, 2)}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->sub_total * $data['result']->discount_amount / 100, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->sub_total * $data['result']->tax_amount / 100, 2)}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->sub_total * $data['result']->tax_amount / 100, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Shipping Charge</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->delivery_charge_amount, 2)}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->delivery_charge_amount, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>
                                             <h6>Total</h6>
                                         </b></td>
                                         <td style="text-align: right;"><b>
-                                            <h6>$ {{round(floatval($data['result']->total_paid_amount),2)}}</h6>
+                                            <h6>$ {{number_format(floatval($data['result']->total_paid_amount), 2, '.', ',')}}</h6>
                                         </b></td>
                                     </tr>
 

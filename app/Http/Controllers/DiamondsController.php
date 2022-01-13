@@ -1804,19 +1804,11 @@ class DiamondsController extends Controller {
         $batch_array1 = array();
         $i = 0;
         foreach ($request->attribute_group_id as $row) {
-            $sts=0;
-            foreach ($refAttribute_grp as $row_ag){
-                if($row_ag->attribute_group_id==$row){
-                    $sts=1;
-                }
-            }
-            if($sts=1){
-                $main_value = explode('_', $request->attribute_group_id_value[$i]);
-                if (isset($main_value[1])) {
-                    if ($main_value[1] == $row) {
-                        $refAttribute_id = $main_value[0];
-                        array_push($batch_array1, $refAttribute_id);
-                    }
+            $main_value = explode('_', $request->attribute_group_id_value[$i]);
+            if (isset($main_value[1])) {
+                if ($main_value[1] == $row) {
+                    $refAttribute_id = $main_value[0];
+                    array_push($batch_array1, $refAttribute_id);
                 }
             }
             $i = $i + 1;
@@ -1849,17 +1841,20 @@ class DiamondsController extends Controller {
                 $i++;
             }
         }
+        for ($i = 0; $i < count($request->attribute_group_name_v); $i++) {
+            $new_attributes[$request->attribute_group_name[$i]] = $request->attribute_group_name_v[$i];
+        }
 
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
         $discount=((100-$request->discount)/100);
 
 
-        if($categories->category_type== config('constant.CATEGORY_TYPE_4P')){
+        if($categories->category_type == config('constant.CATEGORY_TYPE_4P')){
             $total=abs($request->rapaport_price * $request->expected_polish_cts * $discount) - ($labour_charge_4p->amount*$request->expected_polish_cts);
             $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
 
-        if($categories->category_type== config('constant.CATEGORY_TYPE_ROUGH')){
+        if($categories->category_type == config('constant.CATEGORY_TYPE_ROUGH')){
             $price=abs($request->rapaport_price*($discount));
             $amount=abs($price*doubleval($request->expected_polish_cts));
             $ro_amount=abs($amount/doubleval($request->makable_cts));
@@ -1868,7 +1863,7 @@ class DiamondsController extends Controller {
             $price_per_carat = number_format(($total / $request->makable_cts), 2, '.', '');
         }
 
-        if($categories->category_type== config('constant.CATEGORY_TYPE_POLISH')){
+        if($categories->category_type == config('constant.CATEGORY_TYPE_POLISH')){
             $total=abs($request->rapaport_price*doubleval($request->expected_polish_cts)*$discount);
             $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
@@ -2161,7 +2156,6 @@ class DiamondsController extends Controller {
 
     public function update(Request $request) {
 
-        // echo $request->discount;die;
         $categories = DB::table('categories')->where('category_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->first();
         $labour_charge_4p = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 1)->where('is_deleted', 0)->first();
         $labour_charge_rough = DB::table('labour_charges')->where('is_active', 1)->where('labour_charge_id', 2)->where('is_deleted', 0)->first();
@@ -2169,28 +2163,23 @@ class DiamondsController extends Controller {
         $refAttribute_grp = DB::table('attribute_groups')->where('refCategory_id',$request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();
         $batch_array1 = array();
         $i = 0;
+
         foreach ($request->attribute_group_id as $row) {
-            $sts=0;
-            foreach ($refAttribute_grp as $row_ag){
-                if($row_ag->attribute_group_id==$row){
-                    $sts=1;
-                }
-            }
-            if($sts=1){
             $main_value = explode('_', $request->attribute_group_id_value[$i]);
-                if (isset($main_value[1])) {
-                    if ($main_value[1] == $row) {
-                        $refAttribute_id = $main_value[0];
-                        array_push($batch_array1, $refAttribute_id);
-                    }
+            if (isset($main_value[1])) {
+                if ($main_value[1] == $row) {
+                    $refAttribute_id = $main_value[0];
+                    array_push($batch_array1, $refAttribute_id);
                 }
             }
             $i = $i + 1;
         }
 
-        $name_data = DB::table('attributes')->select('attributes.name as at_name', 'attribute_groups.name as ag_name', 'attributes.attribute_id as at_id', 'attributes.attribute_group_id as ag_id')
-               ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
-               ->whereIn('attributes.attribute_id',$batch_array1)->get();
+        $name_data = DB::table('attributes')
+            ->select('attributes.name as at_name', 'attribute_groups.name as ag_name', 'attributes.attribute_id as at_id', 'attributes.attribute_group_id as ag_id')
+            ->leftJoin('attribute_groups', 'attributes.attribute_group_id', '=', 'attribute_groups.attribute_group_id')
+            ->whereIn('attributes.attribute_id', $batch_array1)
+            ->get();
         $shape='';
         $color='';
         $clarity='';
@@ -2214,6 +2203,10 @@ class DiamondsController extends Controller {
                 $i++;
             }
         }
+        for ($i = 0; $i < count($request->attribute_group_name_v); $i++) {
+            $new_attributes[$request->attribute_group_name[$i]] = $request->attribute_group_name_v[$i];
+        }
+
         $name=$request->expected_polish_cts.' Carat '.$shape.$color.$clarity.':: '.$categories->name;
 
         $discount=((100-$request->discount)/100);

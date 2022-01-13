@@ -15,6 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">	
+
 	<style>		
 		.zoom>img {		
 			transition: width 1s;
@@ -253,7 +255,7 @@ function init() {
 		    				<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
+		    				<!-- <li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li> -->
 		    				<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
 		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
 		    			</ul>
@@ -320,13 +322,13 @@ function init() {
 					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
-							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="/order-details">Order Details</a></li>
+							<ul class="list-unstyled footer-link mb-0">	
+							<li class="item"><a href="/manufacturing">Manufacturing</a></li>
+								<li class="item"><a href="/grading">Grading</a></li>							
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="/contact">Contact Us</a></li>
-								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="/grading">Grading</a></li>
+							
 							</ul>
 						</div>
 					</div>
@@ -336,6 +338,7 @@ function init() {
 							<ul class="list-unstyled footer-link mb-0">
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/order-details">Order Details</a></li>
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>
@@ -358,23 +361,27 @@ function init() {
 										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-											</div>
-										</div>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
+											</div>        
+										</div>										
 									</li>
 									<li>
-										<span class="flag-icon">
+									<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
 										</span>
-										<span class="location">USA</span>
+										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-											</div>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
+											</div>        
 										</div>
 									</li>
 								</ul>
@@ -382,9 +389,7 @@ function init() {
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/{{ check_host() }}assets/images/twitter.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/{{ check_host() }}assets/images/youtube.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>									
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -394,7 +399,7 @@ function init() {
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGE</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD. PVT. LTD.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>
@@ -405,10 +410,36 @@ function init() {
 <script src="/{{ check_host() }}assets/js/parallax.js"></script>
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
+<script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
+  <script>
+    var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+      // allowDropdown: false,
+      // autoHideDialCode: false,
+      autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["us"],
+      // formatOnDisplay: false,
+      // geoIpLookup: function(callback) {
+      //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      //     var countryCode = (resp && resp.country) ? resp.country : "";
+      //     callback(countryCode);
+      //   });
+      // },
+      // hiddenInput: "full_number",
+      // initialCountry: "auto",
+      // localizedCountries: { 'de': 'Deutschland' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+      // preferredCountries: ['cn', 'jp'],
+      // separateDialCode: true,
+      utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
+    });
+  </script>
+
 <script>
 $(document).ready(function(){
-
-
 	AOS.init();
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
