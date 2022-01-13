@@ -453,48 +453,107 @@ class OrdersController extends Controller
     {
         $exists = DB::table('order_updates')
             ->select('order_status_name')
+            ->where('refOrder_id', $request->id)
             ->where('order_status_name', $request->order_status_name)
             ->first();
         if ($exists) {
             successOrErrorMessage("Cannot duplicate the order status", 'error');
         } else {
             if ($request->order_status_name == 'CANCELLED') {
+                $d_ids = DB::table('order_diamonds')
+                    ->select('refDiamond_id')
+                    ->where('refOrder_id', $request->id)
+                    ->get()
+                    ->pluck('refDiamond_id');
+
+                DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update([ 'available_pcs' => 1 ]);
+
+                $diamonds = DB::table('diamonds as d')
+                    ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+                    ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+                    ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+                    ->select('d.diamond_id', 'd.refCategory_id', 'd.added_by', 'd.is_active', 'd.is_deleted', 'd.date_added', 'd.date_updated', 'd.created_at', 'd.updated_at', 'd.makable_cts', 'd.packate_no', 'd.actual_pcs', 'd.remarks', 'd.is_recommended', 'd.weight_loss', 'd.total', 'd.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts', 'd.image', 'd.video_link', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'd.discount', 'd.available_pcs', 'da.value', 'a.sort_order', 'ag.is_fix')
+                    ->whereIn('d.diamond_id', $d_ids)
+                    ->orderBy('d.diamond_id', 'asc')
+                    ->orderBy('ag.is_fix', 'desc')
+                    ->orderBy('a.sort_order')
+                    ->get();
+
+                $temp_id = 0;
+                $final_d = [];
+                for ($i = 0; $i < count($diamonds); $i++) {
+                    if ($temp_id != $diamonds[$i]->diamond_id) {
+                        $temp_id = $diamonds[$i]->diamond_id;
+                        if ($diamonds[$i]->refCategory_id == 1) {
+                            $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->makable_cts), 2, '.', '');
+                        } else {
+                            $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->expected_polish_cts), 2, '.', '');
+                        }
+                        $final_d[$temp_id] = [
+                            'diamonds_id' => 'd_id_' . $diamonds[$i]->diamond_id,
+                            'diamond_id' => $diamonds[$i]->diamond_id,
+                            'actual_pcs' => $diamonds[$i]->actual_pcs,
+                            'remarks' => $diamonds[$i]->remarks,
+                            'weight_loss' => $diamonds[$i]->weight_loss,
+                            'is_recommended' => $diamonds[$i]->is_recommended,
+                            'name' => $diamonds[$i]->diamond_name,
+                            'barcode' => $diamonds[$i]->barcode,
+                            'barcode_search' => $diamonds[$i]->barcode,
+                            'packate_no' => $diamonds[$i]->packate_no,
+                            'available_pcs' => $diamonds[$i]->available_pcs,
+                            'makable_cts' => number_format($diamonds[$i]->makable_cts, 3, '.', ''),
+                            'expected_polish_cts' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
+                            'rapaport_price' => $diamonds[$i]->rapaport_price,
+                            'discount' => $diamonds[$i]->discount,
+                            'refCategory_id' => $diamonds[$i]->refCategory_id,
+                            'price_ct' => $price_per_carat,
+                            'total' => $diamonds[$i]->total,
+                            'image' => json_decode($diamonds[$i]->image),
+                            'video_link' => $diamonds[$i]->video_link,
+                            'added_by' => $diamonds[$i]->added_by,
+                            'is_active' => $diamonds[$i]->is_active,
+                            'is_deleted' => $diamonds[$i]->is_deleted,
+                            'date_added' => date("Y-m-d h:i:s"),
+                            'date_updated' => date("Y-m-d h:i:s"),
+                            'attributes' => [],
+                            'attributes_id' => []
+                        ];
+                    }
+                    if ($diamonds[$i]->refAttribute_id == 0) {
+                        $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->value;
+                    } else {
+                        $final_d[$temp_id]['attributes_id'][$i]['attribute_group_id'] = $diamonds[$i]->refAttribute_group_id;
+                        $final_d[$temp_id]['attributes_id'][$i]['attribute_id'] = $diamonds[$i]->refAttribute_id;
+                        $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
+                    }
+                }
+
                 $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
                 ->build();
-                $params = [
-                        'index' => 'diamonds',
-                        'id'    => 'd_id_' . $Id,
-                        'body'  => [
-                            'diamond_id' => $Id,
-                            'name' => $name,
-                            'barcode' => isset($request->barcode) ? $request->barcode : 0,
-                            'barcode_search' => isset($request->barcode) ? $request->barcode : 0,
-                            'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
-                            'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
-                            'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
-                            'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
-                            'expected_polish_cts' => isset($request->expected_polish_cts) ? number_format($request->expected_polish_cts, 2, '.', '') : 0,
-                            'remarks' => isset($request->remarks) ? $request->remarks : 0,
-                            'rapaport_price' => isset($request->rapaport_price) ? $request->rapaport_price : 0,
-                            'discount' => isset($request->discount) ? ($request->discount / 100) : 0,
-                            'weight_loss' => isset($request->weight_loss) ? $request->weight_loss : 0,
-                            'video_link' => isset($request->video_link) ? $request->video_link : NULL,
-                            'image' => $imgData,
-                            'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
-                            'price_ct' => $price_per_carat,
-                            'total' => $total,
-                            'added_by' => $request->session()->get('loginId'),
-                            'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
-                            'is_active' => 1,
-                            'is_deleted' => 0,
-                            'date_added' => date("Y-m-d h:i:s"),
-                            'date_updated' => date("Y-m-d h:i:s"),
-                            'attributes' => $new_attributes,
-                            'attributes_id' => array_values($new_attributes_id)
+                $i = 0;
+                foreach ($final_d as $batch_row) {
+                    $id = $batch_row['diamonds_id'];
+                    unset($batch_row['diamonds_id']);
+                    $params["body"][] = [
+                        "create" => [
+                            "_index" => 'diamonds',
+                            "_id" => $id,
                         ]
                     ];
-                $client->create($params);
+                    $params["body"][] = $batch_row;
+                    if ($i % 1000 == 0) {
+                        $responses = $client->bulk($params);
+                        $params = ['body' => []];
+                        unset($responses);
+                    }
+
+                    $i = $i + 1;
+                }
+                // Send the last batch if it exists
+                if (!empty($params['body'])) {
+                    $responses = $client->bulk($params);
+                }
             }
             DB::table('order_updates')->insert([
                 'order_status_name' => $request->order_status_name,
