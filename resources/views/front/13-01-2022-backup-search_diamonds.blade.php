@@ -210,9 +210,6 @@
             top: 37px;
             height: 92%;
         }
-        .table-responsive {
-            width: 100%;
-        }
         #result-table, td {
             height: auto;
         }
@@ -275,44 +272,66 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="result-tab">
                             <div class="result-tab-content">
-                                <div class="row-">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
+                                        <div class="selected-diamonds">
+                                            <div class="select-diamond">
+                                                <div class="cat-name"></div>
+                                                <div class="diamond-img mb-2">
+                                                    <img src="" class="img-cs">
+                                                </div>
+                                                <h5 class="diamond-shape"></h5>
+                                                <small class="diamond-clarity"></small>
+                                                <!-- <p class="diamond-short-note">lorem Ipsum</p> -->
+                                                <h5 class="diamond-cost mt-2"></h5>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-40">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    <p>Hover over a labgrown to see further details/information.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0" style="padding-left: 0;">
                                         <div class="search-diamond-table">
                                             <div class="overlay cs-loader">
                                                 <div class="overlay__inner">
                                                     <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive" >
+                                            <div class="table-responsive">
                                                 <table class="table" id="result-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-left sorting_asc sorting_yes" data-name="barcode" style="width: 8%">Stock No <img src="/admin_assets/images/sort_asc.png"></th>
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 10%">Shape <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-left sorting_asc sorting_yes" data-name="barcode" style="width: 11%">Stock No <img src="/admin_assets/images/sort_asc.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 11%">Shape <img src="/admin_assets/images/sort_both.png"></th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 11%">4P Weight <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 12%">4P Weight <img src="/admin_assets/images/sort_both.png"></th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 11%">Rough Weight <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 12%">Rough Weight <img src="/admin_assets/images/sort_both.png"></th>
                                                             @endif
                                                             <th scope="col" class="text-center sorting sorting_yes" data-name="expected_polish_cts" style="width: 7%">Carat <img src="/admin_assets/images/sort_both.png"></th>
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="COLOR" style="width: 6%">Color <img src="/admin_assets/images/sort_both.png"></th>
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CLARITY" style="width: 7%">Clarity <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="COLOR" style="width: 7%">Color <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CLARITY" style="width: 8%">Clarity <img src="/admin_assets/images/sort_both.png"></th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CUT" style="width: 10%">Cut <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-center sorting sorting_yes" data-name="CUT" style="width: 11%">Cut <img src="/admin_assets/images/sort_both.png"></th>
                                                             @endif
-                                                            <th scope="col" class="text-right sorting sorting_yes" data-name="rapaport_price" style="width: 8%">Rapaport <img src="/admin_assets/images/sort_both.png"></th>
-                                                            <th scope="col" class="text-right sorting sorting_yes" data-name="discount" style="width: 8%">Discount <img src="/admin_assets/images/sort_both.png"></th>
                                                             <th scope="col" class="text-right sorting sorting_yes" data-name="price_ct" style="width: 9%">Price/CT <img src="/admin_assets/images/sort_both.png"></th>
-                                                            <th scope="col" class="text-right sorting sorting_yes" data-name="total" style="width: 9%">Price <img src="/admin_assets/images/sort_both.png"></th>
+                                                            <th scope="col" class="text-right sorting sorting_yes" data-name="total" style="width: 11%">Price <img src="/admin_assets/images/sort_both.png"></th>
                                                             @php
                                                             $width=10;
                                                             if($category->slug == '4p-diamonds'){
-                                                                $width=15;
+                                                                $width=100;
                                                             }
                                                             @endphp
-                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{ $width }}%">Action</th>
                                                             @if ($admin === true)
-                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{ $width }}%">Compare</th>
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Compare</th>
+                                                            @else
+                                                            <th scope="col" class="text-center" data-name="compare" style="width: {{$width}}%">Action</th>
                                                             @endif
                                                         </tr>
                                                     </thead>
@@ -328,31 +347,58 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         </div>
                         <div class="tab-pane fade" id="recently-viwed" role="tabpanel" aria-labelledby="recently-viwed-tab">
                             <div class="recent-tab-content">
-                                <div class="row-">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
+                                        <div class="selected-diamonds">
+                                            <div class="select-diamond">
+                                                <div class="cat-name">{{ strtoupper($category->name) }}</div>
+                                                <div class="diamond-img mb-2">
+                                                    <img src="" class="img-cs">
+                                                </div>
+                                                <h5 class="diamond-shape"></h5>
+                                                {{-- <h6 class="diamond-color"></h6> --}}
+                                                <small class="diamond-clarity"></small>
+                                                <h5 class="diamond-cost mt-2"></h5>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-40">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    @if (count($e_data))
+                                                    <p>Hover over a labgrown to see further details/information.</p>
+                                                    @else
+                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
                                             <div class="table-responsive">
                                                 <table class="table" id="recent-view" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-left" style="width: 8%">Stock No</th>
-                                                            <th scope="col" class="text-center" style="width: 10%">Shape</th>
+                                                            <th scope="col" class="text-left" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 11%">4P Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">4P Weight</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 11%">Rough Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">Rough Weight</th>
                                                             @endif
                                                             <th scope="col" class="text-center" style="width: 7%">Carat</th>
-                                                            <th scope="col" class="text-center" style="width: 6%">Color</th>
-                                                            <th scope="col" class="text-center" style="width: 7%">Clarity</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center" style="width: 8%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 10%">Cut</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-right" style="width: 8%">Rapaport</th>
-                                                            <th scope="col" class="text-right" style="width: 8%">Discount</th>
                                                             <th scope="col" class="text-right" style="width: 9%">Price/CT</th>
-                                                            <th scope="col" class="text-right" style="width: 9%">Price</th>
+                                                            <th scope="col" class="text-right" style="width: 11%">Price</th>
+                                                            @if ($admin == false)
                                                             <th scope="col" class="text-center">Action</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -378,13 +424,13 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                                             @if ($category->slug != 'rough-diamonds')
                                                             <td scope="col" class="text-center">{{ $rv['attributes']['CUT'] }}</td>
                                                             @endif
-                                                            <td scope="col" class="text-right">${{ number_format($rv['rapaport_price'], 2, '.', ',') }}</td>
-                                                            <td scope="col" class="text-right">${{ $rv['discount'] * 100 }}%</td>
                                                             <td scope="col" class="text-right">${{ number_format($rv['price_ct'], 2, '.', ',') }}</td>
                                                             <td scope="col" class="text-right">${{ number_format($rv['total'], 2, '.', ',') }}</td>
+                                                            @if ($admin == false)
                                                             <td scope="col" class="text-center">
                                                                 <button class="btn btn-primary add-to-cart btn-sm" data-id="{{ $rv['diamond_id'] }}">Add To Cart</button>
                                                             </td>
+                                                            @endif
                                                         </tr>
                                                         @endif
                                                         @endforeach
@@ -399,31 +445,51 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         @if ($admin === true)
                         <div class="tab-pane fade" id="comparision" role="tabpanel" aria-labelledby="comparision-tab">
                             <div class="compare-tab-content">
-                                <div class="row-">
-                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-3" style="padding-right: 0;">
+                                        <div class="selected-diamonds">
+                                            <div class="select-diamond">
+                                                <div class="cat-name"></div>
+                                                <div class="diamond-img mb-2">
+                                                    <img src="" class="img-cs">
+                                                </div>
+                                                <h5 class="diamond-shape"></h5>
+                                                {{-- <h6 class="diamond-color"></h6> --}}
+                                                <small class="diamond-clarity"></small>
+                                                <h5 class="diamond-cost mt-2"></h5>
+                                                <a href="javascript:void(0);" class="btn btn-primary w-100"></a>
+                                            </div>
+                                            <div class="select-diamond-temp">
+                                                <div class="pt-40">
+                                                    <div class="text-center mb-3">
+                                                        <img class="img-fluid title-diamond_img" src="/assets/images/title-diamond.svg" alt="">
+                                                    </div>
+                                                    <p>There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-sm-12 col-md-12 col-lg-9 pdl-0">
                                         <div class="search-diamond-table">
                                             <div class="table-responsive">
                                                 <table class="table" id="compare-table" style="width: 100% !important;">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" class="text-left" style="width: 8%">Stock No</th>
-                                                            <th scope="col" class="text-center" style="width: 10%">Shape</th>
+                                                            <th scope="col" class="text-left" style="width: 11%">Stock No</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Shape</th>
                                                             @if ($category->slug == '4p-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 11%">4P Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">4P Weight</th>
                                                             @elseif ($category->slug == 'rough-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 11%">Rough Weight</th>
+                                                            <th scope="col" class="text-center" style="width: 12%">Rough Weight</th>
                                                             @endif
                                                             <th scope="col" class="text-center" style="width: 7%">Carat</th>
-                                                            <th scope="col" class="text-center" style="width: 6%">Color</th>
-                                                            <th scope="col" class="text-center" style="width: 7%">Clarity</th>
+                                                            <th scope="col" class="text-center" style="width: 7%">Color</th>
+                                                            <th scope="col" class="text-center" style="width: 8%">Clarity</th>
                                                             @if ($category->slug != 'rough-diamonds')
-                                                            <th scope="col" class="text-center" style="width: 10%">Cut</th>
+                                                            <th scope="col" class="text-center" style="width: 11%">Cut</th>
                                                             @endif
-                                                            <th scope="col" class="text-right" style="width: 8%">Rapaport</th>
-                                                            <th scope="col" class="text-right" style="width: 8%">Discount</th>
                                                             <th scope="col" class="text-right" style="width: 9%">Price/CT</th>
-                                                            <th scope="col" class="text-right" style="width: 9%">Price</th>
-                                                            <th scope="col" class="text-center" >Action</th>
+                                                            <th scope="col" class="text-right" style="width: 11%">Price</th>
                                                             <th scope="col" class="text-center" >Compare</th>
                                                         </tr>
                                                     </thead>
