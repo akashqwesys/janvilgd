@@ -25,6 +25,7 @@
                                 <table id="table" class="table dt-responsive nowrap">
                                     <thead>
                                         <tr>
+                                            <th scope="col" class="text-center">#</th>
                                             <th scope="col" class="text-center">Stock No</th>
                                             <th scope="col" class="text-center">Shape</th>
                                             @if ($data['cat_type'] == config('constant.CATEGORY_TYPE_4P'))
@@ -32,12 +33,14 @@
                                             @elseif ($data['cat_type'] == config('constant.CATEGORY_TYPE_ROUGH'))
                                             <th scope="col" class="text-center">Rough Weight</th>
                                             @endif
-                                            <th scope="col" class="text-right">Carat</th>
+                                            <th scope="col" class="text-center">Carat</th>
                                             <th scope="col" class="text-center">Color</th>
                                             <th scope="col" class="text-center">Clarity</th>
                                             @if ($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH') || $data['cat_type'] == config('constant.CATEGORY_TYPE_4P'))
                                             <th scope="col" class="text-center">Cut</th>
                                             @endif
+                                            <th scope="col" class="text-right">Rapaport</th>
+                                            <th scope="col" class="text-right">Discount</th>
                                             <th scope="col" class="text-right">Price/CT</th>
                                             <th scope="col" class="text-right">Price</th>
                                             {{-- <th>isActive</th>
