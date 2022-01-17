@@ -5,19 +5,22 @@
             var table_columns=[];
             <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){ ?>
                 table_columns = [
+                    { data: 'index', name: 'index' },
                     { data: 'barcode', name: 'barcode' },
                     { data: 'shape', name: 'shape' },
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
                     { data: 'cut', name: 'cut' },
+                    { data: 'rapaport_price', name: 'rapaport_price', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { data: 'discount', name: 'discount' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-
                     { data: 'action', name: 'action' }
                 ];
             <?php } elseif($data['cat_type'] == config('constant.CATEGORY_TYPE_4P')) {?>
                 table_columns = [
+                    { data: 'index', name: 'index' },
                     { data: 'barcode', name: 'barcode' },
                     { data: 'shape', name: 'shape' },
                     { data: 'makable_cts', name: 'makable_cts' },
@@ -25,18 +28,23 @@
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
                     { data: 'cut', name: 'cut' },
+                    { data: 'rapaport_price', name: 'rapaport_price', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { data: 'discount', name: 'discount' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
                 ];
             <?php } else {?>
                 table_columns = [
+                    { data: 'index', name: 'index' },
                     { data: 'barcode', name: 'barcode' },
                     { data: 'shape', name: 'shape' },
                     { data: 'makable_cts', name: 'makable_cts' },
                     { data: 'carat', name: 'carat' },
                     { data: 'color', name: 'color' },
                     { data: 'clarity', name: 'clarity' },
+                    { data: 'rapaport_price', name: 'rapaport_price', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
+                    { data: 'discount', name: 'discount' },
                     { data: 'price_per_carat', name: 'price_per_carat', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'total', name: 'total', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
                     { data: 'action', name: 'action' }
@@ -50,11 +58,11 @@
                         target: 'tr'
                     }
                 },
-                /* columnDefs: [{
+                columnDefs: [{
                     className: 'control',
                     orderable: false,
-                    targets: 8
-                }], */
+                    targets: 0
+                }],
                 "processing": true,
                 "serverSide": true,
                 "pageLength": 10,
@@ -68,14 +76,15 @@
                 columns:table_columns,
                 "createdRow": function (row, data, dataIndex) {
                     $(row).addClass('tr_'+['diamond_id']);
-                    $(row).children(':nth-child(1)').addClass('text-center');
                     $(row).children(':nth-child(2)').addClass('text-center');
-                    $(row).children(':nth-child(3)').addClass('text-right');
-                    $(row).children(':nth-child(5)').addClass('text-center');
+                    $(row).children(':nth-child(3)').addClass('text-center');
+                    $(row).children(':nth-child(4)').addClass('text-center');
                     $(row).children(':nth-child(6)').addClass('text-center');
-                    $(row).children(':nth-child(7)').addClass('text-right');
+                    $(row).children(':nth-child(7)').addClass('text-center');
                     $(row).children(':nth-child(8)').addClass('text-right');
-                    $(row).children(':nth-child(9)').addClass('text-center');
+                    $(row).children(':nth-child(9)').addClass('text-right');
+                    $(row).children(':nth-child(10)').addClass('text-right');
+                    $(row).children(':nth-child(11)').addClass('text-right');
 
                     <?php if($data['cat_type'] == config('constant.CATEGORY_TYPE_POLISH')){ ?>
                         $(row).children(':nth-child(4)').addClass('text-center');
@@ -85,8 +94,7 @@
                 }
             });
         });
-    </script>
-    <script type="text/javascript">
+
         $(document).ready(function () {
             $(document).on('click', '.delete_button', function () {
                 var self = $(this);

@@ -2035,7 +2035,7 @@ class DiamondsController extends Controller {
             }
 
             return Datatables::of($final_data)
-                // ->addColumn('index', '')
+                ->addColumn('index', '')
                 ->editColumn('barcode', function ($row) {
                     return $row['barcode'];
                 })
@@ -2084,6 +2084,9 @@ class DiamondsController extends Controller {
                 })
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row['date_added']);
+                })
+                ->editColumn('discount', function ($row) {
+                    return $row['discount'] * 100;
                 })
                 // ->editColumn('weight_loss', function ($row) {
                 //     return round($row['weight_loss'],2);

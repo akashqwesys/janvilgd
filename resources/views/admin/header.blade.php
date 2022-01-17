@@ -96,7 +96,6 @@
                                                             <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
                                                         </li>
                                                         <?php
-
                                                     }
                                                 } ?>
                                             </ul>
@@ -106,11 +105,9 @@
                                     if (!empty(session('menu'))) {
                                         foreach (session('menu') as $session_row) {
                                             ?>
-
                                             <li class="nk-menu-heading">
                                                 <h6 class="overline-title text-primary-alt"><?php echo $session_row->name; ?></h6>
                                             </li><!-- .nk-menu-item -->
-
                                             <?php
                                             if (!empty($session_row->submenu)) {
                                                 foreach ($session_row->submenu as $submenu) {
