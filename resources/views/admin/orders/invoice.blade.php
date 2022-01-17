@@ -332,7 +332,9 @@
                     data: {'shipping_id': $(this).val(), 'customer_id': $('#customer_id').val()},
                     success: function (res) {
                         if (res.success) {
-                            var tax = parseFloat($("#subtotal").text()) * parseFloat(res.tax) / 100;
+                            var disc = parseFloat($("#discount").text());
+                            var add_disc = parseFloat($("#add_discount").text());
+                            var tax = (parseFloat($("#subtotal").text()) - disc - add_disc) * parseFloat(res.tax) / 100;
                             var total = parseFloat($("#total").text()) - parseFloat($("#tax").text().replace(',', '')) + tax;
                             $("#tax").text(tax.toFixed(2));
                             $("#total").text(total.toFixed(2));

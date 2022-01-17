@@ -1028,7 +1028,7 @@ class OrdersController extends Controller
 
         $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
-        $final_tax = !empty($tax) ? (($subtotal * $tax->amount) / 100) : 0;
+        $final_tax = !empty($tax) ? ((($subtotal - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
         $shipping_charge = !empty($shipping) ? $shipping->amount : 0;
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
 

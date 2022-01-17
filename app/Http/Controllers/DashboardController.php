@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
@@ -66,7 +67,7 @@ class DashboardController extends Controller {
                 $query->select(DB::raw(1))
                     ->from('order_updates as ou')
                     ->whereColumn('ou.refOrder_id', 'o.order_id')
-                    ->whereNotIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
+                    ->whereIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
             })
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
@@ -241,7 +242,201 @@ class DashboardController extends Controller {
         )
         ->first();
 
-        return view('admin.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
+        return view('admin.dashboard.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
+    }
+
+    public function inventory(Request $request)
+    {
+        $data['title'] = 'Inventory Dashboard';
+
+        $total_stock = DB::table('diamonds')
+        ->select(
+            DB::raw("count(case when \"refCategory_id\" = 1 then 1 end) as total_rough"),
+            DB::raw("count(case when \"refCategory_id\" = 2 then 1 end) as total_4p"),
+            DB::raw("count(case when \"refCategory_id\" = 3 then 1 end) as total_polish")
+        )
+        ->where('available_pcs', 1)
+        ->first();
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_polish = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['refCategory_id' => 3]],
+                            ['term' => ['attributes.SHAPE' => 'Round']]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $round_polish = $client->count($elastic_polish);
+
+        $elastic_4p = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['refCategory_id' => 2]],
+                            ['term' => ['attributes.SHAPE' => 'Round']]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $round_4p = $client->count($elastic_4p);
+
+        $elastic_rough = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['refCategory_id' => 1]],
+                            ['term' => ['attributes.SHAPE' => 'Round']]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $round_rough = $client->count($elastic_rough);
+
+        return view('admin.dashboard.inventory', compact('data', 'request', 'total_stock', 'round_polish', 'round_4p', 'round_rough'));
+    }
+
+    public function sales(Request $request)
+    {
+        $data['title'] = 'Sales Dashboard';
+
+        $total_paid = DB::table('orders as o')
+        ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+        ->select(
+            DB::raw("sum(sub_total) as sub_total"),
+            DB::raw("sum(total_paid_amount) as total_amount"),
+            DB::raw("sum(delivery_charge_amount) as shipping_charge"),
+            DB::raw("sum(discount_amount * sub_total / 100) as total_discount")
+        )
+        ->where('ou.order_status_name', 'PAID')
+        ->first();
+
+        $total_unpaid = DB::table('orders as o')
+        ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+        ->select(
+            DB::raw("sum(sub_total) as sub_total"),
+            DB::raw("sum(total_paid_amount) as total_amount"),
+            DB::raw("sum(delivery_charge_amount) as shipping_charge"),
+            DB::raw("sum(discount_amount * sub_total / 100) as total_discount")
+        )
+        ->where('ou.order_status_name', 'UNPAID')
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('order_updates as ou')
+                ->whereColumn('ou.refOrder_id', 'o.order_id')
+                ->whereIn('ou.order_status_name', ['PAID', 'CANCELLED']);
+        })
+        ->first();
+
+        $analysis = DB::table('diamonds as d')
+        ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+        ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+        ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+        ->select(
+            // SHAPE ANALYSIS
+            DB::raw("count(case when a.attribute_id in (1,13,25) then 1 end) as total_round"),
+            DB::raw("sum(case when a.attribute_id in (1,13,25) then d.total else 0 end) as total_round_amount"),
+            DB::raw("count(case when a.attribute_id in (2,14,26) then 1 end) as total_oval"),
+            DB::raw("sum(case when a.attribute_id in (2,14,26) then d.total else 0 end) as total_oval_amount"),
+            DB::raw("count(case when a.attribute_id in (3,15,27) then 1 end) as total_heart"),
+            DB::raw("sum(case when a.attribute_id in (3,15,27) then d.total else 0 end) as total_heart_amount"),
+            DB::raw("count(case when a.attribute_id in (4,16,28) then 1 end) as total_pear"),
+            DB::raw("sum(case when a.attribute_id in (4,16,28) then d.total else 0 end) as total_pear_amount"),
+            DB::raw("count(case when a.attribute_id in (5,17,29) then 1 end) as total_princess"),
+            DB::raw("sum(case when a.attribute_id in (5,17,29) then d.total else 0 end) as total_princess_amount"),
+            DB::raw("count(case when a.attribute_id in (6,18,30) then 1 end) as total_radiant"),
+            DB::raw("sum(case when a.attribute_id in (6,18,30) then d.total else 0 end) as total_radiant_amount"),
+            DB::raw("count(case when a.attribute_id in (7,19,31) then 1 end) as total_asscher"),
+            DB::raw("sum(case when a.attribute_id in (7,19,31) then d.total else 0 end) as total_asscher_amount"),
+            DB::raw("count(case when a.attribute_id in (8,20,32) then 1 end) as total_emerald"),
+            DB::raw("sum(case when a.attribute_id in (8,20,32) then d.total else 0 end) as total_emerald_amount"),
+            DB::raw("count(case when a.attribute_id in (9,21,33) then 1 end) as total_cushion"),
+            DB::raw("sum(case when a.attribute_id in (9,21,33) then d.total else 0 end) as total_cushion_amount"),
+            DB::raw("count(case when a.attribute_id in (10,22,34) then 1 end) as total_marquise"),
+            DB::raw("sum(case when a.attribute_id in (10,22,34) then d.total else 0 end) as total_marquise_amount"),
+            DB::raw("count(case when a.attribute_id in (11,23,35) then 1 end) as total_baguette"),
+            DB::raw("sum(case when a.attribute_id in (11,23,35) then d.total else 0 end) as total_baguette_amount"),
+            DB::raw("count(case when a.attribute_id in (12,23,36) then 1 end) as total_triangle"),
+            DB::raw("sum(case when a.attribute_id in (12,23,36) then d.total else 0 end) as total_triangle_amount"),
+
+            // COLOR ANALYSIS
+            DB::raw("count(case when a.attribute_id in (68,76) then 1 end) as total_d"),
+            DB::raw("count(case when a.attribute_id in (69,77) then 1 end) as total_e"),
+            DB::raw("count(case when a.attribute_id in (70,78) then 1 end) as total_f"),
+            DB::raw("count(case when a.attribute_id in (71,79) then 1 end) as total_g"),
+            DB::raw("count(case when a.attribute_id in (72,80) then 1 end) as total_h"),
+            DB::raw("count(case when a.attribute_id in (73,81) then 1 end) as total_i"),
+            DB::raw("count(case when a.attribute_id in (74,82) then 1 end) as total_j"),
+            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k")
+        )
+        // ->where('available_pcs', 1)
+        ->first();
+
+        $analysis_p = DB::table('order_diamonds as od')
+        ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+        ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+        ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+        ->select(
+            // SHAPE ANALYSIS
+            DB::raw("count(case when a.attribute_id in (1,13,25) then 1 end) as total_round"),
+            DB::raw("count(case when a.attribute_id in (2,14,26) then 1 end) as total_oval"),
+            DB::raw("count(case when a.attribute_id in (3,15,27) then 1 end) as total_heart"),
+            DB::raw("count(case when a.attribute_id in (4,16,28) then 1 end) as total_pear"),
+            DB::raw("count(case when a.attribute_id in (5,17,29) then 1 end) as total_princess"),
+            DB::raw("count(case when a.attribute_id in (6,18,30) then 1 end) as total_radiant"),
+            DB::raw("count(case when a.attribute_id in (7,19,31) then 1 end) as total_asscher"),
+            DB::raw("count(case when a.attribute_id in (8,20,32) then 1 end) as total_emerald"),
+            DB::raw("count(case when a.attribute_id in (9,21,33) then 1 end) as total_cushion"),
+            DB::raw("count(case when a.attribute_id in (10,22,34) then 1 end) as total_marquise"),
+            DB::raw("count(case when a.attribute_id in (11,23,35) then 1 end) as total_baguette"),
+            DB::raw("count(case when a.attribute_id in (12,23,36) then 1 end) as total_triangle"),
+
+            // COLOR ANALYSIS
+            DB::raw("count(case when a.attribute_id in (68,76) then 1 end) as total_d"),
+            DB::raw("count(case when a.attribute_id in (69,77) then 1 end) as total_e"),
+            DB::raw("count(case when a.attribute_id in (70,78) then 1 end) as total_f"),
+            DB::raw("count(case when a.attribute_id in (71,79) then 1 end) as total_g"),
+            DB::raw("count(case when a.attribute_id in (72,80) then 1 end) as total_h"),
+            DB::raw("count(case when a.attribute_id in (73,81) then 1 end) as total_i"),
+            DB::raw("count(case when a.attribute_id in (74,82) then 1 end) as total_j"),
+            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k")
+        )
+        // ->where('available_pcs', 1)
+        ->first();
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_polish = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['refCategory_id' => 3]],
+                            ['term' => ['attributes.SHAPE' => 'Round']]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $round_polish = $client->count($elastic_polish);
+
+
+        return view('admin.dashboard.sales', compact('data', 'request', 'total_paid', 'total_unpaid', 'analysis', 'analysis_p'));
     }
 
 }
