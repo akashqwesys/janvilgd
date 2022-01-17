@@ -1550,7 +1550,7 @@ class DiamondController extends Controller
 
         $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
-        $tax = !empty($tax) ? (($subtotal * $tax) / 100) : 0;
+        $tax = !empty($tax) ? ((($subtotal - $discount - $additional_discount) * $tax) / 100) : 0;
         $shipping = !empty($shipping) ? $shipping : 0;
         $summary['subtotal'] = number_format(round($subtotal, 2), 2, '.', ',');
         $summary['discount'] = number_format(round($discount, 2), 2, '.', ',');

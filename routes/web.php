@@ -151,6 +151,9 @@ Route::get('truncate-diamonds', [CommonController::class, 'truncateDiamonds'])->
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
 Route::get('/dashboard', [AdminDashboard::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/inventory', [AdminDashboard::class, 'inventory'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/sales', [AdminDashboard::class, 'sales'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/accounts', [AdminDashboard::class, 'accounts'])->middleware(['isLoggedIn','getMenu']);
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 
 Route::get('/customer-login-by-admin/{token}', [CustomAuthController::class, 'auth_admin_customer'])->name('customer-login-by-admin')->middleware('isLoggedIn');
