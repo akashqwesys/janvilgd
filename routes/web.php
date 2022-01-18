@@ -310,7 +310,6 @@ Route::post('modules/status', [ModulesController::class, 'status'])->name('modul
 /***************  Modules route end *************/
 
 
-
 /***************  Country route *************/
 Route::get('country', [CountryController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('country/list', [CountryController::class, 'list'])->name('country.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -500,7 +499,13 @@ Route::post('orders/getDiamonds', [OrdersController::class, 'getDiamonds'])->mid
 /***************  Orders route end *************/
 
 
-/***************  Diamonds route *************/
+/***************  Sold Diamonds route *************/
+Route::get('sold-diamonds/list/{slug}', [OrdersController::class, 'soldView'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('sold-diamonds/list', [OrdersController::class, 'soldList'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Sold Diamonds route end *************/
+
+
+/***************  Rapaport route *************/
 Route::get('rapaport', [RapaortController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('rapaport/list', [RapaortController::class, 'list'])->name('rapaport.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('rapaport/add', [RapaortController::class, 'add'])->name('rapaport.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -512,7 +517,7 @@ Route::get('rapaport/add/import-excel', [RapaortController::class, 'addExcel'])-
 
 Route::post('rapaport/update/price', [RapaortController::class, 'update_price'])->name('rapaport.updatePrice')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-/***************  Diamonds route end *************/
+/***************  Rapaport route end *************/
 
 
 //Route::post('/delete-data', [CommonController::class, 'delete'])->name('data.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

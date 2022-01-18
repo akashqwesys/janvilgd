@@ -100,6 +100,23 @@
                                                 } ?>
                                             </ul>
                                         </li>
+                                        <li class="nk-menu-item has-sub">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                <span class="nk-menu-icon"><em class="icon ni nni ni-centos"></em></span>
+                                                <span class="nk-menu-text">Sold Diamonds</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <?php if (!empty(session('categories'))) {
+                                                    foreach (session('categories') as $cat_row) {
+                                                        ?>
+                                                        <li class="nk-menu-item">
+                                                            <a href="/<?php echo 'admin/sold-diamonds/list/'.$cat_row->slug; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                } ?>
+                                            </ul>
+                                        </li>
                                         <?php
                                     }
                                     if (!empty(session('menu'))) {

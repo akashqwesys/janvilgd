@@ -52,10 +52,10 @@
     .table td {
         vertical-align: middle;
     }
-    .table td:first-child, .table th:first-child {
+    .table-cs td:first-child, .table-cs th:first-child {
         padding-left: unset;
     }
-    .table td:last-child, .table th:last-child {
+    .table-cs td:last-child, .table-cs th:last-child {
         padding-right: unset;
     }
 </style>
@@ -190,14 +190,14 @@
                         </div><!-- .col -->
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-4 col-lg-4 col-sm-6 col-12">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-12 mb-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h5>Shape Analysis</h5>
                                     <hr>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-cs">
                                             <thead class="d-none">
                                                 <tr>
                                                     <th width="12%"></th>
@@ -466,7 +466,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 col-lg-4 col-sm-6 col-12">
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-12 mb-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h5>Color Analysis</h5>
@@ -603,6 +603,55 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-12 mb-4" >
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Clarity Analysis</h5>
+                                    <hr>
+                                    <div class="table-responsive-" >
+                                        <canvas class="clarity-chart" id="clarityChartData" height="350"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Cut Analysis</h5>
+                                    <hr>
+                                    <div class="table-responsive-" >
+                                        <canvas class="cut-chart" id="cutChartData" height="350"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-12 mb-4" >
+                            <div class="card">
+                                <div class="card-body">
+                                    <div>
+                                        <table class="datatable-init table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Diamonds</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($final_customers as $c)
+                                                    <tr>
+                                                        <td>{{ $c['name'] }}</td>
+                                                        <td>{{ $c['total_diamonds'] }}</td>
+                                                        <td>${{ number_format($c['total_paid_amount'], 2, '.', ',') }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div><!-- .nk-block -->
             </div>
@@ -613,5 +662,215 @@
 @endsection
 @section('script')
 <script>
+    !function (NioApp, $) {
+
+        var clarityChartData = {
+            labels: ["IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "SI3", "I1", "I2", "I3", "VS", "SI"],
+            dataUnit: '%',
+            legend: {
+                position: 'top',
+            },
+            datasets: [{
+                borderColor: "#fff",
+                background: ["#8feac5", "#E85347", "#1EE0AC", "#F4BD0E", "#09C2DE", "#364A63", "#1F327F", "#E85347", "#1EE0AC", "#F4BD0E", "#09C2DE", "#364A63", "#1F327F"],
+                data: [
+                    "<?= ($analysis->total_if ? number_format($analysis_p->total_if * 100 / $analysis->total_if, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_vvs1 ? number_format($analysis_p->total_vvs1 * 100 / $analysis->total_vvs1, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_vvs2 ? number_format($analysis_p->total_vvs2 * 100 / $analysis->total_vvs2, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_vs1 ? number_format($analysis_p->total_vs1 * 100 / $analysis->total_vs1, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_vs2 ? number_format($analysis_p->total_vs2 * 100 / $analysis->total_vs2, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_si1 ? number_format($analysis_p->total_si1 * 100 / $analysis->total_si1, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_si2 ? number_format($analysis_p->total_si2 * 100 / $analysis->total_si2, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_si3 ? number_format($analysis_p->total_si3 * 100 / $analysis->total_si3, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_i1 ? number_format($analysis_p->total_i1 * 100 / $analysis->total_i1, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_i2 ? number_format($analysis_p->total_i2 * 100 / $analysis->total_i2, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_i3 ? number_format($analysis_p->total_i3 * 100 / $analysis->total_i3, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_vs ? number_format($analysis_p->total_vs * 100 / $analysis->total_vs, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_si ? number_format($analysis_p->total_si * 100 / $analysis->total_si, 2, '.', ',') : 0.00) ?>"
+                ]
+            }]
+        };
+        var cutChartData = {
+            labels: ["IDEAL", "EXCELLENT", "VERY GOOD", "GOOD", "FAIR", "POOR"],
+            dataUnit: '%',
+            legend: {
+                position: 'top',
+            },
+            datasets: [{
+                borderColor: "#fff",
+                background: ["#E85347", "#1EE0AC", "#F4BD0E", "#09C2DE", "#364A63", "#1F327F"],
+                data: [
+                    "<?= ($analysis->total_ideal ? number_format($analysis_p->total_ideal * 100 / $analysis->total_ideal, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_excellent ? number_format($analysis_p->total_excellent * 100 / $analysis->total_excellent, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_very_good ? number_format($analysis_p->total_very_good * 100 / $analysis->total_very_good, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_good ? number_format($analysis_p->total_good * 100 / $analysis->total_good, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_fair ? number_format($analysis_p->total_fair * 100 / $analysis->total_fair, 2, '.', ',') : 0.00) ?>",
+                    "<?= ($analysis->total_poor ? number_format($analysis_p->total_poor * 100 / $analysis->total_poor, 2, '.', ',') : 0.00) ?>"
+                ]
+            }]
+        };
+
+        function _clarityChartData(selector, set_data) {
+            var $selector = selector ? $(selector) : $('.clarity-chart');
+            $selector.each(function () {
+                var $self = $(this),
+                _self_id = $self.attr('id'),
+                _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+
+                var selectCanvas = document.getElementById(_self_id).getContext("2d");
+                var chart_data = [];
+
+                for (var i = 0; i < _get_data.datasets.length; i++) {
+                    chart_data.push({
+                        backgroundColor: _get_data.datasets[i].background,
+                        borderWidth: 2,
+                        borderColor: _get_data.datasets[i].borderColor,
+                        hoverBorderColor: _get_data.datasets[i].borderColor,
+                        data: _get_data.datasets[i].data
+                    });
+                }
+
+                var chart = new Chart(selectCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: _get_data.labels,
+                        datasets: chart_data
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: _get_data.legend ? _get_data.legend : false,
+                            rtl: NioApp.State.isRTL,
+                            labels: {
+                                boxWidth: 25,
+                                padding: 20,
+                                fontColor: '#000000'
+                            }
+                        },
+                        rotation: 1,
+                        cutoutPercentage: 40,
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            enabled: true,
+                            rtl: NioApp.State.isRTL,
+                            callbacks: {
+                                title: function title(tooltipItem, data) {
+                                    return data['labels'][tooltipItem[0]['index']];
+                                },
+                                label: function label(tooltipItem, data) {
+                                    return data.datasets[tooltipItem.datasetIndex]['data'][tooltipItem['index']] + ' ' + _get_data.dataUnit;
+                                }
+                            },
+                            backgroundColor: '#eff6ff',
+                            titleFontSize: 13,
+                            titleFontColor: '#6783b8',
+                            titleMarginBottom: 6,
+                            bodyFontColor: '#9eaecf',
+                            bodyFontSize: 12,
+                            bodySpacing: 4,
+                            yPadding: 10,
+                            xPadding: 10,
+                            footerMarginTop: 0,
+                            displayColors: true
+                        },
+                        plugins: {
+                            datalabels: {
+                                display: true,
+                                formatter: (val, ctx) => {
+                                    return ctx.chart.data.labels[ctx.dataIndex];
+                                },
+                                color: '#fff',
+                                backgroundColor: '#404040'
+                            },
+                        }
+                    }
+                });
+            });
+        } // init doughnut chart
+
+        function _cutChartData(selector, set_data) {
+            var $selector = selector ? $(selector) : $('.cut-chart');
+            $selector.each(function () {
+                var $self = $(this),
+                _self_id = $self.attr('id'),
+                _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+
+                var selectCanvas = document.getElementById(_self_id).getContext("2d");
+                var chart_data = [];
+
+                for (var i = 0; i < _get_data.datasets.length; i++) {
+                    chart_data.push({
+                        backgroundColor: _get_data.datasets[i].background,
+                        borderWidth: 2,
+                        borderColor: _get_data.datasets[i].borderColor,
+                        hoverBorderColor: _get_data.datasets[i].borderColor,
+                        data: _get_data.datasets[i].data
+                    });
+                }
+
+                var chart = new Chart(selectCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: _get_data.labels,
+                        datasets: chart_data
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: _get_data.legend ? _get_data.legend : false,
+                            rtl: NioApp.State.isRTL,
+                            labels: {
+                                boxWidth: 25,
+                                padding: 20,
+                                fontColor: '#000000'
+                            }
+                        },
+                        rotation: 1,
+                        cutoutPercentage: 40,
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            enabled: true,
+                            rtl: NioApp.State.isRTL,
+                            callbacks: {
+                                title: function title(tooltipItem, data) {
+                                    return data['labels'][tooltipItem[0]['index']];
+                                },
+                                label: function label(tooltipItem, data) {
+                                    return data.datasets[tooltipItem.datasetIndex]['data'][tooltipItem['index']] + ' ' + _get_data.dataUnit;
+                                }
+                            },
+                            backgroundColor: '#eff6ff',
+                            titleFontSize: 13,
+                            titleFontColor: '#6783b8',
+                            titleMarginBottom: 6,
+                            bodyFontColor: '#9eaecf',
+                            bodyFontSize: 12,
+                            bodySpacing: 4,
+                            yPadding: 10,
+                            xPadding: 10,
+                            footerMarginTop: 0,
+                            displayColors: true
+                        },
+                        plugins: {
+                            datalabels: {
+                                display: true,
+                                formatter: (val, ctx) => {
+                                    return ctx.chart.data.labels[ctx.dataIndex];
+                                },
+                                color: '#fff',
+                                backgroundColor: '#404040'
+                            },
+                        }
+                    }
+                });
+            });
+        } // init doughnut chart
+
+        NioApp.coms.docReady.push(function () {
+            _clarityChartData();
+            _cutChartData();
+        });
+
+    }(NioApp, jQuery);
 </script>
 @endsection

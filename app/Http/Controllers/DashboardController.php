@@ -380,7 +380,30 @@ class DashboardController extends Controller {
             DB::raw("count(case when a.attribute_id in (72,80) then 1 end) as total_h"),
             DB::raw("count(case when a.attribute_id in (73,81) then 1 end) as total_i"),
             DB::raw("count(case when a.attribute_id in (74,82) then 1 end) as total_j"),
-            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k")
+            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k"),
+
+            // CLARITY ANALYSIS
+            DB::raw("count(case when a.attribute_id in (37,48) then 1 end) as total_if"),
+            DB::raw("count(case when a.attribute_id in (38,49) then 1 end) as total_vvs1"),
+            DB::raw("count(case when a.attribute_id in (39,50) then 1 end) as total_vvs2"),
+            DB::raw("count(case when a.attribute_id in (40,51) then 1 end) as total_vs1"),
+            DB::raw("count(case when a.attribute_id in (41,52) then 1 end) as total_vs2"),
+            DB::raw("count(case when a.attribute_id in (42,53) then 1 end) as total_si1"),
+            DB::raw("count(case when a.attribute_id in (43,54) then 1 end) as total_si2"),
+            DB::raw("count(case when a.attribute_id in (44,55) then 1 end) as total_si3"),
+            DB::raw("count(case when a.attribute_id in (45,56) then 1 end) as total_i1"),
+            DB::raw("count(case when a.attribute_id in (46,57) then 1 end) as total_i2"),
+            DB::raw("count(case when a.attribute_id in (47,58) then 1 end) as total_i3"),
+            DB::raw("count(case when a.attribute_id = 59 then 1 end) as total_vs"),
+            DB::raw("count(case when a.attribute_id = 60 then 1 end) as total_si"),
+
+            // CUT ANALYSIS
+            DB::raw("count(case when a.attribute_id in (84,90,96) then 1 end) as total_ideal"),
+            DB::raw("count(case when a.attribute_id in (85,91,97) then 1 end) as total_excellent"),
+            DB::raw("count(case when a.attribute_id in (86,92,98) then 1 end) as total_very_good"),
+            DB::raw("count(case when a.attribute_id in (87,93,99) then 1 end) as total_good"),
+            DB::raw("count(case when a.attribute_id in (88,94,100) then 1 end) as total_fair"),
+            DB::raw("count(case when a.attribute_id in (89,95,101) then 1 end) as total_poor")
         )
         // ->where('available_pcs', 1)
         ->first();
@@ -412,31 +435,62 @@ class DashboardController extends Controller {
             DB::raw("count(case when a.attribute_id in (72,80) then 1 end) as total_h"),
             DB::raw("count(case when a.attribute_id in (73,81) then 1 end) as total_i"),
             DB::raw("count(case when a.attribute_id in (74,82) then 1 end) as total_j"),
-            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k")
+            DB::raw("count(case when a.attribute_id in (75,83) then 1 end) as total_k"),
+
+            // CLARITY ANALYSIS
+            DB::raw("count(case when a.attribute_id in (37,48) then 1 end) as total_if"),
+            DB::raw("count(case when a.attribute_id in (38,49) then 1 end) as total_vvs1"),
+            DB::raw("count(case when a.attribute_id in (39,50) then 1 end) as total_vvs2"),
+            DB::raw("count(case when a.attribute_id in (40,51) then 1 end) as total_vs1"),
+            DB::raw("count(case when a.attribute_id in (41,52) then 1 end) as total_vs2"),
+            DB::raw("count(case when a.attribute_id in (42,53) then 1 end) as total_si1"),
+            DB::raw("count(case when a.attribute_id in (43,54) then 1 end) as total_si2"),
+            DB::raw("count(case when a.attribute_id in (44,55) then 1 end) as total_si3"),
+            DB::raw("count(case when a.attribute_id in (45,56) then 1 end) as total_i1"),
+            DB::raw("count(case when a.attribute_id in (46,57) then 1 end) as total_i2"),
+            DB::raw("count(case when a.attribute_id in (47,58) then 1 end) as total_i3"),
+            DB::raw("count(case when a.attribute_id = 59 then 1 end) as total_vs"),
+            DB::raw("count(case when a.attribute_id = 60 then 1 end) as total_si"),
+
+            // CUT ANALYSIS
+            DB::raw("count(case when a.attribute_id in (84,90,96) then 1 end) as total_ideal"),
+            DB::raw("count(case when a.attribute_id in (85,91,97) then 1 end) as total_excellent"),
+            DB::raw("count(case when a.attribute_id in (86,92,98) then 1 end) as total_very_good"),
+            DB::raw("count(case when a.attribute_id in (87,93,99) then 1 end) as total_good"),
+            DB::raw("count(case when a.attribute_id in (88,94,100) then 1 end) as total_fair"),
+            DB::raw("count(case when a.attribute_id in (89,95,101) then 1 end) as total_poor")
         )
         // ->where('available_pcs', 1)
         ->first();
 
-        $client = ClientBuilder::create()
-            ->setHosts(['localhost:9200'])
-            ->build();
-        $elastic_polish = [
-            'index' => 'diamonds',
-            'body'  => [
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            ['term' => ['refCategory_id' => 3]],
-                            ['term' => ['attributes.SHAPE' => 'Round']]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $round_polish = $client->count($elastic_polish);
+        $top_customers = DB::table('orders as o')
+            ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds group by "refOrder_id"', 'od', function ($join) {
+                $join->on('od.refOrder_id', '=', 'o.order_id');
+            })
+            ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
+            // ->groupByRaw('"refCustomer_id", o.name, od.total_diamonds, o.total_paid_amount')
+            // ->orderBy('total_paid_amount', 'desc')
+            ->orderBy('refCustomer_id', 'desc')
+            ->limit(50)
+            ->get();
 
+        $final_customers = [];
+        $temp = 0;
+        for ($i = 0; $i < count($top_customers); $i++) {
+            if ($temp != $top_customers[$i]->refCustomer_id) {
+                $temp = $top_customers[$i]->refCustomer_id;
+                $final_customers[$temp]['refCustomer_id'] = $top_customers[$i]->refCustomer_id;
+                $final_customers[$temp]['name'] = $top_customers[$i]->name;
+                $final_customers[$temp]['total_diamonds'] = $top_customers[$i]->total_diamonds;
+                $final_customers[$temp]['total_paid_amount'] = $top_customers[$i]->total_paid_amount;
+            } else {
+                $final_customers[$temp]['total_diamonds'] += $top_customers[$i]->total_diamonds;
+                $final_customers[$temp]['total_paid_amount'] += $top_customers[$i]->total_paid_amount;
+            }
+        }
+        $final_customers = collect($final_customers)->sortByDesc('total_paid_amount')->values()->all();
 
-        return view('admin.dashboard.sales', compact('data', 'request', 'total_paid', 'total_unpaid', 'analysis', 'analysis_p'));
+        return view('admin.dashboard.sales', compact('data', 'request', 'total_paid', 'total_unpaid', 'analysis', 'analysis_p', 'final_customers'));
     }
 
 }

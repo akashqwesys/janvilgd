@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/new-style.css?v={{ time() }}">
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">	
@@ -30,18 +31,17 @@
 			padding-bottom: 1rem;
 		}
 		.card-body1{
-			padding: 20px 20px 0px 20px !important;
+			padding: 0px !important;
 		}
 		.row1 {
             padding-right: 20px !important;
             padding-left: 20px !important;
         }
-		#myVideo {
-		
+		#myVideo {		
 		right: 0;
 		bottom: 0;
 		width: 100%;
-		min-height: 100%;
+		height: 100%;
 		object-fit: cover;
     	object-position: center;
 		}
