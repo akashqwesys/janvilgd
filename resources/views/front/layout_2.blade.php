@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/new-style.css?v={{ time() }}">
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/rSlider.js"></script>
 
@@ -44,7 +45,7 @@
 		right: 0;
 		bottom: 0;
 		width: 100%;
-		min-height: 100%;
+		height: 100%;
 		object-fit: cover;
     	object-position: center;
 		}			
