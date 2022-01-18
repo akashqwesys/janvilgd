@@ -14,6 +14,7 @@
     #product-table th, #product-table td {
         padding: 0.75rem 0.5rem;
         border: 1px solid #dbdfea !important;
+        vertical-align: middle;
     }
     .fl-ri {
         float: right;
@@ -222,8 +223,12 @@
                                                 <td align="right"> $<div class="fl-ri" id="tax">0</div></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="8" align="right"><b>SHIPPING CHARGE</b></td>
-                                                <td align="right"> $<div class="fl-ri" id="shipping_charge">0</div></td>
+                                                <td colspan="8" align="right"><b>SHIPPING CHARGE ($)</b></td>
+                                                <td align="right">
+                                                    <div class="fl-ri-">
+                                                        <input type="text" id="shipping_charge" class="form-control text-right">
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><h6>TOTAL AMOUNT</h6></td>
@@ -465,7 +470,7 @@
                         $('#discount').text(response.data.discount);
                         $('#add_discount').text(response.data.add_discount);
                         $('#tax').text(response.data.tax);
-                        $('#shipping_charge').text(response.data.shipping_charge);
+                        $('#shipping_charge').val(response.data.shipping_charge);
                         $('#total').text(response.data.total);
                     }
                 },
@@ -502,7 +507,7 @@
         $('.price_td').each(function () {
             subtotal += parseFloat($(this).text().substring(1));
         });
-        var new_total = subtotal.toFixed(2) - parseFloat($('#discount').text()) - parseFloat($('#add_discount').text()) + parseFloat($('#tax').text()) + parseFloat($('#shipping_charge').text());
+        var new_total = subtotal.toFixed(2) - parseFloat($('#discount').text()) - parseFloat($('#add_discount').text()) + parseFloat($('#tax').text()) + parseFloat($('#shipping_charge').val());
         $('#subtotal').text(subtotal.toFixed(2));
         $('#total').text(new_total.toFixed(2));
     });
@@ -550,7 +555,8 @@
                 'shipping_id': $('#shipping_name').val(),
                 'discounts': discounts,
                 'shipping_remarks': $('#shipping_remarks').val(),
-                'company_remarks': $('#company_remarks').val()
+                'company_remarks': $('#company_remarks').val(),
+                'shipping_charge': $('#shipping_charge').val()
             },
             dataType: 'json',
             success: function (res) {

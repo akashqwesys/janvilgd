@@ -923,7 +923,8 @@ class OrdersController extends Controller
             'barcode' => ['required', 'array'],
             'discounts' => ['required', 'array'],
             'billing_id' => ['required', 'integer'],
-            'shipping_id' => ['required', 'integer']
+            'shipping_id' => ['required', 'integer'],
+            'shipping_charge' => ['required', 'integer']
         ];
 
         $message = [];
@@ -1020,7 +1021,15 @@ class OrdersController extends Controller
             ->where('from_weight', '<=', intval($weight))
             ->where('to_weight', '>=', (intval($weight) + 1))
             ->first();
-
+        if (!empty($shipping) && $request->shipping_charge == $shipping->amount) {
+            $shipping_charge = !empty($shipping) ? $shipping->amount : 0;
+        } else {
+            $shipping = new \stdClass;
+            $shipping->delivery_charge_id = 0;
+            $shipping->name = 0;
+            $shipping->amount = $request->shipping_charge;
+            $shipping_charge = $request->shipping_charge;
+        }
         $customer = DB::table('customer')
             ->select('customer_id', 'name', 'mobile', 'email')
             ->where('customer_id', $request['customer_id'])
@@ -1029,7 +1038,6 @@ class OrdersController extends Controller
         $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $final_tax = !empty($tax) ? ((($subtotal - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
-        $shipping_charge = !empty($shipping) ? $shipping->amount : 0;
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
 
         if ($request['invoice_date']) {
@@ -1200,5 +1208,96 @@ class OrdersController extends Controller
         activity($request, "inserted", 'orders', $order->order_id);
 
         return response()->json(['success' => 1, 'message' => 'Order added successfully']);
+    }
+
+    public function soldView(Request $request, $slug)
+    {
+        $data['title'] = 'Sold Diamonds';
+        return view('admin.orders.sold-diamonds', compact('request', 'slug', 'data'));
+    }
+
+    public function soldList(Request $request)
+    {
+        if ($request->ajax()) {
+            $diamonds = DB::table('order_diamonds as od')
+                ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+                ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+                ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount',  'a.sort_order',
+                /* DB::raw("( case
+                when exists(select 1 from order_updates where order_status_name = 'PAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'PAID'
+                when exists(select 1 from order_updates where order_status_name = 'UNPAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'UNPAID'
+                end )
+                as status") */
+                DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1)
+                as status"));
+            if ($request->slug == 'rough-diamonds') {
+                $diamonds = $diamonds->whereIn('refAttribute_group_id', [2, 3, 1])
+                    ->where('od.refCategory_id', 1);
+            } else if ($request->slug == '4p-diamonds') {
+                $diamonds = $diamonds->whereIn('refAttribute_group_id', [10, 8, 7, 6])
+                    ->where('od.refCategory_id', 2);
+            } else {
+                $diamonds = $diamonds->whereIn('refAttribute_group_id', [18, 17, 16, 24])
+                    ->where('od.refCategory_id', 3);
+            }
+            $diamonds = $diamonds->orderBy('od.refDiamond_id', 'asc')
+                ->orderBy('ag.is_fix', 'desc')
+                ->orderBy('a.sort_order')
+                ->get();
+
+            $temp_id = 0;
+            $final_d = [];
+            for ($i = 0; $i < count($diamonds); $i++) {
+                if ($temp_id != $diamonds[$i]->refDiamond_id) {
+                    $temp_id = $diamonds[$i]->refDiamond_id;
+                    $final_d[$temp_id] = [
+                        'refDiamond_id' => $diamonds[$i]->refDiamond_id,
+                        'barcode' => $diamonds[$i]->barcode,
+                        'carat' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
+                        'discount' => $diamonds[$i]->discount,
+                        'new_discount' => $diamonds[$i]->new_discount,
+                        'price' => '$' . number_format($diamonds[$i]->price, 2, '.', ''),
+                        'created_at' => date('Y-m-d', strtotime($diamonds[$i]->created_at)),
+                        'status' => $diamonds[$i]->status
+                    ];
+                }
+                $final_d[$temp_id][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
+            }
+
+            return Datatables::of($final_d)
+                ->addColumn('index', '')
+                ->editColumn('discount', function ($row) {
+                    return ($row['discount'] * 100) . '%';
+                })
+                ->editColumn('new_discount', function ($row) {
+                    return ($row['new_discount'] * 100) . '%';
+                })
+                ->editColumn('shape', function ($row) {
+                    return $row['SHAPE'];
+                })
+                ->editColumn('clarity', function ($row) {
+                    return $row['CLARITY'];
+                })
+                ->editColumn('color', function ($row) {
+                    return $row['COLOR'];
+                })
+                ->editColumn('cut', function ($row) {
+                    return $row['CUT'] ?? '-';
+                })
+                ->editColumn('status', function ($row) {
+                    if ($row['status'] == 'PAID') {
+                        return '<span class="badge badge-success">' . $row['status'] . '</span>';
+                    } else if ($row['status'] == 'UNPAID') {
+                        return '<span class="badge badge-danger">' . $row['status'] . '</span>';
+                    } else if ($row['status'] == 'CANCELLED') {
+                        return '<span class="badge badge-light">' . $row['status'] . '</span>';
+                    } else {
+                        return '<span class="badge badge-warning">' . $row['status'] . '</span>';
+                    }
+                })
+                ->escapeColumns([])
+                ->make(true);
+        }
     }
 }
