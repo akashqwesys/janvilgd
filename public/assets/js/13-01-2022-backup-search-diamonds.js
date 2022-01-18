@@ -6,12 +6,12 @@ $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
     },
-    beforeSend: function(xhr) {
+    beforeSend: function (xhr) {
         // $(".cs-loader").show();
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     if ($('.filter-toggle').length === 0) {
         $('#filter-toggle').attr('disabled', true);
     }
@@ -20,7 +20,7 @@ $(document).ready(function() {
         getDiamonds(global_search_values, global_search_array, global_group_id);
     }, 1000);
 });
-$(document).on('click', '.diamond-shape .item img', function() {
+$(document).on('click', '.diamond-shape .item img', function () {
     global_quick_call++;
     var group_id = $(this).attr('data-group_id');
     var src_url = null;
@@ -40,7 +40,7 @@ $(document).on('click', '.diamond-shape .item img', function() {
     var values = [],
         values_all = [];
     var cnt = 0;
-    $('.diamond-shape .item img').each(function(index, element) {
+    $('.diamond-shape .item img').each(function (index, element) {
         if ($(this).attr('data-selected') == 1) {
             values.push({ 'attribute_id': $(this).attr('data-attribute_id'), 'name': $(this).attr('data-name') });
         } else {
@@ -57,10 +57,10 @@ $(document).on('click', '.diamond-shape .item img', function() {
         getDiamonds(values, [], group_id);
     }
 });
-$(document).on('click', '#myInput-search', function(e) {
+$(document).on('click', '#myInput-search', function (e) {
     searchBarcode();
 });
-$(document).on('keydown', '#myInput', function(e) {
+$(document).on('keydown', '#myInput', function (e) {
     /* if ([32, 9, 18, 16, 17, 20, 37, 38, 39, 40].includes(e.which)) {
         return;
     } */
@@ -69,13 +69,13 @@ $(document).on('keydown', '#myInput', function(e) {
     }
     searchBarcode();
 });
-function searchBarcode () {
+function searchBarcode() {
     global_data_offset = 0;
     $('#result-table tbody').html('');
     new_call = true;
     getDiamonds(global_search_values, global_search_array, global_group_id);
 }
-$(document).on('click', '#result-table thead th', function() {
+$(document).on('click', '#result-table thead th', function () {
     if ($(this).attr('data-name') == 'compare') {
         return;
     }
@@ -110,10 +110,10 @@ function getDiamonds(values, array, group_id) {
         var strArray = values.split(",");
     }
     if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
-        var first_index = array.map(function(e) {
+        var first_index = array.map(function (e) {
             return e.name;
         }).indexOf(strArray[0]);
-        var last_index = array.map(function(e) {
+        var last_index = array.map(function (e) {
             return e.name;
         }).indexOf(strArray[1]);
         for (let i = first_index; i <= last_index; i++) {
@@ -205,7 +205,7 @@ function nowGetDiamonds() {
                 }
             } else if (new_call === true && response.count < 1) {
                 $('.result-tab-content .select-diamond-temp p').text('There are no results corresponding to your selections. Please expand your chosen criteria, or contact us for assistance.');
-                $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="12">No records found</td></tr>');
+                $('#result-table tbody').html('<tr class="no-data"><td class="text-center" colspan="9">No records found</td></tr>');
             }
             //set ajax_in_progress object false, after completion of ajax call
             // $(window).data('ajax_in_progress', false);
@@ -264,7 +264,7 @@ function loadMoreData() {
 function lazy_load_scroll() {
     var lastScrollTop = 0,
         delta = 5;
-    $(table_scroll).scroll(function() {
+    $(table_scroll).scroll(function () {
         var nowScrollTop = $(this).scrollTop();
         // console.log($(window).data('ajax_in_progress'));
         //check if any other ajax request is already in progress or not, if true then it exit here
@@ -286,7 +286,7 @@ function lazy_load_scroll() {
     });
 }
 
-$(document).on('click', '#result-table tbody tr', function(e) {
+$(document).on('click', '#result-table tbody tr', function (e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
         if ($(e.target).siblings('.diamond-checkbox').attr('checked') == 'checked') {
@@ -312,7 +312,7 @@ $(document).on('click', '#result-table tbody tr', function(e) {
         window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }
 });
-$(document).on('click', '#compare-table tbody tr', function(e) {
+$(document).on('click', '#compare-table tbody tr', function (e) {
     e.preventDefault();
     if ($(e.target).hasClass('checkmark')) {
         $('#result-table tbody tr[data-diamond="' + $(e.target).siblings('.diamond-checkbox').attr('data-id') + '"]').find('.diamond-checkbox').attr('checked', false);
@@ -328,7 +328,7 @@ $(document).on('click', '#compare-table tbody tr', function(e) {
         window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }
 });
-$(document).on('click', '#recent-view tbody tr', function(e) {
+$(document).on('click', '#recent-view tbody tr', function (e) {
     e.preventDefault();
     if ($(e.target).hasClass('add-to-cart')) {
         addToCart($(e.target));
@@ -339,10 +339,47 @@ $(document).on('click', '#recent-view tbody tr', function(e) {
     }
 });
 
-$(document).on('click', '.reset-btn', function() {
+$(document).on('mouseover', '#recent-view tbody tr', function () {
+    $('.recent-tab-content .select-diamond-temp').hide();
+    $('.recent-tab-content .select-diamond').show();
+    // $('.recent-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
+    $('.recent-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
+    $('.recent-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' CT ' + $(this).attr('data-shape').toUpperCase() + ' DIAMOND');
+    // $('.recent-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
+    $('.recent-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
+    $('.recent-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price') + ' USD');
+    $('.recent-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+});
+$(document).on('mouseover', '#result-table tbody tr', function () {
+    if ($(this).hasClass('no-data')) {
+        return;
+    }
+    $('.result-tab-content .select-diamond-temp').hide();
+    $('.result-tab-content .select-diamond').show();
+    $('.result-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
+    $('.result-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
+    $('.result-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' CT ' + $(this).attr('data-shape').toUpperCase() + ' DIAMOND');
+    // $('.result-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
+    $('.result-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
+    $('.result-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price') + ' USD');
+    $('.result-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+    // $('.search-diamond-table .table-responsive').css('height', $('.result-tab-content .selected-diamonds').height() + 40 + 'px');
+});
+$(document).on('mouseover', '#compare-table tbody tr', function () {
+    $('.compare-tab-content .select-diamond-temp').hide();
+    $('.compare-tab-content .select-diamond').show();
+    $('.compare-tab-content .select-diamond .cat-name').text($(this).attr('data-category'));
+    $('.compare-tab-content .select-diamond a').attr('href', '/customer/single-diamonds/' + $(this).attr('data-barcode')).text('VIEW DIAMOND');
+    $('.compare-tab-content .select-diamond .diamond-shape').text($(this).attr('data-carat') + ' CT ' + $(this).attr('data-shape').toUpperCase() + ' DIAMOND');
+    // $('.compare-tab-content .select-diamond .diamond-color').text('Color : ' + $(this).attr('data-color'));
+    $('.compare-tab-content .select-diamond .diamond-clarity').text($(this).attr('data-color') + ' Color • ' + $(this).attr('data-clarity') + ' Clarity');
+    $('.compare-tab-content .select-diamond .diamond-cost').text($(this).attr('data-price') + ' USD');
+    $('.compare-tab-content .select-diamond .diamond-img img').attr('src', $(this).attr('data-image'));
+});
+$(document).on('click', '.reset-btn', function () {
     location.reload(true);
 });
-$(document).on('click', '#filter-toggle', function() {
+$(document).on('click', '#filter-toggle', function () {
     if ($('.filter-toggle').height() > 1) {
         $('.filter-toggle').css({
             'visibility': 'hidden',
@@ -358,14 +395,14 @@ $(document).on('click', '#filter-toggle', function() {
     }
 });
 
-$(document).on('click', '#export-search-diamond, #export-search-diamond-admin', function() {
+$(document).on('click', '#export-search-diamond, #export-search-diamond-admin', function () {
     var export_value = $(this).attr('data-export');
     var discount = $("#export-discount").val();
     if ($('#compare-table tbody').children().length == 0) {
         exportDiamondTables([], [], '', export_value, discount);
     } else {
         var ids = [];
-        $.each($('#compare-table tbody tr'), function(indexInArray, valueOfElement) {
+        $.each($('#compare-table tbody tr'), function (indexInArray, valueOfElement) {
             ids.push($(this).attr('data-diamond'));
         });
         exportDiamondTables(ids, [], 'selected', export_value, discount);
@@ -378,10 +415,10 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
         var strArray = values.split(",");
     }
     if (group_id != 'price' && group_id != 'carat' && array.length !== 0) {
-        var first_index = array.map(function(e) {
+        var first_index = array.map(function (e) {
             return e.name;
         }).indexOf(strArray[0]);
-        var last_index = array.map(function(e) {
+        var last_index = array.map(function (e) {
             return e.name;
         }).indexOf(strArray[1]);
         for (let i = first_index; i <= last_index; i++) {
@@ -427,7 +464,7 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
         xhrFields: {
             responseType: 'blob'
         },
-        success: function(response) {
+        success: function (response) {
 
             var blob = new Blob([response]);
 
@@ -443,7 +480,7 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
 
             link.click();
         },
-        error: function(response) {
+        error: function (response) {
             // console.log(response);
             $.toast({
                 heading: 'Error',

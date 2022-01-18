@@ -25,6 +25,14 @@
         margin-left: auto;
         color: #8094ae;
     }
+    .a-head {
+        display: flex;
+        vertical-align: middle;
+        align-items: center;
+    }
+    .a-head .icon.ni {
+        font-size: 18px;
+    }
 </style>
 @endsection
 @section('content')
@@ -33,6 +41,34 @@
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
+                <div class="nk-block card card-bordered">
+                    <div class="row g-gs card-body">
+                        <div class="col-md-2 col-lg-2 col-4">
+                            <div class="">
+                                <a class="a-head" href="/admin/dashboard/inventory">
+                                    <em class="icon ni ni-money"></em>
+                                    <span class="pl-1"><b>INVENTORY</b></span>
+                                </a>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-2 col-lg-2 col-4">
+                            <div class="">
+                                <a class="a-head" href="/admin/dashboard/sales">
+                                    <em class="icon ni ni-sign-dollar"></em>
+                                    <span class=""><b>SALES</b></span>
+                                </a>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="col-md-2 col-lg-2 col-4">
+                            <div class="">
+                                <a class="a-head" href="/admin/dashboard/accounts">
+                                    <em class="icon ni ni-report-profit"></em>
+                                    <span class="pl-1"><b>ACCOUNTS</b></span>
+                                </a>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                    </div>
+                </div>
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">

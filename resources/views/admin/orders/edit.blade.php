@@ -160,26 +160,26 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Subtotal</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->sub_total, 2, '.', ',')}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->sub_total, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Discount</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->discount_amount, 2, '.', ',')}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->discount_amount, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->tax_amount, 2, '.', ',')}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->tax_amount, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;"><b>Shipping Charge</b></td>
-                                        <td style="text-align: right;">$ {{round($data['result']->delivery_charge_amount, 2, '.', ',')}}</td>
+                                        <td style="text-align: right;">$ {{number_format($data['result']->delivery_charge_amount, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6" style="text-align: right;">
                                             <b> <h6>Total</h6> </b>
                                         </td>
                                         <td style="text-align: right;">
-                                            <b> <h6>$ {{round($data['result']->total_paid_amount, 2, '.', ',')}}</h6> </b>
+                                            <b> <h6>$ {{number_format($data['result']->total_paid_amount, 2, '.', ',')}}</h6> </b>
                                         </td>
                                     </tr>
 

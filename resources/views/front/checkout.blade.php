@@ -239,7 +239,7 @@
                                     <td align="right" id="shipping">${{ isset($response['summary']) ? $response['summary']['shipping'] : 0 }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Total Amount</th>
                                     <th id="final-total-th"><div class="text-right">${{ isset($response['summary']) ? $response['summary']['total'] : 0 }}</div></td>
                                 </tr>
                             </tbody>
@@ -415,7 +415,9 @@
             success: function (res) {
                 $( ".cs-loader" ).hide();
                 if (res.success) {
-                    var tax = parseFloat($("#sub-total-td").text().replace(',', '').substring(1)) * parseFloat(res.tax) / 100;
+                    var disc = parseFloat($("#discount").text().replace(',', '').substring(1));
+                    var add_disc = parseFloat($("#additional_discount").text().replace(',', '').substring(1));
+                    var tax = (parseFloat($("#sub-total-td").text().replace(',', '').substring(1)) - disc - add_disc) * parseFloat(res.tax) / 100;
                     var total = parseFloat($("#final-total-th div").text().replace(',', '').substring(1)) - parseFloat($("#tax").text().replace(',', '').substring(1)) + tax;
                     $("#tax").text("$"+tax.toFixed(2));
                     $("#final-total-th div").text(total.toLocaleString("en-US", {style:"currency", currency:"USD"}));
