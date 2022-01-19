@@ -364,7 +364,7 @@ class OrdersController extends Controller
                         $query->select(DB::raw(1))
                             ->from('order_updates as ou')
                             ->whereColumn('ou.refOrder_id', 'orders.order_id')
-                            ->whereNotIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
+                            ->whereIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
                     });
                 } else if ($request->order_status == 'PAID') {
                     $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')

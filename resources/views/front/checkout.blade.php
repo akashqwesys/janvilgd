@@ -416,7 +416,7 @@
                 $( ".cs-loader" ).hide();
                 if (res.success) {
                     var disc = parseFloat($("#discount").text().replace(',', '').substring(1));
-                    var add_disc = parseFloat($("#additional_discount").text().replace(',', '').substring(1));
+                    var add_disc = $("#additional_discount").text().replace(',', '').substring(1) == '' ? 0 : parseFloat($("#additional_discount").text().replace(',', '').substring(1));
                     var tax = (parseFloat($("#sub-total-td").text().replace(',', '').substring(1)) - disc - add_disc) * parseFloat(res.tax) / 100;
                     var total = parseFloat($("#final-total-th div").text().replace(',', '').substring(1)) - parseFloat($("#tax").text().replace(',', '').substring(1)) + tax;
                     $("#tax").text("$"+tax.toFixed(2));
@@ -441,6 +441,7 @@
     $("#exampleModal").on('hidden.bs.modal', function(){
         $('div.errTxt').html('');
         $('#companyForm')[0].reset();
+        $('.custom-file-label').text('Click here to upload ID proof');
     });
     $(document).on('click', '.add-shipping-btn', function () {
         $('#exampleModal .title').text('Add Shipping Address');

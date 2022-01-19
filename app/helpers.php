@@ -99,11 +99,7 @@ if (!function_exists('activity')) {
             $device = "mobile";
         }
 
-        if ($module == "modules") {
-            $module_id = 0;
-            $module_name = $module;
-        }
-        else if($module == "diamonds"){
+        if ($module == "modules" || $module == "diamonds" || $module == "customer_company_details") {
             $module_id = 0;
             $module_name = $module;
         }

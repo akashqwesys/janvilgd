@@ -9,7 +9,7 @@ use DB;
 
 class DashboardController extends Controller {
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $data['title'] = 'Dashboard';
         $last_day = date('Y-m-d', strtotime(date('Y-m-d')));
@@ -73,10 +73,10 @@ class DashboardController extends Controller {
             // ->limit(5)
             ->get();
 
-        $completed_orders = DB::table('orders as o')
+        $paid_orders = DB::table('orders as o')
             ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
-            ->where('ou.order_status_name', 'COMPLETED')
+            ->where('ou.order_status_name', 'PAID')
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
@@ -242,7 +242,7 @@ class DashboardController extends Controller {
         )
         ->first();
 
-        return view('admin.dashboard.dashboard', compact('orders', 'data', 'pending_orders', 'completed_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
+        return view('admin.dashboard.dashboard', compact('request', 'orders', 'data', 'pending_orders', 'paid_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
     }
 
     public function inventory(Request $request)
@@ -469,8 +469,8 @@ class DashboardController extends Controller {
             })
             ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
             // ->groupByRaw('"refCustomer_id", o.name, od.total_diamonds, o.total_paid_amount')
-            // ->orderBy('total_paid_amount', 'desc')
-            ->orderBy('refCustomer_id', 'desc')
+            ->orderBy('total_paid_amount', 'desc')
+            // ->orderBy('refCustomer_id', 'desc')
             ->limit(50)
             ->get();
 
@@ -481,8 +481,13 @@ class DashboardController extends Controller {
                 $temp = $top_customers[$i]->refCustomer_id;
                 $final_customers[$temp]['refCustomer_id'] = $top_customers[$i]->refCustomer_id;
                 $final_customers[$temp]['name'] = $top_customers[$i]->name;
-                $final_customers[$temp]['total_diamonds'] = $top_customers[$i]->total_diamonds;
-                $final_customers[$temp]['total_paid_amount'] = $top_customers[$i]->total_paid_amount;
+                if (isset($final_customers[$temp]['total_diamonds'])) {
+                    $final_customers[$temp]['total_diamonds'] += $top_customers[$i]->total_diamonds;
+                    $final_customers[$temp]['total_paid_amount'] += $top_customers[$i]->total_paid_amount;
+                } else {
+                    $final_customers[$temp]['total_diamonds'] = $top_customers[$i]->total_diamonds;
+                    $final_customers[$temp]['total_paid_amount'] = $top_customers[$i]->total_paid_amount;
+                }
             } else {
                 $final_customers[$temp]['total_diamonds'] += $top_customers[$i]->total_diamonds;
                 $final_customers[$temp]['total_paid_amount'] += $top_customers[$i]->total_paid_amount;

@@ -27,8 +27,13 @@
                 'url': "{{ route('orders.list') }}",
                 'data': function (data) {
                     $('#append_loader').hide();
-                    data.startDate = startDate;
-                    data.endDate =  endDate;
+                    if (date_applied == false) {
+                        data.startDate = null;
+                        data.endDate =  null;
+                    } else {
+                        data.startDate = startDate;
+                        data.endDate =  endDate;
+                    }
                     data.customer_id = customer_id;
                     data.order_status = order_status;
                     data.category = category;
