@@ -184,6 +184,7 @@
     var customer_id = null;
     var order_status = null;
     var category = null;
+    var date_applied = false;
     var order_filter = '{{ $request["filter"] }}';
     var date_filter = '{{ $request["date_range_filter"] }}';
     if (date_filter) {
@@ -245,6 +246,7 @@
         endDate  : endDate,
     });
     $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+        date_applied = true;
         startDate = (picker == undefined) ? $(this).val().substr(0,10) : picker.startDate.format('YYYY-MM-DD');
         endDate = (picker == undefined) ? $(this).val().substr(13,24) : picker.endDate.format('YYYY-MM-DD');
         // $('#dateRange').daterangepicker().autoUpdateInput = true;

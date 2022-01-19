@@ -51,11 +51,13 @@ $(document).on('click', '.diamond-shape .item img', function() {
     new_call = true;
     global_data_offset = 0;
     $("#result-table tbody").html("");
-    if (cnt == $('.diamond-shape .item img').length) {
-        getDiamonds(values_all, [], group_id);
-    } else {
-        getDiamonds(values, [], group_id);
-    }
+    setTimeout(() => {
+        if (cnt == $('.diamond-shape .item img').length) {
+            getDiamonds(values_all, [], group_id);
+        } else {
+            getDiamonds(values, [], group_id);
+        }
+    }, 100);
 });
 $(document).on('click', '#myInput-search', function(e) {
     searchBarcode();
@@ -73,7 +75,9 @@ function searchBarcode () {
     global_data_offset = 0;
     $('#result-table tbody').html('');
     new_call = true;
-    getDiamonds(global_search_values, global_search_array, global_group_id);
+    setTimeout(() => {
+        getDiamonds(global_search_values, global_search_array, global_group_id);
+    }, 100);
 }
 $(document).on('click', '#result-table thead th', function() {
     if ($(this).attr('data-name') == 'compare') {

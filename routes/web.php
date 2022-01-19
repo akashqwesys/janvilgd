@@ -396,6 +396,8 @@ Route::post('customers/update', [CustomersController::class, 'update'])->name('c
 Route::get('customers/edit/{id}', [CustomersController::class, 'edit'])->name('customers.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('customers/delete', [CustomersController::class, 'delete'])->name('customers.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('customers/status', [CustomersController::class, 'status'])->name('customers.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('customers/save-addresses', [CustomersController::class, 'saveAddress'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('customers/delete-addresses', [CustomersController::class, 'deleteAddress'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Customers route end *************/
 

@@ -1,6 +1,8 @@
 @extends('admin.header')
 
 @section('css')
+<link href="/admin_assets/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="/admin_assets/datatable/dataTables.responsive.css" rel="stylesheet" type="text/css">
 <style type="text/css">
     span.title {
         font-size: 1.05rem;
@@ -84,9 +86,9 @@
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-4 col-lg-2 col-6 col-sm-4 {{ $request->path() == 'admin/dashboard/accounts' ? 'bg-primary-dim' : '' }}">
+                        <div class="col-md-4 col-lg-2 col-6 col-sm-4 {{ $request->path() == 'admin/dashboard' ? 'bg-primary-dim' : '' }}">
                             <div class="">
-                                <a class="a-head" href="/admin/dashboard/accounts">
+                                <a class="a-head" href="/admin/dashboard">
                                     <em class="icon ni ni-report-profit"></em>
                                     <span class="pl-1"><b>ACCOUNTS</b></span>
                                 </a>
@@ -629,7 +631,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div>
-                                        <table class="datatable-init table">
+                                        <table class="table" id="datatable-customers">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -661,7 +663,14 @@
 <!-- content @e -->
 @endsection
 @section('script')
+<script src="/admin_assets/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/admin_assets/datatable/dataTables.responsive.min.js" type="text/javascript" ></script>
 <script>
+    var table = $('#datatable-customers').DataTable({
+        // sorting: false,
+        "order": []
+    });
+
     !function (NioApp, $) {
 
         var clarityChartData = {

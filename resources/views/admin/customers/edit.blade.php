@@ -22,6 +22,17 @@
         height: 15px;
         filter: brightness(0) invert(1);
     }
+    .custom-modal .form-group {
+        margin-bottom: 0;
+    }
+    .custom-modal .col {
+        margin-bottom: 1.25rem;
+    }
+    .errTxt {
+        color: red;
+        text-align: center;
+        font-size: 0.9em;
+    }
     .custom-modal .form-group .input-icon {
         position: absolute;
         top: 0;
@@ -262,7 +273,7 @@
                                     $company = $data['result2'];
                                 @endphp
                                 @for ($i = 0; $i < count($company); $i++)
-                                <div class="col col-12 col-xl-6">
+                                <div class="col col-12 col-xl-6 mb-3">
                                     <table class="table address-details table-bordered">
                                         <tbody>
                                             <tr>
@@ -341,9 +352,10 @@
                 <div class="add-address-content">
                     <h3 class="title mb-4">Add New Address</h3>
                     <div class="add-address-form">
-                        <form class="add-form row" method="POST" action="/customer/save-addresses" enctype="multipart/form-data" id="companyForm">
+                        <form class="add-form row" method="POST" action="/admin/customers/save-addresses" enctype="multipart/form-data" id="companyForm">
                             @csrf
                             <input type="hidden" name="customer_company_id" id="customer_company_id">
+                            <input type="hidden" name="form_customer_id" id="customer_id" value="{{ $data['result']->customer_id }}">
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
                                     <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
@@ -425,7 +437,7 @@
                                                 <div class="input-group">
                                                     <div class="custom-file">
                                                         <input type="file" class="id_upload" name="id_upload" id="id_upload" aria-describedby="inputGroupFileAddon01" accept="image/jpeg,image/png,application/pdf">
-                                                        <label class="custom-file-label ml-auto mr-auto" for="id_upload">Drag An Image Here</label>
+                                                        <label class="custom-file-label ml-auto mr-auto" for="id_upload">Click here to upload ID proof</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -555,8 +567,11 @@ $(document).on('click', '.delete-btn', function () {
     }
     $.ajax({
         type: "POST",
-        url: "/customer/deleteMyCompany",
-        data: { 'customer_company_id': $(this).attr('data-id') },
+        url: "/admin/customers/delete-addresses",
+        data: {
+            'customer_id': $('#customer_id').val(),
+            'customer_company_id': $(this).attr('data-id')
+        },
         context: this,
         dataType: 'JSON',
         success: function (response) {
@@ -591,6 +606,7 @@ $(document).on('click', '.delete-btn', function () {
 });
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('div.errTxt').html('');
+    $('.custom-file-label').text('Click here to upload ID proof');
 });
 $(document).on('change', '#company_country', function () {
     $.ajax({

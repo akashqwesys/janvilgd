@@ -53,9 +53,9 @@
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-4 col-lg-2 col-6 col-sm-4 {{ $request->path() == 'admin/dashboard/accounts' ? 'bg-primary-dim' : '' }}">
+                        <div class="col-md-4 col-lg-2 col-6 col-sm-4 {{ $request->path() == 'admin/dashboard' ? 'bg-primary-dim' : '' }}">
                             <div class="">
-                                <a class="a-head" href="/admin/dashboard/accounts">
+                                <a class="a-head" href="/admin/dashboard">
                                     <em class="icon ni ni-report-profit"></em>
                                     <span class="pl-1"><b>ACCOUNTS</b></span>
                                 </a>

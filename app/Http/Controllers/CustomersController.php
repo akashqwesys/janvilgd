@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use DB;
-use Hash;
-use Session;
+use App\Models\CustomerCompanyDetail;
 use App\Models\Customers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use DB;
+use Session;
 use DataTables;
 
 class CustomersController extends Controller {
@@ -178,6 +179,7 @@ class CustomersController extends Controller {
             ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
             ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
             ->where('ccd.refCustomer_id', $id)
+            ->orderBy('ccd.customer_company_id', 'asc')
             ->get();
         $data['title'] = 'Edit-Customers';
         $data['result'] = $result;
@@ -247,7 +249,7 @@ class CustomersController extends Controller {
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
             activity($request, "deleted", $request['module']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+        //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -274,7 +276,7 @@ class CustomersController extends Controller {
                     'date_updated' => date("Y-m-d h:i:s")
                 ]);
             }
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+        //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -286,6 +288,142 @@ class CustomersController extends Controller {
             }
             activity($request, "updated", $request['module']);
             return response()->json($data);
+        }
+    }
+
+    public function saveAddress(Request $request)
+    {
+        try {
+            $rules = [
+                'customer_company_id' => ['nullable', 'integer'],
+                'form_customer_id' => ['required', 'integer'],
+                'company_name' => ['required'],
+                'company_office_no' => ['required'],
+                'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'company_gst_pan' => ['required', 'between:10,15'],
+                'company_address' => ['required'],
+                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                'company_state' => ['required', 'integer', 'exists:state,state_id'],
+                'company_city' => ['required', 'integer', 'exists:city,city_id'],
+                'company_pincode' => ['required'],
+                'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
+            ];
+
+            $message = [
+                'company_name.required' => 'Please enter your company name',
+                'company_office_no.required' => 'Please enter company office number',
+                'company_email.required' => 'Please enter company email address',
+                'company_gst_pan.required' => 'Please enter company GST or PAN',
+                'company_address.required' => 'Please enter company address',
+                'company_country.required' => 'Please enter company country',
+                'company_state.required' => 'Please enter company state',
+                'company_city.required' => 'Please enter company city',
+                'id_upload.required' => 'Please select ID proof'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+            }
+            if ($request->customer_company_id) {
+                $company = CustomerCompanyDetail::where('refCustomer_id', $request->form_customer_id)
+                    ->where('customer_company_id', $request->customer_company_id)
+                    ->first();
+                if (empty($company)) {
+                    return $this->errorResponse('Not a valid company');
+                }
+                $msg = 'Address updated successfully';
+            } else {
+                $msg = 'Address added successfully';
+                $company = new CustomerCompanyDetail;
+                $company->refCustomer_id = $request->form_customer_id;
+            }
+            $company->name = $request->company_name;
+            $company->office_no = $request->company_office_no;
+            $company->official_email = $request->company_email;
+            $company->office_address = $request->company_address;
+            $company->pincode = $request->company_pincode;
+            $company->refCity_id = $request->company_city;
+            $company->refState_id = $request->company_state;
+            $company->refCountry_id = $request->company_country;
+            $company->pan_gst_no = $request->company_gst_pan;
+            $company->refDesignation_id = 1;
+            $company->designation_name = 'owner';
+            $company->is_approved = 1;
+            $company->approved_date_time = date('Y-m-d H:i:s');
+            $company->approved_by = 0;
+            if ($request->hasfile('id_upload')) {
+                $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                $request->file('id_upload')->storeAs("public/user_files", $imageName);
+
+                if ($company->pan_gst_attachment) {
+                    unlink(base_path('/storage/app/public/user_files/' . $company->pan_gst_attachment));
+                }
+                $company->pan_gst_attachment = $imageName;
+            }
+            $company->save();
+
+            activity($request, "inserted", 'customer_company_details', $company->customer_company_id);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => 1,
+                    'message' => $msg,
+                    'id' => $company->customer_company_id
+                ]);
+            } else {
+                return back()->with(['success' => 1, 'message' => $msg]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 1, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function deleteAddress(Request $request)
+    {
+        try {
+            $rules = [
+                'customer_id' => ['required', 'integer'],
+                'customer_company_id' => ['required', 'integer']
+            ];
+
+            $message = [
+                'customer_company_id.required' => 'Not a valid request',
+                'customer_company_id.integer' => 'Not a valid request'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+            }
+            $exists = DB::table('customer_company_details as ccd')
+                ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
+                ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
+                ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
+                ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+                ->where('ccd.refCustomer_id', $request->form_customer_id)
+                ->get();
+            if (count($exists) == 1) {
+                return response()->json(['error' => 1, 'message' => 'You cannot delete your last address...!']);
+            }
+
+            $company = CustomerCompanyDetail::where('refCustomer_id', $request->customer_id)
+                ->where('customer_company_id', $request->customer_company_id)
+                ->first();
+
+            if ($company) {
+                if ($company->pan_gst_attachment) {
+                    unlink(base_path('/storage/app/public/user_files/' . $company->pan_gst_attachment));
+                }
+                $company->delete();
+                return response()->json(['success' => 1, 'message' => 'Address deleted successfully']);
+            } else {
+                return response()->json(['error' => 1, 'message' => 'You are not authorized']);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 1, 'message' => $e->getMessage()]);
         }
     }
 

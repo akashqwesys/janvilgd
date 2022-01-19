@@ -20,6 +20,31 @@
         float: right;
         display: flex;
     }
+    .display-inline {
+        display: inline-block;
+    }
+    .custom-modal .form-group {
+        margin-bottom: 0;
+    }
+    .custom-modal .col {
+        margin-bottom: 1.25rem;
+    }
+    .errTxt {
+        color: red;
+        text-align: center;
+        font-size: 0.9em;
+    }
+    .custom-modal .form-group .input-icon {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        width: 20px;
+        margin: auto;
+    }
+    .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
+        padding-left: 40px;
+    }
 </style>
 @endsection
 @section('content')
@@ -85,8 +110,13 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="company_name">Company Name:</label>
-                                        <select class="form-control form-select" name="company_name" id="company_name" required data-placeholder="Company Name">
-                                        </select>
+                                        <div class="w-85 display-inline">
+                                            <select class="form-control form-select" name="company_name" id="company_name" required data-placeholder="Company Name">
+                                            </select>
+                                        </div>
+                                        <span>
+                                            <button class="btn btn-sm btn-primary" id="add-billing-btn" disabled>+</button>
+                                        </span>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_email">Email Address:</label>
@@ -141,8 +171,13 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="shipping_name">Shipping Name:</label>
-                                        <select class="form-control form-select" name="shipping_name" id="shipping_name" required data-placeholder="Shipping Company Name">
-                                        </select>
+                                        <div class="w-85 display-inline">
+                                            <select class="form-control form-select" name="shipping_name" id="shipping_name" required data-placeholder="Shipping Company Name">
+                                            </select>
+                                        </div>
+                                        <span>
+                                            <button class="btn btn-sm btn-primary" id="add-shipping-btn" disabled>+</button>
+                                        </span>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_email">Email Address:</label>
@@ -250,6 +285,122 @@
         </div>
     </div>
 </div>
+<!-- Add Address Modal -->
+<div class="custom-modal add-address modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="add-address-content">
+                    <h4 class="title mb-4">Add New Address</h4>
+                    <div class="add-address-form">
+                        <form class="add-form row" method="POST" action="/customer/save-addresses" enctype="multipart/form-data" id="companyForm">
+                            @csrf
+                            <input type="hidden" name="company_type" id="company_type">
+                            <input type="hidden" name="form_customer_id" id="form_customer_id">
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" class="form-control" id="company_name2" name="company_name" placeholder="Company Name">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="email" class="form-control" id="company_email2" name="company_email" placeholder="Company Email Address">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-6">
+                                <div class="form-group">
+                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_country2" name="company_country">
+                                        <option value="" >Select Country</option>
+                                        @foreach ($country as $c)
+                                        <option value="{{ $c->country_id }}" >{{ $c->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_state2" name="company_state">
+                                        <option value="" >Select State</option>
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <select class="form-select- form-control" id="company_city2" name="company_city">
+                                        <option value="" >Select City</option>
+                                    </select>
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-8">
+                                <div class="form-group">
+                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <input type="text" class="form-control" id="company_address2" name="company_address" placeholder="Company Address" >
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                <div class="form-group">
+                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
+                                </div>
+                                <div class="errTxt"></div>
+                            </div>
+                            <div class="col col-12 col-md-12">
+                                <div class="form-group">
+                                    <div class="upload-file-box">
+                                        <div class="file-upload-box">
+                                            <div class="file-select text-center m-auto">
+                                                {{-- <img src="/assets/images/upload-file-icon.svg" alt="icn" class="img-fluid mb-3"> --}}
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="id_upload" name="id_upload" id="id_upload" aria-describedby="inputGroupFileAddon01" accept="image/jpeg,image/png,application/pdf">
+                                                        <label class="custom-file-label ml-auto mr-auto" for="id_upload">Click here to upload ID proof</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <p class="mb-0 mt-3">Business Identity Proof (scan and upload only .jpg, .jpeg, .png and .pdf files)</p>
+                                </div>
+                            </div>
+                            <div class="col col-12 col-md-12 mb-0">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- content @e -->
 @endsection
 @section('script')
@@ -288,8 +439,27 @@
         },
         minimumInputLength: 3
     });
+    $("#exampleModal").on('hidden.bs.modal', function(){
+        $('div.errTxt').html('');
+        $('#companyForm')[0].reset();
+        $('.custom-file-label').text('Click here to upload ID proof');
+    });
+    $(document).on('click', '#add-shipping-btn', function () {
+        $('#exampleModal .title').text('Add Shipping Address');
+        $('#company_type').val('shipping');
+        $('#form_customer_id').val($('#customer_id').val());
+        $('#exampleModal').modal('show');
+    });
+    $(document).on('click', '#add-billing-btn', function () {
+        $('#exampleModal .title').text('Add Billing Address');
+        $('#company_type').val('billing');
+        $('#form_customer_id').val($('#customer_id').val());
+        $('#exampleModal').modal('show');
+    });
 
     var company_details = [];
+    var address_added = false;
+    var address_id = null;
     $(document).on('change', '#customer_id', function () {
         $('#append_loader').show();
         var refCustomer_id = $(this).val();
@@ -317,8 +487,16 @@
                     $('#company_name').append($('<option />').val(value.customer_company_id).text(value.name));
                     $('#shipping_name').append($('<option />').val(value.customer_company_id).text(value.name));
                 });
-                $('#company_name').trigger('change');
-                $('#shipping_name').trigger('change');
+                if (address_added == false) {
+                    $('#company_name, #shipping_name').trigger('change');
+                    $('#add-billing-btn, #add-shipping-btn').attr('disabled', false);
+                } else {
+                    if ($('#company_type').val() == 'shipping') {
+                        $("#shipping_name").val(address_id).trigger('change');
+                    } else {
+                        $("#company_name").val(address_id).trigger('change');
+                    }
+                }
             }
         });
         $('#append_loader').hide();
@@ -367,7 +545,7 @@
         }
     });
 
-    $(document).on('change', '#company_country, #shipping_country', function () {
+    $(document).on('change', '#company_country, #shipping_country, #company_country2', function () {
         $.ajax({
             type: "POST",
             url: "/getStates",
@@ -388,8 +566,10 @@
                 else {
                     if ($(this).attr('id') == 'shipping_country') {
                         $('#shipping_state').html(response.data);
-                    } else {
+                    } else if ($(this).attr('id') == 'company_country') {
                         $('#company_state').html(response.data);
+                    } else {
+                        $('#company_state2').html(response.data);
                     }
                 }
             },
@@ -404,7 +584,7 @@
         });
     });
 
-    $(document).on('change', '#company_state, #shipping_state', function () {
+    $(document).on('change', '#company_state, #shipping_state, #company_state2', function () {
         $.ajax({
             type: "POST",
             url: "/getCities",
@@ -425,8 +605,10 @@
                 else {
                     if ($(this).attr('id') == 'shipping_state') {
                         $('#shipping_city').html(response.data);
-                    } else {
+                    } else if ($(this).attr('id') == 'company_state') {
                         $('#company_city').html(response.data);
+                    } else {
+                        $('#company_city2').html(response.data);
                     }
                 }
             },
@@ -484,6 +666,113 @@
                 }
             });
         }
+    });
+
+    $("#companyForm").validate({
+        errorClass: 'red-error',
+        errorElement: 'div',
+        rules: {
+            company_name: {required: true, minlength: 4, maxlength: 200},
+            company_office_no: { required: true, rangelength: [10, 11]},
+            company_email: {required: true, email: true},
+            company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+            company_address: {required: true, rangelength: [10, 200]},
+            company_country: {required: true},
+            company_state: {required: true},
+            company_city: {required: true},
+            company_pincode: { required: true, number: true},
+            id_upload: {
+                required: true
+            }
+        },
+        messages: {
+            company_name: {required: "Please enter your company name"},
+            company_email: {
+                required: "Please enter your email address",
+                email: "Your email address must be in the format of name@domain.com"
+            },
+            company_office_no: {
+                required: "Please enter your mobile number",
+                number: "Your contact number should only consist of numeric digits"
+            },
+            company_email: { required: "Please enter your company email address"},
+            company_gst_pan: {required: "Please enter your company GST or PAN"},
+            company_address: {required: "Please enter your company address"},
+            company_country: {required: "Please select the country"},
+            company_state: {required: "Please select the state/province"},
+            company_city: {required: "Please enter the city name"},
+            company_pincode: {required: "Please enter the pincode"},
+            id_upload: {required: "Please select the identity proof"}
+        },
+        errorPlacement: function(error, element) {
+            if (element.attr('id') == 'id_upload') {
+                error.appendTo( element.closest('.file-upload-box').nextAll("div.errTxt") );
+            } else {
+                error.appendTo( element.parent().nextAll("div.errTxt") );
+            }
+        },
+        submitHandler: function(form) {
+            // do other things for a valid form
+            // form.submit();
+            var formData = new FormData(form);
+            formData.append('id_upload', $('#id_upload')[0].files);
+            $.ajax({
+                type: "POST",
+                url: "/admin/customers/save-addresses",
+                data: formData,
+                processData : false,
+                contentType : false,
+                context: this,
+                dataType: 'JSON',
+                success: function(response) {
+                    $('.cs-loader').hide();
+                    if (response.success == 1) {
+                        $.toast({
+                            heading: 'Success',
+                            text: response.message,
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                        /* var opt = null;
+                        $(response.data).each(function (i, v) {
+                            opt += '<option value="'+ v.customer_company_id +'" >'+ v.name +' </option>';
+                        });
+                        $('#company_name, #shipping_name').html(opt);
+                        $('#company_name, #shipping_name').select2('destroy').select2({
+                            width: '100%'
+                        });
+                        if ($('#company_type').val() == 'shipping') {
+                            $("#shipping_name").val(response.id).trigger('change');
+                        } else {
+                            $("#company_name").val(response.id).trigger('change');
+                        }*/
+                        address_added = true;
+                        address_id = response.id;
+                        $("#customer_id").trigger('change');
+                        $('#exampleModal').modal('hide');
+                    }
+                    if(response.error) {
+                        $.toast({
+                            heading: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                    }
+                },
+                failure: function (response) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Oops, something went wrong...!',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+            });
+        }
+    });
+    $(document).on('change', '#id_upload', function () {
+        $(this).next('label').text($(this)[0].files[0].name);
     });
 
     var labour_4p = {{ $labour_charge_4p->amount }};

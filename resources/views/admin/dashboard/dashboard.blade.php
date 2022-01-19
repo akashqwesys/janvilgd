@@ -43,7 +43,7 @@
             <div class="nk-content-body">
                 <div class="nk-block card card-bordered">
                     <div class="row g-gs card-body">
-                        <div class="col-md-2 col-lg-2 col-4">
+                        <div class="col-md-2 col-lg-2 col-4 {{ $request->path() == 'admin/dashboard/inventory' ? 'bg-primary-dim' : '' }}">
                             <div class="">
                                 <a class="a-head" href="/admin/dashboard/inventory">
                                     <em class="icon ni ni-money"></em>
@@ -51,7 +51,7 @@
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-2 col-lg-2 col-4">
+                        <div class="col-md-2 col-lg-2 col-4 {{ $request->path() == 'admin/dashboard/sales' ? 'bg-primary-dim' : '' }}">
                             <div class="">
                                 <a class="a-head" href="/admin/dashboard/sales">
                                     <em class="icon ni ni-sign-dollar"></em>
@@ -59,9 +59,9 @@
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-md-2 col-lg-2 col-4">
+                        <div class="col-md-2 col-lg-2 col-4 {{ $request->path() == 'admin/dashboard' ? 'bg-primary-dim' : '' }}">
                             <div class="">
-                                <a class="a-head" href="/admin/dashboard/accounts">
+                                <a class="a-head" href="/admin/dashboard">
                                     <em class="icon ni ni-report-profit"></em>
                                     <span class="pl-1"><b>ACCOUNTS</b></span>
                                 </a>
@@ -145,26 +145,26 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Completed Orders ({{ count($completed_orders) }})</h6>
+                                                <h6 class="title">Paid Orders ({{ count($paid_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
                                                 <a href="/admin/orders?filter=COMPLETED" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @if (count($completed_orders))
-                                    @for ($i = 0; $i < (count($completed_orders) < 5 ? count($completed_orders) : 5); $i++)
+                                    @if (count($paid_orders))
+                                    @for ($i = 0; $i < (count($paid_orders) < 5 ? count($paid_orders) : 5); $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $completed_orders[$i]->name[0] }}</span>
+                                                <span>{{ $paid_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $completed_orders[$i]->name . ' (#' . $completed_orders[$i]->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $completed_orders[$i]->email_id }}</span>
+                                                <span class="lead-text">{{ $paid_orders[$i]->name . ' (#' . $paid_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $paid_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ number_format(round($completed_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
+                                                <small>${{ number_format(round($paid_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
                                             </div>
                                         </div>
                                     </div>
