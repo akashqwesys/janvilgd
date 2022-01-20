@@ -40,7 +40,8 @@ class ContactController extends Controller {
             $data_array['date_added']=date('Y-m-d H:i:s');
             
             DB::table('contact_req')->insert($data_array);
-
+            $attr_id = DB::getPdo()->lastInsertId();
+            echo $attr_id;die;
             // $admin_email = DB::table('settings')
             //     ->select('value')
             //     ->where('key', 'admin_email')
