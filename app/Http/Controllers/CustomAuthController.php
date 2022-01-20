@@ -35,7 +35,7 @@ class CustomAuthController extends Controller {
     public function loginView()
     {
         if(Session()->has('loginId')){
-            return redirect('/admin/dashboard');
+            return redirect('/admin/dashboard/inventory');
         }
         $data['title']='Login';
         return view('admin.login',["data"=>$data]);
@@ -69,7 +69,7 @@ class CustomAuthController extends Controller {
                 // Auth::loginUsingId($user->id);
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
-                return redirect('admin/dashboard');
+                return redirect('admin/dashboard/inventory');
             }else{
                 return back()->with('fail','Password not matches');
             }

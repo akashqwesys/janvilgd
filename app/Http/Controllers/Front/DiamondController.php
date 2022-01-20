@@ -947,7 +947,7 @@ class DiamondController extends Controller {
 
                 $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
                     <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
-                    <td scope="col" class="text-right"><button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button></td>' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
+                    <td scope="col" class="text-right"><button class="btn btn-primary add-to-cart btn-sm" data-id="'. $v['diamond_id'].'">Add To Cart</button></td>' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
                     </tr>';
                 $i++;
             }
