@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Mail\CommonEmail;
 use DB;
+use Session;
 use Carbon\Carbon;
 
 class ContactController extends Controller {
