@@ -148,7 +148,7 @@
                                                 <h6 class="title">Paid Orders ({{ count($paid_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="/admin/orders?filter=COMPLETED" class="link">View All</a>
+                                                <a href="/admin/orders?filter=PAID" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>

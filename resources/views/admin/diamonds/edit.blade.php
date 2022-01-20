@@ -199,7 +199,7 @@
                                                                     }
                                                                 ?>
                                                                 <input type="hidden" name="attribute_group_name_v[]" value="{{ $value }}" >
-                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
+                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off" onchange="setPrev(this)">
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
                                                         </div>
@@ -383,12 +383,12 @@
                                                                         }
                                                                     }
                                                                 ?>
-                                                                @if ($row->name == 'COMMENT')
-                                                                <textarea class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off" rows="6">{{ $value }}</textarea>
-                                                                @else
-                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off">
-                                                                @endif
                                                                 <input type="hidden" name="attribute_group_name_v[]" value="{{ $value }}" >
+                                                                @if ($row->name == 'COMMENT')
+                                                                <textarea class="form-control" name="attribute_group_id_value[]" placeholder="Enter value" autocomplete="off" rows="6" onchange="setPrev(this)">{{ $value }}</textarea>
+                                                                @else
+                                                                <input type="text" class="form-control" name="attribute_group_id_value[]" value="<?php echo $value; ?>" placeholder="Enter value" autocomplete="off" onchange="setPrev(this)">
+                                                                @endif
                                                                 <input type="hidden" name="attribute_group_id[]" value="<?php echo $row->attribute_group_id; ?>">
                                                             </div>
                                                         </div>
@@ -499,6 +499,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
 <script>
+    function setPrev(ele) {
+        $(ele).prev('input').val(ele.value)
+    }
     $.validator.addMethod("alphanumeric", function(value, element) {
         return this.optional(element) || /^[a-zA-Z0-9]+$/i.test(value);
     }, "Enter valid alphanumeric value");

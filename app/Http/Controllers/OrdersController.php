@@ -357,7 +357,7 @@ class OrdersController extends Controller
     {
         if ($request->ajax()) {
             $data = DB::table('orders')
-                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated');
+                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = orders.order_id order by order_update_id desc limit 1) as order_status"));
             if (isset($request->order_status) && !empty($request->order_status)) {
                 if ($request->order_status == 'PENDING') {
                     $data = $data->whereNotExists(function ($query) {
@@ -390,33 +390,12 @@ class OrdersController extends Controller
                 $data = $data->where('orders.refCustomer_id', $request->customer_id);
             }
             if (isset($request->category) && !empty($request->category)) {
-                if (isset($request->shape) && !empty($request->shape)) {
-                    /* if ($request->category == 3) {
-                        $attr_ids = DB::table('attributes')
-                        ->select(
-                            DB::raw("case when attribute_group_id = 18 and name = '$request->shape' then attribute_id end as shape_id"),
-                            DB::raw("case when attribute_group_id = 17 and name = '$request->color' then attribute_id end as color_id"),
-                            DB::raw("case when attribute_group_id = 16 and name = '$request->clarity' then attribute_id end as clarity_id"),
-                            DB::raw("case when attribute_group_id = 24 and name = '$request->cut' then attribute_id end as cut_id"),
-                        )
-                        ->first();
-                    }
-                    $data = $data->whereExists(function ($query) use ($request) {
-                        $query->select(DB::raw(1))
-                            ->from('order_diamonds as od')
-                            ->whereColumn('od.refOrder_id', 'orders.order_id')
-                            ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
-                            ->where('refAttribute_id', $attr_ids->shape_id)
-                            ->where('od.refCategory_id', $request->category);
-                    }); */
-                } else {
-                    $data = $data->whereExists(function ($query) use($request) {
-                        $query->select(DB::raw(1))
-                            ->from('order_diamonds as od')
-                            ->whereColumn('od.refOrder_id', 'orders.order_id')
-                            ->where('od.refCategory_id', $request->category);
-                    });
-                }
+                $data = $data->whereExists(function ($query) use($request) {
+                    $query->select(DB::raw(1))
+                        ->from('order_diamonds as od')
+                        ->whereColumn('od.refOrder_id', 'orders.order_id')
+                        ->where('od.refCategory_id', $request->category);
+                });
             }
             $data = $data->orderBy('orders.order_id', 'desc')
                 ->get();
@@ -443,6 +422,17 @@ class OrdersController extends Controller
                     }
                     $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary">&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
                     return $actionBtn;
+                })
+                ->editColumn('order_status', function ($row) {
+                    if ($row->order_status == 'PAID') {
+                        return '<span class="badge badge-success">' . $row->order_status . '</span>';
+                    } else if ($row->order_status == 'UNPAID') {
+                        return '<span class="badge badge-danger">' . $row->order_status . '</span>';
+                    } else if ($row->order_status == 'CANCELLED') {
+                        return '<span class="badge badge-light">' . $row->order_status . '</span>';
+                    } else {
+                        return '<span class="badge badge-warning">' . $row->order_status . '</span>';
+                    }
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -1229,8 +1219,7 @@ class OrdersController extends Controller
                 when exists(select 1 from order_updates where order_status_name = 'UNPAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'UNPAID'
                 end )
                 as status") */
-                DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1)
-                as status"));
+                DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1) as status"));
             if ($request->slug == 'rough-diamonds') {
                 $diamonds = $diamonds->whereIn('refAttribute_group_id', [2, 3, 1])
                     ->where('od.refCategory_id', 1);
