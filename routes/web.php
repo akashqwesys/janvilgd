@@ -40,6 +40,7 @@ use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ContactController as Inquiries;
 use App\Http\Controllers\DashboardController as AdminDashboard;
 
 use App\Http\Controllers\Front\TestController;
@@ -63,6 +64,8 @@ Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
 Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
+
+// Route::post('customer/contact', [ContactController::class, 'index']);
 
 // ---------------- Customer  --------------------
 // Authentication
@@ -400,6 +403,10 @@ Route::post('customers/save-addresses', [CustomersController::class, 'saveAddres
 Route::post('customers/delete-addresses', [CustomersController::class, 'deleteAddress'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Customers route end *************/
+
+/***************  Contact inquiries route *************/
+Route::get('inquiries', [Inquiries::class, 'index'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Contact inquiries route end *************/
 
 /***************  Delivery-charges route *************/
 Route::get('delivery-charges', [DeliveryChargesController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

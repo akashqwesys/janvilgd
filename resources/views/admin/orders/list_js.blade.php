@@ -52,7 +52,7 @@
                 // {data: 'payment_mode_name', name: 'payment_mode_name'},
                 {data: 'refTransaction_id', name: 'refTransaction_id'},
                 {data: 'date_added', name: 'date_added'},
-                // {data: 'date_updated', name: 'date_updated'},
+                {data: 'order_status', name: 'order_status'},
                 {data: 'total_paid_amount', name: 'total_paid_amount'},
                 {
                     data: 'action',
