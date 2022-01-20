@@ -70,7 +70,8 @@
                 "ajax": {
                         'url': "{{ route('diamonds.list') }}",
                         'data': {
-                            'refCategory_id':<?php echo $data['cat_id']; ?>
+                            'refCategory_id':<?php echo $data['cat_id']; ?>,
+                            'shape': filter_shape
                         }
                     },
                 columns:table_columns,

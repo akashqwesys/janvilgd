@@ -90,7 +90,9 @@
                                                 <span>T</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Instock</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/3">Total Instock</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_polish }}</b></small>
@@ -103,7 +105,9 @@
                                                 <span>R</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Round</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/3?shape=Round">Total Round</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $round_polish['count'] }}</b></small>
@@ -116,7 +120,9 @@
                                                 <span>F</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Fancy</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/3?shape=all">Total Fancy</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_polish - $round_polish['count'] }}</b></small>
@@ -142,7 +148,9 @@
                                                 <span>T</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Instock</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/2">Total Instock</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_4p }}</b></small>
@@ -155,7 +163,9 @@
                                                 <span>R</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Round</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/2?shape=Round">Total Round</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $round_4p['count'] }}</b></small>
@@ -168,7 +178,9 @@
                                                 <span>F</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Fancy</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/2?shape=all">Total Fancy</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_4p - $round_4p['count'] }}</b></small>
@@ -194,7 +206,9 @@
                                                 <span>T</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Instock</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/1">Total Instock</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_rough }}</b></small>
@@ -207,7 +221,9 @@
                                                 <span>R</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Round</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/1?shape=Round">Total Round</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $round_rough['count'] }}</b></small>
@@ -220,7 +236,9 @@
                                                 <span>F</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">Total Fancy</span>
+                                                <span class="lead-text">
+                                                    <a href="/admin/diamonds/list/1?shape=all">Total Fancy</a>
+                                                </span>
                                             </div>
                                             <div class="user-action">
                                                 <small><b>{{ $total_stock->total_rough - $round_rough['count'] }}</b></small>
