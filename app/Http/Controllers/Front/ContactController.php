@@ -41,26 +41,26 @@ class ContactController extends Controller {
             
             DB::table('contact_req')->insert($data_array);
 
-            $admin_email = DB::table('settings')
-                ->select('value')
-                ->where('key', 'admin_email')
-                ->pluck('value')
-                ->first();
-            Mail::to($admin_email)
-                ->send(
-                    new CommonEmail([
-                        'subject' => 'Inquiry from Janvi LGE',
-                        'data' => [
-                            'time' => date('Y-m-d H:i:s'),
-                            'name' => $request->txt_name,
-                            'phone' => $request->txt_phone,
-                            'email' => $request->txt_email,
-                            'subject' => $request->txt_subject,
-                            'msg' => $request->txt_msg,
-                        ],
-                        'view' => 'emails.inquiryEmail'
-                        ])
-                    );
+            // $admin_email = DB::table('settings')
+            //     ->select('value')
+            //     ->where('key', 'admin_email')
+            //     ->pluck('value')
+            //     ->first();
+            // Mail::to($admin_email)
+            //     ->send(
+            //         new CommonEmail([
+            //             'subject' => 'Inquiry from Janvi LGE',
+            //             'data' => [
+            //                 'time' => date('Y-m-d H:i:s'),
+            //                 'name' => $request->txt_name,
+            //                 'phone' => $request->txt_phone,
+            //                 'email' => $request->txt_email,
+            //                 'subject' => $request->txt_subject,
+            //                 'msg' => $request->txt_msg,
+            //             ],
+            //             'view' => 'emails.inquiryEmail'
+            //             ])
+            //         );
             return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
         }
         return view('front.contact');
