@@ -62,9 +62,9 @@ Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
-// Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index'])->name('customer-contact-us');
+Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
 
-Route::post('customer/contact', [ContactController::class, 'index'])->name('customer-contact-us');
+// Route::post('customer/contact', [ContactController::class, 'index']);
 
 // ---------------- Customer  --------------------
 // Authentication
