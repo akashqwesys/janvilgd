@@ -16,14 +16,14 @@ use Elasticsearch\ClientBuilder;
 ini_set('memory_limit', '-1');
 class DiamondsController extends Controller {
 
-    public function index($cat_id) {
+    public function index(Request $request, $cat_id) {
         session()->put('add_category',$cat_id);
         $cat_type = DB::table('categories')->where('is_active', 1)->where('category_id', $cat_id)->where('is_deleted', 0)->first();
         $data['title'] = 'List-Diamonds';
         $data['cat_id'] = $cat_id;
         $data['cat_type'] = $cat_type->category_type;
         $data['cat_name'] = $cat_type->name;
-        return view('admin.diamonds.list', ["data" => $data]);
+        return view('admin.diamonds.list', ["data" => $data, 'request' => $request]);
     }
 
     public function fileImport(Request $request) {
@@ -1995,6 +1995,29 @@ class DiamondsController extends Controller {
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
                 ->build();
+            if ($request->shape == 'Round') {
+                $conditions = [
+                    'must' => [
+                        ['term' => ['refCategory_id' => $request->refCategory_id]],
+                        ['term' => ['attributes.SHAPE' => 'Round']]
+                    ]
+                ];
+            } else if ($request->shape == 'all') {
+                $conditions = [
+                    'must' => [
+                        ['term' => ['refCategory_id' => $request->refCategory_id]]
+                    ],
+                    'must_not' => [
+                        ['term' => ['attributes.SHAPE' => 'Round']]
+                    ]
+                ];
+            } else {
+                $conditions = [
+                    'must' => [
+                        ['term' => ['refCategory_id' => $request->refCategory_id]]
+                    ]
+                ];
+            }
             if (session('user-type') == "MASTER_ADMIN") {
                 // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
                 $params = [
@@ -2002,11 +2025,7 @@ class DiamondsController extends Controller {
                     'index' => 'diamonds',
                     'body'  => [
                         'query' => [
-                            'bool' => [
-                                'must' => [
-                                    ['term' => ['refCategory_id' => $request->refCategory_id]]
-                                ]
-                            ]
+                            'bool' => $conditions
                         ]
                     ]
                 ];

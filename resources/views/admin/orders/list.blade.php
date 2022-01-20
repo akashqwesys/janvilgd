@@ -151,8 +151,8 @@
                                             <th>Mobile No</th>
                                             {{-- <th>Payment</th> --}}
                                             <th>Transaction ID</th>
-                                            <th>Added on</th>
-                                            {{-- <th>Updated On</th> --}}
+                                            <th>Placed on</th>
+                                            <th>Status</th>
                                             <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
@@ -194,10 +194,6 @@
             $('#dateRange').val(date_filter);
             $('#dateRange').trigger('apply.daterangepicker');
         }, 500);
-    } else {
-        setTimeout(() => {
-            $('#dateRange').val('');
-        }, 500);
     }
     if (order_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
@@ -214,12 +210,14 @@
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
         }, 1000);
-    } else if (['PENDING', 'COMPLETED', 'OFFLINE', 'CANCELLED'].includes(order_filter)) {
+    } else if (['PENDING', 'PAID', 'UNPAID', 'OFFLINE', 'CANCELLED'].includes(order_filter)) {
         setTimeout(() => {
+            $('#dateRange').val('');
             $('#orderStatus').val(order_filter).trigger('change');
         }, 1000);
     } else if (['polish', '4p', 'rough'].includes(order_filter)) {
         setTimeout(() => {
+            $('#dateRange').val('');
             $('#d-category').val(order_filter == 'polish' ? 3 : (order_filter == '4p' ? 2 : 1)).trigger('change');
         }, 1000);
     }

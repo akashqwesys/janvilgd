@@ -129,12 +129,38 @@
                                             if (!empty($session_row->submenu)) {
                                                 foreach ($session_row->submenu as $submenu) {
                                                     ?>
+                                                    @if ($submenu->slug == 'orders')
+                                                    <li class="nk-menu-item has-sub">
+                                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                                            <span class="nk-menu-icon"><em class="icon ni {{ $submenu->icon }}"></em></span>
+                                                            <span class="nk-menu-text">{{ $submenu->name }}</span>
+                                                        </a>
+                                                        <ul class="nk-menu-sub">
+                                                            <li class="nk-menu-item">
+                                                                <a href="/admin/orders?filter=PENDING" class="nk-menu-link"><span class="nk-menu-text"> PENDING</span></a>
+                                                            </li>
+                                                            <li class="nk-menu-item">
+                                                                <a href="/admin/orders?filter=PAID" class="nk-menu-link"><span class="nk-menu-text"> PAID</span></a>
+                                                            </li>
+                                                            <li class="nk-menu-item">
+                                                                <a href="/admin/orders?filter=UNPAID" class="nk-menu-link"><span class="nk-menu-text"> UNPAID</span></a>
+                                                            </li>
+                                                            <li class="nk-menu-item">
+                                                                <a href="/admin/orders?filter=CANCELLED" class="nk-menu-link"><span class="nk-menu-text"> CANCELLED</span></a>
+                                                            </li>
+                                                            <li class="nk-menu-item">
+                                                                <a href="/admin/orders?filter=OFFLINE" class="nk-menu-link"><span class="nk-menu-text"> OFFLINE</span></a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    @else
                                                     <li class="nk-menu-item">
                                                         <a href="/<?php echo 'admin/' . $submenu->slug; ?>" class="nk-menu-link">
                                                             <span class="nk-menu-icon"><em class="icon ni <?php echo $submenu->icon; ?>"></em></span>
                                                             <span class="nk-menu-text"><?php echo $submenu->name; ?></span>
                                                         </a>
                                                     </li><!-- .nk-menu-item -->
+                                                    @endif
                                                     <?php
                                                 }
                                             }
