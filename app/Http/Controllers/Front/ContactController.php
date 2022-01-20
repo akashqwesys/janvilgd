@@ -39,9 +39,7 @@ class ContactController extends Controller {
             $data_array['message']=$request->txt_msg;
             $data_array['date_added']=date('Y-m-d H:i:s');
             
-            DB::table('contact_req')->insert($data_array);
-            $attr_id = DB::getPdo()->lastInsertId();
-            echo $attr_id;die;
+            DB::table('contact_req')->insert($data_array);           
             // $admin_email = DB::table('settings')
             //     ->select('value')
             //     ->where('key', 'admin_email')
@@ -62,7 +60,8 @@ class ContactController extends Controller {
             //             'view' => 'emails.inquiryEmail'
             //             ])
             //         );
-            return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
+            // return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
+            return redirect('/customer/contact')->with(['success' => 1, 'message' => 'Inquiry sent successfully');
         }
         return view('front.contact');
     }
