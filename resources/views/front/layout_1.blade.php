@@ -465,8 +465,6 @@ $(document).ready(function(){
 		});
 		<?php session(['success' => 0]); ?>
 	}
-
-
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
