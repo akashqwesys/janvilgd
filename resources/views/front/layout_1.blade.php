@@ -445,8 +445,24 @@ $(document).ready(function(){
 	<?php
 		if (!isset($_SESSION['message'])) {
 			$_SESSION['message'] = '';
-		}
+		}		
 	?>
+	if (<?php
+	if (!empty(session()->get('success'))) {
+		echo session()->get('success');
+	} else {
+		echo 0;
+	}
+	?> === 1)
+	{
+		$.toast({
+			heading: 'Success',
+			text: '<?php echo session()->get('message') ?>',
+			icon: 'success',
+			position: 'top-right'
+		});
+		<?php session(['success' => 0]); ?>
+	}
 
 
 	$('ul.dropdown-menu li .active').removeClass('active');
