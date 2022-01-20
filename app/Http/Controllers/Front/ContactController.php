@@ -61,7 +61,8 @@ class ContactController extends Controller {
             //             ])
             //         );
             // return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
-            return redirect('/contact')->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
+            // return redirect('/contact')->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
+            successOrErrorMessage("Inquiry sent successfully", 'success');
         }
         return redirect('/contact');
     }

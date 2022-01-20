@@ -441,6 +441,14 @@ function init() {
 <script>
 $(document).ready(function(){
 	AOS.init();
+
+	<?php
+		if (!isset($_SESSION['message'])) {
+			$_SESSION['message'] = '';
+		}
+	?>
+
+
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
