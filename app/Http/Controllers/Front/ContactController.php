@@ -32,6 +32,17 @@ class ContactController extends Controller {
             if ($validator->fails()) {
                 return back()->with(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
+
+            $data_array=array();
+            $data_array['name']=$request->txt_name;
+            $data_array['phone']=$request->txt_phone;
+            $data_array['email']=$request->txt_email;
+            $data_array['subject']=$request->txt_subject;
+            $data_array['message']=$request->txt_msg;
+            $data_array['date_added']=date('Y-m-d H:i:s');
+            
+            DB::table('contact_req')->insert($data_array);
+
             $admin_email = DB::table('settings')
                 ->select('value')
                 ->where('key', 'admin_email')
