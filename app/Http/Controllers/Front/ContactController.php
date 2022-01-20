@@ -15,9 +15,7 @@ class ContactController extends Controller {
 
     public function index(Request $request)
     {
-        if ($request->isMethod('GET')) {
-            return view('front.contact');
-        } else {
+        if (isset($request->txt_name)) {          
             $rules = [
                 'txt_name' => ['required'],
                 'txt_phone' => ['required'],
@@ -65,5 +63,6 @@ class ContactController extends Controller {
                     );
             return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
         }
+        return view('front.contact');
     }
 }
