@@ -38,7 +38,7 @@ class CustomAuthController extends Controller {
             return redirect('/admin/dashboard/inventory');
         }
         $data['title']='Login';
-        return view('admin.login',["data"=>$data]);
+        return view('admin.login', ["data"=>$data]);
     }
 
     public function userLogin(Request $request)
@@ -69,6 +69,7 @@ class CustomAuthController extends Controller {
                 // Auth::loginUsingId($user->id);
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
+                $request->session()->put('user_email',$user->email);
                 return redirect('admin/dashboard/inventory');
             }else{
                 return back()->with('fail','Password not matches');

@@ -66,6 +66,6 @@
 <script  src="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.min.js')}}" type="text/javascript" ></script>
 <script>
-    var filter_shape = '{{ $request['shape'] }}';
+    var filter_attribute = '{{ $request['filter'] }}';
 </script>
 @endsection
