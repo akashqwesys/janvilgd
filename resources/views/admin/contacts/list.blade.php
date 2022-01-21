@@ -55,7 +55,7 @@
                                             <td> {{ $c->phone }} </td>
                                             <td> {{ $c->email }} </td>
                                             <td> {{ $c->subject }} </td>
-                                            <td> {{ $c->message }} </td>
+                                            <td> {{ wordwrap($c->message,15,"<br>\n"); }} </td>
                                             <td> {{ $c->date_added }} </td>
                                         </tr>
                                         @endforeach
