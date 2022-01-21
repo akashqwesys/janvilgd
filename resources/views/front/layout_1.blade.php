@@ -438,8 +438,9 @@ function init() {
        separateDialCode: true,
       utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
     });
-	$("form").submit(function() {
+	$("#contact_form").submit(function() {
     	$("#phone2").val($("#phone").intlTelInput("getNumber"));
+		alert($("#phone").intlTelInput("getNumber"));
 	});
   </script>
 
