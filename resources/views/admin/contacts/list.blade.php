@@ -55,7 +55,7 @@
                                             <td> {{ $c->phone }} </td>
                                             <td> {{ $c->email }} </td>
                                             <td> {{ $c->subject }} </td>
-                                            <td> <?php echo wordwrap($c->message,150,"<br>\n"); ?> </td>
+                                            <td><p> <?php echo wordwrap($c->message,150,"<br>\n"); ?> </p></td>
                                             <td> {{ $c->date_added }} </td>
                                         </tr>
                                         @endforeach
