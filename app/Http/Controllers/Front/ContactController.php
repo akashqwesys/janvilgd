@@ -24,6 +24,9 @@ class ContactController extends Controller {
                 'txt_msg' => ['required']
             ];           
 
+
+            print_r($request->txt_phone);die;
+
             $message = [];
 
             $validator = Validator::make($request->all(), $rules, $message);
