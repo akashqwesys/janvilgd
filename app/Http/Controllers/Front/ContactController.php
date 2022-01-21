@@ -17,16 +17,19 @@ class ContactController extends Controller {
     public function index(Request $request)
     {
         if(isset($request->txt_name)) { 
-            
-            
-echo 'hi';die;
-
             $rules = [
                 'txt_name' => ['required'],
                 'txt_phone' => ['required'],
                 'txt_email' => ['required', 'email'],
                 'txt_msg' => ['required']
             ];
+
+
+            echo $request->txt_name.'<br>';
+            echo $request->txt_phone.'<br>';
+            echo $request->txt_email.'<br>';
+            echo $request->txt_subject.'<br>';
+            echo $request->txt_msg.'<br>';die;
 
             $message = [];
 
