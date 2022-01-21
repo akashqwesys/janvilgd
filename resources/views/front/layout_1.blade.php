@@ -442,7 +442,7 @@ function init() {
 	// 	utilsScript: "../../build/js/utils.js?1638200991544" // just for formatting/placeholders etc
 	// });
 	input.addEventListener("countrychange",function() {
-		alert(iti.getSelectedCountryData().code);
+		alert(iti.getSelectedCountryData().iso1);
 	});
 
   </script>
