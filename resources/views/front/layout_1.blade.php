@@ -484,6 +484,10 @@ $(document).ready(function(){
         }		        
        
     });
+
+	$("form").submit(function() {
+    	$("#phone2").val($("#phone").intlTelInput("getNumber"));
+	});
 });
 </script>
 
