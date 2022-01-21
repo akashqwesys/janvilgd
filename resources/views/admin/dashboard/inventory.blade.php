@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/3?shape=Round">Total Round</a>
+                                                    <a href="/admin/diamonds/list/3?filter=25">Total Round</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">
@@ -121,7 +121,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/3?shape=all">Total Fancy</a>
+                                                    <a href="/admin/diamonds/list/3?filter=not_25">Total Fancy</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">
@@ -164,7 +164,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/2?shape=Round">Total Round</a>
+                                                    <a href="/admin/diamonds/list/2?filter=13">Total Round</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">
@@ -179,7 +179,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/2?shape=all">Total Fancy</a>
+                                                    <a href="/admin/diamonds/list/2?filter=not_13">Total Fancy</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">
@@ -222,7 +222,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/1?shape=Round">Total Round</a>
+                                                    <a href="/admin/diamonds/list/1?filter=1">Total Round</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">
@@ -237,7 +237,7 @@
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">
-                                                    <a href="/admin/diamonds/list/1?shape=all">Total Fancy</a>
+                                                    <a href="/admin/diamonds/list/1?filter=not_1">Total Fancy</a>
                                                 </span>
                                             </div>
                                             <div class="user-action">

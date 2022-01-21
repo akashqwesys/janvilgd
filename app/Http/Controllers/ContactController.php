@@ -19,6 +19,7 @@ class ContactController extends Controller
         $data['title'] = 'Inquiry List';
         $contacts = DB::table('contact_req')
             ->select('id', 'name', 'phone', 'email', 'subject', 'message', 'date_added')
+            ->orderBy('id', 'desc')
             ->get();
         return view('admin.contacts.list', compact('data', 'contacts'));
     }

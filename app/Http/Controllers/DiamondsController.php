@@ -1995,59 +1995,78 @@ class DiamondsController extends Controller {
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
                 ->build();
-            if ($request->shape == 'Round') {
+
+            if (strpos($request->filter_attribute, "not_") !== false) {
                 $conditions = [
-                    'must' => [
-                        ['term' => ['refCategory_id' => $request->refCategory_id]],
-                        ['term' => ['attributes.SHAPE' => 'Round']]
-                    ]
-                ];
-            } else if ($request->shape == 'all') {
-                $conditions = [
-                    'must' => [
-                        ['term' => ['refCategory_id' => $request->refCategory_id]]
-                    ],
-                    'must_not' => [
-                        ['term' => ['attributes.SHAPE' => 'Round']]
-                    ]
-                ];
-            } else {
-                $conditions = [
-                    'must' => [
-                        ['term' => ['refCategory_id' => $request->refCategory_id]]
-                    ]
-                ];
-            }
-            if (session('user-type') == "MASTER_ADMIN") {
-                // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->orderBy('diamond_id', 'desc')->get();
-                $params = [
-                    'size'   => 10000,
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'query' => [
-                            'bool' => $conditions
-                        ]
-                    ]
-                ];
-            } else {
-                // $data = DB::table('diamonds')->select('diamonds.*', 'categories.name as category_name')->leftJoin('categories', 'diamonds.refCategory_id', '=', 'categories.category_id')->where('refCategory_id', $request->refCategory_id)->where('is_deleted',0)->orderBy('diamond_id', 'desc')->get();
-                $params = [
-                    'size'   => 10000,
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'query' => [
-                            'bool' => [
-                                'must' => [
-                                    ['term' => ['refCategory_id' => $request->refCategory_id]],
-                                    ['term' => ['is_deleted' => 0]]
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    'term' => [
+                                        'refCategory_id' => ['value' => $request->refCategory_id]
+                                    ]
+                                ]
+                            ],
+                            'must_not' => [
+                                [
+                                    'nested' => [
+                                        'query' => [
+                                            'term' => [
+                                                'attributes_id.attribute_id' => ['value' => explode('_', $request->filter_attribute)[1]]
+                                            ]
+                                        ],
+                                        'path' => 'attributes_id'
+                                    ]
                                 ]
                             ]
                         ]
                     ]
                 ];
+            } else if (!empty($request->filter_attribute)) {
+                $conditions = [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    'term' => [
+                                        'refCategory_id' => [ 'value' => $request->refCategory_id ]
+                                    ]
+                                ],
+                                [
+                                    'nested' => [
+                                        'query' => [
+                                            'term' => [
+                                                'attributes_id.attribute_id' => [ 'value' => $request->filter_attribute ]
+                                            ]
+                                        ],
+                                        'path' => 'attributes_id'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+            } else {
+                $conditions = [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                ['term' => ['refCategory_id' => $request->refCategory_id]]
+                            ]
+                        ]
+                    ]
+                ];
             }
+
+            $params = [
+                'size'   => 10000,
+                'index' => 'diamonds',
+                'body'  => $conditions
+            ];
+
             $data = $client->search($params);
             $data = (isset($data['hits']['hits']) && count($data['hits']['hits']) > 0) ? $data['hits']['hits'] : [];
+
             $final_data = [];
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
@@ -2105,7 +2124,7 @@ class DiamondsController extends Controller {
                     return date_formate($row['date_added']);
                 })
                 ->editColumn('discount', function ($row) {
-                    return $row['discount'] * 100;
+                    return round($row['discount'] * 100, 2);
                 })
                 // ->editColumn('weight_loss', function ($row) {
                 //     return round($row['weight_loss'],2);

@@ -217,7 +217,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>ROUND</h6>
+                                                            <h6 class="bs-tooltip"> <a href="/admin/diamonds/list/3?filter=25">ROUND</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_round }}</div>
                                                         </div>
                                                     </td>
@@ -238,7 +238,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>OVAL</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=26">OVAL</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_oval }}</div>
                                                         </div>
                                                     </td>
@@ -259,7 +259,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>HEART</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=27">HEART</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_heart }}</div>
                                                         </div>
                                                     </td>
@@ -280,7 +280,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>PEAR</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=28">PEAR</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_pear }}</div>
                                                         </div>
                                                     </td>
@@ -301,7 +301,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>PRINCESS</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=29">PRINCESS</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_princess }}</div>
                                                         </div>
                                                     </td>
@@ -322,7 +322,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>RADIANT</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=30">RADIANT</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_radiant }}</div>
                                                         </div>
                                                     </td>
@@ -343,7 +343,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>ASSCHER</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=31">ASSCHER</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_asscher }}</div>
                                                         </div>
                                                     </td>
@@ -364,7 +364,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>EMERALD</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=32">EMERALD</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_emerald }}</div>
                                                         </div>
                                                     </td>
@@ -385,7 +385,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>CUSHION</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=33">CUSHION</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_cushion }}</div>
                                                         </div>
                                                     </td>
@@ -406,7 +406,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>MARQUISE</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=34">MARQUISE</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_marquise }}</div>
                                                         </div>
                                                     </td>
@@ -427,7 +427,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>BAGUETTE</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=35">BAGUETTE</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_baguette }}</div>
                                                         </div>
                                                     </td>
@@ -448,7 +448,7 @@
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <h6>TRIANGLE</h6>
+                                                            <h6><a href="/admin/diamonds/list/3?filter=36">TRIANGLE</a></h6>
                                                             <div class="sub-text">{{ $analysis->total_triangle }}</div>
                                                         </div>
                                                     </td>
@@ -490,7 +490,7 @@
                                         <div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">D Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=68">D Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_d = $analysis->total_d ? number_format($analysis_p->total_d * 100 / $analysis->total_d, 2, '.', ',') : 0.00;
@@ -504,7 +504,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">E Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=69">E Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_e = $analysis->total_e ? number_format($analysis_p->total_e * 100 / $analysis->total_e, 2, '.', ',') : 0.00;
@@ -518,7 +518,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">F Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=70">F Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_f = $analysis->total_f ? number_format($analysis_p->total_f * 100 / $analysis->total_f, 2, '.', ',') : 0.00;
@@ -532,7 +532,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">G Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=71">G Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_g = $analysis->total_g ? number_format($analysis_p->total_g * 100 / $analysis->total_g, 2, '.', ',') : 0.00;
@@ -546,7 +546,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">H Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=72">H Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_h = $analysis->total_h ? number_format($analysis_p->total_h * 100 / $analysis->total_h, 2, '.', ',') : 0.00;
@@ -560,7 +560,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">I Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=73">I Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_i = $analysis->total_i ? number_format($analysis_p->total_i * 100 / $analysis->total_i, 2, '.', ',') : 0.00;
@@ -574,7 +574,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">J Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=74">J Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_j = $analysis->total_j ? number_format($analysis_p->total_j * 100 / $analysis->total_j, 2, '.', ',') : 0.00;
@@ -588,7 +588,7 @@
                                             </div>
                                             <div class="mb-2">
                                                 <div class="row">
-                                                    <div class="col-6">K Color</div>
+                                                    <div class="col-6"><a href="/admin/diamonds/list/3?filter=75">K Color</a></div>
                                                     <div class="col-6 text-right">
                                                         @php
                                                             $color_k = $analysis->total_k ? number_format($analysis_p->total_k * 100 / $analysis->total_k, 2, '.', ',') : 0.00;
@@ -630,6 +630,8 @@
                         <div class="col-md-6 col-lg-6 col-sm-12 col-12 mb-4" >
                             <div class="card">
                                 <div class="card-body">
+                                    <h5>Top Customers</h5>
+                                    <hr>
                                     <div>
                                         <table class="table" id="datatable-customers">
                                             <thead>
@@ -670,6 +672,12 @@
         // sorting: false,
         "order": []
     });
+
+    /* $('.bs-tooltip').tooltip({
+        html: true,
+        title: '<a href="/admin/diamonds/list/1?filter=25"><div class="badge badge-danger">POLISH</div></a> <a href="/admin/diamonds/list/1?filter=13">4P</a> <a href="/admin/diamonds/list/1?filter=1">ROUGH</a>',
+        placement: 'auto'
+    }); */
 
     !function (NioApp, $) {
 

@@ -71,7 +71,7 @@
                         'url': "{{ route('diamonds.list') }}",
                         'data': {
                             'refCategory_id':<?php echo $data['cat_id']; ?>,
-                            'shape': filter_shape
+                            'filter_attribute': filter_attribute
                         }
                     },
                 columns:table_columns,

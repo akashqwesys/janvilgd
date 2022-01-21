@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/new-style.css?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">	
@@ -410,13 +411,14 @@ function init() {
 <script src="/{{ check_host() }}assets/js/parallax.js"></script>
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
+<script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 <script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
   <script>
     var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
+    var iti= window.intlTelInput(input, {
       // allowDropdown: false,
       // autoHideDialCode: false,
-      autoPlaceholder: "off",
+    //   autoPlaceholder: "off",
       // dropdownContainer: document.body,
       // excludeCountries: ["us"],
       // formatOnDisplay: false,
@@ -426,22 +428,41 @@ function init() {
       //     callback(countryCode);
       //   });
       // },
-      // hiddenInput: "full_number",
-      // initialCountry: "auto",
+    //    hiddenInput: "full_number",
+    //    initialCountry: "auto",
       // localizedCountries: { 'de': 'Deutschland' },
-      // nationalMode: false,
+    //    nationalMode: false,
       // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
       // placeholderNumberType: "MOBILE",
       // preferredCountries: ['cn', 'jp'],
-      // separateDialCode: true,
-      utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
+    //    separateDialCode: true,
+
+
+	separateDialCode: true,
+	// preferredCountries:["in"],
+	hiddenInput: "full",
+//   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+      utilsScript: "/{{ check_host() }}assets/build/js/utils.js"
     });
+
+	$("form").submit(function() {
+		var full_number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+		$("input[name='txt_phone[full]'").val(full_number);			
+	});
+
+	// var iti = window.intlTelInput(input, {
+	// 	utilsScript: "../../build/js/utils.js?1638200991544" // just for formatting/placeholders etc
+	// });
+	// input.addEventListener("countrychange",function() {
+	// 	alert(iti.getSelectedCountryData());
+
+	// });
+
   </script>
 
 <script>
 $(document).ready(function(){
 	AOS.init();
-
 	<?php
 		if (!isset($_SESSION['message'])) {
 			$_SESSION['message'] = '';
@@ -463,8 +484,6 @@ $(document).ready(function(){
 		});
 		<?php session(['success' => 0]); ?>
 	}
-
-
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
