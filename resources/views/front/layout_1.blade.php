@@ -415,7 +415,7 @@ function init() {
 <script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
   <script>
     var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
+    var iti= window.intlTelInput(input, {
       // allowDropdown: false,
       // autoHideDialCode: false,
       autoPlaceholder: "off",
@@ -438,10 +438,13 @@ function init() {
        separateDialCode: true,
       utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
     });
-	$("#contact_form").submit(function() {
-    	$("#phone2").val($("#phone").intlTelInput("getNumber"));
-		alert($("#phone").intlTelInput("getNumber"));
+	// var iti = window.intlTelInput(input, {
+	// 	utilsScript: "../../build/js/utils.js?1638200991544" // just for formatting/placeholders etc
+	// });
+	input.addEventListener("countrychange",function() {
+		alert(iti.getSelectedCountryData());
 	});
+
   </script>
 
 <script>
