@@ -418,7 +418,7 @@ function init() {
     var iti= window.intlTelInput(input, {
       // allowDropdown: false,
       // autoHideDialCode: false,
-      autoPlaceholder: "off",
+    //   autoPlaceholder: "off",
       // dropdownContainer: document.body,
       // excludeCountries: ["us"],
       // formatOnDisplay: false,
@@ -428,22 +428,38 @@ function init() {
       //     callback(countryCode);
       //   });
       // },
-       hiddenInput: "full_number",
-       initialCountry: "auto",
+    //    hiddenInput: "full_number",
+    //    initialCountry: "auto",
       // localizedCountries: { 'de': 'Deutschland' },
-       nationalMode: false,
+    //    nationalMode: false,
       // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
       // placeholderNumberType: "MOBILE",
       // preferredCountries: ['cn', 'jp'],
-       separateDialCode: true,
-      utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
+    //    separateDialCode: true,
+
+
+	separateDialCode: true,
+	// preferredCountries:["in"],
+	hiddenInput: "full",
+//   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+
+
+
+      utilsScript: "/{{ check_host() }}assets/build/js/utils.js"
     });
+
+	$("form").submit(function() {
+		var full_number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+		$("input[name='txt_phone[full]'").val(full_number);			
+	});
+
 	// var iti = window.intlTelInput(input, {
 	// 	utilsScript: "../../build/js/utils.js?1638200991544" // just for formatting/placeholders etc
 	// });
-	input.addEventListener("countrychange",function() {
-		alert(iti.getSelectedCountryData().iso1);
-	});
+	// input.addEventListener("countrychange",function() {
+	// 	alert(iti.getSelectedCountryData());
+
+	// });
 
   </script>
 
