@@ -17,6 +17,9 @@ class ContactController extends Controller {
     public function index(Request $request)
     {
         if(isset($request->txt_name)) { 
+
+            $request->txt_phone=$request->txt_phone['full'];
+
             $rules = [
                 'txt_name' => ['required'],
                 'txt_phone' => ['required'],
@@ -24,8 +27,7 @@ class ContactController extends Controller {
                 'txt_msg' => ['required']
             ];           
 
-
-            print_r($request->txt_phone);die;
+            
 
             $message = [];
 
