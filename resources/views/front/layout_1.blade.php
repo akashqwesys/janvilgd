@@ -442,9 +442,6 @@ function init() {
 	// preferredCountries:["in"],
 	hiddenInput: "full",
 //   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
-
-
-
       utilsScript: "/{{ check_host() }}assets/build/js/utils.js"
     });
 
