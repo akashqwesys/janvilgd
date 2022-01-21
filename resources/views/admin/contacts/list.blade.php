@@ -81,12 +81,12 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
 <script type="text/javascript">
     var table = $('#table').DataTable({
-        // responsive: {
-        //     details: {
-        //         type: 'column',
-        //         target: 'tr'
-        //     }
-        // },
+        responsive: {
+            details: {
+                type: 'column',
+                target: 'tr'
+            }
+        },
         columnDefs: [{
             className: 'control',
             orderable: false,
