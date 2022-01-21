@@ -428,22 +428,24 @@ function init() {
       //     callback(countryCode);
       //   });
       // },
-      // hiddenInput: "full_number",
-      // initialCountry: "auto",
+       hiddenInput: "full_number",
+       initialCountry: "auto",
       // localizedCountries: { 'de': 'Deutschland' },
-      // nationalMode: false,
+       nationalMode: false,
       // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
       // placeholderNumberType: "MOBILE",
       // preferredCountries: ['cn', 'jp'],
-      // separateDialCode: true,
+       separateDialCode: true,
       utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
     });
+	$("form").submit(function() {
+    	$("#phone2").val($("#phone").intlTelInput("getNumber"));
+	});
   </script>
 
 <script>
 $(document).ready(function(){
 	AOS.init();
-
 	<?php
 		if (!isset($_SESSION['message'])) {
 			$_SESSION['message'] = '';
@@ -484,10 +486,6 @@ $(document).ready(function(){
         }		        
        
     });
-
-	$("form").submit(function() {
-    	$("#phone2").val($("#phone").intlTelInput("getNumber"));
-	});
 });
 </script>
 
