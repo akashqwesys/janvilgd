@@ -293,7 +293,7 @@
                                             <span class="nk-menu-text">Settings</span>
                                         </a>
                                     </li>
-                                    @if ($request->session()->get('user_email') == 'akash@qweysys.com')
+                                    @if (session()->get('user_email') == 'akash@qweysys.com')
                                     <li class="nk-menu-heading">
                                         <a href="/admin/project-setup">
                                             <h6 class="overline-title text-primary-alt" id="project-setup-link"> Project Setup</h6>
