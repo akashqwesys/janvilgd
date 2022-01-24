@@ -42,7 +42,6 @@ class Orders extends Model
         'refCountry_id_shipping',
         'shipping_company_pan_gst_no',
 
-
         'sub_total',
         'refDelivery_charge_id',
         'delivery_charge_name',
@@ -57,6 +56,9 @@ class Orders extends Model
         'order_type',
         'added_by',
         'date_added',
-        'date_updated'
+        'date_updated',
+        'attention',
+        'billing_remarks',
+        'shipping_remarks'
     ];
 }

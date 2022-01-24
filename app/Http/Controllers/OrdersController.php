@@ -33,11 +33,12 @@ class OrdersController extends Controller
     {
         if($request->refCustomer_id){
             $address_list = DB::table('customer_company_details')
-            ->select('customer_company_details.*', 'city.name as city_name', 'state.name as state_name', 'country.name as country_name')
-            ->join('city', 'city.city_id', '=', 'customer_company_details.refCity_id')
-            ->join('state', 'state.state_id', '=', 'customer_company_details.refState_id')
-            ->join('country', 'country.country_id', '=', 'customer_company_details.refCountry_id')
-            ->where('refCustomer_id', $request->refCustomer_id)->get();
+                ->select('customer_company_details.*', 'city.name as city_name', 'state.name as state_name', 'country.name as country_name')
+                ->join('city', 'city.city_id', '=', 'customer_company_details.refCity_id')
+                ->join('state', 'state.state_id', '=', 'customer_company_details.refState_id')
+                ->join('country', 'country.country_id', '=', 'customer_company_details.refCountry_id')
+                ->where('refCustomer_id', $request->refCustomer_id)
+                ->get();
             echo json_encode($address_list);
         }
     }
@@ -173,7 +174,7 @@ class OrdersController extends Controller
                 if(!empty($order_Id)){
                     DB::table('order_updates')->insert([
                         'refOrder_id' => $order_Id,
-                        'order_status_name' => "PAID",
+                        'order_status_name' => "UNPAID",
                         'comment' => "No comment",
                         'is_deleted' => 0,
                         'added_by' => $request->session()->get('loginId'),
@@ -849,12 +850,12 @@ class OrdersController extends Controller
         $total = $subtotal - $final_overall_discount - $final_additional_discount + $final_tax + ($shipping_charge->amount ?? 0);
         $data = [
             'data' => trim($html),
-            'subtotal' => round($subtotal, 2),
+            'subtotal' => number_format($subtotal, 2, '.', ''),
             'discount' => $final_overall_discount,
             'add_discount' => $final_additional_discount,
             'tax' => $final_tax,
             'shipping_charge' => $shipping_charge->amount ?? 0,
-            'total' => round($total, 2)
+            'total' => number_format($total, 2, '.', '')
         ];
         return response()->json(['data' => $data, 'success' => 1]);
     }
@@ -1006,12 +1007,12 @@ class OrdersController extends Controller
             ->where('ccd.customer_company_id', $request['shipping_id'])
             ->first();
 
-        $shipping = DB::table('delivery_charges')
-            ->select('delivery_charge_id', 'name', 'amount')
-            ->where('from_weight', '<=', intval($weight))
-            ->where('to_weight', '>=', (intval($weight) + 1))
-            ->first();
         if (!empty($shipping) && $request->shipping_charge == $shipping->amount) {
+            $shipping = DB::table('delivery_charges')
+                ->select('delivery_charge_id', 'name', 'amount')
+                ->where('from_weight', '<=', intval($weight))
+                ->where('to_weight', '>=', (intval($weight) + 1))
+                ->first();
             $shipping_charge = !empty($shipping) ? $shipping->amount : 0;
         } else {
             $shipping = new \stdClass;
@@ -1083,11 +1084,12 @@ class OrdersController extends Controller
         $order->date_updated = $invoice_date;
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
+        $order->attention = $request->attention_to;
         $order->save();
 
         DB::table('order_updates')
         ->insert([
-            'order_status_name' => 'PAID',
+            'order_status_name' => 'UNPAID',
             'refOrder_id' => $order->order_id,
             'comment' => 'comment',
             'added_by' => 0,
@@ -1173,6 +1175,537 @@ class OrdersController extends Controller
                     ->where('carat', $v['expected_polish_cts'])
                     ->where('refCategory_id', $v['refCategory_id'])
                     ->increment('carat_cnt', 1);
+            } else {
+                DB::table('most_ordered_diamonds')
+                ->insert([
+                    'refCategory_id' => $v['refCategory_id'],
+                    'carat' => $v['expected_polish_cts'],
+                    'shape_cnt' => 0,
+                    'color_cnt' => 0,
+                    'carat_cnt' => 1,
+                    'clarity_cnt' => 0,
+                    'cut_cnt' => 0,
+                    'created_at' => date("Y-m-d h:i:s"),
+                    'updated_at' => date("Y-m-d h:i:s")
+                ]);
+            }
+        }
+
+        $client->bulk($params);
+
+        DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+
+        DB::table('order_diamonds')->insert($od);
+
+        DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
+        activity($request, "inserted", 'orders', $order->order_id);
+
+        return response()->json(['success' => 1, 'message' => 'Order added successfully']);
+    }
+
+    public function editInvoice(Request $request, $order_id)
+    {
+        $data['title'] = 'Update Invoice';
+        $order = DB::table('orders')
+            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks')
+            ->where('order_id', $order_id)
+            ->first();
+        if (empty($order)) {
+            return redirect('/admin/orders');
+        }
+        $order_status = DB::table('order_updates')
+            ->select('order_status_name')
+            ->where('refOrder_id', $order_id)
+            ->whereIn('order_status_name', ['PAID', 'CANCELLED'])
+            ->orderBy('order_update_id', 'desc')
+            ->first();
+        if ($order_status) {
+            return redirect('/admin/orders');
+        }
+
+        $labour_charge_4p = DB::table('labour_charges')
+            ->select('amount')
+            ->where('labour_charge_id', 1)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->first();
+        $labour_charge_rough = DB::table('labour_charges')
+            ->select('amount')
+            ->where('is_active', 1)
+            ->where('labour_charge_id', 2)
+            ->where('is_deleted', 0)
+            ->first();
+        $customers = DB::table('customer')
+            ->select('customer_id', 'name', 'email')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('customer_id', 'asc')
+            ->get();
+        $country = DB::table('country')
+            ->select('country_id', 'name')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        $discount = DB::table('discounts')
+            ->select('discount_id', 'name', 'discount')
+            ->where('from_amount', '<=', intval($order->sub_total))
+            ->where('to_amount', '>=', intval($order->sub_total))
+            ->first();
+
+        $additional_discount = DB::table('customer as c')
+            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+            ->select('ct.discount')
+            ->where('c.customer_id', $order->refCustomer_id)
+            ->pluck('discount')
+            ->first();
+
+        $tax = DB::table('customer as c')
+            ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+            ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+            ->select('t.tax_id', 't.name', 't.amount')
+            ->where('c.customer_id', $order->refCustomer_id)
+            ->where('ccd.customer_company_id', $order->refCustomer_company_id_shipping)
+            ->first();
+
+        $overall_discount = !empty($discount) ? (($order->sub_total * $discount->discount) / 100) : 0;
+        $additional_discount = !empty($additional_discount) ? (($order->sub_total * $additional_discount) / 100) : 0;
+        $final_tax = !empty($tax) ? ((($order->sub_total - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
+        $total = $order->sub_total - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $order->delivery_charge_amount;
+
+        $diamonds = DB::table('order_diamonds as od')
+            ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
+            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+            ->select('od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.expected_polish_cts', 'od.rapaport_price', 'od.price', 'od.discount', 'od.new_discount', 'od.refCategory_id', 'od.makable_cts', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'a.sort_order')
+            ->where('refOrder_id', $order_id)
+            ->orderBy('od.refDiamond_id', 'asc')
+            ->orderBy('ag.is_fix', 'desc')
+            ->orderBy('a.sort_order')
+            ->get();
+
+        $temp_id = 0;
+        $final_d = [];
+        for ($i = 0; $i < count($diamonds); $i++) {
+            if ($temp_id != $diamonds[$i]->refDiamond_id) {
+                $temp_id = $diamonds[$i]->refDiamond_id;
+                $final_d[$temp_id] = [
+                    'refCategory_id' => $diamonds[$i]->refCategory_id,
+                    'refDiamond_id' => $diamonds[$i]->refDiamond_id,
+                    'barcode' => $diamonds[$i]->barcode,
+                    'carat' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
+                    'makable_cts' => $diamonds[$i]->makable_cts,
+                    'discount' => $diamonds[$i]->discount,
+                    'new_discount' => $diamonds[$i]->new_discount,
+                    'price' => number_format($diamonds[$i]->price, 2, '.', ''),
+                    'rapaport' => number_format($diamonds[$i]->rapaport_price, 2, '.', ''),
+                ];
+            }
+            $final_d[$temp_id][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
+        }
+
+        $html = null;
+        $barcodes = [];
+        foreach ($final_d as $d) {
+            $html .= '<tr class="tr_products_'. $d['barcode'] .'">
+                <td>' . $d['barcode'] . '</td>
+                <td>' . $d['SHAPE'] . '</td>
+                <td>' . $d['carat'] . '</td>
+                <td>' . $d['COLOR'] . '</td>
+                <td>' . $d['CLARITY'] . '</td>
+                <td>' . ($d['CUT'] ?? '-') . '</td>
+                <td>$' . $d['rapaport'] . '</td>
+                <td> <input type="number" value="' . $d['new_discount'] * 100 . '" min="0" max="100" class="newDiscount form-control" data-category="' . $d['refCategory_id'] . '" data-makable="' . $d['makable_cts'] . '"></td>
+                <td align="right" class="price_td">$' . $d['price'] . '</td>
+            </tr>';
+            $barcodes[] = $d['barcode'];
+        }
+
+        return view('admin.orders.edit_invoice', compact('data', 'customers', 'country', 'order_id', 'labour_charge_4p', 'labour_charge_rough', 'html', 'barcodes', 'order', 'overall_discount', 'additional_discount', 'final_tax', 'total'));
+    }
+
+    public function updateInvoice(Request $request)
+    {
+        $rules = [
+            'order_id' => ['required', 'integer'],
+            'customer_id' => ['required', 'integer', 'exists:customer,customer_id'],
+            'barcode' => ['required', 'array'],
+            'discounts' => ['required', 'array'],
+            'billing_id' => ['required', 'integer'],
+            'shipping_id' => ['required', 'integer'],
+            'shipping_charge' => ['required', 'integer']
+        ];
+
+        $message = [];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+        }
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $elastic_params = [
+            'index' => 'diamonds',
+            'size' => 50,
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['terms' => ['barcode' => $request['barcode']]],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $diamonds = $client->search($elastic_params);
+
+        $labour_charge_4p = DB::table('labour_charges')
+            ->select('amount')
+            ->where('labour_charge_id', 1)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->first();
+        $labour_charge_rough = DB::table('labour_charges')
+            ->select('amount')
+            ->where('is_active', 1)
+            ->where('labour_charge_id', 2)
+            ->where('is_deleted', 0)
+            ->first();
+
+        $subtotal = $weight = 0;
+        foreach ($diamonds['hits']['hits'] as $v) {
+            $v = $v['_source'];
+            if (($v['discount'] * 100) == $request['discounts'][$v['barcode']]) {
+                $subtotal += $v['total'];
+            } else {
+                if ($v['refCategory_id'] == 3) {
+                    $subtotal += $v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100);
+                } else if ($v['refCategory_id'] == 2) {
+                    $subtotal += ($v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100)) - ($v['expected_polish_cts'] * $labour_charge_4p->amount);
+                } else {
+                    $subtotal += (($v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100) / $v['makable_cts']) - $labour_charge_rough->amount) * $v['makable_cts'];
+                }
+            }
+            $weight += $v['expected_polish_cts'];
+        }
+
+        $diamonds = DB::table('diamonds as d')
+        ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+        ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+        ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+        ->select('d.diamond_id', 'd.refCategory_id', 'd.added_by', 'd.is_active', 'd.is_deleted', 'd.date_added', 'd.date_updated', 'd.created_at', 'd.updated_at', 'd.makable_cts', 'd.packate_no', 'd.actual_pcs', 'd.remarks', 'd.is_recommended', 'd.weight_loss', 'd.total', 'd.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts', 'd.image', 'd.video_link', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'd.discount', 'd.available_pcs', 'da.value', 'a.sort_order', 'ag.is_fix')
+        ->whereIn('d.barcode', $request->removed_barcodes)
+        ->orderBy('d.diamond_id', 'asc')
+        ->orderBy('ag.is_fix', 'desc')
+        ->orderBy('a.sort_order')
+        ->get();
+
+        $temp_id = 0;
+        $final_d = [];
+        for ($i = 0; $i < count($diamonds); $i++) {
+            if ($temp_id != $diamonds[$i]->diamond_id) {
+                $temp_id = $diamonds[$i]->diamond_id;
+                if ($diamonds[$i]->refCategory_id == 1) {
+                    $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->makable_cts), 2, '.', '');
+                } else {
+                    $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->expected_polish_cts), 2, '.', '');
+                }
+                $final_d[$temp_id] = [
+                    'diamonds_id' => 'd_id_' . $diamonds[$i]->diamond_id,
+                    'diamond_id' => $diamonds[$i]->diamond_id,
+                    'actual_pcs' => $diamonds[$i]->actual_pcs,
+                    'remarks' => $diamonds[$i]->remarks,
+                    'weight_loss' => $diamonds[$i]->weight_loss,
+                    'is_recommended' => $diamonds[$i]->is_recommended,
+                    'name' => $diamonds[$i]->diamond_name,
+                    'barcode' => $diamonds[$i]->barcode,
+                    'barcode_search' => $diamonds[$i]->barcode,
+                    'packate_no' => $diamonds[$i]->packate_no,
+                    'available_pcs' => $diamonds[$i]->available_pcs,
+                    'makable_cts' => number_format($diamonds[$i]->makable_cts, 3, '.', ''),
+                    'expected_polish_cts' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
+                    'rapaport_price' => $diamonds[$i]->rapaport_price,
+                    'discount' => $diamonds[$i]->discount,
+                    'refCategory_id' => $diamonds[$i]->refCategory_id,
+                    'price_ct' => $price_per_carat,
+                    'total' => $diamonds[$i]->total,
+                    'image' => json_decode($diamonds[$i]->image),
+                    'video_link' => $diamonds[$i]->video_link,
+                    'added_by' => $diamonds[$i]->added_by,
+                    'is_active' => $diamonds[$i]->is_active,
+                    'is_deleted' => $diamonds[$i]->is_deleted,
+                    'date_added' => date("Y-m-d h:i:s"),
+                    'date_updated' => date("Y-m-d h:i:s"),
+                    'attributes' => [],
+                    'attributes_id' => []
+                ];
+            }
+            if ($diamonds[$i]->refAttribute_id == 0) {
+                $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->value;
+            } else {
+                $final_d[$temp_id]['attributes_id'][$i]['attribute_group_id'] = $diamonds[$i]->refAttribute_group_id;
+                $final_d[$temp_id]['attributes_id'][$i]['attribute_id'] = $diamonds[$i]->refAttribute_id;
+                $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
+            }
+        }
+
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $i = 0;
+        foreach ($final_d as $batch_row) {
+            $id = $batch_row['diamonds_id'];
+            unset($batch_row['diamonds_id']);
+            $params["body"][] = [
+                "create" => [
+                    "_index" => 'diamonds',
+                    "_id" => $id,
+                ]
+            ];
+            $params["body"][] = $batch_row;
+            if ($i % 1000 == 0) {
+                $responses = $client->bulk($params);
+                $params = ['body' => []];
+                unset($responses);
+            }
+
+            $i = $i + 1;
+        }
+        // Send the last batch if it exists
+        if (!empty($params['body'])) {
+            $responses = $client->bulk($params);
+        }
+        DB::table('diamonds')->whereIn('barcode', $request->removed_barcodes)->update(['available_pcs' => 1]);
+        DB::table('order_diamonds')->whereIn('barcode', $request->removed_barcodes)->where('refOrder_id', $request->order_id)->delete();
+
+        $old_order_diamonds = DB::table('order_diamonds')->where('refOrder_id', $request->order_id)->get();
+        foreach ($old_order_diamonds as $v) {
+            if (($v->discount * 100) == $request['discounts'][$v->barcode]) {
+                $subtotal += $v->price;
+            } else {
+                if ($v->refCategory_id == 3) {
+                    $price = $v->rapaport_price * $v->expected_polish_cts * ((100 - $request['discounts'][$v->barcode]) / 100);
+                    $subtotal += $price;
+                } else if ($v->refCategory_id == 2) {
+                    $price = ($v->rapaport_price * $v->expected_polish_cts * ((100 - $request['discounts'][$v->barcode]) / 100)) - ($v->expected_polish_cts * $labour_charge_4p->amount);
+                    $subtotal += $price;
+                } else {
+                    $price = (($v->rapaport_price * $v->expected_polish_cts * ((100 - $request['discounts'][$v->barcode]) / 100) / $v->makable_cts) - $labour_charge_rough->amount) * $v->makable_cts;
+                    $subtotal += $price;
+                }
+                DB::table('order_diamonds')
+                ->where('order_diamond_id', $v->order_diamond_id)
+                ->update([
+                    'new_discount' => $request['discounts'][$v->barcode],
+                    'price' => $price,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+            $weight += $v->expected_polish_cts;
+        }
+
+        $subtotal = round($subtotal, 2);
+        $shipping_info = DB::table('customer_company_details')
+            ->select('customer_company_id', 'name', 'office_no', 'official_email', 'office_address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'pan_gst_no')
+            ->where('customer_company_id', $request['shipping_id'])
+            ->first();
+
+        $billing_info = DB::table('customer_company_details')
+            ->select('customer_company_id', 'name', 'office_no', 'official_email', 'office_address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'pan_gst_no')
+            ->where('customer_company_id', $request['billing_id'])
+            ->first();
+
+        $discount = DB::table('discounts')
+            ->select('discount_id', 'name', 'discount')
+            ->where('from_amount', '<=', intval($subtotal))
+            ->where('to_amount', '>=', intval($subtotal))
+            ->first();
+
+        $additional_discount = DB::table('customer as c')
+            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+            ->select('ct.discount')
+            ->where('c.customer_id', $request['customer_id'])
+            ->pluck('discount')
+            ->first();
+
+        $tax = DB::table('customer as c')
+            ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+            ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+            ->select('t.tax_id', 't.name', 't.amount')
+            ->where('c.customer_id', $request['customer_id'])
+            ->where('ccd.customer_company_id', $request['shipping_id'])
+            ->first();
+
+        if (!empty($shipping) && $request->shipping_charge == $shipping->amount) {
+            $shipping = DB::table('delivery_charges')
+                ->select('delivery_charge_id', 'name', 'amount')
+                ->where('from_weight', '<=', intval($weight))
+                ->where('to_weight', '>=', (intval($weight) + 1))
+                ->first();
+            $shipping_charge = !empty($shipping) ? $shipping->amount : 0;
+        } else {
+            $shipping = new \stdClass;
+            $shipping->delivery_charge_id = 0;
+            $shipping->name = 0;
+            $shipping->amount = $request->shipping_charge;
+            $shipping_charge = $request->shipping_charge;
+        }
+        $customer = DB::table('customer')
+            ->select('customer_id', 'name', 'mobile', 'email')
+            ->where('customer_id', $request['customer_id'])
+            ->first();
+
+        $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
+        $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
+        $final_tax = !empty($tax) ? ((($subtotal - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
+        $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
+
+        if ($request['invoice_date']) {
+            $invoice_date = $request['invoice_date'];
+        } else {
+            $invoice_date = date('Y-m-d H:i:s');
+        }
+
+        $order = Order::where('order_id', $request->order_id)->first();
+        $order->refCustomer_id = $customer->customer_id;
+        $order->name = $customer->name;
+        $order->mobile_no = $customer->mobile;
+        $order->email_id = $customer->email;
+        $order->refPayment_mode_id = 1;
+        $order->payment_mode_name = 'COD';
+        $order->refTransaction_id = mt_rand(111111, 999999);
+        $order->refCustomer_company_id_billing = $billing_info->customer_company_id;
+        $order->billing_company_name = $billing_info->name;
+        $order->billing_company_office_no = $billing_info->office_no;
+        $order->billing_company_office_email = $billing_info->official_email;
+        $order->billing_company_office_address = $billing_info->office_address;
+        $order->billing_company_office_pincode = $billing_info->pincode;
+        $order->refCity_id_billing = $billing_info->refCity_id;
+        $order->refState_id_billing = $billing_info->refState_id;
+        $order->refCountry_id_billing = $billing_info->refCountry_id;
+        $order->billing_company_pan_gst_no = $billing_info->pan_gst_no;
+        $order->refCustomer_company_id_shipping = $shipping_info->customer_company_id;
+        $order->shipping_company_name = $shipping_info->name;
+        $order->shipping_company_office_no = $shipping_info->office_no;
+        $order->shipping_company_office_email = $shipping_info->official_email;
+        $order->shipping_company_office_address = $shipping_info->office_address;
+        $order->shipping_company_office_pincode = $shipping_info->pincode;
+        $order->refCity_id_shipping = $shipping_info->refCity_id;
+        $order->refState_id_shipping = $shipping_info->refState_id;
+        $order->refCountry_id_shipping = $shipping_info->refCountry_id;
+        $order->shipping_company_pan_gst_no = $shipping_info->pan_gst_no;
+        $order->sub_total = $subtotal;
+        $order->refDelivery_charge_id = $shipping->delivery_charge_id ?? 0;
+        $order->delivery_charge_name = $shipping->name ?? 0;
+        $order->delivery_charge_amount = $shipping->amount ?? 0;
+        $order->refDiscount_id = $discount->discount_id ?? 0;
+        $order->discount_name = $discount->name ?? 0;
+        $order->discount_amount = $discount->discount ?? 0;
+        $order->refTax_id = $tax->tax_id ?? 0;
+        $order->tax_name = $tax->name ?? 0;
+        $order->tax_amount = $tax->amount ?? 0;
+        $order->total_paid_amount = round($total, 2);
+        $order->added_by = $request->session()->get('loginId');
+        $order->order_type = 0;
+        $order->shipping_remarks = $request['shipping_remarks'];
+        $order->billing_remarks = $request['company_remarks'];
+        $order->date_added = $invoice_date;
+        $order->date_updated = $invoice_date;
+        $order->created_at = $invoice_date;
+        $order->updated_at = $invoice_date;
+        $order->save();
+
+        DB::table('order_updates')
+        ->insert([
+            'order_status_name' => 'UNPAID',
+            'refOrder_id' => $order->order_id,
+            'comment' => 'comment',
+            'added_by' => 0,
+            'is_deleted' => 0,
+            'date_added' => $invoice_date,
+            'created_at' => $invoice_date,
+            'updated_at' => $invoice_date
+        ]);
+
+        $od = $d_ids = [];
+        $params = [];
+        foreach ($diamonds['hits']['hits'] as $v) {
+            $v = $v['_source'];
+            if (($v['discount'] * 100) == $request['discounts'][$v['barcode']]) {
+                $price = $v['total'];
+                $discount_ = $v['discount'];
+            } else {
+                if ($v['refCategory_id'] == 3) {
+                    $price = $v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100);
+                } else if ($v['refCategory_id'] == 2) {
+                    $price = ($v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100)) - ($v['expected_polish_cts'] * $labour_charge_4p->amount);
+                } else {
+                    $price = (($v['rapaport_price'] * $v['expected_polish_cts'] * ((100 - $request['discounts'][$v['barcode']]) / 100) / $v['makable_cts']) - $labour_charge_rough->amount) * $v['makable_cts'];
+                }
+                $discount_ = $request['discounts'][$v['barcode']] / 100;
+            }
+
+            $params["body"][] = [
+                "delete" => [
+                    "_index" => 'diamonds',
+                    "_id" => 'd_id_' . $v['diamond_id'],
+                ]
+            ];
+            $d_ids[] = $v['diamond_id'];
+            $od[] = [
+                'refOrder_id' => $order->order_id,
+                'refDiamond_id' => $v['diamond_id'],
+                'name' => $v['name'],
+                'price' => $price,
+                'barcode' => $v['barcode'],
+                'makable_cts' => $v['makable_cts'],
+                'expected_polish_cts' => $v['expected_polish_cts'],
+                'remarks' => $v['remarks'],
+                'rapaport_price' => $v['rapaport_price'],
+                'discount' => $v['discount'],
+                'new_discount' => $discount_,
+                'weight_loss' => $v['weight_loss'],
+                'video_link' => $v['video_link'],
+                'images' => json_encode($v['image']),
+                'refCategory_id' => $v['refCategory_id'],
+                'created_at' => $invoice_date,
+                'updated_at' => $invoice_date
+            ];
+
+            DB::table('most_ordered_diamonds')
+            ->where('shape', $v['attributes']['SHAPE'])
+            ->where('refCategory_id', $v['refCategory_id'])
+            ->increment('shape_cnt', 1);
+
+            DB::table('most_ordered_diamonds')
+            ->where('color', $v['attributes']['COLOR'])
+            ->where('refCategory_id', $v['refCategory_id'])
+            ->increment('color_cnt', 1);
+
+            DB::table('most_ordered_diamonds')
+            ->where('clarity', $v['attributes']['CLARITY'])
+            ->where('refCategory_id', $v['refCategory_id'])
+            ->increment('clarity_cnt', 1);
+
+            if ($v['refCategory_id'] != 1) {
+                DB::table('most_ordered_diamonds')
+                ->where('cut', $v['attributes']['CUT'])
+                    ->where('refCategory_id', $v['refCategory_id'])
+                    ->increment('cut_cnt', 1);
+            }
+
+            $mvd_exists = DB::table('most_ordered_diamonds')
+            ->where('carat', $v['expected_polish_cts'])
+            ->where('refCategory_id', $v['refCategory_id'])
+            ->first();
+            if ($mvd_exists) {
+                DB::table('most_ordered_diamonds')
+                ->where('carat', $v['expected_polish_cts'])
+                ->where('refCategory_id', $v['refCategory_id'])
+                ->increment('carat_cnt', 1);
             } else {
                 DB::table('most_ordered_diamonds')
                 ->insert([

@@ -57,7 +57,7 @@
                             <div class="">
                                 <a class="a-head" href="/admin/dashboard">
                                     <em class="icon ni ni-report-profit"></em>
-                                    <span class="pl-1"><b>ACCOUNTS</b></span>
+                                    <span class="pl-1"><b>SUMMARY</b></span>
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->

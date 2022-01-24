@@ -70,6 +70,9 @@
                                     <div class="col-md-4">
                                         <label for="barcode">Select Stock Nos:</label>
                                         <select name="barcode" id="barcode" class="form-control form-select-" data-placeholder="Select Stock Numbers" multiple required data-search="on">
+                                            @foreach ($barcodes as $b)
+                                            <option value="{{ $b }}" selected>{{ $b }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -77,13 +80,17 @@
                                         <select name="customer_id" id="customer_id" class="form-control form-select" data-placeholder="Select Customer" required data-search="on">
                                             <option value="" selected>Select Customer</option>
                                             @foreach ($customers as $c)
+                                            @if ($c->customer_id == $order->refCustomer_id)
+                                            <option value="{{ $c->customer_id }}" selected>{{ $c->name }}</option>
+                                            @else
                                             <option value="{{ $c->customer_id }}">{{ $c->name }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label><b style="letter-spacing: 2px;"> ORDER ID #</b></label>
-                                        <h4 style="letter-spacing: 4px;">{{ $order_id+1 }}</h4>
+                                        <h4 style="letter-spacing: 4px;">{{ $order->order_id }}</h4>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -93,12 +100,12 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date">
+                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date" value="{{ date('Y-m-d', strtotime($order->created_at)) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="attention_to">Attention To:</label>
-                                        <input type="text" class="form-control" name="attention_to" id="attention_to" placeholder="Attention To">
+                                        <input type="text" class="form-control" name="attention_to" id="attention_to" placeholder="Attention To" value="{{ $order->attention }}">
                                     </div>
                                 </div>
                                 <h5 class="mt-5 mb-2">Company/Billing Info</h5>
@@ -152,7 +159,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_remarks">Remarks:</label>
-                                        <input class="form-control" name="company_remarks" id="company_remarks" type="text" required placeholder="Remarks">
+                                        <input class="form-control" name="company_remarks" id="company_remarks" type="text" required placeholder="Remarks" value="{{ $order->billing_remarks }}">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="custom-control custom-checkbox">
@@ -213,7 +220,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_remarks">Remarks:</label>
-                                        <input class="form-control" name="shipping_remarks" id="shipping_remarks" type="text" required placeholder="Remarks">
+                                        <input class="form-control" name="shipping_remarks" id="shipping_remarks" type="text" required placeholder="Remarks" value="{{ $order->shipping_remarks }}">
                                     </div>
                                 </div>
 
@@ -233,36 +240,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {!! $html !!}
                                             <tr>
                                                 <td colspan="9" style="background: lightgray;"></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><b>SUBTOTAL</b></td>
-                                                <td align="right"> $<div class="fl-ri" id="subtotal">0</div></td>
+                                                <td align="right"> $<div class="fl-ri" id="subtotal">{{ number_format($order->sub_total, 2, '.', '') }}</div></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><b>DISCOUNT</b></td>
-                                                <td align="right"> $<div class="fl-ri" id="discount">0</div></td>
+                                                <td align="right"> $<div class="fl-ri" id="discount">{{ number_format($overall_discount, 2, '.', '') }}</div></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><b>ADD. DISCOUNT</b></td>
-                                                <td align="right"> $<div class="fl-ri" id="add_discount">0</div></td>
+                                                <td align="right"> $<div class="fl-ri" id="add_discount">{{ number_format($additional_discount, 2, '.', '') }}</div></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><b>TAX</b></td>
-                                                <td align="right"> $<div class="fl-ri" id="tax">0</div></td>
+                                                <td align="right"> $<div class="fl-ri" id="tax">{{ $final_tax }}</div></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><b>SHIPPING CHARGE ($)</b></td>
                                                 <td align="right">
                                                     <div class="fl-ri-">
-                                                        <input type="text" id="shipping_charge" class="form-control text-right">
+                                                        <input type="text" id="shipping_charge" class="form-control text-right" value="{{ $order->delivery_charge_amount }}">
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="8" align="right"><h6>TOTAL AMOUNT</h6></td>
-                                                <td align="right"> <h6>$<div class="fl-ri" id="total">0</div></h6></td>
+                                                <td align="right"> <h6>$<div class="fl-ri" id="total">{{ number_format($total, 2, '.', '') }}</div></h6></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -405,6 +413,9 @@
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
         }
     });
+    var exist_customer = {{ $order->refCustomer_id }};
+    var exist_barcodes = {!! json_encode($barcodes) !!};
+    var removed_barcodes = [];
     $('#barcode').select2({
         ajax: {
             url: '/admin/orders/getBarcodes',
@@ -434,6 +445,9 @@
         },
         minimumInputLength: 3
     });
+    setTimeout(() => {
+      $('#customer_id').trigger('change');
+    }, 100);
     $("#exampleModal").on('hidden.bs.modal', function(){
         $('div.errTxt').html('');
         $('#companyForm')[0].reset();
@@ -483,6 +497,13 @@
                     $('#company_name').append($('<option />').val(value.customer_company_id).text(value.name));
                     $('#shipping_name').append($('<option />').val(value.customer_company_id).text(value.name));
                 });
+                if (exist_customer == refCustomer_id) {
+                    $('#company_name').val({{ $order->refCustomer_company_id_billing }});
+                    $('#shipping_name').val({{ $order->refCustomer_company_id_shipping }});
+                    if({{ $order->refCustomer_company_id_billing }} == {{ $order->refCustomer_company_id_shipping }}) {
+                        $('#same_shipping').attr('checked', true);
+                    }
+                }
                 if (address_added == false) {
                     $('#company_name, #shipping_name').trigger('change');
                     $('#add-billing-btn, #add-shipping-btn').attr('disabled', false);
@@ -620,6 +641,12 @@
     });
 
     $(document).on('change', '#barcode', function () {
+        var intersect_ = exist_barcodes.filter(value => $(this).val().includes(value));
+        var removed_ = exist_barcodes.filter((i) => (intersect_.indexOf(i) === -1))
+        $.each(removed_, function (i, e) {
+            removed_barcodes.push(e);
+            $('.tr_products_' + e).remove();
+        });
         $('.tr_products').remove();
         if ($(this).val().length > 0) {
             $.ajax({
@@ -644,13 +671,19 @@
                     }
                     else {
                         $('#product-table tbody').prepend(response.data.data);
-                        $('#subtotal').text(response.data.subtotal);
+                        var subtotal = 0;
+                        $('.price_td').each(function () {
+                            subtotal += parseFloat($(this).text().substring(1));
+                        });
+                        var new_total = subtotal.toFixed(2) - parseFloat(response.data.discount) - parseFloat(response.data.add_discount) + parseFloat(response.data.tax) + parseFloat(response.data.shipping_charge);
+                        $('#subtotal').text(subtotal.toFixed(2));
+                        $('#total').text(new_total.toFixed(2));
+                        // if () {}
                         $('#discount').text(response.data.discount);
                         $('#add_discount').text(response.data.add_discount);
                         $('#tax').text(response.data.tax);
                         $('#shipping_charge').val(response.data.shipping_charge);
                         shipping_charge = parseFloat(response.data.shipping_charge);
-                        $('#total').text(response.data.total);
                     }
                 },
                 failure: function (response) {
@@ -847,11 +880,13 @@
         $('#append_loader').show();
         $.ajax({
             type: "POST",
-            url: "/admin/orders/save-invoice",
+            url: "/admin/orders/update-invoice",
             data: {
+                'order_id': {{ $order->order_id }},
                 'customer_id': $('#customer_id').val(),
                 'invoice_date': $('#invoice_date').val(),
                 'barcode': $('#barcode').val(),
+                'removed_barcodes': removed_barcodes,
                 'attention_to': $('#attention_to').val(),
                 'billing_id': $('#company_name').val(),
                 'shipping_id': $('#shipping_name').val(),
