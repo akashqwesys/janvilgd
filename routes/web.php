@@ -56,8 +56,8 @@ use App\Http\Controllers\Front\TestController;
 */
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/test-query', [TestController::class, 'index']);
-Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
-Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
+// Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
+// Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
 
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
