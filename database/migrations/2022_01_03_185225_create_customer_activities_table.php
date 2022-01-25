@@ -22,6 +22,7 @@ class CreateCustomerActivitiesTable extends Migration
             $table->string('device', 20);
             $table->string('ip_address');
             $table->timestamps();
+            $table->index('id');
         });
     }
 

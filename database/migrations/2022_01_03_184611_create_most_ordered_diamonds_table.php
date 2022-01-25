@@ -27,6 +27,7 @@ class CreateMostOrderedDiamondsTable extends Migration
             $table->double('clarity_cnt')->nullable();
             $table->double('cut_cnt')->nullable();
             $table->timestamps();
+            $table->index('id');
         });
     }
 
