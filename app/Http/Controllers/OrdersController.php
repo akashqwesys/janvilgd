@@ -1391,64 +1391,64 @@ class OrdersController extends Controller
             }
             $weight += $v['expected_polish_cts'];
         }
-
-        $diamonds = DB::table('diamonds as d')
-        ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-        ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-        ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-        ->select('d.diamond_id', 'd.refCategory_id', 'd.added_by', 'd.is_active', 'd.is_deleted', 'd.date_added', 'd.date_updated', 'd.created_at', 'd.updated_at', 'd.makable_cts', 'd.packate_no', 'd.actual_pcs', 'd.remarks', 'd.is_recommended', 'd.weight_loss', 'd.total', 'd.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts', 'd.image', 'd.video_link', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'd.discount', 'd.available_pcs', 'da.value', 'a.sort_order', 'ag.is_fix')
-        ->whereIn('d.barcode', $request->removed_barcodes)
-        ->orderBy('d.diamond_id', 'asc')
-        ->orderBy('ag.is_fix', 'desc')
-        ->orderBy('a.sort_order')
-        ->get();
-
+        $request->removed_barcodes = $request->removed_barcodes ?? [];
+        $exist_diamonds = DB::table('diamonds as d')
+            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+            ->select('d.diamond_id', 'd.refCategory_id', 'd.added_by', 'd.is_active', 'd.is_deleted', 'd.date_added', 'd.date_updated', 'd.created_at', 'd.updated_at', 'd.makable_cts', 'd.packate_no', 'd.actual_pcs', 'd.remarks', 'd.is_recommended', 'd.weight_loss', 'd.total', 'd.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts', 'd.image', 'd.video_link', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'd.discount', 'd.available_pcs', 'da.value', 'a.sort_order', 'ag.is_fix')
+            ->whereIn('d.barcode', $request->removed_barcodes)
+            ->orderBy('d.diamond_id', 'asc')
+            ->orderBy('ag.is_fix', 'desc')
+            ->orderBy('a.sort_order')
+            ->get();
+        $e_d_ = $exist_diamonds;
         $temp_id = 0;
         $final_d = [];
-        for ($i = 0; $i < count($diamonds); $i++) {
-            if ($temp_id != $diamonds[$i]->diamond_id) {
-                $temp_id = $diamonds[$i]->diamond_id;
-                if ($diamonds[$i]->refCategory_id == 1) {
-                    $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->makable_cts), 2, '.', '');
+        for ($i = 0; $i < count($e_d_); $i++) {
+            if ($temp_id != $e_d_[$i]->diamond_id) {
+                $temp_id = $e_d_[$i]->diamond_id;
+                if ($e_d_[$i]->refCategory_id == 1) {
+                    $price_per_carat = number_format(($e_d_[$i]->total / $e_d_[$i]->makable_cts), 2, '.', '');
                 } else {
-                    $price_per_carat = number_format(($diamonds[$i]->total / $diamonds[$i]->expected_polish_cts), 2, '.', '');
+                    $price_per_carat = number_format(($e_d_[$i]->total / $e_d_[$i]->expected_polish_cts), 2, '.', '');
                 }
                 $final_d[$temp_id] = [
-                    'diamonds_id' => 'd_id_' . $diamonds[$i]->diamond_id,
-                    'diamond_id' => $diamonds[$i]->diamond_id,
-                    'actual_pcs' => $diamonds[$i]->actual_pcs,
-                    'remarks' => $diamonds[$i]->remarks,
-                    'weight_loss' => $diamonds[$i]->weight_loss,
-                    'is_recommended' => $diamonds[$i]->is_recommended,
-                    'name' => $diamonds[$i]->diamond_name,
-                    'barcode' => $diamonds[$i]->barcode,
-                    'barcode_search' => $diamonds[$i]->barcode,
-                    'packate_no' => $diamonds[$i]->packate_no,
-                    'available_pcs' => $diamonds[$i]->available_pcs,
-                    'makable_cts' => number_format($diamonds[$i]->makable_cts, 3, '.', ''),
-                    'expected_polish_cts' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
-                    'rapaport_price' => $diamonds[$i]->rapaport_price,
-                    'discount' => $diamonds[$i]->discount,
-                    'refCategory_id' => $diamonds[$i]->refCategory_id,
+                    'diamonds_id' => 'd_id_' . $e_d_[$i]->diamond_id,
+                    'diamond_id' => $e_d_[$i]->diamond_id,
+                    'actual_pcs' => $e_d_[$i]->actual_pcs,
+                    'remarks' => $e_d_[$i]->remarks,
+                    'weight_loss' => $e_d_[$i]->weight_loss,
+                    'is_recommended' => $e_d_[$i]->is_recommended,
+                    'name' => $e_d_[$i]->diamond_name,
+                    'barcode' => $e_d_[$i]->barcode,
+                    'barcode_search' => $e_d_[$i]->barcode,
+                    'packate_no' => $e_d_[$i]->packate_no,
+                    'available_pcs' => $e_d_[$i]->available_pcs,
+                    'makable_cts' => number_format($e_d_[$i]->makable_cts, 3, '.', ''),
+                    'expected_polish_cts' => number_format($e_d_[$i]->expected_polish_cts, 2, '.', ''),
+                    'rapaport_price' => $e_d_[$i]->rapaport_price,
+                    'discount' => $e_d_[$i]->discount,
+                    'refCategory_id' => $e_d_[$i]->refCategory_id,
                     'price_ct' => $price_per_carat,
-                    'total' => $diamonds[$i]->total,
-                    'image' => json_decode($diamonds[$i]->image),
-                    'video_link' => $diamonds[$i]->video_link,
-                    'added_by' => $diamonds[$i]->added_by,
-                    'is_active' => $diamonds[$i]->is_active,
-                    'is_deleted' => $diamonds[$i]->is_deleted,
+                    'total' => $e_d_[$i]->total,
+                    'image' => json_decode($e_d_[$i]->image),
+                    'video_link' => $e_d_[$i]->video_link,
+                    'added_by' => $e_d_[$i]->added_by,
+                    'is_active' => $e_d_[$i]->is_active,
+                    'is_deleted' => $e_d_[$i]->is_deleted,
                     'date_added' => date("Y-m-d h:i:s"),
                     'date_updated' => date("Y-m-d h:i:s"),
                     'attributes' => [],
                     'attributes_id' => []
                 ];
             }
-            if ($diamonds[$i]->refAttribute_id == 0) {
-                $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->value;
+            if ($e_d_[$i]->refAttribute_id == 0) {
+                $final_d[$temp_id]['attributes'][$e_d_[$i]->ag_name] = $e_d_[$i]->value;
             } else {
-                $final_d[$temp_id]['attributes_id'][$i]['attribute_group_id'] = $diamonds[$i]->refAttribute_group_id;
-                $final_d[$temp_id]['attributes_id'][$i]['attribute_id'] = $diamonds[$i]->refAttribute_id;
-                $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
+                $final_d[$temp_id]['attributes_id'][$i]['attribute_group_id'] = $e_d_[$i]->refAttribute_group_id;
+                $final_d[$temp_id]['attributes_id'][$i]['attribute_id'] = $e_d_[$i]->refAttribute_id;
+                $final_d[$temp_id]['attributes'][$e_d_[$i]->ag_name] = $e_d_[$i]->at_name;
             }
         }
 
@@ -1499,7 +1499,7 @@ class OrdersController extends Controller
                 DB::table('order_diamonds')
                 ->where('order_diamond_id', $v->order_diamond_id)
                 ->update([
-                    'new_discount' => $request['discounts'][$v->barcode],
+                    'new_discount' => $request['discounts'][$v->barcode] / 100,
                     'price' => $price,
                     'updated_at' => date('Y-m-d H:i:s')
                 ]);
@@ -1618,18 +1618,6 @@ class OrdersController extends Controller
         $order->updated_at = $invoice_date;
         $order->save();
 
-        DB::table('order_updates')
-        ->insert([
-            'order_status_name' => 'UNPAID',
-            'refOrder_id' => $order->order_id,
-            'comment' => 'comment',
-            'added_by' => 0,
-            'is_deleted' => 0,
-            'date_added' => $invoice_date,
-            'created_at' => $invoice_date,
-            'updated_at' => $invoice_date
-        ]);
-
         $od = $d_ids = [];
         $params = [];
         foreach ($diamonds['hits']['hits'] as $v) {
@@ -1731,7 +1719,7 @@ class OrdersController extends Controller
         DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
         activity($request, "inserted", 'orders', $order->order_id);
 
-        return response()->json(['success' => 1, 'message' => 'Order added successfully']);
+        return response()->json(['success' => 1, 'message' => 'Order updated successfully']);
     }
 
     public function soldView(Request $request, $slug)
