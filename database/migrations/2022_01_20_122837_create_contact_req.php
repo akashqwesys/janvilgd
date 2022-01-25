@@ -14,7 +14,7 @@ class CreateContactReq extends Migration
     public function up()
     {
         Schema::create('contact_req', function (Blueprint $table) {
-            $table->id();            
+            $table->id();
             $table->text('name');
             $table->text('phone');
             $table->text('email');
@@ -22,6 +22,7 @@ class CreateContactReq extends Migration
             $table->text('message');
             $table->dateTime('date_added');
             $table->timestamps();
+            $table->index('id');
         });
     }
 
