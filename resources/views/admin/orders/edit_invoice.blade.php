@@ -648,7 +648,7 @@
             $('.tr_products_' + e).remove();
         });
         $('.tr_products').remove();
-        if ($(this).val().length > 0) {
+        if ($(this).val().length > 0 && removed_.length == 0) {
             $.ajax({
                 type: "POST",
                 url: "/admin/orders/getDiamonds",
@@ -678,7 +678,6 @@
                         var new_total = subtotal.toFixed(2) - parseFloat(response.data.discount) - parseFloat(response.data.add_discount) + parseFloat(response.data.tax) + parseFloat(response.data.shipping_charge);
                         $('#subtotal').text(subtotal.toFixed(2));
                         $('#total').text(new_total.toFixed(2));
-                        // if () {}
                         $('#discount').text(response.data.discount);
                         $('#add_discount').text(response.data.add_discount);
                         $('#tax').text(response.data.tax);
@@ -695,6 +694,18 @@
                     });
                 }
             });
+        } else if ($(this).val().length > 0 && removed_.length > 0) {
+            var subtotal = 0;
+            $('.price_td').each(function () {
+                subtotal += parseFloat($(this).text().substring(1));
+            });
+            var new_total = subtotal.toFixed(2) - parseFloat($('#discount').text()) - parseFloat($('#add_discount').text()) + parseFloat($('#tax').text()) + parseFloat($('#shipping_charge').val());
+            $('#subtotal').text(subtotal.toFixed(2));
+            $('#total').text(new_total.toFixed(2));
+            $('#discount').text($('#discount').text());
+            $('#add_discount').text($('#add_discount').text());
+            $('#tax').text($('#tax').text());
+            shipping_charge = parseFloat($('#shipping_charge').val());
         } else {
             $('#subtotal').text(0);
             $('#discount').text(0);

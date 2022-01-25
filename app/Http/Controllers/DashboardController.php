@@ -58,6 +58,12 @@ class DashboardController extends Controller {
             // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
             // DB::raw("count(case when order_type = 0 then 1 end) as offline_orders"),
         )
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('order_updates as ou')
+                ->whereColumn('ou.refOrder_id', 'orders.order_id')
+                ->where('ou.order_status_name', 'PAID');
+        })
         ->first();
 
         $pending_orders = DB::table('orders as o')
