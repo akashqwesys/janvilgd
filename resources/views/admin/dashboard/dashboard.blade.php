@@ -63,7 +63,7 @@
                             <div class="">
                                 <a class="a-head" href="/admin/dashboard">
                                     <em class="icon ni ni-report-profit"></em>
-                                    <span class="pl-1"><b>ACCOUNTS</b></span>
+                                    <span class="pl-1"><b>SUMMARY</b></span>
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -1359,72 +1359,72 @@
             return current.toLocaleString('default', { month: 'short' });
         }
         var ordersRevenue = {
-            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             stacked: true,
             datasets: [{
                 label: "Total Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= $chart_orders->cur_month6 ?>, <?= $chart_orders->cur_month5 ?>, <?= $chart_orders->cur_month4 ?>, <?= $chart_orders->cur_month3 ?>, <?= $chart_orders->cur_month2 ?>, <?= $chart_orders->cur_month1 ?>]
+                data: [<?= $chart_orders->cur_month5 ?>, <?= $chart_orders->cur_month4 ?>, <?= $chart_orders->cur_month3 ?>, <?= $chart_orders->cur_month2 ?>, <?= $chart_orders->cur_month1 ?>, <?= $chart_orders->cur_month ?>]
             }]
         };
         var caratsRevenue = {
-            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             stacked: true,
             datasets: [{
                 label: "Total Carats",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= round($chart_carats->cur_month6, 2) ?>, <?= round($chart_carats->cur_month5, 2) ?>, <?= round($chart_carats->cur_month4, 2) ?>, <?= round($chart_carats->cur_month3, 2) ?>, <?= round($chart_carats->cur_month2, 2) ?>, <?= round($chart_carats->cur_month1, 2) ?>]
+                data: [<?= round($chart_carats->cur_month5, 2) ?>, <?= round($chart_carats->cur_month4, 2) ?>, <?= round($chart_carats->cur_month3, 2) ?>, <?= round($chart_carats->cur_month2, 2) ?>, <?= round($chart_carats->cur_month1, 2) ?>, <?= round($chart_carats->cur_month, 2) ?>]
             }]
         };
         var cancelledRevenue = {
-            labels: [getMonthName(6), getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(5), getMonthName(4), getMonthName(3), getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             stacked: true,
             datasets: [{
                 label: "Total Cancelled Orders",
                 color: ["#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#e9ecff", "#6576ff"],
-                data: [<?= $cancel_orders->cur_month6 ?>, <?= $cancel_orders->cur_month5 ?>, <?= $cancel_orders->cur_month4 ?>, <?= $cancel_orders->cur_month3 ?>, <?= $cancel_orders->cur_month2 ?>, <?= $cancel_orders->cur_month1 ?>]
+                data: [<?= $cancel_orders->cur_month5 ?>, <?= $cancel_orders->cur_month4 ?>, <?= $cancel_orders->cur_month3 ?>, <?= $cancel_orders->cur_month2 ?>, <?= $cancel_orders->cur_month1 ?>, <?= $cancel_orders->cur_month ?>]
             }]
         };
         var barChartPolish = {
-            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [<?= $import->cur_month3_pl ?>, <?= $import->cur_month2_pl ?>, <?= $import->cur_month1_pl ?>]
+                data: [<?= $import->cur_month2_pl ?>, <?= $import->cur_month1_pl ?>, <?= $import->cur_month_pl ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [<?= $export->cur_month3_pl ?>, <?= $export->cur_month2_pl ?>, <?= $export->cur_month1_pl ?>]
+                data: [<?= $export->cur_month2_pl ?>, <?= $export->cur_month1_pl ?>, <?= $export->cur_month_pl ?>]
             }]
         };
         var barChart4P = {
-            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [<?= $import->cur_month3_4p ?>, <?= $import->cur_month2_4p ?>, <?= $import->cur_month1_4p ?>]
+                data: [<?= $import->cur_month2_4p ?>, <?= $import->cur_month1_4p ?>, <?= $import->cur_month_4p ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [<?= $export->cur_month3_4p ?>, <?= $export->cur_month2_4p ?>, <?= $export->cur_month1_4p ?>]
+                data: [<?= $export->cur_month2_4p ?>, <?= $export->cur_month1_4p ?>, <?= $export->cur_month_4p ?>]
             }]
         };
         var barChartRough = {
-            labels: [getMonthName(3), getMonthName(2), getMonthName(1)],
+            labels: [getMonthName(2), getMonthName(1), getMonthName(0)],
             dataUnit: '',
             datasets: [{
                 label: "Added",
                 color: "#9cabff",
-                data: [<?= $import->cur_month3_rg ?>, <?= $import->cur_month2_rg ?>, <?= $import->cur_month1_rg ?>]
+                data: [<?= $import->cur_month2_rg ?>, <?= $import->cur_month1_rg ?>, <?= $import->cur_month_rg ?>]
             }, {
                 label: "Sold",
                 color: "#f4aaa4",
-                data: [<?= $export->cur_month3_rg ?>, <?= $export->cur_month2_rg ?>, <?= $export->cur_month1_rg ?>]
+                data: [<?= $export->cur_month2_rg ?>, <?= $export->cur_month1_rg ?>, <?= $export->cur_month_rg ?>]
             }]
         };
     }(NioApp, jQuery);

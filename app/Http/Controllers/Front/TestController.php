@@ -186,7 +186,7 @@ class TestController extends Controller
         print_r($results);
     }
 
-    public function createElasticIndex()
+    public function createElasticIndexDiamonds()
     {
         $client = ClientBuilder::create()
             ->setHosts(['localhost:9200'])
@@ -198,7 +198,6 @@ class TestController extends Controller
             'body' => [
                 'settings' => [
                     'number_of_shards' => 1,
-
                     "analysis" => [
                         "normalizer" => [
                             "analyzer_case_insensitive" => [
@@ -207,7 +206,6 @@ class TestController extends Controller
                             ]
                         ]
                     ]
-
                 ],
                 'mappings' => [
                     'properties' => [
@@ -242,6 +240,121 @@ class TestController extends Controller
                             "format" => "yyyy-MM-dd HH:mm:ss"
                         ],
                         "discount" => [
+                            "type" => "float"
+                        ],
+                        "expected_polish_cts" => [
+                            "type" => "double"
+                        ],
+                        "makable_cts" => [
+                            "type" => "double"
+                        ],
+                        "image" => [
+                            "type" => "text"
+                        ],
+                        "is_active" => [
+                            "type" => "byte"
+                        ],
+                        "is_deleted" => [
+                            "type" => "byte"
+                        ],
+                        "is_recommended" => [
+                            "type" => "byte"
+                        ],
+                        "packate_no" => [
+                            "type" => "text"
+                        ],
+                        "rapaport_price" => [
+                            "type" => "double"
+                        ],
+                        "refCategory_id" => [
+                            "type" => "integer"
+                        ],
+                        "remarks" => [
+                            "type" => "text"
+                        ],
+                        "price_ct" => [
+                            "type" => "double"
+                        ],
+                        "total" => [
+                            "type" => "double"
+                        ],
+                        "weight_loss" => [
+                            "type" => "double"
+                        ],
+                        "attributes" => [
+                            "type" => "flattened"
+                        ],
+                        "attributes_id" => [
+                            "type" => "nested"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $client->indices()->create($params);
+    }
+
+    public function createElasticIndexSoldDiamonds()
+    {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+
+        $params = [
+            'index' => 'sold_diamonds',
+            // 'id'    => 'diamond_id',
+            'body' => [
+                'settings' => [
+                    'number_of_shards' => 1,
+                    "analysis" => [
+                        "normalizer" => [
+                            "analyzer_case_insensitive" => [
+                                "type" => "custom",
+                                "filter" => ["lowercase"]
+                            ]
+                        ]
+                    ]
+                ],
+                'mappings' => [
+                    'properties' => [
+                        "order_id" => [
+                            "type" => "long"
+                        ],
+                        "diamond_id" => [
+                            "type" => "long"
+                        ],
+                        'name' => [
+                            'type' => 'text'
+                        ],
+                        "actual_pcs" => [
+                            "type" => "long"
+                        ],
+                        "added_by" => [
+                            "type" => "long"
+                        ],
+                        "available_pcs" => [
+                            "type" => "long"
+                        ],
+                        "barcode" => [
+                            "type" => "keyword"
+                        ],
+                        "barcode_search" => [
+                            "type" => "keyword",
+                            "normalizer" => "analyzer_case_insensitive"
+                        ],
+                        "date_added" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "date_updated" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "discount" => [
+                            "type" => "float"
+                        ],
+                        "new_discount" => [
                             "type" => "float"
                         ],
                         "expected_polish_cts" => [

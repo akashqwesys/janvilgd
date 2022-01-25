@@ -499,6 +499,8 @@ Route::get('orders/add/import-excel', [OrdersController::class, 'addExcel'])->na
 
 Route::get('orders/create-invoice', [OrdersController::class, 'createInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/save-invoice', [OrdersController::class, 'saveInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/edit-invoice/{order_id}', [OrdersController::class, 'editInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/update-invoice', [OrdersController::class, 'updateInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
 Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/getBarcodes', [OrdersController::class, 'getBarcodes'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

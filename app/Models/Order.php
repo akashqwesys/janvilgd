@@ -53,6 +53,7 @@ class Order extends Model
         'order_type',
         'date_added',
         'date_updated',
+        'attention',
         'billing_remarks',
         'shipping_remarks'
     ];
