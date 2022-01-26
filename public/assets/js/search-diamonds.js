@@ -173,17 +173,17 @@ function getDiamonds(values, array, group_id) {
             });
         }
     });
-    nowGetDiamonds();
-    // setTimeout(() => {
-    //     if (global_quick_call > 0) {
-    //         clearTimeout($.data(this, 'quickCaller'));
-    //         $.data(this, 'quickCaller', setTimeout(function () {
-    //             nowGetDiamonds();
-    //         }, 1500));
-    //     } else {
-    //         nowGetDiamonds();
-    //     }
-    // }, 1500);
+
+    setTimeout(() => {
+        // if (global_quick_call > 0) {
+        //     clearTimeout($.data(this, 'quickCaller'));
+        //     $.data(this, 'quickCaller', setTimeout(function () {
+        //         nowGetDiamonds();
+        //     }, 500));
+        // } else {
+            nowGetDiamonds();
+        // }
+    }, 500);
 }
 
 function nowGetDiamonds() {
