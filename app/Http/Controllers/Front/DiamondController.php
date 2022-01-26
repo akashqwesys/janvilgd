@@ -943,7 +943,7 @@ class DiamondController extends Controller {
                     }
                 }
 
-                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['rapaport_price'], 2, '.', ',') . '</td><td scope="col" class="text-right">' . $v['discount']*100 . '%</td>';
+                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['rapaport_price'], 2, '.', ',') . '</td><td scope="col" class="text-right">' . number_format($v['discount'] * 100, 2, '.', '') . '%</td>';
 
                 $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
                     <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>

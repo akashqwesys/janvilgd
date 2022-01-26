@@ -1,6 +1,7 @@
 var global_search_values = [];
 var global_search_array = [];
 var global_group_id = 0;
+var global_get_diamonds = null;
 var new_call = true;
 $.ajaxSetup({
     headers: {
@@ -102,6 +103,9 @@ $(document).on('click', '#result-table thead th', function() {
 });
 
 function getDiamonds(values, array, group_id) {
+    if (global_get_diamonds) {
+        global_get_diamonds.abort();
+    }
     if (stop_on_change === 0) {
         global_search_values = values;
         global_search_array = array;
@@ -160,7 +164,7 @@ function getDiamonds(values, array, group_id) {
             global_group_id = group_id;
         },
         failure: function (response) {
-            $('.cs-loader').hide();
+            // $('.cs-loader').hide();
             $.toast({
                 heading: 'Error',
                 text: 'Oops, something went wrong...!',
@@ -169,17 +173,17 @@ function getDiamonds(values, array, group_id) {
             });
         }
     });
-
-    setTimeout(() => {
-        if (global_quick_call > 0) {
-            clearTimeout($.data(this, 'quickCaller'));
-            $.data(this, 'quickCaller', setTimeout(function () {
-                nowGetDiamonds();
-            }, 1500));
-        } else {
-            nowGetDiamonds();
-        }
-    }, 1500);
+    nowGetDiamonds();
+    // setTimeout(() => {
+    //     if (global_quick_call > 0) {
+    //         clearTimeout($.data(this, 'quickCaller'));
+    //         $.data(this, 'quickCaller', setTimeout(function () {
+    //             nowGetDiamonds();
+    //         }, 1500));
+    //     } else {
+    //         nowGetDiamonds();
+    //     }
+    // }, 1500);
 }
 
 function nowGetDiamonds() {
@@ -188,6 +192,7 @@ function nowGetDiamonds() {
         'category': global_category,
         'category_slug': global_category_slug
     };
+    global_get_diamonds =
     $.ajax({
         beforeSend: function (xhr) {
         },

@@ -29,15 +29,29 @@
     .a-head .icon.ni {
         font-size: 18px;
     }
-    .bg-tile {
+    .bg-tile::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
         background: url("/admin_assets/images/background/dash-bg-1.jpg");
         background-repeat: no-repeat;
         background-size: 100%;
+        opacity: 0.2;
     }
-    .bg-tile-2 {
+    .bg-tile-2::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
         background: url("/admin_assets/images/background/dash-bg-2.jpg");
         background-repeat: no-repeat;
         background-size: 100%;
+        opacity: 0.2;
     }
     .mt-4r {
         margin-top: 3rem;
@@ -46,7 +60,8 @@
         padding: 1.25rem 1.25rem 0;
     }
     .mt-4r .card {
-        background-color:#ffffffeb;
+        /* background-color:#ffffffeb; */
+        opacity: 1;
     }
     .image-shapes {
         width: 30px;

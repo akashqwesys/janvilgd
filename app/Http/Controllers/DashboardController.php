@@ -87,12 +87,20 @@ class DashboardController extends Controller {
             // ->limit(5)
             ->get();
 
-        $offline_orders = DB::table('orders as o')
+        $unpaid_orders = DB::table('orders as o')
+            ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+            ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
+            ->where('ou.order_status_name', 'UNPAID')
+            ->orderBy('o.order_id', 'desc')
+            // ->limit(5)
+            ->get();
+
+        /* $offline_orders = DB::table('orders as o')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
             ->where('o.order_type', 0)
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
-            ->get();
+            ->get(); */
 
         $recent_customers = DB::table('customer as c')
             ->join('orders as o', 'o.refCustomer_id', '=', 'c.customer_id')
@@ -257,7 +265,7 @@ class DashboardController extends Controller {
         )
         ->first();
 
-        return view('admin.dashboard.dashboard', compact('request', 'orders', 'data', 'pending_orders', 'paid_orders', 'offline_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
+        return view('admin.dashboard.dashboard', compact('request', 'orders', 'data', 'pending_orders', 'paid_orders', 'unpaid_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
     }
 
     public function inventory(Request $request)
