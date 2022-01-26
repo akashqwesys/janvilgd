@@ -361,7 +361,8 @@ class OrderController extends Controller
 
             $client->bulk($params);
 
-            DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+            // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+            DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
             DB::table('order_diamonds')->insert($od);
 
