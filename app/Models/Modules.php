@@ -21,6 +21,7 @@ class Modules extends Model
         'is_deleted' ,
         'date_added',
         'date_updated',
-        'sort_order'
+        'sort_order',
+        'menu_level'
     ];
 }

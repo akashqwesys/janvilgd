@@ -179,26 +179,26 @@
                                     <div class="card-inner">
                                         <div class="card-title-group">
                                             <div class="card-title">
-                                                <h6 class="title">Offline Orders ({{ count($offline_orders) }})</h6>
+                                                <h6 class="title">Unpaid Orders ({{ count($unpaid_orders) }})</h6>
                                             </div>
                                             <div class="card-tools">
-                                                <a href="/admin/orders?filter=OFFLINE" class="link">View All</a>
+                                                <a href="/admin/orders?filter=UNPAID" class="link">View All</a>
                                             </div>
                                         </div>
                                     </div>
-                                    @if (count($offline_orders))
-                                    @for ($i = 0; $i < (count($offline_orders) < 5 ? count($offline_orders) : 5); $i++)
+                                    @if (count($unpaid_orders))
+                                    @for ($i = 0; $i < (count($unpaid_orders) < 5 ? count($unpaid_orders) : 5); $i++)
                                     <div class="card-inner card-inner-md">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary-dim">
-                                                <span>{{ $offline_orders[$i]->name[0] }}</span>
+                                                <span>{{ $unpaid_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $offline_orders[$i]->name . ' (#' . $offline_orders[$i]->order_id . ')'}}</span>
-                                                <span class="sub-text">{{ $offline_orders[$i]->email_id }}</span>
+                                                <span class="lead-text">{{ $unpaid_orders[$i]->name . ' (#' . $unpaid_orders[$i]->order_id . ')'}}</span>
+                                                <span class="sub-text">{{ $unpaid_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
-                                                <small>${{ number_format(round($offline_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
+                                                <small>${{ number_format(round($unpaid_orders[$i]->total_paid_amount, 2), 2, '.', ',') }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -207,6 +207,7 @@
                                 </div>
                             </div><!-- .card -->
                         </div><!-- .col -->
+
                         <div class="col-md-6 col-lg-4">
                             <div class="card card-bordered card-full">
                                 <div class="card-inner-group">

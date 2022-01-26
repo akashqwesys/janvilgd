@@ -30,7 +30,7 @@ class GetMenu {
             }
 
             $access_permission = json_decode($user_roles->access_permission);
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->get();
 
             if (!empty($module)) {
                 $access_list=array();
@@ -61,30 +61,30 @@ class GetMenu {
             }
         }
         if (session()->get('user-type') == 'MASTER_ADMIN') {
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->orderBy('module_id', 'asc')->get();
 
             if (!empty($module)) {
-                $menu_array = array();
-                foreach ($module as $row_module) {
-                    if ($row_module->parent_id == 0) {
-                        $row_module->submenu = array();
-                        array_push($menu_array, $row_module);
-                    }
-                }
-                foreach ($menu_array as $row) {
-                    foreach ($module as $row1) {
-                        if ($row->module_id == $row1->parent_id) {
-                            array_push($row->submenu, $row1);
-                        }
+                $menu_array = [];
+                $parent_1 = 0;
+                foreach ($module as $m) {
+                    if ($m->menu_level == 1) {
+                        $menu_array[$m->module_id] = $m;
+                    } else if ($m->menu_level == 2) {
+                        $menu_array[$m->parent_id]->sub[$m->parent_id] = $m;
+                        $parent_1 = $m->parent_id;
+                    } else if ($m->menu_level == 3 && $menu_array[$parent_1]->sub[$parent_1]->module_id == $m->parent_id ) {
+                        $menu_array[$parent_1]->sub[$parent_1]->sub[$m->module_id] = $m;
+                    } else if ($m->menu_level == 4 && $menu_array[$parent_1]->sub[$parent_1]->sub[$m->parent_id]->module_id == $m->parent_id) {
+                        $menu_array[$parent_1]->sub[$parent_1]->sub[$m->parent_id]->sub[] = $m;
                     }
                 }
             }
         }
 
-        $categories = DB::table('categories')->select('name','category_id', 'slug')->get();
+        $categories = DB::table('categories')->select('name', 'category_id', 'slug')->get();
 
-        $columns = array_column($menu_array, 'sort_order');
-        array_multisort($columns, SORT_ASC, $menu_array);
+        // $columns = array_column($menu_array, 'sort_order');
+        // array_multisort($columns, SORT_ASC, $menu_array);
         if (Session()->has('loginId')) {
             $request->session()->forget('menu');
             $request->session()->forget('module');

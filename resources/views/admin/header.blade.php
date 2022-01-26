@@ -77,104 +77,23 @@
                         <div class="nk-sidebar-content">
                             <div class="nk-sidebar-menu" data-simplebar>
                                 <ul class="nk-menu">
-                                    <li class="nk-menu-item">
-                                        <a href="/admin/dashboard/inventory" class="nk-menu-link">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
-                                            <span class="nk-menu-text">Dashboard</span>
-                                        </a>
-                                    </li><!-- .nk-menu-item -->
 
+                                    @foreach (session()->get('menu') as $m)
                                     <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Inventory</h6>
+                                        <h6 class="overline-title text-primary-alt">{{ $m->name }}</h6>
                                     </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-note-add"></em></span>
-                                            <span class="nk-menu-text">Inventory</span>
+                                    @foreach ($m->sub as $m1)
+                                    <li class="nk-menu-item {{ isset($m1->sub) ? 'has-sub' : '' }}">
+                                        <a href="{{ $m1->slug ? '/admin/' . $m1->slug : '#' }}" class="nk-menu-link {{ isset($m1->sub) ? 'nk-menu-toggle' : '' }}">
+                                            <span class="nk-menu-icon"><em class="icon ni {{ $m1->icon }}"></em></span>
+                                            <span class="nk-menu-text">{{ $m1->name }}</span>
                                         </a>
+                                        @if (isset($m1->sub))
                                         <ul class="nk-menu-sub">
+                                        @foreach ($m1->sub as $m2)
                                             <li class="nk-menu-item">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Diamonds</span></a>
-                                                <ul class="nk-menu-sub">
-                                                <?php if (!empty(session('categories'))) {
-                                                    foreach (session('categories') as $cat_row) {
-                                                        ?>
-                                                        <li class="nk-menu-item">
-                                                            <a href="/<?php echo 'admin/diamonds/list/'.$cat_row->category_id; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
-                                                        </li>
-                                                        <?php
-                                                    }
-                                                } ?>
-                                                </ul>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/categories" class="nk-menu-link"><span class="nk-menu-text"> Categories</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Attributes</span></a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/attributes" class="nk-menu-link"><span class="nk-menu-text">Attributes</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/attribute-groups" class="nk-menu-link"><span class="nk-menu-text">Attributes Groups</span></a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/rapaport" class="nk-menu-link"><span class="nk-menu-text"> Rapaport</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Charges</span></a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/labour-charges" class="nk-menu-link"><span class="nk-menu-text">Labour Charges</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/delivery-charges" class="nk-menu-link"><span class="nk-menu-text">Shipping/Delivery</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/discount" class="nk-menu-link"><span class="nk-menu-text">Discount</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/taxes" class="nk-menu-link"><span class="nk-menu-text">Tax</span></a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/transport" class="nk-menu-link"><span class="nk-menu-text"> Transport</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/payment-modes" class="nk-menu-link"><span class="nk-menu-text"> Payment Modes</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Orders</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-report-profit"></em></span>
-                                            <span class="nk-menu-text">Orders</span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Sold Diamonds</span></a>
-                                                <ul class="nk-menu-sub">
-                                                <?php if (!empty(session('categories'))) {
-                                                    foreach (session('categories') as $cat_row) {
-                                                        ?>
-                                                        <li class="nk-menu-item">
-                                                            <a href="/<?php echo 'admin/sold-diamonds/list/'.$cat_row->slug; ?>" class="nk-menu-link"><span class="nk-menu-text"><?php echo $cat_row->name; ?></span></a>
-                                                        </li>
-                                                        <?php
-                                                    }
-                                                } ?>
-                                                </ul>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Orders</span></a>
+                                                @if ($m2->name == 'Orders')
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{ $m2->name }}</span></a>
                                                 <ul class="nk-menu-sub">
                                                     <li class="nk-menu-item">
                                                         <a href="/admin/orders?filter=PENDING" class="nk-menu-link"><span class="nk-menu-text"> PENDING</span></a>
@@ -188,111 +107,27 @@
                                                     <li class="nk-menu-item">
                                                         <a href="/admin/orders?filter=CANCELLED" class="nk-menu-link"><span class="nk-menu-text"> CANCELLED</span></a>
                                                     </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="/admin/orders?filter=OFFLINE" class="nk-menu-link"><span class="nk-menu-text"> OFFLINE</span></a>
-                                                    </li>
                                                 </ul>
+                                                @else
+                                                    <a href="{{ $m2->slug ? '/admin/' . $m2->slug : '#' }}" class="nk-menu-link {{ isset($m2->sub) ? 'nk-menu-toggle' : '' }}"><span class="nk-menu-text">{{ $m2->name }}</span></a>
+                                                    @if (isset($m2->sub))
+                                                    <ul class="nk-menu-sub">
+                                                        @foreach ($m2->sub as $m3)
+                                                        <li class="nk-menu-item">
+                                                            <a href="/admin/{{ $m3->slug }}" class="nk-menu-link"><span class="nk-menu-text">{{ $m3->name }}</span></a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    @endif
+                                                @endif
                                             </li>
+                                            @endforeach
                                         </ul>
+                                        @endif
                                     </li>
+                                    @endforeach
+                                    @endforeach
 
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Users</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-users"></em></span>
-                                            <span class="nk-menu-text">Users</span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/customers" class="nk-menu-link"><span class="nk-menu-text"> Customers</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/customer-activities" class="nk-menu-link"><span class="nk-menu-text"> Customers Activity</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/customer-type" class="nk-menu-link"><span class="nk-menu-text"> Customers Type</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/users" class="nk-menu-link"><span class="nk-menu-text"> Employees</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/user-activity" class="nk-menu-link"><span class="nk-menu-text"> Employees Activity</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/user-role" class="nk-menu-link"><span class="nk-menu-text"> Employees Role</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/designation" class="nk-menu-link"><span class="nk-menu-text"> Designation</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Address</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-map-pin"></em></span>
-                                            <span class="nk-menu-text">Address</span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/country" class="nk-menu-link"><span class="nk-menu-text"> Countries</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/state" class="nk-menu-link"><span class="nk-menu-text"> States</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/city" class="nk-menu-link"><span class="nk-menu-text"> Cities</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Web Modules</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-card-view"></em></span>
-                                            <span class="nk-menu-text">Web Modules</span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/informative-pages" class="nk-menu-link"><span class="nk-menu-text"> Informative Pages</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/sliders" class="nk-menu-link"><span class="nk-menu-text"> Sliders</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/events" class="nk-menu-link"><span class="nk-menu-text"> Events</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="/admin/blogs" class="nk-menu-link"><span class="nk-menu-text"> Blogs</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Modules</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item">
-                                        <a href="/admin/modules" class="nk-menu-link">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-list-round"></em></span>
-                                            <span class="nk-menu-text">Modules</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">Settings</h6>
-                                    </li><!-- .nk-menu-item -->
-                                    <li class="nk-menu-item">
-                                        <a href="/admin/settings" class="nk-menu-link">
-                                            <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
-                                            <span class="nk-menu-text">Settings</span>
-                                        </a>
-                                    </li>
                                     @if (session()->get('user_email') == 'akash@qweysys.com')
                                     <li class="nk-menu-heading">
                                         <a href="/admin/project-setup">

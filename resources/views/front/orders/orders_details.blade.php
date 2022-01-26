@@ -97,6 +97,8 @@
                                             <th>Shape</th>
                                             <th>Color</th>
                                             <th>Clarity</th>
+                                            <th>Rapaport</th>
+                                            <th>Discount</th>
                                             <th style="text-align: right;">Price</th>
                                         </tr>
                                     </thead>
@@ -109,30 +111,32 @@
                                             <td>{{ $o['attributes']['SHAPE'] }}</td>
                                             <td>{{ $o['attributes']['COLOR'] }}</td>
                                             <td>{{ $o['attributes']['CLARITY'] }}</td>
+                                            <td>${{ number_format($o['rapaport_price'], 2, '.', ',') }}</td>
+                                            <td>{{ number_format($o['discount'], 2) }}%</td>
                                             <td style="text-align: right;">${{ number_format($o['total'], 2, '.', ',') }}</td>
                                         </tr>
                                         @endforeach
                                         <tr style="background-color: lightgray;">
-                                            <td colspan="7" style="text-align: right;">&nbsp;</td>
+                                            <td colspan="9" style="text-align: right;">&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="text-align: right;"><b>Subtotal</b></td>
+                                            <td colspan="8" style="text-align: right;"><b>Subtotal</b></td>
                                             <td style="text-align: right;">${{ number_format($orders[0]->sub_total, 2, '.', ',') }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="text-align: right;"><b>Discount</b></td>
+                                            <td colspan="8" style="text-align: right;"><b>Discount</b></td>
                                             <td style="text-align: right;">${{ number_format($orders[0]->sub_total * $orders[0]->discount_amount / 100, 2, '.', ',') }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="text-align: right;"><b>Tax</b></td>
+                                            <td colspan="8" style="text-align: right;"><b>Tax</b></td>
                                             <td style="text-align: right;">${{ number_format(($orders[0]->sub_total - ($orders[0]->sub_total * $orders[0]->discount_amount / 100)) * $orders[0]->tax_amount / 100, 2, '.', ',') }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="text-align: right;"><b>Shipping Charge</b></td>
+                                            <td colspan="8" style="text-align: right;"><b>Shipping Charge</b></td>
                                             <td style="text-align: right;">${{ number_format($orders[0]->delivery_charge_amount, 2, '.', ',') }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6" style="text-align: right;">
+                                            <td colspan="8" style="text-align: right;">
                                                 <b> Total </b>
                                             </td>
                                             <td style="text-align: right;">
