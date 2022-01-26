@@ -339,7 +339,8 @@ class OrdersController extends Controller
                     }
                     $client->bulk($params);
 
-                    DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+                    // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+                    DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
                     DB::table('order_diamonds')->insert($batch_data);
                     activity($request, "inserted", 'orders', $order_Id);
@@ -1197,7 +1198,8 @@ class OrdersController extends Controller
 
         $client->bulk($params);
 
-        DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+        // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+        DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
         DB::table('order_diamonds')->insert($od);
 
@@ -1716,7 +1718,8 @@ class OrdersController extends Controller
 
         $client->bulk($params);
 
-        DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+        // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
+        DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
         DB::table('order_diamonds')->insert($od);
 
