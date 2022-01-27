@@ -161,7 +161,7 @@
                                                 <tr>
                                                     <td>{{ $s->order_status_name }}</td>
                                                     <td>{{ $s->comment }}</td>
-                                                    <td>{{ $s->date_added }}</td>
+                                                    <td>{{ date('d-m-Y H:i:s', strtotime($s->date_added)) }}</td>
                                                 </tr>
                                             @endforeach
                                         @else

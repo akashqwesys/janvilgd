@@ -285,6 +285,7 @@ class OrderController extends Controller
                     'remarks' => $v->remarks,
                     'rapaport_price' => $v->mrp,
                     'discount' => $v->discount,
+                    'new_discount' => $v->discount,
                     'weight_loss' => $v->weight_loss,
                     'video_link' => $v->video_link,
                     'images' => $v->image,
