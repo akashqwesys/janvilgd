@@ -5273,3 +5273,7 @@ label[for="id_upload"]:hover {
     font-size: 14px;
     padding-top: 10px;
 }
+
+:focus {
+  outline-width: 0;
+}
