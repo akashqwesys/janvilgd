@@ -568,13 +568,17 @@ class OrdersController extends Controller
     public function edit($id)
     {
         $updates = DB::table('order_updates')
-            ->select('refOrder_id')
+            ->select('refOrder_id', 'order_status_name')
             ->where('refOrder_id', $id)
-            ->whereRaw("(order_status_name = 'PAID' or order_status_name = 'CANCELLED')")
-            ->pluck('refOrder_id')
-            ->toArray();
-        if (!empty($updates)) {
+            // ->whereRaw("(order_status_name = 'PAID' or order_status_name = 'CANCELLED')")
+            ->orderBy('order_update_id', 'desc')
+            ->first();
+        if ($updates->order_status_name == 'PAID' || $updates->order_status_name == 'CANCELLED') {
             return redirect('/admin/orders');
+        } else if ($updates->order_status_name == 'PENDING') {
+            $pending = true;
+        } else {
+            $pending = false;
         }
         $diamonds = DB::table('order_diamonds as od')
             ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
@@ -625,6 +629,7 @@ class OrdersController extends Controller
         $data['order_sts'] = $order_sts;
         $data['order_history'] = $order_history;
         $data['result'] = $result;
+        $data['pending'] = $pending;
         $data['admin_name'] = DB::table('users')->select('name')->where('id', session()->get('loginId'))->pluck('name')->first();
         return view('admin.orders.edit', ["data" => $data]);
     }
