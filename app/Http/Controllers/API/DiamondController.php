@@ -1108,16 +1108,19 @@ class DiamondController extends Controller
                 ->whereIn('attribute_group_id', [2, 3, 1])
                 ->pluck('attribute_id')
                 ->all();
+            $diamonds['labour_charge'] = DB::table('labour_charges')->select('amount')->where('labour_charge_id', 2)->pluck('amount')->first();
         } else if ($diamonds['refCategory_id'] == 2) {
             $similar_ids = collect($diamonds['attributes_id'])
                 ->whereIn('attribute_group_id', [10, 8, 7, 6])
                 ->pluck('attribute_id')
                 ->all();
+            $diamonds['labour_charge'] = DB::table('labour_charges')->select('amount')->where('labour_charge_id', 1)->pluck('amount')->first();
         } else {
             $similar_ids = collect($diamonds['attributes_id'])
                 ->whereIn('attribute_group_id', [18, 17, 16, 24])
                 ->pluck('attribute_id')
                 ->all();
+            $diamonds['labour_charge'] = 0;
         }
 
         $raw_attr = null;
