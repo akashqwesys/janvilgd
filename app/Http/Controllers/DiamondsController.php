@@ -2051,8 +2051,7 @@ class DiamondsController extends Controller {
                     'query' => [
                         'bool' => [
                             'must' => [
-                                ['term' => ['refCategory_id' => $request->refCategory_id]],
-                                ['terms' => ['barcode' => [5011042, 5011041]]]
+                                ['term' => ['refCategory_id' => $request->refCategory_id]]
                             ]
                         ]
                     ]
@@ -2072,7 +2071,7 @@ class DiamondsController extends Controller {
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
             }
-            dd($final_data);
+
             return Datatables::of($final_data)
                 ->addColumn('index', '')
                 ->editColumn('barcode', function ($row) {
