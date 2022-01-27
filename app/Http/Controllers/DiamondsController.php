@@ -13,7 +13,7 @@ use App\Imports\DiamondsImport;
 use App\Models\DiamondTemp;
 use Elasticsearch\ClientBuilder;
 
-// ini_set('memory_limit', '-1');
+ini_set('memory_limit', '-1');
 class DiamondsController extends Controller {
 
     public function index(Request $request, $cat_id) {
