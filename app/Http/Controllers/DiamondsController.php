@@ -13,7 +13,7 @@ use App\Imports\DiamondsImport;
 use App\Models\DiamondTemp;
 use Elasticsearch\ClientBuilder;
 
-ini_set('memory_limit', '-1');
+// ini_set('memory_limit', '-1');
 class DiamondsController extends Controller {
 
     public function index(Request $request, $cat_id) {
@@ -2051,7 +2051,8 @@ class DiamondsController extends Controller {
                     'query' => [
                         'bool' => [
                             'must' => [
-                                ['term' => ['refCategory_id' => $request->refCategory_id]]
+                                ['term' => ['refCategory_id' => $request->refCategory_id]],
+                                ['terms' => ['barcode' => [5011042, 5011041]]]
                             ]
                         ]
                     ]
@@ -2071,7 +2072,7 @@ class DiamondsController extends Controller {
             foreach ($data as $v) {
                 $final_data[] = $v['_source'];
             }
-
+            dd($final_data);
             return Datatables::of($final_data)
                 ->addColumn('index', '')
                 ->editColumn('barcode', function ($row) {

@@ -216,6 +216,7 @@ class OrdersController extends Controller
                             $batch_d['remarks'] = $row->remarks;
                             $batch_d['rapaport_price'] = $row->rapaport_price;
                             $batch_d['discount'] = doubleval((1 - $discount) * 100);
+                            $batch_d['new_discount'] = doubleval((1 - $discount) * 100);
                             $batch_d['weight_loss'] = round($row->weight_loss, 2);
                             $batch_d['video_link'] = $row->video_link;
                             $batch_d['images'] = $row->image;
@@ -514,8 +515,10 @@ class OrdersController extends Controller
                     if ($diamonds[$i]->refAttribute_id == 0) {
                         $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->value;
                     } else {
-                        $final_d[$temp_id]['attributes_id'][$i]['attribute_group_id'] = $diamonds[$i]->refAttribute_group_id;
-                        $final_d[$temp_id]['attributes_id'][$i]['attribute_id'] = $diamonds[$i]->refAttribute_id;
+                        $final_d[$temp_id]['attributes_id'][] = [
+                            'attribute_group_id' => $diamonds[$i]->refAttribute_group_id,
+                            'attribute_id' => $diamonds[$i]->refAttribute_id
+                        ];
                         $final_d[$temp_id]['attributes'][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
                     }
                 }

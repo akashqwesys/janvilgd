@@ -39,16 +39,7 @@
 
 @endsection
 @section('content')
-<section class="sub-header">
-    <div class="container">
-        <div class="section-content">
-            <div>
-                <h2 class="title bread-crumb-title">View Cart</h2>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="cart-page mb-5">
+<div class="cart-page mb-5 mt-5">
     <div class="container">
         <div class="row">
             <div class="d-flex align-items-center mb-5">

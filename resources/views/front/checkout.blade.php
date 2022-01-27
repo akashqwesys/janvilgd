@@ -87,6 +87,12 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        <div class="m-3">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="same_shipping" value="0">
+                                                <label class="form-check-label" for="same_shipping"> Click here to select same Shipping Address</label>
+                                            </div>
+                                        </div>
                                         <div class="spaceBlock">
                                             <div id="billing-address-block"></div>
                                         </div>
@@ -379,6 +385,12 @@
         },
         beforeSend: function( xhr ) {
             $( ".cs-loader" ).show();
+        }
+    });
+    $(document).on('click', '#same_shipping', function () {
+        $('#headingOne button').trigger('click');
+        if ($(this).prop('checked') === true) {
+            $('#shipping-select').val($('#billing-select').val()).trigger('change');
         }
     });
     $(document).ready(function() {
