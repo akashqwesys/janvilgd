@@ -317,6 +317,8 @@ $(document).on('click', '#result-table tbody tr', function(e) {
         // $(e.target).trigger('click');
     } else if ($(e.target).hasClass('show-certi')) {
         window.open($(this).find('td').eq(0).find('a').eq(0).attr('href'), '_blank');
+    } else if ($(e.target).hasClass('login-td')) {
+        location.href = $(e.target).attr('href');
     } else {
         window.open($(this).find('td').eq(0).find('a').eq(1).attr('href'), '_blank');
     }

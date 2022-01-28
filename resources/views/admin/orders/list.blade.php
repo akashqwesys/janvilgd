@@ -251,21 +251,28 @@
         table.clear().draw();
     });
     $(document).on('change', '#orderCustomers', function(){
-        customer_id = $(this).val();
-        table.clear().draw();
+        if ($(this).val() != null) {
+            customer_id = $(this).val();
+            table.clear().draw();
+        }
     });
     $(document).on('change', '#orderStatus', function(){
-        order_status = $(this).val();
-        table.clear().draw();
+        if ($(this).val() != null) {
+            order_status = $(this).val();
+            table.clear().draw();
+        }
     });
     $(document).on('change', '#d-category', function(){
-        category = $(this).val();
-        table.clear().draw();
+        if ($(this).val() != null) {
+            category = $(this).val();
+            table.clear().draw();
+        }
     });
     $(document).on('click', '#clear-filters', function(){
         $('.accordion-head').attr('class', 'accordion-head collapsed');
         $('.accordion-body').attr('class', 'accordion-body collapse');
         startDate = endDate = customer_id = order_status = category = null;
+        $('#dateRange, #orderCustomers, #orderStatus, #d-category').val('').trigger('change');
         table.clear().draw();
     });
     $(document).on('click', '#refreshData', function(){

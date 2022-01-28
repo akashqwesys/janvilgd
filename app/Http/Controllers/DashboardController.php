@@ -91,6 +91,7 @@ class DashboardController extends Controller {
             ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
             ->where('ou.order_status_name', 'UNPAID')
+            ->where('ou.order_status_name', '<>', 'PAID')
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
@@ -487,8 +488,11 @@ class DashboardController extends Controller {
         ->first();
 
         $top_customers = DB::table('orders as o')
-            ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds group by "refOrder_id"', 'od', function ($join) {
+            ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds GROUP BY "refOrder_id"', 'od', function ($join) {
                 $join->on('od.refOrder_id', '=', 'o.order_id');
+            })
+            ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' OR order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
+                $join->on('ou.refOrder_id', '=', 'o.order_id');
             })
             ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
             // ->groupByRaw('"refCustomer_id", o.name, od.total_diamonds, o.total_paid_amount')

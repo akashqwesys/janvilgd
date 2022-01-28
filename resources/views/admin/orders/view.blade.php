@@ -46,8 +46,8 @@
                                     <tr>
                                         <th>Barcode</th>
                                         <th>Category</th>
-                                        <th>Carat</th>
                                         <th>Shape</th>
+                                        <th>Carat</th>
                                         <th>Color</th>
                                         <th>Clarity</th>
                                         <th>Rapaport</th>
@@ -60,8 +60,8 @@
                                     <tr>
                                         <td>{{$d_row['barcode']}}</td>
                                         <td>{{$d_row['cat_name']}}</td>
-                                        <td>{{$d_row['expected_polish_cts']}}</td>
                                         <td>{{ $d_row['attributes']['SHAPE'] }}</td>
+                                        <td>{{$d_row['expected_polish_cts']}}</td>
                                         <td>{{ $d_row['attributes']['COLOR'] }}</td>
                                         <td>{{ $d_row['attributes']['CLARITY'] }}</td>
                                         <td>$ {{ number_format($d_row['rapaport_price'], 2, '.', ',') }}</td>
