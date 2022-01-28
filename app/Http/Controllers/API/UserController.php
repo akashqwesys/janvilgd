@@ -223,7 +223,7 @@ class UserController extends Controller
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required'],
-                'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
+                'id_upload' => [/* 'required_if:customer_company_id,null', */ 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 
             $message = [

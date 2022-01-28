@@ -17,16 +17,16 @@
 	<link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">	
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">
 
-	<style>		
-		.zoom>img {		
+	<style>
+		.zoom>img {
 			transition: width 1s;
-			top: 15px;    
+			top: 15px;
 			position: absolute;
 			z-index: 9999;
 			width: 11rem;
-		} 
+		}
 		.navbar {
 			padding-top: 1rem;
 			padding-bottom: 1rem;
@@ -38,7 +38,7 @@
             padding-right: 20px !important;
             padding-left: 20px !important;
         }
-		#myVideo {		
+		#myVideo {
 		right: 0;
 		bottom: 0;
 		width: 100%;
@@ -46,22 +46,19 @@
 		object-fit: cover;
     	object-position: center;
 		}
-		
+
 		/* iframe {
 			height:calc(100vh - 4px);
 			width:calc(100vw - 4px);
 			box-sizing: border-box;
 		} */
 	</style>
-	
+
     @yield('css')
 </head>
 <body>
 <!-- <iframe src="https://www.youtube.com/embed/AabGrt5l4JQ?version=3&enablejsapi=1&rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1&disablekb=1&loop=1&playlist=AabGrt5l4JQ" frameborder="0" allowfullscreen width="1280" height="720"></iframe> -->
-<!-- 
-
-
-
+<!--
 <script>
 	"use strict";
 if (document.readyState !== 'loading') init();
@@ -78,7 +75,7 @@ function init() {
     }
 
     var iframes = [];
-    
+
     for (var iframe of document.querySelectorAll("iframe[src]")) {
         var src = iframe.getAttribute("src");
         if (src.includes("youtube.com/embed/")) {
@@ -110,16 +107,16 @@ function init() {
             for (var style in overlayStyles) {
                 overlay.style[style] = overlayStyles[style];
             }
-            
+
             var wrapper = document.createElement('div');
             wrapper.style.display = "inline-block";
             wrapper.style.position = "relative";
 
             iframe.parentNode.insertBefore(wrapper, iframe);
-            
+
             wrapper.appendChild(overlay);
             wrapper.appendChild(iframe);
-            
+
             var onPlayerStateChange = function(event) {
                 if (event.data == YT.PlayerState.ENDED) {
                     overlay.style.backgroundImage = "url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCI+PHBhdGggZD0iTTI1NSAxMDJWMEwxMjcuNSAxMjcuNSAyNTUgMjU1VjE1M2M4NC4xNSAwIDE1MyA2OC44NSAxNTMgMTUzcy02OC44NSAxNTMtMTUzIDE1My0xNTMtNjguODUtMTUzLTE1M0g1MWMwIDExMi4yIDkxLjggMjA0IDIwNCAyMDRzMjA0LTkxLjggMjA0LTIwNC05MS44LTIwNC0yMDQtMjA0eiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==)";
@@ -136,12 +133,12 @@ function init() {
                 } else if (event.data == YT.PlayerState.PLAYING) {
                     overlay.style.display = "none";
                 }
-            };            
+            };
             var player  = new YT.Player(iframe, {
                     events: {
                         'onStateChange': onPlayerStateChange
                     }
-                });        
+                });
             wrapper.addEventListener("click", function() {
                 var playerState = player.getPlayerState();
                 if (playerState == YT.PlayerState.ENDED) {
@@ -155,10 +152,6 @@ function init() {
     window.runOnce = true;
 }
 	</script>
-
-
-
-
  -->
 
 	<header class="header-style-2">
@@ -223,9 +216,9 @@ function init() {
 		    </div>
 		    <div class="ms-auto header-right-menu">
 		    	<ul class="navbar-nav ms-auto">
-		    		<li class="nav-item">
+		    		{{-- <li class="nav-item">
 		    			<a class="nav-link active" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
-		    		</li>
+		    		</li> --}}
 		    		<li class="nav-item">
 						@auth
 						<a class="nav-link active" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" ></a>
@@ -235,7 +228,7 @@ function init() {
 						@endguest
 		    		</li>
 		    	</ul>
-		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		    	{{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 		    		<div class="offcanvas-header">
 		    			<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		    		</div>
@@ -261,7 +254,7 @@ function init() {
 		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
 		    			</ul>
 		    		</div>
-		    	</div>
+		    	</div> --}}
 		    </div>
 			</div>
 		  </div>
@@ -323,13 +316,13 @@ function init() {
 					<div class="col col-12 col-sm-12 col-md-6 col-lg-3">
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
-							<ul class="list-unstyled footer-link mb-0">	
+							<ul class="list-unstyled footer-link mb-0">
 							<li class="item"><a href="/manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="/grading">Grading</a></li>							
+								<li class="item"><a href="/grading">Grading</a></li>
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="/contact">Contact Us</a></li>
-							
+
 							</ul>
 						</div>
 					</div>
@@ -367,8 +360,8 @@ function init() {
 													<li class="secondli">info@mywebsite.com</li>
 													<li class="thirdli">+1 (291) 939 9321</li>
 												</ul>
-											</div>        
-										</div>										
+											</div>
+										</div>
 									</li>
 									<li>
 									<span class="flag-icon">
@@ -382,7 +375,7 @@ function init() {
 													<li class="secondli">info@mywebsite.com</li>
 													<li class="thirdli">+1 (291) 939 9321</li>
 												</ul>
-											</div>        
+											</div>
 										</div>
 									</li>
 								</ul>
@@ -390,7 +383,7 @@ function init() {
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>									
+									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -447,7 +440,7 @@ function init() {
 
 	$("form").submit(function() {
 		var full_number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-		$("input[name='txt_phone[full]'").val(full_number);			
+		$("input[name='txt_phone[full]'").val(full_number);
 	});
 
 	// var iti = window.intlTelInput(input, {
@@ -466,7 +459,7 @@ $(document).ready(function(){
 	<?php
 		if (!isset($_SESSION['message'])) {
 			$_SESSION['message'] = '';
-		}		
+		}
 	?>
 	if (<?php
 	if (!empty(session()->get('success'))) {
@@ -488,20 +481,20 @@ $(document).ready(function(){
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
 	$(window).scroll(function(){
-		
-		if($(window).scrollTop() >= 60) {			
+
+		if($(window).scrollTop() >= 60) {
 			$(".zoom img").css({
 				'transition': 'width 1s',
-				'width': '8rem'						
+				'width': '8rem'
         	});
         }
 		if($(window).scrollTop() <= 50) {
 			$(".zoom img").css({
-				'transition': 'width 1s',				
-            	'width': '11rem'				
+				'transition': 'width 1s',
+            	'width': '11rem'
         	});
-        }		        
-       
+        }
+
     });
 });
 </script>

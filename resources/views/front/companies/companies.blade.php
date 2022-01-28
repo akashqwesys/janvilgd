@@ -417,11 +417,11 @@ $("#companyForm").validate({
         company_state: {required: true},
         company_city: {required: true},
         company_pincode: { required: true, number: true},
-        id_upload: {
+        /* id_upload: {
             required: function (element) {
                 return $('#customer_company_id').val() == '';
             }
-        }
+        } */
     },
     messages: {
         company_name: {required: "Please enter your company name"},
@@ -440,7 +440,7 @@ $("#companyForm").validate({
         company_state: {required: "Please select the state/province"},
         company_city: {required: "Please enter the city name"},
         company_pincode: {required: "Please enter the pincode"},
-        id_upload: {required: "Please select the identity proof"}
+        // id_upload: {required: "Please select the identity proof"}
     },
     errorPlacement: function(error, element) {
         if (element.attr('id') == 'id_upload') {

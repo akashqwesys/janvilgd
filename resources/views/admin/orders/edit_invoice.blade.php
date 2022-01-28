@@ -730,9 +730,7 @@
             company_state: {required: true},
             company_city: {required: true},
             company_pincode: { required: true, number: true},
-            id_upload: {
-                required: true
-            }
+            // id_upload: { required: true }
         },
         messages: {
             company_name: {required: "Please enter your company name"},
@@ -751,7 +749,7 @@
             company_state: {required: "Please select the state/province"},
             company_city: {required: "Please enter the city name"},
             company_pincode: {required: "Please enter the pincode"},
-            id_upload: {required: "Please select the identity proof"}
+            // id_upload: {required: "Please select the identity proof"}
         },
         errorPlacement: function(error, element) {
             if (element.attr('id') == 'id_upload') {
@@ -764,7 +762,9 @@
             // do other things for a valid form
             // form.submit();
             var formData = new FormData(form);
-            formData.append('id_upload', $('#id_upload')[0].files);
+            if ($('#id_upload')[0].files.length > 0) {
+                formData.append('id_upload', $('#id_upload')[0].files);
+            }
             $.ajax({
                 type: "POST",
                 url: "/admin/customers/save-addresses",
