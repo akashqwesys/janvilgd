@@ -306,7 +306,7 @@ class CustomersController extends Controller {
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required'],
-                'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
+                'id_upload' => [/* 'required_if:customer_company_id,null', */ 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 
             $message = [
@@ -318,7 +318,7 @@ class CustomersController extends Controller {
                 'company_country.required' => 'Please enter company country',
                 'company_state.required' => 'Please enter company state',
                 'company_city.required' => 'Please enter company city',
-                'id_upload.required' => 'Please select ID proof'
+                // 'id_upload.required' => 'Please select ID proof'
             ];
 
             $validator = Validator::make($request->all(), $rules, $message);

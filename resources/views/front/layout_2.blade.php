@@ -41,13 +41,12 @@
             padding-left: 20px !important;
         }
 		#myVideo {
-
-		right: 0;
-		bottom: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-    	object-position: center;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
 		}
 	</style>
     @yield('css')
@@ -59,27 +58,62 @@
 		    <a class="navbar-brand zoom" href="/">
 				<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" >
 			</a>
-		    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
-		    </button> -->
+
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		      <ul class="navbar-nav">
-		        <li class="nav-item">
-					<a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
+				<li class="nav-item">
+					<a class="nav-link" href="/">HOME</a>
 		        </li>
-		        <!-- <li class="nav-item">
-					<a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
-		        </li>
-		        <li class="nav-item">
-					<a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="/about-us">ABOUT</a>
 		        </li> -->
-		      </ul>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					OUR COMPANY
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li class="bg-cs-dark">
+							<a class="dropdown-item" href="/about-us">ABOUT US</a>
+						</li>
+						<li  class="bg-cs-dark">
+							<a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
+						</li>
+						<li class="bg-cs-dark">
+							<a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
+						</li>
+						<li class="bg-cs-dark">
+							<a class="dropdown-item" href="/grading">GRADING</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						OUR PRODUCT
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li class="bg-cs-dark">
+							<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
+						</li>
+						<!-- <li  class="bg-cs-dark">
+							<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
+						</li>
+						<li class="bg-cs-dark">
+							<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
+						</li> -->
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/contact">CONTACT</a>
+				</li>
+			</ul>
 		    </div>
 		    <div class="ms-auto header-right-menu">
 		    	<ul class="navbar-nav ms-auto">
-		    		<li class="nav-item">
+		    		{{-- <li class="nav-item">
 		    			<a class="nav-link" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
-		    		</li>
+		    		</li> --}}
 					<li><a class="nav-link noti-badge" id="global_cart_count" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
 		      		<li><a class="nav-link" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
 		    		<li class="nav-item">
@@ -91,7 +125,7 @@
 						@endguest
 		    		</li>
 		    	</ul>
-		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		    	{{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 		    		<div class="offcanvas-header">
 		    			<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		    		</div>
@@ -117,7 +151,7 @@
 		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
 		    			</ul>
 		    		</div>
-		    	</div>
+		    	</div> --}}
 		    </div>
 			</div>
 		  </div>
