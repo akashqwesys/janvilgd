@@ -28,7 +28,7 @@ class CustomAuthController extends Controller {
         if ($request->redirect) {
             return redirect($request->redirect);
         } else {
-            return redirect('/customer/dashboard');
+            return redirect('/customer/search-diamonds/polish-diamonds');
         }
     }
 
