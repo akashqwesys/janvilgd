@@ -70,6 +70,7 @@ class CustomAuthController extends Controller {
                 $request->session()->put('loginId',$user->id);
                 $request->session()->put('user-type',$user->user_type);
                 $request->session()->put('user_email',$user->email);
+                $request->session()->put('user_fullname',$user->name);
                 return redirect('admin/dashboard/inventory');
             }else{
                 return back()->with('fail','Password not matches');

@@ -82,6 +82,10 @@ Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile'
 Route::post('/getStates', [DropdownController::class, 'getStates']);
 Route::post('/getCities', [DropdownController::class, 'getCities']);
 
+Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
+Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
+
 // Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
 Route::group( ['middleware' => ['auth']], function () {
@@ -91,12 +95,11 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::get('customer/recommended-diamonds', [DashboardController::class, 'recommended_diamonds']);
 
     // Diamonds
-    Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+    // Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
     Route::post('customer/search-diamonds', [HDiamond::class, 'exportDiamonds'])->name('search-diamond');
     Route::get('customer/single-diamonds/{barcode}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
-    // Route::post('customer/list-diamonds', [HDiamond::class, 'searchListDiamondsPolish'])->name('list-diamond');
-    Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
-    Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
+    // Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
+    // Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
 
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');

@@ -84,17 +84,18 @@ class CustomersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
 
-            $data = DB::table('customer')->select('customer.*', 'customer_company_details.is_approved')
-            // ->leftJoin('city', 'city.city_id', '=', 'customer.refCity_id')
-            // ->leftJoin('state', 'state.state_id', '=', 'customer.refState_id')
-            // ->leftJoin('country', 'country.country_id', '=', 'customer.refCountry_id')
-            ->join('customer_company_details', 'customer_company_details.refCustomer_id', '=', 'customer.customer_id');
+            $data = DB::table('customer as c')
+                ->joinSub('SELECT "refCustomer_id", is_approved FROM customer_company_details WHERE "refCustomer_id" = c.customer_id ORDER BY customer_company_id ASC', 'ccd', function ($join) {
+                    $join->on('ccd.refCustomer_id', '=', 'c.customer_id');
+                })
+                // ->join('customer_company_details as ccd', 'ccd.refCustomer_id', '=', 'c.customer_id')
+                ->select('c.*', 'ccd.is_approved');
             if ($request->is_approved==1 || $request->is_approved==0) {
-                $data = $data->where('customer_company_details.is_approved', $request->is_approved);
+                $data = $data->where('ccd.is_approved', $request->is_approved);
             }
-            $data = $data->orderBy('customer_id', 'desc')
-                ->groupBy('customer_id')
-                ->groupBy('customer_company_details.is_approved')
+            $data = $data->orderBy('c.customer_id', 'desc')
+                // ->groupBy('customer_id')
+                // ->groupBy('ccd.is_approved')
                 ->get();
 
             // $data = Customers::select('customer_id', 'name', 'mobile', 'email', 'address', 'pincode', 'refCity_id', 'refState_id', 'refCountry_id', 'refCustomerType_id', 'restrict_transactions', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_id','desc')->get();
@@ -276,7 +277,7 @@ class CustomersController extends Controller {
                     'date_updated' => date("Y-m-d h:i:s")
                 ]);
             }
-        //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            //  $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true

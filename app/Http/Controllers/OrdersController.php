@@ -175,7 +175,7 @@ class OrdersController extends Controller
                     DB::table('order_updates')->insert([
                         'refOrder_id' => $order_Id,
                         'order_status_name' => "UNPAID",
-                        'comment' => "No comment",
+                        'comment' => $request->session()->get('user_fullname') . ' has placed an order on behalf of ' . $customer->name,
                         'is_deleted' => 0,
                         'added_by' => $request->session()->get('loginId'),
                         'date_added' => date("Y-m-d h:i:s"),
@@ -1104,7 +1104,7 @@ class OrdersController extends Controller
         ->insert([
             'order_status_name' => 'UNPAID',
             'refOrder_id' => $order->order_id,
-            'comment' => 'comment',
+            'comment' => $request->session()->get('user_fullname') . ' has placed an order on behalf of ' . $customer->name,
             'added_by' => 0,
             'is_deleted' => 0,
             'date_added' => $invoice_date,

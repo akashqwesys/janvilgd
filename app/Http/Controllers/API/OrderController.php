@@ -254,7 +254,7 @@ class OrderController extends Controller
             ->insert([
                 'order_status_name' => 'PENDING',
                 'refOrder_id' => $order->order_id,
-                'comment' => 'comment',
+                'comment' => 'Order has been placed by ' . $customer->name,
                 'added_by' => 0,
                 'is_deleted' => 0,
                 'date_added' => date('Y-m-d H:i:s'),

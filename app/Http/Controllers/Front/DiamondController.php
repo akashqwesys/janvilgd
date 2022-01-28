@@ -56,9 +56,11 @@ class DiamondController extends Controller {
         $temp_var = 0;
         $final_attribute_groups_with_att = array();
 
-        $user = Auth::user();
         $file_arr = [];
-        customer_activity('search', $user->name . ' has searched diamonds', '/customer/search-diamonds/'.$category->slug);
+        $user = Auth::user();
+        if ($user) {
+            customer_activity('search', $user->name . ' has searched diamonds', '/customer/search-diamonds/'.$category->slug);
+        }
 
         foreach ($data as $row_data) {
             if ($temp_grp_id != $row_data->attribute_group_id) {
@@ -471,43 +473,47 @@ class DiamondController extends Controller {
         $file_arr['price_max'] = $max_price;
         $file_arr['carat_min'] = $min_carat;
         $file_arr['carat_max'] = $max_carat;
-        $file_name = $user->customer_id . '-' . $category->category_id;
+        // $file_name = $user->customer_id . '-' . $category->category_id;
         // file_put_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name, json_encode($file_arr, JSON_PRETTY_PRINT));
         $request->session()->put('diamond_filters_' . $category->category_id, json_encode($file_arr));
-        $recently_viewed = DB::table('recently_view_diamonds as rvd')
-            ->select('rvd.refDiamond_id', 'rvd.barcode')
-            ->where('rvd.refCustomer_id', $user->customer_id)
-            ->orderBy('rvd.updated_at', 'desc')
-            ->pluck('barcode')
-            ->toArray();
+        if ($user) {
+            $recently_viewed = DB::table('recently_view_diamonds as rvd')
+                ->select('rvd.refDiamond_id', 'rvd.barcode')
+                ->where('rvd.refCustomer_id', $user->customer_id)
+                ->orderBy('rvd.updated_at', 'desc')
+                ->pluck('barcode')
+                ->toArray();
 
-        $client = ClientBuilder::create()
-            ->setHosts(['localhost:9200'])
-            ->build();
-        $elastic_params = [
-            'index' => 'diamonds',
-            'size' => 20,
-            'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            [
-                                'term' => [
-                                    'refCategory_id' => [ 'value' => $category->category_id ],
-                                ]
-                            ],
-                            [
-                                'terms' => [
-                                    'barcode' => $recently_viewed
+            $client = ClientBuilder::create()
+                ->setHosts(['localhost:9200'])
+                ->build();
+            $elastic_params = [
+                'index' => 'diamonds',
+                'size' => 20,
+                'body' => [
+                    'query' => [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    'term' => [
+                                        'refCategory_id' => [ 'value' => $category->category_id ],
+                                    ]
+                                ],
+                                [
+                                    'terms' => [
+                                        'barcode' => $recently_viewed
+                                    ]
                                 ]
                             ]
                         ]
                     ]
                 ]
-            ]
-        ];
-        $e_data = $client->search($elastic_params);
-        $e_data = $e_data['hits']['hits'];
+            ];
+            $e_data = $client->search($elastic_params);
+            $e_data = $e_data['hits']['hits'];
+        } else {
+            $e_data = [];
+        }
         return view('front.search_diamonds', compact('title', 'html', 'none_fix', 'e_data', 'category'));
     }
 
@@ -722,7 +728,7 @@ class DiamondController extends Controller {
     {
         $response = $request->all();
         $user = Auth::user();
-        $file_name = $user->customer_id . '-' . $response['params']['category'];
+        // $file_name = $user->customer_id . '-' . $response['params']['category'];
         // if (file_exists(base_path() . '/storage/framework/diamond-filters/' . $file_name)) {
         if ($request->session()->has('diamond_filters_' . $response['params']['category'])) {
             // $arr = file_get_contents(base_path() . '/storage/framework/diamond-filters/' . $file_name);
@@ -882,7 +888,7 @@ class DiamondController extends Controller {
             }
 
             if (Session::has('loginId') && Session::has('user-type') && session('user-type') == "MASTER_ADMIN") {
-                $cart_or_box = '<td scope="col" class="text-center" >
+                $compare_box = '<td scope="col" class="text-center" >
                             <div class="compare-checkbox">
                                 <label class="custom-check-box">
                                     <input type="checkbox" class="diamond-checkbox" data-id="v_diamond_id" >
@@ -891,7 +897,20 @@ class DiamondController extends Controller {
                             </div>
                         </td>';
             } else {
-                $cart_or_box = null;
+                $compare_box = null;
+            }
+            $show_hide = null;
+            if (Auth::check()) {
+                $show_hide .= '<td scope="col" class="text-right">$_rapaport_price_</td>
+                <td scope="col" class="text-right">_discount_%</td>
+                <td scope="col" class="text-right">$_price_ct_</td>
+                <td scope="col" class="text-right">$_total_</td>
+                <td scope="col" class="text-right"><button class="btn btn-primary add-to-cart btn-sm" data-id="v_diamond_id">Add To Cart</button></td>';
+            } else {
+                $show_hide .= '<td scope="col" class="text-right"><a href="/customer/login" class="btn btn-sm btn-primary login-td">Login</a></td>
+                <td scope="col" class="text-right"><a href="/customer/login" class="btn btn-sm btn-primary login-td">Login</a></td>
+                <td scope="col" class="text-right"><a href="/customer/login" class="btn btn-sm btn-primary login-td">Login</a></td>
+                <td scope="col" class="text-right"><a href="/customer/login" class="btn btn-sm btn-primary login-td">Login</a></td>';
             }
             $html = [];
             $i = 0;
@@ -943,12 +962,24 @@ class DiamondController extends Controller {
                     }
                 }
 
-                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['rapaport_price'], 2, '.', ',') . '</td><td scope="col" class="text-right">' . number_format($v['discount'] * 100, 2, '.', '') . '%</td>';
+                $html[$i] .= str_replace(
+                    [
+                        '_rapaport_price_',
+                        '_discount_',
+                        '_price_ct_',
+                        '_total_',
+                        'v_diamond_id'
+                    ], [
+                        number_format($v['rapaport_price'], 2, '.', ','),
+                        number_format($v['discount'] * 100, 2, '.', ''),
+                        number_format($v['price_ct'], 2, '.', ','),
+                        number_format($v['total'], 2, '.', ','),
+                        $v['diamond_id']
+                    ],
+                    $show_hide
+                );
 
-                $html[$i] .= '<td scope="col" class="text-right">$' . number_format($v['price_ct'], 2, '.', ',') . '</td>
-                    <td scope="col" class="text-right">$' . number_format($v['total'], 2, '.', ',') . '</td>
-                    <td scope="col" class="text-right"><button class="btn btn-primary add-to-cart btn-sm" data-id="'. $v['diamond_id'].'">Add To Cart</button></td>' . str_replace('v_diamond_id', $v['diamond_id'], $cart_or_box) . '
-                    </tr>';
+                $html[$i] .=  str_replace('v_diamond_id', $v['diamond_id'], $compare_box) . '</tr>';
                 $i++;
             }
             return response()->json([

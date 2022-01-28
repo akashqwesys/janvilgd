@@ -2955,7 +2955,7 @@ class CommonController extends Controller
 
             $data_array = array();
             $data_array['order_status_id'] = 2;
-            $data_array['name'] = 'COMPLETED';
+            $data_array['name'] = 'UNPAID';
             $data_array['sort_order'] = 1;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
@@ -2967,8 +2967,20 @@ class CommonController extends Controller
 
             $data_array = array();
             $data_array['order_status_id'] = 3;
-            $data_array['name'] = 'CANCELLED';
+            $data_array['name'] = 'PAID';
             $data_array['sort_order'] = 2;
+            $data_array['is_active'] = 1;
+            $data_array['is_deleted'] = 0;
+            $data_array['date_added'] = date("Y-m-d h:i:s");
+            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d h:i:s");
+            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            array_push($order_statuses_array, $data_array);
+
+            $data_array = array();
+            $data_array['order_status_id'] = 4;
+            $data_array['name'] = 'CANCELLED';
+            $data_array['sort_order'] = 3;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
             $data_array['date_added'] = date("Y-m-d h:i:s");

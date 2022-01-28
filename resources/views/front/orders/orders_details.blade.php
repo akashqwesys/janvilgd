@@ -93,8 +93,8 @@
                                         <tr>
                                             <th>Barcode</th>
                                             <th>Category</th>
-                                            <th>Carat</th>
                                             <th>Shape</th>
+                                            <th>Carat</th>
                                             <th>Color</th>
                                             <th>Clarity</th>
                                             <th>Rapaport</th>
@@ -107,8 +107,8 @@
                                         <tr>
                                             <td>{{ $o['barcode'] }}</td>
                                             <td>{{ $o['cat_name'] }}</td>
-                                            <td>{{ $o['expected_polish_cts'] }}</td>
                                             <td>{{ $o['attributes']['SHAPE'] }}</td>
+                                            <td>{{ $o['expected_polish_cts'] }}</td>
                                             <td>{{ $o['attributes']['COLOR'] }}</td>
                                             <td>{{ $o['attributes']['CLARITY'] }}</td>
                                             <td>${{ number_format($o['rapaport_price'], 2, '.', ',') }}</td>
