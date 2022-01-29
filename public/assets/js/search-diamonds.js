@@ -251,9 +251,10 @@ function nowGetDiamonds() {
 }
 
 window.addEventListener('resize', function (event) {
-    $("#result-table tbody").html('');
-    new_call = true;
-    getDiamonds(global_search_values, global_search_array, global_group_id);
+    global_resize = true;
+    // setTimeout(() => {
+    //     global_resize = false;
+    // }, 1000);
 }, true);
 
 function loadMoreData() {

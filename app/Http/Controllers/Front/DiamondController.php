@@ -99,6 +99,7 @@ class DiamondController extends Controller {
         } else {
             $max_price = $min_carat = $max_carat = $min_price = 0;
         }
+        $is_unfix_flag = 0;
         foreach ($final_attribute_groups_with_att as $k => $v) {
             if ($v['is_fix'] == 1 && $v['name'] != 'GRIDLE CONDITION') {
                 if ($v['name'] == 'SHAPE') {
@@ -169,6 +170,9 @@ class DiamondController extends Controller {
                                 range: { "min": ' . $min_price . ', "max": ' . $max_price . ' }
                             });
                             priceSlider.noUiSlider.on("update", function (values, handle) {
+                                if (global_resize == true) {
+                                    return false;
+                                }
                                 priceJs[handle].value = values[handle];
                                 new_call = true;
                                 if(onchange_call == true){
@@ -269,6 +273,9 @@ class DiamondController extends Controller {
                                     labels: true,
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
                                     onChange: function (vals) {
+                                        if (global_resize == true) {
+                                            return false;
+                                        }
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
                                         if(onchange_call == true){
@@ -284,7 +291,11 @@ class DiamondController extends Controller {
                     }
                 }
             }
+            else if ($v['is_fix'] == 0) {
+                $is_unfix_flag = 1;
+            }
         }
+
         $html .= '<div class="col col-12 col-sm-12 col-lg-6">
                 <div class="row">
                 <div class="col-md-2 col-sm-2 filter-text diamond-cart">
@@ -310,7 +321,16 @@ class DiamondController extends Controller {
                             // tooltips: [true, wNumb({ decimals: 2 })],
                             range: { "min": ' . $min_carat . ', "max": ' . $max_carat . ' }
                         });
-                        caratSlider.noUiSlider.on("update", function (values, handle) {
+                        caratSlider.noUiSlider.on("update", function (values, handle) {';
+
+                            if($is_unfix_flag == 0) {
+                                $html .= 'global_resize = false; ';
+                            }
+
+                            $html .= '
+                            if (global_resize == true) {
+                                return false;
+                            }
                             caratJs[handle].value = values[handle];
                             new_call = true;
                             if(onchange_call == true){
@@ -369,11 +389,15 @@ class DiamondController extends Controller {
                                 }
                             });
                         });
+
                     </script>
                 </div>';
 
         $none_fix = null;
+        $max_sliders = count($final_attribute_groups_with_att);
+        $ih = 0;
         foreach ($final_attribute_groups_with_att as $k => $v) {
+            $ih++;
             if ($v['is_fix'] === 0 && $v['name'] != 'GRIDLE CONDITION') {
                 if ($v['name'] == 'SHAPE') {
                     if (isset($v['attributes'])) {
@@ -453,7 +477,15 @@ class DiamondController extends Controller {
                                     scale: true,
                                     labels: true,
                                     set: ['" . $values[0] . "', '" . $values[(count($values) - 1)] . "'],
-                                    onChange: function (vals) {
+                                    onChange: function (vals) {";
+
+                            if($ih == $max_sliders) {
+                                $none_fix .= "global_resize = false; ";
+                            }
+
+                            $none_fix .= "if (global_resize == true) {
+                                            return false;
+                                        }
                                         var array = " . json_encode($default_values) . ";
                                         new_call = true;
                                         if(onchange_call == true){
@@ -1161,7 +1193,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - round($row['discount'], 2);
+                                $for_discount = 1 - round($row['discount'], 4);
                             } else {
                                 $for_discount = $discount;
                             }
@@ -1203,7 +1235,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - round($row['discount'], 2);
+                                $for_discount = 1 - round($row['discount'], 4);
                             } else {
                                 $for_discount = $discount;
                             }
@@ -1243,7 +1275,7 @@ class DiamondController extends Controller {
                         foreach ($diamonds as $row) {
                             $row = $row['_source'];
                             if ($discount == 0) {
-                                $for_discount = 1 - round($row['discount'], 2);
+                                $for_discount = 1 - round($row['discount'], 4);
                             } else {
                                 $for_discount = $discount;
                             }

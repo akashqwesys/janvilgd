@@ -25,8 +25,9 @@ class CustomerCompanyDetail extends Model
         'refCountry_id',
         'pan_gst_no',
         'pan_gst_attachment',
-        'is_approved',
-        'approved_date_time',
-        'approved_by',
+        // 'is_approved',
+        // 'approved_date_time',
+        // 'approved_by',
+        'company_id_type'
     ];
 }
