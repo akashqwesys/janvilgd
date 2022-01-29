@@ -408,7 +408,7 @@ class OrdersController extends Controller
                 });
             }
             $data = $data->orderBy('orders.order_id', 'desc')
-                ->dd();
+                ->get();
 
             $updates = DB::table('order_updates')
                 ->select('refOrder_id')

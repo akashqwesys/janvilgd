@@ -467,7 +467,7 @@
                             <div class="card card-bordered">
                                 <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime(date('Y-m-d'))) . ' - ' . date('Y-m-t', strtotime(date('Y-m-d')))}}">
                                     <span class="title">Monthly Revenue</span>
-                                    <span class="title float-right">${{ number_format(round($orders->monthly_revenue, 2), 2, '.', ',') }}</span>
+                                    <span class="title float-right">${{ number_format(round($revenues->monthly_revenue, 2), 2, '.', ',') }}</span>
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -490,7 +490,7 @@
                             <div class="card card-bordered">
                                 <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime($q_start)) . ' - ' . date('Y-m-t', strtotime($q_end))}}">
                                     <span class="title">Quarterly Revenue</span>
-                                    <span class="title float-right">${{ number_format(round($orders->quaterly_revenue, 2), 2, '.', ',') }}</span>
+                                    <span class="title float-right">${{ number_format(round($revenues->quaterly_revenue, 2), 2, '.', ',') }}</span>
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
@@ -498,7 +498,7 @@
                             <div class="card card-bordered">
                                 <a class="card-body hv-effect" href="/admin/orders?date_range_filter={{ date('Y-m-01', strtotime($start_year)) . ' - ' . date('Y-m-t', strtotime($end_year))}}">
                                     <span class="title">Yearly Revenue</span>
-                                    <span class="title float-right">${{ number_format(round($orders->yearly_revenue, 2), 2, '.', ',') }}</span>
+                                    <span class="title float-right">${{ number_format(round($revenues->yearly_revenue, 2), 2, '.', ',') }}</span>
                                 </a>
                             </div><!-- .card -->
                         </div><!-- .col -->
