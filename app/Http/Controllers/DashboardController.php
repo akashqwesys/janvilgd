@@ -40,7 +40,12 @@ class DashboardController extends Controller {
             // DB::raw("count(case when DATE(date_added) = (CURRENT_DATE - INTERVAL '1 day') then 1 end) as last_day"),
             DB::raw("count(case when DATE(date_added) = CURRENT_DATE then 1 end) as today"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
-            DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30"),
+            DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30")
+        )
+        ->first();
+
+        $revenues = DB::table('orders')
+        ->select(
             DB::raw("sum(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then total_paid_amount else 0 end) as monthly_revenue"),
             DB::raw("sum(
                 case
@@ -53,10 +58,7 @@ class DashboardController extends Controller {
             DB::raw("sum(
                 case
                     when DATE(date_added) >= '" . $start_year . "' and DATE(date_added) <= '" . $end_year . "' then total_paid_amount else 0 end
-                ) as yearly_revenue"),
-            // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'PENDING\' and "refOrder_id" = orders.order_id) then 1 end) as pending_orders'),
-            // DB::raw('count(case when exists (select order_update_id from order_updates where order_status_name = \'COMPLETED\' and "refOrder_id" = orders.order_id) then 1 end) as completed_orders'),
-            // DB::raw("count(case when order_type = 0 then 1 end) as offline_orders"),
+                ) as yearly_revenue")
         )
         ->whereExists(function ($query) {
             $query->select(DB::raw(1))
@@ -266,7 +268,7 @@ class DashboardController extends Controller {
         )
         ->first();
 
-        return view('admin.dashboard.dashboard', compact('request', 'orders', 'data', 'pending_orders', 'paid_orders', 'unpaid_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
+        return view('admin.dashboard.dashboard', compact('request', 'orders', 'revenues', 'data', 'pending_orders', 'paid_orders', 'unpaid_orders', 'recent_customers', 'top_customers', 'bottom_customers', 'chart_orders', 'chart_carats', 'cancel_orders', 'import', 'export', 'weight_loss', 'customer_activity', 'employee_activity', 'trending_rough', 'trending_4p', 'trending_polish', 'vs_views', 'vs_orders', 'start_year', 'end_year'));
     }
 
     public function inventory(Request $request)
