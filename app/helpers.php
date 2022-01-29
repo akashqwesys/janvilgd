@@ -108,8 +108,8 @@ if (!function_exists('activity')) {
             $module_name = $module;
         }
         else {
-            $module_id = moduleId($module)->module_id;
-            $module_name = moduleId($module)->name;
+            $module_id = moduleId($module)['module_id'];
+            $module_name = moduleId($module)['name'];
         }
 
         DB::table('user_activity')->insert([
@@ -155,13 +155,14 @@ if (!function_exists('customer_activity')) {
 }
 if (!function_exists('moduleId')) {
     function moduleId($module_name) {
-        $res = array();
+        // $res = array();
         foreach (session('module') as $row) {
-            if ($module_name == $row->slug) {
-                $res = $row;
+            if ($module_name == $row['slug']) {
+                // $res = $row;
+                return $row;
             }
         }
-        return $res;
+        // return $res;
     }
 }
 if (!function_exists('get_client_ip')) {

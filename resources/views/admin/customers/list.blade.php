@@ -47,7 +47,7 @@
                                             <th>Added by</th> --}}
                                             <th>isActive</th>
                                             {{-- <th>isDeleted</th> --}}
-                                            <th>isApproved</th>
+                                            <th>isVerified</th>
                                             <th>Date Added</th>
                                             <th>Action</th>
                                         </tr>

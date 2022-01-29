@@ -88,9 +88,8 @@ class CustomersController extends Controller {
                 // ->joinSub('SELECT "refCustomer_id", pan_gst_attachment FROM customer_company_details WHERE "refCustomer_id" = customer.customer_id ORDER BY customer_company_id ASC LIMIT 1', 'ccd', function ($join) {
                 //     $join->on('ccd.refCustomer_id', '=', 'c.customer_id');
                 // })
-                // ->join('customer_company_details as ccd', 'c.customer_id', '=', DB::raw('SELECT "refCustomer_id", pan_gst_attachment FROM customer_company_details ORDER BY customer_company_id ASC LIMIT 1'))
                 // ->join('customer_company_details as ccd', 'ccd.refCustomer_id', '=', 'c.customer_id')
-                ->select('c.*');
+                ->select('c.*', DB::raw('(SELECT pan_gst_attachment FROM customer_company_details WHERE "refCustomer_id" = c.customer_id ORDER BY customer_company_id ASC LIMIT 1) as pan_gst_attachment'));
             if ($request->is_approved == 1 || $request->is_approved == 0) {
                 $data = $data->where('c.is_approved', $request->is_approved);
             }
@@ -115,14 +114,12 @@ class CustomersController extends Controller {
                     return $active_inactive_button;
                 })
                 ->editColumn('is_approved', function ($row) {
-                   /*  $active_inactive_button = '';
                     if ($row->is_approved == 1) {
-                        $active_inactive_button = '<span class="badge badge-success">Verified</span>';
+                        return '<button class="btn btn-xs btn-success" >Yes</button>';
+                    } else {
+                        return '<button class="btn btn-xs btn-danger active_inactive_button" data-id="' . $row->customer_id . '" data-approved="true" data-module="customers">No</button>';
                     }
-                    if ($row->is_approved == 0) {
-                        $active_inactive_button = '<span class="badge badge-danger">UnVerified</span>';
-                    } */
-                    return '';
+
                 })
                 ->editColumn('is_deleted', function ($row) {
                     $delete_button = '';
@@ -140,18 +137,11 @@ class CustomersController extends Controller {
                         $str = '<em class="icon ni ni-check-thick"></em>';
                         $class = "btn-success";
                     }
-                    $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id"> <em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>';
-                    // $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank"> Attachement <em class="icon ni ni-eye-fill"></em></a>';
+                    $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a>&nbsp; <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id"> <em class="icon ni ni-trash-fill"></em></button>&nbsp; <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>&nbsp;';
+                    if ($row->pan_gst_attachment) {
+                        $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank"> ID <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
+                    }
 
-                    if ($row->is_approved == 1) {
-                        $str = 'UnVerify';
-                        $class = "btn-danger";
-                    }
-                    if ($row->is_approved == 0) {
-                        $str = 'Verify';
-                        $class = "btn-success";
-                    }
-                    $actionBtn.=' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_approved . '" data-table="customer_company_details" data-wherefield="refCustomer_id" data-module="customers">' . $str . '</button>';
                     $actionBtn.=' <a href="/admin/customer-login-by-admin/'. encrypt($row->email,false).'" class="btn btn-xs text-white btn-primary">Login</a>';
                     return $actionBtn;
                 })
@@ -270,7 +260,15 @@ class CustomersController extends Controller {
                 'is_approved' => $request['status'],
                 'approved_by' => $request->session()->get('loginId')
             ]);
-            }else{
+            } else if ($request['approved'] == true) {
+                $res = DB::table('customer')->where('customer_id', $request['table_id'])->update([
+                    'is_approved' => 1,
+                    'approved_by' => $request->session()->get('loginId'),
+                    'date_updated' => date("Y-m-d h:i:s"),
+                    'updated_at' => date("Y-m-d h:i:s"),
+                    'approved_at' => date("Y-m-d h:i:s")
+                ]);
+            } else {
                 $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                     'is_active' => $request['status'],
                     'date_updated' => date("Y-m-d h:i:s")
