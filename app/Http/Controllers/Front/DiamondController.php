@@ -25,6 +25,7 @@ use DataTables;
 use Illuminate\Support\Facades\Session;
 use Elasticsearch\ClientBuilder;
 
+ini_set('memory_limit', '-1');
 class DiamondController extends Controller {
 
     public function home(Request $request) {

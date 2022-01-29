@@ -373,8 +373,15 @@ class OrdersController extends Controller
                     $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
                         ->where('ou.order_status_name', 'PAID');
                 } else if ($request->order_status == 'UNPAID') {
-                    $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
-                        ->where('ou.order_status_name', 'UNPAID');
+                    $data = $data->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
+                            $join->on('ou.refOrder_id', '=', 'orders.order_id');
+                        })
+                        ->whereNotExists(function ($query) {
+                            $query->select(DB::raw(1))
+                                ->from('order_updates as ou1')
+                                ->whereColumn('ou1.refOrder_id', 'orders.order_id')
+                                ->whereIn('ou1.order_status_name', ['PAID', 'CANCELLED']);
+                        });
                 } else if ($request->order_status == 'CANCELLED') {
                     $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
                         ->where('ou.order_status_name', 'CANCELLED');
@@ -401,7 +408,7 @@ class OrdersController extends Controller
                 });
             }
             $data = $data->orderBy('orders.order_id', 'desc')
-                ->get();
+                ->dd();
 
             $updates = DB::table('order_updates')
                 ->select('refOrder_id')
@@ -1105,7 +1112,7 @@ class OrdersController extends Controller
             'order_status_name' => 'UNPAID',
             'refOrder_id' => $order->order_id,
             'comment' => $request->session()->get('user_fullname') . ' has placed an order on behalf of ' . $customer->name,
-            'added_by' => 0,
+            'added_by' => $request->session()->get('loginId'),
             'is_deleted' => 0,
             'date_added' => $invoice_date,
             'created_at' => $invoice_date,
