@@ -85,10 +85,10 @@ class CustomersController extends Controller {
         if ($request->ajax()) {
 
             $data = DB::table('customer as c')
-                ->joinSub('SELECT "refCustomer_id", is_approved FROM customer_company_details WHERE "refCustomer_id" = c.customer_id ORDER BY customer_company_id ASC', 'ccd', function ($join) {
-                    $join->on('ccd.refCustomer_id', '=', 'c.customer_id');
-                })
-                // ->join('customer_company_details as ccd', 'ccd.refCustomer_id', '=', 'c.customer_id')
+                // ->joinSub('SELECT "refCustomer_id", is_approved FROM customer_company_details WHERE "refCustomer_id" = c.customer_id ORDER BY customer_company_id ASC', 'ccd', function ($join) {
+                //     $join->on('ccd.refCustomer_id', '=', 'c.customer_id');
+                // })
+                ->join('customer_company_details as ccd', 'ccd.refCustomer_id', '=', 'c.customer_id')
                 ->select('c.*', 'ccd.is_approved');
             if ($request->is_approved==1 || $request->is_approved==0) {
                 $data = $data->where('ccd.is_approved', $request->is_approved);

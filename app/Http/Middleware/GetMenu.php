@@ -61,21 +61,23 @@ class GetMenu {
             }
         }
         if (session()->get('user-type') == 'MASTER_ADMIN') {
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->orderBy('module_id', 'asc')->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->orderByRaw('menu_level, sort_order asc')->get();
 
             if (!empty($module)) {
-                $menu_array = [];
-                $parent_1 = 0;
+                $module = json_decode(json_encode($module), true);
+
                 foreach ($module as $m) {
-                    if ($m->menu_level == 1) {
-                        $menu_array[$m->module_id] = $m;
-                    } else if ($m->menu_level == 2) {
-                        $menu_array[$m->parent_id]->sub[$m->parent_id] = $m;
-                        $parent_1 = $m->parent_id;
-                    } else if ($m->menu_level == 3 && $menu_array[$parent_1]->sub[$parent_1]->module_id == $m->parent_id ) {
-                        $menu_array[$parent_1]->sub[$parent_1]->sub[$m->module_id] = $m;
-                    } else if ($m->menu_level == 4 && $menu_array[$parent_1]->sub[$parent_1]->sub[$m->parent_id]->module_id == $m->parent_id) {
-                        $menu_array[$parent_1]->sub[$parent_1]->sub[$m->parent_id]->sub[] = $m;
+                    if ($m['menu_level'] == 1) {
+                        $menu_array[$m['module_id']] = $m;
+                    } else if ($m['menu_level'] == 2) {
+                        $menu_array[$m['parent_id']]['sub'][$m['module_id']] = $m;
+                    } else if ($m['menu_level'] == 3) {
+                        $main_parent_id = find_parent_id($m['parent_id'],$module);
+                        $menu_array[$main_parent_id]['sub'][$m['parent_id']]['sub'][$m['module_id']] = $m;
+                    } else {
+                        $parent_parent_id = find_parent_id($m['parent_id'], $module);
+                        $main_parent_id = find_parent_id($parent_parent_id, $module);
+                        $menu_array[$main_parent_id]['sub'][$parent_parent_id]['sub'][$m['parent_id']]['sub'][$m['module_id']] = $m;
                     }
                 }
             }
@@ -97,4 +99,11 @@ class GetMenu {
         return $next($request);
     }
 
+}
+function find_parent_id($id,$array) {
+    foreach ($array as $a) {
+        if($a['module_id'] == $id) {
+            return $a['parent_id'];
+        }
+    }
 }

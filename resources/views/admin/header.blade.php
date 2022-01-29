@@ -80,20 +80,25 @@
 
                                     @foreach (session()->get('menu') as $m)
                                     <li class="nk-menu-heading">
-                                        <h6 class="overline-title text-primary-alt">{{ $m->name }}</h6>
+                                        <h6 class="overline-title text-primary-alt">{{ $m['name'] }}</h6>
                                     </li><!-- .nk-menu-item -->
-                                    @foreach ($m->sub as $m1)
-                                    <li class="nk-menu-item {{ isset($m1->sub) ? 'has-sub' : '' }}">
-                                        <a href="{{ $m1->slug ? '/admin/' . $m1->slug : '#' }}" class="nk-menu-link {{ isset($m1->sub) ? 'nk-menu-toggle' : '' }}">
-                                            <span class="nk-menu-icon"><em class="icon ni {{ $m1->icon }}"></em></span>
-                                            <span class="nk-menu-text">{{ $m1->name }}</span>
+                                    @foreach ($m['sub'] as $m1)
+                                    <li class="nk-menu-item {{ isset($m1['sub']) ? 'has-sub' : '' }}">
+                                        <a href="{{ $m1['slug'] ? '/admin/' . $m1['slug'] : '#' }}" class="nk-menu-link {{ isset($m1['sub']) ? 'nk-menu-toggle' : '' }}">
+                                            <span class="nk-menu-icon"><em class="icon ni {{ $m1['icon'] }}"></em></span>
+                                            <span class="nk-menu-text">{{ $m1['name'] }}</span>
                                         </a>
-                                        @if (isset($m1->sub))
+                                        @if (isset($m1['sub']))
                                         <ul class="nk-menu-sub">
-                                        @foreach ($m1->sub as $m2)
+                                        {{-- @php
+                                        usort($m1['sub'], function($a, $b) {
+                                            return $a['sort_order'] <=> $b['sort_order'];
+                                        });
+                                        @endphp --}}
+                                        @foreach ($m1['sub'] as $m2)
                                             <li class="nk-menu-item">
-                                                @if ($m2->name == 'Orders')
-                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{ $m2->name }}</span></a>
+                                                @if ($m2['name'] == 'Orders')
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{ $m2['name'] }}</span></a>
                                                 <ul class="nk-menu-sub">
                                                     <li class="nk-menu-item">
                                                         <a href="/admin/orders?filter=PENDING" class="nk-menu-link"><span class="nk-menu-text"> PENDING</span></a>
@@ -109,12 +114,12 @@
                                                     </li>
                                                 </ul>
                                                 @else
-                                                    <a href="{{ $m2->slug ? '/admin/' . $m2->slug : '#' }}" class="nk-menu-link {{ isset($m2->sub) ? 'nk-menu-toggle' : '' }}"><span class="nk-menu-text">{{ $m2->name }}</span></a>
-                                                    @if (isset($m2->sub))
+                                                    <a href="{{ $m2['slug'] ? '/admin/' . $m2['slug'] : '#' }}" class="nk-menu-link {{ isset($m2['sub']) ? 'nk-menu-toggle' : '' }}"><span class="nk-menu-text">{{ $m2['name'] }}</span></a>
+                                                    @if (isset($m2['sub']))
                                                     <ul class="nk-menu-sub">
-                                                        @foreach ($m2->sub as $m3)
+                                                        @foreach ($m2['sub'] as $m3)
                                                         <li class="nk-menu-item">
-                                                            <a href="/admin/{{ $m3->slug }}" class="nk-menu-link"><span class="nk-menu-text">{{ $m3->name }}</span></a>
+                                                            <a href="/admin/{{ $m3['slug'] }}" class="nk-menu-link"><span class="nk-menu-text">{{ $m3['name'] }}</span></a>
                                                         </li>
                                                         @endforeach
                                                     </ul>
