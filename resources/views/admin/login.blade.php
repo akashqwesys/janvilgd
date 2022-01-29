@@ -18,7 +18,7 @@
 
 <body class="nk-body bg-white npc-default pg-auth">
     <div class="nk-app-root">
-        
+
         <!-- main @s -->
         <div class="nk-main ">
             <!-- wrap @s -->
@@ -43,21 +43,18 @@
                                     </div>
                                 </div>
                                 <form method="POST" action="{{route('login-user')}}">
-                                    
-                                    @if(Session::has('success'))
-                                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                                    @endif
+
                                     @if(Session::has('fail'))
                                     <div class="alert alert-danger">{{Session::get('fail')}}</div>
                                     @endif
-                                    
+
                                     @csrf
                                     <div class="form-group">
                                         <div class="form-label-group">
                                             <label class="form-label" for="default-01">Email or Username</label>
-                                        </div>                                       
-                                        <input type="text" name="email" id="email" class="form-control form-control-lg" placeholder="Enter your email" required="" value="{{old('email')}}">                                        
-                                        <span class="text-danger">@error('email') {{$message}} @enderror</span>                                       
+                                        </div>
+                                        <input type="text" name="email" id="email" class="form-control form-control-lg" placeholder="Enter your email" required="" value="{{old('email')}}">
+                                        <span class="text-danger">@error('email') {{$message}} @enderror</span>
                                     </div>
                                     <div class="form-group">
                                         <div class="form-label-group">
@@ -69,12 +66,12 @@
                                                 <em class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
                                             </a>
-                                            <input type="password" placeholder="Password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required value="{{old('password')}}">                                            
-                                            <span class="text-danger">@error('password') {{$message}} @enderror</span>                                           
+                                            <input type="password" placeholder="Password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required value="{{old('password')}}">
+                                            <span class="text-danger">@error('password') {{$message}} @enderror</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        
+
                                         <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
                                     </div>
                                 </form>

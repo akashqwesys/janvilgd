@@ -1757,13 +1757,17 @@ class OrdersController extends Controller
                 ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
                 ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
                 ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+                ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC LIMIT 1', 'ou', function ($join) {
+                    $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
+                })
                 ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount',  'a.sort_order',
                 /* DB::raw("( case
                 when exists(select 1 from order_updates where order_status_name = 'PAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'PAID'
                 when exists(select 1 from order_updates where order_status_name = 'UNPAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'UNPAID'
                 end )
                 as status") */
-                DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1) as status"));
+                // DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1) as status")
+            );
             if ($request->slug == 'rough-diamonds') {
                 $diamonds = $diamonds->whereIn('refAttribute_group_id', [2, 3, 1])
                     ->where('od.refCategory_id', 1);
@@ -1774,7 +1778,9 @@ class OrdersController extends Controller
                 $diamonds = $diamonds->whereIn('refAttribute_group_id', [18, 17, 16, 24])
                     ->where('od.refCategory_id', 3);
             }
-            $diamonds = $diamonds->orderBy('od.refDiamond_id', 'asc')
+            $diamonds = $diamonds
+                ->whereIn('status', ['PAID', 'UNPAID'])
+                ->orderBy('od.refDiamond_id', 'asc')
                 ->orderBy('ag.is_fix', 'desc')
                 ->orderBy('a.sort_order')
                 ->get();

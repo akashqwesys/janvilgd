@@ -17,6 +17,7 @@
     var global_sort_order = 'asc';
     var global_filter_data = [];
     var global_quick_call = 0;
+    var global_resize = false;
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="/assets/nouislider/wNumb.js"></script>
