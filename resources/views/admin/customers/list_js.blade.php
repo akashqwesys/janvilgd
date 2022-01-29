@@ -1,20 +1,19 @@
 <?php if ($data['title'] == 'List-Customers') {
     ?>
     <script type="text/javascript">
-        $(document).ready(function () {
-            list_customers(2);
-            $('#is_approved').on('change', function () {
-                var is_approved = $("#is_approved").children("option").filter(":selected").val();
-                $('#table').DataTable().destroy();
-                list_customers(is_approved);
+        var is_approved = 2;
+
+            // list_customers(2);
+            $(document).on('change', '#is_approved', function () {
+                is_approved = $(this).val();
+                data_table.clear().draw();
+                // $('#table').DataTable().destroy();
+                // list_customers(is_approved);
             });
 
-            function list_customers(is_approved){
+            // function list_customers(is_approved){
 
-                var data = {
-                    'is_approved': is_approved
-                };
-                var table = $('#table').DataTable({
+                var data_table = $('#table').DataTable({
                 responsive: {
                     details: {
                         type: 'column',
@@ -33,9 +32,10 @@
 
                 "ajax": {
                     'url': "{{ route('customers.list') }}",
-                    'data': data
+                    'data': function (data) {
+                        data.is_approved = is_approved
+                    }
                 },
-//                ajax: "{{ route('customers.list') }}",
                 columns: [
                     {data: 'index', name: 'index'},
                     {data: 'name', name: 'name'},
@@ -64,99 +64,98 @@
                     $(row).addClass('tr_'+data['customer_id']);
                 }
             });
-            }
+            // }
 
-        });
-
-        $(document).ready(function () {
-            $(document).on('click', '.delete_button', function () {
-                var self = $(this);
-                var table = self.attr('data-table');
-                var wherefield = self.attr('data-wherefield');
-                var module = self.attr('data-module');
-                if (!confirm('Are you sure want to delete?'))
-                    return;
-                var data = {
-                    'table_id': self.data('id'),
-                    'table': table,
-                    'module': module,
-                    'wherefield': wherefield,
-                    '_token': $("input[name=_token]").val()
-                };
-                $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
-                $.ajax({
-                    type: "POST",
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('customers.delete') }}",
-                    data: data,
-                    success: function (res) {
-                        if (res.suceess) {
-                            $('.tr_' + self.data('id') + ' .is_deleted').html('<span class="badge badge-danger">Deleted</span>');
-                            $('#append_loader').empty();
-                        }
+        $(document).on('click', '.delete_button', function () {
+            var self = $(this);
+            var table = self.attr('data-table');
+            var wherefield = self.attr('data-wherefield');
+            var module = self.attr('data-module');
+            if (!confirm('Are you sure want to delete?'))
+                return;
+            var data = {
+                'table_id': self.data('id'),
+                'table': table,
+                'module': module,
+                'wherefield': wherefield,
+                '_token': $("input[name=_token]").val()
+            };
+            $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "{{ route('customers.delete') }}",
+                data: data,
+                success: function (res) {
+                    if (res.suceess) {
+                        $('.tr_' + self.data('id') + ' .is_deleted').html('<span class="badge badge-danger">Deleted</span>');
+                        $('#append_loader').empty();
                     }
-                });
-            });
-        });
-
-        $(document).ready(function () {
-            $(document).on('click', '.active_inactive_button', function () {
-                var self = $(this);
-                var table = self.attr('data-table');
-                var status = self.attr('data-status');
-                var module = self.attr('data-module');
-                var status_main=1;
-                if(status==1){
-                    status_main=0;
                 }
-                var wherefield = self.attr('data-wherefield');
-                if (!confirm('Are you sure want to update?'))
-                    return;
-                var data = {
-                    'table_id': self.data('id'),
-                    'table': table,
-                    'module': module,
-                    'status':status_main,
-                    'wherefield': wherefield,
-                    '_token': $("input[name=_token]").val()
-                };
-                $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
-                $.ajax({
-                    type: "POST",
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('customers.status') }}",
-                    data: data,
-                    success: function (res) {
-                        if (res.suceess) {
-                            if(status==1){
-                                if(table==="customer_company_details"){
-                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-danger">Unverified</span>');
-                                    self.html('Verify');
-                                }else{
-                                    $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');
-                                    self.html('<em class="icon ni ni-check-thick"></em>');
-                                }
-                                self.attr("data-status",0);
-                                self.removeClass('btn-danger');
-                                self.addClass('btn-success');
-                            }
-                            if(status==0){
-                                if(table==="customer_company_details"){
-                                    $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-success">Verified</span>');
-                                    self.html('UnVerify');
-                                }else{
-                                   $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>');
-                                   self.html('<em class="icon ni ni-cross"></em>');
-                                }
-                                self.attr("data-status",1);
-                                self.removeClass('btn-success');
-                                self.addClass('btn-danger');
-                            }
-                            $('#append_loader').empty();
-                        }
-                    }
-                });
             });
         });
+
+        $(document).on('click', '.active_inactive_button', function () {
+            var self = $(this);
+            var table = self.attr('data-table') == undefined ? '' : self.attr('data-table');
+            var status = self.attr('data-status') == undefined ? '' : self.attr('data-status');
+            var module = self.attr('data-module') == undefined ? '' : self.attr('data-module');
+            var status_main=1;
+            if(status==1){
+                status_main=0;
+            }
+            var wherefield = self.attr('data-wherefield') == undefined ? '' : self.attr('data-wherefield');
+
+            if (!confirm('Are you sure want to update?')) {
+                return;
+            }
+            var data = {
+                'table_id': $(this).attr('data-id'),
+                'table': table,
+                'module': module,
+                'status': status_main,
+                'wherefield': wherefield,
+                'approved' : $(this).hasClass('approved') ? true : false,
+                '_token': $("meta[name=csrf-token]").attr('content')
+            };
+            $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "{{ route('customers.status') }}",
+                data: data,
+                success: function (res) {
+                    if (res.suceess) {
+                        data_table.clear().draw();
+                        /* if(status==1){
+                            if(table==="customer_company_details"){
+                                $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-danger">Unverified</span>');
+                                self.html('Verify');
+                            }else{
+                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-danger">inActive</span>');
+                                self.html('<em class="icon ni ni-check-thick"></em>');
+                            }
+                            self.attr("data-status",0);
+                            self.removeClass('btn-danger');
+                            self.addClass('btn-success');
+                        }
+                        if(status==0){
+                            if(table==="customer_company_details"){
+                                $('.tr_' + self.data('id') + ' .is_approved').html('<span class="badge badge-success">Verified</span>');
+                                self.html('UnVerify');
+                            }else{
+                                $('.tr_' + self.data('id') + ' .is_active').html('<span class="badge badge-success">Active</span>');
+                                self.html('<em class="icon ni ni-cross"></em>');
+                            }
+                            self.attr("data-status",1);
+                            self.removeClass('btn-success');
+                            self.addClass('btn-danger');
+                        } */
+                        $('#append_loader').hide();
+                    }
+                }
+            });
+        });
+
     </script>
 <?php } ?>
