@@ -167,7 +167,7 @@ class CustomersController extends Controller {
             ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
             ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
             ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
-            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
             ->where('ccd.refCustomer_id', $id)
             ->orderBy('ccd.customer_company_id', 'asc')
             ->get();
