@@ -15,7 +15,9 @@
     .accordion-s3 .accordion-head {
         padding: 0 0 0 2.25rem;
     }
-
+    .table th, .table td {
+        vertical-align: middle;
+    }
 </style>
 @endsection
 @section('content')

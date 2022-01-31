@@ -362,7 +362,7 @@ class OrdersController extends Controller
     {
         if ($request->ajax()) {
             $data = DB::table('orders')
-                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = orders.order_id order by order_update_id desc limit 1) as order_status"));
+                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', 'orders.due_date', DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = orders.order_id order by order_update_id desc limit 1) as order_status"));
             if (isset($request->order_status) && !empty($request->order_status)) {
                 if ($request->order_status == 'PENDING') {
                     $data = $data->whereNotExists(function ($query) {
@@ -427,17 +427,26 @@ class OrdersController extends Controller
                 // ->editColumn('date_updated', function ($row) {
                 //     return date_formate($row->date_updated);
                 // })
+                ->editColumn('order_id', function ($row) use ($request) {
+                    if ($request->order_status == 'UNPAID') {
+                        return '#' . $row->order_id . '<br>' . date('d-m-Y', strtotime($row->due_date));
+                    } else {
+                        return '#' . $row->order_id;
+                    }
+                })
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row->date_added);
                 })
                 ->addColumn('action', function ($row) /* use ($updates) */ {
                     $actionBtn = '';
                     // if (!in_array($row->order_id, $updates)) {
-                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-update"></em></a>&nbsp;';
                     // }
-                    $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
-                    if ($row->order_status != 'PAID') {
+                    if ($row->order_status != 'CANCELLED') {
+                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a>&nbsp;';
+                        $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
                         $actionBtn .= ' <a href="/admin/orders/edit-invoice/' . $row->order_id . '" class="btn btn-xs btn-info"> <em class="icon ni ni-note-add-c"></em></a>&nbsp;';
+                    } else {
+                        $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
                     }
                     return $actionBtn;
                 })
@@ -459,14 +468,14 @@ class OrdersController extends Controller
 
     public function addOrderHistory(Request $request)
     {
-        // $exists = DB::table('order_updates')
-        //     ->select('order_status_name')
-        //     ->where('refOrder_id', $request->id)
-        //     ->where('order_status_name', $request->order_status_name)
-        //     ->first();
-        // if ($exists) {
-        //     successOrErrorMessage("Cannot duplicate the order status", 'error');
-        // } else {
+        $exists = DB::table('order_updates')
+            ->select('order_status_name')
+            ->where('refOrder_id', $request->id)
+            ->where('order_status_name', $request->order_status_name)
+            ->first();
+        if ($exists->order_status_name == 'CANCELLED') {
+            successOrErrorMessage("Cannot update the cancelled order status", 'error');
+        } else {
             if ($request->order_status_name == 'CANCELLED') {
                 $d_ids = DB::table('order_diamonds')
                     ->select('refDiamond_id')
@@ -576,7 +585,7 @@ class OrdersController extends Controller
             // $Id = DB::getPdo()->lastInsertId();
             activity($request, "updated", 'orders', $request->id);
             successOrErrorMessage("Data updated Successfully", 'success');
-        // }
+        }
         return redirect('admin/orders/edit/' . $request->id);
     }
 
@@ -588,9 +597,9 @@ class OrdersController extends Controller
             // ->whereRaw("(order_status_name = 'PAID' or order_status_name = 'CANCELLED')")
             ->orderBy('order_update_id', 'desc')
             ->first();
-        if ($updates->order_status_name == 'PAID' || $updates->order_status_name == 'CANCELLED') {
-            // return redirect('/admin/orders');
-            $pending = 'NA';
+        if (/* $updates->order_status_name == 'PAID' ||  */$updates->order_status_name == 'CANCELLED') {
+            return redirect('/admin/orders');
+            // $pending = 'NA';
         } else if ($updates->order_status_name == 'PENDING') {
             $pending = true;
         } else {
@@ -838,7 +847,7 @@ class OrdersController extends Controller
             $html .= '<tr class="tr_products">
                 <td>' . $d['_source']['barcode'] . '</td>
                 <td>' . $d['_source']['attributes']['SHAPE'] . '</td>
-                <td>' . $d['_source']['expected_polish_cts'] . '</td>
+                <td class="carat_td">' . $d['_source']['expected_polish_cts'] . '</td>
                 <td>' . $d['_source']['attributes']['COLOR'] . '</td>
                 <td>' . $d['_source']['attributes']['CLARITY'] . '</td>
                 <td>' . ($d['_source']['attributes']['CUT'] ?? '-') . '</td>
@@ -881,8 +890,11 @@ class OrdersController extends Controller
             'data' => trim($html),
             'subtotal' => number_format($subtotal, 2, '.', ''),
             'discount' => $final_overall_discount,
+            'discount_per' => $overall_discount->discount ?? 0,
             'add_discount' => $final_additional_discount,
+            'add_discount_per' => $additional_discount,
             'tax' => $final_tax,
+            'tax_per' => $tax->amount ?? 0,
             'shipping_charge' => $shipping_charge->amount ?? 0,
             'total' => number_format($total, 2, '.', '')
         ];
@@ -903,6 +915,40 @@ class OrdersController extends Controller
         } else {
             return response()->json(['success' => 1, 'tax' => 0]);
         }
+    }
+
+    public function getUpdatedCharges(Request $request)
+    {
+        $overall_discount = DB::table('discounts')
+            ->select('discount_id', 'name', 'discount')
+            ->where('from_amount', '<=', intval($request->subtotal))
+            ->where('to_amount', '>=', intval($request->subtotal))
+            ->first();
+        $shipping_charge = DB::table('delivery_charges')
+            ->select('delivery_charge_id', 'name', 'amount')
+            ->where('from_weight', '<=', intval($request->weight))
+            ->where('to_weight', '>=', (intval($request->weight) + 1))
+            ->first();
+        $tax = DB::table('customer as c')
+            ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
+            ->join('taxes as t', 'ccd.refCountry_id', '=', 't.refCountry_id')
+            ->select('t.tax_id', 't.name', 't.amount')
+            ->where('c.customer_id', $request['customer_id'])
+            ->where('ccd.customer_company_id', $request['shipping_id'])
+            ->first();
+        $additional_discount = DB::table('customer as c')
+            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+            ->select('ct.discount')
+            ->where('c.customer_id', $request['customer_id'])
+            ->first();
+
+        return response()->json([
+            'success' => 1,
+            'shipping_charge' => ($shipping_charge->amount ?? 0),
+            'discount' => ($overall_discount->discount ?? 0),
+            'add_discount' => ($additional_discount->discount ?? 0),
+            'tax' => ($tax->amount ?? 0)
+        ]);
     }
 
     public function createInvoice(Request $request)
@@ -1249,7 +1295,7 @@ class OrdersController extends Controller
         $order_status = DB::table('order_updates')
             ->select('order_status_name')
             ->where('refOrder_id', $order_id)
-            ->whereIn('order_status_name', ['PAID'/* , 'CANCELLED' */])
+            ->whereIn('order_status_name', ['PAID', 'CANCELLED'])
             ->orderBy('order_update_id', 'desc')
             ->first();
         if ($order_status) {
@@ -1343,7 +1389,7 @@ class OrdersController extends Controller
             $html .= '<tr class="tr_products_'. $d['barcode'] .'">
                 <td>' . $d['barcode'] . '</td>
                 <td>' . $d['SHAPE'] . '</td>
-                <td>' . $d['carat'] . '</td>
+                <td class="carat_td">' . $d['carat'] . '</td>
                 <td>' . $d['COLOR'] . '</td>
                 <td>' . $d['CLARITY'] . '</td>
                 <td>' . ($d['CUT'] ?? '-') . '</td>
