@@ -1,19 +1,21 @@
 <?php if ($data['title'] == 'List-Customers') {
     ?>
     <script type="text/javascript">
-        var is_approved = 2;
+        var data_table = null;
+        var is_approved = '{{ $request["filter"] }}';
+        if (is_approved == 'approved') {
+            is_approved = 1;
+        } else if (is_approved == 'unapproved') {
+            is_approved = 0;
+        } else {
+            is_approved = 2;
+        }
+        setTimeout(() => {
+            $('#is_approved').val(is_approved).trigger('change');
+        }, 10);
 
-            // list_customers(2);
-            $(document).on('change', '#is_approved', function () {
-                is_approved = $(this).val();
-                data_table.clear().draw();
-                // $('#table').DataTable().destroy();
-                // list_customers(is_approved);
-            });
-
-            // function list_customers(is_approved){
-
-                var data_table = $('#table').DataTable({
+        function list_customers(){
+            data_table = $('#table').DataTable({
                 responsive: {
                     details: {
                         type: 'column',
@@ -64,7 +66,16 @@
                     $(row).addClass('tr_'+data['customer_id']);
                 }
             });
-            // }
+        }
+
+        $(document).on('change', '#is_approved', function () {
+            is_approved = $(this).val();
+            if (data_table == null) {
+                list_customers();
+            } else {
+                data_table.clear().draw();
+            }
+        });
 
         $(document).on('click', '.delete_button', function () {
             var self = $(this);

@@ -385,6 +385,7 @@ $(document).on('click', '#export-search-diamond, #export-search-diamond-admin', 
 });
 
 function exportDiamondTables(values, array, group_id, export_value, discount) {
+    $('.cs-loader-full').show();
     var selected_values = [];
     if (values.length > 1 && typeof values == 'string') {
         var strArray = values.split(",");
@@ -440,7 +441,7 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
             responseType: 'blob'
         },
         success: function(response) {
-
+            $('.cs-loader-full').hide();
             var blob = new Blob([response]);
 
             var link = document.createElement('a');
@@ -454,6 +455,7 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
             }
 
             link.click();
+
         },
         error: function(response) {
             // console.log(response);
@@ -463,6 +465,7 @@ function exportDiamondTables(values, array, group_id, export_value, discount) {
                 icon: 'error',
                 position: 'top-right'
             });
+            $('.cs-loader-full').hide();
         }
     });
 }

@@ -19,9 +19,9 @@
                                     <div class="form-group col-2" style="float: right;">
                                         <div class="form-control-wrap">
                                             <select class="form-control" id="is_approved" tabindex="-1" aria-hidden="true">
-                                                <option value="2" selected="">All</option>
-                                                <option value="1">Verified</option>
-                                                <option value="0">UnVerified</option>
+                                                <option value="2" {{ $request['filter'] == '' ? 'selected' : '' }}>All</option>
+                                                <option value="1" {{ $request['filter'] == 'approved' ? 'selected' : '' }}>Verified</option>
+                                                <option value="0" {{ $request['filter'] == 'unapproved' ? 'selected' : '' }}>Not Verified</option>
                                             </select>
                                         </div>
                                     </div>
@@ -29,6 +29,13 @@
                             </div><!-- .nk-block-head-content -->
                         </div>
                         <div class="card card-preview">
+                            <div id='append_loader' class="overlay">
+                                <div class='d-flex justify-content-center' style="padding-top: 10%;">
+                                    <div class='spinner-border text-success' role='status'>
+                                        <span class='sr-only'>Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-inner">
                                 <table id="table" class="table dt-responsive nowrap">
                                     <thead>
@@ -61,7 +68,6 @@
         </div>
     </div>
 </div>
-<div id='append_loader'></div>
 <!-- content @e -->
 @endsection
 @section('script')

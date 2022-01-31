@@ -59,6 +59,7 @@ class Orders extends Model
         'date_updated',
         'attention',
         'billing_remarks',
-        'shipping_remarks'
+        'shipping_remarks',
+        'due_date'
     ];
 }

@@ -93,7 +93,16 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date">
+                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date" value="{{ date('Y-m-d') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="due_date">Due Date:</label>
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right">
+                                                <em class="icon ni ni-calendar-alt"></em>
+                                            </div>
+                                            <input type="text" class="form-control date-picker" name="due_date" data-date-format="yyyy-mm-dd" id="due_date" required placeholder="Due Date">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -400,6 +409,7 @@
 @endsection
 @section('script')
 <script type="text/javascript">
+    // $('#due_date').datepicker('setStartDate', "2022-01-01");
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -858,7 +868,8 @@
                 'discounts': discounts,
                 'shipping_remarks': $('#shipping_remarks').val(),
                 'company_remarks': $('#company_remarks').val(),
-                'shipping_charge': $('#shipping_charge').val()
+                'shipping_charge': $('#shipping_charge').val(),
+                'due_date': $('#due_date').val()
             },
             dataType: 'json',
             success: function (res) {

@@ -343,6 +343,8 @@ class OrdersController extends Controller
                     // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
                     DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
+                    DB::table('recently_view_diamonds')->whereIn('refDiamond_id', $d_ids)->delete();
+
                     DB::table('order_diamonds')->insert($batch_data);
                     activity($request, "inserted", 'orders', $order_Id);
                     successOrErrorMessage("Order added successfully", 'success');
@@ -382,6 +384,9 @@ class OrdersController extends Controller
                                 ->whereColumn('ou1.refOrder_id', 'orders.order_id')
                                 ->whereIn('ou1.order_status_name', ['PAID', 'CANCELLED']);
                         });
+                    if ($request->overdues == 'y') {
+                        $data = $data->where('orders.due_date', '<', date('Y-m-d'));
+                    }
                 } else if ($request->order_status == 'CANCELLED') {
                     $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
                         ->where('ou.order_status_name', 'CANCELLED');
@@ -410,12 +415,12 @@ class OrdersController extends Controller
             $data = $data->orderBy('orders.order_id', 'desc')
                 ->get();
 
-            $updates = DB::table('order_updates')
+            /* $updates = DB::table('order_updates')
                 ->select('refOrder_id')
                 ->where('order_status_name', 'PAID')
                 ->orWhere('order_status_name', 'CANCELLED')
                 ->pluck('refOrder_id')
-                ->toArray();
+                ->toArray(); */
 
             return Datatables::of($data)
                 ->addColumn('index', '')
@@ -425,12 +430,15 @@ class OrdersController extends Controller
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row->date_added);
                 })
-                ->addColumn('action', function ($row) use ($updates){
+                ->addColumn('action', function ($row) /* use ($updates) */ {
                     $actionBtn = '';
-                    if (!in_array($row->order_id, $updates)) {
-                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                    // if (!in_array($row->order_id, $updates)) {
+                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-update"></em></a>&nbsp;';
+                    // }
+                    $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
+                    if ($row->order_status != 'PAID') {
+                        $actionBtn .= ' <a href="/admin/orders/edit-invoice/' . $row->order_id . '" class="btn btn-xs btn-info"> <em class="icon ni ni-note-add-c"></em></a>&nbsp;';
                     }
-                    $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary">&nbsp;<em class="icon ni ni-eye-fill"></em></a>';
                     return $actionBtn;
                 })
                 ->editColumn('order_status', function ($row) {
@@ -451,14 +459,14 @@ class OrdersController extends Controller
 
     public function addOrderHistory(Request $request)
     {
-        $exists = DB::table('order_updates')
-            ->select('order_status_name')
-            ->where('refOrder_id', $request->id)
-            ->where('order_status_name', $request->order_status_name)
-            ->first();
-        if ($exists) {
-            successOrErrorMessage("Cannot duplicate the order status", 'error');
-        } else {
+        // $exists = DB::table('order_updates')
+        //     ->select('order_status_name')
+        //     ->where('refOrder_id', $request->id)
+        //     ->where('order_status_name', $request->order_status_name)
+        //     ->first();
+        // if ($exists) {
+        //     successOrErrorMessage("Cannot duplicate the order status", 'error');
+        // } else {
             if ($request->order_status_name == 'CANCELLED') {
                 $d_ids = DB::table('order_diamonds')
                     ->select('refDiamond_id')
@@ -568,7 +576,7 @@ class OrdersController extends Controller
             // $Id = DB::getPdo()->lastInsertId();
             activity($request, "updated", 'orders', $request->id);
             successOrErrorMessage("Data updated Successfully", 'success');
-        }
+        // }
         return redirect('admin/orders/edit/' . $request->id);
     }
 
@@ -581,7 +589,8 @@ class OrdersController extends Controller
             ->orderBy('order_update_id', 'desc')
             ->first();
         if ($updates->order_status_name == 'PAID' || $updates->order_status_name == 'CANCELLED') {
-            return redirect('/admin/orders');
+            // return redirect('/admin/orders');
+            $pending = 'NA';
         } else if ($updates->order_status_name == 'PENDING') {
             $pending = true;
         } else {
@@ -1105,6 +1114,7 @@ class OrdersController extends Controller
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
         $order->attention = $request->attention_to;
+        $order->due_date = $request->due_date;
         $order->save();
 
         DB::table('order_updates')
@@ -1216,6 +1226,8 @@ class OrdersController extends Controller
         // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
         DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);
 
+        DB::table('recently_view_diamonds')->whereIn('refDiamond_id', $d_ids)->delete();
+
         DB::table('order_diamonds')->insert($od);
 
         DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
@@ -1228,7 +1240,7 @@ class OrdersController extends Controller
     {
         $data['title'] = 'Update Invoice';
         $order = DB::table('orders')
-            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks')
+            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date')
             ->where('order_id', $order_id)
             ->first();
         if (empty($order)) {
@@ -1637,6 +1649,7 @@ class OrdersController extends Controller
         $order->date_updated = $invoice_date;
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
+        $order->due_date = $request->due_date;
         $order->save();
 
         $od = $d_ids = [];
@@ -1730,8 +1743,9 @@ class OrdersController extends Controller
                 ]);
             }
         }
-
-        $client->bulk($params);
+        if (count($params) > 0) {
+            $client->bulk($params);
+        }
 
         // DB::table('diamonds')->whereIn('diamond_id', $d_ids)->decrement('available_pcs', 1);
         DB::table('diamonds')->whereIn('diamond_id', $d_ids)->update(['available_pcs' => 0]);

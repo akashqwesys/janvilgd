@@ -269,9 +269,9 @@ class UserController extends Controller
             $company->pan_gst_no = $request->company_gst_pan;
             $company->refDesignation_id = 1;
             $company->designation_name = 'owner';
-            $company->is_approved = 1;
+            /* $company->is_approved = 1;
             $company->approved_date_time = date('Y-m-d H:i:s');
-            $company->approved_by = 0;
+            $company->approved_by = 0; */
 
             if ($request->hasfile('id_upload')) {
                 $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());

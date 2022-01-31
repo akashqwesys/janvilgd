@@ -8,10 +8,10 @@
     <title> Laravel 8 PDF </title>
     <style>
         table, td, th {
-            border: 1px solid black;
+            border: 1px solid lightgray;
         }
         thead {
-            background: lightgray;
+            background: #e0e0e0;
         }
         .col1 {
             margin: 5px;
@@ -68,6 +68,8 @@
                             @if ($category->slug != 'rough-diamonds')
                             <th scope="col" class="col2"> Cut </th>
                             @endif
+                            <th scope="col" class="col1"> Rapaport </th>
+                            <th scope="col" class="col1"> Discount </th>
                             <th scope="col" class="col1"> Price/CT </th>
                             <th scope="col" class="col1"> Price </th>
                         </tr>
@@ -111,9 +113,15 @@
                             </td>
                             @endif
                             <td class="col1" align="center">
-                                ${{number_format(round($v['_source']['price_ct'], 2), 2, '.', ',')}}
+                                ${{number_format($v['_source']['rapaport_price'], 2, '.', ',')}}
                             </td>
-                            <td class="col1" align="right"> ${{number_format(round($v['_source']['total'], 2), 2, '.', ',')}} </td>
+                            <td class="col1" align="center">
+                                {{number_format($v['_source']['discount'] * 100, 2, '.', ',')}}%
+                            </td>
+                            <td class="col1" align="center">
+                                ${{number_format($v['_source']['price_ct'], 2, '.', ',')}}
+                            </td>
+                            <td class="col1" align="right"> ${{number_format($v['_source']['total'], 2, '.', ',')}} </td>
                         </tr>
                         @endforeach
                     </tbody>

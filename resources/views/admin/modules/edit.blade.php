@@ -40,7 +40,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon" required="" autocomplete="off" value="{{ $data['result']->icon }}">
+                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon" autocomplete="off" value="{{ $data['result']->icon }}">
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug" required="" autocomplete="off" value="{{ $data['result']->slug }}">
+                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug" autocomplete="off" value="{{ $data['result']->slug }}">
                                             </div>
                                         </div>
                                     </div>

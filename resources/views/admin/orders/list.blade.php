@@ -15,6 +15,7 @@
     .accordion-s3 .accordion-head {
         padding: 0 0 0 2.25rem;
     }
+
 </style>
 @endsection
 @section('content')
@@ -39,7 +40,7 @@
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <h4 class="nk-block-title">Orders list</h4>
+                                            <h4 class="nk-block-title">Orders List <span id="total_orders_count"></span></h4>
                                         </div>
                                         <div class="col-md-5 text-center">
                                         </div>
@@ -62,7 +63,7 @@
                                         </a>
                                         <div class="accordion-body collapse {{ $ac1 }}" id="accordion-item-2-1" data-parent="#accordion-2">
                                             <div class="accordion-inner pt-3">
-                                                <div class="row">
+                                                <div class="row" id="filters-row">
                                                     <div class="col-md-6 mb-3">
                                                         <div class="row">
                                                             <div class="col-md-4 m-auto">
@@ -125,6 +126,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @if ($request->filter == 'UNPAID')
+                                                    <div class="col-md-6 mb-3" id="overdue-cols">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="overdue_unpaid" value="0">
+                                                            <label class="custom-control-label" for="overdue_unpaid"> Want to check over due unpaid?</label>
+                                                        </div>
+                                                    </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -179,51 +188,125 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
+    var table = null;
     var startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
     var endDate = moment().format('YYYY-MM-DD');
     var customer_id = null;
     var order_status = null;
     var category = null;
     var date_applied = false;
+    var show_overdues = 'n';
     var order_filter = '{{ $request["filter"] }}';
     var date_filter = '{{ $request["date_range_filter"] }}';
+
+    function init_datatable() {
+        table = $('#table').DataTable({
+            responsive: {
+                details: {
+                    type: 'column',
+                    target: 'tr'
+                }
+            },
+            columnDefs: [{
+                    className: 'control',
+                    orderable: false,
+                    targets: 0
+                }],
+            dom: 'Bfrtip',
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdf'
+            ],
+            "processing": true,
+            "serverSide": true,
+            "pageLength": 10,
+            "paginationType": "full_numbers",
+            ajax: {
+                'url': "{{ route('orders.list') }}",
+                'data': function (data) {
+                    $('#append_loader').hide();
+                    if (date_applied == false) {
+                        data.startDate = null;
+                        data.endDate =  null;
+                    } else {
+                        data.startDate = startDate;
+                        data.endDate =  endDate;
+                    }
+                    data.customer_id = customer_id;
+                    data.order_status = order_status;
+                    data.category = category;
+                    data.overdues = show_overdues;
+                    // data.shape = 'Round';
+                },
+                'complete': function (data) {
+                    $('#append_loader').hide();
+                    $('#total_orders_count').text('('+data.responseJSON.recordsTotal+')');
+                }
+            },
+            columns: [
+                {data: 'index', name: 'index'},
+                {data: 'order_id', name: 'order_id'},
+                {data: 'name', name: 'name'},
+                {data: 'email_id', name: 'email_id'},
+                {data: 'mobile_no', name: 'mobile_no'},
+                // {data: 'payment_mode_name', name: 'payment_mode_name'},
+                {data: 'refTransaction_id', name: 'refTransaction_id'},
+                {data: 'date_added', name: 'date_added'},
+                {data: 'order_status', name: 'order_status'},
+                {data: 'total_paid_amount', name: 'total_paid_amount'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: true
+                }
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                $(row).addClass('tr_' + data['order_id']);
+            }
+        });
+    }
+
     if (date_filter) {
         startDate = date_filter.split(' - ')[0];
         endDate = date_filter.split(' - ')[1];
         setTimeout(() => {
             $('#dateRange').val(date_filter);
             $('#dateRange').trigger('apply.daterangepicker');
-        }, 500);
+        }, 100);
     }
     if (order_filter == 'yesterday') {
         startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
-        }, 1000);
+        }, 100);
     } else if (order_filter == '30days') {
         startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
-        }, 1000);
+        }, 100);
     } else if (order_filter == '7days') {
         startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
         setTimeout(() => {
             $('#dateRange').trigger('apply.daterangepicker');
-        }, 1000);
+        }, 100);
     } else if (['PENDING', 'PAID', 'UNPAID', 'OFFLINE', 'CANCELLED'].includes(order_filter)) {
         setTimeout(() => {
             $('#dateRange').val('');
             $('#orderStatus').val(order_filter).trigger('change');
-        }, 1000);
+        }, 100);
     } else if (['polish', '4p', 'rough'].includes(order_filter)) {
         setTimeout(() => {
             $('#dateRange').val('');
             $('#d-category').val(order_filter == 'polish' ? 3 : (order_filter == '4p' ? 2 : 1)).trigger('change');
-        }, 1000);
+        }, 100);
+    } else {
+        init_datatable();
     }
 
     $('#dateRange').daterangepicker({
-        minDate  : "2021-12-01",
+        minDate  : "2022-01-01",
         maxDate  : moment(),
         showDropdowns: true,
         autoUpdateInput: true,
@@ -248,24 +331,51 @@
         startDate = (picker == undefined) ? $(this).val().substr(0,10) : picker.startDate.format('YYYY-MM-DD');
         endDate = (picker == undefined) ? $(this).val().substr(13,24) : picker.endDate.format('YYYY-MM-DD');
         // $('#dateRange').daterangepicker().autoUpdateInput = true;
-        table.clear().draw();
+        if (table == null) {
+            init_datatable();
+        } else {
+            table.clear().draw();
+        }
     });
     $(document).on('change', '#orderCustomers', function(){
         if ($(this).val() != null) {
             customer_id = $(this).val();
-            table.clear().draw();
+            if (table == null) {
+                init_datatable();
+            } else {
+                table.clear().draw();
+            }
         }
     });
     $(document).on('change', '#orderStatus', function(){
         if ($(this).val() != null) {
             order_status = $(this).val();
-            table.clear().draw();
+            if ($('#overdue-cols').length == 0) {
+                $('#filters-row').append('<div class="col-md-6 mb-3" id="overdue-cols"> <div class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" id="overdue_unpaid" value="0"> <label class="custom-control-label" for="overdue_unpaid"> Want to check over due unpaid?</label> </div> </div>');
+                $('#overdue-cols').hide();
+            }
+            if (order_status == 'UNPAID') {
+                $('#overdue-cols').slideDown();
+            } else {
+                $('#overdue_unpaid').attr('checked', false);
+                show_overdues = 'n';
+                $('#overdue-cols').slideUp();
+            }
+            if (table == null) {
+                init_datatable();
+            } else {
+                table.clear().draw();
+            }
         }
     });
     $(document).on('change', '#d-category', function(){
         if ($(this).val() != null) {
             category = $(this).val();
-            table.clear().draw();
+            if (table == null) {
+                init_datatable();
+            } else {
+                table.clear().draw();
+            }
         }
     });
     $(document).on('click', '#clear-filters', function(){
@@ -273,6 +383,18 @@
         $('.accordion-body').attr('class', 'accordion-body collapse');
         startDate = endDate = customer_id = order_status = category = null;
         $('#dateRange, #orderCustomers, #orderStatus, #d-category').val('').trigger('change');
+        if (table == null) {
+            init_datatable();
+        } else {
+            table.clear().draw();
+        }
+    });
+    $(document).on('click', '#overdue_unpaid', function () {
+        if ($(this).prop('checked') === true) {
+            show_overdues = 'y';
+        } else {
+            show_overdues = 'n';
+        }
         table.clear().draw();
     });
     $(document).on('click', '#refreshData', function(){

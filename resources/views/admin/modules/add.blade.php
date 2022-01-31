@@ -39,7 +39,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon" required="" autocomplete="off">
+                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon"  autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug" required="" autocomplete="off">
+                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug"  autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
