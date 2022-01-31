@@ -655,6 +655,9 @@
         });
     });
 
+    var total_barcodes = $('#barcode').val().length,
+    old_barcodes = $('#barcode').val().length,
+    new_barcodes = 0;
     $(document).on('change', '#barcode', function () {
         var intersect_ = exist_barcodes.filter(value => $(this).val().includes(value));
         var removed_ = exist_barcodes.filter((i) => (intersect_.indexOf(i) === -1))
@@ -663,7 +666,8 @@
             $('.tr_products_' + e).remove();
         });
         $('.tr_products').remove();
-        if ($(this).val().length > 0 && removed_.length == 0) {
+        if ($(this).val().length > 0) {
+            total_barcodes = $(this).val().length;
             $.ajax({
                 type: "POST",
                 url: "/admin/orders/getDiamonds",
@@ -686,18 +690,56 @@
                     }
                     else {
                         $('#product-table tbody').prepend(response.data.data);
-                        var subtotal = 0;
+                        var subtotal = 0, weight = 0;
                         $('.price_td').each(function () {
                             subtotal += parseFloat($(this).text().substring(1));
                         });
-                        var new_total = subtotal.toFixed(2) - parseFloat(response.data.discount) - parseFloat(response.data.add_discount) + parseFloat(response.data.tax) + parseFloat(response.data.shipping_charge);
-                        $('#subtotal').text(subtotal.toFixed(2));
-                        $('#total').text(new_total.toFixed(2));
-                        $('#discount').text(response.data.discount);
-                        $('#add_discount').text(response.data.add_discount);
-                        $('#tax').text(response.data.tax);
-                        $('#shipping_charge').val(response.data.shipping_charge);
-                        shipping_charge = parseFloat(response.data.shipping_charge);
+                        if (old_barcodes == 0) {
+                            var new_total = subtotal.toFixed(2) - parseFloat(response.data.discount) - parseFloat(response.data.add_discount) + parseFloat(response.data.tax) + parseFloat(response.data.shipping_charge);
+                            $('#subtotal').text(subtotal.toFixed(2));
+                            $('#total').text(new_total.toFixed(2));
+                            $('#discount').text(response.data.discount);
+                            $('#add_discount').text(response.data.add_discount);
+                            $('#tax').text(response.data.tax);
+                            $('#shipping_charge').val(response.data.shipping_charge);
+                            shipping_charge = parseFloat(response.data.shipping_charge);
+                        } else {
+                            $('.carat_td').each(function () {
+                                weight += parseFloat($(this).text());
+                            });
+                            if (removed_barcodes.length == old_barcodes) {
+                                old_barcodes = 0;
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/orders/get-updated-charges",
+                                data: {
+                                    'subtotal': subtotal,
+                                    'weight': weight,
+                                    'customer_id': $('#customer_id').val(),
+                                    'shipping_id': $('#shipping_name').val()
+                                },
+                                // cache: false,
+                                context: this,
+                                dataType: 'JSON',
+                                success: function (response1) {
+                                    var comb_discount = parseFloat(response1.discount) * subtotal / 100;
+                                    var comb_shipping_charge = parseFloat(response1.shipping_charge);
+                                    var comb_add_discount = parseFloat(response1.add_discount) * subtotal / 100;
+                                    var comb_tax = parseFloat(response1.tax) * (subtotal - comb_discount - comb_add_discount) / 100;
+                                    var new_total = subtotal.toFixed(2) - comb_discount - comb_add_discount + comb_tax + comb_shipping_charge;
+
+                                    $('#subtotal').text(subtotal.toFixed(2));
+                                    $('#total').text(new_total.toFixed(2));
+                                    $('#discount').text(comb_discount.toFixed(2));
+                                    $('#add_discount').text(comb_add_discount.toFixed(2));
+                                    $('#tax').text(comb_tax.toFixed(2));
+                                    $('#shipping_charge').val(comb_shipping_charge);
+                                    shipping_charge = comb_shipping_charge;
+                                }
+                            });
+                        }
                     }
                 },
                 failure: function (response) {
@@ -709,7 +751,7 @@
                     });
                 }
             });
-        } else if ($(this).val().length > 0 && removed_.length > 0) {
+        } /* else if ($(this).val().length > 0 && removed_.length > 0) {
             var subtotal = 0;
             $('.price_td').each(function () {
                 subtotal += parseFloat($(this).text().substring(1));
@@ -721,7 +763,10 @@
             $('#add_discount').text($('#add_discount').text());
             $('#tax').text($('#tax').text());
             shipping_charge = parseFloat($('#shipping_charge').val());
-        } else {
+        } */ else {
+            total_barcodes = 0;
+            old_barcodes = 0;
+            new_barcodes = 0;
             $('#subtotal').text(0);
             $('#discount').text(0);
             $('#add_discount').text(0);
