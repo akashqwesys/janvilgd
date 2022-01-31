@@ -1249,7 +1249,7 @@ class OrdersController extends Controller
         $order_status = DB::table('order_updates')
             ->select('order_status_name')
             ->where('refOrder_id', $order_id)
-            ->whereIn('order_status_name', ['PAID', 'CANCELLED'])
+            ->whereIn('order_status_name', ['PAID'/* , 'CANCELLED' */])
             ->orderBy('order_update_id', 'desc')
             ->first();
         if ($order_status) {

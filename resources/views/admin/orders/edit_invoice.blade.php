@@ -45,6 +45,9 @@
     .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
         padding-left: 40px;
     }
+    .alert {
+        margin-bottom: 1rem;
+    }
 </style>
 @endsection
 @section('content')
@@ -66,6 +69,9 @@
                             <div class="card-inner">
                                 <h5>Edit Invoice</h5>
                                 <hr>
+                                <div class="alert alert-danger">
+                                    <div><b>Note: Once you remove the diamonds from selection, then the same diamonds will only be available on your next visit...!</b></div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="barcode">Select Stock Nos:</label>
