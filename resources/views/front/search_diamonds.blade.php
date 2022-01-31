@@ -228,6 +228,11 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
 }
 @endphp
 <section class="diamond-cut-section">
+    <div class="overlay cs-loader-full">
+        <div class="overlay__inner">
+            <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
+        </div>
+    </div>
     <div class="container">
         <div class="main-box"><h2 class="text-center"><img class="img-fluid title-diamond_img" src="/{{ check_host() }}assets/images/title-diamond.svg" alt="">Search for {{ $category->name }}</h2></div>
         <div class="diamond-cut-filter">

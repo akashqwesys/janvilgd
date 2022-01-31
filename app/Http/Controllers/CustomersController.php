@@ -12,9 +12,9 @@ use DataTables;
 
 class CustomersController extends Controller {
 
-    public function index() {
+    public function index(Request $request) {
         $data['title'] = 'List-Customers';
-        return view('admin.customers.list', ["data" => $data]);
+        return view('admin.customers.list', ["data" => $data, 'request' => $request]);
     }
 
     public function add() {
@@ -139,7 +139,7 @@ class CustomersController extends Controller {
                     }
                     $actionBtn = '<a href="/admin/customers/edit/' . $row->customer_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a>&nbsp; <button class="btn btn-xs btn-danger delete_button" data-module="customers" data-id="' . $row->customer_id . '" data-table="customer" data-wherefield="customer_id"> <em class="icon ni ni-trash-fill"></em></button>&nbsp; <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->customer_id . '" data-status="' . $row->is_active . '" data-table="customer" data-wherefield="customer_id" data-module="customers">' . $str . '</button>&nbsp;';
                     if ($row->pan_gst_attachment) {
-                        $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank"> ID <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
+                        $actionBtn.= ' <a href="/storage/user_files/' . $row->pan_gst_attachment . '" class="btn btn-xs btn-info" target="_blank">ID &nbsp;<em class="icon ni ni-eye-fill"></em></a>&nbsp;';
                     }
 
                     $actionBtn.=' <a href="/admin/customer-login-by-admin/'. encrypt($row->email,false).'" class="btn btn-xs text-white btn-primary">Login</a>';
@@ -348,9 +348,9 @@ class CustomersController extends Controller {
             $company->pan_gst_no = $request->company_gst_pan;
             $company->refDesignation_id = 1;
             $company->designation_name = 'owner';
-            $company->is_approved = 1;
+            /* $company->is_approved = 1;
             $company->approved_date_time = date('Y-m-d H:i:s');
-            $company->approved_by = 0;
+            $company->approved_by = 0; */
             if ($request->hasfile('id_upload')) {
                 $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
                 $request->file('id_upload')->storeAs("public/user_files", $imageName);

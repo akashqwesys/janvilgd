@@ -12,6 +12,7 @@ use App\Models\Customers;
 use App\Models\CustomerCompanyDetail;
 use App\Mail\EmailVerification;
 use App\Mail\CommonEmail;
+use Illuminate\Support\Facades\Hash;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -24,15 +25,14 @@ class AuthController extends Controller
     {
         try {
             $rules = [
-                'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{10,11}$/ix'],
-                'email' => ['nullable', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'password' => ['required', 'between:6,15']
             ];
 
             $message = [
-                'mobile.required_without' => 'Please enter phone number or email address',
-                'mobile.regex' => 'Please enter valid 10 digits phone number',
-                // 'email.required_unless' => 'Please enter email address or phone number',
-                'email.regex' => 'Please enter valid email address'
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address',
+                'password.required' => 'Please enter password'
             ];
 
             $validator = Validator::make($request->all(), $rules, $message);
@@ -41,193 +41,15 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                ->when($request->email, function ($q) use($request) {
-                    $q->where('email', strtolower($request->email));
-                })
-                ->when($request->mobile, function ($q) use($request) {
-                    $q->orWhere('mobile', $request->mobile);
-                })
-                ->first();
-            $otp = mt_rand(1111, 9999);
-            if ($exists) {
-                $exists->otp = $otp;
-                $exists->otp_status = 0;
-                $exists->save();
-                $email = $exists->email;
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
+                    ->where('email', strtolower($request->email))
+                    ->first();
+                $all = $this->getUserData($user);
+                return $this->successResponse('Logged in successfully', $all, 1);
             } else {
-                /* if (empty($request->mobile)) {
-                    return $this->errorResponse('Please also enter your phone number');
-                }
-                if (empty($request->email)) {
-                    return $this->errorResponse('Please also enter your email address');
-                } */
-                $customer = new Customers;
-                $customer->name = ' ';
-                $customer->mobile = $request->mobile ?? null;
-                $customer->email = $request->email ? strtolower($request->email) : null;
-                $customer->address = ' ';
-                $customer->pincode = 0;
-                $customer->refCity_id = 0;
-                $customer->refState_id = 0;
-                $customer->refCountry_id = 0;
-                $customer->refCustomerType_id = 0;
-                $customer->restrict_transactions = 0;
-                $customer->added_by = 0;
-                $customer->is_active = 0;
-                $customer->is_deleted = 0;
-                $customer->date_added = date('Y-m-d H:i:s');
-                $customer->date_updated = date('Y-m-d H:i:s');
-                $customer->otp = $otp;
-                $customer->otp_status = 0;
-                $customer->save();
-                /* DB::table('customer')->insert([
-                    'name' => ' ',
-                    'mobile' => $request->mobile,
-                    'email' => $request->email,
-                    'address' => ' ',
-                    'pincode' => 0,
-                    'refCity_id' => 0,
-                    'refState_id' => 0,
-                    'refCountry_id' => 0,
-                    'refCustomerType_id' => 0,
-                    'restrict_transactions' => 0,
-                    'added_by' => 0,
-                    'is_active' => 0,
-                    'is_deleted' => 0,
-                    'date_added' => date('Y-m-d H:i:s'),
-                    'date_updated' => date('Y-m-d H:i:s'),
-                    'otp' => $otp,
-                    'otp_status' => 0
-                ]); */
-                $email = strtolower($request->email);
+
             }
-            if (!empty(trim($email))) {
-                Mail::to($email)
-                    ->send(
-                        new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGE',
-                            'name' => $email,
-                            'otp' => $otp,
-                            'view' => 'emails.codeVerification'
-                        ])
-                    );
-            }
-            return $this->successResponse('OTP sent successfully');
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-    }
-
-    public function verifyOTP(Request $request)
-    {
-        $rules = [
-            'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{10,11}$/ix'],
-            'email' => ['nullable', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-            'otp' => ['required', 'digits:4']
-        ];
-
-        $message = [
-            'mobile.required_without' => 'Please enter phone number or email address',
-            'mobile.regex' => 'Please enter valid 10 digits phone number',
-            // 'email.required_unless' => 'Please enter email address or phone number',
-            'email.regex' => 'Please enter valid email address',
-            'otp.required' => 'Please enter OTP',
-            'otp.digits' => 'Please enter valid 4 digits OTP',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
-
-        if ($validator->fails()) {
-            return $this->errorResponse($validator->errors()->all()[0]);
-        }
-        try {
-            $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
-                ->when($request->email, function ($q) use ($request) {
-                    $q->where('email', strtolower($request->email));
-                })
-                ->when($request->mobile, function ($q) use ($request) {
-                    $q->orWhere('mobile', $request->mobile);
-                })
-                ->first();
-            if (!$user) {
-                return $this->errorResponse('Not authorized');
-            } else {
-                if ($request->otp == $user->otp && $user->otp_status === 0) {
-                // if ($request->otp == 1111) {
-                    if ($user->name == ' ' || strlen($user->name) < 3) {
-                        $user->otp_status = 1;
-                        $user->save();
-                        return $this->successResponse('Verified successfully', [], 2);
-                    } else {
-                        $user->otp_status = 1;
-                        $user->save();
-
-                        $all = $this->getUserData($user);
-                        return $this->successResponse('Verified successfully', $all, 1);
-                    }
-                } else {
-                    return $this->errorResponse('Incorrect OTP');
-                }
-            }
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-    }
-
-    public function resendOTP(Request $request)
-    {
-        try {
-            $rules = [
-                'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{10,11}$/ix'],
-                'email' => ['nullable', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
-            ];
-
-            $message = [
-                'mobile.required_without' => 'Please enter phone number or email address',
-                'mobile.regex' => 'Please enter valid 10 digits phone number',
-                // 'email.required_unless' => 'Please enter email address or phone number',
-                'email.regex' => 'Please enter valid email address'
-            ];
-
-            $validator = Validator::make($request->all(), $rules, $message);
-
-            if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->all()[0]);
-            }
-
-            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at')
-                ->when($request->email, function ($q) use ($request) {
-                    $q->where('email', strtolower($request->email));
-                })
-                ->when($request->mobile, function ($q) use ($request) {
-                    $q->orWhere('mobile', $request->mobile);
-                })
-                ->first();
-            if (!$user) {
-                return $this->errorResponse('Not a registered email address');
-            } else {
-                $dt = new Carbon($user->updated_at);
-                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 60) {
-                    return $this->errorResponse('Wait for 60 seconds');
-                }
-            }
-            $otp = mt_rand(1111, 9999);
-            $user->otp = $otp;
-            $user->otp_status = 0;
-            if (!empty(trim($user->email))) {
-                Mail::to($user->email)
-                    ->send(
-                        new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGE',
-                            'name' => $user->email,
-                            'otp' => $otp,
-                            'view' => 'emails.codeVerification'
-                        ])
-                    );
-            }
-            $user->save();
-            return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -238,30 +60,34 @@ class AuthController extends Controller
         try {
             $rules = [
                 'name' => ['required'],
-                'email' => ['required_without:mobile', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'password' => ['required', 'between:6,15'],
+                'confirm_password' => ['required', 'same:password'],
+                'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
                 'address' => ['required'],
                 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
                 'city' => ['required', 'integer', 'exists:city,city_id'],
-                'pincode' => ['required'],
+                'pincode' => ['nullable', 'integer'],
                 'company_name' => ['required'],
-                'company_office_no' => ['required'],
+                'company_office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'company_gst_pan' => ['required', 'between:10,15'],
+                // 1 - VAT, 2 - TIN, 3 - PAN, 4 - OTHERS
+                'company_id_type' => ['required', Rule::in([1, 2, 3, 4])],
+                'company_gst_pan' => ['required', 'between:5,15'],
                 'company_address' => ['required'],
                 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
-                'company_pincode' => ['required'],
+                'company_pincode' => ['required', 'integer'],
                 'id_upload' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 
             $message = [
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address',
                 // 'mobile.required' => 'Please enter phone number',
                 // 'mobile.regex' => 'Please enter valid 10 digits phone number',
-                // 'email.required' => 'Please enter email address',
-                // 'email.regex' => 'Please enter valid email address',
                 'country.required' => 'Please enter country',
                 'state.required' => 'Please enter state',
                 'city.required' => 'Please enter city',
@@ -282,79 +108,167 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $customer = Customers::when($request->email, function ($q) use ($request) {
-                    $q->where('email', strtolower($request->email));
-                })
-                ->when($request->mobile, function ($q) use ($request) {
-                    $q->orWhere('mobile', $request->mobile);
-                })
-                ->first();
+            $customer = Customers::where('email', strtolower($request->email))->first();
             if ($customer) {
-                if (strlen($customer->name) < 3) {
-                    $customer->name = $request->name;
-                    $customer->address = $request->address;
-                    $customer->pincode = $request->pincode;
-                    $customer->refCity_id = $request->city;
-                    $customer->refState_id = $request->state;
-                    $customer->refCountry_id = $request->country;
-                    $customer->refCustomerType_id = 0;
-                    $customer->restrict_transactions = 0;
-                    $customer->added_by = 0;
-                    $customer->is_active = 1;
-                    $customer->is_deleted = 0;
-                    $customer->date_added = date('Y-m-d H:i:s');
-                    $customer->date_updated = date('Y-m-d H:i:s');
-                    $customer->save();
 
-                    $company = new CustomerCompanyDetail;
-                    $company->refCustomer_id = $customer->customer_id;
-                    $company->name = $request->company_name;
-                    $company->office_no = $request->company_office_no;
-                    $company->official_email = strtolower($request->company_email);
-                    $company->refDesignation_id = 1;
-                    $company->designation_name = 'owner';
-                    $company->office_address = $request->company_address;
-                    $company->pincode = $request->company_pincode;
-                    $company->refCity_id = $request->company_city;
-                    $company->refState_id = $request->company_state;
-                    $company->refCountry_id = $request->company_country;
-                    $company->pan_gst_no = $request->company_gst_pan;
-                    $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
-                    $request->file('id_upload')->storeAs("public/user_files", $imageName);
-                    $company->pan_gst_attachment = $imageName;
-                    $company->is_approved = 1;
-                    $company->approved_date_time = date('Y-m-d H:i:s');
-                    $company->approved_by = 0;
-                    $company->save();
+                $customer->name = $request->name;
+                $customer->password = Hash::make($request->password);
+                $customer->address = $request->address;
+                $customer->pincode = $request->pincode;
+                $customer->refCity_id = $request->city;
+                $customer->refState_id = $request->state;
+                $customer->refCountry_id = $request->country;
+                $customer->refCustomerType_id = 0;
+                $customer->restrict_transactions = 0;
+                $customer->added_by = 0;
+                $customer->is_active = 1;
+                $customer->is_deleted = 0;
+                $customer->date_added = date('Y-m-d H:i:s');
+                $customer->date_updated = date('Y-m-d H:i:s');
+                $customer->save();
 
-                    $admin_email = DB::table('settings')
-                        ->select('value')
-                        ->where('key', 'admin_email')
-                        ->pluck('value')
-                        ->first();
-                    Mail::to($admin_email)
-                        ->send(
-                            new CommonEmail([
-                                'subject' => 'Email Verification from Janvi LGE',
-                                'data' => [
-                                    'time' => date('Y-m-d H:i:s'),
-                                    'link' => url("/admin/customers/edit/{$customer->customer_id}")
-                                ],
-                                'view' => 'emails.commonEmail'
-                            ])
-                        );
+                $company = new CustomerCompanyDetail;
+                $company->refCustomer_id = $customer->customer_id;
+                $company->name = $request->company_name;
+                $company->office_no = $request->company_office_no;
+                $company->official_email = strtolower($request->company_email);
+                $company->refDesignation_id = 1;
+                $company->designation_name = 'owner';
+                $company->office_address = $request->company_address;
+                $company->pincode = $request->company_pincode;
+                $company->refCity_id = $request->company_city;
+                $company->refState_id = $request->company_state;
+                $company->refCountry_id = $request->company_country;
+                $company->company_id_type = $request->company_id_type;
+                $company->pan_gst_no = $request->company_gst_pan;
+                $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                $request->file('id_upload')->storeAs("public/user_files", $imageName);
+                $company->pan_gst_attachment = $imageName;
+                $company->save();
 
-                    $all = $this->getUserData($customer);
+                $admin_email = DB::table('settings')
+                    ->select('value')
+                    ->where('key', 'admin_email')
+                    ->pluck('value')
+                    ->first();
+                Mail::to($admin_email)
+                    ->send(
+                        new CommonEmail([
+                            'subject' => 'New User in Janvi LGD',
+                            'data' => [
+                                'time' => date('Y-m-d H:i:s'),
+                                'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                            ],
+                            'view' => 'emails.commonEmail'
+                        ])
+                    );
 
-                    return $this->successResponse('Congrats, you are now successfully registered', $all);
-                } else {
-                    return $this->errorResponse('You are already registered');
-                }
+                $all = $this->getUserData($customer);
+                return $this->successResponse('Congrats, you are now successfully registered', $all);
+
             } else {
-                return $this->errorResponse('Not a valid request...!');
+                return $this->errorResponse('You are already a registered user');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $rules = [
+            'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
+        ];
+
+        $message = [
+            'email.required' => 'Please enter email address',
+            'email.regex' => 'Please enter valid email address',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors()->all()[0]);
+        }
+        $user = Customers::select('customer_id', 'email', 'password', 'name')
+            ->where('email', strtolower($request['email']))
+            ->first();
+        if ($user == null) {
+            return $this->errorResponse('You have not registered with us yet');
+        } else {
+            $pass = DB::table('passwords')->select('password')->where('user_id', $user->id)->first();
+            $mj = new \Mailjet\Client('3997b3d7d5b195cfe413bad223d5821f', '4153ab75398354382848f86f1d11182a', true, ['version' => 'v3.1']);
+            $body = [
+                'Messages' => [
+                    [
+                        'From' => [
+                            'Email' => "info@synaps.club",
+                            'Name' => "Synaps"
+                        ],
+                        'To' => [
+                            [
+                                'Email' => $request->email,
+                                'Name' => $user->name
+                            ]
+                        ],
+                        'Subject' => "Support from Synaps!",
+                        'HTMLPart' => '<!DOCTYPE html> <html> <head> <title>Support from Synaps</title> </head> <body style="font-family: calibri; margin: 1.5vh 1.5vw;"> <div style="border: 1em solid #5D3DBD; border-radius: 10px; border-bottom-width: .2em;"> <div style="text-align: center; font-size: 1.5em; background: #5D3DBD; color: #fff; padding-bottom: 1vh;"> <b>WELCOME TO SYNAPS</b> </div> <div style="padding: 0 2vw;"> <div><p style="padding: 0.5vh 0">Hello, <b>' . $user->name . '!</b></p></div> <div style=""> <p style="padding: 0.5vh 0">Here is your password: <b>' . decryptWebApp($pass->password, $user->id) . '</b>. Use it for login to our application, thanks.</p> </div> <div> <p style="padding: 0.5vh 0"> Support Team,<br> <b>Synaps</b> </p> </div> </div> <div style="text-align: center; background: #5D3DBD; color: #fff;"> <small>&copy; Copyright 2021 SYNAPS</small> </div> </div> </body> </html>'
+                    ]
+                ]
+            ];
+            $response = $mj->post(Resources::$Email, ['body' => $body]);
+            $msg = trans('Your password has been sent to your registered email address');
+        }
+        $user->otp_status = 0;
+        $user->update();
+        return $this->jsResponse->sendResponse($msg);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $rules = [
+            'step' => 'required|numeric',
+            'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+            'otp' => 'required_if:step,1|nullable|digits:6',
+            'password' => 'required_if:step,2|between:6,15',
+            'confirm_password' => 'required_with:password|same:password'
+        ];
+
+        $message = [
+            'step.numeric' => 'Enter valid step',
+            'email.required' => 'Email is required',
+            'email.regex' => 'Enter valid email address',
+            'otp.required_if' => 'Enter valid 6 digits OTP',
+            'otp.numeric' => 'Enter valid 6 digits OTP',
+            'otp.digits' => 'Enter valid 6 digits OTP',
+            'password.required_if' => 'Password is required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return $this->jsResponse->sendError($validator->errors()->all()[0]);
+        }
+        $user = User::select('id', 'user_name', 'email', 'verified_status', 'otp', 'otp_status')
+        ->where(function ($q) use ($request) {
+            $q->where('email', $request['email']);
+        })
+        ->first();
+        if ($user == null) {
+            return $this->jsResponse->sendError(trans('You have not registered with us yet'));
+        } elseif ($request['step'] == 1 && $user->otp_status == 0) {
+            if ($request['otp'] == $user->otp) {
+                $user->otp_status = 1;
+                $user->update();
+                return $this->jsResponse->sendResponse(trans('OTP verified successfully'), $user);
+            } else
+            return $this->jsResponse->sendError(trans('Incorrect OTP'));
+        } elseif ($request['step'] == 2 && $user->otp_status == 1) {
+            $user->password = Hash::make($request['password']);
+            $user->update();
+            return $this->jsResponse->sendResponse(trans('Password updated successfully'));
+        } else {
+            return $this->jsResponse->sendError('Invalid Call');
         }
     }
 
@@ -376,7 +290,7 @@ class AuthController extends Controller
         $data->state = $csc->state;
         $data->country = $csc->country;
         $data->cart = DB::table('customer_cart')->select('id')->where('refCustomer_id')->count();
-        $data->token = $user->createToken((strlen($user->email) > 3) ? $user->email : $user->mobile)->accessToken;
+        $data->token = $user->createToken($user->email)->accessToken;
 
         $company = DB::table('customer_company_details')
             ->select('customer_company_id', 'name', 'office_no', 'official_email', 'designation_name', 'office_address', 'pincode', 'refCity_id', 'pan_gst_no', 'pan_gst_attachment', 'is_approved')

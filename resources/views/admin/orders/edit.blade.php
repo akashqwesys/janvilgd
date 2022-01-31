@@ -20,7 +20,7 @@
                             <h3 class="nk-block-title page-title" >Edit Order</h3>
                         </div>
                         <div class="col-md-5">
-                            @if ($data['pending'] == true)
+                            @if ($data['pending'] === true)
                             <div class="">
                                 <button class="btn btn-success mr-3" id="acceptOrder" data-value="UNPAID">ACCEPT</button>
                                 <button class="btn btn-danger" id="declineOrder" data-value="CANCELLED">DECLINE</button>

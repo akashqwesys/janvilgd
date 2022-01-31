@@ -25,11 +25,18 @@ class ModulesController extends Controller {
 
     public function save(Request $request) {
         $parent = DB::table('modules')->select('module_id', 'name', 'menu_level')->where('module_id', $request->parent_id)->first();
+        $last_id = DB::table('modules')->select('module_id')->orderBy('module_id','desc')->pluck('module_id')->first();
         if ($parent) {
+            if ($request->slug == null) {
+                $slug = null;
+            } else {
+                $slug = clean_string($request->slug);
+            }
             DB::table('modules')->insert([
+                'module_id' => ($last_id + 1),
                 'name' => $request->name,
                 'icon' => $request->icon,
-                'slug' => clean_string($request->slug),
+                'slug' => $slug,
                 'parent_id' => $request->parent_id,
                 'sort_order' => $request->sort_order,
                 'menu_level' => $parent->menu_level + 1,
@@ -39,8 +46,8 @@ class ModulesController extends Controller {
                 'date_added' => date("Y-m-d h:i:s"),
                 'date_updated' => date("Y-m-d h:i:s")
             ]);
-            $Id = DB::getPdo()->lastInsertId();
-            activity($request,"inserted",'modules',$Id);
+            // $Id = DB::getPdo()->lastInsertId();
+            activity($request,"inserted",'modules', ($last_id + 1));
             successOrErrorMessage("Data added Successfully", 'success');
         } else {
             successOrErrorMessage("Not a valid parent module", 'error');

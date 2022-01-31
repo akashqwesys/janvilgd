@@ -90,10 +90,17 @@ class DashboardController extends Controller {
             ->get();
 
         $unpaid_orders = DB::table('orders as o')
-            ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+            ->joinSub('SELECT "refOrder_id", order_status_name FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
+                $join->on('ou.refOrder_id', '=', 'o.order_id');
+            })
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
-            ->where('ou.order_status_name', 'UNPAID')
-            ->where('ou.order_status_name', '<>', 'PAID')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('order_updates as ou1')
+                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
+                    ->whereIn('ou1.order_status_name', ['PAID', 'CANCELLED']);
+            })
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
