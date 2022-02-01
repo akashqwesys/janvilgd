@@ -82,7 +82,7 @@
                                                     <div>${{ number_format($o[0]->total_paid_amount, 2, '.', ',') }}</div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div>{{ $o[0]->created_at }}</div>
+                                                    <div>{{ date('d-m-Y', strtotime($o[0]->created_at)) }}</div>
                                                 </td>
                                                 <td class="text-right">
                                                     <a href="/customer/order-details/{{ $o[0]->refTransaction_id }}/{{ $o[0]->order_id }}">View Details</a>

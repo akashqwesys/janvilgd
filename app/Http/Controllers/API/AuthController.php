@@ -48,7 +48,7 @@ class AuthController extends Controller
                 $all = $this->getUserData($user);
                 return $this->successResponse('Logged in successfully', $all, 1);
             } else {
-
+                return $this->errorResponse('Invalid Credentials');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());

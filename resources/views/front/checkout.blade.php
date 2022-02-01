@@ -87,14 +87,15 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        <div class="spaceBlock">
+                                            <div id="billing-address-block"></div>
+                                        </div>
+                                        <hr>
                                         <div class="m-3">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input" id="same_shipping" value="0">
-                                                <label class="form-check-label" for="same_shipping"> Click here to select same Shipping Address</label>
+                                                <label class="form-check-label" for="same_shipping"> <i>Click here to select same Shipping Address</i></label>
                                             </div>
-                                        </div>
-                                        <div class="spaceBlock">
-                                            <div id="billing-address-block"></div>
                                         </div>
                                     </div>
                                     <div class="col col-md-4 col-lg-3">
