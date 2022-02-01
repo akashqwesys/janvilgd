@@ -492,7 +492,7 @@ Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])
 Route::get('orders', [OrdersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+// Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/view/{id}', [OrdersController::class, 'view'])->name('orders.view')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

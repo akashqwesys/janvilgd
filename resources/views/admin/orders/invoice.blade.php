@@ -93,7 +93,7 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date" value="{{ date('Y-m-d') }}">
+                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="dd-mm-yyyy" id="invoice_date" required placeholder="Invoice Date" value="{{ date('d-m-Y') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -102,7 +102,7 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="due_date" data-date-format="yyyy-mm-dd" id="due_date" required placeholder="Due Date">
+                                            <input type="text" class="form-control date-picker" name="due_date" data-date-format="dd-mm-yyyy" id="due_date" required placeholder="Due Date">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
