@@ -259,7 +259,7 @@ class OrdersController extends Controller
 
                     $final_overall_discount = isset($overall_discount->discount) ? ($overall_discount->discount * $subtotal / 100) : 0;
                     $final_additional_discount = isset($additional_discount) ? ($additional_discount * $subtotal / 100) : 0;
-                    $final_tax = isset($tax->amount) ? ($tax->amount * $subtotal / 100) : 0;
+                    $final_tax = isset($tax->amount) ? ($tax->amount * ($subtotal - $final_overall_discount - $final_additional_discount) / 100) : 0;
                     $total = $subtotal - $final_overall_discount - $final_additional_discount + $final_tax + ($shipping_charge->amount ?? 0);
 
                     DB::table('orders')->where('order_id', $order_Id)->update([
@@ -884,7 +884,7 @@ class OrdersController extends Controller
 
         $final_overall_discount = isset($overall_discount->discount) ? round($overall_discount->discount * $subtotal / 100, 2) : 0;
         $final_additional_discount = isset($additional_discount) ? round($additional_discount * $subtotal / 100, 2) : 0;
-        $final_tax = isset($tax->amount) ? round($tax->amount * $subtotal / 100, 2) : 0;
+        $final_tax = isset($tax->amount) ? round($tax->amount * ($subtotal - $final_overall_discount - $final_additional_discount) / 100, 2) : 0;
         $total = $subtotal - $final_overall_discount - $final_additional_discount + $final_tax + ($shipping_charge->amount ?? 0);
         $data = [
             'data' => trim($html),
@@ -1470,7 +1470,7 @@ class OrdersController extends Controller
             }
             $weight += $v['expected_polish_cts'];
         }
-        $request->removed_barcodes = $request->removed_barcodes ?? [];
+        $request->removed_barcodes = $request->removed_barcodes ? array_unique($request->removed_barcodes) : [];
         $exist_diamonds = DB::table('diamonds as d')
             ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
             ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
