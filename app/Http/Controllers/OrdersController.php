@@ -374,8 +374,15 @@ class OrdersController extends Controller
                             ->whereIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
                     });
                 } else if ($request->order_status == 'PAID') {
-                    $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
-                        ->where('ou.order_status_name', 'PAID');
+                    $data = $data->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
+                            $join->on('ou.refOrder_id', '=', 'orders.order_id');
+                        })
+                        ->whereNotExists(function ($query) {
+                            $query->select(DB::raw(1))
+                                ->from('order_updates as ou1')
+                                ->whereColumn('ou1.refOrder_id', 'orders.order_id')
+                                ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                        });
                 } else if ($request->order_status == 'UNPAID') {
                     $data = $data->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
                             $join->on('ou.refOrder_id', '=', 'orders.order_id');
@@ -618,7 +625,10 @@ class OrdersController extends Controller
         }
 
         $order_sts = DB::table('order_statuses')->where('name', '<>', 'PENDING')->orderby('sort_order', 'asc')->get();
-        $order_history = DB::table('order_updates')->where('refOrder_id', $id)->orderby('order_update_id', 'DESC')->get();
+        $order_history = DB::table('order_updates')
+            ->where('refOrder_id', $id)
+            ->orderby('order_update_id', 'ASC')
+            ->get();
         $result = DB::table('orders')
             ->select('orders.*','city_billing.name as billing_city_name','state_billing.name as billing_state_name','country_billing.name as billing_country_name','city_shipping.name as shipping_city_name','state_shipping.name as shipping_state_name','country_shipping.name as shipping_country_name')
             ->join('city as city_billing', 'city_billing.city_id', '=', 'orders.refCity_id_billing')

@@ -14,7 +14,10 @@
                             <h3 class="nk-block-title page-title" >View Order</h3>
                         </div>
                         <div class="col-md-5">
-                            @if ($data['order_history'][0]->order_status_name == 'PENDING')
+                            @php
+                                $last_index = count($data['order_history']) - 1;
+                            @endphp
+                            @if ($data['order_history'][$last_index]->order_status_name == 'PENDING')
                             <div class="">
                                 <button class="btn btn-success mr-3" id="acceptOrder" data-value="UNPAID">ACCEPT</button>
                                 <button class="btn btn-danger" id="declineOrder" data-value="CANCELLED">DECLINE</button>
@@ -196,7 +199,7 @@
                         <div class="card-inner">
                             <h3 class="nk-block-title page-title" style="display: inline;">History</h3>
                             <hr>
-                            <table id="table" class="table dt-responsive nowrap table-bordered">
+                            <table id="table-" class="table dt-responsive nowrap table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Status</th>
@@ -216,7 +219,7 @@
                                     @endif
                                 </tbody>
                             </table>
-                            @if ($data['order_history'][0]->order_status_name != 'CANCELLED')
+                            @if ($data['order_history'][$last_index]->order_status_name != 'CANCELLED')
                             <h3 class="nk-block-title page-title mt-5" >Add Order History</h3>
                             <hr>
                             <form method="POST" action="{{route('orders.addOrderHistory')}}">
@@ -278,7 +281,11 @@
 <script type="text/javascript">
     $(document).on('click', '#acceptOrder, #declineOrder', function() {
         $('#order_status_name').val($(this).attr('data-value')).trigger('change');
-        $('#cf-default-textarea').val('<?= $data['admin_name'] ?>' + ' has ' + $(this).attr('data-value').toLowerCase() + ' order');
+        if ($(this).attr('id') == 'acceptOrder') {
+            $('#cf-default-textarea').val('Order has been accepted by <?= $data['admin_name'] ?>');
+        } else {
+            $('#cf-default-textarea').val('Order has been declined by <?= $data['admin_name'] ?>');
+        }
         setTimeout(() => {
             $('#updateOrder').trigger('click');
         }, 100);
