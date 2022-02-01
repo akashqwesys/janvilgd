@@ -106,7 +106,7 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="yyyy-mm-dd" id="invoice_date" required placeholder="Invoice Date" value="{{ date('Y-m-d', strtotime($order->created_at)) }}">
+                                            <input type="text" class="form-control date-picker" name="invoice_date" data-date-format="dd-mm-yyyy" id="invoice_date" required placeholder="Invoice Date" value="{{ date('d-m-Y', strtotime($order->created_at)) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -115,7 +115,7 @@
                                             <div class="form-icon form-icon-right">
                                                 <em class="icon ni ni-calendar-alt"></em>
                                             </div>
-                                            <input type="text" class="form-control date-picker" name="due_date" data-date-format="yyyy-mm-dd" id="due_date" required placeholder="Due Date" value="{{ date('Y-m-d', strtotime($order->due_date)) }}">
+                                            <input type="text" class="form-control date-picker" name="due_date" data-date-format="dd-mm-yyyy" id="due_date" required placeholder="Due Date" value="{{ date('d-m-Y', strtotime($order->due_date)) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">

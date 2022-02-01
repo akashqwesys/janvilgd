@@ -18,6 +18,9 @@
     .table th, .table td {
         vertical-align: middle;
     }
+    #table_length {
+        padding: 5px 20px 5px 5px;
+    }
 </style>
 @endsection
 @section('content')
@@ -164,7 +167,7 @@
                                             <th>Transaction ID</th>
                                             <th>Placed on</th>
                                             <th>Status</th>
-                                            <th>Amount</th>
+                                            <th style="text-align: right;">Amount</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -210,11 +213,11 @@
                 }
             },
             columnDefs: [{
-                    className: 'control',
-                    orderable: false,
-                    targets: 0
-                }],
-            dom: 'Bfrtip',
+                className: 'control',
+                orderable: false,
+                targets: 0
+            }],
+            dom: 'lBfrtip',
             buttons: [
                 'excelHtml5',
                 'csvHtml5',
@@ -265,6 +268,7 @@
                 }
             ],
             "createdRow": function (row, data, dataIndex) {
+                $(row).children(':nth-child(9)').addClass('text-right');
                 $(row).addClass('tr_' + data['order_id']);
             }
         });

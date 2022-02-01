@@ -126,7 +126,8 @@
                                                 <span>{{ $pending_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $pending_orders[$i]->name . ' (#' . $pending_orders[$i]->order_id . ')'}}</span>
+                                                <span class="lead-text">{{ $pending_orders[$i]->name }}
+                                                    (<a href="/admin/orders/view/{{ $pending_orders[$i]->order_id }}" target="_blank">#{{ $pending_orders[$i]->order_id }}</a>)</span>
                                                 <span class="sub-text">{{ $pending_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
@@ -160,7 +161,8 @@
                                                 <span>{{ $paid_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $paid_orders[$i]->name . ' (#' . $paid_orders[$i]->order_id . ')'}}</span>
+                                                <span class="lead-text">{{ $paid_orders[$i]->name }}
+                                                    (<a href="/admin/orders/view/{{ $paid_orders[$i]->order_id }}" target="_blank">#{{ $paid_orders[$i]->order_id }}</a>)</span>
                                                 <span class="sub-text">{{ $paid_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">
@@ -194,7 +196,8 @@
                                                 <span>{{ $unpaid_orders[$i]->name[0] }}</span>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text">{{ $unpaid_orders[$i]->name . ' (#' . $unpaid_orders[$i]->order_id . ')'}}</span>
+                                                <span class="lead-text">{{ $unpaid_orders[$i]->name }}
+                                                    (<a href="/admin/orders/view/{{ $unpaid_orders[$i]->order_id }}" target="_blank">#{{ $unpaid_orders[$i]->order_id }}</a>)</span>
                                                 <span class="sub-text">{{ $unpaid_orders[$i]->email_id }}</span>
                                             </div>
                                             <div class="user-action">

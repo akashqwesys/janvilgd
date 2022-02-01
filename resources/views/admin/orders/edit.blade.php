@@ -5,22 +5,16 @@
 @endsection
 @section('content')
 <div class="nk-content">
-    <!--    @if(Session::has('designation_add'))
-        <div class="alert alert-fill alert-success alert-dismissible alert-icon" role="alert">
-            <em class="icon ni ni-alert-circle"></em>
-            <strong>{{Session::get('designation_add')}}</strong>
-        </div>
-        @endif-->
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between- row">
                         <div class="col-md-2">
-                            <h3 class="nk-block-title page-title" >Edit Order</h3>
+                            <h3 class="nk-block-title page-title" >View Order</h3>
                         </div>
                         <div class="col-md-5">
-                            @if ($data['pending'] === true)
+                            @if ($data['order_history'][0]->order_status_name == 'PENDING')
                             <div class="">
                                 <button class="btn btn-success mr-3" id="acceptOrder" data-value="UNPAID">ACCEPT</button>
                                 <button class="btn btn-danger" id="declineOrder" data-value="CANCELLED">DECLINE</button>
@@ -222,7 +216,7 @@
                                     @endif
                                 </tbody>
                             </table>
-
+                            @if ($data['order_history'][0]->order_status_name != 'CANCELLED')
                             <h3 class="nk-block-title page-title mt-5" >Add Order History</h3>
                             <hr>
                             <form method="POST" action="{{route('orders.addOrderHistory')}}">
@@ -239,13 +233,9 @@
                                             <div class="form-control-wrap">
                                                 <select class="form-select form-control" id="order_status_name" name="order_status_name" required="" tabindex="-1" aria-hidden="true" data-search="on" data-placeholder="----- Select Order Status -----">
                                                     <option value="" disabled="" selected="">----- Select Order Status -----</option>
-                                                    <?php if (!empty($data['order_sts'])) {
-                                                        foreach ($data['order_sts'] as $row) {
-                                                    ?>
+                                                    @foreach ($data['order_sts'] as $row)
                                                     <option value="{{ $row->name }}">{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -274,6 +264,7 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                     </div><!-- card -->
                 </div><!-- .nk-block -->

@@ -248,6 +248,7 @@ class OrderController extends Controller
             $order->order_type = 1;
             $order->date_added = date('Y-m-d H:i:s');
             $order->date_updated = date('Y-m-d H:i:s');
+            $order->due_date = date('Y-m-d', strtotime(date('Y-m-d') . ' +7 days'));
             $order->save();
 
             DB::table('order_updates')

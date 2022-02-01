@@ -110,6 +110,9 @@ class AuthController extends Controller
 
             $customer = Customers::where('email', strtolower($request->email))->first();
             if ($customer) {
+                $otp = mt_rand(1111, 9999);
+                $customer->otp = $otp;
+                $customer->otp_status = 0;
 
                 $customer->name = $request->name;
                 $customer->password = Hash::make($request->password);
@@ -141,9 +144,11 @@ class AuthController extends Controller
                 $company->refCountry_id = $request->company_country;
                 $company->company_id_type = $request->company_id_type;
                 $company->pan_gst_no = $request->company_gst_pan;
-                $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
-                $request->file('id_upload')->storeAs("public/user_files", $imageName);
-                $company->pan_gst_attachment = $imageName;
+                if ($request->hasFile('id_upload')) {
+                    $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
+                    $request->file('id_upload')->storeAs("public/user_files", $imageName);
+                    $company->pan_gst_attachment = $imageName;
+                }
                 $company->save();
 
                 $admin_email = DB::table('settings')
@@ -162,13 +167,71 @@ class AuthController extends Controller
                             'view' => 'emails.commonEmail'
                         ])
                     );
-
+                Mail::to($customer->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $customer->name,
+                            'link' => encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'view' => 'emails.codeVerification_2'
+                        ])
+                    );
                 $all = $this->getUserData($customer);
                 return $this->successResponse('Congrats, you are now successfully registered', $all);
 
             } else {
                 return $this->errorResponse('You are already a registered user');
             }
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function resendOTP(Request $request)
+    {
+        try {
+            $rules = [
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
+            ];
+
+            $message = [
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+
+            $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'updated_at', 'otp_status')
+                ->where('email', strtolower($request->email))
+                ->first();
+            if (!$user) {
+                return $this->errorResponse('Not a registered email address');
+            } else {
+                $dt = new Carbon($user->updated_at);
+                if ($dt->diffInSeconds(date('Y-m-d H:i:s')) <= 60) {
+                    return $this->errorResponse('Wait for 60 seconds');
+                }
+            }
+            $otp = mt_rand(1111, 9999);
+            $user->otp = $otp;
+            $user->otp_status = 0;
+            if (!empty(trim($user->email))) {
+                Mail::to($user->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $user->email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+            }
+            $user->save();
+            return $this->successResponse('Verification code has been resent to your registered email address');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -190,38 +253,28 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $user = Customers::select('customer_id', 'email', 'password', 'name')
-            ->where('email', strtolower($request['email']))
+        $email = trim(strtolower($request['email']));
+        $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
+            ->where('email', $email)
             ->first();
         if ($user == null) {
             return $this->errorResponse('You have not registered with us yet');
         } else {
-            $pass = DB::table('passwords')->select('password')->where('user_id', $user->id)->first();
-            $mj = new \Mailjet\Client('3997b3d7d5b195cfe413bad223d5821f', '4153ab75398354382848f86f1d11182a', true, ['version' => 'v3.1']);
-            $body = [
-                'Messages' => [
-                    [
-                        'From' => [
-                            'Email' => "info@synaps.club",
-                            'Name' => "Synaps"
-                        ],
-                        'To' => [
-                            [
-                                'Email' => $request->email,
-                                'Name' => $user->name
-                            ]
-                        ],
-                        'Subject' => "Support from Synaps!",
-                        'HTMLPart' => '<!DOCTYPE html> <html> <head> <title>Support from Synaps</title> </head> <body style="font-family: calibri; margin: 1.5vh 1.5vw;"> <div style="border: 1em solid #5D3DBD; border-radius: 10px; border-bottom-width: .2em;"> <div style="text-align: center; font-size: 1.5em; background: #5D3DBD; color: #fff; padding-bottom: 1vh;"> <b>WELCOME TO SYNAPS</b> </div> <div style="padding: 0 2vw;"> <div><p style="padding: 0.5vh 0">Hello, <b>' . $user->name . '!</b></p></div> <div style=""> <p style="padding: 0.5vh 0">Here is your password: <b>' . decryptWebApp($pass->password, $user->id) . '</b>. Use it for login to our application, thanks.</p> </div> <div> <p style="padding: 0.5vh 0"> Support Team,<br> <b>Synaps</b> </p> </div> </div> <div style="text-align: center; background: #5D3DBD; color: #fff;"> <small>&copy; Copyright 2021 SYNAPS</small> </div> </div> </body> </html>'
-                    ]
-                ]
-            ];
-            $response = $mj->post(Resources::$Email, ['body' => $body]);
-            $msg = trans('Your password has been sent to your registered email address');
+            $otp = mt_rand(1111, 9999);
+            $user->otp = $otp;
+            $user->otp_status = 0;
+            $user->save();
+            Mail::to($email)
+            ->send(
+                new EmailVerification([
+                    'subject' => 'Email Verification from Janvi LGD',
+                    'name' => $email,
+                    'otp' => $otp,
+                    'view' => 'emails.codeVerification'
+                    ])
+                );
+            return $this->successResponse('OTP has been sent to your registered email address');
         }
-        $user->otp_status = 0;
-        $user->update();
-        return $this->jsResponse->sendResponse($msg);
     }
 
     public function resetPassword(Request $request)
@@ -229,7 +282,7 @@ class AuthController extends Controller
         $rules = [
             'step' => 'required|numeric',
             'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-            'otp' => 'required_if:step,1|nullable|digits:6',
+            'otp' => 'required_if:step,1|nullable|digits:4',
             'password' => 'required_if:step,2|between:6,15',
             'confirm_password' => 'required_with:password|same:password'
         ];
@@ -238,37 +291,36 @@ class AuthController extends Controller
             'step.numeric' => 'Enter valid step',
             'email.required' => 'Email is required',
             'email.regex' => 'Enter valid email address',
-            'otp.required_if' => 'Enter valid 6 digits OTP',
-            'otp.numeric' => 'Enter valid 6 digits OTP',
-            'otp.digits' => 'Enter valid 6 digits OTP',
+            'otp.required_if' => 'Enter valid 4 digits OTP',
+            'otp.numeric' => 'Enter valid 4 digits OTP',
+            'otp.digits' => 'Enter valid 4 digits OTP',
             'password.required_if' => 'Password is required'
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
 
         if ($validator->fails()) {
-            return $this->jsResponse->sendError($validator->errors()->all()[0]);
+            return $this->errorResponse($validator->errors()->all()[0]);
         }
-        $user = User::select('id', 'user_name', 'email', 'verified_status', 'otp', 'otp_status')
-        ->where(function ($q) use ($request) {
-            $q->where('email', $request['email']);
-        })
-        ->first();
+        $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at', 'password')
+            ->where('email', $request['email'])
+            ->first();
         if ($user == null) {
-            return $this->jsResponse->sendError(trans('You have not registered with us yet'));
+            return $this->errorResponse('You have not registered with us yet');
         } elseif ($request['step'] == 1 && $user->otp_status == 0) {
             if ($request['otp'] == $user->otp) {
                 $user->otp_status = 1;
-                $user->update();
-                return $this->jsResponse->sendResponse(trans('OTP verified successfully'), $user);
-            } else
-            return $this->jsResponse->sendError(trans('Incorrect OTP'));
+                $user->save();
+                return $this->successResponse('OTP verified successfully');
+            } else {
+                return $this->errorResponse('Incorrect OTP');
+            }
         } elseif ($request['step'] == 2 && $user->otp_status == 1) {
             $user->password = Hash::make($request['password']);
-            $user->update();
-            return $this->jsResponse->sendResponse(trans('Password updated successfully'));
+            $user->save();
+            return $this->successResponse('Password updated successfully');
         } else {
-            return $this->jsResponse->sendError('Invalid Call');
+            return $this->errorResponse('Invalid Call');
         }
     }
 

@@ -119,6 +119,7 @@ class OrdersController extends Controller
                 ->get();
 
             if(count($diamonds)) {
+                $dt_now = date('Y-m-d H:i:s');
 
                 DB::table('orders')->insert([
                     'refCustomer_id' => $request->refCustomer_id,
@@ -164,10 +165,11 @@ class OrdersController extends Controller
                     'sub_total' => 0,
                     'total_paid_amount' => 0,
                     'order_type' => 0,
-                    'date_added' => date("Y-m-d h:i:s"),
-                    'date_updated' => date("Y-m-d h:i:s"),
-                    'created_at' => date("Y-m-d h:i:s"),
-                    'updated_at' => date("Y-m-d h:i:s")
+                    'date_added' => $dt_now,
+                    'date_updated' => $dt_now,
+                    'created_at' => $dt_now,
+                    'updated_at' => $dt_now,
+                    'due_date' => date('Y-m-d', strtotime($dt_now . ' +7 days'))
                 ]);
                 $order_Id = DB::getPdo()->lastInsertId();
 
@@ -178,9 +180,9 @@ class OrdersController extends Controller
                         'comment' => $request->session()->get('user_fullname') . ' has placed an order on behalf of ' . $customer->name,
                         'is_deleted' => 0,
                         'added_by' => $request->session()->get('loginId'),
-                        'date_added' => date("Y-m-d h:i:s"),
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
+                        'date_added' => $dt_now,
+                        'created_at' => $dt_now,
+                        'updated_at' => $dt_now
                     ]);
                 }
 
@@ -223,8 +225,8 @@ class OrdersController extends Controller
                             $batch_d['refCategory_id'] = $row->refCategory_id;
                             $batch_d['price'] = $row->total;
                             $batch_d['name'] = $row->name;
-                            $batch_d['created_at'] = date("Y-m-d h:i:s");
-                            $batch_d['updated_at'] = date("Y-m-d h:i:s");
+                            $batch_d['created_at'] = $dt_now;
+                            $batch_d['updated_at'] = $dt_now;
 
                             $params["body"][] = [
                                 "delete" => [
@@ -333,8 +335,8 @@ class OrdersController extends Controller
                                 'carat_cnt' => 1,
                                 'clarity_cnt' => 0,
                                 'cut_cnt' => 0,
-                                'created_at' => date("Y-m-d h:i:s"),
-                                'updated_at' => date("Y-m-d h:i:s")
+                                'created_at' => $dt_now,
+                                'updated_at' => $dt_now
                             ]);
                         }
                     }
@@ -437,14 +439,16 @@ class OrdersController extends Controller
                 ->editColumn('date_added', function ($row) {
                     return date_formate($row->date_added);
                 })
+                ->editColumn('total_paid_amount', function ($row) {
+                    return '$' . number_format($row->total_paid_amount, 2, '.', ',');
+                })
                 ->addColumn('action', function ($row) /* use ($updates) */ {
                     $actionBtn = '';
                     // if (!in_array($row->order_id, $updates)) {
                     // }
                     if ($row->order_status != 'CANCELLED') {
-                        $actionBtn = '<a href="/admin/orders/edit/' . $row->order_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a>&nbsp;';
                         $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
-                        $actionBtn .= ' <a href="/admin/orders/edit-invoice/' . $row->order_id . '" class="btn btn-xs btn-info"> <em class="icon ni ni-note-add-c"></em></a>&nbsp;';
+                        $actionBtn .= ' <a href="/admin/orders/edit-invoice/' . $row->order_id . '" class="btn btn-xs btn-warning"> <em class="icon ni ni-edit-fill"></em></a>&nbsp;';
                     } else {
                         $actionBtn .= ' <a href="/admin/orders/view/' . $row->order_id . '" class="btn btn-xs btn-primary"> <em class="icon ni ni-eye-fill"></em></a>&nbsp;';
                     }
@@ -473,7 +477,7 @@ class OrdersController extends Controller
             ->where('refOrder_id', $request->id)
             ->where('order_status_name', $request->order_status_name)
             ->first();
-        if ($exists->order_status_name == 'CANCELLED') {
+        if ($exists && $exists->order_status_name == 'CANCELLED') {
             successOrErrorMessage("Cannot update the cancelled order status", 'error');
         } else {
             if ($request->order_status_name == 'CANCELLED') {
@@ -589,22 +593,8 @@ class OrdersController extends Controller
         return redirect('admin/orders/edit/' . $request->id);
     }
 
-    public function edit($id)
+    public function view($id)
     {
-        $updates = DB::table('order_updates')
-            ->select('refOrder_id', 'order_status_name')
-            ->where('refOrder_id', $id)
-            // ->whereRaw("(order_status_name = 'PAID' or order_status_name = 'CANCELLED')")
-            ->orderBy('order_update_id', 'desc')
-            ->first();
-        if (/* $updates->order_status_name == 'PAID' ||  */$updates->order_status_name == 'CANCELLED') {
-            return redirect('/admin/orders');
-            // $pending = 'NA';
-        } else if ($updates->order_status_name == 'PENDING') {
-            $pending = true;
-        } else {
-            $pending = false;
-        }
         $diamonds = DB::table('order_diamonds as od')
             ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
             ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
@@ -618,8 +608,6 @@ class OrdersController extends Controller
 
         $final_d = [];
         foreach ($diamonds as $v_row) {
-            // for ($i=0; $i < 2; $i++) {
-            // }
             $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
             $final_d[$v_row->refDiamond_id]['cat_name'] = $v_row->cat_name;
             $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
@@ -654,12 +642,11 @@ class OrdersController extends Controller
         $data['order_sts'] = $order_sts;
         $data['order_history'] = $order_history;
         $data['result'] = $result;
-        $data['pending'] = $pending;
         $data['admin_name'] = DB::table('users')->select('name')->where('id', session()->get('loginId'))->pluck('name')->first();
         return view('admin.orders.edit', ["data" => $data]);
     }
 
-    public function view($id)
+    /* public function view($id)
     {
         $diamonds = DB::table('order_diamonds as od')
             ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
@@ -710,7 +697,7 @@ class OrdersController extends Controller
         $data['order_history'] = $order_history;
         $data['result'] = $result;
         return view('admin.orders.view', ["data" => $data]);
-    }
+    } */
 
     public function update(Request $request)
     {
@@ -1107,10 +1094,11 @@ class OrdersController extends Controller
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
 
         if ($request['invoice_date']) {
-            $invoice_date = $request['invoice_date'];
+            $invoice_date = date('Y-m-d', strtotime($request['invoice_date']));
         } else {
             $invoice_date = date('Y-m-d H:i:s');
         }
+        $dt_now = date('Y-m-d H:i:s');
 
         $order = new Order;
         $order->refCustomer_id = $customer->customer_id;
@@ -1160,7 +1148,7 @@ class OrdersController extends Controller
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
         $order->attention = $request->attention_to;
-        $order->due_date = $request->due_date;
+        $order->due_date = $request['due_date'] ? date('Y-m-d', strtotime($request['due_date'])) : date('Y-m-d', strtotime($dt_now . ' +7 days'));
         $order->save();
 
         DB::table('order_updates')
@@ -1394,7 +1382,7 @@ class OrdersController extends Controller
                 <td>' . $d['CLARITY'] . '</td>
                 <td>' . ($d['CUT'] ?? '-') . '</td>
                 <td>$' . $d['rapaport'] . '</td>
-                <td> <input type="number" value="' . $d['new_discount'] * 100 . '" min="0" max="100" class="newDiscount form-control" data-category="' . $d['refCategory_id'] . '" data-makable="' . $d['makable_cts'] . '"></td>
+                <td> <input type="number" value="' . round($d['new_discount'] * 100, 2) . '" min="0" max="100" class="newDiscount form-control" data-category="' . $d['refCategory_id'] . '" data-makable="' . $d['makable_cts'] . '"></td>
                 <td align="right" class="price_td">$' . $d['price'] . '</td>
             </tr>';
             $barcodes[] = $d['barcode'];
@@ -1643,11 +1631,11 @@ class OrdersController extends Controller
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
 
         if ($request['invoice_date']) {
-            $invoice_date = $request['invoice_date'];
+            $invoice_date = date('Y-m-d', strtotime($request['invoice_date']));
         } else {
             $invoice_date = date('Y-m-d H:i:s');
         }
-
+        $dt_now = date('Y-m-d H:i:s');
         $order = Order::where('order_id', $request->order_id)->first();
         $order->refCustomer_id = $customer->customer_id;
         $order->name = $customer->name;
@@ -1695,7 +1683,7 @@ class OrdersController extends Controller
         $order->date_updated = $invoice_date;
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
-        $order->due_date = $request->due_date;
+        $order->due_date = $request['due_date'] ? date('Y-m-d', strtotime($request['due_date'])) : date('Y-m-d', strtotime($dt_now . ' +7 days'));
         $order->save();
 
         $od = $d_ids = [];
