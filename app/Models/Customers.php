@@ -30,6 +30,7 @@ class Customers extends Authenticatable
         'date_updated',
         'otp',
         'otp_status',
+        'verified_status',
         'is_approved',
         'approved_at',
         'approved_by'

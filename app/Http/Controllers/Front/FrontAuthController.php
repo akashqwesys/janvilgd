@@ -16,6 +16,7 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 class FrontAuthController extends Controller
 {
@@ -24,129 +25,55 @@ class FrontAuthController extends Controller
     public function login(Request $request)
     {
         if (Auth::check()) {
-            return redirect('/customer/dashboard');
+            return redirect('/customer/search-diamonds/polish-diamonds');
         }
-        if ($request->ajax()) {
+        if ($request->isMethod('post')) {
             try {
                 $rules = [
-                    'mobile' => ['required_without:email', 'nullable', 'regex:/^[0-9]{10,11}$/ix'],
-                    'email' => ['nullable', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
+                    'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                    'password' => ['required', 'between:6,15']
                 ];
 
                 $message = [
-                    'mobile.required_without' => 'Please enter phone number or email address',
-                    'mobile.regex' => 'Please enter valid 10 digits phone number',
-                    // 'email.required_unless' => 'Please enter email address or phone number',
-                    'email.regex' => 'Please enter valid email address'
+                    'email.required' => 'Please enter email address',
+                    'email.regex' => 'Please enter valid email address',
+                    'password.required' => 'Please enter password'
                 ];
 
                 $validator = Validator::make($request->all(), $rules, $message);
 
                 if ($validator->fails()) {
-                    return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+                    return back()->with('error', $validator->errors()->all()[0]);
                 }
 
-                $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                    ->when($request->email, function ($q) use ($request) {
-                        $q->where('email', strtolower($request->email));
-                    })
-                    ->when($request->mobile, function ($q) use ($request) {
-                        $q->orWhere('mobile', $request->mobile);
-                    })
-                    ->first();
-                $otp = mt_rand(1111, 9999);
-                if ($exists) {
-                    $exists->otp = $otp;
-                    $exists->otp_status = 0;
-                    $exists->save();
-                    $email = $exists->email;
+                if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                    return redirect('/customer/search-diamonds/polish-diamonds');
+                } else {
+                    return back()->with('error', 'Invalid Credentials');
                 }
-                else {
-                    /* if (empty($request->mobile)) {
-                        return response()->json(['error' => 1, 'message' => 'Please also enter your phone number']);
-                    }
-                    if (empty($request->email)) {
-                        return response()->json(['error' => 1, 'message' => 'Please also enter your email address']);
-                    } */
-                    /* $customer = new Customers;
-                    $customer->name = ' ';
-                    $customer->mobile = $request->mobile;
-                    $customer->email = $request->email;
-                    $customer->address = ' ';
-                    $customer->pincode = 0;
-                    $customer->refCity_id = 0;
-                    $customer->refState_id = 0;
-                    $customer->refCountry_id = 0;
-                    $customer->refCustomerType_id = 0;
-                    $customer->restrict_transactions = 0;
-                    $customer->added_by = 0;
-                    $customer->is_active = 0;
-                    $customer->is_deleted = 0;
-                    $customer->date_added = date('Y-m-d H:i:s');
-                    $customer->date_updated = date('Y-m-d H:i:s');
-                    $customer->otp = $otp;
-                    $customer->otp_status = 0;
-                    $customer->save(); */
-                    DB::table('customer')->insert([
-                        'name' => ' ',
-                        'mobile' => $request->mobile ?? ' ',
-                        'email' => $request->email ? strtolower($request->email) : ' ',
-                        'address' => ' ',
-                        'pincode' => 0,
-                        'refCity_id' => 0,
-                        'refState_id' => 0,
-                        'refCountry_id' => 0,
-                        'refCustomerType_id' => 0,
-                        'restrict_transactions' => 0,
-                        'added_by' => 0,
-                        'is_active' => 0,
-                        'is_deleted' => 0,
-                        'date_added' => date('Y-m-d H:i:s'),
-                        'date_updated' => date('Y-m-d H:i:s'),
-                        'otp' => $otp,
-                        'otp_status' => 0,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ]);
-                    $email = strtolower($request->email);
-                }
-                if ($email) {
-                    Mail::to($email)
-                    ->send(
-                        new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGE',
-                            'name' => $email,
-                            'otp' => $otp,
-                            'view' => 'emails.codeVerification'
-                        ])
-                    );
-                }
-                $em_token = !empty(trim($request->email)) ? strtolower($request->email) : $request->mobile;
-                return response()->json(['success' => 1, 'message' => 'Success', 'url' => '/customer/verify/' . Crypt::encryptString($em_token)]);
             }
             catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
             }
         }
         else {
-            if (Auth::check())
-                return redirect('/customer/dashboard');
-            else
-                return view('front.login');
+            return view('front.auth.login');
         }
     }
 
     public function register(Request $request)
     {
         if (Auth::check()) {
-            return redirect('/customer/dashboard');
+            return redirect('/customer/search-diamonds/polish-diamonds');
         }
-        if ($request->ajax()) {
+        if ($request->isMethod('post')) {
             try {
                 $rules = [
                     'name' => ['required'],
-                    // 'mobile' => ['required', 'nullable', 'regex:/^[0-9]{8,11}$/ix'],
-                    // 'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                    'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                    'password' => ['required', 'between:6,15'],
+                    'confirm_password' => ['required', 'same:password'],
+                    'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
                     'address' => ['required'],
                     'country' => ['required'],
                     'state' => ['required'],
@@ -166,16 +93,16 @@ class FrontAuthController extends Controller
 
                 $message = [
                     // 'mobile.required' => 'Please enter phone number',
-                    // 'mobile.regex' => 'Please enter valid 10 digits phone number',
-                    // 'email.required' => 'Please enter email address',
-                    // 'email.regex' => 'Please enter valid email address',
+                    'mobile.regex' => 'Please enter valid 10 digits phone number',
+                    'email.required' => 'Please enter email address',
+                    'email.regex' => 'Please enter valid email address',
                     'country.required' => 'Please enter country',
                     'state.required' => 'Please enter state',
                     'city.required' => 'Please enter city',
                     'company_name.required' => 'Please enter your company name',
                     'company_office_no.required' => 'Please enter company office number',
                     'company_email.required' => 'Please enter company email address',
-                    'company_gst_pan.required' => 'Please enter company GST or PAN',
+                    'company_gst_pan.required' => 'Please enter company VAT or TIN or GST or PAN',
                     'company_address.required' => 'Please enter company address',
                     'company_country.required' => 'Please enter company country',
                     'company_state.required' => 'Please enter company state',
@@ -190,63 +117,61 @@ class FrontAuthController extends Controller
                 }
 
                 $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
-                    ->when($request->email, function ($q) use ($request) {
-                        $q->where('email', strtolower($request->email));
-                    })
-                    ->when($request->mobile, function ($q) use ($request) {
-                        $q->orWhere('mobile', $request->mobile);
-                    })
+                    ->where('email', strtolower($request->email))
                     ->first();
                 if ($exists) {
-                    if (strlen($exists->name) < 3) {
-                        $customer = Customers::where('customer_id', $exists->customer_id)->first();
-                        $customer->name = $request->name;
-                        // $customer->mobile = $request->mobile;
-                        // $customer->email = $request->email;
-                        $customer->address = $request->address;
-                        $customer->pincode = $request->pincode;
-                        $customer->refCity_id = $request->city;
-                        $customer->refState_id = $request->state;
-                        $customer->refCountry_id = $request->country;
-                        $customer->refCustomerType_id = 0;
-                        $customer->restrict_transactions = 0;
-                        $customer->added_by = 0;
-                        $customer->is_active = 1;
-                        $customer->is_deleted = 0;
-                        $customer->date_added = date('Y-m-d H:i:s');
-                        $customer->date_updated = date('Y-m-d H:i:s');
-                        $customer->save();
+                    return response()->json(['error' => 1, 'message' => 'Email is already registered, Try with new email']);
+                } else {
+                    $customer = new Customers;
+                    $customer->name = $request->name;
+                    $customer->email = $request->email;
+                    $customer->password = Hash::make($request->password);
+                    $customer->mobile = $request->mobile;
+                    $customer->address = $request->address;
+                    $customer->pincode = $request->pincode;
+                    $customer->refCity_id = $request->city;
+                    $customer->refState_id = $request->state;
+                    $customer->refCountry_id = $request->country;
+                    $customer->refCustomerType_id = 0;
+                    $customer->restrict_transactions = 0;
+                    $customer->added_by = 0;
+                    $customer->is_active = 1;
+                    $customer->is_deleted = 0;
+                    $customer->date_added = date('Y-m-d H:i:s');
+                    $customer->date_updated = date('Y-m-d H:i:s');
+                    $customer->otp = 0;
+                    $customer->otp_status = 0;
+                    $customer->save();
 
-                        $company = new CustomerCompanyDetail;
-                        $company->refCustomer_id = $customer->customer_id;
-                        $company->name = $request->company_name;
-                        $company->office_no = $request->company_office_no;
-                        $company->official_email = strtolower($request->company_email);
-                        $company->refDesignation_id = 1;
-                        $company->designation_name = 'owner';
-                        $company->office_address = $request->company_address;
-                        $company->pincode = $request->company_pincode;
-                        $company->refCity_id = $request->company_city;
-                        $company->refState_id = $request->company_state;
-                        $company->refCountry_id = $request->company_country;
-                        $company->pan_gst_no = $request->company_gst_pan;
+                    $company = new CustomerCompanyDetail;
+                    $company->refCustomer_id = $customer->customer_id;
+                    $company->name = $request->company_name;
+                    $company->office_no = $request->company_office_no;
+                    $company->official_email = strtolower($request->company_email);
+                    $company->refDesignation_id = 1;
+                    $company->designation_name = 'owner';
+                    $company->office_address = $request->company_address;
+                    $company->pincode = $request->company_pincode;
+                    $company->refCity_id = $request->company_city;
+                    $company->refState_id = $request->company_state;
+                    $company->refCountry_id = $request->company_country;
+                    $company->pan_gst_no = $request->company_gst_pan;
+                    if ($request->hasFile('id_upload')) {
                         $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
                         $request->file('id_upload')->storeAs("public/user_files", $imageName);
                         $company->pan_gst_attachment = $imageName;
-                        $company->is_approved = 1;
-                        $company->approved_date_time = date('Y-m-d H:i:s');
-                        $company->approved_by = 0;
-                        $company->save();
+                    }
+                    $company->save();
 
-                        $admin_email = DB::table('settings')
-                            ->select('value')
-                            ->where('key', 'admin_email')
-                            ->pluck('value')
-                            ->first();
-                        Mail::to($admin_email)
+                    $admin_email = DB::table('settings')
+                        ->select('value')
+                        ->where('key', 'admin_email')
+                        ->pluck('value')
+                        ->first();
+                    Mail::to($admin_email)
                         ->send(
                             new CommonEmail([
-                                'subject' => 'New User on Janvi LGE',
+                                'subject' => 'New User on Janvi LGD',
                                 'data' => [
                                     'time' => date('Y-m-d H:i:s'),
                                     'link' => url("/admin/customers/edit/{$customer->customer_id}")
@@ -254,48 +179,24 @@ class FrontAuthController extends Controller
                                 'view' => 'emails.commonEmail'
                             ])
                         );
+                    Mail::to($customer->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $customer->name,
+                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'view' => 'emails.codeVerification_2'
+                        ])
+                    );
 
-                        return response()->json(['success' => 1, 'message' => 'Congrats, you are now successfully registered', 'url' => '/customer/authenticate/' . encrypt($exists->email, false)]);
-                    } else {
-                        return response()->json(['error' => 1, 'message' => 'You are already registered', 'url' => '/']);
-                    }
-                } else {
-                    return response()->json(['error' => 1, 'message' => 'Oops, something went wrong...!']);
+                    return response()->json(['success' => 1, 'message' => '<div class="alert alert-success"> <b> <div class="text-center">Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.</div> </b> </div>']);
                 }
             } catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
             }
         } else {
-            if (empty($request->token)) {
-                return redirect('/');
-            } else {
-                try {
-                    $token = explode('---', Crypt::decryptString($request->token));
-                    $exists = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
-                    ->when($token[0], function ($q) use ($token) {
-                        $q->where('email', $token[0]);
-                    })
-                    ->when($token[1], function ($q) use ($token) {
-                        $q->orWhere('mobile', $token[1]);
-                    })
-                    ->first();
-                    if (!$exists) {
-                        return redirect('/');
-                    } else {
-                        if (strlen($exists->name) >= 3) {
-                            return redirect('/');
-                        }
-                        $email = $token[0];
-                        $mobile = $token[1];
-                        $city = DB::table('city')->select('city_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-                        $state = DB::table('state')->select('state_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-                        $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
-                        return view('front.register', compact('email', 'mobile', 'city', 'state', 'country'));
-                    }
-                } catch (\Throwable $th) {
-                    return redirect('/');
-                }
-            }
+            $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
+            return view('front.auth.register', compact('country'));
         }
     }
 
@@ -349,6 +250,110 @@ class FrontAuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 1, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $rules = [
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix']
+            ];
+
+            $message = [
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+            }
+            $email = trim(strtolower($request['email']));
+            $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at')
+                ->where('email', $email)
+                ->first();
+            if ($user == null) {
+                return response()->json(['error' => 1, 'message' => 'You have not registered with us yet']);
+            } else {
+                $otp = mt_rand(1111, 9999);
+                $user->otp = $otp;
+                $user->otp_status = 0;
+                $user->save();
+                Mail::to($email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $email,
+                            'otp' => $otp,
+                            'view' => 'emails.codeVerification'
+                        ])
+                    );
+                return response()->json(['success' => 1, 'message' => 'OTP has been sent to your registered email address']);
+            }
+        } else {
+            return view('front.auth.forgot_password');
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $rules = [
+                'step' => 'required|numeric',
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'otp' => 'required_if:step,1|nullable|digits:4',
+                'password' => 'required_if:step,2|between:6,15',
+                'confirm_password' => 'required_with:password|same:password'
+            ];
+
+            $message = [
+                'step.numeric' => 'Enter valid step',
+                'email.required' => 'Email is required',
+                'email.regex' => 'Enter valid email address',
+                'otp.required_if' => 'Enter valid 4 digits OTP',
+                'otp.numeric' => 'Enter valid 4 digits OTP',
+                'otp.digits' => 'Enter valid 4 digits OTP',
+                'password.required_if' => 'Password is required'
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $message);
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors()->all()[0]);
+            }
+            $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at', 'password')
+            ->where('email', $request['email'])
+            ->first();
+            if ($user == null) {
+                return $this->errorResponse('You have not registered with us yet');
+            } elseif ($request['step'] == 1 && $user->otp_status == 0) {
+                if ($request['otp'] == $user->otp) {
+                    $user->otp_status = 1;
+                    $user->save();
+                    return $this->successResponse('OTP verified successfully');
+                } else {
+                    return $this->errorResponse('Incorrect OTP');
+                }
+            } elseif ($request['step'] == 2 && $user->otp_status == 1) {
+                $user->password = Hash::make($request['password']);
+                $user->save();
+                return $this->successResponse('Password updated successfully');
+            } else {
+                return $this->errorResponse('Invalid Call');
+            }
+        } else {
+            return view('front.auth.reset_password');
+        }
+    }
+
+    public function emailVerify(Request $request)
+    {
+        if ($request->token) {
+            return redirect('/customer/search-diamonds/polish-diamonds');
+        }
+
+        return view('front.auth.email_verify');
     }
 
     public function otpVerify(Request $request)

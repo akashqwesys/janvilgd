@@ -73,7 +73,7 @@ class AuthController extends Controller
                 'company_office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 // 1 - VAT, 2 - TIN, 3 - PAN, 4 - OTHERS
-                'company_id_type' => ['required', Rule::in([1, 2, 3, 4])],
+                // 'company_id_type' => ['required', Rule::in([1, 2, 3, 4])],
                 'company_gst_pan' => ['required', 'between:5,15'],
                 'company_address' => ['required'],
                 'company_country' => ['required', 'integer', 'exists:country,country_id'],
@@ -108,14 +108,17 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            $customer = Customers::where('email', strtolower($request->email))->first();
-            if ($customer) {
-                $otp = mt_rand(1111, 9999);
-                $customer->otp = $otp;
-                $customer->otp_status = 0;
-
+            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
+                ->where('email', strtolower($request->email))
+                ->first();
+            if ($exists) {
+                return $this->errorResponse('Email is already registered, Try with new email');
+            } else {
+                $customer = new Customers;
                 $customer->name = $request->name;
+                $customer->email = $request->email;
                 $customer->password = Hash::make($request->password);
+                $customer->mobile = $request->mobile;
                 $customer->address = $request->address;
                 $customer->pincode = $request->pincode;
                 $customer->refCity_id = $request->city;
@@ -128,6 +131,8 @@ class AuthController extends Controller
                 $customer->is_deleted = 0;
                 $customer->date_added = date('Y-m-d H:i:s');
                 $customer->date_updated = date('Y-m-d H:i:s');
+                $customer->otp = 0;
+                $customer->otp_status = 0;
                 $customer->save();
 
                 $company = new CustomerCompanyDetail;
@@ -142,7 +147,7 @@ class AuthController extends Controller
                 $company->refCity_id = $request->company_city;
                 $company->refState_id = $request->company_state;
                 $company->refCountry_id = $request->company_country;
-                $company->company_id_type = $request->company_id_type;
+                // $company->company_id_type = $request->company_id_type;
                 $company->pan_gst_no = $request->company_gst_pan;
                 if ($request->hasFile('id_upload')) {
                     $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
@@ -172,15 +177,13 @@ class AuthController extends Controller
                         new EmailVerification([
                             'subject' => 'Email Verification from Janvi LGD',
                             'name' => $customer->name,
-                            'link' => encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
                             'view' => 'emails.codeVerification_2'
                         ])
                     );
                 $all = $this->getUserData($customer);
                 return $this->successResponse('Congrats, you are now successfully registered', $all);
 
-            } else {
-                return $this->errorResponse('You are already a registered user');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
