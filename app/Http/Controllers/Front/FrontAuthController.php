@@ -351,6 +351,25 @@ class FrontAuthController extends Controller
     {
         if ($request->token) {
             return redirect('/customer/search-diamonds/polish-diamonds');
+        } else {
+            $token = decrypt($request->token, false);
+            $token = explode('--', $token);
+            if (count($token) == 2) {
+                $valid = DB::table('customer')
+                    ->select('customer_id')
+                    ->where('email', $token[0])
+                    ->where('date_added', $token[1])
+                    ->where('verified_status', 0)
+                    ->first();
+                if ($valid) {
+                    DB::table('customer')->where('customer_id', $valid->customer_id)->update(['verified_status' => 1]);
+                    return view('front.auth.email_verify');
+                } else {
+                    return redirect('/customer/search-diamonds/polish-diamonds');
+                }
+            } else {
+                return redirect('/customer/search-diamonds/polish-diamonds');
+            }
         }
 
         return view('front.auth.email_verify');
