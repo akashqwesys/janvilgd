@@ -82,7 +82,7 @@ class FrontAuthController extends Controller
                     'company_name' => ['required'],
                     'company_office_no' => ['required'],
                     'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                    'company_gst_pan' => ['required', 'between:10,15'],
+                    'company_gst_pan' => ['required', 'between:5,15'],
                     'company_address' => ['required'],
                     'company_country' => ['required'],
                     'company_state' => ['required'],
@@ -141,6 +141,7 @@ class FrontAuthController extends Controller
                     $customer->date_updated = date('Y-m-d H:i:s');
                     $customer->otp = 0;
                     $customer->otp_status = 0;
+                    $customer->verified_status = 0;
                     $customer->save();
 
                     $company = new CustomerCompanyDetail;
@@ -185,6 +186,7 @@ class FrontAuthController extends Controller
                             'subject' => 'Email Verification from Janvi LGD',
                             'name' => $customer->name,
                             'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'otp' => 0,
                             'view' => 'emails.codeVerification_2'
                         ])
                     );
@@ -204,24 +206,21 @@ class FrontAuthController extends Controller
     {
         try {
             $rules = [
-                'token' => ['required'],
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
             ];
 
-            $message = [];
+            $message = [
+                'email.required' => 'Email is required',
+                'email.regex' => 'Enter valid email address'
+            ];
 
             $validator = Validator::make($request->all(), $rules, $message);
 
             if ($validator->fails()) {
                 return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
-            $email = decrypt($request->token, false);
             $user = Customers::select('customer_id', 'name', 'email', 'mobile', 'otp', 'created_at', 'updated_at', 'otp_status')
-                ->when($request->email, function ($q) use ($email) {
-                        $q->where('email', $email);
-                    })
-                    ->when($request->mobile, function ($q) use ($email) {
-                        $q->orWhere('mobile', $email);
-                    })
+                ->where('email', $request->email)
                 ->first();
             if (!$user) {
                 return response()->json(['error' => 1, 'message' => 'Not a registered email address']);
@@ -238,9 +237,10 @@ class FrontAuthController extends Controller
                 Mail::to($user->email)
                 ->send(
                     new EmailVerification([
-                        'subject' => 'Email Verification from Janvi LGE',
+                        'subject' => 'Email Verification from Janvi LGD',
                         'name' => $user->email,
                         'otp' => $otp,
+                        'link' => null,
                         'view' => 'emails.codeVerification'
                     ])
                 );
@@ -286,6 +286,7 @@ class FrontAuthController extends Controller
                             'subject' => 'Email Verification from Janvi LGD',
                             'name' => $email,
                             'otp' => $otp,
+                            'link' => null,
                             'view' => 'emails.codeVerification'
                         ])
                     );
@@ -320,27 +321,31 @@ class FrontAuthController extends Controller
             $validator = Validator::make($request->all(), $rules, $message);
 
             if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->all()[0]);
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
             $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at', 'password')
             ->where('email', $request['email'])
             ->first();
             if ($user == null) {
-                return $this->errorResponse('You have not registered with us yet');
+                return response()->json(['error' => 1, 'message' => 'You have not registered with us yet']);
             } elseif ($request['step'] == 1 && $user->otp_status == 0) {
                 if ($request['otp'] == $user->otp) {
                     $user->otp_status = 1;
                     $user->save();
-                    return $this->successResponse('OTP verified successfully');
+                    return response()->json(['success' => 1, 'message' => 'OTP verified successfully']);
                 } else {
-                    return $this->errorResponse('Incorrect OTP');
+                    return response()->json(['error' => 1, 'message' => 'Incorrect OTP']);
                 }
             } elseif ($request['step'] == 2 && $user->otp_status == 1) {
+                $dt = new Carbon($user->updated_at);
+                if ($dt->diffInMinutes(date('Y-m-d H:i:s')) > 5) {
+                    return response()->json(['error' => 1, 'message' => 'OTP expired']);
+                }
                 $user->password = Hash::make($request['password']);
                 $user->save();
-                return $this->successResponse('Password updated successfully');
+                return response()->json(['success' => 1, 'message' => 'Password updated successfully']);
             } else {
-                return $this->errorResponse('Invalid Call');
+                return response()->json(['error' => 1, 'message' => 'Invalid Call']);
             }
         } else {
             return view('front.auth.reset_password');
@@ -349,7 +354,7 @@ class FrontAuthController extends Controller
 
     public function emailVerify(Request $request)
     {
-        if ($request->token) {
+        if (empty($request->token)) {
             return redirect('/customer/search-diamonds/polish-diamonds');
         } else {
             $token = decrypt($request->token, false);
