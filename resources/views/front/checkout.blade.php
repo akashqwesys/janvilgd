@@ -16,7 +16,7 @@
     }
     .spaceBlock {
         min-height: 15rem;
-        padding: 2rem;
+        padding: 2rem 2rem 1rem;
     }
     .select2-selection__rendered {
         line-height: 40px !important;
@@ -94,7 +94,7 @@
                                         <div class="m-3">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input" id="same_shipping" value="0">
-                                                <label class="form-check-label" for="same_shipping"> <i>Click here to select same Shipping Address</i></label>
+                                                <label class="form-check-label" for="same_shipping"> <i>Click here to select same as a billing address</i></label>
                                             </div>
                                         </div>
                                     </div>

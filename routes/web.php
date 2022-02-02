@@ -70,12 +70,12 @@ Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'i
 // ---------------- Customer  --------------------
 // Authentication
 Route::match(['get', 'post'], 'customer/login', [FrontAuthController::class, 'login'])->name('customer-login');
-Route::get('customer/verify/{token}', [FrontAuthController::class, 'otpVerify']);
-Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
+Route::get('/customer/email-verification/{token}', [FrontAuthController::class, 'emailVerify']);
+// Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
 Route::get('customer/authenticate/{token}', [FrontAuthController::class, 'auth_customer']);
 Route::post('customer/resendOTP', [FrontAuthController::class, 'resendOTP']);
-Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
-Route::post('customer/signup', [FrontAuthController::class, 'register']);
+// Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
+Route::match(['get', 'post'], 'customer/signup', [FrontAuthController::class, 'register']);
 Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);

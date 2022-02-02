@@ -525,7 +525,7 @@
                                                 <span class="lead-text">SHAPE</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_polish[0]->shape ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_polish->shape ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -535,7 +535,7 @@
                                                 <span class="lead-text">CARAT</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_polish[0]->carat ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_polish->carat ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -545,7 +545,7 @@
                                                 <span class="lead-text">COLOR</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_polish[0]->color ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_polish->color ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -555,7 +555,7 @@
                                                 <span class="lead-text">CLARITY</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_polish[0]->clarity ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_polish->clarity ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -565,7 +565,7 @@
                                                 <span class="lead-text">CUT</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_polish[0]->cut ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_polish->cut ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -591,7 +591,7 @@
                                                 <span class="lead-text">SHAPE</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_4p[0]->shape ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_4p->shape ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -601,7 +601,7 @@
                                                 <span class="lead-text">CARAT</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_4p[0]->carat ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_4p->carat ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -611,7 +611,7 @@
                                                 <span class="lead-text">COLOR</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_4p[0]->color ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_4p->color ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -621,7 +621,7 @@
                                                 <span class="lead-text">CLARITY</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_4p[0]->clarity ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_4p->clarity ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -631,7 +631,7 @@
                                                 <span class="lead-text">CUT</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_4p[0]->cut ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_4p->cut ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -657,7 +657,7 @@
                                                 <span class="lead-text">SHAPE</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_rough[0]->shape ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_rough->shape ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -667,7 +667,7 @@
                                                 <span class="lead-text">CARAT</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_rough[0]->carat ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_rough->carat ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -677,7 +677,7 @@
                                                 <span class="lead-text">COLOR</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_rough[0]->color ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_rough->color ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -687,7 +687,7 @@
                                                 <span class="lead-text">CLARITY</span>
                                             </div>
                                             <div class="user-action">
-                                                <span class="lead-text">{{ $trending_rough[0]->clarity ?? '-' }}</span>
+                                                <span class="lead-text">{{ $trending_rough->clarity ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -702,7 +702,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="50%" class="text-center"><div>Views</div></th>
-                                                <th width="50%" class="text-center"><div>Orders</div></th>
+                                                <th width="50%" class="text-center"><div>Sold Diamonds</div></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -723,7 +723,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="50%" class="text-center"><div>Views</div></th>
-                                                <th width="50%" class="text-center"><div>Orders</div></th>
+                                                <th width="50%" class="text-center"><div>Sold Diamonds</div></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -744,7 +744,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="50%" class="text-center"><div>Views</div></th>
-                                                <th width="50%" class="text-center"><div>Orders</div></th>
+                                                <th width="50%" class="text-center"><div>Sold Diamonds</div></th>
                                             </tr>
                                         </thead>
                                         <tbody>

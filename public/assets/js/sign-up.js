@@ -172,9 +172,11 @@ $("#msform").validate({
     rules: {
         name: {required: true, rangelength: [3,50]},
         email: {
-            // required: true,
+            required: true,
             email: true
         },
+        password: { required: true, rangelength: [6, 15] },
+        confirm_password: { required: true, equalTo: "#password" },
         mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
@@ -182,9 +184,9 @@ $("#msform").validate({
         city: {required: true},
         pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
-        company_office_no: { required: true, rangelength: [2, 10]},
+        company_office_no: { required: true, rangelength: [10,11]},
         company_email: {required: true, email: true},
-        company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+        company_gst_pan: {required: true, minlength: 9, maxlength: 15},
         company_address: {required: true, rangelength: [10,200]},
         company_country: {required: true},
         company_state: {required: true},
@@ -199,8 +201,10 @@ $("#msform").validate({
             required: "Please enter your email address",
             email: "Your email address must be in the format of name@domain.com"
         },
+        password: { required: "Please enter password" },
+        confirm_password: { required: "Please enter confirm password" },
         mobile: {
-            required: "Please enter your mobile number",
+            // required: "Please enter your mobile number",
             number: "Your contact number should only consist of numeric digits"
         },
         address: {required: "Please enter your address"},
@@ -233,7 +237,6 @@ $("#msform").validate({
         $('.cs-loader').show();
         var formData = new FormData(form);
         formData.append('id_upload', $('#id_upload')[0].files);
-        formData.append('email', gmail );
         $.ajax({
             type: "POST",
             url: "/customer/signup",
@@ -246,7 +249,7 @@ $("#msform").validate({
             success: function(response) {
                 $('.cs-loader').hide();
                 if (response.success == 1) {
-                    $.toast({
+                    /* $.toast({
                         heading: 'Success',
                         text: response.message,
                         icon: 'success',
@@ -254,7 +257,9 @@ $("#msform").validate({
                     });
                     setTimeout(() => {
                         window.location = response.url;
-                    }, 2000);
+                    }, 2000); */
+                    $('.success-block').append(response.message).show();
+                    $('#msform').remove();
                 }
                 if(response.error) {
                     $.toast({
@@ -266,6 +271,7 @@ $("#msform").validate({
                 }
             },
             failure: function (response) {
+                $('.cs-loader').hide();
                 $.toast({
                     heading: 'Error',
                     text: 'Oops, something went wrong...!',
@@ -318,11 +324,11 @@ $(document).ready(function () {
         });
     });
     $(document).on('click', '.next-1, .next-2', function () {
-        if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
-            return false;
+        if($(this).hasClass('next-1') && $('#name, #email, #password, #confirm_password, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
+            // return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
-            return false;
+            // return false;
         }
         else {
             setTimeout(() => {

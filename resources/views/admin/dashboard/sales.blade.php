@@ -159,6 +159,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6 col-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="mb-2"><h6>Tax</h6></div>
+                                                    <div><h5 class="text-info">${{ number_format($total_paid->total_tax, 2, '.', ',') }}</h5></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="mb-2"><h6>Add. Discount</h6></div>
+                                                    <div><h5 class="text-muted">${{ number_format($total_paid->total_add_discount, 2, '.', ',') }}</h5></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div><!-- .card -->
@@ -198,6 +214,22 @@
                                                 <div class="card-body">
                                                     <div class="mb-2"><h6>Discount</h6></div>
                                                     <div><h5 class="text-danger">${{ number_format($total_unpaid->total_discount, 2, '.', ',') }}</h5></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="mb-2"><h6>Tax</h6></div>
+                                                    <div><h5 class="text-info">${{ number_format($total_unpaid->total_tax, 2, '.', ',') }}</h5></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="mb-2"><h6>Add. Discount</h6></div>
+                                                    <div><h5 class="text-muted">${{ number_format($total_unpaid->total_add_discount, 2, '.', ',') }}</h5></div>
                                                 </div>
                                             </div>
                                         </div>
