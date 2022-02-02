@@ -597,7 +597,7 @@ class OrdersController extends Controller
             activity($request, "updated", 'orders', $request->id);
             successOrErrorMessage("Data updated Successfully", 'success');
         }
-        return redirect('admin/orders/edit/' . $request->id);
+        return redirect('admin/orders/view/' . $request->id);
     }
 
     public function view($id)
