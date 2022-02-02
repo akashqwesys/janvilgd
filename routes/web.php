@@ -73,6 +73,8 @@ Route::match(['get', 'post'], 'customer/login', [FrontAuthController::class, 'lo
 Route::get('/customer/email-verification/{token}', [FrontAuthController::class, 'emailVerify']);
 // Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
 Route::get('customer/authenticate/{token}', [FrontAuthController::class, 'auth_customer']);
+Route::match(['get', 'post'], 'customer/forgot-password', [FrontAuthController::class, 'forgotPassword']);
+Route::post('customer/reset-password', [FrontAuthController::class, 'resetPassword']);
 Route::post('customer/resendOTP', [FrontAuthController::class, 'resendOTP']);
 // Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
 Route::match(['get', 'post'], 'customer/signup', [FrontAuthController::class, 'register']);
