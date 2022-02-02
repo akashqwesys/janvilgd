@@ -33,7 +33,8 @@ class EmailVerification extends Mailable
             ->view($this->data['view'])
             ->with([
                 'name' => $this->data['name'],
-                'otp' => $this->data['otp']
+                'otp' => $this->data['otp'],
+                'link' => $this->data['link'],
             ]);
     }
 }
