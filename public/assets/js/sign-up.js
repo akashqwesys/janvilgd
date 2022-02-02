@@ -325,10 +325,10 @@ $(document).ready(function () {
     });
     $(document).on('click', '.next-1, .next-2', function () {
         if($(this).hasClass('next-1') && $('#name, #email, #password, #confirm_password, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
-            // return false;
+            return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
-            // return false;
+            return false;
         }
         else {
             setTimeout(() => {
