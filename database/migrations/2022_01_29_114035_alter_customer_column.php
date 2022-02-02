@@ -16,6 +16,7 @@ class AlterCustomerColumn extends Migration
         Schema::table('customer', function (Blueprint $table) {
             $table->integer('pincode')->nullable()->change();
             $table->string('password')->nullable();
+            $table->tinyInteger('verified_status')->default(0);
             $table->integer('approved_by')->default(0);
             $table->tinyInteger('is_approved')->default(0);
             $table->dateTime('approved_at')->nullable();
