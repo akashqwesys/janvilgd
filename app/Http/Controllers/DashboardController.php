@@ -434,14 +434,14 @@ class DashboardController extends Controller {
 
         $total_paid = DB::table('orders as o')
         ->join('customer as c', 'o.refCustomer_id', '=', 'c.customer_id')
-        ->leftJoin('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+        // ->leftJoin('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
         ->select(
             DB::raw("sum(sub_total) as sub_total"),
             DB::raw("sum(total_paid_amount) as total_amount"),
             DB::raw("sum(delivery_charge_amount) as shipping_charge"),
-            DB::raw("sum(discount_amount * sub_total / 100) as total_discount"),
-            DB::raw("sum(tax_amount * sub_total / 100) as total_tax"),
-            DB::raw("sum( CAST (discount AS DOUBLE PRECISION) * sub_total / 100) as total_add_discount")
+            DB::raw("sum(discount_amount) as total_discount"),
+            DB::raw("sum(tax_amount * (sub_total - discount_amount - o.additional_discount) / 100) as total_tax"),
+            DB::raw("sum( o.additional_discount * sub_total / 100) as total_add_discount")
         )
         ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
             $join->on('ou.refOrder_id', '=', 'o.order_id');
@@ -456,7 +456,7 @@ class DashboardController extends Controller {
 
         $total_unpaid = DB::table('orders as o')
         ->join('customer as c', 'o.refCustomer_id', '=', 'c.customer_id')
-        ->leftJoin('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+        // ->leftJoin('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
         ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
             $join->on('ou.refOrder_id', '=', 'o.order_id');
         })
@@ -464,9 +464,9 @@ class DashboardController extends Controller {
             DB::raw("sum(sub_total) as sub_total"),
             DB::raw("sum(total_paid_amount) as total_amount"),
             DB::raw("sum(delivery_charge_amount) as shipping_charge"),
-            DB::raw("sum(discount_amount * sub_total / 100) as total_discount"),
-            DB::raw("sum(tax_amount * sub_total / 100) as total_tax"),
-            DB::raw("sum( CAST (discount AS DOUBLE PRECISION) * sub_total / 100) as total_add_discount")
+            DB::raw("sum(discount_amount) as total_discount"),
+            DB::raw("sum(tax_amount * (sub_total - discount_amount - o.additional_discount) / 100) as total_tax"),
+            DB::raw("sum( o.additional_discount * sub_total / 100) as total_add_discount")
         )
         ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))

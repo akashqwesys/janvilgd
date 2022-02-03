@@ -31,11 +31,11 @@
                     <div class="card-body">
                         <div class="navbar-tabs account-tabs">
                         <ul class="list-unstyled mb-0">
-                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
+                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">My Personal Account</a></li>
                             <hr>
-                            <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
-                            <hr>
-                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
+                            {{-- <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
+                            <hr> --}}
+                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">My Companies</a></li>
                             <hr>
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
                         </ul>
@@ -127,10 +127,10 @@
                                             <td colspan="8" style="text-align: right;"><b>Discount</b></td>
                                             <td style="text-align: right;">${{ number_format($orders[0]->discount_amount, 2, '.', ',') }}</td>
                                         </tr>
-                                        @if ($orders[0]->add_discount)
+                                        @if ($orders[0]->$additional_discount)
                                         <tr>
                                             <td colspan="8" style="text-align: right;"><b>Additional Discount</b></td>
-                                            <td style="text-align: right;">${{ number_format($orders[0]->add_discount, 2, '.', ',') }}</td>
+                                            <td style="text-align: right;">${{ number_format($orders[0]->$additional_discount, 2, '.', ',') }}</td>
                                         </tr>
                                         @endif
                                         <tr>

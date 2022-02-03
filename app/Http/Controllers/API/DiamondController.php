@@ -1558,7 +1558,7 @@ class DiamondController extends Controller
         $shipping = !empty($shipping) ? $shipping : 0;
         $summary['subtotal'] = number_format(round($subtotal, 2), 2, '.', ',');
         $summary['discount'] = number_format(round($discount, 2), 2, '.', ',');
-        $summary['additional_discount'] = number_format(round($additional_discount, 2), 2, '.', ',');
+        $summary['additional_discount'] = number_format(round($additional_discount ?? 0, 2), 2, '.', ',');
         $summary['tax'] = number_format(round($tax, 2), 2, '.', ',');
         $summary['shipping'] = number_format(round($shipping, 2), 2, '.', ',');
         $summary['weight'] = $weight;

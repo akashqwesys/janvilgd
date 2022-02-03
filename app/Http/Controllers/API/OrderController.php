@@ -73,7 +73,7 @@ class OrderController extends Controller
                 ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
                 ->join('order_diamonds as od', 'o.order_id', '=', 'od.refOrder_id')
                 // ->join('categories as c', 'c.category_id', '=', 'od.refCategory_id')
-                ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price', 'od.expected_polish_cts')
+                ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'o.additional_discount', 'ou.order_status_name', 'od.order_diamond_id', 'od.refDiamond_id', 'od.barcode', 'od.images', 'od.refCategory_id', 'od.name as diamond_name', 'od.price', 'od.expected_polish_cts')
                 ->where('o.refCustomer_id', $customer->customer_id)
                 ->where('o.order_id', $request->order_id)
                 ->where('o.refTransaction_id', $request->transaction_id)
@@ -106,14 +106,8 @@ class OrderController extends Controller
                 ->where('refOrder_id', $request->order_id)
                 ->orderby('order_update_id', 'ASC')
                 ->get();
-            $additional_discount = DB::table('customer as c')
-                ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
-                ->select('ct.discount')
-                ->where('c.customer_id', $customer->customer_id)
-                ->pluck('discount')
-                ->first();
+
             foreach ($orders as $v) {
-                $v->add_discount = $additional_discount ?? 0;
                 $v->images = json_decode($v->images);
                 // $a = [];
                 // foreach ($v->images as $v1) {
@@ -183,6 +177,7 @@ class OrderController extends Controller
             $subtotal = floatval(str_replace(',', '', $cart_data['summary']['subtotal']));
             $total = floatval(str_replace(',', '', $cart_data['summary']['total']));
             $weight = floatval(str_replace(',', '', $cart_data['summary']['weight']));
+            $additional_discount = floatval(str_replace(',', '', $cart_data['summary']['additional_discount']));
 
             $shipping_info = collect($cart_data['all_company_details'])
                 ->where('customer_company_id', $request->shipping_company_id)
@@ -255,6 +250,7 @@ class OrderController extends Controller
             $order->date_added = date('Y-m-d H:i:s');
             $order->date_updated = date('Y-m-d H:i:s');
             $order->due_date = date('Y-m-d', strtotime(date('Y-m-d') . ' +7 days'));
+            $order->additional_discount = $additional_discount ?? 0;
             $order->save();
 
             DB::table('order_updates')
