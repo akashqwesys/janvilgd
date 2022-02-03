@@ -155,6 +155,7 @@ Route::prefix('admin')->group(function () {
 Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup')->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
 Route::get('truncate-elastic', [CommonController::class, 'createElasticIndex'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
 Route::get('truncate-diamonds', [CommonController::class, 'truncateDiamonds'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-orders', [CommonController::class, 'truncateOrders'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
 
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');

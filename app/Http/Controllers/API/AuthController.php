@@ -352,7 +352,7 @@ class AuthController extends Controller
         $data->token = $user->createToken($user->email)->accessToken;
 
         $company = DB::table('customer_company_details')
-            ->select('customer_company_id', 'name', 'office_no', 'official_email', 'designation_name', 'office_address', 'pincode', 'refCity_id', 'pan_gst_no', 'pan_gst_attachment', 'is_approved')
+            ->select('customer_company_id', 'name', 'office_no', 'official_email', 'designation_name', 'office_address', 'pincode', 'refCity_id', 'pan_gst_no', 'pan_gst_attachment')
             ->where('refCustomer_id', $user->customer_id)
             ->first();
         $business = new \stdClass;
