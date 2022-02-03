@@ -22,13 +22,13 @@
                     <div class="card-body">
                         <div class="navbar-tabs account-tabs">
                         <ul class="list-unstyled mb-0">
-                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Account</a></li>
+                            <li class="tab-item"><a href="javascript:void(0);" class="tab-link">My Personal Account</a></li>
                             <hr>
-                            <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
-                            <hr>
+                            {{-- <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
+                            <hr> --}}
                             {{-- <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
                             <hr> --}}
-                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
+                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">My Companies</a></li>
                             <hr>
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
                         </ul>

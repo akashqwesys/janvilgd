@@ -169,10 +169,10 @@
                                         <td colspan="8" style="text-align: right;"><b>Discount</b></td>
                                         <td style="text-align: right;">$ {{number_format($data['result']->discount_amount, 2, '.', ',')}}</td>
                                     </tr>
-                                    @if ($data['add_discount'])
+                                    @if ($data['result']->additional_discount)
                                     <tr>
                                         <td colspan="8" style="text-align: right;"><b>Additional Discount</b></td>
-                                        <td style="text-align: right;">$ {{ number_format($data['add_discount'], 2, '.', ',') }}</td>
+                                        <td style="text-align: right;">$ {{ number_format($data['result']->additional_discount, 2, '.', ',') }}</td>
                                     </tr>
                                     @endif
                                     <tr>

@@ -60,6 +60,7 @@ class Orders extends Model
         'attention',
         'billing_remarks',
         'shipping_remarks',
-        'due_date'
+        'due_date',
+        'additional_discount'
     ];
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\API\DiamondController as APIDiamond;
 use App\Http\Controllers\API\OrderController as APIOrder;
 use DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\PDF;
 
 class OrderController extends Controller {
 
@@ -81,5 +82,16 @@ class OrderController extends Controller {
         $diamonds = $data->original['data']['diamonds'];
         $title = 'Order Details';
         return view('front.orders.orders_details', compact('title', 'orders', 'status', 'diamonds'));
+    }
+
+    public function downloadInvoice(Request $request)
+    {
+
+        $pdf = PDF::loadView('front.orders.invoice_pdf', compact('order', 'customer'));
+        $path = public_path('pdf/');
+        $fileName =  time() . '.' . 'pdf';
+        $pdf->save($path . '/' . $fileName);
+        $pdf = public_path('pdf/' . $fileName);
+        return response()->download($pdf);
     }
 }

@@ -273,7 +273,8 @@ class OrdersController extends Controller
                         'discount_name' => $overall_discount->name ?? 0,
                         'discount_amount' => $overall_discount->discount ?? 0,
                         'sub_total' => $subtotal,
-                        'total_paid_amount' => $total
+                        'total_paid_amount' => $total,
+                        'additional_discount' => $additional_discount ?? 0
                     ]);
 
                     $client = ClientBuilder::create()
@@ -653,12 +654,6 @@ class OrdersController extends Controller
         $data['order_sts'] = $order_sts;
         $data['order_history'] = $order_history;
         $data['result'] = $result;
-        $data['add_discount'] = DB::table('customer as c')
-            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
-            ->select('ct.discount')
-            ->where('c.customer_id', $result->refCustomer_id)
-            ->pluck('discount')
-            ->first();
         $data['admin_name'] = DB::table('users')->select('name')->where('id', session()->get('loginId'))->pluck('name')->first();
         return view('admin.orders.edit', ["data" => $data]);
     }
@@ -1168,6 +1163,7 @@ class OrdersController extends Controller
         $order->updated_at = $invoice_date;
         $order->attention = $request->attention_to;
         $order->due_date = $request['due_date'] ? date('Y-m-d', strtotime($request['due_date'])) : date('Y-m-d', strtotime($dt_now . ' +7 days'));
+        $order->additional_discount = $additional_discount ?? 0;
         $order->save();
 
         DB::table('order_updates')
@@ -1293,7 +1289,7 @@ class OrdersController extends Controller
     {
         $data['title'] = 'Update Invoice';
         $order = DB::table('orders')
-            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date')
+            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date', 'additional_discount')
             ->where('order_id', $order_id)
             ->first();
         if (empty($order)) {
@@ -1339,12 +1335,7 @@ class OrdersController extends Controller
             ->where('to_amount', '>=', intval($order->sub_total))
             ->first();
 
-        $additional_discount = DB::table('customer as c')
-            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
-            ->select('ct.discount')
-            ->where('c.customer_id', $order->refCustomer_id)
-            ->pluck('discount')
-            ->first();
+        $additional_discount = $order->additional_discount;
 
         $tax = DB::table('customer as c')
             ->join('customer_company_details as ccd', 'c.customer_id', '=', 'ccd.refCustomer_id')
@@ -1705,6 +1696,7 @@ class OrdersController extends Controller
         $order->created_at = $invoice_date;
         $order->updated_at = $invoice_date;
         $order->due_date = $request['due_date'] ? date('Y-m-d', strtotime($request['due_date'])) : date('Y-m-d', strtotime($dt_now . ' +7 days'));
+        $order->additional_discount = $additional_discount ?? 0;
         $order->save();
 
         $od = $d_ids = [];
@@ -1826,7 +1818,7 @@ class OrdersController extends Controller
                 ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
                 ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
                 ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-                ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC LIMIT 1', 'ou', function ($join) {
+                ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC', 'ou', function ($join) {
                     $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
                 })
                 ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'ou.status'

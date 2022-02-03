@@ -15,6 +15,7 @@ class AddColumnDueDateOrders extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->date('due_date')->nullable();
+            $table->double('additional_discount')->default(0)->nullable()->comment('in %');
         });
     }
 
