@@ -25,8 +25,8 @@ class OrderController extends Controller
     {
         $customer = Auth::user();
         $orders = DB::table('orders as o')
-            ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
-            ->select('o.order_id', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.shipping_company_pan_gst_no', 'o.sub_total', 'o.refDelivery_charge_id', 'o.delivery_charge_name', 'o.delivery_charge_amount', 'o.refDiscount_id', 'o.discount_name', 'o.discount_amount', 'o.refTax_id', 'o.tax_name', 'o.tax_amount', 'o.total_paid_amount', 'o.created_at', 'ou.order_status_name')
+            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
+            ->select('o.order_id', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.shipping_company_pan_gst_no', 'o.sub_total', 'o.refDelivery_charge_id', 'o.delivery_charge_name', 'o.delivery_charge_amount', 'o.refDiscount_id', 'o.discount_name', 'o.discount_amount', 'o.refTax_id', 'o.tax_name', 'o.tax_amount', 'o.total_paid_amount', 'o.created_at', DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = o.order_id order by order_update_id desc limit 1) as order_status"))
             ->where('o.refCustomer_id', $customer->customer_id)
             ->orderBy('o.order_id', 'desc')
             ->get();
@@ -104,10 +104,16 @@ class OrderController extends Controller
 
             $order_updates = DB::table('order_updates')
                 ->where('refOrder_id', $request->order_id)
-                ->orderby('order_update_id', 'DESC')
+                ->orderby('order_update_id', 'ASC')
                 ->get();
-
+            $additional_discount = DB::table('customer as c')
+                ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+                ->select('ct.discount')
+                ->where('c.customer_id', $customer->customer_id)
+                ->pluck('discount')
+                ->first();
             foreach ($orders as $v) {
+                $v->add_discount = $additional_discount ?? 0;
                 $v->images = json_decode($v->images);
                 // $a = [];
                 // foreach ($v->images as $v1) {

@@ -56,7 +56,7 @@
                                             <td> {{ $c->email }} </td>
                                             <td> {{ $c->subject }} </td>
                                             <td><p> <?php echo wordwrap($c->message,150,"<br>\n"); ?> </p></td>
-                                            <td> {{ $c->date_added }} </td>
+                                            <td> {{ date('d-m-Y', strtotime($c->date_added)) }} </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

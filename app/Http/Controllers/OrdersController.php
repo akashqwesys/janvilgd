@@ -259,7 +259,8 @@ class OrdersController extends Controller
                         ->pluck('discount')
                         ->first();
 
-                    $final_overall_discount = isset($overall_discount->discount) ? ($overall_discount->discount * $subtotal / 100) : 0;
+                    // $final_overall_discount = isset($overall_discount->discount) ? ($overall_discount->discount * $subtotal / 100) : 0;
+                    $final_overall_discount = $overall_discount->discount ?? 0;
                     $final_additional_discount = isset($additional_discount) ? ($additional_discount * $subtotal / 100) : 0;
                     $final_tax = isset($tax->amount) ? ($tax->amount * ($subtotal - $final_overall_discount - $final_additional_discount) / 100) : 0;
                     $total = $subtotal - $final_overall_discount - $final_additional_discount + $final_tax + ($shipping_charge->amount ?? 0);
@@ -652,6 +653,12 @@ class OrdersController extends Controller
         $data['order_sts'] = $order_sts;
         $data['order_history'] = $order_history;
         $data['result'] = $result;
+        $data['add_discount'] = DB::table('customer as c')
+            ->join('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
+            ->select('ct.discount')
+            ->where('c.customer_id', $result->refCustomer_id)
+            ->pluck('discount')
+            ->first();
         $data['admin_name'] = DB::table('users')->select('name')->where('id', session()->get('loginId'))->pluck('name')->first();
         return view('admin.orders.edit', ["data" => $data]);
     }
@@ -879,7 +886,8 @@ class OrdersController extends Controller
             ->pluck('discount')
             ->first();
 
-        $final_overall_discount = isset($overall_discount->discount) ? round($overall_discount->discount * $subtotal / 100, 2) : 0;
+        // $final_overall_discount = isset($overall_discount->discount) ? round($overall_discount->discount * $subtotal / 100, 2) : 0;
+        $final_overall_discount = $overall_discount->discount ?? 0;
         $final_additional_discount = isset($additional_discount) ? round($additional_discount * $subtotal / 100, 2) : 0;
         $final_tax = isset($tax->amount) ? round($tax->amount * ($subtotal - $final_overall_discount - $final_additional_discount) / 100, 2) : 0;
         $total = $subtotal - $final_overall_discount - $final_additional_discount + $final_tax + ($shipping_charge->amount ?? 0);
@@ -1098,7 +1106,8 @@ class OrdersController extends Controller
             ->where('customer_id', $request['customer_id'])
             ->first();
 
-        $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
+        // $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
+        $overall_discount = $discount ?? 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $final_tax = !empty($tax) ? ((($subtotal - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
@@ -1345,7 +1354,8 @@ class OrdersController extends Controller
             ->where('ccd.customer_company_id', $order->refCustomer_company_id_shipping)
             ->first();
 
-        $overall_discount = !empty($discount) ? (($order->sub_total * $discount->discount) / 100) : 0;
+        // $overall_discount = !empty($discount) ? (($order->sub_total * $discount->discount) / 100) : 0;
+        $overall_discount = $discount ?? 0;
         $additional_discount = !empty($additional_discount) ? (($order->sub_total * $additional_discount) / 100) : 0;
         $final_tax = !empty($tax) ? ((($order->sub_total - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
         $total = $order->sub_total - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $order->delivery_charge_amount;
@@ -1635,7 +1645,8 @@ class OrdersController extends Controller
             ->where('customer_id', $request['customer_id'])
             ->first();
 
-        $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
+        // $overall_discount = !empty($discount) ? (($subtotal * $discount->discount) / 100) : 0;
+        $overall_discount = $discount ?? 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $final_tax = !empty($tax) ? ((($subtotal - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
         $total = $subtotal - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $shipping_charge;
@@ -1855,7 +1866,7 @@ class OrdersController extends Controller
                         'discount' => $diamonds[$i]->discount,
                         'new_discount' => $diamonds[$i]->new_discount,
                         'price' => '$' . number_format($diamonds[$i]->price, 2, '.', ''),
-                        'created_at' => date('Y-m-d', strtotime($diamonds[$i]->created_at)),
+                        'created_at' => date('d-m-Y', strtotime($diamonds[$i]->created_at)),
                         'status' => $diamonds[$i]->status
                     ];
                 }

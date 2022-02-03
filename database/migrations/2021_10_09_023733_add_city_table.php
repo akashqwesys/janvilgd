@@ -15,13 +15,13 @@ class AddCityTable extends Migration
     {
         Schema::create('city', function (Blueprint $table) {
             $table->id('city_id');
-            $table->string('name',30); 
+            $table->string('name',30);
             $table->foreignId('refState_id');
-            $table->foreignId('added_by');
-            $table->tinyInteger('is_active');
-            $table->tinyInteger('is_deleted');
-             $table->dateTime('date_added');
-            $table->dateTime('date_updated');  
+            $table->foreignId('added_by')->nullable();
+            $table->tinyInteger('is_active')->nullable();
+            $table->tinyInteger('is_deleted')->nullable();
+             $table->dateTime('date_added')->nullable();
+            $table->dateTime('date_updated')->nullable();
             $table->timestamps();
         });
     }

@@ -83,7 +83,7 @@
                                                 data-city_name="{{ $c->city_name }}"
                                                 data-state_name="{{ $c->state_name }}"
                                                 data-country_name="{{ $c->country_name }}"
-                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
+                                                >{{ $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -198,7 +198,7 @@
                                                 data-city_name="{{ $c->city_name }}"
                                                 data-state_name="{{ $c->state_name }}"
                                                 data-country_name="{{ $c->country_name }}"
-                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
+                                                >{{ $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -596,7 +596,7 @@
                         });
                         var opt = null;
                         $(response.data).each(function (i, v) {
-                            opt += '<option value="'+ v.customer_company_id +'" data-name="'+ v.name +'" data-office_no="'+ v.office_no +'" data-official_email="'+ v.official_email +'" data-office_address="'+ v.office_address +'" data-pincode="'+ v.pincode +'" data-city_name="'+ v.city_name +'" data-state_name="'+ v.state_name +'" data-country_name="'+ v.country_name +'" >'+ v.office_no +'. '+ v.name +'.  '+ v.city_name +' - '+ v.pincode +', '+ v.state_name +', '+ v.country_name +' </option>';
+                            opt += '<option value="'+ v.customer_company_id +'" data-name="'+ v.name +'" data-office_no="'+ v.office_no +'" data-official_email="'+ v.official_email +'" data-office_address="'+ v.office_address +'" data-pincode="'+ v.pincode +'" data-city_name="'+ v.city_name +'" data-state_name="'+ v.state_name +'" data-country_name="'+ v.country_name +'" >'+ v.name +'.  '+ v.city_name +' - '+ v.pincode +', '+ v.state_name +', '+ v.country_name +' </option>';
                         });
                         $('select.select2').html(opt);
                         $('select.select2').select2('destroy').select2({

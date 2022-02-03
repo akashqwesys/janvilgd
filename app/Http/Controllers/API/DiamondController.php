@@ -1551,7 +1551,8 @@ class DiamondController extends Controller
             ->where('is_deleted',0)
             ->get();
 
-        $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
+        // $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;
+        $discount = $discount ?? 0;
         $additional_discount = !empty($additional_discount) ? (($subtotal * $additional_discount) / 100) : 0;
         $tax = !empty($tax) ? ((($subtotal - $discount - $additional_discount) * $tax) / 100) : 0;
         $shipping = !empty($shipping) ? $shipping : 0;

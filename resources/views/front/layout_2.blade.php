@@ -353,8 +353,6 @@ $(document).ready(function() {
 	$('ul.dropdown-menu li .active').removeClass('active');
 	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
-
-
 	$(window).scroll(function(){
 
 		if($(window).scrollTop() >= 60) {
