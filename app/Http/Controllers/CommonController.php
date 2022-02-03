@@ -2992,6 +2992,139 @@ class CommonController extends Controller
         DB::table('order_statuses')->insert($order_statuses_array);
         //******************* Order Statuses Entry end *******************//
 
+        $this->createElasticIndex();
+        $this->truncateDiamonds();
+        DB::table('customer_cart')->truncate();
+        DB::table('customer_whishlist')->truncate();
+        DB::table('orders')->truncate();
+        DB::table('order_diamonds')->truncate();
+        DB::table('order_updates')->truncate();
+        DB::table('recently_view_diamonds')->truncate();
+        DB::table('share_cart')->truncate();
+        DB::table('share_wishlist')->truncate();
+        successOrErrorMessage("Project Setup Done", 'success');
+        return redirect('admin/dashboard');
+    }
+
+    public function createElasticIndex()
+    {
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+
+        $client->indices()->delete(['index' => 'diamonds']);
+
+        $params = [
+            'index' => 'diamonds',
+            // 'id'    => 'diamond_id',
+            'body' => [
+                'settings' => [
+                    'number_of_shards' => 1,
+
+                    "analysis" => [
+                        "normalizer" => [
+                            "analyzer_case_insensitive" => [
+                                "type" => "custom",
+                                "filter" => ["lowercase"]
+                            ]
+                        ]
+                    ]
+
+                ],
+                'mappings' => [
+                    'properties' => [
+                        "diamond_id" => [
+                            "type" => "long"
+                        ],
+                        'name' => [
+                            'type' => 'text'
+                        ],
+                        "actual_pcs" => [
+                            "type" => "long"
+                        ],
+                        "added_by" => [
+                            "type" => "long"
+                        ],
+                        "available_pcs" => [
+                            "type" => "long"
+                        ],
+                        "barcode" => [
+                            "type" => "keyword"
+                        ],
+                        "barcode_search" => [
+                            "type" => "keyword",
+                            "normalizer" => "analyzer_case_insensitive"
+                        ],
+                        "date_added" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "date_updated" => [
+                            "type" => "date",
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ],
+                        "discount" => [
+                            "type" => "float"
+                        ],
+                        "expected_polish_cts" => [
+                            "type" => "double"
+                        ],
+                        "makable_cts" => [
+                            "type" => "double"
+                        ],
+                        "image" => [
+                            "type" => "text"
+                        ],
+                        "is_active" => [
+                            "type" => "byte"
+                        ],
+                        "is_deleted" => [
+                            "type" => "byte"
+                        ],
+                        "is_recommended" => [
+                            "type" => "byte"
+                        ],
+                        "packate_no" => [
+                            "type" => "text"
+                        ],
+                        "rapaport_price" => [
+                            "type" => "double"
+                        ],
+                        "refCategory_id" => [
+                            "type" => "integer"
+                        ],
+                        "remarks" => [
+                            "type" => "text"
+                        ],
+                        "price_ct" => [
+                            "type" => "double"
+                        ],
+                        "total" => [
+                            "type" => "double"
+                        ],
+                        "weight_loss" => [
+                            "type" => "text"
+                        ],
+                        "attributes" => [
+                            "type" => "flattened"
+                        ],
+                        "attributes_id" => [
+                            "type" => "nested"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $client->indices()->create($params);
+        return redirect('admin/dashboard');
+    }
+
+    public function truncateDiamonds()
+    {
+        DB::table('diamonds')->truncate();
+        DB::table('diamonds_attributes')->truncate();
+
         //******************* Most Ordered Diamonds Entry start *******************//
         DB::table('most_ordered_diamonds')->truncate();
         $mvd = array();
@@ -3589,14 +3722,12 @@ class CommonController extends Controller
                 'views_cnt' => 0,
                 'created_at' => date("Y-m-d h:i:s"),
                 'updated_at' => date("Y-m-d h:i:s")
-            ],
-            [
+            ], [
                 'refCategory_id' => 2,
                 'views_cnt' => 0,
                 'created_at' => date("Y-m-d h:i:s"),
                 'updated_at' => date("Y-m-d h:i:s")
-            ],
-            [
+            ], [
                 'refCategory_id' => 3,
                 'views_cnt' => 0,
                 'created_at' => date("Y-m-d h:i:s"),
@@ -3604,141 +3735,14 @@ class CommonController extends Controller
             ]
         ]);
         //******************* Most Viewed Diamonds Entry end *******************//
+        return redirect('admin/dashboard');
+    }
 
-
-        $this->createElasticIndex();
-        $this->truncateDiamonds();
-        DB::table('customer_cart')->truncate();
-        DB::table('customer_whishlist')->truncate();
+    public function truncateOrders()
+    {
         DB::table('orders')->truncate();
-        DB::table('order_diamonds')->truncate();
         DB::table('order_updates')->truncate();
-        DB::table('recently_view_diamonds')->truncate();
-        DB::table('share_cart')->truncate();
-        DB::table('share_wishlist')->truncate();
-        successOrErrorMessage("Project Setup Done", 'success');
-        return redirect('admin/dashboard');
-    }
-
-    public function createElasticIndex()
-    {
-        $client = ClientBuilder::create()
-            ->setHosts(['localhost:9200'])
-            ->build();
-
-        $client->indices()->delete(['index' => 'diamonds']);
-
-        $params = [
-            'index' => 'diamonds',
-            // 'id'    => 'diamond_id',
-            'body' => [
-                'settings' => [
-                    'number_of_shards' => 1,
-
-                    "analysis" => [
-                        "normalizer" => [
-                            "analyzer_case_insensitive" => [
-                                "type" => "custom",
-                                "filter" => ["lowercase"]
-                            ]
-                        ]
-                    ]
-
-                ],
-                'mappings' => [
-                    'properties' => [
-                        "diamond_id" => [
-                            "type" => "long"
-                        ],
-                        'name' => [
-                            'type' => 'text'
-                        ],
-                        "actual_pcs" => [
-                            "type" => "long"
-                        ],
-                        "added_by" => [
-                            "type" => "long"
-                        ],
-                        "available_pcs" => [
-                            "type" => "long"
-                        ],
-                        "barcode" => [
-                            "type" => "keyword"
-                        ],
-                        "barcode_search" => [
-                            "type" => "keyword",
-                            "normalizer" => "analyzer_case_insensitive"
-                        ],
-                        "date_added" => [
-                            "type" => "date",
-                            "format" => "yyyy-MM-dd HH:mm:ss"
-                        ],
-                        "date_updated" => [
-                            "type" => "date",
-                            "format" => "yyyy-MM-dd HH:mm:ss"
-                        ],
-                        "discount" => [
-                            "type" => "float"
-                        ],
-                        "expected_polish_cts" => [
-                            "type" => "double"
-                        ],
-                        "makable_cts" => [
-                            "type" => "double"
-                        ],
-                        "image" => [
-                            "type" => "text"
-                        ],
-                        "is_active" => [
-                            "type" => "byte"
-                        ],
-                        "is_deleted" => [
-                            "type" => "byte"
-                        ],
-                        "is_recommended" => [
-                            "type" => "byte"
-                        ],
-                        "packate_no" => [
-                            "type" => "text"
-                        ],
-                        "rapaport_price" => [
-                            "type" => "double"
-                        ],
-                        "refCategory_id" => [
-                            "type" => "integer"
-                        ],
-                        "remarks" => [
-                            "type" => "text"
-                        ],
-                        "price_ct" => [
-                            "type" => "double"
-                        ],
-                        "total" => [
-                            "type" => "double"
-                        ],
-                        "weight_loss" => [
-                            "type" => "text"
-                        ],
-                        "attributes" => [
-                            "type" => "flattened"
-                        ],
-                        "attributes_id" => [
-                            "type" => "nested"
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $client->indices()->create($params);
-        return redirect('admin/dashboard');
-    }
-
-    public function truncateDiamonds()
-    {
-        DB::table('diamonds')->truncate();
-        DB::table('diamonds_attributes')->truncate();
-        return redirect('admin/dashboard');
+        DB::table('order_diamonds')->truncate();
     }
 
    /* public function delete(Request $request) {

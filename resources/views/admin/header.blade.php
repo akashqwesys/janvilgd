@@ -148,6 +148,11 @@
                                         <a href="/admin/truncate-diamonds">
                                             <h6 class="overline-title text-primary-alt" id="truncate-diamonds-link"> Truncate PG Diamonds</h6>
                                         </a>
+                                    </li>
+                                    <li class="nk-menu-heading">
+                                        <a href="/admin/truncate-orders">
+                                            <h6 class="overline-title text-primary-alt" id="truncate-orders-link"> Truncate Orders</h6>
+                                        </a>
                                     </li><!-- .nk-menu-item -->
                                     @endif
                                 </ul><!-- .nk-menu -->
@@ -268,7 +273,7 @@
         }
         ?>
         <script type="text/javascript">
-            $(document).on('click', '#project-setup-link, #truncate-elastic-link, #truncate-diamonds-link', function() {
+            $(document).on('click', '#project-setup-link, #truncate-elastic-link, #truncate-diamonds-link, #truncate-orders-link', function() {
                 if (!confirm('Are you sure, you want to execute this command?')) {
                     return false;
                 }
