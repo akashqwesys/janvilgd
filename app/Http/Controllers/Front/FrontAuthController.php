@@ -46,8 +46,21 @@ class FrontAuthController extends Controller
                     return back()->with('error', $validator->errors()->all()[0]);
                 }
 
-                if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                    return redirect('/customer/search-diamonds/polish-diamonds');
+                $exists = DB::table('customer')
+                    ->select('customer_id', 'email', 'verified_status', 'is_approved', 'is_active', 'password')
+                    ->where('email', strtolower($request->email))
+                    ->first();
+                if ($exists && Hash::check($request->password, $exists->password)) {
+                    if ($exists->verified_status === 0) {
+                        return back()->with('error', 'Your account is not verified yet, please check your registered email inbox');
+                    } else if ($exists->is_approved === 0) {
+                        return back()->with('error', 'Your account is not approved yet. You will get an approval email when your account is approved');
+                    } else if ($exists->is_active === 0) {
+                        return back()->with('error', 'Your account is temporarily deactivated, please contact support team');
+                    }
+                    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                        return redirect('/customer/search-diamonds/polish-diamonds');
+                    }
                 } else {
                     return back()->with('error', 'Invalid Credentials');
                 }
@@ -191,7 +204,7 @@ class FrontAuthController extends Controller
                         ])
                     );
 
-                    return response()->json(['success' => 1, 'message' => '<div class="alert alert-success"> <b> <div class="text-center">Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.</div> </b> </div>']);
+                    return response()->json(['success' => 1, 'message' => '<div class="alert alert-success"> <b> <div class="text-center">Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.</div> </b> </div> <div class="mt-4 text-center"><a href="/" class="btn btn-primary">Back to Home</a></div>']);
                 }
             } catch (\Exception $e) {
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);

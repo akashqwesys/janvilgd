@@ -245,7 +245,7 @@
                             icon: 'success',
                             position: 'top-right'
                         });
-                        $('#verify-otp-btn, .reset-time').remove();
+                        $('.otp-verify-block').slideUp().remove();
                         $('#email').attr('readonly', true);
                         $('.reset-block').slideDown();
                     }

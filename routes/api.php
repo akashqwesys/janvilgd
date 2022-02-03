@@ -26,6 +26,8 @@ use App\Http\Controllers\API\UserController;
 
 // Auth
 Route::post('login', [AuthController::class, 'login']);
+Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('reset-password', [AuthController::class, 'resetPassword']);
 Route::post('verifyOTP', [AuthController::class, 'verifyOTP']);
 Route::post('resendOTP', [AuthController::class, 'resendOTP']);
 Route::post('register', [AuthController::class, 'register']);

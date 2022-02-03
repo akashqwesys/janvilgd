@@ -201,7 +201,7 @@ $("#msform").validate({
             required: "Please enter your email address",
             email: "Your email address must be in the format of name@domain.com"
         },
-        password: { required: "Please enter password" },
+        password: { required: "Please enter password", equalTo: 'Please enter same password again' },
         confirm_password: { required: "Please enter confirm password" },
         mobile: {
             // required: "Please enter your mobile number",
