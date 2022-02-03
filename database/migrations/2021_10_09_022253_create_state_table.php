@@ -15,13 +15,13 @@ class CreateStateTable extends Migration
     {
         Schema::create('state', function (Blueprint $table) {
             $table->id('state_id');
-            $table->string('name',30); 
+            $table->string('name',30);
             $table->foreignId('refCountry_id');
-            $table->foreignId('added_by');
-            $table->tinyInteger('is_active');
-            $table->tinyInteger('is_deleted');
-             $table->dateTime('date_added');
-            $table->dateTime('date_updated');  
+            $table->foreignId('added_by')->nullable();
+            $table->tinyInteger('is_active')->nullable();
+            $table->tinyInteger('is_deleted')->nullable();
+             $table->dateTime('date_added')->nullable();
+            $table->dateTime('date_updated')->nullable();
             $table->timestamps();
         });
     }
