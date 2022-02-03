@@ -203,7 +203,7 @@
 							<ul class="list-unstyled footer-link mb-0">
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
-								<li class="item"><a href="/customer/order-details">Order Details</a></li>
+								<li class="item"><a href="/customer/my-orders">My Orders</a></li>
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>

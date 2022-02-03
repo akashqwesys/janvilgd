@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">
+	{{-- <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css"> --}}
 
 	<style>
 		.zoom>img {
@@ -405,7 +405,7 @@ function init() {
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
-<script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
+{{-- <script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script> --}}
   <script>
     var input = document.querySelector("#phone");
     var iti= window.intlTelInput(input, {

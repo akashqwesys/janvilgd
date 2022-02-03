@@ -177,7 +177,7 @@
                                     @endif
                                     <tr>
                                         <td colspan="8" style="text-align: right;"><b>Tax</b></td>
-                                        <td style="text-align: right;">$ {{number_format($data['result']->tax_amount, 2, '.', ',')}}</td>
+                                        <td style="text-align: right;">$ {{ number_format(($data['result']->sub_total - $data['result']->discount_amount) * $data['result']->tax_amount / 100, 2, '.', ',')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="8" style="text-align: right;"><b>Shipping Charge</b></td>

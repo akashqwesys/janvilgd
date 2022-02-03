@@ -44,7 +44,7 @@
         </div>
     </div>
 </section>
-<div class="cart-page">
+<div class="cart-page mb-5">
     <div class="container">
         @if (count($response) == 0)
         <div class="alert alert-danger text-center mb-5">
@@ -70,7 +70,7 @@
                         <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#checkoutaccordion">
                             <div class="accordion-body">
                                 <div class="row">
-                                    <div class="col col-md-8 col-lg-9">
+                                    <div class="col col-sm-12 col-md-8 col-lg-9">
                                         <select class="form-control select2" id="billing-select">
                                             {{-- <option value="" disabled selected>SELECT BILLING ADDRESS</option> --}}
                                             @foreach($response['all_company_details'] as $c)
@@ -98,7 +98,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-md-4 col-lg-3">
+                                    <div class="col col-sm-12 col-md-4 col-lg-3">
                                         <button class="btn btn-primary add-billing-btn">+ Add New</button>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@
                                     </div>
                                 </div> --}}
                                 <div class="row">
-                                    <div class="col col-md-8 col-lg-9">
+                                    <div class="col col-sm-12 col-md-8 col-lg-9">
                                         <select class="form-control select2" id="shipping-select">
                                             <option value="" disabled selected>SELECT SHIPPING ADDRESS</option>
                                             @foreach($response['all_company_details'] as $c)
@@ -206,7 +206,7 @@
                                             <div id="shipping-address-block"></div>
                                         </div>
                                     </div>
-                                    <div class="col col-md-4 col-lg-3">
+                                    <div class="col col-sm-12 col-md-4 col-lg-3">
                                         <button class="btn btn-primary add-shipping-btn">+ Add New</button>
                                     </div>
                                 </div>

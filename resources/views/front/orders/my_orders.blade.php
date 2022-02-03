@@ -21,11 +21,11 @@
                     <div class="card-body">
                         <div class="navbar-tabs account-tabs">
                         <ul class="list-unstyled mb-0">
-                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
+                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">My Personal Account</a></li>
                             <hr>
-                            <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
-                            <hr>
-                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">Addresses</a></li>
+                            {{-- <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
+                            <hr> --}}
+                            <li class="tab-item"><a href="/customer/my-addresses" class="tab-link">My Companies</a></li>
                             <hr>
                             <li class="tab-item"><a href="javascript:void(0);" class="tab-link">Orders</a></li>
                         </ul>
@@ -61,11 +61,11 @@
                                     <table class="table table-striped- table-bordered">
                                         <thead>
                                             <tr class="bg-dark text-primary">
-                                                <th width="15%" class="text-right">Order ID</th>
-                                                <th width="15%" class="text-right">Transaction ID</th>
+                                                <th width="15%" class="text-center">Order ID</th>
+                                                <th width="15%" class="text-center">Transaction ID</th>
+                                                <th width="15%" class="text-center">Status</th>
                                                 <th width="15%" class="text-right">Total Amount</th>
-                                                <th width="15%" class="text-right">Placed On</th>
-                                                <th width="15%" class="text-right">Status</th>
+                                                <th width="15%" class="text-center">Placed On</th>
                                                 <th width="20%" class="text-right">Action</th>
                                             </tr>
                                         </thead>
@@ -73,19 +73,19 @@
                                             @if (count($orders))
                                             @foreach ($orders as $o)
                                             <tr>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <div>{{ $o[0]->order_id }}</div>
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <div>{{ $o[0]->refTransaction_id }}</div>
                                                 </td>
+                                                <td class="text-center">{{ $o[0]->order_status }}</td>
                                                 <td class="text-right">
                                                     <div>${{ number_format($o[0]->total_paid_amount, 2, '.', ',') }}</div>
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <div>{{ date('d-m-Y', strtotime($o[0]->created_at)) }}</div>
                                                 </td>
-                                                <td class="text-right">{{ $o[0]->order_status }}</td>
                                                 <td class="text-right">
                                                     <a href="/customer/order-details/{{ $o[0]->refTransaction_id }}/{{ $o[0]->order_id }}">View Details</a>
                                                 </td>

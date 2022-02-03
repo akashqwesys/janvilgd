@@ -71,7 +71,7 @@
         <div class="row">
             @if(!empty($response))
             @foreach($response as $r)
-                <div class="col-md-3 col-6 mb-3" id="diamond_{{$r['_source']['diamond_id']}}">
+                <div class="col col-12 col-sm-6 col-md-3 mb-3" id="diamond_{{$r['_source']['diamond_id']}}">
                     <div class="card">
                         <div class="card-body- p-1 text-center">
                             <div class=" mb-2">

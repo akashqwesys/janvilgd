@@ -42,10 +42,9 @@
 <div class="cart-page mb-5 mt-5">
     <div class="container">
         <div class="row">
-            <div class="d-flex align-items-center mb-5">
-
+            <div class="d-block d-sm-flex align-items-center mb-5">
                 @if(!empty($response['diamonds']))
-                <h2 class="me-auto mb-0">Shopping Bag</h2>
+                <h2 class="me-auto mb-3 mb-sm-0">Shopping Bag</h2>
                 <a href="javascript:;" class="btn btn-primary" id="share-cart">Share Your Cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
                 <input type="hidden" id="copylink" value="">
@@ -55,7 +54,8 @@
             $total=0;
             if(!empty($response['diamonds'])){
             ?>
-            <div class="col col-12 col-md-8 col-lg-8 card p-4 cart-card">
+            <div class="col col-12 col-md-8 col-lg-8 mb-4 mb-md-0">
+                <div class="card p-4 cart-card">
                 <?php
                     echo '<table class="cart-table">';
 
@@ -93,6 +93,7 @@
                     }
                     echo '</table>';
                     ?>
+                </div>
             </div>
 
             <div class="col col-12 col-md-4 col-lg-4 order-summary-card">
