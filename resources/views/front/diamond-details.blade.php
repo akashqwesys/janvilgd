@@ -227,7 +227,7 @@
                     <div class="product--details">
                         <h3 class="title mb-3">{{ $response['expected_polish_cts'] . ' CARAT ' . $response['attributes']['SHAPE'] }} Lab grown diamond</h3>
                         <div class="mb-4 mt-4">
-                            <table class="table mini-table overflow-auto w-75">
+                            <table class="table mini-table overflow-auto">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" align="center">
@@ -260,7 +260,7 @@
                             <div class="mail me-auto d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/envelope.svg" class="img-fluid"></span><a href="mailto:">Emails Us</a></div>
                             <div class="phone d-flex align-items-center"><span><img src="{{ asset(check_host().'assets/images') }}/phone.svg" class="img-fluid"></span><a href="tel:">1234567890</a></div>
                         </div> --}}
-                        <div class="help-box mb-4 w-75">
+                        <div class="help-box mb-4">
                             <table class="table mini-table-2 text-center overflow-auto">
                                 <tbody>
                                     <tr>
@@ -553,7 +553,7 @@
                     echo '<div class="owl-carousel-1">';
                     $cols = '';
                 } else {
-                    $cols = 'col-md-3 col-6';
+                    $cols = 'col col-12 col-sm-6 col-md-3';
                 }
                 @endphp
                     @foreach ($similar as $r)
@@ -588,7 +588,7 @@
                     echo '<div class="owl-carousel-2">';
                     $cols = '';
                 } else {
-                    $cols = 'col-md-3 col-6';
+                    $cols = 'col col-12 col-sm-6 col-md-3';
                 }
                 @endphp
                     @foreach ($recommended as $r)

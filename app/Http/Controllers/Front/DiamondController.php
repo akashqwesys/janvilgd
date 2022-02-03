@@ -152,8 +152,8 @@ class DiamondController extends Controller {
                             <div class="diamond-cart filter-item col-md-10 col-sm-10">
                                 <div class="range-sliders">
                                     <div class="slider-styled" id="priceSlider"></div>
-                                    $<input type="text" id="minPrice" class="w-5r">
-                                    <div class="float-right">$<input type="text" id="maxPrice" class="w-5r text-right"></div>
+                                    $ <input type="text" id="minPrice" class="w-5r">
+                                    <div class="float-right">$ <input type="text" id="maxPrice" class="w-5r text-right"></div>
                                 </div>
                             </div>
                         </div>
@@ -1366,7 +1366,7 @@ class DiamondController extends Controller {
         $result = $diamond_api_controller->getCart();
         $response = $result->original['data'];
         if (!count($response)) {
-            return redirect('/customer/dashboard');
+            return redirect('/customer/search-diamonds/polish-diamonds');
         }
         $title = 'Checkout';
         return view('front.checkout', compact('title', 'response'));

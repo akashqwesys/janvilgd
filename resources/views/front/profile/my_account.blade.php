@@ -65,14 +65,14 @@
                                                 <div class="col col-12 col-lg-6">
                                                     <div class="form-group">
                                                         <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
-                                                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Email Address" value="{{ $customer->mobile }}" disabled>
+                                                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" value="{{ $customer->mobile }}" disabled>
                                                     </div>
                                                     <div class="errTxt"></div>
                                                 </div>
                                                 <div class="col col-12 col-lg-6">
                                                     <div class="form-group">
                                                         <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
-                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Mobile Number" value="{{ $customer->email }}" disabled>
+                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="{{ $customer->email }}" disabled>
                                                     </div>
                                                     <div class="errTxt"></div>
                                                 </div>

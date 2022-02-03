@@ -4426,7 +4426,7 @@ label[for="id_upload"]:hover {
         margin-bottom: 20px;
     }
     .cart-page {
-        padding: 50px 30px;
+        padding: 50px 30px 30px;
         padding-bottom: 100px;
     }
 }
@@ -4569,9 +4569,9 @@ label[for="id_upload"]:hover {
     }
     /*footer css end*/
     /* manufacturing pags css start */
-    .diamonds-hero-section {
+    /* .diamonds-hero-section {
         padding: 130px 0 80px;
-    }
+    } */
     /* manufacturing pags css end */
     /*--------- Start Grading -------------*/
     .diamonds-hero-section {

@@ -620,6 +620,12 @@ class DashboardController extends Controller {
             ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou3', function ($join) {
                 $join->on('ou3.refOrder_id', '=', 'o.order_id');
             })
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('order_updates as ou1')
+                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
+                    ->where('ou1.order_status_name', '<>', 'PENDING');
+            })
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('order_updates as ou1')
