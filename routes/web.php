@@ -141,6 +141,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Orders
     Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
     Route::get('customer/order-details/{transaction_id}/{order_id}', [OrderController::class, 'orderDetails']);
+    Route::post('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);

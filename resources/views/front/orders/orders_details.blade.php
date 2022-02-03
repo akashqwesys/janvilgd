@@ -46,7 +46,14 @@
             <div class="col col-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="text-primary" >Order #{{ $orders[0]->order_id }}</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="text-primary" >Order #{{ $orders[0]->order_id }}</h4>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button id="download-invoice" class="btn btn-primary" data-id="{{ $orders[0]->order_id }}">Download Invoice</button>
+                            </div>
+                        </div>
                         <hr>
                         <div class="order-info">
                             @if(!count($orders))
@@ -127,10 +134,10 @@
                                             <td colspan="8" style="text-align: right;"><b>Discount</b></td>
                                             <td style="text-align: right;">${{ number_format($orders[0]->discount_amount, 2, '.', ',') }}</td>
                                         </tr>
-                                        @if ($orders[0]->$additional_discount)
+                                        @if ($orders[0]->additional_discount)
                                         <tr>
                                             <td colspan="8" style="text-align: right;"><b>Additional Discount</b></td>
-                                            <td style="text-align: right;">${{ number_format($orders[0]->$additional_discount, 2, '.', ',') }}</td>
+                                            <td style="text-align: right;">${{ number_format($orders[0]->additional_discount, 2, '.', ',') }}</td>
                                         </tr>
                                         @endif
                                         <tr>
@@ -205,6 +212,39 @@ $(document).on('click', '.edit-btn', function () {
 });
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('div.errTxt').html('');
+});
+$(document).on('click', '#download-invoice', function() {
+    $('.cs-loader').show();
+    $.ajax({
+        type: 'post',
+        url: '/customer/my-orders/download-invoice/{{ $orders[0]->order_id }}',
+        // data: { 'key' : $(this).attr('data-id') },
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(response) {
+            $('.cs-loader').hide();
+            var blob = new Blob([response]);
+
+            var link = document.createElement('a');
+
+            link.href = window.URL.createObjectURL(blob);
+
+            link.download = "Diamonds-data.pdf";
+
+            link.click();
+        },
+        error: function(response) {
+            // console.log(response);
+            $.toast({
+                heading: 'Error',
+                text: response,
+                icon: 'error',
+                position: 'top-right'
+            });
+            $('.cs-loader').hide();
+        }
+    });
 });
 </script>
 @endsection

@@ -20,7 +20,7 @@
     <script src="/assets/js/rSlider.js"></script>
 
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css">
+	{{-- <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css"> --}}
 	<style>
 		.zoom>img {
 			transition: width 1s;
@@ -322,7 +322,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 
 <script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
   <script>
-    var input = document.querySelector("#phone");
+    /* var input = document.querySelector("#phone");
     window.intlTelInput(input, {
       // allowDropdown: false,
       // autoHideDialCode: false,
@@ -345,7 +345,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
       // preferredCountries: ['cn', 'jp'],
       // separateDialCode: true,
       utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
-    });
+    }); */
   </script>
 <script>
 $(document).ready(function() {
@@ -619,9 +619,9 @@ $(document).ready(function() {
 			});
 		});
 
-		$("input").intlTelInput({
-			utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"
-		});
+		// $("input").intlTelInput({
+		// 	utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"
+		// });
 	});
 </script>
 @yield('js')
