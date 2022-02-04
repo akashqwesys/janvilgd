@@ -566,8 +566,11 @@ class OrdersController extends Controller
                     $responses = $client->bulk($params);
                 }
             }
-            DB::table('orders')->where('order_id', $request->id)
-                ->update(['order_status' => $request->order_status_name]);
+            DB::table('orders')->where('order_id', $request->id)->update([
+                'order_status' => $request->order_status_name,
+                'date_updated' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
             DB::table('order_updates')->insert([
                 'order_status_name' => $request->order_status_name,
                 'refOrder_id' => $request->id,
