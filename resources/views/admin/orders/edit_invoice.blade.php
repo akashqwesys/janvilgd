@@ -698,7 +698,7 @@
                             weight += parseFloat($(this).text());
                         });
                         if (old_barcodes == 0) {
-                            var comb_discount = parseFloat(response.data.discount_per) * subtotal / 100;
+                            var comb_discount = parseFloat(response.data.discount_per);
                             var comb_add_discount = parseFloat(response.data.add_discount_per) * subtotal / 100;
                             var comb_tax = parseFloat(response.data.tax_per) * (subtotal - comb_discount - comb_add_discount) / 100;
                             var new_total = subtotal.toFixed(2) - comb_discount - comb_add_discount + comb_tax + parseFloat(response.data.shipping_charge);
@@ -727,7 +727,7 @@
                                 dataType: 'JSON',
                                 success: function (response1) {
                                     var comb_shipping_charge = parseFloat(response1.shipping_charge);
-                                    var comb_discount = parseFloat(response1.discount) * subtotal / 100;
+                                    var comb_discount = parseFloat(response1.discount);
                                     var comb_add_discount = parseFloat(response1.add_discount) * subtotal / 100;
                                     var comb_tax = parseFloat(response1.tax) * (subtotal - comb_discount - comb_add_discount) / 100;
                                     var new_total = subtotal.toFixed(2) - comb_discount - comb_add_discount + comb_tax + comb_shipping_charge;
@@ -924,7 +924,7 @@
             dataType: 'JSON',
             success: function (response1) {
                 var comb_shipping_charge = parseFloat(response1.shipping_charge);
-                var comb_discount = parseFloat(response1.discount) * subtotal / 100;
+                var comb_discount = parseFloat(response1.discount);
                 var comb_add_discount = parseFloat(response1.add_discount) * subtotal / 100;
                 var comb_tax = parseFloat(response1.tax) * (subtotal - comb_discount - comb_add_discount) / 100;
                 var new_total = subtotal.toFixed(2) - comb_discount - comb_add_discount + comb_tax + comb_shipping_charge;
