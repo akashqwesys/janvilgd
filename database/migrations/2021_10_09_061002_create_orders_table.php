@@ -55,6 +55,7 @@ class CreateOrdersTable extends Migration
             $table->string('tax_name', 100);
             $table->float('tax_amount');
             $table->float('total_paid_amount');
+            $table->string('order_status', 100)->nullable();
             $table->foreignId('added_by');
             $table->dateTime('date_added');
             $table->dateTime('date_updated');

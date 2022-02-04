@@ -61,6 +61,7 @@ class Orders extends Model
         'billing_remarks',
         'shipping_remarks',
         'due_date',
-        'additional_discount'
+        'additional_discount',
+        'order_status'
     ];
 }
