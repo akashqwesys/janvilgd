@@ -497,7 +497,7 @@ class DashboardController extends Controller {
         ->whereExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('orders as o')
-                ->whereColumn('o.order_id', 'order_diamonds.refOrder_id')
+                ->whereColumn('o.order_id', 'od.refOrder_id')
                 ->whereIn('o.order_status', ['PAID', 'UNPAID']);
         })
         ->first();
@@ -509,7 +509,7 @@ class DashboardController extends Controller {
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('orders as o')
-                    ->whereColumn('o.order_id', 'order_diamonds.refOrder_id')
+                    ->whereColumn('o.order_id', 'o.order_id')
                     ->whereIn('o.order_status', ['CANCELLED', 'PENDING']);
             })
             ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
