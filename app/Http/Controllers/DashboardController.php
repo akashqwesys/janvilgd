@@ -42,12 +42,7 @@ class DashboardController extends Controller {
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_7 . "') then 1 end) as last_7"),
             DB::raw("count(case when (DATE(date_added) <= '" . $last_day . "' and DATE(date_added) >= '" . $last_30 . "') then 1 end) as last_30")
         )
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou')
-                ->whereColumn('ou.refOrder_id', 'orders.order_id')
-                ->where('ou.order_status_name', 'CANCELLED');
-        })
+        ->where('order_status', '<>','CANCELLED')
         ->first();
 
         $revenues = DB::table('orders')
@@ -66,61 +61,26 @@ class DashboardController extends Controller {
                     when DATE(date_added) >= '" . $start_year . "' and DATE(date_added) <= '" . $end_year . "' then total_paid_amount else 0 end
                 ) as yearly_revenue")
         )
-        ->whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou')
-                ->whereColumn('ou.refOrder_id', 'orders.order_id')
-                ->whereIn('ou.order_status_name', ['PAID', 'UNPAID']);
-        })
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou')
-                ->whereColumn('ou.refOrder_id', 'orders.order_id')
-                ->where('ou.order_status_name', 'CANCELLED');
-        })
+        ->whereIn('order_status', ['PAID', 'UNPAID'])
         ->first();
 
         $pending_orders = DB::table('orders as o')
-            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou')
-                    ->whereColumn('ou.refOrder_id', 'o.order_id')
-                    ->whereIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
-            })
+            ->where('order_status', 'PENDING')
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
 
         $paid_orders = DB::table('orders as o')
-            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
-            ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-                $join->on('ou.refOrder_id', '=', 'o.order_id');
-            })
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
-                    ->whereIn('ou1.order_status_name', ['CANCELLED']);
-            })
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
+            ->where('order_status', 'PAID')
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
 
         $unpaid_orders = DB::table('orders as o')
-            // ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
-            ->joinSub('SELECT "refOrder_id", order_status_name FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-                $join->on('ou.refOrder_id', '=', 'o.order_id');
-            })
             ->select('o.name', 'o.email_id', 'o.refTransaction_id', 'o.order_id', 'o.total_paid_amount')
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
-                    ->whereIn('ou1.order_status_name', ['PAID', 'CANCELLED']);
-            })
+            ->where('order_status', 'UNPAID')
             ->orderBy('o.order_id', 'desc')
             // ->limit(5)
             ->get();
@@ -148,32 +108,16 @@ class DashboardController extends Controller {
         } */
 
         $top_customers = DB::table('orders')
-            ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name IN (\'PAID\',\'UNPAID\') ORDER BY order_update_id DESC', 'ou', function ($join) {
-                $join->on('ou.refOrder_id', '=', 'orders.order_id');
-            })
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'orders.order_id')
-                    ->whereIn('ou1.order_status_name', ['CANCELLED']);
-            })
             ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+            ->whereIn('order_status', ['PAID', 'UNPAID'])
             ->groupByRaw('"refCustomer_id", email_id, name')
             ->orderBy('repeative', 'desc')
             ->limit(5)
             ->get();
 
         $bottom_customers = DB::table('orders')
-            ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name IN (\'PAID\',\'UNPAID\') ORDER BY order_update_id DESC', 'ou', function ($join) {
-                $join->on('ou.refOrder_id', '=', 'orders.order_id');
-            })
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'orders.order_id')
-                    ->whereIn('ou1.order_status_name', ['CANCELLED']);
-            })
             ->select('refCustomer_id', DB::raw("count(order_id) as repeative"), 'email_id', 'name')
+            ->whereIn('order_status', ['PAID', 'UNPAID'])
             ->groupByRaw('"refCustomer_id", email_id, name')
             ->orderBy('repeative', 'asc')
             ->limit(5)
@@ -190,21 +134,7 @@ class DashboardController extends Controller {
             DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(Year FROM (CURRENT_DATE - INTERVAL '5 month')) then 1 end) as cur_month5")
             // DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '6 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(Year FROM (CURRENT_DATE - INTERVAL '6 month')) then 1 end) as cur_month6")
         )
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'orders.order_id');
-        })
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou2', function ($join) {
-            $join->on('ou2.refOrder_id', '=', 'orders.order_id');
-        })
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PENDING\' ORDER BY order_update_id DESC', 'ou3', function ($join) {
-            $join->on('ou3.refOrder_id', '=', 'orders.order_id');
-        })
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'orders.order_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
-        })
+        ->where('order_status', '<>', 'CANCELLED')
         ->first();
 
         $chart_carats = DB::table('order_diamonds')
@@ -218,33 +148,26 @@ class DashboardController extends Controller {
             DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) and EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '5 month')) then expected_polish_cts else 0 end) as cur_month5")
             // DB::raw("sum(case when EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '6 month')) and EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '6 month')) then expected_polish_cts else 0 end) as cur_month6")
         )
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'order_diamonds.refOrder_id');
-        })
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou2', function ($join) {
-            $join->on('ou2.refOrder_id', '=', 'order_diamonds.refOrder_id');
-        })
         ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'order_diamonds.refOrder_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                ->from('orders as o')
+                ->whereColumn('o.order_id', 'order_diamonds.refOrder_id')
+                ->where('o.order_status', 'CANCELLED');
         })
         ->first();
 
         $cancel_orders = DB::table('orders as o')
-        ->join('order_updates as ou', 'o.order_id', '=', 'ou.refOrder_id')
         ->select(
             // DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM CURRENT_DATE) then 1 end) as cur_month"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM CURRENT_DATE) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM CURRENT_DATE) then 1 end) as cur_month"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '1 month')) then 1 end) as cur_month1"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '2 month')) then 1 end) as cur_month2"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '3 month')) then 1 end) as cur_month3"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '4 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '4 month')) then 1 end) as cur_month4"),
-            DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '5 month')) then 1 end) as cur_month5")
-            // DB::raw("count(case when EXTRACT(MONTH FROM ou.date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '6 month')) and EXTRACT(YEAR FROM ou.date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '6 month')) then 1 end) as cur_month6")
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM CURRENT_DATE) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM CURRENT_DATE) then 1 end) as cur_month"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '1 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '1 month')) then 1 end) as cur_month1"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '2 month')) then 1 end) as cur_month2"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '3 month')) then 1 end) as cur_month3"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '4 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '4 month')) then 1 end) as cur_month4"),
+            DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '5 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '5 month')) then 1 end) as cur_month5")
+            // DB::raw("count(case when EXTRACT(MONTH FROM date_added) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '6 month')) and EXTRACT(YEAR FROM date_added) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '6 month')) then 1 end) as cur_month6")
         )
-        ->where('order_status_name', 'CANCELLED')
+        ->where('order_status', 'CANCELLED')
         ->first();
 
         $import = DB::table('diamonds as d')
@@ -281,14 +204,11 @@ class DashboardController extends Controller {
             DB::raw("count(case when (EXTRACT(MONTH FROM od.created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '2 month')) and EXTRACT(YEAR FROM od.created_at) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '2 month')) and c.slug = 'rough-diamonds') then 1 end) as cur_month2_rg"),
             // DB::raw("count(case when (EXTRACT(MONTH FROM od.created_at) = EXTRACT(MONTH FROM (CURRENT_DATE - INTERVAL '3 month')) and EXTRACT(YEAR FROM od.created_at) = EXTRACT(YEAR FROM (CURRENT_DATE - INTERVAL '3 month')) and c.slug = 'rough-diamonds') then 1 end) as cur_month3_rg"),
         )
-        ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name IN (\'PAID\',\'UNPAID\') ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
-        })
         ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'od.refOrder_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                ->from('orders as o')
+                ->whereColumn('o.order_id', 'od.refOrder_id')
+                ->whereNotIn('o.order_status', ['PENDING', 'CANCELLED']);
         })
         ->first();
 
@@ -342,17 +262,11 @@ class DashboardController extends Controller {
             ->get();
 
         $vs_orders = DB::table('order_diamonds as od')
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
-        })
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou2', function ($join) {
-            $join->on('ou2.refOrder_id', '=', 'od.refOrder_id');
-        })
         ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'od.refOrder_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                ->from('orders as o')
+                ->whereColumn('o.order_id', 'od.refOrder_id')
+                ->whereNotIn('o.order_status', ['PENDING', 'CANCELLED']);
         })
         ->select(
             DB::raw("count(case when \"refCategory_id\" = 1 then 1 end) as total_rough"),
@@ -443,23 +357,12 @@ class DashboardController extends Controller {
             DB::raw("sum(tax_amount * (sub_total - discount_amount - o.additional_discount) / 100) as total_tax"),
             DB::raw("sum( o.additional_discount * sub_total / 100) as total_add_discount")
         )
-        ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'o.order_id');
-        })
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'o.order_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
-        })
+        ->where('o.order_status', 'PAID')
         ->first();
 
         $total_unpaid = DB::table('orders as o')
         ->join('customer as c', 'o.refCustomer_id', '=', 'c.customer_id')
         // ->leftJoin('customer_type as ct', 'c.refCustomerType_id', '=', 'ct.customer_type_id')
-        ->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-            $join->on('ou.refOrder_id', '=', 'o.order_id');
-        })
         ->select(
             DB::raw("sum(sub_total) as sub_total"),
             DB::raw("sum(total_paid_amount) as total_amount"),
@@ -468,12 +371,7 @@ class DashboardController extends Controller {
             DB::raw("sum(tax_amount * (sub_total - discount_amount - o.additional_discount) / 100) as total_tax"),
             DB::raw("sum( o.additional_discount * sub_total / 100) as total_add_discount")
         )
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('order_updates as ou')
-                ->whereColumn('ou.refOrder_id', 'o.order_id')
-                ->whereIn('ou.order_status_name', ['PAID', 'CANCELLED']);
-        })
+        ->where('o.order_status', 'UNPAID')
         ->first();
 
         $analysis = DB::table('diamonds as d')
@@ -547,12 +445,6 @@ class DashboardController extends Controller {
         ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
         ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
         ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou2', function ($join) {
-            $join->on('ou2.refOrder_id', '=', 'od.refOrder_id');
-        })
-        ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou3', function ($join) {
-            $join->on('ou3.refOrder_id', '=', 'od.refOrder_id');
-        })
         ->select(
             // SHAPE ANALYSIS
             DB::raw("count(case when a.attribute_id in (1,13,25) then 1 end) as total_round"),
@@ -602,11 +494,11 @@ class DashboardController extends Controller {
             DB::raw("count(case when a.attribute_id in (89,95,101) then 1 end) as total_poor")
         )
         // ->where('available_pcs', 1)
-        ->whereNotExists(function ($query) {
+        ->whereExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('order_updates as ou1')
-                ->whereColumn('ou1.refOrder_id', 'od.refOrder_id')
-                ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                ->from('orders as o')
+                ->whereColumn('o.order_id', 'order_diamonds.refOrder_id')
+                ->whereIn('o.order_status', ['PAID', 'UNPAID']);
         })
         ->first();
 
@@ -614,23 +506,11 @@ class DashboardController extends Controller {
             ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds GROUP BY "refOrder_id"', 'od', function ($join) {
                 $join->on('od.refOrder_id', '=', 'o.order_id');
             })
-            ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou2', function ($join) {
-                $join->on('ou2.refOrder_id', '=', 'o.order_id');
-            })
-            ->leftJoinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou3', function ($join) {
-                $join->on('ou3.refOrder_id', '=', 'o.order_id');
-            })
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
-                    ->where('ou1.order_status_name', '<>', 'PENDING');
-            })
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
-                    ->from('order_updates as ou1')
-                    ->whereColumn('ou1.refOrder_id', 'o.order_id')
-                    ->whereIn('ou1.order_status_name', ['CANCELLED']);
+                    ->from('orders as o')
+                    ->whereColumn('o.order_id', 'order_diamonds.refOrder_id')
+                    ->whereIn('o.order_status', ['CANCELLED', 'PENDING']);
             })
             ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
             // ->groupByRaw('"refCustomer_id", o.name, od.total_diamonds, o.total_paid_amount')
