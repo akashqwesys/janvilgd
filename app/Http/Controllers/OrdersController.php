@@ -1797,10 +1797,8 @@ class OrdersController extends Controller
                 ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
                 ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
                 ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-                ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC', 'ou', function ($join) {
-                    $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
-                })
-                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'od.rapaport_price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'o.order_status as status');
+                ->join('orders as o', 'od.refOrder_id', '=', 'o.order_id')
+                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'od.rapaport_price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'o.order_status');
             if ($request->slug == 'rough-diamonds') {
                 $diamonds = $diamonds->whereIn('refAttribute_group_id', [2, 3, 1])
                     ->where('od.refCategory_id', 1);
@@ -1812,7 +1810,7 @@ class OrdersController extends Controller
                     ->where('od.refCategory_id', 3);
             }
             $diamonds = $diamonds
-                ->whereIn('status', ['PAID', 'UNPAID'])
+                ->whereIn('o.order_status', ['PAID', 'UNPAID'])
                 ->orderBy('od.refDiamond_id', 'asc')
                 ->orderBy('ag.is_fix', 'desc')
                 ->orderBy('a.sort_order')
@@ -1832,7 +1830,7 @@ class OrdersController extends Controller
                         'new_discount' => $diamonds[$i]->new_discount,
                         'price' => '$' . number_format($diamonds[$i]->price, 2, '.', ''),
                         'created_at' => date('d-m-Y', strtotime($diamonds[$i]->created_at)),
-                        'status' => $diamonds[$i]->status
+                        'status' => $diamonds[$i]->order_status
                     ];
                 }
                 $final_d[$temp_id][$diamonds[$i]->ag_name] = $diamonds[$i]->at_name;
