@@ -1346,7 +1346,7 @@ class OrdersController extends Controller
             ->first();
 
         // $overall_discount = !empty($discount) ? (($order->sub_total * $discount->discount) / 100) : 0;
-        $overall_discount = $discount ?? 0;
+        $overall_discount = $discount->amount ?? 0;
         $additional_discount = !empty($additional_discount) ? (($order->sub_total * $additional_discount) / 100) : 0;
         $final_tax = !empty($tax) ? ((($order->sub_total - $overall_discount - $additional_discount) * $tax->amount) / 100) : 0;
         $total = $order->sub_total - round($overall_discount, 2) - round($additional_discount, 2) + round($final_tax, 2) + $order->delivery_charge_amount;
