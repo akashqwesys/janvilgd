@@ -169,7 +169,8 @@ class OrdersController extends Controller
                     'date_updated' => $dt_now,
                     'created_at' => $dt_now,
                     'updated_at' => $dt_now,
-                    'due_date' => date('Y-m-d', strtotime($dt_now . ' +7 days'))
+                    'due_date' => date('Y-m-d', strtotime($dt_now . ' +7 days')),
+                    'order_status' => 'UNPAID'
                 ]);
                 $order_Id = DB::getPdo()->lastInsertId();
 
@@ -366,54 +367,32 @@ class OrdersController extends Controller
     {
         if ($request->ajax()) {
             $data = DB::table('orders')
-                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', 'orders.due_date', DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = orders.order_id order by order_update_id desc limit 1) as order_status"));
+                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', 'orders.due_date', 'order_status');
             if (isset($request->order_status) && !empty($request->order_status)) {
                 if ($request->order_status == 'PENDING') {
-                    $data = $data->whereNotExists(function ($query) {
-                        $query->select(DB::raw(1))
-                            ->from('order_updates as ou')
-                            ->whereColumn('ou.refOrder_id', 'orders.order_id')
-                            ->whereIn('ou.order_status_name', ['PAID', 'UNPAID', 'CANCELLED']);
-                    });
+                    $data = $data->where('order_status', 'PENDING');
                 } else if ($request->order_status == 'PAID') {
-                    $data = $data->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'PAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-                            $join->on('ou.refOrder_id', '=', 'orders.order_id');
-                        })
-                        ->whereNotExists(function ($query) {
-                            $query->select(DB::raw(1))
-                                ->from('order_updates as ou1')
-                                ->whereColumn('ou1.refOrder_id', 'orders.order_id')
-                                ->whereIn('ou1.order_status_name', ['CANCELLED']);
-                        });
+                    $data = $data->where('order_status', 'PAID');
                 } else if ($request->order_status == 'UNPAID') {
-                    $data = $data->joinSub('SELECT "refOrder_id" FROM order_updates WHERE order_status_name = \'UNPAID\' ORDER BY order_update_id DESC', 'ou', function ($join) {
-                            $join->on('ou.refOrder_id', '=', 'orders.order_id');
-                        })
-                        ->whereNotExists(function ($query) {
-                            $query->select(DB::raw(1))
-                                ->from('order_updates as ou1')
-                                ->whereColumn('ou1.refOrder_id', 'orders.order_id')
-                                ->whereIn('ou1.order_status_name', ['PAID', 'CANCELLED']);
-                        });
+                    $data = $data->where('order_status', 'UNPAID');
                     if ($request->overdues == 'y') {
-                        $data = $data->where('orders.due_date', '<', date('Y-m-d'));
+                        $data = $data->where('due_date', '<', date('Y-m-d'));
                     }
                 } else if ($request->order_status == 'CANCELLED') {
-                    $data = $data->join('order_updates as ou', 'orders.order_id', '=', 'ou.refOrder_id')
-                        ->where('ou.order_status_name', 'CANCELLED');
+                    $data = $data->where('order_status', 'CANCELLED');
                 } else {
-                    $data = $data->where('orders.order_type', 0);
+                    $data = $data->where('order_type', 0);
                 }
             }
             if (isset($request->startDate) && !empty($request->startDate)) {
                 if ($request->startDate != $request->endDate) {
-                    $data = $data->whereRaw("DATE(orders.date_added) >= '".$request->startDate."' AND DATE(orders.date_added) <= '".$request->endDate."'");
+                    $data = $data->whereRaw("DATE(date_added) >= '".$request->startDate."' AND DATE(date_added) <= '".$request->endDate."'");
                 } else {
-                    $data = $data->whereRaw("DATE(orders.date_added) = '".$request->startDate."'");
+                    $data = $data->whereRaw("DATE(date_added) = '".$request->startDate."'");
                 }
             }
             if (isset($request->customer_id) && !empty($request->customer_id)) {
-                $data = $data->where('orders.refCustomer_id', $request->customer_id);
+                $data = $data->where('refCustomer_id', $request->customer_id);
             }
             if (isset($request->category) && !empty($request->category)) {
                 $data = $data->whereExists(function ($query) use($request) {
@@ -587,6 +566,8 @@ class OrdersController extends Controller
                     $responses = $client->bulk($params);
                 }
             }
+            DB::table('orders')->where('order_id', $request->id)
+                ->update(['order_status' => $request->order_status_name]);
             DB::table('order_updates')->insert([
                 'order_status_name' => $request->order_status_name,
                 'refOrder_id' => $request->id,
@@ -1164,6 +1145,7 @@ class OrdersController extends Controller
         $order->attention = $request->attention_to;
         $order->due_date = $request['due_date'] ? date('Y-m-d', strtotime($request['due_date'])) : date('Y-m-d', strtotime($dt_now . ' +7 days'));
         $order->additional_discount = $additional_discount ?? 0;
+        $order->order_status = 'UNPAID';
         $order->save();
 
         DB::table('order_updates')
@@ -1289,19 +1271,13 @@ class OrdersController extends Controller
     {
         $data['title'] = 'Update Invoice';
         $order = DB::table('orders')
-            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date', 'additional_discount')
+            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date', 'additional_discount', 'order_status')
             ->where('order_id', $order_id)
             ->first();
         if (empty($order)) {
             return redirect('/admin/orders');
         }
-        $order_status = DB::table('order_updates')
-            ->select('order_status_name')
-            ->where('refOrder_id', $order_id)
-            ->whereIn('order_status_name', ['PAID', 'CANCELLED'])
-            ->orderBy('order_update_id', 'desc')
-            ->first();
-        if ($order_status) {
+        else if ($order->order_status == 'PAID' || $order->order_status == 'CANCELLED') {
             return redirect('/admin/orders');
         }
 
@@ -1821,14 +1797,7 @@ class OrdersController extends Controller
                 ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC', 'ou', function ($join) {
                     $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
                 })
-                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'od.rapaport_price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'ou.status'
-                /* DB::raw("( case
-                when exists(select 1 from order_updates where order_status_name = 'PAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'PAID'
-                when exists(select 1 from order_updates where order_status_name = 'UNPAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'UNPAID'
-                end )
-                as status") */
-                // DB::raw("(select order_status_name from order_updates where \"refOrder_id\" = od.\"refOrder_id\" order by order_update_id desc limit 1) as status")
-            );
+                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'od.rapaport_price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'o.order_status as status');
             if ($request->slug == 'rough-diamonds') {
                 $diamonds = $diamonds->whereIn('refAttribute_group_id', [2, 3, 1])
                     ->where('od.refCategory_id', 1);
