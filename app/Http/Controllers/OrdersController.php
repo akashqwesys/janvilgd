@@ -1821,7 +1821,7 @@ class OrdersController extends Controller
                 ->joinSub('SELECT "refOrder_id", order_status_name as status FROM order_updates ORDER BY order_update_id DESC', 'ou', function ($join) {
                     $join->on('ou.refOrder_id', '=', 'od.refOrder_id');
                 })
-                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'ou.status'
+                ->select('od.refDiamond_id', 'od.created_at', 'od.barcode', 'od.expected_polish_cts', 'od.new_discount', 'od.price', 'od.rapaport_price', 'da.refAttribute_id', 'da.refAttribute_group_id', 'a.name as at_name', 'ag.name as ag_name', 'od.discount', 'a.sort_order', 'ou.status'
                 /* DB::raw("( case
                 when exists(select 1 from order_updates where order_status_name = 'PAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'PAID'
                 when exists(select 1 from order_updates where order_status_name = 'UNPAID' and \"refOrder_id\" = od.\"refOrder_id\") then 'UNPAID'
@@ -1855,6 +1855,7 @@ class OrdersController extends Controller
                         'refDiamond_id' => $diamonds[$i]->refDiamond_id,
                         'barcode' => $diamonds[$i]->barcode,
                         'carat' => number_format($diamonds[$i]->expected_polish_cts, 2, '.', ''),
+                        'rapaport' => '$' . number_format($diamonds[$i]->rapaport_price, 2, '.', ','),
                         'discount' => $diamonds[$i]->discount,
                         'new_discount' => $diamonds[$i]->new_discount,
                         'price' => '$' . number_format($diamonds[$i]->price, 2, '.', ''),

@@ -48,6 +48,7 @@
                                             <th class="text-center">Color</th>
                                             <th class="text-center">Clarity</th>
                                             <th class="text-center">Cut</th>
+                                            <th class="text-center">Rapaport</th>
                                             <th class="text-center">Discount</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Sold Disc.</th>
@@ -117,6 +118,7 @@
             {data: 'color', name: 'color'},
             {data: 'clarity', name: 'clarity'},
             {data: 'cut', name: 'cut'},
+            {data: 'rapaport', name: 'rapaport'},
             {data: 'discount', name: 'discount'},
             {data: 'status', name: 'status'},
             {data: 'new_discount', name: 'new_discount'},
@@ -132,6 +134,7 @@
             $(row).children(':nth-child(7)').addClass('text-center');
             $(row).children(':nth-child(8)').addClass('text-center');
             $(row).children(':nth-child(9)').addClass('text-center');
+            $(row).children(':nth-child(10)').addClass('text-center');
             $(row).children(':nth-child(10)').addClass('text-center');
             // $(row).children(':nth-child(11)').addClass('text-right');
         }
