@@ -506,13 +506,8 @@ class DashboardController extends Controller {
             ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds GROUP BY "refOrder_id"', 'od', function ($join) {
                 $join->on('od.refOrder_id', '=', 'o.order_id');
             })
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('orders as o')
-                    ->whereColumn('o.order_id', 'o.order_id')
-                    ->whereIn('o.order_status', ['CANCELLED', 'PENDING']);
-            })
             ->select('o.refCustomer_id', 'o.name', 'od.total_diamonds', 'o.total_paid_amount')
+            ->whereIn('order_status', ['PAID', 'UNPAID'])
             // ->groupByRaw('"refCustomer_id", o.name, od.total_diamonds, o.total_paid_amount')
             ->orderBy('total_paid_amount', 'desc')
             // ->orderBy('refCustomer_id', 'desc')
