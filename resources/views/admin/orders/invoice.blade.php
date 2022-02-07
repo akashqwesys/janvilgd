@@ -798,6 +798,7 @@
         var new_total = subtotal.toFixed(2) - parseFloat($('#discount').text()) - parseFloat($('#add_discount').text()) + parseFloat($('#tax').text()) + parseFloat($('#shipping_charge').val());
         $('#subtotal').text(subtotal.toFixed(2));
         $('#total').text(new_total.toFixed(2));
+        $('#shipping_name').trigger('change');
     });
 
     $(document).on('change', '#shipping_charge', function () {

@@ -151,15 +151,9 @@
                                                 <div class="form-control-wrap-">
                                                     <select class="form-control form-select-" id="refCountry_id" name="refCountry_id" required=""  data-search="on" data-placeholder="------ Select Country ------">
                                                         <option value="">------ Select Country ------</option>
-                                                        <?php
-                                                        if (!empty($data['country'])) {
-                                                            foreach ($data['country'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->country_id }}" {{ set_selected($row->country_id,$data['result']->refCountry_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
+                                                        @foreach ($data['country'] as $row)
+                                                        <option value="{{ $row->country_id }}" {{ set_selected($row->country_id, $data['result']->refCountry_id) }}>{{ $row->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -193,15 +187,6 @@
                                                 <div class="form-control-wrap">
                                                     <select class="form-control form-select-" id="refCity_id" name="refCity_id" required="" tabindex="-1" aria-hidden="true" data-search="on" data-placeholder="------ Select City ------">
                                                         <option value="">------ Select City ------</option>
-                                                        <?php
-                                                        /* if (!empty($data['city'])) {
-                                                            foreach ($data['city'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->city_id }}" {{ set_selected($row->city_id,$data['result']->refCity_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        } */
-                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>

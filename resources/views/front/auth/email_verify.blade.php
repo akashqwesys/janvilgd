@@ -44,6 +44,7 @@
                             <p class="title">Thank you for registering with Janvi LGD Private Limited.</p>
                             <p>Your account requires approval. You will be notified via email when your account is approved.</p>
                             <p>In case of urgency please contact <a href="mailto:support@janvilgd.com">support@janvilgd.com</a> or whatsapp <a href="tel:+919714405421">+919714405421</a>.</p>
+                            <div class="mt-4 text-center"><a href="/" class="btn btn-primary">Back to Home</a></div>
                         </div>
                     </div>
                 </div>
