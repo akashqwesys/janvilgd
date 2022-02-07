@@ -86,14 +86,16 @@ class FrontAuthController extends Controller
                     'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                     'password' => ['required', 'between:6,15'],
                     'confirm_password' => ['required', 'same:password'],
-                    'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
+                    'mobile' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
+                    'country_code' => ['required'],
                     'address' => ['required'],
-                    'country' => ['required'],
+                    // 'country' => ['required'],
                     'state' => ['required'],
                     'city' => ['required'],
                     'pincode' => ['required'],
                     'company_name' => ['required'],
-                    'company_office_no' => ['required'],
+                    'company_country_code' => ['required'],
+                    'company_office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
                     'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                     'company_gst_pan' => ['required', 'between:5,15'],
                     'company_address' => ['required'],
@@ -109,6 +111,8 @@ class FrontAuthController extends Controller
                     'mobile.regex' => 'Please enter valid 10 digits phone number',
                     'email.required' => 'Please enter email address',
                     'email.regex' => 'Please enter valid email address',
+                    'password.required' => 'Please enter password',
+                    'confirm_password.same' => 'Those password didn\'t match. Try again',
                     'country.required' => 'Please enter country',
                     'state.required' => 'Please enter state',
                     'city.required' => 'Please enter city',
@@ -210,7 +214,7 @@ class FrontAuthController extends Controller
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
             }
         } else {
-            $country = DB::table('country')->select('country_id', 'name')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $country = DB::table('country')->select('country_id', 'name', 'country_code')->where('is_active', 1)->where('is_deleted', 0)->whereRaw('SUBSTRING(country_code, 1, 1) <> \'-\'')->get();
             return view('front.auth.register', compact('country'));
         }
     }

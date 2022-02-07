@@ -367,7 +367,10 @@ class OrdersController extends Controller
     {
         if ($request->ajax()) {
             $data = DB::table('orders')
-                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', 'orders.due_date', 'order_status');
+                ->joinSub('SELECT "refOrder_id", COUNT(order_diamond_id) as total_diamonds FROM order_diamonds GROUP BY "refOrder_id"', 'od', function ($join) {
+                    $join->on('od.refOrder_id', '=', 'orders.order_id');
+                })
+                ->select('orders.order_id', 'orders.name', 'orders.mobile_no', 'orders.email_id', 'orders.payment_mode_name', 'orders.refTransaction_id', 'orders.total_paid_amount', 'orders.date_added', 'orders.date_updated', 'orders.due_date', 'orders.order_status', 'total_diamonds');
             if (isset($request->order_status) && !empty($request->order_status)) {
                 if ($request->order_status == 'PENDING') {
                     $data = $data->where('order_status', 'PENDING');
@@ -1274,7 +1277,13 @@ class OrdersController extends Controller
     {
         $data['title'] = 'Update Invoice';
         $order = DB::table('orders')
-            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date', 'additional_discount', 'order_status')
+            /* ->join('city as ct', 'orders.refCity_id_billing', '=', 'ct.city_id')
+            ->join('state as st', 'orders.refState_id_billing', '=', 'st.state_id')
+            ->join('country as cy', 'orders.refCountry_id_billing', '=', 'cy.country_id')
+            ->join('city as ct1', 'orders.refCity_id_shipping', '=', 'ct1.city_id')
+            ->join('state as st1', 'orders.refState_id_shipping', '=', 'st1.state_id')
+            ->join('country as cy1', 'orders.refCountry_id_shipping', '=', 'cy1.country_id') */
+            ->select('order_id', 'refCustomer_id', 'refCustomer_company_id_billing', 'refCustomer_company_id_shipping', 'delivery_charge_amount', 'discount_amount', 'tax_amount', 'sub_total', 'total_paid_amount', 'orders.created_at', 'attention', 'billing_remarks', 'shipping_remarks', 'due_date', 'additional_discount', 'order_status'/* , 'ct.name as city_name', 'st.name as state_name', 'cy.name as country_name', 'ct1.name as city_name1', 'st1.name as state_name1', 'cy1.name as country_name1' */)
             ->where('order_id', $order_id)
             ->first();
         if (empty($order)) {

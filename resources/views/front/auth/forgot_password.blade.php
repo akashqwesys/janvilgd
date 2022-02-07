@@ -275,8 +275,8 @@
                 return false;
             }
             $('.errTxt-3').text('');
-            if ($('#confirm_password').val().length < 6 || $('#confirm_password').val().length > 15) {
-                $('.errTxt-4').text('Please enter confirm password');
+            if ($('#confirm_password').val() != $('#password').val()) {
+                $('.errTxt-4').text('Those password didn\'t match. Try again');
                 return false;
             }
             $('.errTxt-4').text('');
