@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css?v={{ time() }}">
 	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
 	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/new-style.css?v={{ time() }}">
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/rSlider.js"></script>
@@ -316,7 +317,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
 

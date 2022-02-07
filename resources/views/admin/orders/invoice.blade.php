@@ -136,24 +136,21 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_country">Country:</label>
-                                        <select class="form-control" name="company_country" id="company_country" required placeholder="" disabled>
+                                        <input type="text" class="form-control" name="company_country" id="company_country" required placeholder="Country" disabled>
+                                        {{-- <select class="form-control" name="company_country" id="company_country" required placeholder="" disabled>
                                             <option value="" >Select Country</option>
                                             @foreach ($country as $c)
                                             <option value="{{ $c->country_id }}" >{{ $c->name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select> --}}
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_state">State:</label>
-                                        <select class="form-control" name="company_state" id="company_state" required placeholder="" disabled>
-                                            <option value="" >Select State</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="company_state" id="company_state" required placeholder="State" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_city">City:</label>
-                                        <select class="form-control" name="company_city" id="company_city" required placeholder="" disabled>
-                                            <option value="" >Select City</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="company_city" id="company_city" required placeholder="City" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="company_zip">Postal/Zip Code:</label>
@@ -197,24 +194,15 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_country">Country:</label>
-                                        <select class="form-control" name="shipping_country" id="shipping_country" required placeholder="" disabled>
-                                            <option value="" >Select Country</option>
-                                            @foreach ($country as $c)
-                                            <option value="{{ $c->country_id }}" >{{ $c->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input class="form-control" name="shipping_country" id="shipping_country" required placeholder="Country" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_state">State:</label>
-                                        <select class="form-control" name="shipping_state" id="shipping_state" required placeholder="" disabled>
-                                            <option value="" >Select State</option>
-                                        </select>
+                                        <input class="form-control" name="shipping_state" id="shipping_state" required placeholder="State" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_city">City:</label>
-                                        <select class="form-control" name="shipping_city" id="shipping_city" required placeholder="" disabled>
-                                            <option value="" >Select City</option>
-                                        </select>
+                                        <input class="form-control" name="shipping_city" id="shipping_city" required placeholder="City" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="shipping_zip">Postal/Zip Code:</label>
@@ -486,9 +474,9 @@
                         'mobile': value.office_no,
                         'address': value.office_address,
                         'pincode': value.pincode,
-                        'country': value.refCountry_id,
-                        'state': value.refState_id,
-                        'city': value.refCity_id,
+                        'country': value.country_name,
+                        'state': value.state_name,
+                        'city': value.city_name,
                     };
                     $('#company_name').append($('<option />').val(value.customer_company_id).text(value.name));
                     $('#shipping_name').append($('<option />').val(value.customer_company_id).text(value.name));
@@ -535,13 +523,9 @@
         $('#'+ap+'_email').val(company_details[val].email);
         $('#'+ap+'_mobile').val(company_details[val].mobile);
         $('#'+ap+'_address').val(company_details[val].address);
-        $('#'+ap+'_country').val(company_details[val].country).trigger('change');
-        setTimeout(() => {
-            $('#'+ap+'_state').val(company_details[val].state).trigger('change');
-            setTimeout(() => {
-                $('#'+ap+'_city').val(company_details[val].city);
-            }, 1000);
-        }, 1000);
+        $('#'+ap+'_country').val(company_details[val].country);
+        $('#'+ap+'_state').val(company_details[val].state);
+        $('#'+ap+'_city').val(company_details[val].city);
         $('#'+ap+'_zip').val(company_details[val].pincode);
     });
 
@@ -551,7 +535,7 @@
         }
     });
 
-    $(document).on('change', '#company_country, #shipping_country, #company_country2', function () {
+    $(document).on('change', /*'#company_country, #shipping_country,*/ '#company_country2', function () {
         $.ajax({
             type: "POST",
             url: "/getStates",
@@ -570,13 +554,13 @@
                     });
                 }
                 else {
-                    if ($(this).attr('id') == 'shipping_country') {
-                        $('#shipping_state').html(response.data);
-                    } else if ($(this).attr('id') == 'company_country') {
-                        $('#company_state').html(response.data);
-                    } else {
+                    // if ($(this).attr('id') == 'shipping_country') {
+                    //     $('#shipping_state').html(response.data);
+                    // } else if ($(this).attr('id') == 'company_country') {
+                    //     $('#company_state').html(response.data);
+                    // } else {
                         $('#company_state2').html(response.data);
-                    }
+                    // }
                 }
             },
             failure: function (response) {
@@ -590,7 +574,7 @@
         });
     });
 
-    $(document).on('change', '#company_state, #shipping_state, #company_state2', function () {
+    $(document).on('change', /*'#company_state, #shipping_state,*/ '#company_state2', function () {
         $.ajax({
             type: "POST",
             url: "/getCities",
@@ -609,13 +593,13 @@
                     });
                 }
                 else {
-                    if ($(this).attr('id') == 'shipping_state') {
-                        $('#shipping_city').html(response.data);
-                    } else if ($(this).attr('id') == 'company_state') {
-                        $('#company_city').html(response.data);
-                    } else {
+                    // if ($(this).attr('id') == 'shipping_state') {
+                    //     $('#shipping_city').html(response.data);
+                    // } else if ($(this).attr('id') == 'company_state') {
+                    //     $('#company_city').html(response.data);
+                    // } else {
                         $('#company_city2').html(response.data);
-                    }
+                    // }
                 }
             },
             failure: function (response) {

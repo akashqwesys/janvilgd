@@ -163,6 +163,7 @@
                                             <th>Customer</th>
                                             <th>Email</th>
                                             <th>Mobile No</th>
+                                            <th>Diamonds</th>
                                             {{-- <th>Payment</th> --}}
                                             <th>Transaction ID</th>
                                             <th>Placed on</th>
@@ -255,6 +256,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'email_id', name: 'email_id'},
                 {data: 'mobile_no', name: 'mobile_no'},
+                {data: 'total_diamonds', name: 'total_diamonds'},
                 // {data: 'payment_mode_name', name: 'payment_mode_name'},
                 {data: 'refTransaction_id', name: 'refTransaction_id'},
                 {data: 'date_added', name: 'date_added'},
@@ -268,7 +270,7 @@
                 }
             ],
             "createdRow": function (row, data, dataIndex) {
-                $(row).children(':nth-child(9)').addClass('text-right');
+                $(row).children(':nth-child(10)').addClass('text-right');
                 $(row).addClass('tr_' + data['order_id']);
             }
         });

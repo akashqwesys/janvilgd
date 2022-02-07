@@ -52,7 +52,7 @@
                                             <th class="text-center">Discount</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Sold Disc.</th>
-                                            <th class="text-right">Amount</th>
+                                            <th class="text-center">Amount</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -135,8 +135,9 @@
             $(row).children(':nth-child(8)').addClass('text-center');
             $(row).children(':nth-child(9)').addClass('text-center');
             $(row).children(':nth-child(10)').addClass('text-center');
-            $(row).children(':nth-child(10)').addClass('text-center');
-            // $(row).children(':nth-child(11)').addClass('text-right');
+            $(row).children(':nth-child(11)').addClass('text-center');
+            $(row).children(':nth-child(12)').addClass('text-center');
+            $(row).children(':nth-child(13)').addClass('text-center');
         }
     });
 </script>

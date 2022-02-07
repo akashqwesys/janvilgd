@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
     <link rel="stylesheet" href="/admin_assets/toast/jquery.toast.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <style type="text/css">
         .errTxt {
             color: red;
@@ -24,6 +25,9 @@
             position: relative;
             padding: 3rem;
             display: none;
+        }
+        #country_code {
+            padding-left: 0.8rem;
         }
     </style>
 </head>
@@ -83,11 +87,26 @@
                                         <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><img src="/assets/images/phone.svg" alt=""></span>
-                                            <input type="text" id="mobile" class="form-control" placeholder="Mobile Number" >
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <select class="form-select" id="country_code" name="country_code">
+                                                        <option selected value="">CC</option>
+                                                        @foreach ($country as $c)
+                                                        <option value="{{ $c->country_id }}">{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><img src="/assets/images/phone.svg" alt=""></span>
+                                                    <input type="text" id="mobile" class="form-control" placeholder="Mobile Number" >
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
                                         </div>
-                                        <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
@@ -98,11 +117,11 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
-                                            <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
-                                            <select class="form-select" id="country" name="country">
+                                            <span class="input-group-text" style="background: #e9ecef;"><img src="/assets/images/country.svg" alt=""></span>
+                                            <select class="form-select" id="country" name="country" disabled>
                                                 <option selected value="">Select Country</option>
                                                 @foreach ($country as $c)
-                                                    <option value="{{ $c->country_id }}">{{ $c->name }}</option>
+                                                <option value="{{ $c->country_id }}">{{ $c->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -111,7 +130,7 @@
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
-                                            <select class="form-select" id="state" name="state">
+                                            <select class="form-select form-control" id="state" name="state">
                                                 <option selected value="">Select State</option>
                                             </select>
                                         </div>
@@ -253,6 +272,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.1/js/all.min.js"></script>
     <script src="/admin_assets/toast/jquery.toast.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="/assets/js/sign-up.js"></script>
 </body>
 </html>

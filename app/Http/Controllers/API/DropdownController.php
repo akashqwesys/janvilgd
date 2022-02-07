@@ -18,7 +18,7 @@ class DropdownController extends Controller
     public function index(Request $request)
     {
         $country = DB::table('country')
-            ->select('country_id', 'name')
+            ->select('country_id', 'name', 'country_code')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->get();

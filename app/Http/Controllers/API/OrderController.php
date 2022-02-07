@@ -79,6 +79,9 @@ class OrderController extends Controller
                 ->where('o.refTransaction_id', $request->transaction_id)
                 ->get()
                 ->toArray();
+            if (count($orders) < 1) {
+                return $this->errorResponse('No such order found');
+            }
 
             $diamonds = DB::table('order_diamonds as od')
                 ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')

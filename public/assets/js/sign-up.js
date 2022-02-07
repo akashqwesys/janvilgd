@@ -57,7 +57,7 @@ $(document).on('change', '#country', function () {
                 });
             }
             else {
-                $('#state').html(response.data);
+                $('#state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -89,7 +89,7 @@ $(document).on('change', '#state', function () {
                 });
             }
             else {
-                $('#city').html(response.data);
+                $('#city').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -121,7 +121,7 @@ $(document).on('change', '#company_country', function () {
                 });
             }
             else {
-                $('#company_state').html(response.data);
+                $('#company_state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -153,7 +153,7 @@ $(document).on('change', '#company_state', function () {
                 });
             }
             else {
-                $('#company_city').html(response.data);
+                $('#company_city').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -177,6 +177,7 @@ $("#msform").validate({
         },
         password: { required: true, rangelength: [6, 15] },
         confirm_password: { required: true, equalTo: "#password" },
+        // country_code: { required: true },
         mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
@@ -201,8 +202,9 @@ $("#msform").validate({
             required: "Please enter your email address",
             email: "Your email address must be in the format of name@domain.com"
         },
-        password: { required: "Please enter password", equalTo: 'Please enter same password again' },
-        confirm_password: { required: "Please enter confirm password" },
+        password: { required: "Please enter password" },
+        confirm_password: { required: "Please enter confirm password", equalTo: 'Those password didn\'t match. Try again' },
+        // country_code: { required: "Please select country code" },
         mobile: {
             // required: "Please enter your mobile number",
             number: "Your contact number should only consist of numeric digits"
@@ -281,6 +283,14 @@ $("#msform").validate({
             }
         });
     }
+});
+$(document).on('change', '#country_code', function () {
+    $('#country').val($(this).val()).trigger('change');
+});
+$('#country_code').on('select2:open', function (e) {
+    setTimeout(() => {
+        $('#select2-country_code-results').parent().parent().css('width', '15vw');
+    }, 10);
 });
 $(document).on('change', '#id_upload', function () {
     $(this).prev('.et_pb_contact_form_label').attr('data-content', $(this)[0].files[0].name);
@@ -398,7 +408,4 @@ $(document).ready(function () {
   		}
   	});
   });
-
-
-
 });
