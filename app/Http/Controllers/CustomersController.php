@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Session;
 use DataTables;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailVerification;
+use App\Mail\CommonEmail;
 
 class CustomersController extends Controller {
 
@@ -17,66 +21,145 @@ class CustomersController extends Controller {
         return view('admin.customers.list', ["data" => $data, 'request' => $request]);
     }
 
-    public function add() {
+    public function add(Request $request) {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) <> \'-\'')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
-        $data['city'] = $city;
-        $data['state'] = $state;
         $data['country'] = $country;
         $data['title'] = 'Add-Customers';
+        // session()->put('error', null);
         return view('admin.customers.add', ["data" => $data]);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
+        $rules = [
+            'name' => ['required'],
+            'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+            'password' => ['required', 'between:6,15'],
+            'confirm_password' => ['required', 'same:password'],
+            'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
+            'address' => ['required'],
+            // 'refCountry_id' => ['required'],
+            'refState_id' => ['required'],
+            'refCity_id' => ['required'],
+            'pincode' => ['required'],
+            'company_name' => ['required'],
+            'office_no' => ['required'],
+            'official_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+            'pan_gst_no' => ['required', 'between:5,15'],
+            'office_pincode' => ['required'],
+            'office_address' => ['required'],
+            // 'office_country_id' => ['required'],
+            'office_state_id' => ['required'],
+            'office_city_id' => ['required'],
+            'pan_gst_no_file' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
+        ];
 
-        $request->validate([
-            'pan_gst_no_file' => 'mimes:doc,pdf,docx|max:5000',
-        ]);
-        $pan_gst_no_file = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
-        $request->file('pan_gst_no_file')->storeAs("public/user_files", $pan_gst_no_file);
-        DB::table('customer')->insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'mobile' => $request->mobile,
-            'address' => $request->address,
-            'pincode' => $request->pincode,
-            'refCity_id' => $request->refCity_id,
-            'refState_id' => $request->refState_id,
-            'refCountry_id' => $request->refCountry_id,
-            'refCustomerType_id' => $request->refCustomerType_id,
-            'restrict_transactions' => $request->restrict_transactions,
-            'added_by' => $request->session()->get('loginId'),
-            'is_active' => 1,
-            'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
-        ]);
-        $Id = DB::getPdo()->lastInsertId();
+        $message = [
+            // 'mobile.required' => 'Please enter phone number',
+            'mobile.regex' => 'Please enter valid 10 digits phone number',
+            'email.required' => 'Please enter email address',
+            'email.regex' => 'Please enter valid email address',
+            'password.required' => 'Please enter password',
+            'confirm_password.same' => 'Those password didn\'t match. Try again',
+            'refCountry_id.required' => 'Please enter country',
+            'refState_id.required' => 'Please enter state',
+            'refCity_id.required' => 'Please enter city',
+            'company_name.required' => 'Please enter your company name',
+            'office_no.required' => 'Please enter company office number',
+            'official_email.required' => 'Please enter company email address',
+            'pan_gst_no.required' => 'Please enter company VAT or TIN or GST or PAN',
+            'office_address.required' => 'Please enter company address',
+            'office_country_id.required' => 'Please enter company country',
+            'office_state_id.required' => 'Please enter company state',
+            'office_city_id.required' => 'Please enter company city',
+            'pan_gst_no_file.required' => 'Please select ID proof'
+        ];
 
-        DB::table('customer_company_details')->insert([
-            'refCustomer_id' => $Id,
-            'name' => $request->company_name,
-            'office_no' => $request->office_no,
-            'official_email' => $request->official_email,
-            'refDesignation_id' => $request->designation_id,
-            'designation_name' => 'demo',
-            'office_address' => $request->office_address,
-            'pincode' => $request->office_pincode,
-            'refCountry_id' => $request->office_country_id,
-            'refState_id' => $request->office_state_id,
-            'refCity_id' => $request->office_city_id,
-            'pan_gst_no' => $request->pan_gst_no,
-            'pan_gst_attachment' => $pan_gst_no_file,
-            'approved_by' => $request->session()->get('loginId'),
-            'is_approved' => $request->is_approved,
-            'approved_date_time' => date("Y-m-d h:i:s"),
-        ]);
-        activity($request, "inserted", 'customers');
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return back()->with('error', $validator->errors()->all()[0]);
+        }
+
+        $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
+            ->where('email', strtolower($request->email))
+            ->first();
+        if ($exists) {
+            return back()->with('error', 'Email is already registered, Try with new email');
+        }
+
+        $customer = new Customers;
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->password = Hash::make($request->password);
+        $customer->mobile = $request->mobile;
+        $customer->address = $request->address;
+        $customer->pincode = $request->pincode;
+        $customer->refCity_id = $request->refCity_id;
+        $customer->refState_id = $request->refState_id;
+        $customer->refCountry_id = $request->country_code;
+        $customer->refCustomerType_id = 1;
+        $customer->restrict_transactions = $request->restrict_transactions;
+        $customer->added_by = $request->session()->get('loginId');
+        $customer->is_active = 1;
+        $customer->is_deleted = 0;
+        $customer->date_added = date('Y-m-d H:i:s');
+        $customer->date_updated = date('Y-m-d H:i:s');
+        $customer->otp = 0;
+        $customer->otp_status = 0;
+        $customer->verified_status = 0;
+        $customer->save();
+
+        $company = new CustomerCompanyDetail;
+        $company->refCustomer_id = $customer->customer_id;
+        $company->name = $request->company_name;
+        $company->office_no = $request->office_no;
+        $company->official_email = strtolower($request->official_email);
+        $company->refDesignation_id = $request->designation_id;
+        $company->designation_name = 'customer';
+        $company->office_address = $request->office_address;
+        $company->pincode = $request->office_pincode;
+        $company->refCountry_id = $request->company_country_code;
+        $company->refState_id = $request->office_state_id;
+        $company->refCity_id = $request->office_city_id;
+        $company->pan_gst_no = $request->pan_gst_no;
+        if ($request->hasFile('pan_gst_no_file')) {
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
+            $request->file('pan_gst_no_file')->storeAs("public/user_files", $imageName);
+            $company->pan_gst_attachment = $imageName;
+        }
+        $company->save();
+        $admin_email = DB::table('settings')
+            ->select('value')
+            ->where('key', 'admin_email')
+            ->pluck('value')
+            ->first();
+        Mail::to($admin_email)
+            ->send(
+                new CommonEmail([
+                    'subject' => 'New User on Janvi LGD',
+                    'data' => [
+                        'time' => date('Y-m-d H:i:s'),
+                        'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                    ],
+                    'view' => 'emails.commonEmail'
+                ])
+            );
+        Mail::to($customer->email)
+            ->send(
+                new EmailVerification([
+                    'subject' => 'Email Verification from Janvi LGD',
+                    'name' => $customer->name,
+                    'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                    'otp' => 0,
+                    'view' => 'emails.codeVerification_2'
+                ])
+            );
+        activity($request, "inserted", 'customers', $customer->customer_id);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/customers');
     }
@@ -153,13 +236,11 @@ class CustomersController extends Controller {
     public function edit($id) {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+
         $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
-        $data['city'] = $city;
-        $data['state'] = $state;
+
         $data['country'] = $country;
         $result = DB::table('customer')->where('customer_id', $id)->first();
         // $result2 = DB::table('customer_company_details')->where('refCustomer_id', $id)->get();

@@ -393,8 +393,6 @@ class FrontAuthController extends Controller
                 return redirect('/customer/search-diamonds/polish-diamonds');
             }
         }
-
-        return view('front.auth.email_verify');
     }
 
     public function otpVerify(Request $request)
