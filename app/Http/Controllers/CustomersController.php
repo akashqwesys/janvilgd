@@ -23,9 +23,9 @@ class CustomersController extends Controller {
 
     public function add(Request $request) {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        // $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) <> \'-\'')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $data['designation'] = $designation;
+        // $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
         $data['country'] = $country;
         $data['title'] = 'Add-Customers';
@@ -119,7 +119,7 @@ class CustomersController extends Controller {
         $company->name = $request->company_name;
         $company->office_no = $request->office_no;
         $company->official_email = strtolower($request->official_email);
-        $company->refDesignation_id = $request->designation_id;
+        $company->refDesignation_id = 0;
         $company->designation_name = 'customer';
         $company->office_address = $request->office_address;
         $company->pincode = $request->office_pincode;
@@ -236,10 +236,10 @@ class CustomersController extends Controller {
 
     public function edit($id) {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        // $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
 
         $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $data['designation'] = $designation;
+        // $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
 
         $data['country'] = $country;
@@ -428,8 +428,8 @@ class CustomersController extends Controller {
             $company->refState_id = $request->company_state;
             $company->refCountry_id = $request->company_country ?? $request->company_country_code;
             $company->pan_gst_no = $request->company_gst_pan;
-            $company->refDesignation_id = 1;
-            $company->designation_name = 'owner';
+            // $company->refDesignation_id = 0;
+            // $company->designation_name = 'owner';
             /* $company->is_approved = 1;
             $company->approved_date_time = date('Y-m-d H:i:s');
             $company->approved_by = 0; */

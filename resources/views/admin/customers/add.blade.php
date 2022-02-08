@@ -310,7 +310,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3 align-center">
+                                    {{-- <div class="row g-3 align-center">
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="designation_id">Designation:</label>
@@ -328,7 +328,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row g-3 align-center">
                                         <div class="col-lg-2">
                                             <div class="form-group">
