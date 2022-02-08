@@ -99,7 +99,7 @@ class FrontAuthController extends Controller
                     'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                     'company_gst_pan' => ['required', 'between:5,15'],
                     'company_address' => ['required'],
-                    'company_country' => ['required'],
+                    // 'company_country' => ['required'],
                     'company_state' => ['required'],
                     'company_city' => ['required'],
                     'company_pincode' => ['required'],
@@ -148,8 +148,8 @@ class FrontAuthController extends Controller
                     $customer->pincode = $request->pincode;
                     $customer->refCity_id = $request->city;
                     $customer->refState_id = $request->state;
-                    $customer->refCountry_id = $request->country;
-                    $customer->refCustomerType_id = 0;
+                    $customer->refCountry_id = $request->country ?? $request->country_code;
+                    $customer->refCustomerType_id = 1;
                     $customer->restrict_transactions = 0;
                     $customer->added_by = 0;
                     $customer->is_active = 1;
@@ -172,7 +172,7 @@ class FrontAuthController extends Controller
                     $company->pincode = $request->company_pincode;
                     $company->refCity_id = $request->company_city;
                     $company->refState_id = $request->company_state;
-                    $company->refCountry_id = $request->company_country;
+                    $company->refCountry_id = $request->company_country_code;
                     $company->pan_gst_no = $request->company_gst_pan;
                     if ($request->hasFile('id_upload')) {
                         $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
