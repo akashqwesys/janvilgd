@@ -50,7 +50,7 @@
     }
     .select2.select2-container:not(:first-child) {
         width: 100% !important;
-        padding-left: 40px;
+        /* padding-left: 40px; */
     }
     .select2-selection.select2-selection--single {
         height: 43px;
@@ -58,6 +58,9 @@
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 40px;
+    }
+    form label {
+        margin-bottom: 0.5rem;
     }
 </style>
 @endsection
@@ -175,7 +178,7 @@
                             <input type="hidden" name="customer_company_id" id="customer_company_id">
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_name">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Company Name">
                                 </div>
                                 <div class="errTxt"></div>
@@ -184,10 +187,11 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
+                                            <label for="company_country_code">Country Code</label>
                                             <select class="form-select" id="company_country_code" name="company_country_code">
                                                 <option selected value="">CC</option>
                                                 @foreach ($country as $row)
-                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -195,7 +199,7 @@
                                     </div>
                                     <div class="col-md-7">
                                         <div class="form-group">
-                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <label for="company_office_no">Company Mobile Number</label>
                                             <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
                                         </div>
                                         <div class="errTxt"></div>
@@ -204,21 +208,21 @@
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_email">Company Email</label>
                                     <input type="email" class="form-control" id="company_email" name="company_email" placeholder="Company Email Address">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                    <label for="company_gst_pan">Company VAT/TIN/GST/PAN/OTHER</label>
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company VAT/TIN/GST/PAN/OTHER" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_country">Company Country</label>
                                     <select class="form-select" id="company_country" name="company_country">
                                         <option value="" >Select Country</option>
                                         @foreach ($country as $c)
@@ -230,7 +234,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_state">Company State</label>
                                     <select class="form-select" id="company_state" name="company_state">
                                         <option value="" >Select State</option>
                                     </select>
@@ -239,7 +243,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_city">Company City</label>
                                     <select class="form-select" id="company_city" name="company_city">
                                         <option value="" >Select City</option>
                                     </select>
@@ -248,14 +252,14 @@
                             </div>
                             <div class="col col-12 col-md-8">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_address">Company Address</label>
                                     <input type="text" class="form-control" id="company_address" name="company_address" placeholder="Company Address" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_pincode">Company Pincode</label>
                                     <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
                                 </div>
                                 <div class="errTxt"></div>

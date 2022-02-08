@@ -106,7 +106,7 @@
                                                     <select class="form-select" id="country_code" name="country_code">
                                                         <option selected value="">CC</option>
                                                         @foreach ($country as $c)
-                                                        <option value="{{ $c->country_id }}">{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                        <option value="{{ $c->country_id }}" {{ set_selected(101, $c->country_id) }}>{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -185,7 +185,7 @@
                                                     <select class="form-select" id="company_country_code" name="company_country_code">
                                                         <option selected value="">CC</option>
                                                         @foreach ($country as $c)
-                                                        <option value="{{ $c->country_id }}">{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                        <option value="{{ $c->country_id }}" {{ set_selected(101, $c->country_id) }}>{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

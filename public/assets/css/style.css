@@ -3793,10 +3793,10 @@ label[for="id_upload"]:hover {
 
 /************* Custom Modal Css Start ************/
 
-.custom-modal .form-group .form-control,
+/* .custom-modal .form-group .form-control,
 .custom-modal .form-group select.form-select {
     padding-left: 40px;
-}
+} */
 
 .custom-modal .form-group {
     margin-bottom: 30px;
