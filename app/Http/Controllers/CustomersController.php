@@ -284,7 +284,7 @@ class CustomersController extends Controller {
             'pincode' => $request->pincode,
             'refCity_id' => $request->refCity_id,
             'refState_id' => $request->refState_id,
-            'refCountry_id' => $request->refCountry_id,
+            'refCountry_id' => $request->refCountry_id ?? $request->country_code,
             'refCustomerType_id' => $request->refCustomerType_id,
             'restrict_transactions' => $request->restrict_transactions,
             'date_updated' => date("Y-m-d h:i:s")
