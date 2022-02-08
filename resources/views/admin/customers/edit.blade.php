@@ -95,7 +95,7 @@
                                                             <select class="form-control" id="country_code" name="country_code" data-search="on">
                                                                 <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
-                                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                                <option value="{{ $row->country_id }}" {{ set_selected($row->country_id, $data['result']->refCountry_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -480,7 +480,7 @@
     setTimeout(() => {
         $('#refCountry_id').trigger('change');
     }, 500);
-    $('#country_code, #refCountry_id, #refState_id, #refCity_id, #office_country_id, #company_country_code').select2({});
+    $('#country_code, #refCountry_id, #refState_id, #refCity_id, #company_country, #company_country_code').select2({});
     setTimeout(() => {
         $('#country_code').on('select2:open', function (e) {
             setTimeout(() => {
@@ -639,6 +639,7 @@ $(document).on('click', '.delete-btn', function () {
 });
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('div.errTxt').html('');
+    // $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
     $('.custom-file-label').text('Click here to upload ID proof');
 });
 $(document).on('change', '#company_country', function () {

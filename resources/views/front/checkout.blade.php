@@ -18,14 +18,16 @@
         min-height: 15rem;
         padding: 2rem 2rem 1rem;
     }
-    .select2-selection__rendered {
-        line-height: 40px !important;
+    .select2:not(:first-child) {
+        width: 100% !important;
+        padding-left: 40px;
     }
-    .select2-container .select2-selection--single {
-        height: 40px !important;
+    .select2-selection.select2-selection--single {
+        height: 43px;
+        padding: 8px 0px;
     }
-    .select2-selection__arrow {
-        height: 37px !important;
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
     }
 </style>
 @endsection
@@ -278,11 +280,26 @@
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                <option selected value="">CC</option>
+                                                @foreach ($response['country'] as $row)
+                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
@@ -388,12 +405,31 @@
             $( ".cs-loader" ).show();
         }
     });
+    setTimeout(() => {
+        $('#company_country, #company_state, #company_city, #company_country_code').select2({
+            dropdownParent: $('#exampleModal')
+        });
+        $('#company_country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
+    }, 1000);
+    $(document).on('change', '#company_country_code', function () {
+        if ($(this).val()) {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+        } else {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+        }
+    });
+
     $(document).on('click', '#same_shipping', function () {
         $('#headingOne button').trigger('click');
         if ($(this).prop('checked') === true) {
             $('#shipping-select').val($('#billing-select').val()).trigger('change');
         }
     });
+
     $(document).ready(function() {
         function formatSearch(item) {
             var selectionText = item.text.split("||");
@@ -405,13 +441,14 @@
             var $returnString = $('<span>' + selectionText[0].substring(0, 21) +'</span>');
             return $returnString;
         };
-        $('select.select2').select2({
+        $('#billing-select, #shipping-select').select2({
             width: '100%'
             // templateResult: formatSearch,
             // templateSelection: formatSelected
         });
         $("#billing-select").trigger('change');
     });
+
     $(document).on('change', '#shipping-select', function() {
         if ($(this).val() && $('#billing-select').val()) {
             $('#checkout-btn').attr('disabled', false);
@@ -437,12 +474,13 @@
                 }
             }
         });
-
     });
+
     $(document).on('click', '#checkout-btn', function() {
         var token = window.btoa($('#shipping-select').val()+'---'+$('#billing-select').val());
         window.location = '/customer/place-order/'+token;
     });
+
     $(document).on('change', '#billing-select', function() {
         if ($(this).val() && $('#shipping-select').val()) {
             $('#checkout-btn').attr('disabled', false);
@@ -451,21 +489,26 @@
         }
         $('#billing-address-block').html('<div>'+$('option:selected', this).attr('data-name')+'</div><div>'+$('option:selected', this).attr('data-office_address')+'</div><div>'+$('option:selected', this).attr('data-city_name')+' - '+$('option:selected', this).attr('data-pincode')+'</div><div>'+$('option:selected', this).attr('data-state_name')+', '+$('option:selected', this).attr('data-country_name')+'</div><div>Mobile: '+$('option:selected', this).attr('data-office_no')+'</div><div>Email: '+$('option:selected', this).attr('data-official_email')+'</div>');
     });
+
     $("#exampleModal").on('hidden.bs.modal', function(){
         $('div.errTxt').html('');
         $('#companyForm')[0].reset();
+        $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
         $('.custom-file-label').text('Click here to upload ID proof');
     });
+
     $(document).on('click', '.add-shipping-btn', function () {
         $('#exampleModal .title').text('Add Shipping Address');
         $('#company_type').val('shipping');
         $('#exampleModal').modal('show');
     });
+
     $(document).on('click', '.add-billing-btn', function () {
         $('#exampleModal .title').text('Add Billing Address');
         $('#company_type').val('billing');
         $('#exampleModal').modal('show');
     });
+
     $(document).on('change', '#company_country', function () {
         $.ajax({
             type: "POST",
@@ -485,7 +528,9 @@
                     });
                 }
                 else {
-                    $('#company_state').html(response.data);
+                    $('#company_state').html(response.data).select2({
+                        dropdownParent: $('#exampleModal')
+                    });
                 }
             },
             failure: function (response) {
@@ -517,7 +562,9 @@
                     });
                 }
                 else {
-                    $('#company_city').html(response.data);
+                    $('#company_city').html(response.data).select2({
+                        dropdownParent: $('#exampleModal')
+                    });
                 }
             },
             failure: function (response) {
@@ -530,6 +577,7 @@
             }
         });
     });
+
     $("#companyForm").validate({
         errorClass: 'red-error',
         errorElement: 'div',
@@ -537,7 +585,7 @@
             company_name: {required: true, minlength: 4, maxlength: 200},
             company_office_no: { required: true, rangelength: [10, 11]},
             company_email: {required: true, email: true},
-            company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+            company_gst_pan: {required: true, minlength: 8},
             company_address: {required: true, rangelength: [10, 200]},
             company_country: {required: true},
             company_state: {required: true},
@@ -598,8 +646,8 @@
                         $(response.data).each(function (i, v) {
                             opt += '<option value="'+ v.customer_company_id +'" data-name="'+ v.name +'" data-office_no="'+ v.office_no +'" data-official_email="'+ v.official_email +'" data-office_address="'+ v.office_address +'" data-pincode="'+ v.pincode +'" data-city_name="'+ v.city_name +'" data-state_name="'+ v.state_name +'" data-country_name="'+ v.country_name +'" >'+ v.name +'.  '+ v.city_name +' - '+ v.pincode +', '+ v.state_name +', '+ v.country_name +' </option>';
                         });
-                        $('select.select2').html(opt);
-                        $('select.select2').select2('destroy').select2({
+                        $('#billing-select, #shipping-select').html(opt);
+                        $('#billing-select, #shipping-select').select2('destroy').select2({
                             width: '100%'
                         });
                         if ($('#company_type').val() == 'shipping') {

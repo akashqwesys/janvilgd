@@ -105,7 +105,7 @@
             errorElement: 'div',
             rules: {
                 email: {required: true, email: true},
-                password: {required: true, rangelength: [6, 15]}
+                password: {required: true}
             },
             messages: {
                 email: {

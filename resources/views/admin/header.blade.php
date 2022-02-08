@@ -279,17 +279,10 @@
                 }
             });
             function showloader(){
-                    $("#append_loader").css("display","block");
-                    return true;
-                }
+                $("#append_loader").css("display","block");
+                return true;
+            }
             $(document).ready(function () {
-                $('a[href$="#finish"]').attr("class", "submit_customers");
-                $('a[href$="#finish"]').addClass("d-none");
-                $('a[href$="#finish"]').parent('li').append('<button calss="submit_btn">submit</button>');
-
-                $(document).on('click', '.submit_btn', function () {
-                    $('.submit_btn').get(0).submit();
-                });
 
                 if (<?php
                 if (!empty(session()->get('request_check'))) {

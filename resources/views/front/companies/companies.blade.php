@@ -37,7 +37,7 @@
     .dropdown:hover > .dropdown-menu {
         display: block;
     }
-    .dropdown-menu {
+    /* .dropdown-menu */ .edit-delete {
         padding: 0 !important;
         top: 0 !important;
         right: 10px;
@@ -47,6 +47,17 @@
     }
     .dropdown-item.active, .dropdown-item:active {
         background-color: unset;
+    }
+    .select2.select2-container:not(:first-child) {
+        width: 100% !important;
+        padding-left: 40px;
+    }
+    .select2-selection.select2-selection--single {
+        height: 43px;
+        padding: 8px 0px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
     }
 </style>
 @endsection
@@ -109,7 +120,7 @@
                                                     <div class="col-md-1 col-1 text-right">
                                                         <div class="dropdown">
                                                             <i class="fa fa-ellipsis-v dropdown-toggle-" data-bs-toggle="dropdown" aria-expanded="false"> </i>
-                                                            <ul class="dropdown-menu">
+                                                            <ul class="dropdown-menu edit-delete">
                                                                 <li>
                                                                     <a href="javascript:void(0);"
                                                                         class="edit-btn dropdown-item"
@@ -170,11 +181,26 @@
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                <option selected value="">CC</option>
+                                                @foreach ($country as $row)
+                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
@@ -288,15 +314,17 @@ $(document).on('click', '.edit-btn', function () {
     $('#company_gst_pan').val($(this).attr('data-company_gst_pan'));
     $('#company_address').val($(this).attr('data-company_address'));
     $('#company_pincode').val($(this).attr('data-company_pincode'));
+    $('#company_country_code').val($(this).attr('data-company_country')).trigger('change');
     $('#company_country').val($(this).attr('data-company_country')).trigger('change');
     setTimeout(() => {
         $('#company_state').val($(this).attr('data-company_state')).trigger('change');
     }, 1000);
     setTimeout(() => {
-        $('#company_city').val($(this).attr('data-company_city'));
+        $('#company_city').val($(this).attr('data-company_city')).trigger('change');
     }, 2000);
     $('#exampleModal').modal('show');
 });
+
 $(document).on('click', '.delete-btn', function () {
     if(!confirm('Are you sure you want to delete?')) {
         return false;
@@ -337,8 +365,28 @@ $(document).on('click', '.delete-btn', function () {
         }
     });
 });
+
 $("#exampleModal").on('hidden.bs.modal', function(){
+    $('#companyForm')[0].reset();
+    $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
     $('div.errTxt').html('');
+});
+setTimeout(() => {
+    $('#company_country, #company_state, #company_city, #company_country_code').select2({
+        dropdownParent: $('#exampleModal')
+    });
+    $('#company_country_code').on('select2:open', function (e) {
+        setTimeout(() => {
+            $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+        }, 10);
+    });
+}, 1000);
+$(document).on('change', '#company_country_code', function () {
+    if ($(this).val()) {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
 });
 $(document).on('change', '#company_country', function () {
     $.ajax({
@@ -359,7 +407,9 @@ $(document).on('change', '#company_country', function () {
                 });
             }
             else {
-                $('#company_state').html(response.data);
+                $('#company_state').html(response.data).select2({
+                    dropdownParent: $('#exampleModal')
+                });
             }
         },
         failure: function (response) {
@@ -391,7 +441,9 @@ $(document).on('change', '#company_state', function () {
                 });
             }
             else {
-                $('#company_city').html(response.data);
+                $('#company_city').html(response.data).select2({
+                    dropdownParent: $('#exampleModal')
+                });
             }
         },
         failure: function (response) {
@@ -411,7 +463,7 @@ $("#companyForm").validate({
         company_name: {required: true, minlength: 4, maxlength: 200},
         company_office_no: { required: true, rangelength: [10, 11]},
         company_email: {required: true, email: true},
-        company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+        company_gst_pan: {required: true, minlength: 8},
         company_address: {required: true, rangelength: [10, 200]},
         company_country: {required: true},
         company_state: {required: true},

@@ -217,9 +217,9 @@ class UserController extends Controller
                 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'company_gst_pan' => ['required', 'between:10,15'],
+                'company_gst_pan' => ['required', 'min:8'],
                 'company_address' => ['required'],
-                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                // 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required'],
@@ -265,7 +265,7 @@ class UserController extends Controller
             $company->pincode = $request->company_pincode;
             $company->refCity_id = $request->company_city;
             $company->refState_id = $request->company_state;
-            $company->refCountry_id = $request->company_country;
+            $company->refCountry_id = $request->company_country ?? $request->company_country_code;
             $company->pan_gst_no = $request->company_gst_pan;
             $company->refDesignation_id = 1;
             $company->designation_name = 'owner';
