@@ -585,7 +585,7 @@
             company_name: {required: true, minlength: 4, maxlength: 200},
             company_office_no: { required: true, rangelength: [10, 11]},
             company_email: {required: true, email: true},
-            company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+            company_gst_pan: {required: true, minlength: 8},
             company_address: {required: true, rangelength: [10, 200]},
             company_country: {required: true},
             company_state: {required: true},
