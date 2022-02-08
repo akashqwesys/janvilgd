@@ -42,15 +42,18 @@
         width: 20px;
         margin: auto;
     }
-    .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
+    /* .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
         padding-left: 40px;
-    }
+    } */
     .alert {
         margin-bottom: 1rem;
     }
-    .select2.select2-container {
-        padding-left: 40px !important;
+    #companyForm label {
+        margin-bottom: 0.5rem;
     }
+    /* .select2.select2-container {
+        padding-left: 40px !important;
+    } */
 </style>
 @endsection
 @section('content')
@@ -302,7 +305,7 @@
                             <input type="hidden" name="form_customer_id" id="form_customer_id">
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_name">Company Name</label>
                                     <input type="text" class="form-control" id="company_name2" name="company_name" placeholder="Company Name">
                                 </div>
                                 <div class="errTxt"></div>
@@ -311,6 +314,7 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
+                                            <label for="company_country_code">Country Code</label>
                                             <select class="form-select" id="company_country_code" name="company_country_code">
                                                 <option selected value="">CC</option>
                                                 @foreach ($country as $row)
@@ -322,7 +326,7 @@
                                     </div>
                                     <div class="col-md-7">
                                         <div class="form-group">
-                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <label for="company_office_no">Company Mobile Number</label>
                                             <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
                                         </div>
                                         <div class="errTxt"></div>
@@ -331,21 +335,21 @@
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_email">Company Email</label>
                                     <input type="email" class="form-control" id="company_email2" name="company_email" placeholder="Company Email Address">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                    <label for="company_gst_pan">Company VAT/TIN/GST/PAN/OTHER</label>
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company VAT/TIN/GST/PAN/OTHER" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_country">Company Country</label>
                                     <select class="form-select- form-control" id="company_country2" name="company_country">
                                         <option value="" >Select Country</option>
                                         @foreach ($country as $c)
@@ -357,7 +361,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_state">Company State</label>
                                     <select class="form-select- form-control" id="company_state2" name="company_state">
                                         <option value="" >Select State</option>
                                     </select>
@@ -366,7 +370,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_city">Company City</label>
                                     <select class="form-select- form-control" id="company_city2" name="company_city">
                                         <option value="" >Select City</option>
                                     </select>
@@ -375,14 +379,14 @@
                             </div>
                             <div class="col col-12 col-md-8">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <label for="company_address">Company Address</label>
                                     <input type="text" class="form-control" id="company_address2" name="company_address" placeholder="Company Address" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon" style="width: 15px">
+                                    <label for="company_pincode">Company Pincode</label>
                                     <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
                                 </div>
                                 <div class="errTxt"></div>
