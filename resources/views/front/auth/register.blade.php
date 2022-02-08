@@ -29,6 +29,19 @@
         #country_code {
             padding-left: 0.8rem;
         }
+        .select2.select2-container {
+            width: 85% !important;
+        }
+        .select2-selection.select2-selection--single {
+            height: 43px;
+            padding: 8px 0px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 40px;
+        }
+        .select2-container--default .select2-selection--single {
+            border: unset;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +115,7 @@
                                             <div class="col-md-7">
                                                 <div class="input-group">
                                                     <span class="input-group-text"><img src="/assets/images/phone.svg" alt=""></span>
-                                                    <input type="text" id="mobile" class="form-control" placeholder="Mobile Number" >
+                                                    <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" >
                                                 </div>
                                                 <div class="errTxt"></div>
                                             </div>
@@ -117,8 +130,8 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
-                                            <span class="input-group-text" style="background: #e9ecef;"><img src="/assets/images/country.svg" alt=""></span>
-                                            <select class="form-select" id="country" name="country" disabled>
+                                            <span class="input-group-text"><img src="/assets/images/country.svg" alt=""></span>
+                                            <select class="form-select" id="country" name="country" >
                                                 <option selected value="">Select Country</option>
                                                 @foreach ($country as $c)
                                                 <option value="{{ $c->country_id }}">{{ $c->name }}</option>
@@ -166,11 +179,26 @@
                                         <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><img src="/assets/images/comapny-icon.svg" alt=""></span>
-                                            <input type="text" name="company_office_no" id="company_office_no" class="form-control" placeholder="Company Office Contact No.">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <select class="form-select" id="company_country_code" name="company_country_code">
+                                                        <option selected value="">CC</option>
+                                                        @foreach ($country as $c)
+                                                        <option value="{{ $c->country_id }}">{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><img src="/assets/images/phone.svg" alt=""></span>
+                                                    <input type="text" id="company_office_no" name="company_office_no" class="form-control" placeholder="Office Contact Number" >
+                                                </div>
+                                                <div class="errTxt"></div>
+                                            </div>
                                         </div>
-                                        <div class="errTxt"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="input-group">
@@ -274,5 +302,9 @@
     <script src="/admin_assets/toast/jquery.toast.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="/assets/js/sign-up.js"></script>
+    <script>
+        $('#country_code').next('span').css('margin-left', 0);
+        $('#company_country_code').next('span').css('margin-left', 0);
+    </script>
 </body>
 </html>

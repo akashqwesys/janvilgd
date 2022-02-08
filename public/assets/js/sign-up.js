@@ -7,6 +7,32 @@ $.ajaxSetup({
         $(".cs-loader").show();
     }
 });
+$('#country_code, #country, #state, #city, #company_country_code, #company_country, #company_state, #company_city').select2();
+$('#select2-country_code-container').css('padding-left', '15px');
+$(document).on('change', '#country_code', function () {
+    if ($(this).val()) {
+        $('#country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+$(document).on('change', '#company_country_code', function () {
+    if ($(this).val()) {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+$('#country_code').on('select2:open', function (e) {
+    setTimeout(() => {
+        $('#select2-country_code-results').parent().parent().css('width', '15rem');
+    }, 10);
+});
+$('#company_country_code').on('select2:open', function (e) {
+    setTimeout(() => {
+        $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+    }, 10);
+});
 $(document).on('change', '#email, #mobile', function () {
     $('.cs-loader').show();
     $.ajax({
@@ -185,6 +211,7 @@ $("#msform").validate({
         city: {required: true},
         pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
+        company_country_code: { required: true},
         company_office_no: { required: true, rangelength: [10,11]},
         company_email: {required: true, email: true},
         company_gst_pan: {required: true, minlength: 9, maxlength: 15},
@@ -284,14 +311,7 @@ $("#msform").validate({
         });
     }
 });
-$(document).on('change', '#country_code', function () {
-    $('#country').val($(this).val()).trigger('change');
-});
-$('#country_code').on('select2:open', function (e) {
-    setTimeout(() => {
-        $('#select2-country_code-results').parent().parent().css('width', '15vw');
-    }, 10);
-});
+
 $(document).on('change', '#id_upload', function () {
     $(this).prev('.et_pb_contact_form_label').attr('data-content', $(this)[0].files[0].name);
 });
