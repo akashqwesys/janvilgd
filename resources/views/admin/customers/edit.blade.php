@@ -68,7 +68,7 @@
                                 <input type="hidden" name="id" value="{{ $data['result']->customer_id }}">
                                 <div class="nk-wizard-content-">
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="name">Name:</label>
                                             </div>
@@ -82,7 +82,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="mobile">Mobile:</label>
                                             </div>
@@ -90,13 +90,26 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off"  value="{{ $data['result']->mobile }}">
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <select class="form-control" id="country_code" name="country_code" data-search="on">
+                                                                <option value="">CC</option>
+                                                                @foreach ($data['country'] as $row)
+                                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off"  value="{{ $data['result']->mobile }}">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="email">Email:</label>
                                             </div>
@@ -113,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="address">Address:</label>
                                             </div>
@@ -127,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-md-right" for="pincode">Pincode:</label>
                                             </div>
@@ -141,7 +154,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="refCountry_id">Country:</label>
                                             </div>
@@ -161,7 +174,7 @@
                                     </div>
 
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="refState_id">State:</label>
                                             </div>
@@ -177,7 +190,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="refCity_id">City:</label>
                                             </div>
@@ -193,7 +206,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="refCustomerType_id">Customer Type:</label>
                                             </div>
@@ -203,22 +216,16 @@
                                                 <div class="form-control-wrap">
                                                     <select class="form-control" id="refCustomerType_id" name="refCustomerType_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
                                                         <option value="">------ Select Type ------</option>
-                                                        <?php
-                                                        if (!empty($data['customer_type'])) {
-                                                            foreach ($data['customer_type'] as $row) {
-                                                                ?>
-                                                                <option value="{{ $row->customer_type_id }}" {{ set_selected($row->customer_type_id,$data['result']->refCustomerType_id) }}>{{ $row->name }}</option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
+                                                        @foreach ($data['customer_type'] as $row)
+                                                        <option value="{{ $row->customer_type_id }}" {{ set_selected($row->customer_type_id, $data['result']->refCustomerType_id) }}>{{ $row->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label class="form-label float-right" for="restrict_transactions">Restrict Transactions:</label>
                                             </div>
@@ -235,7 +242,7 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 align-center">
-                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-2"></div>
                                         <div class="col-lg-3">
                                             <button class="btn btn-primary" type="submit">SAVE</button>
                                         </div>
@@ -349,11 +356,26 @@
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                <option selected value="">CC</option>
+                                                @foreach ($data['country'] as $row)
+                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
@@ -458,12 +480,37 @@
     setTimeout(() => {
         $('#refCountry_id').trigger('change');
     }, 500);
+    $('#country_code, #refCountry_id, #refState_id, #refCity_id, #office_country_id, #company_country_code').select2({});
     setTimeout(() => {
+        $('#country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
+        $('#company_country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
         $('#refState_id').val(<?= $data['result']->refState_id ?>).trigger('change');
     }, 1000);
     setTimeout(() => {
-        $('#refCity_id').val(<?= $data['result']->refCity_id ?>);
+        $('#refCity_id').val(<?= $data['result']->refCity_id ?>).trigger('change');
     }, 2000);
+    $(document).on('change', '#country_code', function () {
+        if ($(this).val()) {
+            $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', false);
+        }
+    });
+    $(document).on('change', '#company_country_code', function () {
+        if ($(this).val()) {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', false);
+        }
+    });
     $(document).on('change', '#refCountry_id', function () {
         $.ajax({
             type: "POST",
@@ -483,7 +530,7 @@
                     });
                 }
                 else {
-                    $('#refState_id').html(response.data);
+                    $('#refState_id').html(response.data).select2();
                 }
             },
             failure: function (response) {
@@ -515,7 +562,7 @@
                     });
                 }
                 else {
-                    $('#refCity_id').html(response.data);
+                    $('#refCity_id').html(response.data).select2();
                 }
             },
             failure: function (response) {
@@ -537,12 +584,13 @@ $(document).on('click', '.edit-btn', function () {
     $('#company_gst_pan').val($(this).attr('data-company_gst_pan'));
     $('#company_address').val($(this).attr('data-company_address'));
     $('#company_pincode').val($(this).attr('data-company_pincode'));
+    $('#company_country_code').val($(this).attr('data-company_country')).trigger('change');
     $('#company_country').val($(this).attr('data-company_country')).trigger('change');
     setTimeout(() => {
         $('#company_state').val($(this).attr('data-company_state')).trigger('change');
     }, 1000);
     setTimeout(() => {
-        $('#company_city').val($(this).attr('data-company_city'));
+        $('#company_city').val($(this).attr('data-company_city')).trigger('change');
     }, 2000);
     $('#exampleModal').modal('show');
 });
@@ -612,7 +660,7 @@ $(document).on('change', '#company_country', function () {
                 });
             }
             else {
-                $('#company_state').html(response.data);
+                $('#company_state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -644,7 +692,7 @@ $(document).on('change', '#company_state', function () {
                 });
             }
             else {
-                $('#company_city').html(response.data);
+                $('#company_city').html(response.data).select2();
             }
         },
         failure: function (response) {

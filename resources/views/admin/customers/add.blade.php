@@ -466,10 +466,18 @@
         });
     }, 1000);
     $(document).on('change', '#country_code', function () {
-        $('#refCountry_id').val($(this).val()).trigger('change');
+        if ($(this).val()) {
+            $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', false);
+        }
     });
     $(document).on('change', '#company_country_code', function () {
-        $('#office_country_id').val($(this).val()).trigger('change');
+        if ($(this).val()) {
+            $('#office_country_id').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#office_country_id').val($(this).val()).trigger('change').attr('disabled', false);
+        }
     });
     $(document).on('change', '#refCountry_id, #office_country_id', function () {
         $.ajax({

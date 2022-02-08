@@ -237,7 +237,7 @@ class CustomersController extends Controller {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
 
-        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
 
@@ -381,7 +381,7 @@ class CustomersController extends Controller {
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'company_gst_pan' => ['required', 'between:10,15'],
                 'company_address' => ['required'],
-                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                // 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required'],
@@ -425,7 +425,7 @@ class CustomersController extends Controller {
             $company->pincode = $request->company_pincode;
             $company->refCity_id = $request->company_city;
             $company->refState_id = $request->company_state;
-            $company->refCountry_id = $request->company_country;
+            $company->refCountry_id = $request->company_country ?? $request->company_country_code;
             $company->pan_gst_no = $request->company_gst_pan;
             $company->refDesignation_id = 1;
             $company->designation_name = 'owner';
