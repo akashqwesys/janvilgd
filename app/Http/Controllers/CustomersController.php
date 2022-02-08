@@ -47,7 +47,7 @@ class CustomersController extends Controller {
             'refCity_id' => ['required'],
             'pincode' => ['required'],
             'company_name' => ['required'],
-            'office_no' => ['required'],
+            'office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
             'official_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
             'pan_gst_no' => ['required', 'between:5,15'],
             'office_pincode' => ['required'],
@@ -82,14 +82,14 @@ class CustomersController extends Controller {
         $validator = Validator::make($request->all(), $rules, $message);
 
         if ($validator->fails()) {
-            return back()->with('error', $validator->errors()->all()[0]);
+            return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
         }
 
         $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
             ->where('email', strtolower($request->email))
             ->first();
         if ($exists) {
-            return back()->with('error', 'Email is already registered, Try with new email');
+            return response()->json(['error' => 1, 'message' => 'Email is already registered, Try with new email']);
         }
 
         $customer = new Customers;
@@ -160,8 +160,9 @@ class CustomersController extends Controller {
                 ])
             );
         activity($request, "inserted", 'customers', $customer->customer_id);
-        successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('admin/customers');
+        // successOrErrorMessage("Data added Successfully", 'success');
+        // return redirect('admin/customers');
+        return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
     }
 
     public function list(Request $request) {
@@ -379,7 +380,7 @@ class CustomersController extends Controller {
                 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'company_gst_pan' => ['required', 'between:10,15'],
+                'company_gst_pan' => ['required', 'min:8'],
                 'company_address' => ['required'],
                 // 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],

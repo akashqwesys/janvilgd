@@ -31,7 +31,7 @@ class FrontAuthController extends Controller
             try {
                 $rules = [
                     'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                    'password' => ['required', 'between:6,15']
+                    'password' => ['required'/* , 'between:6,15' */]
                 ];
 
                 $message = [
@@ -62,7 +62,7 @@ class FrontAuthController extends Controller
                         return redirect('/customer/search-diamonds/polish-diamonds');
                     }
                 } else {
-                    return back()->with('error', 'Invalid Credentials');
+                    return back()->with('error', 'Your email address and password do not match. Please try again.');
                 }
             }
             catch (\Exception $e) {

@@ -45,6 +45,9 @@
     .custom-modal .form-group .form-control, .custom-modal .form-group select.form-select {
         padding-left: 40px;
     }
+    .select2.select2-container {
+        padding-left: 40px;
+    }
 </style>
 @endsection
 @section('content')
@@ -447,11 +450,14 @@
         },
         minimumInputLength: 3
     });
+
     $("#exampleModal").on('hidden.bs.modal', function(){
         $('div.errTxt').html('');
         $('#companyForm')[0].reset();
+        $('#company_country2, #company_country_code, #company_state2, #company_city2').val(null).trigger('change');
         $('.custom-file-label').text('Click here to upload ID proof');
     });
+
     $(document).on('click', '#add-shipping-btn', function () {
         $('#exampleModal .title').text('Add Shipping Address');
         $('#company_type').val('shipping');
@@ -704,7 +710,7 @@
             company_name: {required: true, minlength: 4, maxlength: 200},
             company_office_no: { required: true, rangelength: [10, 11]},
             company_email: {required: true, email: true},
-            company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+            company_gst_pan: {required: true, minlength: 8},
             company_address: {required: true, rangelength: [10, 200]},
             company_country: {required: true},
             company_state: {required: true},

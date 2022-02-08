@@ -19,6 +19,9 @@
         text-align: center;
         font-size: 0.9em;
     }
+    .actions ul li:first-child {
+        order: 0;
+    }
 </style>
 @endsection
 @section('content')
@@ -36,12 +39,14 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            @if (Session::has('error'))
-                            <div class="alert alert-danger">
-                                <div>{{ Session::get('error') }}</div>
+                            <div id='append_loader' class="overlay">
+                                <div class='d-flex justify-content-center' style="padding-top: 30%;">
+                                    <div class='spinner-border text-success' role='status'>
+                                        <span class='sr-only'>Loading...</span>
+                                    </div>
+                                </div>
                             </div>
-                            @endif
-                            <form  method="POST" action="{{route('customers.save')}}" enctype="multipart/form-data" class="nk-wizard nk-wizard-simple is-alter">
+                            <form  method="POST" action="{{route('customers.save')}}" enctype="multipart/form-data" class="nk-wizard nk-wizard-simple is-alter" id="customerForm">
                                 @csrf
                                 <div class="nk-wizard-head">
                                     <h5>Step 1</h5>
@@ -273,7 +278,7 @@
                                                 <div class="form-control-wrap">
                                                     <div class="row">
                                                         <div class="col-lg-4">
-                                                            <select class="form-control" id="company_country_code" name="company_country_code" data-search="on">
+                                                            <select class="form-control" id="company_country_code" name="company_country_code" data-search="on" required>
                                                                 <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
                                                                 <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
@@ -281,7 +286,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <input type="text" class="form-control" name="office_no" id="office_no" placeholder="Enter mobile number" autocomplete="off">
+                                                            <input type="text" class="form-control" name="office_no" id="office_no" placeholder="Enter mobile number" autocomplete="off" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -297,7 +302,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="email" class="form-control" name="official_email" id="official_email" placeholder="Enter email" autocomplete="off">
+                                                    <input type="email" class="form-control" name="official_email" id="official_email" placeholder="Enter email" autocomplete="off" required>
                                                     @if($errors->has('email'))
                                                     <span class="text-danger">{{ $errors->first('official_email') }}</span>
                                                     @endif
@@ -333,7 +338,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <textarea name="office_address" class="form-control form-control-sm" id="office_address" placeholder="Enter address"></textarea>
+                                                    <textarea name="office_address" class="form-control form-control-sm" id="office_address" placeholder="Enter address" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -347,7 +352,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="office_pincode" id="office_pincode" placeholder="Enter pincode" autocomplete="off">
+                                                    <input type="text" class="form-control" name="office_pincode" id="office_pincode" placeholder="Enter pincode" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -413,7 +418,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <input type="text" class="form-control" name="pan_gst_no" id="pan_gst_no" placeholder="Enter VAT/TIN/GST/PAN/OTHER" autocomplete="off">
+                                                    <input type="text" class="form-control" name="pan_gst_no" id="pan_gst_no" placeholder="Enter VAT/TIN/GST/PAN/OTHER" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -428,7 +433,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="custom-file">
-                                                        <input type="file" name="pan_gst_no_file" class="custom-file-input" id="pan_gst_no_file" accept="image/jpeg,image/png,application/pdf">
+                                                        <input type="file" name="pan_gst_no_file" class="custom-file-input" id="pan_gst_no_file" accept="image/jpeg,image/png,application/pdf" required>
                                                         <label class="custom-file-label" for="pan_gst_no_file">Choose file</label>
                                                     </div>
                                                 </div>
@@ -450,9 +455,19 @@
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            $("#append_loader").show();
         }
     });
+
+    /* $(document).on('click', '.submit_btn', function () {
+        $('.submit_btn').get(0).submit();
+    }); */
     setTimeout(() => {
+        $('ul li a[href="#finish"]').addClass("d-none");
+        $('ul li a[href="#finish"]').parent('li').append('<button class="submit_btn" type="submit">Submit</button>');
+
         $('#country_code, #refCountry_id, #office_country_id, #company_country_code').select2({});
         $('#country_code').on('select2:open', function (e) {
             setTimeout(() => {
@@ -488,7 +503,7 @@
             context: this,
             dataType: 'JSON',
             success: function (response) {
-                $('.cs-loader').hide();
+                $('#append_loader').hide();
                 if (response.error) {
                     $.toast({
                         heading: 'Error',
@@ -524,7 +539,7 @@
             context: this,
             dataType: 'JSON',
             success: function (response) {
-                $('.cs-loader').hide();
+                $('#append_loader').hide();
                 if (response.error) {
                     $.toast({
                         heading: 'Error',
@@ -551,7 +566,7 @@
             }
         });
     });
-    $("#steps-uid-0").validate({
+    $("#customerForm").validate({
         submitHandler: function(form) {
             // do other things for a valid form
             // form.submit();
@@ -568,7 +583,7 @@
                 context: this,
                 dataType: 'JSON',
                 success: function(response) {
-                    $('.cs-loader').hide();
+                    $('#append_loader').hide();
                     if (response.success == 1) {
                         $.toast({
                             heading: 'Success',
