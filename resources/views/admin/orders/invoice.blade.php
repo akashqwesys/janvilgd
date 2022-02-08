@@ -297,11 +297,26 @@
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                <option selected value="">CC</option>
+                                                @foreach ($country as $row)
+                                                <option value="{{ $row->country_id }}">{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <img src="/assets/images/phone.svg" alt="icn" class="img-fluid input-icon">
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
@@ -535,6 +550,21 @@
         }
     });
 
+    setTimeout(() => {
+        $('#company_country2, #company_state2, #company_city2, #company_country_code').select2({});
+        $('#company_country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
+    }, 1000);
+    $(document).on('change', '#company_country_code', function () {
+        if ($(this).val()) {
+            $('#company_country2').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#company_country2').val($(this).val()).trigger('change').attr('disabled', false);
+        }
+    });
     $(document).on('change', /*'#company_country, #shipping_country,*/ '#company_country2', function () {
         $.ajax({
             type: "POST",
@@ -559,7 +589,7 @@
                     // } else if ($(this).attr('id') == 'company_country') {
                     //     $('#company_state').html(response.data);
                     // } else {
-                        $('#company_state2').html(response.data);
+                        $('#company_state2').html(response.data).select2();
                     // }
                 }
             },
@@ -598,7 +628,7 @@
                     // } else if ($(this).attr('id') == 'company_state') {
                     //     $('#company_city').html(response.data);
                     // } else {
-                        $('#company_city2').html(response.data);
+                        $('#company_city2').html(response.data).select2();
                     // }
                 }
             },
