@@ -344,13 +344,31 @@ class CustomersController extends Controller {
                 'approved_by' => $request->session()->get('loginId')
             ]);
             } else if ($request['approved'] == true) {
-                $res = DB::table('customer')->where('customer_id', $request['table_id'])->update([
-                    'is_approved' => 1,
-                    'approved_by' => $request->session()->get('loginId'),
-                    'date_updated' => date("Y-m-d H:i:s"),
-                    'updated_at' => date("Y-m-d H:i:s"),
-                    'approved_at' => date("Y-m-d H:i:s")
-                ]);
+                $exists = DB::table('customer')
+                    ->select('customer_id', 'email', 'name')
+                    ->where('customer_id', $request['table_id'])
+                    ->first();
+                if ($exists) {
+                    Mail::to($exists->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Approval from Janvi LGD',
+                            'name' => $exists->name,
+                            'link' => [1, 0],
+                            'otp' => 0,
+                            'view' => 'emails.approvalEmail'
+                        ])
+                    );
+                    $res = DB::table('customer')->where('customer_id', $request['table_id'])->update([
+                        'is_approved' => 1,
+                        'approved_by' => $request->session()->get('loginId'),
+                        'date_updated' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s"),
+                        'approved_at' => date("Y-m-d H:i:s")
+                    ]);
+                } else {
+                    $res = false;
+                }
             } else {
                 $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                     'is_active' => $request['status'],
