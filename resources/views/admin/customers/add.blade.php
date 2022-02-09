@@ -479,7 +479,7 @@
                 $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
             }, 10);
         });
-        $('#country_code').trigger('change');
+        $('#country_code, #company_country_code').trigger('change');
     }, 1000);
     $(document).on('change', '#country_code', function () {
         if ($(this).val()) {
@@ -568,6 +568,45 @@
         });
     });
     $("#customerForm").validate({
+        rules: {
+            mobile: { number:true, rangelength: [10,11]},
+            password: { required: true, rangelength: [6, 15] },
+            confirm_password: { required: true, equalTo: "#password" },
+            pincode: { required: true, number: true},
+            office_no: { required: true, number:true, rangelength: [10,11]},
+            pan_gst_no: {required: true, minlength: 8},
+            office_address: {required: true, rangelength: [10,200]},
+            office_pincode: { required: true, number: true},
+        },
+        messages: {
+            name: {required: "Please enter your name"},
+            email: {
+                required: "Please enter your email address",
+                email: "Your email address must be in the format of name@domain.com"
+            },
+            password: { required: "Please enter password" },
+            confirm_password: { required: "Please enter confirm password", equalTo: 'Those password didn\'t match. Try again' },
+            // country_code: { required: "Please select country code" },
+            mobile: {
+                // required: "Please enter your mobile number",
+                number: "Your contact number should only consist of numeric digits"
+            },
+            address: {required: "Please enter your address"},
+            country: {required: "Please select the country"},
+            state: {required: "Please select the state/province"},
+            city: {required: "Please enter the city name"},
+            pincode: {required: "Please enter the pincode"},
+            company_name: {required: "Please enter your company name"},
+            office_no: {required: "Please enter your company office number", number: "Your contact number should only consist of numeric digits"},
+            official_email: { required: "Please enter your company email address"},
+            pan_gst_no: {required: "Please enter your company VAT/TIN/GST/PAN/OTHER"},
+            office_address: {required: "Please enter your company address"},
+            office_country_id: {required: "Please select the country"},
+            office_state_id: {required: "Please select the state/province"},
+            office_city_id: {required: "Please enter the city name"},
+            office_pincode: {required: "Please enter the pincode"},
+            pan_gst_no_file: {required: "Please upload your business ID proof"},
+        },
         submitHandler: function(form) {
             // do other things for a valid form
             // form.submit();

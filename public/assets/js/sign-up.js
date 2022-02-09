@@ -244,7 +244,7 @@ $("#msform").validate({
         company_name: {required: "Please enter your company name"},
         company_office_no: {required: "Please enter your company office number"},
         company_email: { required: "Please enter your company email address"},
-        company_gst_pan: {required: "Please enter your company GST or PAN"},
+        company_gst_pan: { required: "Please enter your company VAT/TIN/GST/PAN/OTHER"},
         company_address: {required: "Please enter your company address"},
         company_country: {required: "Please select the country"},
         company_state: {required: "Please select the state/province"},
