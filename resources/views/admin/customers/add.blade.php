@@ -117,7 +117,6 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <select class="form-control" id="country_code" name="country_code" data-search="on">
-                                                                <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
                                                                 <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
                                                                 @endforeach
@@ -279,7 +278,6 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <select class="form-control" id="company_country_code" name="company_country_code" data-search="on" required>
-                                                                <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
                                                                 <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
                                                                 @endforeach

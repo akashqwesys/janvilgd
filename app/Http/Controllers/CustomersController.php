@@ -24,7 +24,7 @@ class CustomersController extends Controller {
     public function add(Request $request) {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         // $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')->where('is_active', 1)->where('is_deleted', 0)->orderBy('country_code', 'asc')->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')->where('is_active', 1)->where('is_deleted', 0)->orderBy('country_code', 'asc')->get();
         // $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
         $data['country'] = $country;
@@ -238,7 +238,7 @@ class CustomersController extends Controller {
         $customer_type = DB::table('customer_type')->select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         // $designation = DB::table('designation')->select('id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
 
-        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')->where('is_active', 1)->where('is_deleted', 0)->orderBy('country_code', 'asc')->get();
+        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code')->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')->where('is_active', 1)->where('is_deleted', 0)->orderBy('country_code', 'asc')->get();
         // $data['designation'] = $designation;
         $data['customer_type'] = $customer_type;
 

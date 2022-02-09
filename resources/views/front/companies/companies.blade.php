@@ -189,7 +189,6 @@
                                         <div class="form-group">
                                             <label for="company_country_code">Country Code</label>
                                             <select class="form-select" id="company_country_code" name="company_country_code">
-                                                <option selected value="">CC</option>
                                                 @foreach ($country as $row)
                                                 <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
                                                 @endforeach

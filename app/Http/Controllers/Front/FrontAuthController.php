@@ -214,7 +214,7 @@ class FrontAuthController extends Controller
                 return response()->json(['error' => 1, 'message' => $e->getMessage()]);
             }
         } else {
-            $country = DB::table('country')->select('country_id', 'name', 'country_code')->where('is_active', 1)->where('is_deleted', 0)->whereRaw('SUBSTRING(country_code, 1, 1) <> \'-\'')->get();
+            $country = DB::table('country')->select('country_id', 'name', 'country_code')->where('is_active', 1)->where('is_deleted', 0)->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')->get();
             return view('front.auth.register', compact('country'));
         }
     }

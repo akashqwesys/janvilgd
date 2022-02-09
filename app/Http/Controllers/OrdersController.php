@@ -962,7 +962,7 @@ class OrdersController extends Controller
             ->get();
         $country = DB::table('country')
             ->select('country_id', 'name', 'country_code')
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('country_code', 'asc')
@@ -1315,7 +1315,7 @@ class OrdersController extends Controller
             ->get();
         $country = DB::table('country')
             ->select('country_id', 'name', 'country_code')
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('country_code', 'asc')

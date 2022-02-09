@@ -24,7 +24,7 @@ class UserController extends Controller
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
             ->select('country_id', 'name', 'country_code')
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('country_code', 'asc')
@@ -53,7 +53,7 @@ class UserController extends Controller
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
             ->select('country_id', 'name', 'country_code')
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->orderBy('country_code', 'asc')
@@ -95,7 +95,7 @@ class UserController extends Controller
             ->select('country_id', 'name', 'country_code')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->orderBy('country_code', 'asc')
             ->get();
 
