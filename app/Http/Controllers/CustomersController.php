@@ -111,7 +111,9 @@ class CustomersController extends Controller {
         $customer->date_updated = date('Y-m-d H:i:s');
         $customer->otp = 0;
         $customer->otp_status = 0;
-        $customer->verified_status = 0;
+        $customer->verified_status = 1;
+        $customer->approved_by = $customer->added_by;
+        $customer->approved_at = date("Y-m-d H:i:s");
         $customer->save();
 
         $company = new CustomerCompanyDetail;
@@ -152,13 +154,23 @@ class CustomersController extends Controller {
         Mail::to($customer->email)
             ->send(
                 new EmailVerification([
+                    'subject' => 'Email Approval from Janvi LGD',
+                    'name' => $customer->name,
+                    'link' => [1, 0],
+                    'otp' => 0,
+                    'view' => 'emails.approvalEmail'
+                ])
+            );
+        /* Mail::to($customer->email)
+            ->send(
+                new EmailVerification([
                     'subject' => 'Email Verification from Janvi LGD',
                     'name' => $customer->name,
                     'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
                     'otp' => 0,
                     'view' => 'emails.codeVerification_2'
                 ])
-            );
+            ); */
         activity($request, "inserted", 'customers', $customer->customer_id);
         // successOrErrorMessage("Data added Successfully", 'success');
         // return redirect('admin/customers');
