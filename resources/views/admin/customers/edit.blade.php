@@ -91,7 +91,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="row">
-                                                        <div class="col-lg-4">
+                                                        <div class="col-lg-6">
                                                             <select class="form-control" id="country_code" name="country_code" data-search="on">
                                                                 <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
@@ -99,7 +99,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-6">
                                                             <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off"  value="{{ $data['result']->mobile }}">
                                                         </div>
                                                     </div>
@@ -162,7 +162,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap-">
-                                                    <select class="form-control form-select-" id="refCountry_id" name="refCountry_id" required=""  data-search="on" data-placeholder="------ Select Country ------">
+                                                    <select class="form-control form-select-" id="refCountry_id" name="refCountry_id" required=""  data-search="on" data-placeholder="------ Select Country ------" disabled>
                                                         <option value="">------ Select Country ------</option>
                                                         @foreach ($data['country'] as $row)
                                                         <option value="{{ $row->country_id }}" {{ set_selected($row->country_id, $data['result']->refCountry_id) }}>{{ $row->name }}</option>

@@ -561,7 +561,7 @@ class DiamondController extends Controller
             $recent['refCustomer_id'] = Auth::id();
             $recent['refDiamond_id'] =  $diamonds[0]->diamond_id;
             $recent['barcode'] =  $diamonds[0]->barcode;
-            $recent['updated_at'] = date("Y-m-d h:i:s");
+            $recent['updated_at'] = date("Y-m-d H:i:s");
             $recent['price'] = $response_array['price'];
             $recent['carat'] = $response_array['carat'];
             $recent['refAttribute_group_id'] = 0;
@@ -1009,7 +1009,7 @@ class DiamondController extends Controller
             $recent['refCustomer_id'] = Auth::id();
             $recent['refDiamond_id'] =  $diamonds['diamond_id'];
             $recent['barcode'] =  $diamonds['barcode'];
-            $recent['updated_at'] = date("Y-m-d h:i:s");
+            $recent['updated_at'] = date("Y-m-d H:i:s");
             $recent['price'] = $diamonds['total'];
             $recent['carat'] = $diamonds['expected_polish_cts'];
             $recent['refAttribute_group_id'] = 0;
@@ -1074,8 +1074,8 @@ class DiamondController extends Controller
                 'carat_cnt' => 1,
                 'clarity_cnt' => 0,
                 'cut_cnt' => 0,
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s")
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]);
         } */
 
@@ -1674,9 +1674,9 @@ class DiamondController extends Controller
                     $data_array = [
                         'refCustomer_id' => $customer_id,
                         'refDiamond_id' => $d_row,
-                        'date_added' => date("Y-m-d h:i:s"),
-                        'created_at' => date("Y-m-d h:i:s"),
-                        'updated_at' => date("Y-m-d h:i:s")
+                        'date_added' => date("Y-m-d H:i:s"),
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                     ];
                     $res=DB::table('customer_cart')->insert($data_array);
                     $Id = DB::getPdo()->lastInsertId();
@@ -1729,7 +1729,7 @@ class DiamondController extends Controller
                     $data_array = [
                         'refCustomer_id' => $customer_id,
                         'refdiamond_id' => $d_row,
-                        'date_added' => date("Y-m-d h:i:s")
+                        'date_added' => date("Y-m-d H:i:s")
                     ];
                     $res=DB::table('customer_whishlist')->insert($data_array);
                     $Id = DB::getPdo()->lastInsertId();
@@ -1782,9 +1782,9 @@ class DiamondController extends Controller
             $data_array = [
                 'refCustomer_id' => $customer_id,
                 'refDiamond_id' => $request->diamond_id,
-                'date_added' => date("Y-m-d h:i:s"),
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s"),
+                'date_added' => date("Y-m-d H:i:s"),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
                 'is_active' => 1
             ];
             $res=DB::table('customer_cart')->insert($data_array);
@@ -1959,7 +1959,7 @@ class DiamondController extends Controller
             $data_array = [
                 'refCustomer_id' => $customer_id,
                 'refdiamond_id' => $request->diamond_id,
-                'date_added' => date("Y-m-d h:i:s")
+                'date_added' => date("Y-m-d H:i:s")
             ];
             $res=DB::table('customer_whishlist')->insert($data_array);
             // $Id = DB::getPdo()->lastInsertId();

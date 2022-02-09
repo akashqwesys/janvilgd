@@ -115,7 +115,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="row">
-                                                        <div class="col-lg-4">
+                                                        <div class="col-lg-6">
                                                             <select class="form-control" id="country_code" name="country_code" data-search="on">
                                                                 <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
@@ -123,7 +123,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-6">
                                                             <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off">
                                                         </div>
                                                     </div>
@@ -168,7 +168,7 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
-                                                    <select class="form-control" id="refCountry_id" name="refCountry_id" required=""  data-search="on" disabled>
+                                                    <select class="form-control" id="refCountry_id" name="refCountry_id" required=""  data-search="on" >
                                                         <option value="">------ Select Country ------</option>
                                                         @foreach ($data['country'] as $row)
                                                         <option value="{{ $row->country_id }}">{{ $row->name }}</option>
@@ -277,7 +277,7 @@
                                             <div class="form-group">
                                                 <div class="form-control-wrap">
                                                     <div class="row">
-                                                        <div class="col-lg-4">
+                                                        <div class="col-lg-6">
                                                             <select class="form-control" id="company_country_code" name="company_country_code" data-search="on" required>
                                                                 <option value="">CC</option>
                                                                 @foreach ($data['country'] as $row)
@@ -285,7 +285,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col-lg-6">
                                                             <input type="text" class="form-control" name="office_no" id="office_no" placeholder="Enter mobile number" autocomplete="off" required>
                                                         </div>
                                                     </div>
@@ -479,6 +479,7 @@
                 $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
             }, 10);
         });
+        $('#country_code').trigger('change');
     }, 1000);
     $(document).on('change', '#country_code', function () {
         if ($(this).val()) {

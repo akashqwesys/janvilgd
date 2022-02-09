@@ -288,7 +288,8 @@ class CustomersController extends Controller {
             'refCountry_id' => $request->refCountry_id ?? $request->country_code,
             'refCustomerType_id' => $request->refCustomerType_id,
             'restrict_transactions' => $request->restrict_transactions,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
         /* DB::table('customer_company_details')->where('refCustomer_id', $request->id)->update([
             'refCustomer_id' => $request->id,
@@ -305,7 +306,7 @@ class CustomersController extends Controller {
             'pan_gst_no' => $request->pan_gst_no,
             'approved_by' => $request->session()->get('loginId'),
             'is_approved' => $request->is_approved,
-            'approved_date_time' => date("Y-m-d h:i:s")
+            'approved_date_time' => date("Y-m-d H:i:s")
         ]); */
 
         activity($request, "updated", 'customers');
@@ -318,7 +319,7 @@ class CustomersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request, "deleted", $request['module']);
         //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -346,14 +347,14 @@ class CustomersController extends Controller {
                 $res = DB::table('customer')->where('customer_id', $request['table_id'])->update([
                     'is_approved' => 1,
                     'approved_by' => $request->session()->get('loginId'),
-                    'date_updated' => date("Y-m-d h:i:s"),
-                    'updated_at' => date("Y-m-d h:i:s"),
-                    'approved_at' => date("Y-m-d h:i:s")
+                    'date_updated' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                    'approved_at' => date("Y-m-d H:i:s")
                 ]);
             } else {
                 $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                     'is_active' => $request['status'],
-                    'date_updated' => date("Y-m-d h:i:s")
+                    'date_updated' => date("Y-m-d H:i:s")
                 ]);
             }
             //  $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();

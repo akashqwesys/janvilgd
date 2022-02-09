@@ -350,9 +350,9 @@
     }, 1000);
     $(document).on('change', '#company_country_code', function () {
         if ($(this).val()) {
-            $('#company_country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', true);
         } else {
-            $('#company_country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', false);
         }
     });
 

@@ -380,7 +380,7 @@ class RapaortController extends Controller
         $request->file('file')->storeAs("public/user_files", $csv);
 
         $res = Excel::import(new RapaportImport, request()->file('file'));
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         if ($rapa_type->rapaport_category == 1) {
             DB::table('rapaport_type')->where('rapaport_type_id', $request->rapaport_type_id)->update(['date_updated' => $date, 'csv_link' => $csv]);
             $request->session()->put("request_check", 1);
@@ -416,8 +416,8 @@ class RapaortController extends Controller
         DB::table('rapaport_type')->insert([
             'name' => $request->name,
             'rapaport_category' => $request->rapaport_category,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request, "inserted", 'rapaport', $Id);
@@ -456,7 +456,7 @@ class RapaortController extends Controller
         DB::table('rapaport_type')->where('rapaport_type_id', $request->id)->update([
             'name' => $request->name,
             'rapaport_category' => $request->rapaport_category,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request, "updated", 'rapaport', $request->id);
         successOrErrorMessage("Data updated Successfully", 'success');

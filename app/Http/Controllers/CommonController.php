@@ -27,8 +27,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -42,8 +42,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -57,8 +57,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -72,8 +72,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -87,8 +87,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -102,8 +102,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -117,8 +117,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -132,8 +132,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -147,8 +147,8 @@ class CommonController extends Controller
             $data_array['added_by'] = 1;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
             $data_array['menu_level'] = 3;
             array_push($modules_array, $data_array);
 
@@ -162,8 +162,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -177,8 +177,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -192,8 +192,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -207,8 +207,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -222,8 +222,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -237,8 +237,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -252,8 +252,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -267,8 +267,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -282,8 +282,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -297,8 +297,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -312,8 +312,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -327,8 +327,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -342,8 +342,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -357,8 +357,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -372,8 +372,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -387,8 +387,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -402,8 +402,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=4;
             array_push($modules_array,$data_array);
 
@@ -417,8 +417,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -432,8 +432,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -447,8 +447,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -462,8 +462,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -477,8 +477,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -492,8 +492,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -507,8 +507,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -522,8 +522,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -537,8 +537,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -552,8 +552,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -567,8 +567,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -582,8 +582,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -597,8 +597,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -612,8 +612,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -627,8 +627,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -642,8 +642,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -657,8 +657,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -672,8 +672,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -687,8 +687,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -702,8 +702,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -717,8 +717,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=3;
             array_push($modules_array,$data_array);
 
@@ -732,8 +732,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -747,8 +747,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -762,8 +762,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=1;
             array_push($modules_array,$data_array);
 
@@ -777,8 +777,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             $data_array['menu_level']=2;
             array_push($modules_array,$data_array);
 
@@ -792,8 +792,8 @@ class CommonController extends Controller
             $data_array['added_by'] = 1;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
             $data_array['menu_level'] = 1;
             array_push($modules_array, $data_array);
 
@@ -807,8 +807,8 @@ class CommonController extends Controller
             $data_array['added_by'] = 1;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
             $data_array['menu_level'] = 2;
             array_push($modules_array, $data_array);
 
@@ -831,8 +831,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($categories_array,$data_array);
 
             $data_array=array();
@@ -845,8 +845,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($categories_array,$data_array);
 
             $data_array=array();
@@ -859,8 +859,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($categories_array,$data_array);
 
             DB::table('categories')->insert($categories_array);
@@ -878,7 +878,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('why-to-order-online');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -888,7 +888,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('diamonds');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -898,7 +898,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('grading');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -908,7 +908,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('terms-conditions');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -918,7 +918,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('privacy-policy');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -928,7 +928,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('business-policy');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -938,7 +938,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('events');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -948,7 +948,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('media');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -958,7 +958,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('gallery');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -968,7 +968,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('about-us');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -978,7 +978,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('blog');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -988,7 +988,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('manufacturing');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         //     $data_array=array();
@@ -998,7 +998,7 @@ class CommonController extends Controller
         //     $data_array['slug']=clean_string('index');
         //     $data_array['updated_by']=1;
         //     $data_array['is_active']=1;
-        //     $data_array['date_updated']=date("Y-m-d h:i:s");
+        //     $data_array['date_updated']=date("Y-m-d H:i:s");
         //     array_push($informative_pages_array,$data_array);
 
         // DB::table('informative_pages')->insert($informative_pages_array);
@@ -1022,8 +1022,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1037,8 +1037,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1052,8 +1052,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1067,8 +1067,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1082,8 +1082,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
             }
@@ -1099,8 +1099,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1114,8 +1114,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1129,8 +1129,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1144,8 +1144,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1159,8 +1159,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1174,8 +1174,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1189,8 +1189,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1204,8 +1204,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1219,8 +1219,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1234,8 +1234,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
             }
@@ -1251,8 +1251,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1266,8 +1266,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1281,8 +1281,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1296,8 +1296,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1311,8 +1311,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1326,8 +1326,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1341,8 +1341,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1356,8 +1356,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1371,8 +1371,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=1;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1386,8 +1386,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1401,8 +1401,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1416,8 +1416,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1431,8 +1431,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1446,8 +1446,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1461,8 +1461,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1476,8 +1476,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1491,8 +1491,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1506,8 +1506,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1521,8 +1521,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1536,8 +1536,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1551,8 +1551,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
 
                 $data_array=array();
@@ -1566,8 +1566,8 @@ class CommonController extends Controller
                 $data_array['is_fix']=0;
                 $data_array['is_active']=1;
                 $data_array['is_deleted']=0;
-                $data_array['date_added']=date("Y-m-d h:i:s");
-                $data_array['date_updated']=date("Y-m-d h:i:s");
+                $data_array['date_added']=date("Y-m-d H:i:s");
+                $data_array['date_updated']=date("Y-m-d H:i:s");
                 array_push($attribute_groups_array,$data_array);
             }
         }
@@ -1586,8 +1586,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1597,8 +1597,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1608,8 +1608,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1619,8 +1619,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1630,8 +1630,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1641,8 +1641,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1652,8 +1652,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1663,8 +1663,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1674,8 +1674,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1685,8 +1685,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1696,8 +1696,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1707,8 +1707,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -1721,8 +1721,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1732,8 +1732,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1743,8 +1743,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1754,8 +1754,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1765,8 +1765,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1776,8 +1776,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1787,8 +1787,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1798,8 +1798,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1809,8 +1809,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1820,8 +1820,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1831,8 +1831,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1842,8 +1842,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //shape for polish
@@ -1854,8 +1854,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1865,8 +1865,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1876,8 +1876,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1887,8 +1887,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1898,8 +1898,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1909,8 +1909,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1920,8 +1920,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1931,8 +1931,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1942,8 +1942,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1953,8 +1953,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1964,8 +1964,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1975,8 +1975,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //clarity for rough
@@ -1987,8 +1987,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -1998,8 +1998,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2009,8 +2009,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2020,8 +2020,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2031,8 +2031,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2042,8 +2042,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2053,8 +2053,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2064,8 +2064,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2075,8 +2075,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2086,8 +2086,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2097,8 +2097,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2110,8 +2110,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2121,8 +2121,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2132,8 +2132,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2143,8 +2143,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2154,8 +2154,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2165,8 +2165,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2176,8 +2176,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2187,8 +2187,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2198,8 +2198,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2209,8 +2209,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2220,8 +2220,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2233,8 +2233,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2244,8 +2244,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2257,8 +2257,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2268,8 +2268,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2279,8 +2279,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2290,8 +2290,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2301,8 +2301,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2312,8 +2312,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2323,8 +2323,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //color for Polish
@@ -2335,8 +2335,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2346,8 +2346,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2357,8 +2357,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2368,8 +2368,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2379,8 +2379,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2390,8 +2390,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2401,8 +2401,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2412,8 +2412,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2425,8 +2425,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2436,8 +2436,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2447,8 +2447,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2458,8 +2458,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2469,8 +2469,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2480,8 +2480,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2491,8 +2491,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2502,8 +2502,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //cut for Polish
@@ -2514,8 +2514,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2525,8 +2525,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2536,8 +2536,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2547,8 +2547,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2559,8 +2559,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2570,8 +2570,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2583,8 +2583,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2594,8 +2594,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2605,8 +2605,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2616,8 +2616,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2627,8 +2627,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2638,8 +2638,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2651,8 +2651,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2662,8 +2662,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2673,8 +2673,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2684,8 +2684,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2696,8 +2696,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2707,8 +2707,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //SYMMETRY for polish
@@ -2719,8 +2719,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2730,8 +2730,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2741,8 +2741,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2752,8 +2752,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2764,8 +2764,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2775,8 +2775,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
 
@@ -2788,8 +2788,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2799,8 +2799,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2810,8 +2810,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2821,8 +2821,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2832,8 +2832,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2843,8 +2843,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2854,8 +2854,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2865,8 +2865,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2876,8 +2876,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             $data_array=array();
@@ -2887,8 +2887,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
             //LAB for polish
@@ -2899,8 +2899,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($attribute_array,$data_array);
 
         DB::table('attributes')->insert($attribute_array);
@@ -2918,8 +2918,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($labour_charges_array,$data_array);
 
             $data_array=array();
@@ -2929,8 +2929,8 @@ class CommonController extends Controller
             $data_array['added_by']=1;
             $data_array['is_active']=1;
             $data_array['is_deleted']=0;
-            $data_array['date_added']=date("Y-m-d h:i:s");
-            $data_array['date_updated']=date("Y-m-d h:i:s");
+            $data_array['date_added']=date("Y-m-d H:i:s");
+            $data_array['date_updated']=date("Y-m-d H:i:s");
             array_push($labour_charges_array,$data_array);
 
         DB::table('labour_charges')->insert($labour_charges_array);
@@ -2947,10 +2947,10 @@ class CommonController extends Controller
             $data_array['sort_order'] = 0;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($order_statuses_array, $data_array);
 
             $data_array = array();
@@ -2959,10 +2959,10 @@ class CommonController extends Controller
             $data_array['sort_order'] = 1;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($order_statuses_array, $data_array);
 
             $data_array = array();
@@ -2971,10 +2971,10 @@ class CommonController extends Controller
             $data_array['sort_order'] = 2;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($order_statuses_array, $data_array);
 
             $data_array = array();
@@ -2983,10 +2983,10 @@ class CommonController extends Controller
             $data_array['sort_order'] = 3;
             $data_array['is_active'] = 1;
             $data_array['is_deleted'] = 0;
-            $data_array['date_added'] = date("Y-m-d h:i:s");
-            $data_array['date_updated'] = date("Y-m-d h:i:s");
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['date_added'] = date("Y-m-d H:i:s");
+            $data_array['date_updated'] = date("Y-m-d H:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($order_statuses_array, $data_array);
 
         DB::table('order_statuses')->insert($order_statuses_array);
@@ -3142,8 +3142,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3158,8 +3158,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3174,8 +3174,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3190,8 +3190,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3206,8 +3206,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3222,8 +3222,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3238,8 +3238,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3254,8 +3254,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3270,8 +3270,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3286,8 +3286,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3302,8 +3302,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3318,8 +3318,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
 
@@ -3336,8 +3336,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3352,8 +3352,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3368,8 +3368,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3384,8 +3384,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3400,8 +3400,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3416,8 +3416,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3432,8 +3432,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3448,8 +3448,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3464,8 +3464,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3480,8 +3480,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3496,8 +3496,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3512,8 +3512,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
 
@@ -3530,8 +3530,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3546,8 +3546,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3562,8 +3562,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3578,8 +3578,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3594,8 +3594,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3610,8 +3610,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3626,8 +3626,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3642,8 +3642,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3658,8 +3658,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3674,8 +3674,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3690,8 +3690,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
             $data_array = array();
@@ -3706,8 +3706,8 @@ class CommonController extends Controller
             $data_array['carat_cnt'] = 0;
             $data_array['clarity_cnt'] = 0;
             $data_array['cut_cnt'] = 0;
-            $data_array['created_at'] = date("Y-m-d h:i:s");
-            $data_array['updated_at'] = date("Y-m-d h:i:s");
+            $data_array['created_at'] = date("Y-m-d H:i:s");
+            $data_array['updated_at'] = date("Y-m-d H:i:s");
             array_push($mvd, $data_array);
 
         DB::table('most_ordered_diamonds')->insert($mvd);
@@ -3720,18 +3720,18 @@ class CommonController extends Controller
             [
                 'refCategory_id' => 1,
                 'views_cnt' => 0,
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s")
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ], [
                 'refCategory_id' => 2,
                 'views_cnt' => 0,
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s")
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ], [
                 'refCategory_id' => 3,
                 'views_cnt' => 0,
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s")
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ]
         ]);
         //******************* Most Viewed Diamonds Entry end *******************//
@@ -3750,7 +3750,7 @@ class CommonController extends Controller
 
            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                'is_deleted' => 1,
-               'date_updated' => date("Y-m-d h:i:s")
+               'date_updated' => date("Y-m-d H:i:s")
            ]);
            activity($request,"deleted",$_REQUEST['module']);
         //    $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
@@ -3771,7 +3771,7 @@ class CommonController extends Controller
 
            $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                'is_active' => $_REQUEST['status'],
-               'date_updated' => date("Y-m-d h:i:s")
+               'date_updated' => date("Y-m-d H:i:s")
            ]);
         //    $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
            if ($res) {
@@ -3805,7 +3805,7 @@ class CommonController extends Controller
             $new_image_json=json_encode($image_array);
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                 'image' =>$new_image_json,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             // activity($request,"deleted",$_REQUEST['module']);
             // $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->delete();
