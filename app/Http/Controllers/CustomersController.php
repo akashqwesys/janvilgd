@@ -12,6 +12,7 @@ use DataTables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
+use App\Mail\EmailApproval;
 use App\Mail\CommonEmail;
 
 class CustomersController extends Controller {
@@ -35,146 +36,153 @@ class CustomersController extends Controller {
 
     public function save(Request $request)
     {
-        $rules = [
-            'name' => ['required'],
-            'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-            'password' => ['required', 'between:6,15'],
-            'confirm_password' => ['required', 'same:password'],
-            'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
-            'address' => ['required'],
-            // 'refCountry_id' => ['required'],
-            'refState_id' => ['required'],
-            'refCity_id' => ['required'],
-            'pincode' => ['required'],
-            'company_name' => ['required'],
-            'office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
-            'official_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-            'pan_gst_no' => ['required', 'between:5,15'],
-            'office_pincode' => ['required'],
-            'office_address' => ['required'],
-            // 'office_country_id' => ['required'],
-            'office_state_id' => ['required'],
-            'office_city_id' => ['required'],
-            'pan_gst_no_file' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
-        ];
+        try {
+            $rules = [
+                'name' => ['required'],
+                'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'password' => ['required', 'between:6,15'],
+                'confirm_password' => ['required', 'same:password'],
+                'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
+                'address' => ['required'],
+                // 'refCountry_id' => ['required'],
+                'refState_id' => ['required'],
+                'refCity_id' => ['required'],
+                'pincode' => ['required'],
+                'company_name' => ['required'],
+                'office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
+                'official_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
+                'pan_gst_no' => ['required', 'between:5,15'],
+                'office_pincode' => ['required'],
+                'office_address' => ['required'],
+                // 'office_country_id' => ['required'],
+                'office_state_id' => ['required'],
+                'office_city_id' => ['required'],
+                'pan_gst_no_file' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf']
+            ];
 
-        $message = [
-            // 'mobile.required' => 'Please enter phone number',
-            'mobile.regex' => 'Please enter valid 10 digits phone number',
-            'email.required' => 'Please enter email address',
-            'email.regex' => 'Please enter valid email address',
-            'password.required' => 'Please enter password',
-            'confirm_password.same' => 'Those password didn\'t match. Try again',
-            'refCountry_id.required' => 'Please enter country',
-            'refState_id.required' => 'Please enter state',
-            'refCity_id.required' => 'Please enter city',
-            'company_name.required' => 'Please enter your company name',
-            'office_no.required' => 'Please enter company office number',
-            'official_email.required' => 'Please enter company email address',
-            'pan_gst_no.required' => 'Please enter company VAT or TIN or GST or PAN',
-            'office_address.required' => 'Please enter company address',
-            'office_country_id.required' => 'Please enter company country',
-            'office_state_id.required' => 'Please enter company state',
-            'office_city_id.required' => 'Please enter company city',
-            'pan_gst_no_file.required' => 'Please select ID proof'
-        ];
+            $message = [
+                // 'mobile.required' => 'Please enter phone number',
+                'mobile.regex' => 'Please enter valid 10 digits phone number',
+                'email.required' => 'Please enter email address',
+                'email.regex' => 'Please enter valid email address',
+                'password.required' => 'Please enter password',
+                'confirm_password.same' => 'Those password didn\'t match. Try again',
+                'refCountry_id.required' => 'Please enter country',
+                'refState_id.required' => 'Please enter state',
+                'refCity_id.required' => 'Please enter city',
+                'company_name.required' => 'Please enter your company name',
+                'office_no.required' => 'Please enter company office number',
+                'official_email.required' => 'Please enter company email address',
+                'pan_gst_no.required' => 'Please enter company VAT or TIN or GST or PAN',
+                'office_address.required' => 'Please enter company address',
+                'office_country_id.required' => 'Please enter company country',
+                'office_state_id.required' => 'Please enter company state',
+                'office_city_id.required' => 'Please enter company city',
+                'pan_gst_no_file.required' => 'Please select ID proof'
+            ];
 
-        $validator = Validator::make($request->all(), $rules, $message);
+            $validator = Validator::make($request->all(), $rules, $message);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+            if ($validator->fails()) {
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+            }
+
+            $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
+                ->where('email', strtolower($request->email))
+                ->first();
+            if ($exists) {
+                return response()->json(['error' => 1, 'message' => 'Email is already registered, Try with new email']);
+            }
+
+            $customer = new Customers;
+            $customer->name = $request->name;
+            $customer->email = $request->email;
+            $customer->password = Hash::make($request->password);
+            $customer->mobile = $request->mobile;
+            $customer->address = $request->address;
+            $customer->pincode = $request->pincode;
+            $customer->refCity_id = $request->refCity_id;
+            $customer->refState_id = $request->refState_id;
+            $customer->refCountry_id = $request->country_code;
+            $customer->refCustomerType_id = 1;
+            $customer->restrict_transactions = $request->restrict_transactions;
+            $customer->added_by = $request->session()->get('loginId');
+            $customer->is_active = 1;
+            $customer->is_deleted = 0;
+            $customer->date_added = date('Y-m-d H:i:s');
+            $customer->date_updated = date('Y-m-d H:i:s');
+            $customer->otp = 0;
+            $customer->otp_status = 0;
+            $customer->verified_status = 1;
+            $customer->approved_by = $customer->added_by;
+            $customer->approved_at = date("Y-m-d H:i:s");
+            $customer->save();
+
+            $company = new CustomerCompanyDetail;
+            $company->refCustomer_id = $customer->customer_id;
+            $company->name = $request->company_name;
+            $company->office_no = $request->office_no;
+            $company->official_email = strtolower($request->official_email);
+            $company->refDesignation_id = 0;
+            $company->designation_name = 'customer';
+            $company->office_address = $request->office_address;
+            $company->pincode = $request->office_pincode;
+            $company->refCountry_id = $request->company_country_code;
+            $company->refState_id = $request->office_state_id;
+            $company->refCity_id = $request->office_city_id;
+            $company->pan_gst_no = $request->pan_gst_no;
+            if ($request->hasFile('pan_gst_no_file')) {
+                $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
+                $request->file('pan_gst_no_file')->storeAs("public/user_files", $imageName);
+                $company->pan_gst_attachment = $imageName;
+            }
+            $company->save();
+            $admin_email = DB::table('settings')
+                ->select('value')
+                ->where('key', 'admin_email')
+                ->pluck('value')
+                ->first();
+            Mail::to($admin_email)
+                ->send(
+                    new CommonEmail([
+                        'subject' => 'New User on Janvi LGD',
+                        'data' => [
+                            'time' => date('Y-m-d H:i:s'),
+                            'link' => url("/admin/customers/edit/{$customer->customer_id}")
+                        ],
+                        'view' => 'emails.commonEmail'
+                    ])
+                );
+            Mail::to($customer->email)
+                ->send(
+                    new EmailVerification([
+                        'subject' => 'Email Approval from Janvi LGD',
+                        'name' => $customer->name,
+                        'link' => [1, 0],
+                        'otp' => 0,
+                        'view' => 'emails.approvalEmail'
+                    ])
+                );
+            /* Mail::to($customer->email)
+                ->send(
+                    new EmailVerification([
+                        'subject' => 'Email Verification from Janvi LGD',
+                        'name' => $customer->name,
+                        'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                        'otp' => 0,
+                        'view' => 'emails.codeVerification_2'
+                    ])
+                ); */
+            activity($request, "inserted", 'customers', $customer->customer_id);
+            // successOrErrorMessage("Data added Successfully", 'success');
+            // return redirect('admin/customers');
+            return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
+        } catch (\Swift_TransportException $e) {
+            activity($request, "inserted", 'customers', $customer->customer_id);
+            return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 1, 'message' => $e->getMessage()]);
         }
-
-        $exists = DB::table('customer')->select('customer_id', 'name', 'mobile', 'email')
-            ->where('email', strtolower($request->email))
-            ->first();
-        if ($exists) {
-            return response()->json(['error' => 1, 'message' => 'Email is already registered, Try with new email']);
-        }
-
-        $customer = new Customers;
-        $customer->name = $request->name;
-        $customer->email = $request->email;
-        $customer->password = Hash::make($request->password);
-        $customer->mobile = $request->mobile;
-        $customer->address = $request->address;
-        $customer->pincode = $request->pincode;
-        $customer->refCity_id = $request->refCity_id;
-        $customer->refState_id = $request->refState_id;
-        $customer->refCountry_id = $request->country_code;
-        $customer->refCustomerType_id = 1;
-        $customer->restrict_transactions = $request->restrict_transactions;
-        $customer->added_by = $request->session()->get('loginId');
-        $customer->is_active = 1;
-        $customer->is_deleted = 0;
-        $customer->date_added = date('Y-m-d H:i:s');
-        $customer->date_updated = date('Y-m-d H:i:s');
-        $customer->otp = 0;
-        $customer->otp_status = 0;
-        $customer->verified_status = 1;
-        $customer->approved_by = $customer->added_by;
-        $customer->approved_at = date("Y-m-d H:i:s");
-        $customer->save();
-
-        $company = new CustomerCompanyDetail;
-        $company->refCustomer_id = $customer->customer_id;
-        $company->name = $request->company_name;
-        $company->office_no = $request->office_no;
-        $company->official_email = strtolower($request->official_email);
-        $company->refDesignation_id = 0;
-        $company->designation_name = 'customer';
-        $company->office_address = $request->office_address;
-        $company->pincode = $request->office_pincode;
-        $company->refCountry_id = $request->company_country_code;
-        $company->refState_id = $request->office_state_id;
-        $company->refCity_id = $request->office_city_id;
-        $company->pan_gst_no = $request->pan_gst_no;
-        if ($request->hasFile('pan_gst_no_file')) {
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('pan_gst_no_file')->getClientOriginalName());
-            $request->file('pan_gst_no_file')->storeAs("public/user_files", $imageName);
-            $company->pan_gst_attachment = $imageName;
-        }
-        $company->save();
-        $admin_email = DB::table('settings')
-            ->select('value')
-            ->where('key', 'admin_email')
-            ->pluck('value')
-            ->first();
-        Mail::to($admin_email)
-            ->send(
-                new CommonEmail([
-                    'subject' => 'New User on Janvi LGD',
-                    'data' => [
-                        'time' => date('Y-m-d H:i:s'),
-                        'link' => url("/admin/customers/edit/{$customer->customer_id}")
-                    ],
-                    'view' => 'emails.commonEmail'
-                ])
-            );
-        Mail::to($customer->email)
-            ->send(
-                new EmailVerification([
-                    'subject' => 'Email Approval from Janvi LGD',
-                    'name' => $customer->name,
-                    'link' => [1, 0],
-                    'otp' => 0,
-                    'view' => 'emails.approvalEmail'
-                ])
-            );
-        /* Mail::to($customer->email)
-            ->send(
-                new EmailVerification([
-                    'subject' => 'Email Verification from Janvi LGD',
-                    'name' => $customer->name,
-                    'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
-                    'otp' => 0,
-                    'view' => 'emails.codeVerification_2'
-                ])
-            ); */
-        activity($request, "inserted", 'customers', $customer->customer_id);
-        // successOrErrorMessage("Data added Successfully", 'success');
-        // return redirect('admin/customers');
-        return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
     }
 
     public function list(Request $request) {
@@ -363,11 +371,14 @@ class CustomersController extends Controller {
                 if ($exists) {
                     Mail::to($exists->email)
                     ->send(
-                        new EmailVerification([
+                        new EmailApproval([
                             'subject' => 'Email Approval from Janvi LGD',
-                            'name' => $exists->name,
-                            'link' => [1, 0],
-                            'otp' => 0,
+                            'e_data' => [
+                                'name' => $exists->name,
+                                'email' => $exists->email,
+                                'android' => '',
+                                'ios' => ''
+                            ],
                             'view' => 'emails.approvalEmail'
                         ])
                     );

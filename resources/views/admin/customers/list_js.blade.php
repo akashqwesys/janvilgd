@@ -1,6 +1,17 @@
 <?php if ($data['title'] == 'List-Customers') {
     ?>
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function (xhr) {
+                $("#append_loader").show();
+            },
+            complete: function (xhr) {
+                $("#append_loader").hide();
+            }
+        });
         var data_table = null;
         var is_approved = '{{ $request["filter"] }}';
         if (is_approved == 'approved') {

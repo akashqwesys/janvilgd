@@ -9,12 +9,12 @@
 			<b>WELCOME TO JANVI LGD</b>
 		</div>
 		<div style="padding: 0 2vw;">
-			<div><p style="padding: 0.5vh 0">Dear, <b>{{ $name }}</b>!</p></div>
+			<div><p style="padding: 0.5vh 0">Dear, <b>{{ $e_data['name'] }}</b>!</p></div>
 			<div>
 				<p> Congratulations and welcome to the JANVI LGD family! Your account on JANVI LGD is now approved. Click <a href="https://www.janvilgd.com/customer/login">here</a> to sign in.</p>
 				<p> Your account information are as below: </p>
 				<p>
-					<div> Email Address: {{ $email }} </div>
+					<div> Email Address: {{ $e_data['email'] }} </div>
 					<div> Password: The one you set when you registered your account. </div>
 				</p>
 				<p> If you forget your password in the future, just click or tap on the "Forgot Password" link on the App or Login page. </p>
@@ -26,12 +26,12 @@
 						</a>
 					</div>
 					<div style="margin: 1rem; display: inline-block;">
-						<a href="{{ $link[0] }}" target="_blank" title="JANVI LGD ANDROID" >
+						<a href="{{ $e_data['android'] }}" target="_blank" title="JANVI LGD ANDROID" >
 							<img src="{{ url('/') }}/assets/images/google-play-shadow-applied.png" alt="JANVI LGD" width="50px">
 						</a>
 					</div>
 					<div style="margin: 1rem; display: inline-block;">
-						<a href="{{ $link[1] }}" target="_blank" title="JANVI LGD IOS" >
+						<a href="{{ $e_data['ios'] }}" target="_blank" title="JANVI LGD IOS" >
 							<img src="{{ url('/') }}/assets/images/app-store.png" alt="JANVI LGD" width="50px" style="box-shadow: 0px 5px 10px 0px lightgrey; border-radius: 12px;">
 						</a>
 					</div>
