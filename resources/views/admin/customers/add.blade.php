@@ -629,6 +629,10 @@
                             icon: 'success',
                             position: 'top-right'
                         });
+                        $('.submit_btn').hide();
+                        setTimeout(() => {
+                            location.href = '/admin/customers';
+                        }, 2000);
                     }
                     if(response.error) {
                         $.toast({
