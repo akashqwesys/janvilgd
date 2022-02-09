@@ -23,19 +23,23 @@ class UserController extends Controller
         $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
-            ->select('country_id', 'name')
+            ->select('country_id', 'name', 'country_code')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->orderBy('country_code', 'asc')
             ->get();
 
         $state = DB::table('state')
             ->select('state_id', 'name')
             ->where('refCountry_id', $customer->refCountry_id)
+            ->orderBy('name', 'asc')
             ->get();
 
         $city = DB::table('city')
             ->select('city_id', 'name')
             ->where('refState_id', $customer->refState_id)
+            ->orderBy('name', 'asc')
             ->get();
         return view('front.profile.my_account', compact('title', 'company', 'customer', 'country', 'state', 'city'));
     }
@@ -48,19 +52,23 @@ class UserController extends Controller
         // $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
-            ->select('country_id', 'name')
+            ->select('country_id', 'name', 'country_code')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->orderBy('country_code', 'asc')
             ->get();
 
         $state = DB::table('state')
             ->select('state_id', 'name')
             ->where('refCountry_id', $customer->refCountry_id)
+            ->orderBy('name', 'asc')
             ->get();
 
         $city = DB::table('city')
             ->select('city_id', 'name')
             ->where('refState_id', $customer->refState_id)
+            ->orderBy('name', 'asc')
             ->get();
 
         return view('front.profile.my_profile', compact('title', 'customer', 'country', 'state', 'city'));
@@ -87,6 +95,8 @@ class UserController extends Controller
             ->select('country_id', 'name', 'country_code')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->orderBy('country_code', 'asc')
             ->get();
 
         return view('front.companies.companies', compact('title', 'company', 'country'));
