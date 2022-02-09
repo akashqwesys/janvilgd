@@ -190,8 +190,8 @@ class DiamondsController extends Controller {
                                     'added_by' => session()->get('loginId'),
                                     'is_active' => 1,
                                     'is_deleted' => 0,
-                                    'date_added' => date("Y-m-d h:i:s"),
-                                    'date_updated' => date("Y-m-d h:i:s")
+                                    'date_added' => date("Y-m-d H:i:s"),
+                                    'date_updated' => date("Y-m-d H:i:s")
                                 ];
 
                                 if (!empty($barcode)) {
@@ -292,8 +292,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -333,8 +333,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -373,8 +373,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -413,8 +413,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -453,8 +453,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -494,7 +494,7 @@ class DiamondsController extends Controller {
                                         'is_active' => 1,
                                         'is_deleted' => 0,
                                         'weight_loss' => $row['weight_loss'],
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -525,8 +525,8 @@ class DiamondsController extends Controller {
                                         'added_by' => session()->get('loginId'),
                                         'is_active' => 1,
                                         'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_added' => date("Y-m-d H:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -655,8 +655,8 @@ class DiamondsController extends Controller {
                                     'added_by' => session()->get('loginId'),
                                     'is_active' => 1,
                                     'is_deleted' => 0,
-                                    'date_added' => date("Y-m-d h:i:s"),
-                                    'date_updated' => date("Y-m-d h:i:s")
+                                    'date_added' => date("Y-m-d H:i:s"),
+                                    'date_updated' => date("Y-m-d H:i:s")
                                 ];
                                 if (!empty($barcode)) {
                                     DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
@@ -709,8 +709,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -750,8 +750,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -791,8 +791,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -831,8 +831,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -868,7 +868,7 @@ class DiamondsController extends Controller {
                                         'added_by' => session()->get('loginId'),
                                         'is_active' => 1,
                                         'is_deleted' => 0,
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -899,8 +899,8 @@ class DiamondsController extends Controller {
                                         'added_by' => session()->get('loginId'),
                                         'is_active' => 1,
                                         'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_added' => date("Y-m-d H:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -1029,8 +1029,8 @@ class DiamondsController extends Controller {
                                     'added_by' => session()->get('loginId'),
                                     'is_active' => 1,
                                     'is_deleted' => 0,
-                                    'date_added' => date("Y-m-d h:i:s"),
-                                    'date_updated' => date("Y-m-d h:i:s")
+                                    'date_added' => date("Y-m-d H:i:s"),
+                                    'date_updated' => date("Y-m-d H:i:s")
                                 ];
                                 if (!empty($barcode)) {
                                     DB::table('diamonds')->where('diamond_id', $barcode->diamond_id)->update($data_array);
@@ -1205,8 +1205,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1248,8 +1248,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1290,8 +1290,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1332,8 +1332,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1374,8 +1374,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1416,8 +1416,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1459,8 +1459,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1502,8 +1502,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1545,8 +1545,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1589,8 +1589,8 @@ class DiamondsController extends Controller {
                                                     'added_by' => $request->session()->get('loginId'),
                                                     'is_active' => 1,
                                                     'is_deleted' => 0,
-                                                    'date_added' => date("Y-m-d h:i:s"),
-                                                    'date_updated' => date("Y-m-d h:i:s")
+                                                    'date_added' => date("Y-m-d H:i:s"),
+                                                    'date_updated' => date("Y-m-d H:i:s")
                                                 ]);
                                                 $attr_id = DB::getPdo()->lastInsertId();
                                                 $insert_array = array();
@@ -1631,7 +1631,7 @@ class DiamondsController extends Controller {
                                         'is_active' => 1,
                                         'is_deleted' => 0,
                                         'weight_loss' => 0,
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -1662,8 +1662,8 @@ class DiamondsController extends Controller {
                                         'added_by' => session()->get('loginId'),
                                         'is_active' => 1,
                                         'is_deleted' => 0,
-                                        'date_added' => date("Y-m-d h:i:s"),
-                                        'date_updated' => date("Y-m-d h:i:s"),
+                                        'date_added' => date("Y-m-d H:i:s"),
+                                        'date_updated' => date("Y-m-d H:i:s"),
                                         'attributes' => $new_attributes,
                                         'attributes_id' => array_values($new_attributes_id)
                                     ];
@@ -1907,8 +1907,8 @@ class DiamondsController extends Controller {
             'is_recommended' => $request->is_recommended ?? 0,
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
 
         $Id = DB::getPdo()->lastInsertId();
@@ -1972,8 +1972,8 @@ class DiamondsController extends Controller {
                 'is_recommended' => isset($request->is_recommended) ? $request->is_recommended : 0,
                 'is_active' => 1,
                 'is_deleted' => 0,
-                'date_added' => date("Y-m-d h:i:s"),
-                'date_updated' => date("Y-m-d h:i:s"),
+                'date_added' => date("Y-m-d H:i:s"),
+                'date_updated' => date("Y-m-d H:i:s"),
                 'attributes' => $new_attributes,
                 'attributes_id' => array_values($new_attributes_id)
             ]
@@ -2312,7 +2312,7 @@ class DiamondsController extends Controller {
             'video_link' => isset($request->video_link) ? $request->video_link : NULL,
             'refCategory_id' => isset($request->refCategory_id) ? $request->refCategory_id : 0,
             'total'=>$total,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = $request->id;
 
@@ -2343,7 +2343,7 @@ class DiamondsController extends Controller {
                     'refCategory_id' => $request->refCategory_id ?? 0,
                     'price_ct' => $price_per_carat,
                     'total'=>$total,
-                    'date_updated' => date("Y-m-d h:i:s"),
+                    'date_updated' => date("Y-m-d H:i:s"),
                     'attributes' => $new_attributes,
                     'attributes_id' => array_values($new_attributes_id)
                 ]
@@ -2388,7 +2388,7 @@ class DiamondsController extends Controller {
 
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 
             $client = ClientBuilder::create()
@@ -2400,7 +2400,7 @@ class DiamondsController extends Controller {
                 /* 'body'  => [
                     'doc' => [
                         'is_deleted' => 1,
-                        'date_updated' => date("Y-m-d h:i:s")
+                        'date_updated' => date("Y-m-d H:i:s")
                     ]
                 ] */
             ];
@@ -2426,7 +2426,7 @@ class DiamondsController extends Controller {
 
             $res = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->update([
                 'is_active' => $_REQUEST['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 
             $client = ClientBuilder::create()
@@ -2438,7 +2438,7 @@ class DiamondsController extends Controller {
                 'body'  => [
                     'doc' => [
                         'is_active' => $_REQUEST['status'],
-                        'date_updated' => date("Y-m-d h:i:s")
+                        'date_updated' => date("Y-m-d H:i:s")
                     ]
                 ]
             ];
@@ -2459,7 +2459,7 @@ class DiamondsController extends Controller {
             //     $params["body"][]= [
             //             "doc" => [
             //             'is_active' => 0,
-            //             'date_updated' => date("Y-m-d h:i:s")
+            //             'date_updated' => date("Y-m-d H:i:s")
             //             ]
             //         ];
             //      if ($i % 1000 == 0) {

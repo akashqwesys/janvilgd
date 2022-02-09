@@ -525,8 +525,8 @@ class OrdersController extends Controller
                             'added_by' => $diamonds[$i]->added_by,
                             'is_active' => $diamonds[$i]->is_active,
                             'is_deleted' => $diamonds[$i]->is_deleted,
-                            'date_added' => date("Y-m-d h:i:s"),
-                            'date_updated' => date("Y-m-d h:i:s"),
+                            'date_added' => date("Y-m-d H:i:s"),
+                            'date_updated' => date("Y-m-d H:i:s"),
                             'attributes' => [],
                             'attributes_id' => []
                         ];
@@ -580,7 +580,7 @@ class OrdersController extends Controller
                 'comment' => $request->comment,
                 'added_by' => $request->session()->get('loginId'),
                 'is_deleted' => 0,
-                'date_added' => date("Y-m-d h:i:s")
+                'date_added' => date("Y-m-d H:i:s")
             ]);
             // $Id = DB::getPdo()->lastInsertId();
             activity($request, "updated", 'orders', $request->id);
@@ -734,7 +734,7 @@ class OrdersController extends Controller
             'refState_id_shipping' => $shipping_address->refState_id,
             'refCountry_id_shipping' => $shipping_address->refCountry_id,
             'shipping_company_pan_gst_no' => $shipping_address->pan_gst_no,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request, "updated", 'orders', $request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -747,7 +747,7 @@ class OrdersController extends Controller
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
@@ -1252,8 +1252,8 @@ class OrdersController extends Controller
                     'carat_cnt' => 1,
                     'clarity_cnt' => 0,
                     'cut_cnt' => 0,
-                    'created_at' => date("Y-m-d h:i:s"),
-                    'updated_at' => date("Y-m-d h:i:s")
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
                 ]);
             }
         }
@@ -1503,8 +1503,8 @@ class OrdersController extends Controller
                     'added_by' => $e_d_[$i]->added_by,
                     'is_active' => $e_d_[$i]->is_active,
                     'is_deleted' => $e_d_[$i]->is_deleted,
-                    'date_added' => date("Y-m-d h:i:s"),
-                    'date_updated' => date("Y-m-d h:i:s"),
+                    'date_added' => date("Y-m-d H:i:s"),
+                    'date_updated' => date("Y-m-d H:i:s"),
                     'attributes' => [],
                     'attributes_id' => []
                 ];
@@ -1773,8 +1773,8 @@ class OrdersController extends Controller
                     'carat_cnt' => 1,
                     'clarity_cnt' => 0,
                     'cut_cnt' => 0,
-                    'created_at' => date("Y-m-d h:i:s"),
-                    'updated_at' => date("Y-m-d h:i:s")
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
                 ]);
             }
         }

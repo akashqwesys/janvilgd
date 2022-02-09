@@ -17,15 +17,15 @@ class CityController extends Controller {
     }
 
     public function add() {
-        
+
         $state = DB::table('state')
                 ->select('state.*','country.name as country_name')
                 ->join('country', 'country.country_id', '=', 'state.refCountry_id')
                 ->where('state.is_active', 1)
-                ->where('state.is_deleted', 0)               
+                ->where('state.is_deleted', 0)
                 ->get();
-        
-        
+
+
 //        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['state'] = $state;
         $data['title'] = 'Add-City';
@@ -39,8 +39,8 @@ class CityController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request,"inserted",'city',$Id);
@@ -54,7 +54,7 @@ class CityController extends Controller {
             return Datatables::of($data)
 //                            ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -74,7 +74,7 @@ class CityController extends Controller {
                                 }
                                 return $delete_button;
                             })
-                            ->editColumn('state_name', function ($row) {                                
+                            ->editColumn('state_name', function ($row) {
                                 return $row->state_name.' - '.$row->country_name;
                             })
                             ->addColumn('action', function ($row) {
@@ -102,7 +102,7 @@ class CityController extends Controller {
                 ->select('state.*','country.name as country_name')
                 ->join('country', 'country.country_id', '=', 'state.refCountry_id')
                 ->where('state.is_active', 1)
-                ->where('state.is_deleted', 0)               
+                ->where('state.is_deleted', 0)
                 ->get();
 //        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $result = DB::table('city')->where('city_id', $id)->first();
@@ -116,7 +116,7 @@ class CityController extends Controller {
         DB::table('city')->where('city_id', $request->id)->update([
             'name' => $request->name,
             'refState_id' => $request->refState_id,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request,"updated",'city',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -127,7 +127,7 @@ class CityController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -148,7 +148,7 @@ class CityController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

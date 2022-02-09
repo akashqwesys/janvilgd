@@ -38,8 +38,8 @@ class AttributeGroupsController extends Controller {
             'is_fix' => $request->is_fix,
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request, "inserted", 'attribute-groups',$Id);
@@ -116,7 +116,7 @@ class AttributeGroupsController extends Controller {
                                 }
 
                                 $actionBtn = '<a href="/admin/attribute-groups/edit/' . $row->attribute_group_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> ';
-                                if($row->is_fix==0){        
+                                if($row->is_fix==0){
                                     $actionBtn.= ' <button class="btn btn-xs btn-danger delete_button" data-module="attribute-groups" data-id="' . $row->attribute_group_id . '" data-table="attribute_groups" data-wherefield="attribute_group_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button>';
                                     $actionBtn.= ' <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->attribute_group_id . '" data-status="' . $row->is_active . '" data-table="attribute_groups" data-wherefield="attribute_group_id" data-module="attribute-groups">' . $str . '</button>';
                                 }
@@ -136,9 +136,9 @@ class AttributeGroupsController extends Controller {
         return view('admin.attributeGroups.edit', ["data" => $data]);
     }
 
-    public function attributeGroupByCategory(Request $request) {         
+    public function attributeGroupByCategory(Request $request) {
         if($request->refCategory_id){
-            $result = DB::table('attribute_groups')->where('refCategory_id', $request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();            
+            $result = DB::table('attribute_groups')->where('refCategory_id', $request->refCategory_id)->where('is_active', 1)->where('is_deleted', 0)->get();
             echo json_encode($result);
         }
     }
@@ -150,11 +150,11 @@ class AttributeGroupsController extends Controller {
             'name' => $request->name,
             'image_required' => $request->image_required,
             'field_type' => $request->filed_type,
-            'refCategory_id' => $request->refCategory_id,            
+            'refCategory_id' => $request->refCategory_id,
             'sort_order' => $request->sort_order,
 //            'is_fix' => $request->is_fix,
             'is_required' => $request->is_required,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request, "updated", 'attribute-groups',$request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -165,7 +165,7 @@ class AttributeGroupsController extends Controller {
         if (isset($request['table_id'])) {
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request, "deleted", $request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -187,7 +187,7 @@ class AttributeGroupsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

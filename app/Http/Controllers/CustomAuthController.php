@@ -64,7 +64,7 @@ class CustomAuthController extends Controller {
 
                 DB::table('users')->where('id', $user->id)->update([
                     'last_login_type' => $logintype,
-                    'last_login_date_time' => date("Y-m-d h:i:s")
+                    'last_login_date_time' => date("Y-m-d H:i:s")
                 ]);
                 // Auth::loginUsingId($user->id);
                 $request->session()->put('loginId',$user->id);

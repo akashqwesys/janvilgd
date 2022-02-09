@@ -361,8 +361,8 @@ class OrderController extends Controller
                         'carat_cnt' => 1,
                         'clarity_cnt' => 0,
                         'cut_cnt' => 0,
-                        'created_at' => date("Y-m-d h:i:s"),
-                        'updated_at' => date("Y-m-d h:i:s")
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                     ]);
                 }
             }

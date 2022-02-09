@@ -44,17 +44,8 @@
                                             <th>Name</th>
                                             <th>Mobile</th>
                                             <th>Email</th>
-                                            {{-- <th>Address</th>
-                                            <th>Pincode</th>
-                                            <th>City</th>
-                                            <th>State</th>
-                                            <th>Country</th>
-                                            <th>Customer Type</th>
-                                            <th>Restrict Transaction</th>
-                                            <th>Added by</th> --}}
                                             <th>isActive</th>
-                                            {{-- <th>isDeleted</th> --}}
-                                            <th>isVerified</th>
+                                            <th>isApproved</th>
                                             <th>Date Added</th>
                                             <th>Action</th>
                                         </tr>

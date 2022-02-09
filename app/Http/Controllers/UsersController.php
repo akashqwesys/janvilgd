@@ -67,10 +67,10 @@ class UsersController extends Controller {
             'is_active' => 1,
             'is_deleted' => 0,
             'last_login_type' => 'web',
-            'last_login_date_time' => date("Y-m-d h:i:s"),
+            'last_login_date_time' => date("Y-m-d H:i:s"),
             'user_type' => 'USER',
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request, "inserted", 'users',$Id);
@@ -158,7 +158,7 @@ class UsersController extends Controller {
             'state_id' => $request->state_id,
             'country_id' => $request->country_id,
             'role_id' => isset($request->role_id) ? $request->role_id : 0,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ];
         $exist_file = DB::table('users')->where('id', $request->id)->first();
         if (isset($request->profile_pic)) {
@@ -205,7 +205,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request, "deleted", $request['module'],$request['table_id']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -227,7 +227,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
