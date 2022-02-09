@@ -21,7 +21,7 @@ class DropdownController extends Controller
             ->select('country_id', 'name', 'country_code')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->whereRaw('SUBSTRING(country_code, 1, 1) in (\'+\',\'-\')')
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->get();
 
         $state = DB::table('state as s')
