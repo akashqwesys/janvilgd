@@ -102,7 +102,6 @@
                 'wherefield': wherefield,
                 '_token': $("input[name=_token]").val()
             };
-            $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
             $.ajax({
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -111,7 +110,6 @@
                 success: function (res) {
                     if (res.suceess) {
                         $('.tr_' + self.data('id') + ' .is_deleted').html('<span class="badge badge-danger">Deleted</span>');
-                        $('#append_loader').empty();
                     }
                 }
             });
@@ -140,7 +138,6 @@
                 'approved' : $(this).hasClass('approved') ? true : false,
                 '_token': $("meta[name=csrf-token]").attr('content')
             };
-            $('#append_loader').append("<div class='d-flex justify-content-center'><div class='spinner-border text-success' role='status'><span class='sr-only'>Loading...</span></div></div>");
             $.ajax({
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},

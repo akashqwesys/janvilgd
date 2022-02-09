@@ -155,13 +155,16 @@ class CustomersController extends Controller {
                 );
             Mail::to($customer->email)
                 ->send(
-                    new EmailVerification([
-                        'subject' => 'Email Approval from Janvi LGD',
-                        'name' => $customer->name,
-                        'link' => [1, 0],
-                        'otp' => 0,
-                        'view' => 'emails.approvalEmail'
-                    ])
+                    new EmailApproval([
+                            'subject' => 'Email Approval from Janvi LGD',
+                            'e_data' => [
+                                'name' => $customer->name,
+                                'email' => $customer->email,
+                                'android' => '',
+                                'ios' => ''
+                            ],
+                            'view' => 'emails.approvalEmail'
+                        ])
                 );
             /* Mail::to($customer->email)
                 ->send(

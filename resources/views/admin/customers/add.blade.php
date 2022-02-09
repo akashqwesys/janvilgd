@@ -481,6 +481,7 @@
     }, 1000);
     $(document).on('change', '#country_code', function () {
         if ($(this).val()) {
+            $(this).siblings('.error').text('');
             $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', true);
         } else {
             $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', false);
@@ -488,12 +489,16 @@
     });
     $(document).on('change', '#company_country_code', function () {
         if ($(this).val()) {
+            $(this).siblings('.error').text('');
             $('#office_country_id').val($(this).val()).trigger('change').attr('disabled', true);
         } else {
             $('#office_country_id').val($(this).val()).trigger('change').attr('disabled', false);
         }
     });
     $(document).on('change', '#refCountry_id, #office_country_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
         $.ajax({
             type: "POST",
             url: "/getStates",
@@ -530,6 +535,9 @@
         });
     });
     $(document).on('change', '#refState_id, #office_state_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
         $.ajax({
             type: "POST",
             url: "/getCities",
@@ -564,6 +572,16 @@
                 });
             }
         });
+    });
+    $(document).on('change', '#refCity_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
+    });
+    $(document).on('change', '#office_city_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
     });
     $("#customerForm").validate({
         rules: {
