@@ -181,7 +181,6 @@ class CustomersController extends Controller {
             // return redirect('admin/customers');
             return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
         } catch (\Swift_TransportException $e) {
-            activity($request, "inserted", 'customers', $customer->customer_id);
             return response()->json(['success' => 1, 'message' => 'Customer added successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 1, 'message' => $e->getMessage()]);
