@@ -159,6 +159,18 @@ class FrontAuthController extends Controller
                     $customer->otp = 0;
                     $customer->otp_status = 0;
                     $customer->verified_status = 0;
+
+                    Mail::to($customer->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $customer->name,
+                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'otp' => 0,
+                            'view' => 'emails.codeVerification_2'
+                        ])
+                    );
+
                     $customer->save();
 
                     $company = new CustomerCompanyDetail;
@@ -197,16 +209,6 @@ class FrontAuthController extends Controller
                                 'view' => 'emails.commonEmail'
                             ])
                         );
-                    Mail::to($customer->email)
-                    ->send(
-                        new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGD',
-                            'name' => $customer->name,
-                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
-                            'otp' => 0,
-                            'view' => 'emails.codeVerification_2'
-                        ])
-                    );
 
                     return response()->json(['success' => 1, 'message' => '<div class="alert alert-success"> <b> <div class="text-center">Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.</div> </b> </div> <div class="mt-4 text-center"><a href="/" class="btn btn-primary">Back to Home</a></div>']);
                 }

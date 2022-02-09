@@ -138,6 +138,18 @@ class AuthController extends Controller
                 $customer->otp = 0;
                 $customer->otp_status = 0;
                 $customer->verified_status = 0;
+
+                Mail::to($customer->email)
+                    ->send(
+                        new EmailVerification([
+                            'subject' => 'Email Verification from Janvi LGD',
+                            'name' => $customer->name,
+                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
+                            'otp' => 0,
+                            'view' => 'emails.codeVerification_2'
+                        ])
+                    );
+
                 $customer->save();
 
                 $company = new CustomerCompanyDetail;
@@ -177,16 +189,7 @@ class AuthController extends Controller
                             'view' => 'emails.commonEmail'
                         ])
                     );
-                Mail::to($customer->email)
-                    ->send(
-                        new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGD',
-                            'name' => $customer->name,
-                            'link' => url('/') . '/customer/email-verification/' . encrypt(($customer->email . '--' . $customer->date_added), false),
-                            'otp' => 0,
-                            'view' => 'emails.codeVerification_2'
-                        ])
-                    );
+
                 $all = $this->getUserData($customer);
                 return $this->successResponse('Congrats, you are now successfully registered', $all);
 
