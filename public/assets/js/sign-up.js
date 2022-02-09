@@ -65,6 +65,9 @@ $(document).on('change', '#email, #mobile', function () {
     });
 });
 $(document).on('change', '#country', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getStates",
@@ -97,6 +100,9 @@ $(document).on('change', '#country', function () {
     });
 });
 $(document).on('change', '#state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -129,6 +135,9 @@ $(document).on('change', '#state', function () {
     });
 });
 $(document).on('change', '#company_country', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getStates",
@@ -161,6 +170,9 @@ $(document).on('change', '#company_country', function () {
     });
 });
 $(document).on('change', '#company_state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -191,6 +203,16 @@ $(document).on('change', '#company_state', function () {
             });
         }
     });
+});
+$(document).on('change', '#city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
+});
+$(document).on('change', '#company_city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
 });
 $("#msform").validate({
     errorClass: 'red-error',
