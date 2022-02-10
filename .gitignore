@@ -2,7 +2,7 @@
 /nbproject/private/
 public/images
 public/pdf
-storage/framework/diamond-filters
+/storage/framework/diamond-filters
 .env
 
 env
