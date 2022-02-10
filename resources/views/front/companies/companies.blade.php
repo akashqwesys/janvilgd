@@ -309,6 +309,10 @@ $.ajaxSetup({
         $(".cs-loader").show();
     }
 });
+$(document).on('keydown keyup', 'input[aria-controls="select2-company_country_code-results"]', function() {
+    $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+});
+
 $(document).on('click', '.edit-btn', function () {
     $('#customer_company_id').val($(this).attr('data-id'));
     $('#company_name').val($(this).attr('data-name'));
@@ -371,13 +375,15 @@ $(document).on('click', '.delete-btn', function () {
 
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('#companyForm')[0].reset();
-    $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
+    $('#company_country, #company_state, #company_city').val(null).trigger('change');
+    $('#company_country_code').val(101).trigger('change');
     $('div.errTxt').html('');
 });
 setTimeout(() => {
     $('#company_country, #company_state, #company_city, #company_country_code').select2({
         dropdownParent: $('#exampleModal')
     });
+    $('#company_country_code').trigger('change');
     $('#company_country_code').on('select2:open', function (e) {
         setTimeout(() => {
             $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
@@ -426,6 +432,9 @@ $(document).on('change', '#company_country', function () {
     });
 });
 $(document).on('change', '#company_state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -458,6 +467,11 @@ $(document).on('change', '#company_state', function () {
             });
         }
     });
+});
+$(document).on('change', '#company_city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
 });
 $("#companyForm").validate({
     errorClass: 'red-error',
@@ -510,6 +524,9 @@ $("#companyForm").validate({
     }
 });
 $(document).on('change', '#id_upload', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $(this).next('label').text($(this)[0].files[0].name);
 });
 </script>

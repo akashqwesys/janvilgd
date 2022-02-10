@@ -214,6 +214,9 @@ $(document).on('change', '#company_city', function () {
         $(this).parent().next('.errTxt').find('.red-error').text('');
     }
 });
+$(document).on('keydown keyup', 'input[aria-controls="select2-country_code-results"]', function() {
+    $('#select2-country_code-results').parent().parent().css('width', '15rem');
+});
 $("#msform").validate({
     errorClass: 'red-error',
     errorElement: 'div',
@@ -335,6 +338,9 @@ $("#msform").validate({
 });
 
 $(document).on('change', '#id_upload', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $(this).prev('.et_pb_contact_form_label').attr('data-content', $(this)[0].files[0].name);
 });
 
@@ -377,10 +383,10 @@ $(document).ready(function () {
     });
     $(document).on('click', '.next-1, .next-2', function () {
         if($(this).hasClass('next-1') && $('#name, #email, #password, #confirm_password, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
-            return false;
+            // return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
-            return false;
+            // return false;
         }
         else {
             setTimeout(() => {

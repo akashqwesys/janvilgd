@@ -1546,9 +1546,11 @@ class DiamondController extends Controller
             ->get();
 
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->where('is_active',1)
             ->where('is_deleted',0)
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
+            ->orderBy('cc', 'asc')
             ->get();
 
         // $discount = !empty($discount) ? (($subtotal * $discount) / 100) : 0;

@@ -961,11 +961,11 @@ class OrdersController extends Controller
             ->orderBy('customer_id', 'asc')
             ->get();
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->orderBy('country_code', 'asc')
+            ->orderBy('cc', 'asc')
             ->get();
         $payment_modes = DB::table('payment_modes')->where('is_active', 1)->where('is_deleted', 0)->get();
         return view('admin.orders.invoice', compact('data', 'customers', 'payment_modes', 'country', 'order_id', 'labour_charge_4p', 'labour_charge_rough'));
@@ -1314,11 +1314,11 @@ class OrdersController extends Controller
             ->orderBy('customer_id', 'asc')
             ->get();
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->orderBy('country_code', 'asc')
+            ->orderBy('cc', 'asc')
             ->get();
 
         $discount = DB::table('discounts')

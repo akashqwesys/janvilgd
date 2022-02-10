@@ -23,11 +23,11 @@ class UserController extends Controller
         $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->orderBy('country_code', 'asc')
+            ->orderBy('cc', 'asc')
             ->get();
 
         $state = DB::table('state')
@@ -52,11 +52,11 @@ class UserController extends Controller
         // $company = $api->original['data']['company'];
         $customer = $api->original['data']['customer'];
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
-            ->orderBy('country_code', 'asc')
+            ->orderBy('cc', 'asc')
             ->get();
 
         $state = DB::table('state')
@@ -92,11 +92,11 @@ class UserController extends Controller
         $api = $data->getCompanies($request);
         $company = $api->original['data']['company'];
         $country = DB::table('country')
-            ->select('country_id', 'name', 'country_code')
+            ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
-            ->orderBy('country_code', 'asc')
+            ->orderBy('cc', 'asc')
             ->get();
 
         return view('front.companies.companies', compact('title', 'company', 'country'));
