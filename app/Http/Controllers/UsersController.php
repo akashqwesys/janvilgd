@@ -21,7 +21,12 @@ class UsersController extends Controller {
         $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         // $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         // $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $country = DB::table('country')
+        ->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code', DB::raw("cast (country_code as integer) as cc"))
+        ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
+        ->where('is_active', 1)->where('is_deleted', 0)
+        ->orderBy('cc', 'asc')
+        ->get();
         $data['user_role'] = $user_role;
         // $data['city'] = $city;
         // $data['state'] = $state;

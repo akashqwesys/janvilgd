@@ -587,6 +587,9 @@
             }, 10);
         });
     }, 1000);
+    $(document).on('keydown keyup', 'input[aria-controls="select2-company_country_code-results"]', function() {
+        $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+    });
     $(document).on('change', '#company_country_code', function () {
         if ($(this).val()) {
             $('#company_country2').val($(this).val()).trigger('change').attr('disabled', true);

@@ -15,26 +15,26 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name',30);
-            $table->string('mobile',10);
-            $table->string('email',30);
-            $table->longText('address');
+            $table->string('name');
+            $table->string('mobile');
+            $table->string('email');
+            $table->text('address');
             $table->foreignId('city_id');
             $table->foreignId('state_id');
             $table->foreignId('country_id');
-            $table->longText('id_proof_1');
-            $table->longText('id_proof_2');
-            $table->longText('profile_pic');
+            $table->text('id_proof_1')->nullable();
+            $table->text('id_proof_2')->nullable();
+            $table->text('profile_pic')->nullable();
             $table->foreignId('role_id');
-            $table->string('username',30);
-            $table->string('password',30);
+            $table->string('username')->nullable();
+            $table->string('password')->nullable();
             $table->foreignId('added_by');
             $table->tinyInteger('is_active');
             $table->tinyInteger('is_deleted');
             $table->enum('last_login_type',["mobile","web"]);
             $table->dateTime('last_login_date_time');
-            $table->dateTime('date_added');
-            $table->dateTime('date_updated');            
+            $table->dateTime('date_added')->nullable();
+            $table->dateTime('date_updated')->nullable();
             $table->timestamps();
         });
     }

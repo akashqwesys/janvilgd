@@ -479,6 +479,12 @@
         });
         $('#country_code, #company_country_code').trigger('change');
     }, 1000);
+    $(document).on('keydown keyup', 'input[aria-controls="select2-country_code-results"]', function() {
+        $('#select2-country_code-results').parent().parent().css('width', '15rem');
+    });
+    $(document).on('keydown keyup', 'input[aria-controls="select2-company_country_code-results"]', function() {
+        $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+    });
     $(document).on('change', '#country_code', function () {
         if ($(this).val()) {
             $(this).siblings('.error').text('');
@@ -583,6 +589,7 @@
             $(this).siblings('.error').text('');
         }
     });
+
     $("#customerForm").validate({
         rules: {
             mobile: { number:true, rangelength: [10,11]},

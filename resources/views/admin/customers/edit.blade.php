@@ -496,6 +496,12 @@
     setTimeout(() => {
         $('#refCity_id').val(<?= $data['result']->refCity_id ?>).trigger('change');
     }, 2000);
+    $(document).on('keydown keyup', 'input[aria-controls="select2-country_code-results"]', function() {
+        $('#select2-country_code-results').parent().parent().css('width', '15rem');
+    });
+    $(document).on('keydown keyup', 'input[aria-controls="select2-company_country_code-results"]', function() {
+        $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+    });
     $(document).on('change', '#country_code', function () {
         if ($(this).val()) {
             $('#refCountry_id').val($(this).val()).trigger('change').attr('disabled', true);
