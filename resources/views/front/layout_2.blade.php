@@ -7,87 +7,127 @@
 	<meta name="twitter:card" content="photo" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/rSlider.min.css">
-    <link rel="stylesheet" href="{{ asset(check_host().'admin_assets/toast/jquery.toast.css') }}">
-    <script src="/{{ check_host() }}assets/js/rSlider.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/custom.css">
-    <script src="/{{ check_host() }}assets/js/jquery-3.6.0.min.js"></script>
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-icon.png">
+	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/admin_assets/toast/jquery.toast.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v={{ time() }}">
+	<link rel="stylesheet" type="text/css" href="/assets/css/custom.css?v={{ time() }}">
+	<link rel="stylesheet" type="text/css" href="/assets/css/rSlider.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+	<link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/css/new-style.css?v={{ time() }}">
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/rSlider.js"></script>
+
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	{{-- <link rel="stylesheet" type="text/css" href="/{{ check_host() }}assets/build/css/intlTelInput.css"> --}}
+	<style>
+		.zoom>img {
+			transition: width 1s;
+			top: 15px;
+			position: absolute;
+			z-index: 9999;
+			width: 11rem;
+		}
+		.navbar {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+		}
+		.card-body1{
+			padding: 20px 20px 0px 20px !important;
+		}
+		.row1 {
+            padding-right: 20px !important;
+            padding-left: 20px !important;
+        }
+		#myVideo {
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+		}
+	</style>
     @yield('css')
 </head>
 <body>
 	<header class="header-style-2">
 		<nav class="navbar navbar-expand-lg">
-		  <div class="container">
-		    <a class="navbar-brand" href="/">
-				<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" >
-			</a>
-		    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		      <img src="/{{ check_host() }}assets/images/menu-icon.svg">
-		    </button> -->
-		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		      <ul class="navbar-nav">
-		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a>
-		        </li>
-		      </ul>
-		    </div>
-		    <div class="ms-auto header-right-menu">
-		    	<ul class="navbar-nav ms-auto">
-		    		<li class="nav-item">
-		    			<a class="nav-link" aria-current="page" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><img src="/{{ check_host() }}assets/images/menu-icon.svg" ></a>
-		    		</li>
-					<li><a class="nav-link noti-badge" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
-		      		<li><a class="nav-link" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
-		    		<li class="nav-item">
+			<div class="container">
+				<a class="navbar-brand zoom" href="/">
+					<img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" >
+				</a>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="/">HOME</a>
+						</li>
+						<!-- <li class="nav-item">
+							<a class="nav-link" href="/about-us">ABOUT</a>
+						</li> -->
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								OUR COMPANY
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li class="bg-cs-dark">
+									<a class="dropdown-item" href="/about-us">ABOUT US</a>
+								</li>
+								<li  class="bg-cs-dark">
+									<a class="dropdown-item" href="/diamonds">WHAT WE HAVE</a>
+								</li>
+								<li class="bg-cs-dark">
+									<a class="dropdown-item" href="/manufacturing">MANUFACTURING</a>
+								</li>
+								<li class="bg-cs-dark">
+									<a class="dropdown-item" href="/grading">GRADING</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								OUR PRODUCT
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li class="bg-cs-dark">
+									<a class="dropdown-item" href="/customer/search-diamonds/polish-diamonds">POLISH DIAMONDS</a>
+								</li>
+								<!-- <li  class="bg-cs-dark">
+									<a class="dropdown-item" href="/customer/search-diamonds/4p-diamonds">4P DIAMONDS</a>
+								</li>
+								<li class="bg-cs-dark">
+									<a class="dropdown-item" href="/customer/search-diamonds/rough-diamonds">ROUGH DIAMONDS</a>
+								</li> -->
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/contact">CONTACT</a>
+						</li>
+					</ul>
+				</div>
+				<div class="ms-auto header-right-menu">
+					<ul class="navbar-nav ms-auto">
 						@auth
-						<a class="nav-link" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" ></a>
+						<li><a class="nav-link noti-badge" id="global_cart_count" data-badge="{{ total_cart_item() }}" href="{{ route('get-cart') }}"><img src="/{{ check_host() }}assets/images/shopping-cart.svg"></a></li>
+						<li><a class="nav-link" href="{{ route('get-wishlist') }}"><img src="/{{ check_host() }}assets/images/theme_heart_icon.svg"></a></li>
+						<li class="nav-item">
+							<a class="nav-link" aria-current="page" href="/customer/logout"><img src="/{{ check_host() }}assets/images/mono-exit.svg" ></a>
+						</li>
 						@endauth
 						@guest
-		    			<a class="nav-link" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" ></a>
+						<li class="nav-item">
+							<a class="nav-link" aria-current="page" href="/customer/login"><img src="/{{ check_host() }}assets/images/user.svg" ></a>
+						</li>
 						@endguest
-		    		</li>
-		    	</ul>
-		    	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-		    		<div class="offcanvas-header">
-		    			<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		    		</div>
-		    		<div class="offcanvas-body">
-		    			<ul class="list-unstyled">
-		    				<li><a class="nav-link" aria-current="page" href="/">Home</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/about-us">About Us</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/blog">Blog</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/contact">Contact</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/manufacturing">Manufacturing</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/grading">What we follow?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/rough-diamonds">Rough Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/4p-diamonds">4P Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/customer/search-diamonds/polish-diamonds">Polish Diamonds</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/why-to-order-online">Why to Order Online?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/diamonds">What we have?</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/events">Events</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/media">Media</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/gallery">Gallery</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/blog">Blogs</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/business-policy">Business Policy</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/terms-conditions">Terms & Condition</a></li>
-		    				<li><a class="nav-link" aria-current="page" href="/privacy-policy">Privacy Policy</a></li>
-		    			</ul>
-		    		</div>
-		    	</div>
-		    </div>
+					</ul>
+
+				</div>
 			</div>
-		  </div>
 		</nav>
 	</header>
 
@@ -141,7 +181,7 @@
 								<li class="item"><a href="/gallery">Gallery</a></li>
 								<li class="item"><a href="/media">Media</a></li>
 								<li class="item"><a href="/events">Events</a></li>
-								<li class="item"><a href="/business-policy">Business Policy</a></li>
+								<!-- <li class="item"><a href="/business-policy">Business Policy</a></li> -->
 								<li class="item"><a href="/blog">Blogs</a></li>
 							</ul>
 						</div>
@@ -150,12 +190,11 @@
 						<div class="quick-link-content">
 							<h4 class="title">Information</h4>
 							<ul class="list-unstyled footer-link mb-0">
-								<li class="item"><a href="/customer/order-details">Order Details</a></li>
+								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
+								<li class="item"><a href="/grading">Grading</a></li>
 								<li class="item"><a href="/privacy-policy"> Privacy Policy </a></li>
 								<li class="item"><a href="/terms-conditions"> Terms & Conditions </a></li>
 								<li class="item"><a href="Javascript:;">Support Now</a></li>
-								<li class="item"><a href="/manufacturing">Manufacturing</a></li>
-								<li class="item"><a href="/grading">Grading</a></li>
 							</ul>
 						</div>
 					</div>
@@ -163,7 +202,13 @@
 						<div class="quick-link-content">
 							<h4 class="title">My Account</h4>
 							<ul class="list-unstyled footer-link mb-0">
+								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
+								<li class="item"><a href="/customer/my-orders">My Orders</a></li>
+								@endauth
+								@guest
+								<li class="item"><a href="/customer/login">Login</a></li>
+								@endguest
 								<li class="item"><a href="/customer/wishlist">Wishlist</a></li>
 								<li class="item"><a href="/customer/checkout">Checkout</a></li>
 								<li class="item"><a href="/customer/cart">Cart</a></li>
@@ -174,7 +219,7 @@
 						<div class="quick-link-content">
 							<h4 class="title">Contact Us</h4>
 							<div class="footer-info">
-								<ul class="country_address_links">
+							<ul class="country_address_links">
 									<li>
 										<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
@@ -182,22 +227,26 @@
 										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
 											</div>
 										</div>
 									</li>
 									<li>
-										<span class="flag-icon">
+									<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
 										</span>
-										<span class="location">USA</span>
+										<span class="location">India</span>
 										<div class="location-address">
 											<div class="location_inner">
-												<p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-												<p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-												<p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
+												<ul>
+													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
+													<li class="secondli">info@mywebsite.com</li>
+													<li class="thirdli">+1 (291) 939 9321</li>
+												</ul>
 											</div>
 										</div>
 									</li>
@@ -207,8 +256,6 @@
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
 									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://twitter.com/" target="_blank"><img src="/{{ check_host() }}assets/images/twitter.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.youtube.com/" target="_blank"><img src="/{{ check_host() }}assets/images/youtube.svg" class="img-fluid" ></a></li>
 									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
@@ -218,7 +265,7 @@
 			</div>
 		</div>
 		<div class="copyright text-center">
-			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGE</a>. All Rights Reserved.</p>
+			<p class="mb-0">Copyright © 2021 <a href="/">JANVI LGD PVT. LTD.</a>. All Rights Reserved.</p>
 		</div>
 	</div>
 </footer>
@@ -242,6 +289,25 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdrop1Label">Export Diamonds</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+          <input type="text" name="discount" class="form-control" placeholder="Enter Discount" id="export-discount">
+      </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-export='export-admin' id="export-search-diamond-admin" data-bs-dismiss="modal" aria-label="Close">Export</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php
 $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 // echo $file;
@@ -251,20 +317,106 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 <script src="/{{ check_host() }}assets/js/slick.min.js"></script>
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 {{-- <script src="/{{ check_host() }}assets/js/custom-rSlider.js"></script> --}}
+
+<script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script>
+  <script>
+    /* var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+      // allowDropdown: false,
+      // autoHideDialCode: false,
+      autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["us"],
+      // formatOnDisplay: false,
+      // geoIpLookup: function(callback) {
+      //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      //     var countryCode = (resp && resp.country) ? resp.country : "";
+      //     callback(countryCode);
+      //   });
+      // },
+      // hiddenInput: "full_number",
+      // initialCountry: "auto",
+      // localizedCountries: { 'de': 'Deutschland' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+      // preferredCountries: ['cn', 'jp'],
+      // separateDialCode: true,
+      utilsScript: "/{{ check_host() }}assets/build/js/utils.js",
+    }); */
+  </script>
+<script>
+$(document).ready(function() {
+	AOS.init();
+	$('ul.dropdown-menu li .active').removeClass('active');
+	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+
+	$(window).scroll(function(){
+
+		if($(window).scrollTop() >= 60) {
+			$(".zoom img").css({
+				'transition': 'width 1s',
+				'width': '8rem'
+        	});
+        }
+		if($(window).scrollTop() <= 50) {
+			$(".zoom img").css({
+				'transition': 'width 1s',
+            	'width': '11rem'
+        	});
+        }
+
+    });
+
+});
+</script>
 <script type="text/javascript">
+	function addToCart (self) {
+		// var self = $(this);
+		var diamond_id = self.data('id');
+		var data = {
+			'diamond_id': diamond_id
+		};
+		$.ajax({
+			type: "POST",
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			url: "{{ route('add-to-cart') }}",
+			data: data,
+			success: function (res) {
+				if (res.suceess) {
+					$.toast({
+						heading: 'Success',
+						text: 'Diamond added in cart.',
+						icon: 'success',
+						position: 'top-right'
+					});
+					$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
+				}else{
+					$.toast({
+						heading: 'Error',
+						text: res.message,
+						icon: 'error',
+						position: 'top-right'
+					});
+				}
+			}
+		});
+	}
 	$(document).ready(function () {
-            $(document).on('click', '#click-whatsapp-link', function () {
-//                staticBackdrop
-                var w_link=$("#watsapplink").val();
-                window.open(w_link, '_blank');
-//                window.location.href = w_link;
-            });
-            $(document).on('click', '#click-copy-link', function () {
-                var c_link=$("#copylink").val();
-                navigator.clipboard.writeText(c_link);
-            });
-            $(document).on('click', '#add-all-to-cart', function () {
+		$(document).on('click', '#click-whatsapp-link', function () {
+			//                staticBackdrop
+			var w_link=$("#watsapplink").val();
+			window.open(w_link, '_blank');
+			//                window.location.href = w_link;
+		});
+		$(document).on('click', '#click-copy-link', function () {
+			var c_link=$("#copylink").val();
+			navigator.clipboard.writeText(c_link);
+		});
+		$(document).on('click', '#add-all-to-cart', function () {
 			var share_cart_id = $("#share_cart_id").val();
 			var data = {
 				'share_cart_id': share_cart_id
@@ -275,7 +427,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				url: "{{ route('add-all-to-cart') }}",
 				data: data,
 				success: function (res) {
-					if (res.suceess) {
+					if (res.success) {
 						$.toast({
 							heading: 'Success',
 							text: 'Diamond added in cart.',
@@ -285,7 +437,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}else{
 						$.toast({
 							heading: 'Error',
-							text: 'Oops, something went wrong...!',
+							text: res.message,
 							icon: 'error',
 							position: 'top-right'
 						});
@@ -293,39 +445,37 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
-            $(document).on('click', '#add-all-to-wishlist', function () {
-                      var share_wishlist_id = $("#share_wishlist_id").val();
-                      var data = {
-                              'share_wishlist_id': share_wishlist_id
-                      };
-                      $.ajax({
-                              type: "POST",
-                              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                              url: "{{ route('add-all-to-wishlist') }}",
-                              data: data,
-                              success: function (res) {
-                                      if (res.suceess) {
-                                              $.toast({
-                                                      heading: 'Success',
-                                                      text: 'Diamond added in wishlist.',
-                                                      icon: 'success',
-                                                      position: 'top-right'
-                                              });
-                                      }else{
-                                              $.toast({
-                                                      heading: 'Error',
-                                                      text: 'Oops, something went wrong...!',
-                                                      icon: 'error',
-                                                      position: 'top-right'
-                                              });
-                                      }
-                              }
-                      });
-              });
+		$(document).on('click', '#add-all-to-wishlist', function () {
+			var share_wishlist_id = $("#share_wishlist_id").val();
+			var data = {
+				'share_wishlist_id': share_wishlist_id
+			};
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "{{ route('add-all-to-wishlist') }}",
+				data: data,
+				success: function (res) {
+					if (res.success) {
+						$.toast({
+							heading: 'Success',
+							text: 'Diamond added in wishlist.',
+							icon: 'success',
+							position: 'top-right'
+						});
+					}else{
+						$.toast({
+							heading: 'Error',
+							text: res.message,
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		});
 
-
-
-            $(document).on('click', '.add-to-cart', function () {
+		/* $(document).on('click', '.add-to-cart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -344,6 +494,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))+1);
 					}else{
 						$.toast({
 							heading: 'Error',
@@ -354,8 +505,9 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 					}
 				}
 			});
-		});
-            $(document).on('click', '.removeFromCart', function () {
+		}); */
+
+		$(document).on('click', '.removeFromCart', function () {
 			var self = $(this);
 			var diamond_id = self.data('id');
 			var data = {
@@ -374,22 +526,25 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 							icon: 'success',
 							position: 'top-right'
 						});
-						if (res.data.length > 0) {
-							$("#sub-total-td").text("$"+res.data['subtotal']);
-							$("#discount").text("$"+res.data['discount']);
-							$("#additional_discount").text("$"+res.data['additional_discount']);
-							$("#tax").text("$"+res.data['tax']);
-							$("#shipping").text("$"+res.data['shipping']);
-							$("#final-total-th div").text("$"+res.data['total']);
-						} else {
+						if (res.data.length == 0) {
 							$("#sub-total-td").text("$0");
 							$("#discount").text("$0");
 							$("#additional_discount").text("$0");
 							$("#tax").text("$0");
 							$("#shipping").text("$0");
 							$("#final-total-th div").text("$0");
+							$('.order-summary-card').remove();
+							$('.cart-card').removeClass('col-md-4 col-lg-4').addClass('col-md-12 col-lg-12');
+						} else {
+							$("#sub-total-td").text("$"+res.data.subtotal);
+							$("#discount").text("$"+res.data.discount);
+							$("#additional_discount").text("$"+res.data.additional_discount);
+							$("#tax").text("$"+res.data.tax);
+							$("#shipping").text("$"+res.data.shipping);
+							$("#final-total-th div").text("$"+res.data.total);
 						}
 						$("#diamond_"+diamond_id).remove();
+						$('#global_cart_count').attr('data-badge', parseInt($('#global_cart_count').attr('data-badge'))-1);
 					}else{
 						$.toast({
 							heading: 'Error',
@@ -401,9 +556,6 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
-
-
-
 
 		$(document).on('click', '.add-to-wishlist', function () {
 			var self = $(this);
@@ -467,6 +619,10 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		});
+
+		// $("input").intlTelInput({
+		// 	utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"
+		// });
 	});
 </script>
 @yield('js')

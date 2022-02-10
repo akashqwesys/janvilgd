@@ -34,7 +34,7 @@ class UserController extends Controller
             ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
             ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
             ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
-            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name','ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ctr.name as country_name', 's.name as state_name','ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
             ->where('ccd.refCustomer_id', $customer->customer_id)
             ->get();
 
@@ -181,7 +181,7 @@ class UserController extends Controller
                         'view' => 'emails.commonEmail'
                     ])
                 ); */
-
+            customer_activity('updated', $customer->name . ' has updated the profile', '/customer/my-account');
             return $this->successResponse('Profile updated successfully', ['personal' => $data]);
 
         } catch (\Exception $e) {
@@ -196,8 +196,9 @@ class UserController extends Controller
             ->join('country as ctr', 'ccd.refCountry_id', '=', 'ctr.country_id')
             ->join('state as s', 'ccd.refState_id', '=', 's.state_id')
             ->join('city as ct', 'ccd.refCity_id', '=', 'ct.city_id')
-            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ccd.is_approved', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
+            ->select('ccd.customer_company_id', 'ccd.refCustomer_id', 'ccd.name', 'ccd.office_no', 'ccd.official_email', 'ccd.refDesignation_id', 'ccd.designation_name', 'ccd.office_address', 'ccd.pincode', 'ccd.pan_gst_no', 'ccd.pan_gst_attachment', 'ctr.name as country_name', 's.name as state_name', 'ct.name as city_name', 'ccd.refCountry_id', 'ccd.refState_id', 'ccd.refCity_id')
             ->where('ccd.refCustomer_id', $customer->customer_id)
+            ->orderBy('ccd.customer_company_id', 'asc')
             ->get();
         foreach ($company as $v) {
             $v->pan_gst_attachment = '/storage/user_files/'.$v->pan_gst_attachment;
@@ -216,13 +217,13 @@ class UserController extends Controller
                 'company_name' => ['required'],
                 'company_office_no' => ['required'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'company_gst_pan' => ['required', 'between:10,15'],
+                'company_gst_pan' => ['required', 'min:8'],
                 'company_address' => ['required'],
-                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                // 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required'],
-                'id_upload' => ['required_if:customer_company_id,null', 'file', 'mimes:jpg,jpeg,png,pdf']
+                'id_upload' => [/* 'required_if:customer_company_id,null', */ 'file', 'mimes:jpg,jpeg,png,pdf']
             ];
 
             $message = [
@@ -264,13 +265,13 @@ class UserController extends Controller
             $company->pincode = $request->company_pincode;
             $company->refCity_id = $request->company_city;
             $company->refState_id = $request->company_state;
-            $company->refCountry_id = $request->company_country;
+            $company->refCountry_id = $request->company_country ?? $request->company_country_code;
             $company->pan_gst_no = $request->company_gst_pan;
             $company->refDesignation_id = 1;
             $company->designation_name = 'owner';
-            $company->is_approved = 1;
+            /* $company->is_approved = 1;
             $company->approved_date_time = date('Y-m-d H:i:s');
-            $company->approved_by = 0;
+            $company->approved_by = 0; */
 
             if ($request->hasfile('id_upload')) {
                 $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('id_upload')->getClientOriginalName());
@@ -283,6 +284,12 @@ class UserController extends Controller
             }
 
             $company->save();
+
+            if ($request->customer_company_id) {
+                customer_activity('updated', $customer->name . ' has updated company (' . $company->name . ')', '/customer/my-account');
+            } else {
+                customer_activity('inserted', $customer->name . ' has added new company (' . $company->name . ')', '/customer/my-account');
+            }
 
             /* $admin_email = DB::table('settings')
             ->select('value')

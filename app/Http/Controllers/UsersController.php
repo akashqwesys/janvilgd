@@ -19,12 +19,12 @@ class UsersController extends Controller {
 
     public function add() {
         $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        // $city = DB::table('city')->select('city_id', 'name', 'refState_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        // $state = DB::table('state')->select('state_id', 'name', 'refCountry_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $country = DB::table('country')->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
         $data['user_role'] = $user_role;
-        $data['city'] = $city;
-        $data['state'] = $state;
+        // $data['city'] = $city;
+        // $data['state'] = $state;
         $data['country'] = $country;
         $data['title'] = 'Add-Users';
         return view('admin.users.add', ["data" => $data]);
@@ -67,10 +67,10 @@ class UsersController extends Controller {
             'is_active' => 1,
             'is_deleted' => 0,
             'last_login_type' => 'web',
-            'last_login_date_time' => date("Y-m-d h:i:s"),
+            'last_login_date_time' => date("Y-m-d H:i:s"),
             'user_type' => 'USER',
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request, "inserted", 'users',$Id);
@@ -81,8 +81,8 @@ class UsersController extends Controller {
     public function list(Request $request) {
         if ($request->ajax()) {
             $data = DB::table('users')->select('users.*', 'user_role.name as role_name')
-                    ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')                   
-                    ->get();                        
+                    ->leftJoin('user_role','user_role.user_role_id', '=', 'users.role_id')
+                    ->get();
             return Datatables::of($data)
                             // ->addIndexColumn()
                             ->addColumn('index', '')
@@ -125,7 +125,7 @@ class UsersController extends Controller {
                                     $str = '<em class="icon ni ni-check-thick"></em>';
                                     $class = "btn-success";
                                 }
-                                $actionBtn = '<a href="/admin/users/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="users" data-id="' . $row->id . '" data-table="users" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="users" data-wherefield="id" data-module="users">' . $str . '</button>';                                
+                                $actionBtn = '<a href="/admin/users/edit/' . $row->id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="users" data-id="' . $row->id . '" data-table="users" data-wherefield="id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->id . '" data-status="' . $row->is_active . '" data-table="users" data-wherefield="id" data-module="users">' . $str . '</button>';
                                 return $actionBtn;
                             })
                             ->escapeColumns([])
@@ -148,7 +148,7 @@ class UsersController extends Controller {
         return view('admin.users.edit', ["data" => $data]);
     }
 
-    public function update(Request $request) {        
+    public function update(Request $request) {
         $data = [
             'name' => $request->name,
             'email' => $request->email,
@@ -158,7 +158,7 @@ class UsersController extends Controller {
             'state_id' => $request->state_id,
             'country_id' => $request->country_id,
             'role_id' => isset($request->role_id) ? $request->role_id : 0,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ];
         $exist_file = DB::table('users')->where('id', $request->id)->first();
         if (isset($request->profile_pic)) {
@@ -205,7 +205,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request, "deleted", $request['module'],$request['table_id']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -227,7 +227,7 @@ class UsersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

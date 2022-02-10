@@ -7,7 +7,7 @@
 @section('content')
     <div class="overlay cs-loader">
       <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
+        <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
       </div>
     </div>
     <!-- DASHBOARD SECTION -->
@@ -15,18 +15,18 @@
 		<div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
-                    <a href="/customer/search-diamonds/rough-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt=""> Shop Rough Diamonds
+                    <a href="/customer/search-diamonds/polish-diamonds" class="btn btn-primary grown-diamonds-btn">
+                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt=""> Shop Polish Diamonds
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
                     <a href="/customer/search-diamonds/4p-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/4p.png" alt=""> Shop 4p Diamonds
+                        <img class="title-diamond_img" src="/assets/images/4p.png" alt=""> Shop 4P Diamonds
                     </a>
                 </div>
                 <div class="col col-12 col-md-4 col-lg-4 mb-4 mb-md-0">
-                    <a href="/customer/search-diamonds/polish-diamonds" class="btn btn-primary grown-diamonds-btn">
-                        <img class="title-diamond_img" src="/assets/images/Polish.png" alt=""> Shop Polish Diamonds
+                    <a href="/customer/search-diamonds/rough-diamonds" class="btn btn-primary grown-diamonds-btn">
+                        <img class="title-diamond_img" src="/assets/images/Rough.png" alt=""> Shop Rough Diamonds
                     </a>
                 </div>
             </div>

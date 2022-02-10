@@ -7,6 +7,32 @@ $.ajaxSetup({
         $(".cs-loader").show();
     }
 });
+$('#country_code, #country, #state, #city, #company_country_code, #company_country, #company_state, #company_city').select2();
+$('#select2-country_code-container').css('padding-left', '15px');
+$(document).on('change', '#country_code', function () {
+    if ($(this).val()) {
+        $('#country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+$(document).on('change', '#company_country_code', function () {
+    if ($(this).val()) {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+$('#country_code').on('select2:open', function (e) {
+    setTimeout(() => {
+        $('#select2-country_code-results').parent().parent().css('width', '15rem');
+    }, 10);
+});
+$('#company_country_code').on('select2:open', function (e) {
+    setTimeout(() => {
+        $('#select2-company_country_code-results').parent().parent().css('width', '15rem');
+    }, 10);
+});
 $(document).on('change', '#email, #mobile', function () {
     $('.cs-loader').show();
     $.ajax({
@@ -39,6 +65,9 @@ $(document).on('change', '#email, #mobile', function () {
     });
 });
 $(document).on('change', '#country', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getStates",
@@ -57,7 +86,7 @@ $(document).on('change', '#country', function () {
                 });
             }
             else {
-                $('#state').html(response.data);
+                $('#state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -71,6 +100,9 @@ $(document).on('change', '#country', function () {
     });
 });
 $(document).on('change', '#state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -89,7 +121,7 @@ $(document).on('change', '#state', function () {
                 });
             }
             else {
-                $('#city').html(response.data);
+                $('#city').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -103,6 +135,9 @@ $(document).on('change', '#state', function () {
     });
 });
 $(document).on('change', '#company_country', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getStates",
@@ -121,7 +156,7 @@ $(document).on('change', '#company_country', function () {
                 });
             }
             else {
-                $('#company_state').html(response.data);
+                $('#company_state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -135,6 +170,9 @@ $(document).on('change', '#company_country', function () {
     });
 });
 $(document).on('change', '#company_state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -153,7 +191,7 @@ $(document).on('change', '#company_state', function () {
                 });
             }
             else {
-                $('#company_city').html(response.data);
+                $('#company_city').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -166,15 +204,28 @@ $(document).on('change', '#company_state', function () {
         }
     });
 });
+$(document).on('change', '#city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
+});
+$(document).on('change', '#company_city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
+});
 $("#msform").validate({
     errorClass: 'red-error',
     errorElement: 'div',
     rules: {
         name: {required: true, rangelength: [3,50]},
         email: {
-            // required: true,
+            required: true,
             email: true
         },
+        password: { required: true, rangelength: [6, 15] },
+        confirm_password: { required: true, equalTo: "#password" },
+        // country_code: { required: true },
         mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
@@ -182,9 +233,10 @@ $("#msform").validate({
         city: {required: true},
         pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
-        company_office_no: { required: true, rangelength: [2, 10]},
+        company_country_code: { required: true},
+        company_office_no: { required: true, rangelength: [10,11]},
         company_email: {required: true, email: true},
-        company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+        company_gst_pan: {required: true, minlength: 8},
         company_address: {required: true, rangelength: [10,200]},
         company_country: {required: true},
         company_state: {required: true},
@@ -199,8 +251,11 @@ $("#msform").validate({
             required: "Please enter your email address",
             email: "Your email address must be in the format of name@domain.com"
         },
+        password: { required: "Please enter password" },
+        confirm_password: { required: "Please enter confirm password", equalTo: 'Those password didn\'t match. Try again' },
+        // country_code: { required: "Please select country code" },
         mobile: {
-            required: "Please enter your mobile number",
+            // required: "Please enter your mobile number",
             number: "Your contact number should only consist of numeric digits"
         },
         address: {required: "Please enter your address"},
@@ -211,7 +266,7 @@ $("#msform").validate({
         company_name: {required: "Please enter your company name"},
         company_office_no: {required: "Please enter your company office number"},
         company_email: { required: "Please enter your company email address"},
-        company_gst_pan: {required: "Please enter your company GST or PAN"},
+        company_gst_pan: { required: "Please enter your company VAT/TIN/GST/PAN/OTHER"},
         company_address: {required: "Please enter your company address"},
         company_country: {required: "Please select the country"},
         company_state: {required: "Please select the state/province"},
@@ -226,7 +281,6 @@ $("#msform").validate({
         } else {
             error.appendTo(element.parent().nextAll("div.errTxt"));
         }
-        console.log(element.attr('id'));
     },
     submitHandler: function(form) {
         // do other things for a valid form
@@ -234,7 +288,6 @@ $("#msform").validate({
         $('.cs-loader').show();
         var formData = new FormData(form);
         formData.append('id_upload', $('#id_upload')[0].files);
-        formData.append('email', gmail );
         $.ajax({
             type: "POST",
             url: "/customer/signup",
@@ -247,7 +300,7 @@ $("#msform").validate({
             success: function(response) {
                 $('.cs-loader').hide();
                 if (response.success == 1) {
-                    $.toast({
+                    /* $.toast({
                         heading: 'Success',
                         text: response.message,
                         icon: 'success',
@@ -255,7 +308,9 @@ $("#msform").validate({
                     });
                     setTimeout(() => {
                         window.location = response.url;
-                    }, 2000);
+                    }, 2000); */
+                    $('.success-block').append(response.message).show();
+                    $('#msform').remove();
                 }
                 if(response.error) {
                     $.toast({
@@ -267,6 +322,7 @@ $("#msform").validate({
                 }
             },
             failure: function (response) {
+                $('.cs-loader').hide();
                 $.toast({
                     heading: 'Error',
                     text: 'Oops, something went wrong...!',
@@ -277,6 +333,7 @@ $("#msform").validate({
         });
     }
 });
+
 $(document).on('change', '#id_upload', function () {
     $(this).prev('.et_pb_contact_form_label').attr('data-content', $(this)[0].files[0].name);
 });
@@ -319,7 +376,7 @@ $(document).ready(function () {
         });
     });
     $(document).on('click', '.next-1, .next-2', function () {
-        if($(this).hasClass('next-1') && $('#name, #email, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
+        if($(this).hasClass('next-1') && $('#name, #email, #password, #confirm_password, #mobile, #state, #city, #address, #country, #pincode').valid() == false) {
             return false;
         }
         else if($(this).hasClass('next-2') && $('#company_name, #company_office_no, #company_email, #company_gst_pan, #company_address, #company_country, #company_state, #company_city, #company_pincode').valid() == false) {
@@ -393,7 +450,4 @@ $(document).ready(function () {
   		}
   	});
   });
-
-
-
 });

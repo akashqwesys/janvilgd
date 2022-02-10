@@ -25,7 +25,7 @@
                 }else{
                     $.toast({
                         heading: 'Error',
-                        text: "Your cart is empty link is not generated",
+                        text: "Your cart is empty, link is not generated",
                         icon: 'error',
                         position: 'top-right'
                     });
@@ -39,31 +39,24 @@
 
 @endsection
 @section('content')
-<section class="sub-header">
-    <div class="container">
-        <div class="section-content">
-            <div>
-                <h2 class="title bread-crumb-title">View Cart</h2>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="cart-page mb-5">
+<div class="cart-page mb-5 mt-5">
     <div class="container">
         <div class="row">
-            <div class="d-flex align-items-center mb-5">
-
+            <div class="d-block d-sm-flex align-items-center mb-5">
                 @if(!empty($response['diamonds']))
-                <h2 class="me-auto mb-0">Shopping Bag</h2>
-                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share your cart <i class="fa fa-share-alt"></i></a>
+                <h2 class="me-auto mb-3 mb-sm-0">Shopping Bag</h2>
+                <a href="javascript:;" class="btn btn-primary" id="share-cart">Share Your Cart <i class="fa fa-share-alt"></i></a>
                 <input type="hidden" id="watsapplink" value="">
                 <input type="hidden" id="copylink" value="">
                 @endif
             </div>
-            <div class="col col-12 col-md-12 col-lg-8">
+            <?php
+            $total=0;
+            if(!empty($response['diamonds'])){
+            ?>
+            <div class="col col-12 col-md-8 col-lg-8 mb-4 mb-md-0">
+                <div class="card p-4 cart-card">
                 <?php
-                $total=0;
-                if(!empty($response['diamonds'])){
                     echo '<table class="cart-table">';
 
                     foreach($response['diamonds'] as $k => $rv) {
@@ -81,21 +74,29 @@
                             </a>
                         </td>
                         <td>
-                            <h5>{{$rv->diamond_name}}</h5>
-                            <h4 class="cart-price">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
-                            <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p>
+                            <h5>{{ $rv->carat . ' CT ' . explode(' ', $rv->diamond_name)[2] . ' DIAMOND - ' . $rv->ct_name }}</h5>
+
+                            <p class="">Stock No: {{ $rv->barcode }}</p>
+                            @php
+                                $name = explode('•', $rv->diamond_name);
+                            @endphp
+                            <p class="">{{ $name[1] . ' • ' . explode('::', $name[2])[0] }}</p>
+                            <h4 class="cart-price pt-3">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
+                            {{-- @if ($rv->available_pcs == 1)
+                            <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p> --}}
+                            @if ($rv->available_pcs == 0)
+                            <p class="text-danger"><b>This diamond is currently out of stock.</b></p>
+                            @endif
                         </td>
                     </tr>
                     <?php
                     }
                     echo '</table>';
-                } else {
-                    echo '<h3> Your cart is empty</h3>';
-                }
-                ?>
+                    ?>
+                </div>
             </div>
 
-            <div class="col col-12 col-md-12 col-lg-4">
+            <div class="col col-12 col-md-4 col-lg-4 order-summary-card">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="text-center mb-4">Order Summary</h5>
@@ -116,7 +117,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td>Tax</td>
+                                    <td>Tax (Tentative)</td>
                                     <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
                                 </tr>
                                 <tr>
@@ -124,7 +125,7 @@
                                     <td align="right" id="shipping">${{ isset($response['summary']) ? $response['summary']['shipping'] : 0 }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Total Amount</th>
                                     <th id="final-total-th"><div class="text-right">${{isset($response['summary']) ? $response['summary']['total'] : 0 }}</div></td>
                                 </tr>
                             </tbody>
@@ -133,16 +134,29 @@
                     </div>
                 </div>
 
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-body">
                         <h5 class="text-center mb-4">Shipping Info</h5>
-                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">Monday: Monday, October 18th</span></p>
+                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
                         <p>Contact us at 800.691.0952 to schedule Saturday delivery, hold at a FedEx location, or to inquire about available delivery options.</p>
                         <h5>Need Help?</h5>
                         <p class="themecolor">Chat now or call <a href="tel:8006910952">800.691.0952</a></p>
                     </div>
+                </div> --}}
+            </div>
+            <?php
+            } else {
+            ?>
+            <div class="col col-12 col-md-12 col-lg-12 card p-5 cart-card">
+                <div class="text-center">
+                    <h3>Your Cart is Empty...!</h3>
+                    <h5>Enjoy Shopping</h5>
+                    <img src="/assets/images/dilevery-boy.png" alt="dilevery-boy.png" class="img-fluid mb-5">
                 </div>
             </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>

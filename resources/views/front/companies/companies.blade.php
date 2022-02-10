@@ -2,6 +2,12 @@
 @section('title', $title)
 @section('css')
 <style type="text/css">
+    body p {
+        color: unset;
+    }
+    .account-tabs li a {
+        display: block;
+    }
     .custom-modal .form-group {
         margin-bottom: 0;
     }
@@ -12,6 +18,49 @@
         color: red;
         text-align: center;
         font-size: 0.9em;
+    }
+    .add-address-btn {
+        padding: 0.8rem;
+        border: 1px solid #dddddd;
+        width: 100%;
+        margin-bottom: 2rem;
+        cursor: pointer;
+        color: #D2AB66;
+    }
+    .cs-table {
+        width: 100%;
+    }
+    .cs-table td {
+        padding: 1.25rem;
+        border: 1px solid #dddddd;
+    }
+    .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+    /* .dropdown-menu */ .edit-delete {
+        padding: 0 !important;
+        top: 0 !important;
+        right: 10px;
+        background-color: unset !important;
+        width: fit-content;
+        min-width: unset;
+    }
+    .dropdown-item.active, .dropdown-item:active {
+        background-color: unset;
+    }
+    .select2.select2-container:not(:first-child) {
+        width: 100% !important;
+        /* padding-left: 40px; */
+    }
+    .select2-selection.select2-selection--single {
+        height: 43px;
+        padding: 8px 0px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
+    }
+    form label {
+        margin-bottom: 0.5rem;
     }
 </style>
 @endsection
@@ -24,177 +73,91 @@
 </div>
 <section class="profile-section">
     <div class="container">
-        <div class="profile-content">
-            <h2 class="title">Janvi LGD</h2>
-            <div class="row main-box">
-                <div class="col col-12 col-sm-12 col-md-4 col-lg-3">
-                    <div class="navbar-tabs">
+        <div class="row mb-5">
+            <div class="col col-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="navbar-tabs account-tabs">
                         <ul class="list-unstyled mb-0">
-                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">Account</a></li>
-                            <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
-                            <li class="tab-item"><a href="/customer/my-saved-cards" class="tab-link">Saved Cards</a></li>
-                            <li class="tab-item"><a href="javascript::void(0);" class="tab-link">Addresses</a></li>
+                            <li class="tab-item"><a href="/customer/my-account" class="tab-link">My Personal Account</a></li>
+                            <hr>
+                            {{-- <li class="tab-item"><a href="/customer/my-profile" class="tab-link">Profile</a></li>
+                            <hr> --}}
+                            <li class="tab-item"><a href="javascript::void(0);" class="tab-link">My Companies</a></li>
+                            <hr>
                             <li class="tab-item"><a href="/customer/my-orders" class="tab-link">Orders</a></li>
                         </ul>
                     </div>
-                    <hr>
+                    </div>
                 </div>
-                <div class="col col-12 col-sm-12 col-md-8 col-lg-9">
-                    <div class="address-content">
-                        <div class="add-address">
-                            <h2 class="title mb-0">Address</h2>
-                            <div class="edit-btn ms-auto">
-                                <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Add New</a>
+            </div>
+            <div class="col col-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-4">Manage Addresses</h4>
+                        <div class="address-content-">
+                            <div class="add-address">
+                                <div class="add-address-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">+ ADD A NEW ADDRESS</div>
                             </div>
-                        </div>
-                        @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                        @elseif (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('message') }}
-                        </div>
-                        @endif
-                        <div class="row">
-                            @for ($i = 0; $i < count($company); $i++)
-                            <div class="col col-12 col-xl-6">
-                                <table class="table address-details table-bordered">
+                            @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                            @elseif (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                            @endif
+                            <div class="table-responsive">
+                                <table class="cs-table">
                                     <tbody>
+                                        @for ($i = 0; $i < count($company); $i++)
                                         <tr>
-                                            <th colspan="2">
-                                                Address - {{ $i+1 }}
-                                                <div class="add-edit-delete-btn">
-                                                    <a href="javascript:void(0);"
-                                                        class="edit-btn btn btn-primary"
-                                                        data-id="{{ $company[$i]->customer_company_id }}"
-                                                        data-name="{{ $company[$i]->name }}"
-                                                        data-company_office_no="{{ $company[$i]->office_no }}"
-                                                        data-company_email="{{ $company[$i]->official_email }}"
-                                                        data-company_gst_pan="{{ $company[$i]->pan_gst_no }}"
-                                                        data-company_country="{{ $company[$i]->refCountry_id }}"
-                                                        data-company_state="{{ $company[$i]->refState_id }}"
-                                                        data-company_city="{{ $company[$i]->refCity_id }}"
-                                                        data-company_address="{{ $company[$i]->office_address }}"
-                                                        data-company_pincode="{{ $company[$i]->pincode }}"
-                                                        >
-                                                        <img src="/assets/images/edit.svg">
-                                                    </a>
-                                                    <a href="javascript:void(0);"
-                                                        class="delete-btn btn btn-primary"
-                                                        data-id="{{ $company[$i]->customer_company_id }}"
-                                                        >
-                                                        <img src="/assets/images/close.svg">
-                                                    </a>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-11 col-12">
+                                                        <p><b>{{ $company[$i]->name . ' - ' . $company[$i]->office_no }}</b></p>
+                                                        <div>{{ $company[$i]->office_address . ' - ' . $company[$i]->pincode }}</div>
+                                                        <div>{{ $company[$i]->city_name . ', ' . $company[$i]->state_name . ', ' . $company[$i]->country_name }}</div>
+                                                    </div>
+                                                    <div class="col-md-1 col-1 text-right">
+                                                        <div class="dropdown">
+                                                            <i class="fa fa-ellipsis-v dropdown-toggle-" data-bs-toggle="dropdown" aria-expanded="false"> </i>
+                                                            <ul class="dropdown-menu edit-delete">
+                                                                <li>
+                                                                    <a href="javascript:void(0);"
+                                                                        class="edit-btn dropdown-item"
+                                                                        data-id="{{ $company[$i]->customer_company_id }}"
+                                                                        data-name="{{ $company[$i]->name }}"
+                                                                        data-company_office_no="{{ $company[$i]->office_no }}"
+                                                                        data-company_email="{{ $company[$i]->official_email }}"
+                                                                        data-company_gst_pan="{{ $company[$i]->pan_gst_no }}"
+                                                                        data-company_country="{{ $company[$i]->refCountry_id }}"
+                                                                        data-company_state="{{ $company[$i]->refState_id }}"
+                                                                        data-company_city="{{ $company[$i]->refCity_id }}"
+                                                                        data-company_address="{{ $company[$i]->office_address }}"
+                                                                        data-company_pincode="{{ $company[$i]->pincode }}"
+                                                                        > Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:void(0);"
+                                                                        class="delete-btn dropdown-item"
+                                                                        data-id="{{ $company[$i]->customer_company_id }}"
+                                                                        > Delete
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </th>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>Company Name</td>
-                                            <td>{{ $company[$i]->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Company Office No</td>
-                                            <td>{{ $company[$i]->office_no }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Compant Email ID</td>
-                                            <td>{{ $company[$i]->official_email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Company GST/PAN</td>
-                                            <td>{{ $company[$i]->pan_gst_no }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Country</td>
-                                            <td>{{ $company[$i]->country_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>State</td>
-                                            <td>{{ $company[$i]->state_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>City</td>
-                                            <td>{{ $company[$i]->city_name }}</td>
-                                        </tr>
+                                        @endfor
                                     </tbody>
                                 </table>
                             </div>
-                            @endfor
                         </div>
-                        {{-- <div class="row">
-                            <div class="col col-12">
-                                <div class="accordion checkout-accordion" id="checkoutaccordion">
-                                    <div class="accordion-item card">
-                                        <h2 class="accordion-header" id="headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                Addresses
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#checkoutaccordion">
-                                            <div class="accordion-body">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item card">
-                                        <h2 class="accordion-header" id="headingTwo">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                Billing Address
-                                            </button>
-                                        </h2>
-                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#checkoutaccordion">
-                                            <div class="accordion-body">
-                                                <div class="row">
-                                                    <div class="col col-12 col-xl-6">
-                                                        <table class="table address-details table-bordered">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th colspan="2">
-                                                                        Address1
-                                                                        <div class="add-edit-delete-btn">
-                                                                            <a href="#" class="edit-add btn btn-primary"><img src="/assets/images/edit.svg"></a>
-                                                                            <a href="#" class="delet-add btn btn-primary"><img src="/assets/images/close.svg"></a>
-                                                                        </div>
-                                                                    </th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Company Name</td>
-                                                                    <td>Janvi LEG</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Company Office No</td>
-                                                                    <td>1234456778</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Compant Email ID</td>
-                                                                    <td>abc@gmail.com</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Company GST Plan No</td>
-                                                                    <td>123456</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Country</td>
-                                                                    <td>India</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>State</td>
-                                                                    <td>Gujarat</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>City</td>
-                                                                    <td>Surat</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -215,35 +178,50 @@
                             <input type="hidden" name="customer_company_id" id="customer_company_id">
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_name">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Company Name">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="company_country_code">Country Code</label>
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                @foreach ($country as $row)
+                                                <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <label for="company_office_no">Company Mobile Number</label>
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_email">Company Email</label>
                                     <input type="email" class="form-control" id="company_email" name="company_email" placeholder="Company Email Address">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                    <label for="company_gst_pan">Company VAT/TIN/GST/PAN/OTHER</label>
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company VAT/TIN/GST/PAN/OTHER" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_country">Company Country</label>
                                     <select class="form-select" id="company_country" name="company_country">
                                         <option value="" >Select Country</option>
                                         @foreach ($country as $c)
@@ -255,7 +233,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_state">Company State</label>
                                     <select class="form-select" id="company_state" name="company_state">
                                         <option value="" >Select State</option>
                                     </select>
@@ -264,7 +242,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_city">Company City</label>
                                     <select class="form-select" id="company_city" name="company_city">
                                         <option value="" >Select City</option>
                                     </select>
@@ -273,14 +251,14 @@
                             </div>
                             <div class="col col-12 col-md-8">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_address">Company Address</label>
                                     <input type="text" class="form-control" id="company_address" name="company_address" placeholder="Company Address" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_pincode">Company Pincode</label>
                                     <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
                                 </div>
                                 <div class="errTxt"></div>
@@ -339,15 +317,17 @@ $(document).on('click', '.edit-btn', function () {
     $('#company_gst_pan').val($(this).attr('data-company_gst_pan'));
     $('#company_address').val($(this).attr('data-company_address'));
     $('#company_pincode').val($(this).attr('data-company_pincode'));
+    $('#company_country_code').val($(this).attr('data-company_country')).trigger('change');
     $('#company_country').val($(this).attr('data-company_country')).trigger('change');
     setTimeout(() => {
         $('#company_state').val($(this).attr('data-company_state')).trigger('change');
     }, 1000);
     setTimeout(() => {
-        $('#company_city').val($(this).attr('data-company_city'));
+        $('#company_city').val($(this).attr('data-company_city')).trigger('change');
     }, 2000);
     $('#exampleModal').modal('show');
 });
+
 $(document).on('click', '.delete-btn', function () {
     if(!confirm('Are you sure you want to delete?')) {
         return false;
@@ -375,7 +355,7 @@ $(document).on('click', '.delete-btn', function () {
                     icon: 'success',
                     position: 'top-right'
                 });
-                $(this).closest('.col').remove();
+                $(this).closest('tr').remove();
             }
         },
         failure: function (response) {
@@ -388,8 +368,28 @@ $(document).on('click', '.delete-btn', function () {
         }
     });
 });
+
 $("#exampleModal").on('hidden.bs.modal', function(){
+    $('#companyForm')[0].reset();
+    $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
     $('div.errTxt').html('');
+});
+setTimeout(() => {
+    $('#company_country, #company_state, #company_city, #company_country_code').select2({
+        dropdownParent: $('#exampleModal')
+    });
+    $('#company_country_code').on('select2:open', function (e) {
+        setTimeout(() => {
+            $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+        }, 10);
+    });
+}, 1000);
+$(document).on('change', '#company_country_code', function () {
+    if ($(this).val()) {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', true);
+    } else {
+        $('#company_country').val($(this).val()).trigger('change').attr('disabled', false);
+    }
 });
 $(document).on('change', '#company_country', function () {
     $.ajax({
@@ -410,7 +410,9 @@ $(document).on('change', '#company_country', function () {
                 });
             }
             else {
-                $('#company_state').html(response.data);
+                $('#company_state').html(response.data).select2({
+                    dropdownParent: $('#exampleModal')
+                });
             }
         },
         failure: function (response) {
@@ -442,7 +444,9 @@ $(document).on('change', '#company_state', function () {
                 });
             }
             else {
-                $('#company_city').html(response.data);
+                $('#company_city').html(response.data).select2({
+                    dropdownParent: $('#exampleModal')
+                });
             }
         },
         failure: function (response) {
@@ -462,17 +466,17 @@ $("#companyForm").validate({
         company_name: {required: true, minlength: 4, maxlength: 200},
         company_office_no: { required: true, rangelength: [10, 11]},
         company_email: {required: true, email: true},
-        company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+        company_gst_pan: {required: true, minlength: 8},
         company_address: {required: true, rangelength: [10, 200]},
         company_country: {required: true},
         company_state: {required: true},
         company_city: {required: true},
         company_pincode: { required: true, number: true},
-        id_upload: {
+        /* id_upload: {
             required: function (element) {
                 return $('#customer_company_id').val() == '';
             }
-        }
+        } */
     },
     messages: {
         company_name: {required: "Please enter your company name"},
@@ -491,7 +495,7 @@ $("#companyForm").validate({
         company_state: {required: "Please select the state/province"},
         company_city: {required: "Please enter the city name"},
         company_pincode: {required: "Please enter the pincode"},
-        id_upload: {required: "Please select the identity proof"}
+        // id_upload: {required: "Please select the identity proof"}
     },
     errorPlacement: function(error, element) {
         if (element.attr('id') == 'id_upload') {

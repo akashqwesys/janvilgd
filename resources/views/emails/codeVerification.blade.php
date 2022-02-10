@@ -9,9 +9,9 @@
 			<b>WELCOME TO JANVI LGD</b>
 		</div>
 		<div style="padding: 0 2vw;">
-			<div><p style="padding: 0.5vh 0">Thanks for registering, <b>{{$name}}!</b></p></div>
+			<div><p style="padding: 0.5vh 0">Hey, <b>{{$name}}!</b></p></div>
 			<div style="">
-				<p style="padding: 0.5vh 0">We gladly welcome you. Please enter below verification code on our web application login screen to verify your email address and proceed further to complete the registration process.</p>
+				<p style="padding: 0.5vh 0">Please use the below OTP to complete the process.</p>
 				<p style="padding: 0.5vh 0">Verification Code: <b>{{$otp}}</b></p>
 			</div>
 			<div>
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div style="text-align: center; background: #d2ab66; color: #fff;">
-			<small>&copy; Copyright 2021 Janvi LGD</small>
+			<small>&copy; Copyright 2022 Janvi LGD</small>
 		</div>
 	</div>
 </body>

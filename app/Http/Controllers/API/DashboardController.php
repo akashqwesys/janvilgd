@@ -21,6 +21,7 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request)
     {
+        $user = Auth::user();
         $sliders = DB::table('sliders')
             ->select('title', 'image', 'video_link')
             ->where('is_active', 1)
@@ -46,11 +47,11 @@ class DashboardController extends Controller
             ->get();
         foreach ($latest as $v) {
             $v->image = json_decode($v->image);
-            $a = [];
+            /* $a = [];
             foreach ($v->image as $v1) {
                 $a[] = '/storage/other_images/' . $v1;
             }
-            $v->image = $a;
+            $v->image = $a; */
         }
 
         $recommended = DB::table('diamonds as d')
@@ -65,23 +66,24 @@ class DashboardController extends Controller
             ->get();
         foreach ($recommended as $v) {
             $v->image = json_decode($v->image);
-            $a = [];
+            /* $a = [];
             foreach ($v->image as $v1) {
                 $a[] = '/storage/other_images/' . $v1;
             }
-            $v->image = $a;
+            $v->image = $a; */
         }
 
         $offer_sale = DB::table('settings')
             ->select('key', 'value', 'attachment')
             ->where('key', 'offer_sale')
             ->first();
-        $offer_sale->attachment = '/storage/user_files/' . $offer_sale->attachment;
+        $offer_sale->attachment = url('/') . '/storage/user_files/' . $offer_sale->attachment;
         $data = [
             'sliders' => $sliders,
             'recommended' => $recommended,
             'offer_sale' => $offer_sale,
             'latest_collection' => $latest,
+            'total_cart' => DB::table('customer_cart')->select('id')->where('refCustomer_id', $user->customer_id)->count()
         ];
         return $this->successResponse('Success', $data);
     }

@@ -27,6 +27,14 @@ class Customers extends Authenticatable
         'is_active',
         'is_deleted',
         'date_added',
-        'date_updated'
+        'date_updated',
+        'otp',
+        'otp_status',
+        'verified_status',
+        'is_approved',
+        'approved_at',
+        'approved_by'
     ];
+
+    protected $protected = ['password'];
 }

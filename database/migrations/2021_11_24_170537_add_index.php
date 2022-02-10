@@ -30,10 +30,10 @@ class AddIndex extends Migration
         Schema::table('city', function (Blueprint $table) {
             $table->index('refState_id');
         });
-        Schema::table('customer_activity', function (Blueprint $table) {
+        /* Schema::table('customer_activity', function (Blueprint $table) {
             $table->index('refCustomer_id');
             $table->index('refModule_id');
-        });
+        }); */
         Schema::table('customer_cart', function (Blueprint $table) {
             $table->index('refCustomer_id');
             $table->index('refDiamond_id');

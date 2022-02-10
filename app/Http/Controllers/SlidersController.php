@@ -50,8 +50,8 @@ class SlidersController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request,"updated",'sliders',$Id);
@@ -124,7 +124,7 @@ class SlidersController extends Controller {
             $request->file('image')->storeAs("public/sliders", $imageName);
             $exist_file = DB::table('sliders')->where('slider_id', $request->id)->first();
             if ($exist_file) {
-                $arr_imgs = json_decode($exist_file->image);                
+                $arr_imgs = json_decode($exist_file->image);
                 if (!empty($arr_imgs)) {
                     foreach ($arr_imgs as $v) {
                         unlink(base_path('/storage/app/public/sliders/' . $v));
@@ -139,7 +139,7 @@ class SlidersController extends Controller {
             'image' => $image,
             'video_link' => $request->video_link,
             'refCategory_id' => $request->refCategory_id,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
 
         activity($request,"updated",'sliders',$request->id);
@@ -151,7 +151,7 @@ class SlidersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -172,7 +172,7 @@ class SlidersController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

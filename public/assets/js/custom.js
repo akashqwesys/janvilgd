@@ -11,12 +11,13 @@ $(document).ready(function () {
 	// header style 2 (with login)
 	(function () {
 		"use strict";
-
-		document
-		.querySelector('[data-bs-toggle="offcanvas"]')
-		.addEventListener("click", function () {
-			document.querySelector(".offcanvas-collapse").classList.toggle("open");
-		});
+		if ($('[data-bs-toggle="offcanvas"]').length) {
+			document
+			.querySelector('[data-bs-toggle="offcanvas"]')
+			.addEventListener("click", function () {
+				document.querySelector(".offcanvas-collapse").classList.toggle("open");
+			});
+		}
 	})();
 
 	jQuery('.btn-close').click(function(){

@@ -16,23 +16,28 @@
     }
     .spaceBlock {
         min-height: 15rem;
-        padding: 2rem;
+        padding: 2rem 2rem 1rem;
     }
-    .select2-selection__rendered {
-        line-height: 40px !important;
+    .select2:not(:first-child) {
+        width: 100% !important;
+        /* padding-left: 40px; */
     }
-    .select2-container .select2-selection--single {
-        height: 40px !important;
+    .select2-selection.select2-selection--single {
+        height: 43px;
+        padding: 8px 0px;
     }
-    .select2-selection__arrow {
-        height: 37px !important;
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
+    }
+    form label {
+        margin-bottom: 0.5rem;
     }
 </style>
 @endsection
 @section('content')
 <div class="overlay cs-loader">
     <div class="overlay__inner">
-    <div class="overlay__content"><span class="spinner"></span></div>
+    <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
     </div>
 </div>
 <section class="sub-header">
@@ -44,7 +49,7 @@
         </div>
     </div>
 </section>
-<div class="cart-page">
+<div class="cart-page mb-5">
     <div class="container">
         @if (count($response) == 0)
         <div class="alert alert-danger text-center mb-5">
@@ -70,7 +75,7 @@
                         <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#checkoutaccordion">
                             <div class="accordion-body">
                                 <div class="row">
-                                    <div class="col col-md-8 col-lg-9">
+                                    <div class="col col-sm-12 col-md-8 col-lg-9">
                                         <select class="form-control select2" id="billing-select">
                                             {{-- <option value="" disabled selected>SELECT BILLING ADDRESS</option> --}}
                                             @foreach($response['all_company_details'] as $c)
@@ -83,15 +88,22 @@
                                                 data-city_name="{{ $c->city_name }}"
                                                 data-state_name="{{ $c->state_name }}"
                                                 data-country_name="{{ $c->country_name }}"
-                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
+                                                >{{ $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
                                             </option>
                                             @endforeach
                                         </select>
                                         <div class="spaceBlock">
                                             <div id="billing-address-block"></div>
                                         </div>
+                                        <hr>
+                                        <div class="m-3">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="same_shipping" value="0">
+                                                <label class="form-check-label" for="same_shipping"> <i>Click here to select same as a billing address</i></label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col col-md-4 col-lg-3">
+                                    <div class="col col-sm-12 col-md-4 col-lg-3">
                                         <button class="btn btn-primary add-billing-btn">+ Add New</button>
                                     </div>
                                 </div>
@@ -106,79 +118,8 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#checkoutaccordion">
                             <div class="accordion-body">
-                                {{-- <div class="row">
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/comapny-icon.svg" alt=""></span>
-                                            <input type="text" name="name" class="form-control" placeholder="Company Name" value="{{$response['company_details']->name}}">
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/phone.svg" alt=""></span>
-                                            <input type="text" name="number" class="form-control" placeholder="Contact no" value="{{$response['company_details']->office_no}}">
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/email.svg" alt=""></span>
-                                            <input type="text" name="email" class="form-control" placeholder="Email" value="{{$response['company_details']->official_email}}">
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/location.svg" alt=""></span>
-                                            <input type="text" name="address" class="form-control" placeholder="Address" value="{{$response['company_details']->office_address}}">
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/country.svg" alt=""></span>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option value="" selected="" disabled="">Country</option>
-                                                @php
-                                                    foreach($response['country'] as $row){
-                                                @endphp
-                                                <option value="{{$row->country_id}}" {{ set_selected($row->country_id,$response['company_details']->refCountry_id) }}>{{$row->name}}</option>
-                                                @php
-                                                    }
-                                                @endphp
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/country.svg" alt=""></span>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option value="" selected="" disabled="">State</option>
-                                                @php
-                                                    foreach($response['shipping_state'] as $row){
-                                                @endphp
-                                                <option value="{{$row->state_id}}" {{ set_selected($row->state_id,$response['company_details']->refState_id) }}>{{$row->name}}</option>
-                                                @php
-                                                    }
-                                                @endphp
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col col-12 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text"><img src="assets/images/apartment_building_city.svg" alt=""></span>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option value="" selected="" disabled="">City</option>
-                                                @php
-                                                    foreach($response['shipping_city'] as $row){
-                                                @endphp
-                                                <option value="{{$row->city_id}}" {{ set_selected($row->city_id,$response['company_details']->refCity_id) }}>{{$row->name}}</option>
-                                                @php
-                                                    }
-                                                @endphp
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div> --}}
                                 <div class="row">
-                                    <div class="col col-md-8 col-lg-9">
+                                    <div class="col col-sm-12 col-md-8 col-lg-9">
                                         <select class="form-control select2" id="shipping-select">
                                             <option value="" disabled selected>SELECT SHIPPING ADDRESS</option>
                                             @foreach($response['all_company_details'] as $c)
@@ -191,7 +132,7 @@
                                                 data-city_name="{{ $c->city_name }}"
                                                 data-state_name="{{ $c->state_name }}"
                                                 data-country_name="{{ $c->country_name }}"
-                                                >{{ $c->office_no .'. '. $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
+                                                >{{ $c->name .'.  '. $c->city_name .' - '. $c->pincode .', '. $c->state_name .', '. $c->country_name }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -199,7 +140,7 @@
                                             <div id="shipping-address-block"></div>
                                         </div>
                                     </div>
-                                    <div class="col col-md-4 col-lg-3">
+                                    <div class="col col-sm-12 col-md-4 col-lg-3">
                                         <button class="btn btn-primary add-shipping-btn">+ Add New</button>
                                     </div>
                                 </div>
@@ -231,7 +172,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td>Tax</td>
+                                    <td>Tax (Tentative)</td>
                                     <td align="right" id="tax">${{ isset($response['summary']) ? $response['summary']['tax'] : 0 }}</td>
                                 </tr>
                                 <tr>
@@ -239,7 +180,7 @@
                                     <td align="right" id="shipping">${{ isset($response['summary']) ? $response['summary']['shipping'] : 0 }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Total Amount</th>
                                     <th id="final-total-th"><div class="text-right">${{ isset($response['summary']) ? $response['summary']['total'] : 0 }}</div></td>
                                 </tr>
                             </tbody>
@@ -265,35 +206,50 @@
                             <input type="hidden" name="company_type" id="company_type">
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_name">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Company Name">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
-                                <div class="form-group">
-                                    <img src="/assets/images/architecture_building_city_company.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="company_country_code">Country Code</label>
+                                            <select class="form-select" id="company_country_code" name="company_country_code">
+                                                @foreach ($response['country'] as $row)
+                                                <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <label for="company_office_no">Company Mobile Number</label>
+                                            <input type="text" class="form-control" id="company_office_no" name="company_office_no" placeholder="Company Mobile">
+                                        </div>
+                                        <div class="errTxt"></div>
+                                    </div>
                                 </div>
-                                <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/envelop.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_email">Company Email</label>
                                     <input type="email" class="form-control" id="company_email" name="company_email" placeholder="Company Email Address">
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-6">
                                 <div class="form-group">
-                                    <img src="/assets/images/bag_finance_money_icon.svg" alt="icn" class="img-fluid input-icon">
-                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company GST/PAN" >
+                                    <label for="company_gst_pan">Company VAT/TIN/GST/PAN/OTHER</label>
+                                    <input type="text" name="company_gst_pan" id="company_gst_pan" class="form-control" placeholder="Company VAT/TIN/GST/PAN/OTHER" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_country">Company Country</label>
                                     <select class="form-select" id="company_country" name="company_country">
                                         <option value="" >Select Country</option>
                                         @foreach ($response['country'] as $c)
@@ -305,7 +261,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_state">Company State</label>
                                     <select class="form-select" id="company_state" name="company_state">
                                         <option value="" >Select State</option>
                                     </select>
@@ -314,7 +270,7 @@
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/building_city.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_city">Company City</label>
                                     <select class="form-select" id="company_city" name="company_city">
                                         <option value="" >Select City</option>
                                     </select>
@@ -323,14 +279,14 @@
                             </div>
                             <div class="col col-12 col-md-8">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_address">Company Address</label>
                                     <input type="text" class="form-control" id="company_address" name="company_address" placeholder="Company Address" >
                                 </div>
                                 <div class="errTxt"></div>
                             </div>
                             <div class="col col-12 col-md-4">
                                 <div class="form-group">
-                                    <img src="/assets/images/location.svg" alt="icn" class="img-fluid input-icon">
+                                    <label for="company_pincode">Company Pincode</label>
                                     <input type="text" class="form-control" id="company_pincode" name="company_pincode" placeholder="Company Pincode">
                                 </div>
                                 <div class="errTxt"></div>
@@ -381,6 +337,31 @@
             $( ".cs-loader" ).show();
         }
     });
+    setTimeout(() => {
+        $('#company_country, #company_state, #company_city, #company_country_code').select2({
+            dropdownParent: $('#exampleModal')
+        });
+        $('#company_country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-company_country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
+    }, 1000);
+    $(document).on('change', '#company_country_code', function () {
+        if ($(this).val()) {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#company_country').val($(this).val()).trigger('change').attr('disabled', false);
+        }
+    });
+
+    $(document).on('click', '#same_shipping', function () {
+        $('#headingOne button').trigger('click');
+        if ($(this).prop('checked') === true) {
+            $('#shipping-select').val($('#billing-select').val()).trigger('change');
+        }
+    });
+
     $(document).ready(function() {
         function formatSearch(item) {
             var selectionText = item.text.split("||");
@@ -392,13 +373,14 @@
             var $returnString = $('<span>' + selectionText[0].substring(0, 21) +'</span>');
             return $returnString;
         };
-        $('select.select2').select2({
+        $('#billing-select, #shipping-select').select2({
             width: '100%'
             // templateResult: formatSearch,
             // templateSelection: formatSelected
         });
         $("#billing-select").trigger('change');
     });
+
     $(document).on('change', '#shipping-select', function() {
         if ($(this).val() && $('#billing-select').val()) {
             $('#checkout-btn').attr('disabled', false);
@@ -406,11 +388,31 @@
             $('#checkout-btn').attr('disabled', true);
         }
         $('#shipping-address-block').html('<div>'+$('option:selected', this).attr('data-name')+'</div><div>'+$('option:selected', this).attr('data-office_address')+'</div><div>'+$('option:selected', this).attr('data-city_name')+' - '+$('option:selected', this).attr('data-pincode')+'</div><div>'+$('option:selected', this).attr('data-state_name')+', '+$('option:selected', this).attr('data-country_name')+'</div><div>Mobile: '+$('option:selected', this).attr('data-office_no')+'</div><div>Email: '+$('option:selected', this).attr('data-official_email')+'</div>');
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: "/customer/get-updated-tax",
+            data: {'shipping_company_id': $(this).val()},
+            success: function (res) {
+                $( ".cs-loader" ).hide();
+                if (res.success) {
+                    var disc = parseFloat($("#discount").text().replace(',', '').substring(1));
+                    var add_disc = $("#additional_discount").text().replace(',', '').substring(1) == '' ? 0 : parseFloat($("#additional_discount").text().replace(',', '').substring(1));
+                    var tax = (parseFloat($("#sub-total-td").text().replace(',', '').substring(1)) - disc - add_disc) * parseFloat(res.tax) / 100;
+                    var total = parseFloat($("#final-total-th div").text().replace(',', '').substring(1)) - parseFloat($("#tax").text().replace(',', '').substring(1)) + tax;
+                    $("#tax").text("$"+tax.toFixed(2));
+                    $("#final-total-th div").text(total.toLocaleString("en-US", {style:"currency", currency:"USD"}));
+                }
+            }
+        });
     });
+
     $(document).on('click', '#checkout-btn', function() {
         var token = window.btoa($('#shipping-select').val()+'---'+$('#billing-select').val());
         window.location = '/customer/place-order/'+token;
     });
+
     $(document).on('change', '#billing-select', function() {
         if ($(this).val() && $('#shipping-select').val()) {
             $('#checkout-btn').attr('disabled', false);
@@ -419,20 +421,26 @@
         }
         $('#billing-address-block').html('<div>'+$('option:selected', this).attr('data-name')+'</div><div>'+$('option:selected', this).attr('data-office_address')+'</div><div>'+$('option:selected', this).attr('data-city_name')+' - '+$('option:selected', this).attr('data-pincode')+'</div><div>'+$('option:selected', this).attr('data-state_name')+', '+$('option:selected', this).attr('data-country_name')+'</div><div>Mobile: '+$('option:selected', this).attr('data-office_no')+'</div><div>Email: '+$('option:selected', this).attr('data-official_email')+'</div>');
     });
+
     $("#exampleModal").on('hidden.bs.modal', function(){
         $('div.errTxt').html('');
         $('#companyForm')[0].reset();
+        $('#company_country, #company_country_code, #company_state, #company_city').val(null).trigger('change');
+        $('.custom-file-label').text('Click here to upload ID proof');
     });
+
     $(document).on('click', '.add-shipping-btn', function () {
         $('#exampleModal .title').text('Add Shipping Address');
         $('#company_type').val('shipping');
         $('#exampleModal').modal('show');
     });
+
     $(document).on('click', '.add-billing-btn', function () {
         $('#exampleModal .title').text('Add Billing Address');
         $('#company_type').val('billing');
         $('#exampleModal').modal('show');
     });
+
     $(document).on('change', '#company_country', function () {
         $.ajax({
             type: "POST",
@@ -452,7 +460,9 @@
                     });
                 }
                 else {
-                    $('#company_state').html(response.data);
+                    $('#company_state').html(response.data).select2({
+                        dropdownParent: $('#exampleModal')
+                    });
                 }
             },
             failure: function (response) {
@@ -484,7 +494,9 @@
                     });
                 }
                 else {
-                    $('#company_city').html(response.data);
+                    $('#company_city').html(response.data).select2({
+                        dropdownParent: $('#exampleModal')
+                    });
                 }
             },
             failure: function (response) {
@@ -497,6 +509,7 @@
             }
         });
     });
+
     $("#companyForm").validate({
         errorClass: 'red-error',
         errorElement: 'div',
@@ -504,13 +517,13 @@
             company_name: {required: true, minlength: 4, maxlength: 200},
             company_office_no: { required: true, rangelength: [10, 11]},
             company_email: {required: true, email: true},
-            company_gst_pan: {required: true, minlength: 10, maxlength: 15},
+            company_gst_pan: {required: true, minlength: 8},
             company_address: {required: true, rangelength: [10, 200]},
             company_country: {required: true},
             company_state: {required: true},
             company_city: {required: true},
             company_pincode: { required: true, number: true},
-            id_upload: {required: true}
+            // id_upload: {required: true}
         },
         messages: {
             company_name: {required: "Please enter your company name"},
@@ -529,7 +542,7 @@
             company_state: {required: "Please select the state/province"},
             company_city: {required: "Please enter the city name"},
             company_pincode: {required: "Please enter the pincode"},
-            id_upload: {required: "Please select the identity proof"}
+            // id_upload: {required: "Please select the identity proof"}
         },
         errorPlacement: function(error, element) {
             if (element.attr('id') == 'id_upload') {
@@ -541,7 +554,9 @@
         submitHandler: function(form) {
             // do other things for a valid form
             var formData = new FormData(form);
-            formData.append('id_upload', $('#id_upload')[0].files);
+            if ($('#id_upload')[0].files.length > 0) {
+                formData.append('id_upload', $('#id_upload')[0].files);
+            }
             $.ajax({
                 type: "POST",
                 url: "/customer/save-addresses",
@@ -561,10 +576,10 @@
                         });
                         var opt = null;
                         $(response.data).each(function (i, v) {
-                            opt += '<option value="'+ v.customer_company_id +'" data-name="'+ v.name +'" data-office_no="'+ v.office_no +'" data-official_email="'+ v.official_email +'" data-office_address="'+ v.office_address +'" data-pincode="'+ v.pincode +'" data-city_name="'+ v.city_name +'" data-state_name="'+ v.state_name +'" data-country_name="'+ v.country_name +'" >'+ v.office_no +'. '+ v.name +'.  '+ v.city_name +' - '+ v.pincode +', '+ v.state_name +', '+ v.country_name +' </option>';
+                            opt += '<option value="'+ v.customer_company_id +'" data-name="'+ v.name +'" data-office_no="'+ v.office_no +'" data-official_email="'+ v.official_email +'" data-office_address="'+ v.office_address +'" data-pincode="'+ v.pincode +'" data-city_name="'+ v.city_name +'" data-state_name="'+ v.state_name +'" data-country_name="'+ v.country_name +'" >'+ v.name +'.  '+ v.city_name +' - '+ v.pincode +', '+ v.state_name +', '+ v.country_name +' </option>';
                         });
-                        $('select.select2').html(opt);
-                        $('select.select2').select2('destroy').select2({
+                        $('#billing-select, #shipping-select').html(opt);
+                        $('#billing-select, #shipping-select').select2('destroy').select2({
                             width: '100%'
                         });
                         if ($('#company_type').val() == 'shipping') {

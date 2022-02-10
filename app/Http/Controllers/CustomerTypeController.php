@@ -30,8 +30,8 @@ class CustomerTypeController extends Controller {
             'added_by' => $request->session()->get('loginId'),
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request,"inserted",'customer-type');
         successOrErrorMessage("Data added Successfully", 'success');
@@ -42,9 +42,9 @@ class CustomerTypeController extends Controller {
         if ($request->ajax()) {
             $data = CustomerType::select('customer_type_id', 'name', 'discount', 'allow_credit', 'credit_limit', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->latest()->orderBy('customer_type_id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
+                        //    ->addIndexColumn()
                             ->addColumn('index', '')
-                            ->editColumn('date_added', function ($row) {                                
+                            ->editColumn('date_added', function ($row) {
                                 return date_formate($row->date_added);
                             })
                             ->editColumn('is_active', function ($row) {
@@ -85,7 +85,12 @@ class CustomerTypeController extends Controller {
                                     $class="btn-success";
                                 }
 
-                                $actionBtn = '<a href="/admin/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';                                
+                                $actionBtn = '<a href="/admin/customer-type/edit/' . $row->customer_type_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> ';
+                                if ($row->customer_type_id != 1) {
+                                    $actionBtn .= '<button class="btn btn-xs btn-danger delete_button" data-module="customer-type" data-id="' . $row->customer_type_id . '" data-table="customer_type" data-wherefield="customer_type_id">&nbsp; <em class="icon ni ni-trash-fill"></em></button> ';
+                                }
+
+                                $actionBtn .= '<button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->customer_type_id . '" data-status="' . $row->is_active . '" data-table="customer_type" data-wherefield="customer_type_id" data-module="customer-type">'.$str.'</button>';
                                 return $actionBtn;
                             })
                             ->rawColumns(['action'])
@@ -107,7 +112,7 @@ class CustomerTypeController extends Controller {
             'discount' => $request->discount,
             'allow_credit' => $request->allow_credit,
             'credit_limit' => isset($request->credit_limit) ? $request->credit_limit : 0,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         activity($request,"updated",'customer-type');
         successOrErrorMessage("Data updated Successfully", 'success');
@@ -115,13 +120,16 @@ class CustomerTypeController extends Controller {
     }
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
-
-            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
-                'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
-            ]);
-            activity($request,"deleted",$request['module']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            if ($request['table_id'] != 1) {
+                $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
+                    'is_deleted' => 1,
+                    'date_updated' => date("Y-m-d H:i:s")
+                ]);
+                activity($request,"deleted",$request['module']);
+            } else {
+                $res = false;
+            }
+        // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -139,7 +147,7 @@ class CustomerTypeController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
 //            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

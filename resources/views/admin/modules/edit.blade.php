@@ -18,7 +18,7 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->module_id }}">
                                   <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-md-right" for="name">Name:</label>
                                         </div>
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-md-right" for="icon">Icon:</label>
                                         </div>
@@ -40,13 +40,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon" required="" autocomplete="off" value="{{ $data['result']->icon }}">
+                                                <input type="text" class="form-control" name="icon" id="icon" placeholder="Enter icon" autocomplete="off" value="{{ $data['result']->icon }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-md-right" for="slug">Slug:</label>
                                         </div>
@@ -54,13 +54,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug" required="" autocomplete="off" value="{{ $data['result']->slug }}">
+                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Enter slug" autocomplete="off" value="{{ $data['result']->slug }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-right" for="parent_id">Parent Module:</label>
                                         </div>
@@ -70,20 +70,19 @@
                                             <div class="form-control-wrap">
                                                 <select class="form-select form-control" id="parent_id" name="parent_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="0">None</option>
-                                                    <?php if(!empty($data['module'])){
-                                                        foreach ($data['module'] as $row){
-                                                            ?>
-                                                            <option value="{{ $row->module_id }}" {{ set_selected($row->module_id,$data['result']->parent_id) }}>{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
+                                                    @foreach ($data['module'] as $row)
+                                                    @php if($row->parent_id == 0) $heading = ' - Heading';
+                                                    else $heading = null;
+                                                    @endphp
+                                                    <option value="{{ $row->module_id }}" {{ set_selected($row->module_id,$data['result']->parent_id) }}>{{ $row->name . $heading }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                   <div class="row g-3 align-center">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label class="form-label float-md-right" for="sort_order">Sort order:</label>
                                         </div>
@@ -98,7 +97,7 @@
                                 </div>
                                 <hr>
                                 <div class="row g-3">
-                                    <div class="col-sm-12 col-md-2 offset-md-1">
+                                    <div class="col-sm-12 col-md-2 offset-md-2">
                                         <div class="form-group mt-2">
                                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
                                         </div>

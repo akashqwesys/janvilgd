@@ -43,8 +43,8 @@ class AttributeController extends Controller
             'sort_order' => $request->sort_order,
             'is_active' => 1,
             'is_deleted' => 0,
-            'date_added' => date("Y-m-d h:i:s"),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_added' => date("Y-m-d H:i:s"),
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
 
         $Id = DB::getPdo()->lastInsertId();
@@ -154,7 +154,7 @@ class AttributeController extends Controller
             'attribute_group_id' => $request->attribute_group_id,
             'sort_order' => $request->sort_order,
             'image' => $image,
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
 
         activity($request,"updated",'attributes',$request->id);
@@ -167,7 +167,7 @@ class AttributeController extends Controller
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
@@ -189,7 +189,7 @@ class AttributeController extends Controller
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {

@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class DiamondExport4p implements FromCollection, WithHeadings
 {
     protected $data;
-  
+
     /**
      * Write code on Method
      *
@@ -18,7 +18,7 @@ class DiamondExport4p implements FromCollection, WithHeadings
     {
         $this->data = $data;
     }
-  
+
     /**
      * Write code on Method
      *
@@ -28,7 +28,7 @@ class DiamondExport4p implements FromCollection, WithHeadings
     {
         return collect($this->data);
     }
-  
+
     /**
      * Write code on Method
      *
@@ -39,17 +39,25 @@ class DiamondExport4p implements FromCollection, WithHeadings
         return [
             'BARCODE',
             'MAIN PKTNO',
+            'Availability',
             'SHAPE',
             'EXP POL SIZE',
             'COLOR',
             'CLARITY',
+            'CUT',
             'MKBL CTS',
             'EXP POL CTS',
+            'Rapaport Price/CT',
+            'Discount',
+            'Labour Charges/CT',
+            'Price/CT',
+            'Price',
             'REMARKS',
-            'HALF-CUT  DIA',
+            'HALF-CUT DIA',
             'HALF-CUT HGT',
             'PO. DIAMETER',
-            'DISCOUNT',
+            'Location',
+            'Comment',
             'VIDEO LINK',
             'image-1',
             'image-2',

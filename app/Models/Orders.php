@@ -11,7 +11,7 @@ class Orders extends Model
     protected $table='orders';
     protected $primaryKey = 'order_id';
     protected $fillable = [
-        'order_id',  
+        'order_id',
         'refCustomer_id',
         'name',
         'mobile_no',
@@ -19,10 +19,10 @@ class Orders extends Model
         'refPayment_mode_id',
         'payment_mode_name',
         'refTransaction_id',
-        
+
         'refCustomer_company_id_billing',
         'billing_company_name',
-        'billing_company_office_no',        
+        'billing_company_office_no',
         'billing_company_office_email',
         'billing_company_office_address',
         'billing_company_office_pincode',
@@ -30,7 +30,7 @@ class Orders extends Model
         'refState_id_billing',
         'refCountry_id_billing',
         'billing_company_pan_gst_no',
-        
+
         'refCustomer_company_id_shipping',
         'shipping_company_name',
         'shipping_company_office_no',
@@ -41,8 +41,7 @@ class Orders extends Model
         'refState_id_shipping',
         'refCountry_id_shipping',
         'shipping_company_pan_gst_no',
-        
-        
+
         'sub_total',
         'refDelivery_charge_id',
         'delivery_charge_name',
@@ -54,8 +53,15 @@ class Orders extends Model
         'tax_name',
         'tax_amount',
         'total_paid_amount',
+        'order_type',
         'added_by',
         'date_added',
-        'date_updated'        
-    ];    
+        'date_updated',
+        'attention',
+        'billing_remarks',
+        'shipping_remarks',
+        'due_date',
+        'additional_discount',
+        'order_status'
+    ];
 }

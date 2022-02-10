@@ -50,7 +50,14 @@ class Order extends Model
         'tax_amount',
         'total_paid_amount',
         'added_by',
+        'order_type',
         'date_added',
-        'date_updated'
+        'date_updated',
+        'attention',
+        'billing_remarks',
+        'shipping_remarks',
+        'due_date',
+        'additional_discount',
+        'order_status'
     ];
 }

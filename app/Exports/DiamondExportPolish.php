@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class DiamondExportPolish implements FromCollection, WithHeadings
 {
     protected $data;
-  
+
     /**
      * Write code on Method
      *
@@ -18,7 +18,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     {
         $this->data = $data;
     }
-  
+
     /**
      * Write code on Method
      *
@@ -28,7 +28,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     {
         return collect($this->data);
     }
-  
+
     /**
      * Write code on Method
      *
@@ -37,14 +37,16 @@ class DiamondExportPolish implements FromCollection, WithHeadings
     public function headings() :array
     {
         return [
-            'Stock',
+            'BARCODE',
             'Availability',
             'Shape',
             'Weight',
             'Clarity',
             'Color',
+            'Rapaport Price/CT',
             'Discount Percent',
-            'Video Link',
+            'Price/CT',
+            'Price',
             'Cut Grade',
             'Polish',
             'Symmetry',
@@ -56,16 +58,19 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Culet Size',
             'Girdle Percent',
             'Girdle Condition',
-            'Measurements',
+            // 'Measurements',
             'Pavilion Depth',
             'Crown Height',
             'Crown Angle',
             'Pavilion Angle',
             'Growth Type',
+            'Location',
+            'Comment',
+            'Video Link',
             'image-1',
             'image-2',
             'image-3',
-            'image-4',
+            'image-4'
         ];
     }
 }

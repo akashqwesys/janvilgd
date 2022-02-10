@@ -30,8 +30,8 @@ class GetMenu {
             }
 
             $access_permission = json_decode($user_roles->access_permission);
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
-            
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->get();
+
             if (!empty($module)) {
                 $access_list=array();
                 $menu_array = array();
@@ -61,30 +61,32 @@ class GetMenu {
             }
         }
         if (session()->get('user-type') == 'MASTER_ADMIN') {
-            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $module = DB::table('modules')->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')->where('is_active', 1)->where('is_deleted', 0)->orderByRaw('menu_level, sort_order asc')->get();
 
             if (!empty($module)) {
-                $menu_array = array();
-                foreach ($module as $row_module) {
-                    if ($row_module->parent_id == 0) {
-                        $row_module->submenu = array();
-                        array_push($menu_array, $row_module);
-                    }
-                }
-                foreach ($menu_array as $row) {
-                    foreach ($module as $row1) {
-                        if ($row->module_id == $row1->parent_id) {
-                            array_push($row->submenu, $row1);
-                        }
+                $module = json_decode(json_encode($module), true);
+
+                foreach ($module as $m) {
+                    if ($m['menu_level'] == 1) {
+                        $menu_array[$m['module_id']] = $m;
+                    } else if ($m['menu_level'] == 2) {
+                        $menu_array[$m['parent_id']]['sub'][$m['module_id']] = $m;
+                    } else if ($m['menu_level'] == 3) {
+                        $main_parent_id = find_parent_id($m['parent_id'],$module);
+                        $menu_array[$main_parent_id]['sub'][$m['parent_id']]['sub'][$m['module_id']] = $m;
+                    } else {
+                        $parent_parent_id = find_parent_id($m['parent_id'], $module);
+                        $main_parent_id = find_parent_id($parent_parent_id, $module);
+                        $menu_array[$main_parent_id]['sub'][$parent_parent_id]['sub'][$m['parent_id']]['sub'][$m['module_id']] = $m;
                     }
                 }
             }
         }
-        
-        $categories = DB::table('categories')->select('name','category_id')->get();
-        
-        $columns = array_column($menu_array, 'sort_order');
-        array_multisort($columns, SORT_ASC, $menu_array);
+
+        $categories = DB::table('categories')->select('name', 'category_id', 'slug')->get();
+
+        // $columns = array_column($menu_array, 'sort_order');
+        // array_multisort($columns, SORT_ASC, $menu_array);
         if (Session()->has('loginId')) {
             $request->session()->forget('menu');
             $request->session()->forget('module');
@@ -97,4 +99,11 @@ class GetMenu {
         return $next($request);
     }
 
+}
+function find_parent_id($id,$array) {
+    foreach ($array as $a) {
+        if($a['module_id'] == $id) {
+            return $a['parent_id'];
+        }
+    }
 }

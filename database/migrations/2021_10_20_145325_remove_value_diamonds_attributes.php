@@ -25,8 +25,6 @@ class RemoveValueDiamondsAttributes extends Migration
      */
     public function down()
     {
-        Schema::table('diamonds_attributes', function (Blueprint $table) {
-            $table->dropColumn('value');
-        });
+
     }
 }

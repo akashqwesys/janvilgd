@@ -7,7 +7,7 @@
 @section('content')
     <div class="overlay cs-loader">
       <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
+        <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
       </div>
     </div>
     <!-- DASHBOARD SECTION -->
@@ -17,28 +17,29 @@
                 <h3>{{ $title }}</h3>
             </div>
             <div class="row">
-                @foreach ($diamonds as $d)
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="diamond-img mb-2">
-                                @if (count($d->image))
-                                    <img src="/storage/other_images/{{ $d->image[0] }}" class="img-fluid">
-                                @else
-                                    <img src="/assets/images/No-Preview-Available.jpg" class="img-fluid">
-                                @endif
-                            </div>
-                            <h6 class="diamond-name">{{ $d->name }}</h6>
-                            <div class="text-muted">{{ $d->barcode }}</div>
-                            <div class="h4 mb-3 mt-2"><b class=""> ${{ number_format(round($d->price, 2), 2, '.', ',') }}</b></div>
-                            <div class="text-center">
-                                <a href="/customer/single-diamonds/{{ $d->barcode }}" class="btn btn-primary">View Diamond</a>
+                @if (count($diamonds))
+                <div class="recommended-diamonds-box">
+                    <div class="row">
+                        @foreach($diamonds as $r)
+                        <div class="col-md-3 col-6 mb-3" id="diamond_{{$r['_source']['diamond_id']}}">
+                            <div class="card">
+                                <div class="card-body- p-1 text-center">
+                                    <div class=" mb-2">
+                                        <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
+                                            <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                        </a>
+                                    </div>
+                                    <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>
+                                    <small class="">{{ $r['_source']['attributes']['COLOR'] . ' Color • ' .  $r['_source']['attributes']['CLARITY'] . ' Clarity' }}</small>
+                                    <div class="mt-2"><h5><b>${{ number_format($r['_source']['total'], 2, '.', ',') }} USD</b></h5></div>
+                                    <a href="javascript:void(0);" class="btn btn-primary w-100 add-to-cart">ADD TO CART</a>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
-
+                @endif
             </div>
 		</div>
 	</section>

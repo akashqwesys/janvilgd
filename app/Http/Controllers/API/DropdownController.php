@@ -18,27 +18,32 @@ class DropdownController extends Controller
     public function index(Request $request)
     {
         $country = DB::table('country')
-            ->select('country_id', 'name')
+            ->select('country_id', 'name', 'country_code')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->get();
 
-        $state = DB::table('state')
-            ->select('state_id', 'name')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
+        $state = DB::table('state as s')
+            ->join('country as c', 's.refCountry_id', '=', 'c.country_id')
+            ->select('s.state_id', 's.name', 'c.country_id')
+            ->where('s.is_active', 1)
+            ->where('s.is_deleted', 0)
+            ->orderBy('name', 'asc')
             ->get();
 
-        $city = DB::table('city')
-            ->select('city_id', 'name')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
+        $city = DB::table('city as c')
+            ->join('state as s', 'c.refState_id', '=', 's.state_id')
+            ->select('c.city_id', 'c.name', 's.state_id')
+            ->where('c.is_active', 1)
+            ->where('c.is_deleted', 0)
             ->get();
 
         $categories = DB::table('categories')
             ->select('category_id', 'name', 'slug')
             ->where('is_active', 1)
             ->where('is_deleted', 0)
+            ->orderBy('name', 'asc')
             ->get();
 
         $data = [
@@ -56,6 +61,7 @@ class DropdownController extends Controller
         $states = DB::table('state')
             ->select('state_id', 'name')
             ->where('refCountry_id', $request->id)
+            ->orderBy('name', 'asc')
             ->get();
         $data = '<option value=""> Select State </option>';
         if (count($states)) {
@@ -73,6 +79,7 @@ class DropdownController extends Controller
         $cities = DB::table('city')
             ->select('city_id', 'name')
             ->where('refState_id', $request->id)
+            ->orderBy('name', 'asc')
             ->get();
         $data = '<option value=""> Select City </option>';
         if (count($cities)) {

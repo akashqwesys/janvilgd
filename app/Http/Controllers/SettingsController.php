@@ -23,7 +23,7 @@ class SettingsController extends Controller {
 
     public function save(Request $request) {
         $attachment=0;
-        if($request->hasfile('attachment')){
+        if($request->hasFile('attachment')){
             $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
             $request->file('attachment')->storeAs("public/user_files", $attachment);
         }
@@ -32,7 +32,7 @@ class SettingsController extends Controller {
             'value' => $request->value,
             'attachment' => $attachment,
             'updated_by' => $request->session()->get('loginId'),
-            'date_updated' => date("Y-m-d h:i:s")
+            'date_updated' => date("Y-m-d H:i:s")
         ]);
         $Id = DB::getPdo()->lastInsertId();
         activity($request,"inserted",'settings',$Id);
@@ -44,24 +44,16 @@ class SettingsController extends Controller {
         if ($request->ajax()) {
             $data = Settings::select('setting_id', 'key', 'value', 'updated_by', 'date_updated')->latest()->orderBy('setting_id','desc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
-                            ->addColumn('index', '')
-                    ->editColumn('date_updated', function ($row) {
-                                return date_formate($row->date_updated);
-                            })
-//                    ->editColumn('is_deleted', function ($row) {
-//                                $delete_button='';
-//                                if($row->is_deleted==1){
-//                                    $delete_button='<span class="badge badge-danger">Deleted</span>';
-//                                }
-//                                return $delete_button;
-//                            })
-                            ->addColumn('action', function ($row) {
-                                $actionBtn = '<a href="/admin/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
-                                return $actionBtn;
-                            })
-                            ->escapeColumns([])
-                            ->make(true);
+                ->addColumn('index', '')
+                ->editColumn('date_updated', function ($row) {
+                    return date_formate($row->date_updated);
+                })
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="/admin/settings/edit/' . $row->setting_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                    return $actionBtn;
+                })
+                ->escapeColumns([])
+                ->make(true);
         }
     }
 
@@ -73,26 +65,26 @@ class SettingsController extends Controller {
     }
 
     public function update(Request $request) {
-        if($request->hasfile('attachment')){
+        if($request->hasFile('attachment')){
             $attachment = time() . '_' . preg_replace('/\s+/', '_', $request->file('attachment')->getClientOriginalName());
             $request->file('attachment')->storeAs("public/user_files", $attachment);
             $exist_file = DB::table('settings')->where('setting_id', $request->id)->first();
-            if ($exist_file) {
-                unlink(base_path('/storage/app/public/user_files/' . $exist_file->attachment));
+            if ($exist_file && file_exists(base_path('storage/app/public/user_files/' . $exist_file->attachment))) {
+                unlink(base_path('storage/app/public/user_files/' . $exist_file->attachment));
             }
             DB::table('settings')->where('setting_id', $request->id)->update([
                 'key' => $request->key,
                 'value' => $request->value,
                 'attachment' => $attachment,
                 'updated_by' => $request->session()->get('loginId'),
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
-        }else{
+        } else {
             DB::table('settings')->where('setting_id', $request->id)->update([
                 'key' => $request->key,
                 'value' => $request->value,
                 'updated_by' => $request->session()->get('loginId'),
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
         }
         activity($request,"updated",'settings',$request->id);
@@ -104,10 +96,10 @@ class SettingsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_deleted' => 1,
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -125,9 +117,9 @@ class SettingsController extends Controller {
 
             $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->update([
                 'is_active' => $request['status'],
-                'date_updated' => date("Y-m-d h:i:s")
+                'date_updated' => date("Y-m-d H:i:s")
             ]);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+            // $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true

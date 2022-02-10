@@ -17,6 +17,7 @@ use App\Http\Controllers\TransportController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\UserActivityController;
+use App\Http\Controllers\CustomerActivityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CityController;
@@ -38,6 +39,9 @@ use App\Http\Controllers\Front\UserController;
 use App\Http\Controllers\Front\DiamondController as HDiamond;
 use App\Http\Controllers\RapaortController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ContactController as Inquiries;
+use App\Http\Controllers\DashboardController as AdminDashboard;
 
 use App\Http\Controllers\Front\TestController;
 /*
@@ -52,9 +56,8 @@ use App\Http\Controllers\Front\TestController;
 */
 // Route::get('/', [CustomAuthController::class, 'home']);
 Route::get('/test-query', [TestController::class, 'index']);
-
-
-Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup');
+// Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
+// Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
 
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
@@ -62,22 +65,30 @@ Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
 Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
 
+// Route::post('customer/contact', [ContactController::class, 'index']);
+
 // ---------------- Customer  --------------------
 // Authentication
 Route::match(['get', 'post'], 'customer/login', [FrontAuthController::class, 'login'])->name('customer-login');
-Route::get('customer/verify/{token}', [FrontAuthController::class, 'otpVerify']);
-Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
+Route::get('/customer/email-verification/{token}', [FrontAuthController::class, 'emailVerify']);
+// Route::post('customer/verify', [FrontAuthController::class, 'otpVerify']);
 Route::get('customer/authenticate/{token}', [FrontAuthController::class, 'auth_customer']);
+Route::match(['get', 'post'], 'customer/forgot-password', [FrontAuthController::class, 'forgotPassword']);
+Route::post('customer/reset-password', [FrontAuthController::class, 'resetPassword']);
 Route::post('customer/resendOTP', [FrontAuthController::class, 'resendOTP']);
-Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
-Route::post('customer/signup', [FrontAuthController::class, 'register']);
+// Route::get('customer/signup/{token}', [FrontAuthController::class, 'register']);
+Route::match(['get', 'post'], 'customer/signup', [FrontAuthController::class, 'register']);
 Route::get('customer/logout', [FrontAuthController::class, 'customer_logout']);
 
 Route::post('/checkEmailMobile', [FrontAuthController::class, 'checkEmailMobile']);
 Route::post('/getStates', [DropdownController::class, 'getStates']);
 Route::post('/getCities', [DropdownController::class, 'getCities']);
 
-Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
+Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
+
+// Route::get('admin/clearDiamondsFromDB/{table}', [HDiamond::class, 'clearDiamondsFromDB'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
 
 Route::group( ['middleware' => ['auth']], function () {
 
@@ -86,14 +97,18 @@ Route::group( ['middleware' => ['auth']], function () {
     Route::get('customer/recommended-diamonds', [DashboardController::class, 'recommended_diamonds']);
 
     // Diamonds
-    Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
-    Route::post('customer/search-diamonds', [HDiamond::class, 'searchDiamonds']);
+    // Route::get('customer/search-diamonds/{category}', [HDiamond::class, 'home']);
+    Route::post('customer/search-diamonds', [HDiamond::class, 'exportDiamonds'])->name('search-diamond');
     Route::get('customer/single-diamonds/{barcode}', [HDiamond::class, 'diamondDetails'])->name('single-diamond');
+    // Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
+    // Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
 
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
     Route::post('customer/add-all-to-cart', [HDiamond::class, 'addAllToCart'])->name('add-all-to-cart');
     Route::post('customer/remove-from-cart', [HDiamond::class, 'removeFromCart'])->name('remove-from-cart');
+
+    Route::post('customer/get-updated-tax', [HDiamond::class, 'getUpdatedTax']);
 
     Route::post('customer/generate-share-cart-link', [HDiamond::class, 'createShareCartLink'])->name('generate-share-cart-link');
     Route::get('customer/cart', [HDiamond::class, 'getCart'])->name('get-cart');
@@ -125,7 +140,8 @@ Route::group( ['middleware' => ['auth']], function () {
 
     // Orders
     Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
-    Route::get('customer/order-details', [OrderController::class, 'orderDetails']);
+    Route::get('customer/order-details/{transaction_id}/{order_id}', [OrderController::class, 'orderDetails']);
+    Route::post('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
@@ -136,12 +152,28 @@ Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 /************************************  Master Admin Route *******************************/
 /*--------------------------------------------------------------------------------------*/
 Route::prefix('admin')->group(function () {
+
+Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup')->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-elastic', [CommonController::class, 'createElasticIndex'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-diamonds', [CommonController::class, 'truncateDiamonds'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('truncate-orders', [CommonController::class, 'truncateOrders'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
-Route::get('/dashboard', [CustomAuthController::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard', [AdminDashboard::class, 'dashboard'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/inventory', [AdminDashboard::class, 'inventory'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/sales', [AdminDashboard::class, 'sales'])->middleware(['isLoggedIn','getMenu']);
+Route::get('/dashboard/accounts', [AdminDashboard::class, 'accounts'])->middleware(['isLoggedIn','getMenu']);
 Route::get('/logout', [CustomAuthController::class, 'logout'])->name('logout');
 
 Route::get('/customer-login-by-admin/{token}', [CustomAuthController::class, 'auth_admin_customer'])->name('customer-login-by-admin')->middleware('isLoggedIn');
+
+// Reports
+Route::get('/report-orders', [ReportController::class, 'reportOrders'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-diamonds', [ReportController::class, 'reportDiamonds'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-customers', [ReportController::class, 'reportCustomers'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+Route::get('/report-attributes', [ReportController::class, 'reportAttributes'])->middleware('isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission');
+
 
 /***************  Designation route *************/
 Route::get('designation', [DesignationController::class, 'index'])->middleware('isLoggedIn','getMenu','accessPermission','modifyPermission');
@@ -288,7 +320,6 @@ Route::post('modules/status', [ModulesController::class, 'status'])->name('modul
 /***************  Modules route end *************/
 
 
-
 /***************  Country route *************/
 Route::get('country', [CountryController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('country/list', [CountryController::class, 'list'])->name('country.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -338,7 +369,6 @@ Route::post('user-role/status', [UserRolesController::class, 'status'])->name('u
 /***************  City route end *************/
 
 
-
 /***************  User Activity route *************/
 Route::get('user-activity', [UserActivityController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('user-activity/list', [UserActivityController::class, 'list'])->name('user-activity.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -346,6 +376,12 @@ Route::post('user-activity/delete', [UserActivityController::class, 'delete'])->
 Route::post('user-activity/status', [UserActivityController::class, 'status'])->name('user-activity.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  User Activity route end *************/
+
+
+/***************  Customer Activity route *************/
+Route::get('customer-activities', [CustomerActivityController::class, 'index'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('customer-activities/list', [CustomerActivityController::class, 'list'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Customer Activity route end *************/
 
 
 /***************  Users route *************/
@@ -370,8 +406,14 @@ Route::post('customers/update', [CustomersController::class, 'update'])->name('c
 Route::get('customers/edit/{id}', [CustomersController::class, 'edit'])->name('customers.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('customers/delete', [CustomersController::class, 'delete'])->name('customers.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('customers/status', [CustomersController::class, 'status'])->name('customers.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('customers/save-addresses', [CustomersController::class, 'saveAddress'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('customers/delete-addresses', [CustomersController::class, 'deleteAddress'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 /***************  Customers route end *************/
+
+/***************  Contact inquiries route *************/
+Route::get('inquiries', [Inquiries::class, 'index'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Contact inquiries route end *************/
 
 /***************  Delivery-charges route *************/
 Route::get('delivery-charges', [DeliveryChargesController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -450,20 +492,39 @@ Route::get('diamonds/add/import-excel', [DiamondsController::class, 'addExcel'])
 /***************  Diamonds route end *************/
 
 
-/***************  Blogs route *************/
+/***************  Orders route *************/
 Route::get('orders', [OrdersController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('orders/list', [OrdersController::class, 'list'])->name('orders.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update', [OrdersController::class, 'update'])->name('orders.update')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+// Route::get('orders/edit/{id}', [OrdersController::class, 'edit'])->name('orders.edit')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/view/{id}', [OrdersController::class, 'view'])->name('orders.view')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/status', [OrdersController::class, 'status'])->name('orders.status')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::post('orders/update/history', [OrdersController::class, 'addOrderHistory'])->name('orders.addOrderHistory')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/add/import', [OrdersController::class, 'csvOrder'])->name('orders.import')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 
+Route::get('orders/add/import-excel', [OrdersController::class, 'addExcel'])->name('orders.import_excel')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+Route::get('orders/create-invoice', [OrdersController::class, 'createInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/save-invoice', [OrdersController::class, 'saveInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/edit-invoice/{order_id}', [OrdersController::class, 'editInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/update-invoice', [OrdersController::class, 'updateInvoice'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+
+Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::get('orders/getBarcodes', [OrdersController::class, 'getBarcodes'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/get-updated-tax', [OrdersController::class, 'getUpdatedTax'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::post('orders/get-updated-charges', [OrdersController::class, 'getUpdatedCharges'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
+Route::post('orders/getDiamonds', [OrdersController::class, 'getDiamonds'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
-/***************  Blogs route end *************/
+/***************  Orders route end *************/
 
 
+/***************  Sold Diamonds route *************/
+Route::get('sold-diamonds/list/{slug}', [OrdersController::class, 'soldView'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+Route::get('sold-diamonds/list', [OrdersController::class, 'soldList'])->middleware(['isLoggedIn', 'getMenu', 'accessPermission', 'modifyPermission']);
+/***************  Sold Diamonds route end *************/
 
-/***************  Diamonds route *************/
+
+/***************  Rapaport route *************/
 Route::get('rapaport', [RapaortController::class, 'index'])->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('rapaport/list', [RapaortController::class, 'list'])->name('rapaport.list')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 Route::get('rapaport/add', [RapaortController::class, 'add'])->name('rapaport.add')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
@@ -475,7 +536,7 @@ Route::get('rapaport/add/import-excel', [RapaortController::class, 'addExcel'])-
 
 Route::post('rapaport/update/price', [RapaortController::class, 'update_price'])->name('rapaport.updatePrice')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
 //Route::post('/delete-transport', [TransportController::class, 'delete'])->name('transport.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);
-/***************  Diamonds route end *************/
+/***************  Rapaport route end *************/
 
 
 //Route::post('/delete-data', [CommonController::class, 'delete'])->name('data.delete')->middleware(['isLoggedIn','getMenu','accessPermission','modifyPermission']);

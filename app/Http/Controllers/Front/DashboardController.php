@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use App\Models\Customers;
-use App\Models\CustomerCompanyDetail;
+// use Illuminate\Support\Facades\Validator;
+// use Illuminate\Validation\Rule;
+// use App\Models\Customers;
+// use App\Models\CustomerCompanyDetail;
 use DB;
-use Carbon\Carbon;
+// use Carbon\Carbon;
+use Elasticsearch\ClientBuilder;
 
 class DashboardController extends Controller {
 
@@ -40,6 +41,9 @@ class DashboardController extends Controller {
                 DB::raw('count(case when "refCategory_id" = '. $polish .' then 1 end) as total_polish'),
                 DB::raw('count(case when "refCategory_id" = '. $p4 .' then 1 end) as total_4p')
             )
+            ->where('available_pcs', '>', 0)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
             ->first();
 
         $recently_viewed = DB::table('recently_view_diamonds as r')
@@ -55,15 +59,25 @@ class DashboardController extends Controller {
     public function latest_diamonds(Request $request)
     {
         $title = 'Latest Diamonds';
-        $diamonds = DB::table('diamonds as d')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->orderBy('diamond_id', 'desc')
-            ->limit(8)
-            ->get();
-        foreach ($diamonds as $v) {
-            $v->image = json_decode($v->image);
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'size'  =>  8,
+                'sort' => [
+                    [
+                        'diamond_id' => [ 'order' => 'desc' ]
+                    ]
+                ]
+            ]
+        ];
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $diamonds = $client->search($elastic_params);
+        if ($diamonds['hits']['hits'] && count($diamonds['hits']['hits'])) {
+            $diamonds = $diamonds['hits']['hits'];
+        } else {
+            $diamonds = [];
         }
 
         return view('front.latest_diamond', compact('title', 'diamonds'));
@@ -72,17 +86,29 @@ class DashboardController extends Controller {
     public function recommended_diamonds(Request $request)
     {
         $title = 'Recommended Diamonds';
-        $diamonds = DB::table('diamonds as d')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->where('is_recommended', 1)
-            ->orderBy('diamond_id', 'desc')
-            ->limit(8)
-            ->get();
-        foreach ($diamonds as $v) {
-            $v->image = json_decode($v->image);
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'size'  =>  8,
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['is_recommended' => ['value' => 1]]]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+        $diamonds = $client->search($elastic_params);
+        if ($diamonds['hits']['hits'] && count($diamonds['hits']['hits'])) {
+            $diamonds = $diamonds['hits']['hits'];
+        } else {
+            $diamonds = [];
         }
+
         return view('front.latest_diamond', compact('title', 'diamonds'));
     }
 }

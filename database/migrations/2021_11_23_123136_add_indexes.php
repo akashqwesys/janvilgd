@@ -34,9 +34,9 @@ class AddIndexes extends Migration
         Schema::table('customer', function (Blueprint $table) {
             $table->index('customer_id');
         });
-        Schema::table('customer_activity', function (Blueprint $table) {
+        /* Schema::table('customer_activity', function (Blueprint $table) {
             $table->index('customer_activity_id');
-        });
+        }); */
         Schema::table('customer_cart', function (Blueprint $table) {
             $table->index('customer_cart_id');
         });

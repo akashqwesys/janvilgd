@@ -14,6 +14,11 @@ class DiscountDropAmount extends Migration
     public function up()
     {
         Schema::table('discounts', function (Blueprint $table) {
+            $table->dropColumn('from_amount');
+            $table->dropColumn('to_amount');
+        });
+
+        Schema::table('discounts', function (Blueprint $table) {
             $table->integer('from_amount')->default(0);
             $table->integer('to_amount')->default(0);
         });
@@ -26,6 +31,6 @@ class DiscountDropAmount extends Migration
      */
     public function down()
     {
-        //
+
     }
 }
