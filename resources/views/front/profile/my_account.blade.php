@@ -63,11 +63,25 @@
                                                     <div class="errTxt"></div>
                                                 </div>
                                                 <div class="col col-12 col-lg-6">
-                                                    <div class="form-group">
-                                                        <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
-                                                        <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" value="{{ $customer->mobile }}" disabled>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <select class="form-select" id="country_code" name="country_code" style="padding: 9px;" disabled>
+                                                                    @foreach ($country as $c)
+                                                                    <option value="{{ $c->country_id }}" {{ set_selected($customer->refCountry_id ?? 101, $c->country_id) }}>{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="errTxt"></div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
+                                                                <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" value="{{ $customer->mobile }}" disabled>
+                                                            </div>
+                                                            <div class="errTxt"></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="errTxt"></div>
                                                 </div>
                                                 <div class="col col-12 col-lg-6">
                                                     <div class="form-group">

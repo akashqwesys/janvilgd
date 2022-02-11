@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title></title>
     <style type="text/css">
+        table {
+            width: 100%;
+        }
         page {
             background: white;
             display: block;
@@ -35,17 +38,21 @@
         }
         page[size="A4"] {
             width: 21cm;
-            height: 29.7cm;
+            height: auto;
         }
         page[size="A4"][layout="landscape"] {
             width: 29.7cm;
-            height: 21cm;
+            height: auto;
         }
     </style>
+
+
+
+
 </head>
 <body>
 <page size="A4">
-    <div class="container- mt-3 mb-3">
+    <div class="container mt-3 mb-3">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12">
                 <div class="card">

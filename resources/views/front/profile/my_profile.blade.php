@@ -11,6 +11,13 @@
     .profile-details .col {
         margin-bottom: 2rem;
     }
+    .select2-selection.select2-selection--single {
+        height: 43px;
+        padding: 8px 0px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
+    }
     .errTxt {
         color: red;
         text-align: center;
@@ -74,11 +81,25 @@
                                                         <div class="errTxt"></div>
                                                     </div>
                                                     <div class="col col-12 col-lg-6">
-                                                        <div class="form-group">
-                                                            <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
-                                                            <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" value="{{ $customer->mobile }}" {{ $customer->mobile ? 'disabled' : '' }}>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <select class="form-select" id="country_code" name="country_code" style="padding: 9px;" {{ $customer->mobile ? 'disabled' : '' }}>
+                                                                        @foreach ($country as $c)
+                                                                        <option value="{{ $c->country_id }}" {{ set_selected($customer->refCountry_id ?? 101, $c->country_id) }}>{{ '+' . $c->country_code . ' (' . $c->name . ')' }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="errTxt"></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <img src="/assets/images/alt-phone.svg" alt="icn" class="img-fluid input-icon">
+                                                                    <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" value="{{ $customer->mobile }}" value="{{ $customer->mobile }}" {{ $customer->mobile ? 'disabled' : '' }}>
+                                                                </div>
+                                                                <div class="errTxt"></div>
+                                                            </div>
                                                         </div>
-                                                        <div class="errTxt"></div>
                                                     </div>
                                                     <div class="col col-12 col-lg-6">
                                                         <div class="form-group">
@@ -104,7 +125,7 @@
                                                     <div class="col col-12 col-lg-4">
                                                         <div class="form-group">
                                                             <img src="/assets/images/flag.svg" alt="icn" class="img-fluid input-icon">
-                                                            <select class="form-select" id="country" name="country" required>
+                                                            <select class="form-select" id="country" name="country" required {{ $customer->mobile ? 'disabled' : '' }}>
                                                                 @foreach ($country as $c)
                                                                 <option value="{{ $c->country_id }}" {{ $customer->refCountry_id == $c->country_id ? 'selected' : '' }}>{{ $c->name }}</option>
                                                                 @endforeach
@@ -166,7 +187,18 @@ $.ajaxSetup({
         $(".cs-loader").show();
     }
 });
+setTimeout(() => {
+    $('#country, #state, #city, #country_code').select2();
+    $('#country_code').on('select2:open', function (e) {
+        setTimeout(() => {
+            $('#select2-country_code-results').parent().parent().css('width', '15vw');
+        }, 10);
+    });
+}, 500);
 $(document).on('change', '#country', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getStates",
@@ -185,7 +217,7 @@ $(document).on('change', '#country', function () {
                 });
             }
             else {
-                $('#state').html(response.data);
+                $('#state').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -199,6 +231,9 @@ $(document).on('change', '#country', function () {
     });
 });
 $(document).on('change', '#state', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
     $.ajax({
         type: "POST",
         url: "/getCities",
@@ -217,7 +252,7 @@ $(document).on('change', '#state', function () {
                 });
             }
             else {
-                $('#city').html(response.data);
+                $('#city').html(response.data).select2();
             }
         },
         failure: function (response) {
@@ -230,6 +265,11 @@ $(document).on('change', '#state', function () {
         }
     });
 });
+$(document).on('change', '#city', function () {
+    if ($(this).val()) {
+        $(this).parent().next('.errTxt').find('.red-error').text('');
+    }
+});
 $("#profileForm").validate({
     errorClass: 'red-error',
     errorElement: 'div',
@@ -241,7 +281,7 @@ $("#profileForm").validate({
         },
         mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
         address: {required: true, rangelength: [10,200]},
-        country: {required: true},
+        // country: {required: true},
         state: {required: true},
         city: {required: true},
         pincode: { required: true, number: true}

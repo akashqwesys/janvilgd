@@ -68,7 +68,7 @@ class UserController extends Controller
                 'mobile' => ['regex:/^[0-9]{8,11}$/ix'],
                 'email' => ['regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'address' => ['required'],
-                'country' => ['required', 'integer', 'exists:country,country_id'],
+                'country' => ['required_with:mobile', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
                 'city' => ['required', 'integer', 'exists:city,city_id'],
                 'pincode' => ['required'],
@@ -117,11 +117,11 @@ class UserController extends Controller
             }
             if (empty(trim($customer->mobile))) {
                 $customer->mobile = $request->mobile;
+                $customer->refCountry_id = $request->country ?? $request->country_code;
             }
             // $customer->pincode = $request->pincode;
             $customer->refCity_id = $request->city;
             $customer->refState_id = $request->state;
-            $customer->refCountry_id = $request->country;
             $customer->date_updated = date('Y-m-d H:i:s');
             $customer->save();
 
