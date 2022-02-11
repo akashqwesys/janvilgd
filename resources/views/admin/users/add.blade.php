@@ -62,7 +62,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off">
+                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,11 +77,35 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" autocomplete="off">
+                                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" autocomplete="off" required>
                                                 @if($errors->has('email'))
                                                     <span class="text-danger">{{ $errors->first('email') }}</span>
                                                 @endif
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="password">Password:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-center">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label class="form-label float-md-right" for="confirm_password"> Confirm Password:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Enter confirm password" autocomplete="off" required>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +152,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-control" id="state_id" name="state_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="state_id" name="state_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select State ------</option>
                                                 </select>
                                             </div>
@@ -144,7 +168,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-control" id="city_id" name="city_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="city_id" name="city_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select City ------</option>
                                                 </select>
                                             </div>
@@ -211,15 +235,11 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="role_id" name="role_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="role_id" name="role_id"  >
                                                     <option value="">------ Select Role ------</option>
-                                                     @php if(!empty($data['user_role'])){
-                                                        foreach ($data['user_role'] as $row){
-                                                            @endphp
-                                                            <option value="{{ $row->user_role_id }}">{{ $row->name }}</option>
-                                                    @php
-                                                        }
-                                                    } @endphp
+                                                    @foreach ($data['user_role'] as $row)
+                                                    <option value="{{ $row->user_role_id }}">{{ $row->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -234,10 +254,10 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="user_type" name="user_type" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="user_type" name="user_type" required="" >
                                                     <option value="">------ Select Type ------</option>
-                                                   <option value="MASTER_ADMIN">MASTER ADMIN</option>
-                                                   <option value="USER">USER</option>
+                                                    <option value="MASTER_ADMIN">MASTER ADMIN</option>
+                                                    <option value="USER">USER</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -293,6 +313,9 @@
     });
 
     $(document).on('change', '#country_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
         $.ajax({
             type: "POST",
             url: "/getStates",
@@ -311,7 +334,7 @@
                     });
                 }
                 else {
-                    $('#refState_id').html(response.data);
+                    $('#state_id').html(response.data).select2();
                 }
             },
             failure: function (response) {
@@ -325,6 +348,9 @@
         });
     });
     $(document).on('change', '#state_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
         $.ajax({
             type: "POST",
             url: "/getCities",
@@ -343,7 +369,7 @@
                     });
                 }
                 else {
-                    $('#refCity_id').html(response.data);
+                    $('#city_id').html(response.data).select2();
                 }
             },
             failure: function (response) {
@@ -364,14 +390,14 @@
 
     $("#usersForm").validate({
         rules: {
+            name: { required:true},
+            email: { required:true, email: true},
             mobile: { number:true, rangelength: [10,11]},
             password: { required: true, rangelength: [6, 15] },
             confirm_password: { required: true, equalTo: "#password" },
-            pincode: { required: true, number: true},
-            office_no: { required: true, number:true, rangelength: [10,11]},
-            pan_gst_no: {required: true, minlength: 8},
-            office_address: {required: true, rangelength: [10,200]},
-            office_pincode: { required: true, number: true},
+            address: { required: true},
+            // role_id: { required: true},
+            user_type: { required: true},
         },
         messages: {
             name: {required: "Please enter your name"},
@@ -381,37 +407,28 @@
             },
             password: { required: "Please enter password" },
             confirm_password: { required: "Please enter confirm password", equalTo: 'Those password didn\'t match. Try again' },
-            // country_code: { required: "Please select country code" },
             mobile: {
-                // required: "Please enter your mobile number",
+                required: "Please enter your mobile number",
                 number: "Your contact number should only consist of numeric digits"
             },
             address: {required: "Please enter your address"},
-            country: {required: "Please select the country"},
-            state: {required: "Please select the state/province"},
-            city: {required: "Please enter the city name"},
-            pincode: {required: "Please enter the pincode"},
-            company_name: {required: "Please enter your company name"},
-            office_no: {required: "Please enter your company office number", number: "Your contact number should only consist of numeric digits"},
-            official_email: { required: "Please enter your company email address"},
-            pan_gst_no: {required: "Please enter your company VAT/TIN/GST/PAN/OTHER"},
-            office_address: {required: "Please enter your company address"},
-            office_country_id: {required: "Please select the country"},
-            office_state_id: {required: "Please select the state/province"},
-            office_city_id: {required: "Please enter the city name"},
-            office_pincode: {required: "Please enter the pincode"},
-            pan_gst_no_file: {required: "Please upload your business ID proof"},
         },
         submitHandler: function(form) {
             // do other things for a valid form
             // form.submit();
             var formData = new FormData(form);
-            if ($('#pan_gst_no_file')[0].files.length > 0) {
-                formData.append('pan_gst_no_file', $('#pan_gst_no_file')[0].files);
+            if ($('#id_proof_1')[0].files.length > 0) {
+                formData.append('id_proof_1', $('#id_proof_1')[0].files);
+            }
+            if ($('#id_proof_2')[0].files.length > 0) {
+                formData.append('id_proof_2', $('#id_proof_2')[0].files);
+            }
+            if ($('#profile_pic')[0].files.length > 0) {
+                formData.append('profile_pic', $('#profile_pic')[0].files);
             }
             $.ajax({
                 type: "POST",
-                url: "/admin/customers/save",
+                url: "/admin/users/save",
                 data: formData,
                 processData : false,
                 contentType : false,
@@ -428,7 +445,7 @@
                         });
                         $('.submit_btn').hide();
                         setTimeout(() => {
-                            location.href = '/admin/customers';
+                            location.href = '/admin/users';
                         }, 2000);
                     }
                     if(response.error) {

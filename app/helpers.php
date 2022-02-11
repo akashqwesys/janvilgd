@@ -39,8 +39,7 @@ function set_selected($desired_value, $new_value) {
 
 function set_cheked($desired_value, $new_value) {
     if ($desired_value == $new_value) {
-        $str = ' checked ';
-        return $str;
+        return ' checked ';
     } else {
         return '';
     }

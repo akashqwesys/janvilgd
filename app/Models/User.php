@@ -25,6 +25,7 @@ class User extends Authenticatable
         'id_proof_2',
         'profile_pic',
         'role_id',
+        'user_type',
         'username',
         'password',
         'added_by' ,

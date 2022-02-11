@@ -589,6 +589,12 @@
             $(this).siblings('.error').text('');
         }
     });
+    $(document).on('change', '#pan_gst_no_file', function () {
+        if ($(this).val()) {
+            $(this).parent().next('.errTxt').find('.red-error').text('');
+        }
+        $(this).next('label').text($(this)[0].files[0].name);
+    });
 
     $("#customerForm").validate({
         rules: {

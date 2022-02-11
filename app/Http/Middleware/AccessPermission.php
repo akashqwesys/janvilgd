@@ -21,7 +21,7 @@ class AccessPermission {
     public function handle(Request $request, Closure $next) {
         if (session()->get('user-type') != 'MASTER_ADMIN') {
 
-            $user_id = session()->get('loginId');
+            /* $user_id = session()->get('loginId');
             $user_role_id = DB::table('users')->select('role_id')->where('id', $user_id)->first();
             $user_roles = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id->role_id)->first();
 
@@ -44,6 +44,46 @@ class AccessPermission {
                     }
                 }
                 if($i==0){
+                    successOrErrorMessage("Access denied for this module", 'error');
+                    return redirect('access-denied');
+                }
+            } */
+
+            $user_role_id = session()->get('user-role');
+            $user_roles = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id)->first();
+
+            if (empty($user_roles)) {
+                if ($request->ajax()) {
+                    return response()->json(['error' => 'Access denied for this module'], 403);
+                }
+                successOrErrorMessage("Access denied for this module", 'error');
+                return redirect('access-denied');
+            }
+
+            $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            $slug = explode('/', substr($url, strpos($url, 'admin/') + 6));
+
+            $access_permission = json_decode($user_roles->access_permission);
+            $module = DB::table('modules')
+                ->select('module_id', 'name', 'icon', 'slug', 'parent_id', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'sort_order', 'menu_level')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->whereRaw("slug like '$slug[0]%'")
+                ->orderByRaw('menu_level, sort_order asc')
+                ->first();
+
+            if (empty($module)) {
+                if ($request->ajax()) {
+                    return response()->json(['error' => 'Access denied for this module'], 403);
+                }
+                successOrErrorMessage("Access denied for this module", 'error');
+                return redirect('access-denied');
+            } else {
+                if (!in_array($module->module_id, $access_permission)) {
+                    if ($request->ajax()) {
+                        return response()->json(['error' => 'Access denied for this module'], 403);
+                    }
                     successOrErrorMessage("Access denied for this module", 'error');
                     return redirect('access-denied');
                 }

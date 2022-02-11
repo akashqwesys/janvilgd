@@ -7,14 +7,14 @@
             <div class="nk-content-body">
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
-                                <h3 class="nk-block-title page-title" style="display: inline;">Edit User</h3>
+                        <h3 class="nk-block-title page-title" style="display: inline;">Edit User</h3>
                         <a style="float: right;" href="/admin/users" class="btn btn-icon btn-primary">&nbsp;&nbsp;Back To List<em class="icon ni ni-plus"></em></a>
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <form method="POST" action="{{route('users.update')}}" enctype="multipart/form-data">
+                            <form method="POST" action="{{route('users.update')}}" enctype="multipart/form-data" id="usersForm">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->id }}">
                                 <div class="row g-3 align-center">
@@ -39,8 +39,17 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="mobile" maxlength="10" minlength="10" id="mobile" placeholder="Enter mobile number" autocomplete="off" value="{{ $data['result']->mobile }}">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" id="country_code" name="country_code" data-search="on">
+                                                        @foreach ($data['country'] as $row)
+                                                        <option value="{{ $row->country_id }}" {{ set_selected(101, $row->country_id) }}>{{ '+' . $row->country_code . ' (' . $row->name . ')' }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter mobile number" autocomplete="off" required value="{{ $data['result']->mobile }}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -85,15 +94,11 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="country_id" name="country_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="country_id" name="country_id" required="" data-search="on" disabled>
                                                     <option value="">------ Select Country ------</option>
-                                                     <?php if(!empty($data['country'])){
-                                                        foreach ($data['country'] as $row){
-                                                            ?>
-                                                            <option value="{{ $row->country_id }}" {{ set_selected($row->country_id,$data['result']->country_id) }}>{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
+                                                    @foreach ($data['country'] as $row)
+                                                    <option value="{{ $row->country_id }}" {{ set_selected($row->country_id, $data['result']->country_id) }}>{{ $row->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -109,15 +114,8 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="state_id" name="state_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="state_id" name="state_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select State ------</option>
-                                                     <?php if(!empty($data['state'])){
-                                                        foreach ($data['state'] as $row){
-                                                            ?>
-                                                            <option value="{{ $row->state_id }}" {{ set_selected($row->state_id,$data['result']->state_id) }}>{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -132,15 +130,8 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="city_id" name="city_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="city_id" name="city_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select City ------</option>
-                                                     <?php if(!empty($data['city'])){
-                                                        foreach ($data['city'] as $row){
-                                                            ?>
-                                                            <option value="{{ $row->city_id }}" {{ set_selected($row->city_id,$data['result']->city_id) }}>{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -197,9 +188,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @php
-                                if($data['result']->role_id>=1){
-                                @endphp
+                                @if(session()->get('user-type') == 'MASTER_ADMIN')
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -209,27 +198,19 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="role_id" name="role_id" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="role_id" name="role_id"  >
                                                     <option value="">------ Select Role ------</option>
-                                                     <?php if(!empty($data['user_role'])){
-                                                        foreach ($data['user_role'] as $row){
-                                                            ?>
-                                                            <option value="{{ $row->user_role_id }}" {{ set_selected($row->user_role_id,$data['result']->role_id) }}>{{ $row->name }}</option>
-                                                    <?php
-                                                        }
-                                                    } ?>
+                                                    @foreach ($data['user_role'] as $row)
+                                                    <option value="{{ $row->user_role_id }}" {{ set_selected($row->user_role_id, $data['result']->role_id) }}>{{ $row->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @php
-                                }
-                                @endphp
-                                
-                                @php
-                                if($data['result']->user_type>!="MASTER_ADMIN"){
-                                @endphp                                
+                                {{-- @endif --}}
+
+                                {{-- @if($data['result']->user_type != "MASTER_ADMIN") --}}
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-2">
                                         <div class="form-group">
@@ -239,18 +220,16 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control" id="user_type" name="user_type" required="" tabindex="-1" aria-hidden="true" data-search="on">
+                                                <select class="form-control" id="user_type" name="user_type" required >
                                                     <option value="">------ Select Type ------</option>
-                                                   <option value="MASTER_ADMIN" {{ set_selected('MASTER_ADMIN',$data['result']->user_type) }}>MASTER ADMIN</option>
-                                                   <option value="USER" {{ set_selected('USER',$data['result']->user_type) }}>USER</option>
+                                                    <option value="MASTER_ADMIN" {{ set_selected('MASTER_ADMIN', $data['result']->user_type) }}>MASTER ADMIN</option>
+                                                    <option value="USER" {{ set_selected('USER', $data['result']->user_type) }}>USER</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @php
-                                }
-                                @endphp
+                                @endif
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-sm-12 col-md-2 offset-md-2">
@@ -267,4 +246,200 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function (xhr) {
+            $("#append_loader").show();
+        }
+    });
+    setTimeout(() => {
+        $('#country_code, #country_id, #state_id, #city_id').select2({});
+        $('#country_code').on('select2:open', function (e) {
+            setTimeout(() => {
+                $('#select2-country_code-results').parent().parent().css('width', '15vw');
+            }, 10);
+        });
+        $('#country_code').val(<?= $data['result']->country_id ?>).trigger('change');
+    }, 1000);
+    setTimeout(() => {
+       $('#state_id').val(<?= $data['result']->state_id ?>).trigger('change');
+    }, 1500);
+    setTimeout(() => {
+       $('#city_id').val(<?= $data['result']->city_id ?>).trigger('change');
+    }, 2000);
+    $(document).on('keydown keyup', 'input[aria-controls="select2-country_code-results"]', function() {
+        $('#select2-country_code-results').parent().parent().css('width', '15rem');
+    });
+
+    $(document).on('change', '#country_code', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+            $('#country_id').val($(this).val()).trigger('change').attr('disabled', true);
+        } else {
+            $('#country_id').val($(this).val()).trigger('change').attr('disabled', false);
+        }
+    });
+
+    $(document).on('change', '#country_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
+        $.ajax({
+            type: "POST",
+            url: "/getStates",
+            data: { 'id': $(this).val() },
+            // cache: false,
+            context: this,
+            dataType: 'JSON',
+            success: function (response) {
+                $('#append_loader').hide();
+                if (response.error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+                else {
+                    $('#state_id').html(response.data).select2();
+                }
+            },
+            failure: function (response) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Oops, something went wrong...!',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+        });
+    });
+    $(document).on('change', '#state_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
+        $.ajax({
+            type: "POST",
+            url: "/getCities",
+            data: { 'id': $(this).val() },
+            // cache: false,
+            context: this,
+            dataType: 'JSON',
+            success: function (response) {
+                $('#append_loader').hide();
+                if (response.error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+                else {
+                    $('#city_id').html(response.data).select2();
+                }
+            },
+            failure: function (response) {
+                $.toast({
+                    heading: 'Error',
+                    text: 'Oops, something went wrong...!',
+                    icon: 'error',
+                    position: 'top-right'
+                });
+            }
+        });
+    });
+    $(document).on('change', '#city_id', function () {
+        if ($(this).val()) {
+            $(this).siblings('.error').text('');
+        }
+    });
+
+    $("#usersForm").validate({
+        rules: {
+            name: { required:true},
+            email: { required:true, email: true},
+            mobile: { number:true, rangelength: [10,11]},
+            // password: { required: true, rangelength: [6, 15] },
+            // confirm_password: { required: true, equalTo: "#password" },
+            address: { required: true},
+            // role_id: { required: true},
+            user_type: { required: true},
+        },
+        messages: {
+            name: {required: "Please enter your name"},
+            email: {
+                required: "Please enter your email address",
+                email: "Your email address must be in the format of name@domain.com"
+            },
+            password: { required: "Please enter password" },
+            confirm_password: { required: "Please enter confirm password", equalTo: 'Those password didn\'t match. Try again' },
+            mobile: {
+                required: "Please enter your mobile number",
+                number: "Your contact number should only consist of numeric digits"
+            },
+            address: {required: "Please enter your address"},
+        },
+        submitHandler: function(form) {
+            // do other things for a valid form
+            // form.submit();
+            var formData = new FormData(form);
+            if ($('#id_proof_1')[0].files.length > 0) {
+                formData.append('id_proof_1', $('#id_proof_1')[0].files);
+            }
+            if ($('#id_proof_2')[0].files.length > 0) {
+                formData.append('id_proof_2', $('#id_proof_2')[0].files);
+            }
+            if ($('#profile_pic')[0].files.length > 0) {
+                formData.append('profile_pic', $('#profile_pic')[0].files);
+            }
+            $.ajax({
+                type: "POST",
+                url: "/admin/users/update",
+                data: formData,
+                processData : false,
+                contentType : false,
+                context: this,
+                dataType: 'JSON',
+                success: function(response) {
+                    $('#append_loader').hide();
+                    if (response.success == 1) {
+                        $.toast({
+                            heading: 'Success',
+                            text: response.message,
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                        $('.submit_btn').hide();
+                        setTimeout(() => {
+                            location.href = '/admin/users';
+                        }, 2000);
+                    }
+                    if(response.error) {
+                        $.toast({
+                            heading: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            position: 'top-right'
+                        });
+                    }
+                },
+                failure: function (response) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Oops, something went wrong...!',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                }
+            });
+        }
+    });
+</script>
 @endsection

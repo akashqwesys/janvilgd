@@ -51,56 +51,57 @@ class CategoriesController extends Controller
         return redirect('admin/categories');
     }
 
-    public function list(Request $request) {
+    public function list(Request $request)
+    {
         if ($request->ajax()) {
             $data = Categories::select('category_id', 'name', 'image', 'description', 'slug', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated','sort_order')->latest()->orderBy('sort_order','asc')->get();
             return Datatables::of($data)
-//                            ->addIndexColumn()
-                            ->addColumn('index','')
-                            ->editColumn('date_added', function ($row) {
-                                return date_formate($row->date_added);
-                            })
-                            ->editColumn('image', function ($row) {
-                                if($row->image==0){
-                                    return '';
-                                }else{
-                                    return '<img src="/storage/other_images/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
-                                }
-                            })
-                            ->editColumn('is_active', function ($row) {
-                                $active_inactive_button='';
-                                if($row->is_active==1){
-                                    $active_inactive_button='<span class="badge badge-success">Active</span>';
-                                }
-                                if($row->is_active==0){
-                                    $active_inactive_button='<span class="badge badge-danger">inActive</span>';
-                                }
-                                return $active_inactive_button;
-                            })
-                            ->editColumn('is_deleted', function ($row) {
-                                $delete_button='';
-                                if($row->is_deleted==1){
-                                    $delete_button='<span class="badge badge-danger">Deleted</span>';
-                                }
-                                return $delete_button;
-                            })
-                            ->addColumn('action', function ($row) {
+            //    ->addIndexColumn()
+            ->addColumn('index','')
+            ->editColumn('date_added', function ($row) {
+                return date_formate($row->date_added);
+            })
+            ->editColumn('image', function ($row) {
+                if($row->image==0){
+                    return '';
+                }else{
+                    return '<img src="/storage/other_images/'.$row->image.'" style="border-radius:10px;height:50px;width:50px;">';
+                }
+            })
+            ->editColumn('is_active', function ($row) {
+                $active_inactive_button='';
+                if($row->is_active==1){
+                    $active_inactive_button='<span class="badge badge-success">Active</span>';
+                }
+                if($row->is_active==0){
+                    $active_inactive_button='<span class="badge badge-danger">inActive</span>';
+                }
+                return $active_inactive_button;
+            })
+            ->editColumn('is_deleted', function ($row) {
+                $delete_button='';
+                if($row->is_deleted==1){
+                    $delete_button='<span class="badge badge-danger">Deleted</span>';
+                }
+                return $delete_button;
+            })
+            ->addColumn('action', function ($row) {
 
-                                 if($row->is_active==1){
-                                    $str='<em class="icon ni ni-cross"></em>';
-                                    $class="btn-danger";
-                                }
-                                if($row->is_active==0){
-                                    $str='<em class="icon ni ni-check-thick"></em>';
-                                    $class="btn-success";
-                                }
-                                $actionBtn = '<a href="/admin/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
-//                                        . '<button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> '
-//                                        . '<button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
-                                return $actionBtn;
-                            })
-                            ->escapeColumns([])
-                            ->make(true);
+                if($row->is_active==1){
+                    $str='<em class="icon ni ni-cross"></em>';
+                    $class="btn-danger";
+                }
+                if($row->is_active==0){
+                    $str='<em class="icon ni ni-check-thick"></em>';
+                    $class="btn-success";
+                }
+                $actionBtn = '<a href="/admin/categories/edit/' . $row->category_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a>';
+                //    . '<button class="btn btn-xs btn-danger delete_button" data-module="categories" data-id="' . $row->category_id . '" data-table="categories" data-wherefield="category_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> '
+                //    . '<button class="btn btn-xs '.$class.' active_inactive_button" data-id="' . $row->category_id . '" data-status="' . $row->is_active . '" data-table="categories" data-wherefield="category_id" data-module="categories">'.$str.'</button>';
+                return $actionBtn;
+            })
+            ->escapeColumns([])
+            ->make(true);
         }
     }
 
@@ -144,6 +145,7 @@ class CategoriesController extends Controller
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/categories');
     }
+
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
 
@@ -152,7 +154,7 @@ class CategoriesController extends Controller
                 'date_updated' => date("Y-m-d H:i:s")
             ]);
             activity($request,"deleted",$request['module'],$request['table_id']);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+        //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
@@ -165,6 +167,7 @@ class CategoriesController extends Controller
             return response()->json($data);
         }
     }
+
     public function status(Request $request) {
         if (isset($request['table_id'])) {
 
@@ -172,7 +175,7 @@ class CategoriesController extends Controller
                 'is_active' => $request['status'],
                 'date_updated' => date("Y-m-d H:i:s")
             ]);
-//            $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
+        //    $res = DB::table($request['table'])->where($request['wherefield'], $request['table_id'])->delete();
             if ($res) {
                 $data = array(
                     'suceess' => true
