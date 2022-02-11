@@ -50,7 +50,9 @@
                                         <div class="col-md-5 text-center">
                                         </div>
                                         <div class="col-md-5 text-right">
+                                            {{-- @if (session()->get('user-type') == 'MASTER_ADMIN') --}}
                                             <button class="btn btn-primary mr-2" id="clear-filters"> Clear Filters</button>
+                                            {{-- @endif --}}
                                             <a href="/admin/orders/create-invoice" class="btn btn-icon btn-primary mr-2">&nbsp;&nbsp; Create Invoice<em class="icon ni ni-plus"></em></a>
                                             <a href="{{route('orders.import_excel')}}" class="btn btn-icon btn-primary mr-2">&nbsp;&nbsp; Import Excel<em class="icon ni ni-plus"></em></a>
                                         </div>
@@ -108,10 +110,21 @@
                                                             <div class="col-md-8">
                                                                 <select id="orderStatus" class="form-control form-select" data-search="on" data-placeholder="--------- Select Order Status ---------">
                                                                     <option value="" disabled="" selected=""> --------- Select Order Status ---------</option>
+                                                                    @if (session()->get('user-type') != 'MASTER_ADMIN')
+                                                                    @foreach ($order_status as $o)
+                                                                    @if ($request->filter == $o->name)
+                                                                    <option value="{{ $o->name }}">{{ $o->name }}</option>
+                                                                    @endif
+                                                                    @endforeach
+                                                                    @if ($request->filter == $o->name)
+                                                                    <option value="OFFLINE">OFFLINE</option>
+                                                                    @endif
+                                                                    @else
                                                                     @foreach ($order_status as $o)
                                                                     <option value="{{ $o->name }}">{{ $o->name }}</option>
                                                                     @endforeach
                                                                     <option value="OFFLINE">OFFLINE</option>
+                                                                    @endif
                                                                 </select>
                                                             </div>
                                                         </div>

@@ -58,8 +58,8 @@ class AccessPermission {
                 if ($request->ajax()) {
                     return response()->json(['error' => 'Access denied for this module'], 403);
                 }
-                successOrErrorMessage("Access denied for this module", 'error');
-                return redirect('access-denied');
+                successOrErrorMessage("Access denied for this module", 'access-denied');
+                return redirect('admin/employee-dashboard');
             }
 
             $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -80,16 +80,16 @@ class AccessPermission {
                 if ($request->ajax()) {
                     return response()->json(['error' => 'Access denied for this module'], 403);
                 }
-                successOrErrorMessage("Access denied for this module", 'error');
-                return redirect('access-denied');
+                successOrErrorMessage("Access denied for this module", 'access-denied');
+                return redirect('admin/employee-dashboard');
             } else {
                 $common = array_intersect($module, $access_permission);
                 if (count($common) < 1) {
                     if ($request->ajax()) {
                         return response()->json(['error' => 'Access denied for this module'], 403);
                     }
-                    successOrErrorMessage("Access denied for this module", 'error');
-                    return redirect('access-denied');
+                    successOrErrorMessage("Access denied for this module", 'access-denied');
+                    return redirect('admin/employee-dashboard');
                 }
             }
         }

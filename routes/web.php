@@ -160,6 +160,7 @@ Route::get('truncate-orders', [CommonController::class, 'truncateOrders'])->midd
 
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
+Route::get('/employee-dashboard', [AdminDashboard::class, 'blank_dashboard'])->middleware(['isLoggedIn']);
 Route::get('/dashboard', [AdminDashboard::class, 'dashboard'])->middleware(['isLoggedIn', 'accessPermission']);
 Route::get('/dashboard/inventory', [AdminDashboard::class, 'inventory'])->middleware(['isLoggedIn', 'accessPermission']);
 Route::get('/dashboard/sales', [AdminDashboard::class, 'sales'])->middleware(['isLoggedIn', 'accessPermission']);

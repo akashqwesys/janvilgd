@@ -71,7 +71,11 @@ class CustomAuthController extends Controller {
                 $request->session()->put('user_fullname', $user->name);
 
                 $this->getLeftMenu($request);
-                return redirect('admin/dashboard/inventory');
+                if ($user->user_type == 'MASTER_ADMIN') {
+                    return redirect('admin/dashboard/inventory');
+                } else {
+                    return redirect('admin/employee-dashboard');
+                }
             } else {
                 return back()->with('fail', 'Password does not matched');
             }
@@ -165,6 +169,7 @@ class CustomAuthController extends Controller {
         $request->session()->put('categories', $categories);
     }
 }
+
 function find_parent_id($id, $array)
 {
     foreach ($array as $a) {

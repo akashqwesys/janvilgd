@@ -20,8 +20,16 @@
                                         <div class="form-control-wrap">
                                             <select class="form-control" id="is_approved" tabindex="-1" aria-hidden="true">
                                                 <option value="2" {{ $request['filter'] == '' ? 'selected' : '' }}>All</option>
+                                                @if (session()->get('user-type') != 'MASTER_ADMIN')
+                                                @if ($request->filter == 'approved')
+                                                <option value="1" {{ $request['filter'] == 'approved' ? 'selected' : '' }}>Verified</option>
+                                                @elseif ($request->filter == 'unapproved')
+                                                <option value="0" {{ $request['filter'] == 'unapproved' ? 'selected' : '' }}>Not Verified</option>
+                                                @endif
+                                                @else
                                                 <option value="1" {{ $request['filter'] == 'approved' ? 'selected' : '' }}>Verified</option>
                                                 <option value="0" {{ $request['filter'] == 'unapproved' ? 'selected' : '' }}>Not Verified</option>
+                                                @endif
                                             </select>
                                         </div>
                                     </div>

@@ -538,4 +538,10 @@ class DashboardController extends Controller {
         return view('admin.dashboard.sales', compact('data', 'request', 'total_paid', 'total_unpaid', 'analysis', 'analysis_p', 'final_customers'));
     }
 
+    public function blank_dashboard(Request $request)
+    {
+        $data['title'] = 'Employee Dashboard';
+        return view('admin.dashboard.blank_dash', compact('data', 'request'));
+    }
+
 }
