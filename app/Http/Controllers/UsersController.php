@@ -188,16 +188,35 @@ class UsersController extends Controller {
 
     public function edit($id) {
         $user_role = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->get();
+        $result = DB::table('users')->where('id', $id)->first();
         $country = DB::table('country')
-        ->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code', DB::raw("cast (country_code as integer) as cc"))
-        ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
-        ->where('is_active', 1)->where('is_deleted', 0)
-        ->orderBy('cc', 'asc')
-        ->get();
+            ->select('country_id', 'name', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated', 'country_code', DB::raw("cast (country_code as integer) as cc"))
+            ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('cc', 'asc')
+            ->get();
+
+        $state = DB::table('state')
+            ->select('state_id', 'name')
+            ->where('refCountry_id', $result->country_id)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $city = DB::table('city')
+            ->select('city_id', 'name')
+            ->where('refState_id', $result->state_id)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('name', 'asc')
+            ->get();
 
         $data['user_role'] = $user_role;
         $data['country'] = $country;
-        $result = DB::table('users')->where('id', $id)->first();
+        $data['state'] = $state;
+        $data['city'] = $city;
         $data['title'] = 'Edit-Users';
         $data['result'] = $result;
         return view('admin.users.edit', ["data" => $data]);

@@ -57,7 +57,7 @@
                                                 foreach ($access_permission as $access_row) {
                                                     echo set_cheked($row->module_id, $access_row);
                                                 } ?>>
-                                                <label for="mp_{{ $row->module_id }}">{{ $row->name . ' - ' . $row->p_name }}</label>
+                                                <label for="ap_{{ $row->module_id }}">{{ $row->name . ' - ' . $row->p_name }}</label>
                                             </div>
                                         </div>
                                     </div>

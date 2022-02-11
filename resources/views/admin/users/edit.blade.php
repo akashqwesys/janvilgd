@@ -116,6 +116,9 @@
                                             <div class="form-control-wrap">
                                                 <select class="form-control" id="state_id" name="state_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select State ------</option>
+                                                    @foreach ($data['state'] as $row)
+                                                    <option value="{{ $row->state_id }}" >{{ $row->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -132,6 +135,9 @@
                                             <div class="form-control-wrap">
                                                 <select class="form-control" id="city_id" name="city_id" tabindex="-1" aria-hidden="true" data-search="on">
                                                     <option value="">------ Select City ------</option>
+                                                    @foreach ($data['city'] as $row)
+                                                    <option value="{{ $row->city_id }}">{{ $row->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -257,6 +263,9 @@
             $("#append_loader").show();
         }
     });
+    $('#country_code').val(<?= $data['result']->country_id ?>).trigger('change');
+    $('#state_id').val(<?= $data['result']->state_id ?>).trigger('change');
+    $('#city_id').val(<?= $data['result']->city_id ?>).trigger('change');
     setTimeout(() => {
         $('#country_code, #country_id, #state_id, #city_id').select2({});
         $('#country_code').on('select2:open', function (e) {
@@ -264,14 +273,8 @@
                 $('#select2-country_code-results').parent().parent().css('width', '15vw');
             }, 10);
         });
-        $('#country_code').val(<?= $data['result']->country_id ?>).trigger('change');
     }, 1000);
-    setTimeout(() => {
-       $('#state_id').val(<?= $data['result']->state_id ?>).trigger('change');
-    }, 1500);
-    setTimeout(() => {
-       $('#city_id').val(<?= $data['result']->city_id ?>).trigger('change');
-    }, 2000);
+
     $(document).on('keydown keyup', 'input[aria-controls="select2-country_code-results"]', function() {
         $('#select2-country_code-results').parent().parent().css('width', '15rem');
     });
