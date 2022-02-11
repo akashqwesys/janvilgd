@@ -97,7 +97,7 @@
                                         @endphp --}}
                                         @foreach ($m1['sub'] as $m2)
                                             <li class="nk-menu-item">
-                                                @if ($m2['name'] == 'Orders')
+                                                {{-- @if ($m2['name'] == 'Orders')
                                                 <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">{{ $m2['name'] }}</span></a>
                                                 <ul class="nk-menu-sub">
                                                     <li class="nk-menu-item">
@@ -113,7 +113,7 @@
                                                         <a href="/admin/orders?filter=CANCELLED" class="nk-menu-link"><span class="nk-menu-text"> CANCELLED</span></a>
                                                     </li>
                                                 </ul>
-                                                @else
+                                                @else --}}
                                                     <a href="{{ $m2['slug'] ? '/admin/' . $m2['slug'] : '#' }}" class="nk-menu-link {{ isset($m2['sub']) ? 'nk-menu-toggle' : '' }}"><span class="nk-menu-text">{{ $m2['name'] }}</span></a>
                                                     @if (isset($m2['sub']))
                                                     <ul class="nk-menu-sub">
@@ -124,7 +124,7 @@
                                                         @endforeach
                                                     </ul>
                                                     @endif
-                                                @endif
+                                                {{-- @endif --}}
                                             </li>
                                             @endforeach
                                         </ul>

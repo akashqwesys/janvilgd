@@ -19,6 +19,7 @@ class AccessPermission {
      * @return mixed
      */
     public function handle(Request $request, Closure $next) {
+
         if (session()->get('user-type') != 'MASTER_ADMIN') {
 
             /* $user_id = session()->get('loginId');
@@ -49,8 +50,9 @@ class AccessPermission {
                 }
             } */
 
-            $user_role_id = session()->get('user-role');
-            $user_roles = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id)->first();
+            $user_id = session()->get('loginId');
+            $user_role_id =  DB::table('users')->select('role_id')->where('id', $user_id)->first();
+            $user_roles = DB::table('user_role')->select('user_role_id', 'name', 'access_permission', 'modify_permission', 'added_by', 'is_active', 'is_deleted', 'date_added', 'date_updated')->where('is_active', 1)->where('is_deleted', 0)->where('user_role_id', $user_role_id->role_id)->first();
 
             if (empty($user_roles)) {
                 if ($request->ajax()) {
@@ -71,16 +73,18 @@ class AccessPermission {
                 ->where('is_deleted', 0)
                 ->whereRaw("slug like '$slug[0]%'")
                 ->orderByRaw('menu_level, sort_order asc')
-                ->first();
+                ->pluck('module_id')
+                ->toArray();
 
-            if (empty($module)) {
+            if (count($module) < 1) {
                 if ($request->ajax()) {
                     return response()->json(['error' => 'Access denied for this module'], 403);
                 }
                 successOrErrorMessage("Access denied for this module", 'error');
                 return redirect('access-denied');
             } else {
-                if (!in_array($module->module_id, $access_permission)) {
+                $common = array_intersect($module, $access_permission);
+                if (count($common) < 1) {
                     if ($request->ajax()) {
                         return response()->json(['error' => 'Access denied for this module'], 403);
                     }
@@ -89,6 +93,7 @@ class AccessPermission {
                 }
             }
         }
+
         return $next($request);
     }
 }

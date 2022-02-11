@@ -14,6 +14,13 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
+                            <div id='append_loader' class="overlay">
+                                <div class='d-flex justify-content-center' style="padding-top: 30%;">
+                                    <div class='spinner-border text-success' role='status'>
+                                        <span class='sr-only'>Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
                             <form method="POST" action="{{route('users.update')}}" enctype="multipart/form-data" id="usersForm">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->id }}">
