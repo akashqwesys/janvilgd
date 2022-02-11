@@ -134,11 +134,11 @@
 	@yield('content')
 
 	<div class="live-chat">
-		<button class="live-chat-btn" onclick="openForm()">
-			<img src="/{{ check_host() }}assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid">
+		<button class="live-chat-btn" {{-- onclick="openForm()" --}} id="whatsapp-inquiry">
+			<img src="/assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid">
 		</button>
 
-		<div class="chat-popup" id="myForm">
+		{{-- <div class="chat-popup" id="myForm">
 			<div class="chat-header">
 				<a href="/"><img src="/{{ check_host() }}assets/images/logo.png" class="img-fluid" alt="logo"></a>
 				<button type="button" class="btn cancel" onclick="closeForm()"><img src="/{{ check_host() }}assets/images/close.svg" alt="close" class="img-fluid"></button>
@@ -153,7 +153,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> --}}
 
 		</div>
 
@@ -290,7 +290,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
@@ -349,31 +348,58 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
     }); */
   </script>
 <script>
-$(document).ready(function() {
-	AOS.init();
-	$('ul.dropdown-menu li .active').removeClass('active');
-	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+	$(document).on('click', '#whatsapp-inquiry', function() {
+		// https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id)
+		var curr_page = window.location.href;
+		if (curr_page.search('search-diamonds') !== -1) {
+			$.ajax({
+				type: "POST",
+				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url: "/customer/get-attributes-for-inquiry",
+				data: data,
+				success: function (res) {
+					if (res.success) {
+						window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent('Customer has shown interest in the diamonds of these attributes')+'"&phone=9876543210', '_blank');
+					} else {
+						$.toast({
+							heading: 'Error',
+							text: res.message,
+							icon: 'error',
+							position: 'top-right'
+						});
+					}
+				}
+			});
+		} else {
 
-	$(window).scroll(function(){
+		}
+		window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent(123)+'"&phone=9876543210', '_blank');
+	});
 
-		if($(window).scrollTop() >= 60) {
-			$(".zoom img").css({
-				'transition': 'width 1s',
-				'width': '8rem'
-        	});
-        }
-		if($(window).scrollTop() <= 50) {
-			$(".zoom img").css({
-				'transition': 'width 1s',
-            	'width': '11rem'
-        	});
-        }
+	$(document).ready(function() {
+		AOS.init();
+		$('ul.dropdown-menu li .active').removeClass('active');
+		$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
 
-    });
+		$(window).scroll(function(){
 
-});
-</script>
-<script type="text/javascript">
+			if($(window).scrollTop() >= 60) {
+				$(".zoom img").css({
+					'transition': 'width 1s',
+					'width': '8rem'
+				});
+			}
+			if($(window).scrollTop() <= 50) {
+				$(".zoom img").css({
+					'transition': 'width 1s',
+					'width': '11rem'
+				});
+			}
+
+		});
+
+	});
+
 	function addToCart (self) {
 		// var self = $(this);
 		var diamond_id = self.data('id');
@@ -405,9 +431,9 @@ $(document).ready(function() {
 			}
 		});
 	}
+
 	$(document).ready(function () {
 		$(document).on('click', '#click-whatsapp-link', function () {
-			//                staticBackdrop
 			var w_link=$("#watsapplink").val();
 			window.open(w_link, '_blank');
 			//                window.location.href = w_link;

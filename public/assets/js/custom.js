@@ -1,11 +1,11 @@
 	// live chate popup
-	function openForm() {
+	/* function openForm() {
 		document.getElementById("myForm").style.display = "block";
 	}
 
 	function closeForm() {
 		document.getElementById("myForm").style.display = "none";
-	}
+	} */
 $(document).ready(function () {
 
 	// header style 2 (with login)

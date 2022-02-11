@@ -103,6 +103,8 @@ Route::group( ['middleware' => ['auth']], function () {
     // Route::post('customer/save-filters', [HDiamond::class, 'searchListPt1']);
     // Route::post('customer/list-diamonds', [HDiamond::class, 'searchListPt2']);
 
+    Route::post('customer/get-attributes-for-inquiry', [HDiamond::class, 'attributesForInquiry']);
+
     // Cart
     Route::post('customer/add-to-cart', [HDiamond::class, 'addToCart'])->name('add-to-cart');
     Route::post('customer/add-all-to-cart', [HDiamond::class, 'addAllToCart'])->name('add-all-to-cart');
