@@ -88,7 +88,7 @@ class OrderController extends Controller {
     {
         $customer = Auth::user();
         $order = DB::table('orders as o')
-            ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.tax_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.total_paid_amount', 'o.created_at', 'o.additional_discount', 'o.tax_name', 'o.tax_amount', 'o.additional_discount')
+            ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.created_at', 'o.additional_discount', 'o.tax_name', 'o.tax_amount', 'o.additional_discount', 'o.order_status')
             ->where('o.refCustomer_id', $customer->customer_id)
             ->where('o.order_id', $order_id)
             ->first();
@@ -100,12 +100,13 @@ class OrderController extends Controller {
         $amount_words = $this->numberToWords($order->total_paid_amount);
         $tax_words = $this->numberToWords($tax);
         $pdf = PDF::loadView('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words'));
-        $path = public_path('pdf/');
         $fileName =  $order_id . '.' . 'pdf';
-        $pdf->save($path . '/' . $fileName);
-        $pdf = public_path('pdf/' . $fileName);
+        // $path = public_path('pdf/');
+        // $pdf->save($path . '/' . $fileName);
+        // $pdf = public_path('pdf/' . $fileName);
         // return view('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words'));
-        return response()->download($pdf);
+        // return response()->download($pdf);
+        return $pdf->download($fileName);
     }
 
     // Create a function for converting the amount in words

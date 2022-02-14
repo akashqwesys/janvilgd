@@ -128,6 +128,33 @@ class DiamondController extends Controller {
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="'.$src_img.'" class="image-shapes" alt="' . $v1['name'] . '" data-bs-toggle="tooltip" title="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
                             $file_arr[$k][] = intval($v1['attribute_id']);
+
+                            // BELOW CODE IS FOR STORING ATTR NAMES & SENDING WHATSAPP INQUIRY -- START
+                            if ($k == 18) {
+                                $av_name = 'SHAPE';
+                            } else if ($k == 16) {
+                                $av_name = 'CLARITY';
+                            } else if ($k == 17) {
+                                $av_name = 'COLOR';
+                            } else if ($k == 23) {
+                                $av_name = 'CULET SIZE';
+                            } else if ($k == 24) {
+                                $av_name = 'CUT';
+                            } else if ($k == 27) {
+                                $av_name = 'GRIDLE CONDITION';
+                            } else if ($k == 29) {
+                                $av_name = 'LAB';
+                            } else if ($k == 37) {
+                                $av_name = 'LOCATION';
+                            } else if ($k == 33) {
+                                $av_name = 'POLISH';
+                            } else if ($k == 34) {
+                                $av_name = 'SYMMETRY';
+                            }
+                            if (isset($av_name)) {
+                                $file_arr['whatsapp'][$av_name][] = $v1['name'];
+                            }
+                            // -- END
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
@@ -248,6 +275,33 @@ class DiamondController extends Controller {
                                 $i++;
                             }
                             $file_arr[$k][] = intval($v1['attribute_id']);
+
+                            // BELOW CODE IS FOR STORING ATTR NAMES & SENDING WHATSAPP INQUIRY -- START
+                            if ($k == 18) {
+                                $av_name = 'SHAPE';
+                            } else if ($k == 16) {
+                                $av_name = 'CLARITY';
+                            } else if ($k == 17) {
+                                $av_name = 'COLOR';
+                            } else if ($k == 23) {
+                                $av_name = 'CULET SIZE';
+                            } else if ($k == 24) {
+                                $av_name = 'CUT';
+                            } else if ($k == 27) {
+                                $av_name = 'GRIDLE CONDITION';
+                            } else if ($k == 29) {
+                                $av_name = 'LAB';
+                            } else if ($k == 37) {
+                                $av_name = 'LOCATION';
+                            } else if ($k == 33) {
+                                $av_name = 'POLISH';
+                            } else if ($k == 34) {
+                                $av_name = 'SYMMETRY';
+                            }
+                            if (isset($av_name)) {
+                                $file_arr['whatsapp'][$av_name][] = $v1['name'];
+                            }
+                            // -- END
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6">
@@ -425,6 +479,33 @@ class DiamondController extends Controller {
                                 $list .= '<li class="item"><a href="javascript:void(0);"><img src="' . $src_img . '" class="img-fluid d-block" alt="' . $v1['name'] . '" data-selected="0" data-attribute_id="' . $v1['attribute_id'] . '" data-name="' . $v1['name'] . '" data-group_id="' . $k . '"></a></li>';
                             }
                             $file_arr[$k][] = intval($v1['attribute_id']);
+
+                            // BELOW CODE IS FOR STORING ATTR NAMES & SENDING WHATSAPP INQUIRY -- START
+                            if ($k == 18) {
+                                $av_name = 'SHAPE';
+                            } else if ($k == 16) {
+                                $av_name = 'CLARITY';
+                            } else if ($k == 17) {
+                                $av_name = 'COLOR';
+                            } else if ($k == 23) {
+                                $av_name = 'CULET SIZE';
+                            } else if ($k == 24) {
+                                $av_name = 'CUT';
+                            } else if ($k == 27) {
+                                $av_name = 'GRIDLE CONDITION';
+                            } else if ($k == 29) {
+                                $av_name = 'LAB';
+                            } else if ($k == 37) {
+                                $av_name = 'LOCATION';
+                            } else if ($k == 33) {
+                                $av_name = 'POLISH';
+                            } else if ($k == 34) {
+                                $av_name = 'SYMMETRY';
+                            }
+                            if (isset($av_name)) {
+                                $file_arr['whatsapp'][$av_name][] = $v1['name'];
+                            }
+                            // -- END
                         }
                         if (count($v['attributes']) > 1) {
                             $html .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
@@ -454,6 +535,33 @@ class DiamondController extends Controller {
                                 $i++;
                             }
                             $file_arr[$k][] = intval($v1['attribute_id']);
+
+                            // BELOW CODE IS FOR STORING ATTR NAMES & SENDING WHATSAPP INQUIRY -- START
+                            if ($k == 18) {
+                                $av_name = 'SHAPE';
+                            } else if ($k == 16) {
+                                $av_name = 'CLARITY';
+                            } else if ($k == 17) {
+                                $av_name = 'COLOR';
+                            } else if ($k == 23) {
+                                $av_name = 'CULET SIZE';
+                            } else if ($k == 24) {
+                                $av_name = 'CUT';
+                            } else if ($k == 27) {
+                                $av_name = 'GRIDLE CONDITION';
+                            } else if ($k == 29) {
+                                $av_name = 'LAB';
+                            } else if ($k == 37) {
+                                $av_name = 'LOCATION';
+                            } else if ($k == 33) {
+                                $av_name = 'POLISH';
+                            } else if ($k == 34) {
+                                $av_name = 'SYMMETRY';
+                            }
+                            if (isset($av_name)) {
+                                $file_arr['whatsapp'][$av_name][] = $v1['name'];
+                            }
+                            // -- END
                         }
                         if (count($v['attributes']) > 1) {
                             $none_fix .= '<div class="col col-12 col-sm-12 col-lg-6 mb-2 filter-toggle">
@@ -771,6 +879,34 @@ class DiamondController extends Controller {
             if (is_array($response['params']['attribute_values']) && $response['params']['group_id'] != 'price' && $response['params']['group_id'] != 'carat') {
                 $response = collect($response['params']['attribute_values'])->pluck('attribute_id')->values()->all();
                 $arr[$request->params['group_id']] = $response;
+
+                // BELOW CODE IS FOR STORING ATTR NAMES & SENDING WHATSAPP INQUIRY -- START
+                if ($request->params['group_id'] == 18) {
+                    $av_name = 'SHAPE';
+                } else if ($request->params['group_id'] == 16) {
+                    $av_name = 'CLARITY';
+                } else if ($request->params['group_id'] == 17) {
+                    $av_name = 'COLOR';
+                } else if ($request->params['group_id'] == 23) {
+                    $av_name = 'CULET SIZE';
+                } else if ($request->params['group_id'] == 24) {
+                    $av_name = 'CUT';
+                } else if ($request->params['group_id'] == 27) {
+                    $av_name = 'GRIDLE CONDITION';
+                } else if ($request->params['group_id'] == 29) {
+                    $av_name = 'LAB';
+                } else if ($request->params['group_id'] == 37) {
+                    $av_name = 'LOCATION';
+                } else if ($request->params['group_id'] == 33) {
+                    $av_name = 'POLISH';
+                } else if ($request->params['group_id'] == 34) {
+                    $av_name = 'SYMMETRY';
+                }
+                if (isset($av_name)) {
+                    $arr['whatsapp'][$av_name] = collect($request['params']['attribute_values'])->pluck('name')->values()->all();
+                }
+                // -- END
+
             } else {
                 if ($response['params']['group_id'] == 'price') {
                     $arr['price_min'] = $response['params']['attribute_values'][0];
@@ -1528,6 +1664,47 @@ class DiamondController extends Controller {
         // DB::table($request->table)->truncate();
         // DB::table('diamonds')->truncate();
         // DB::table('diamonds_attributes')->truncate();
+    }
+
+    public function attributesForInquiry(Request $request)
+    {
+        $attr_array = json_decode($request->session()->get('diamond_filters_3'), true);
+
+        $url = 'Hey Janvi LGD!, I am interested in the polish diamonds of these attributes.' . '%0A';
+        $url .= 'PRICE - $' . $attr_array['price_min'] . ' to $' . $attr_array['price_max'] . '%0A';
+        $url .= 'CARAT - ' . $attr_array['carat_min'] . ' to ' . $attr_array['carat_max'] . '%0A';
+        if (isset($attr_array['whatsapp'])) {
+            foreach ($attr_array['whatsapp'] as $k => $v) {
+                if ($k == 'SHAPE') {
+                    $url .= 'SHAPE - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'COLOR') {
+                    $url .= 'COLOR - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'CUT') {
+                    $url .= 'CUT - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'CLARITY') {
+                    $url .= 'CLARITY - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'POLISH') {
+                    $url .= 'POLISH - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'SYMMETRY') {
+                    $url .= 'SYMMETRY - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'LAB') {
+                    $url .= 'LAB - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'CULET SIZE') {
+                    $url .= 'CULET SIZE - ' . implode(', ', $v) . '%0A';
+                }
+                if ($k == 'LOCATION') {
+                    $url .= 'LOCATION - ' . implode(', ', $v) . '%0A';
+                }
+            }
+        }
+        return response()->json(['success' => 1, 'url' => $url]);
     }
 
 }

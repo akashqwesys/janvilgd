@@ -50,9 +50,11 @@
                             <div class="col-6">
                                 <h4 class="text-primary" >Order #{{ $orders[0]->order_id }}</h4>
                             </div>
+                            @if ($orders[0]->order_status == 'PAID')
                             <div class="col-6 text-right">
                                 <button id="download-invoice" class="btn btn-primary" data-id="{{ $orders[0]->order_id }}">Download Invoice</button>
                             </div>
+                            @endif
                         </div>
                         <hr>
                         <div class="order-info">
@@ -222,6 +224,7 @@ $(document).on('click', '#download-invoice', function() {
         xhrFields: {
             responseType: 'blob'
         },
+        context: this,
         success: function(response) {
             $('.cs-loader').hide();
             var blob = new Blob([response]);
@@ -229,8 +232,9 @@ $(document).on('click', '#download-invoice', function() {
             var link = document.createElement('a');
 
             link.href = window.URL.createObjectURL(blob);
-
-            link.download = "Diamonds-data.pdf";
+            let current = new Date();
+            let cDate = current.getDate() + '_' + (current.getMonth() + 1) + '_' + current.getFullYear();
+            link.download = 'order_invoice_{{ $orders[0]->order_id }}_' + cDate + '.pdf';
 
             link.click();
         },

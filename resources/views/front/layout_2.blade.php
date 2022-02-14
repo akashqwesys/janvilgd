@@ -349,31 +349,35 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
   </script>
 <script>
 	$(document).on('click', '#whatsapp-inquiry', function() {
-		// https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id)
 		var curr_page = window.location.href;
 		if (curr_page.search('search-diamonds') !== -1) {
 			$.ajax({
+				beforeSend: function (params) {
+					$('#cs-loader-full').show();
+				},
 				type: "POST",
 				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				url: "/customer/get-attributes-for-inquiry",
-				data: data,
-				success: function (res) {
-					if (res.success) {
-						window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent('Customer has shown interest in the diamonds of these attributes')+'"&phone=9876543210', '_blank');
+				dataType: 'json',
+				success: function (response) {
+					if (response.success) {
+						var url = response.url.replaceAll('%0A', '\r\n');
+						window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(url)+'&phone=+919876543210', '_blank');
 					} else {
 						$.toast({
 							heading: 'Error',
-							text: res.message,
+							text: response.message,
 							icon: 'error',
 							position: 'top-right'
 						});
 					}
+					$('#cs-loader-full').hide();
 				}
 			});
 		} else {
 
 		}
-		window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent(123)+'"&phone=9876543210', '_blank');
+		// window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent(123)+'"&phone=9876543210', '_blank');
 	});
 
 	$(document).ready(function() {

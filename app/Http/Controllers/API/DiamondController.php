@@ -195,7 +195,7 @@ class DiamondController extends Controller
 
         $attr_to_send = [];
         foreach ($response['attr_array'] as $k => $v) {
-            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export'])) {
+            if (in_array($k, ['price_min', 'price_max', 'carat_min', 'carat_max', 'web', 'category', 'category_slug', 'gateway', 'offset', 'column', 'asc_desc', 'search_barcode', 'export', 'whatsapp'])) {
                 continue;
             }
             for ($i = 0; $i < count($v); $i++) {
