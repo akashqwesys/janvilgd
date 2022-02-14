@@ -92,19 +92,29 @@ class OrderController extends Controller {
             ->where('o.refCustomer_id', $customer->customer_id)
             ->where('o.order_id', $order_id)
             ->first();
-        $diamonds = DB::table('order_diamonds')
+        /* $diamonds = DB::table('order_diamonds')
             ->selectRaw('COUNT(order_diamond_id) as total_diamonds, SUM(expected_polish_cts) as total_carats')
             ->where('refOrder_id', $order->order_id)
-            ->first();
+            ->first(); */
+        $diamonds = DB::table('order_diamonds')
+            ->select('order_diamond_id', 'expected_polish_cts', 'refDiamond_id', 'barcode')
+            ->where('refOrder_id', $order->order_id)
+            ->get();
+        $total_diamonds = $total_carats = 0;
+        $barcodes = [];
+        foreach ($diamonds as $v) {
+            $total_carats += $v->expected_polish_cts;
+            $barcodes[] = $v->barcode;
+        }
         $tax = number_format(($order->sub_total - $order->discount_amount - ($order->additional_discount * $order->sub_total / 100)) * $order->tax_amount / 100, 2, '.', ',');
         $amount_words = $this->numberToWords($order->total_paid_amount);
         $tax_words = $this->numberToWords($tax);
-        $pdf = PDF::loadView('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words'));
+        $pdf = PDF::loadView('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words', 'barcodes', 'total_carats'));
         $fileName =  $order_id . '.' . 'pdf';
         // $path = public_path('pdf/');
         // $pdf->save($path . '/' . $fileName);
         // $pdf = public_path('pdf/' . $fileName);
-        // return view('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words'));
+        // return view('front.orders.invoice_pdf', compact('order', 'customer', 'diamonds', 'tax', 'amount_words', 'tax_words', 'barcodes', 'total_carats'));
         // return response()->download($pdf);
         return $pdf->download($fileName);
     }

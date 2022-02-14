@@ -362,7 +362,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				success: function (response) {
 					if (response.success) {
 						var url = response.url.replaceAll('%0A', '\r\n');
-						window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(url)+'&phone=+919876543210', '_blank');
+						window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(url)+'&phone=+919714405421', '_blank');
 					} else {
 						$.toast({
 							heading: 'Error',

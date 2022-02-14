@@ -183,7 +183,8 @@
                                 <td style="vertical-align: top;">1</td>
                                 <td>
                                     <h6>Cut & Polish Diamond</h6>
-                                    <p><i>Lab Grown Diamond (Pcs-{{ $diamonds->total_diamonds }})</i></p>
+                                    <p><i>Lab Grown Diamond (Pcs-{{ count($diamonds) }})</i></p>
+                                    <p>[{{ implode(', ', $barcodes) }}]</p>
 
                                     <p class="mt-4 mb-4 text-end"><strong><i>IGST</i></strong></p>
                                 </td>
@@ -191,7 +192,7 @@
                                     <p>---</p>
                                 </td>
                                 <td style="vertical-align: top;">
-                                    <p>{{ $diamonds->total_carats }} CTS</p>
+                                    <p>{{ $total_carats }} CTS</p>
                                 </td>
                                 <td style="vertical-align: top;">
                                     <p>50,290.36</p>
@@ -211,7 +212,7 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <h6>{{ $diamonds->total_carats }} CTS</h6>
+                                    <h6>{{ $total_carats }} CTS</h6>
                                 </td>
                                 <td></td>
                                 <td></td>
