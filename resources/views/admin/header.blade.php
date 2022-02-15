@@ -208,6 +208,7 @@
                             <div class="nk-footer-wrap">
                                 <div class="nk-footer-copyright"> &copy; 2021 Janvi LGD Pvt Ltd.
                                 </div>
+                                <button id="fbn">Enable Firebase Messaging</button>
                                 <div class="nk-footer-links">
                                     <ul class="nav nav-sm">
                                         <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
@@ -272,7 +273,81 @@
             $_SESSION['message'] = '';
         }
         ?>
+        {{-- <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js"></script> --}}
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+            import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyAPzNIRChBF70ycP9RMi0SYDquRWG1LTOw",
+                authDomain: "janvi-lgd.firebaseapp.com",
+                projectId: "janvi-lgd",
+                storageBucket: "janvi-lgd.appspot.com",
+                messagingSenderId: "152003953916",
+                appId: "1:152003953916:web:1b15b4d05e7e12c1070379",
+                measurementId: "G-L74PSGLSF4"
+            };
+
+            // Initialize Firebase
+            const firebaseApp = initializeApp(firebaseConfig);
+            const messaging = getMessaging(firebaseApp);
+            const analytics = getAnalytics(firebaseApp);
+
+            function initFirebaseMessagingRegistration() {
+                Notification.requestPermission();
+                getToken(messaging, {vapidKey: "BMHATKTzrOf7LF1PXuBfN3nb8LYeeErQwLBSDqfFEbxoiI__wcAYNk3I3xHh0cDhGa7wB32kohEJiYjbOP4O2Po"})
+                    .then(function(token) {
+                        console.log(token);
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            url: '/admin/save-device-token',
+                            type: 'POST',
+                            data: {
+                                token: token
+                            },
+                            dataType: 'JSON',
+                            success: function (response) {
+                                alert('Token saved successfully.');
+                            },
+                            error: function (err) {
+                                console.log('User Chat Token Error '+ err);
+                            },
+                        });
+
+                    }).catch(function (err) {
+                        console.log('User Chat Token Error '+ err);
+                    });
+            }
+
+            onMessage(messaging, function (payload) {
+                const noteTitle = payload.notification.title;
+                const noteOptions = {
+                    body: payload.notification.body,
+                    icon: payload.notification.icon,
+                };
+                new Notification(noteTitle, noteOptions);
+            });
+
+            $(document).on('click', '#fbn', function () {
+                initFirebaseMessagingRegistration();
+            });
+        </script>
         <script type="text/javascript">
+
             $(document).on('click', '#project-setup-link, #truncate-elastic-link, #truncate-diamonds-link, #truncate-orders-link', function() {
                 if (!confirm('Are you sure, you want to execute this command?')) {
                     return false;
@@ -296,12 +371,9 @@
                         type: "POST",
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url: "{{ route('rapaport.updatePrice') }}"
-                        // success: function (res) {
-                            // }
                         });
                         <?php session(['request_check' => 0]); ?>
                     }
-
 
                     if (<?php
                     if (!empty(session()->get('error'))) {

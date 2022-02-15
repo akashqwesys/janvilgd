@@ -160,6 +160,8 @@ Route::get('truncate-elastic', [CommonController::class, 'createElasticIndex'])-
 Route::get('truncate-diamonds', [CommonController::class, 'truncateDiamonds'])->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);
 Route::get('truncate-orders', [CommonController::class, 'truncateOrders'])->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);
 
+Route::post('/save-device-token', [UsersController::class, 'saveFirebaseToken']);
+
 Route::post('/login-user', [CustomAuthController::class, 'userLogin'])->name('login-user');
 Route::get('/login', [CustomAuthController::class, 'loginView'])->middleware('allreadyLoggedIn');
 Route::get('/employee-dashboard', [AdminDashboard::class, 'blank_dashboard'])->middleware(['isLoggedIn']);

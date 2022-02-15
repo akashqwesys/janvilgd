@@ -34,6 +34,7 @@ class User extends Authenticatable
         'last_login_type',
         'last_login_date_time',
         'date_added',
-        'date_updated'
+        'date_updated',
+        'device_token'
     ];
 }

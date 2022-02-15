@@ -347,4 +347,10 @@ class UsersController extends Controller {
         }
     }
 
+    public function saveFirebaseToken(Requeest $request)
+    {
+        DB::table('users')->where('id', $request->session()->get('loginId'))->update(['device_token' => $request->token]);
+        return response()->json(['Token saved successfully.']);
+    }
+
 }

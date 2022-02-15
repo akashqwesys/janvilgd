@@ -35,6 +35,7 @@ class CreateUsersTable extends Migration
             $table->dateTime('last_login_date_time');
             $table->dateTime('date_added')->nullable();
             $table->dateTime('date_updated')->nullable();
+            $table->string('device_token', 500)->nullable();
             $table->timestamps();
         });
     }
