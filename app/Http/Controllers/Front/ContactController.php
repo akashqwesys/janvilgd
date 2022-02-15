@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Mail\CommonEmail;
+use Illuminate\Support\Facades\Mail;
 use DB;
 use Session;
 use Carbon\Carbon;
