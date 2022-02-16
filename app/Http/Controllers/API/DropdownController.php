@@ -24,7 +24,7 @@ class DropdownController extends Controller
             ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
             ->get();
 
-        $state = DB::table('state as s')
+        /* $state = DB::table('state as s')
             ->join('country as c', 's.refCountry_id', '=', 'c.country_id')
             ->select('s.state_id', 's.name', 'c.country_id')
             ->where('s.is_active', 1)
@@ -37,7 +37,7 @@ class DropdownController extends Controller
             ->select('c.city_id', 'c.name', 's.state_id')
             ->where('c.is_active', 1)
             ->where('c.is_deleted', 0)
-            ->get();
+            ->get(); */
 
         $categories = DB::table('categories')
             ->select('category_id', 'name', 'slug')
@@ -49,8 +49,8 @@ class DropdownController extends Controller
         $data = [
             'diamond_categories' => $categories,
             'country' => $country,
-            'state' => $state,
-            'city' => $city
+            /* 'state' => $state,
+            'city' => $city */
         ];
 
         return $this->successResponse('Success', $data);
@@ -91,4 +91,23 @@ class DropdownController extends Controller
         }
         return response()->json(['success' => 1, 'data' => $data]);
     }
+
+    public function getStatesCitiesAPI(Request $request)
+    {
+        if ($request->status == 'states') {
+            $data = DB::table('state')
+                ->select('state_id', 'name')
+                ->where('refCountry_id', $request->id)
+                ->orderBy('name', 'asc')
+                ->get();
+        } else {
+            $data = DB::table('city')
+                ->select('city_id', 'name')
+                ->where('refState_id', $request->id)
+                ->orderBy('name', 'asc')
+                ->get();
+        }
+        return $this->successResponse('Success', $data);
+    }
+
 }

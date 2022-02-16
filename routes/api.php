@@ -34,6 +34,7 @@ Route::post('register', [AuthController::class, 'register']);
 
 // Dropdowns
 Route::post('dropdowns', [DropdownController::class, 'index']);
+Route::post('getStatesCities', [DropdownController::class, 'getStatesCitiesAPI']);
 
 Route::group(['middleware' => ['auth:customer-api']], function() {
     // Home
