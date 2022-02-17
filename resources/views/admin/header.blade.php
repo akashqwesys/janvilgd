@@ -273,14 +273,12 @@
             $_SESSION['message'] = '';
         }
         ?>
-        {{-- <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js"></script> --}}
+
         <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
             import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-messaging.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+            import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -300,40 +298,50 @@
             const firebaseApp = initializeApp(firebaseConfig);
             const messaging = getMessaging(firebaseApp);
             const analytics = getAnalytics(firebaseApp);
-
+            const serviceWorkerRegistration = await navigator.serviceWorker.register(
+                '/firebase-messaging-sw.js', {
+                    type: 'module'
+                });
+                // .then(reg => {
+                //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
+                // });
             function initFirebaseMessagingRegistration() {
                 Notification.requestPermission();
-                getToken(messaging, {vapidKey: "BMHATKTzrOf7LF1PXuBfN3nb8LYeeErQwLBSDqfFEbxoiI__wcAYNk3I3xHh0cDhGa7wB32kohEJiYjbOP4O2Po"})
-                    .then(function(token) {
-                        console.log(token);
+                getToken(messaging, {
+                    vapidKey: "BMHATKTzrOf7LF1PXuBfN3nb8LYeeErQwLBSDqfFEbxoiI__wcAYNk3I3xHh0cDhGa7wB32kohEJiYjbOP4O2Po",
+                    serviceWorkerRegistration: serviceWorkerRegistration
+                })
+                .then(function(token) {
+                    console.log(token);
 
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-
-                        $.ajax({
-                            url: '/admin/save-device-token',
-                            type: 'POST',
-                            data: {
-                                token: token
-                            },
-                            dataType: 'JSON',
-                            success: function (response) {
-                                alert('Token saved successfully.');
-                            },
-                            error: function (err) {
-                                console.log('User Chat Token Error '+ err);
-                            },
-                        });
-
-                    }).catch(function (err) {
-                        console.log('User Chat Token Error '+ err);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
                     });
+
+                    $.ajax({
+                        url: '/admin/save-device-token',
+                        type: 'POST',
+                        data: {
+                            token: token
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            alert('Token saved successfully.');
+                        },
+                        error: function (err) {
+                            console.log('User Chat Token Error '+ err);
+                        },
+                    });
+
+                }).catch(function (err) {
+                    console.log('User Chat Token Error '+ err);
+                });
             }
 
             onMessage(messaging, function (payload) {
+                console.log('Message received. ', payload);
                 const noteTitle = payload.notification.title;
                 const noteOptions = {
                     body: payload.notification.body,
@@ -344,6 +352,19 @@
 
             $(document).on('click', '#fbn', function () {
                 initFirebaseMessagingRegistration();
+                setTimeout(() => {
+                    $.ajax({
+                        url: '/test-noti',
+                        type: 'GET',
+                        dataType: 'JSON',
+                        success: function (response) {
+                            // alert('Token saved successfully.');
+                        },
+                        error: function (err) {
+                            // console.log('User Chat Token Error '+ err);
+                        },
+                    });
+                }, 1000);
             });
         </script>
         <script type="text/javascript">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\UserActivity;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -46,7 +47,7 @@ function set_cheked($desired_value, $new_value) {
 }
 
 function check_host() {
-    if (request()->getHost() == "127.0.0.1") {
+    if (request()->getHost() == "127.0.0.1" || request()->getHost() == 'localhost') {
         return '';
     } else {
         return 'public/';
@@ -291,8 +292,8 @@ function total_cart_item()
 function sendWebNotification($title, $body)
 {
     $url = 'https://fcm.googleapis.com/fcm/send';
-    // $FcmToken = User::select('device_token')->where('device_token')->pluck('device_token')->all();
-    $FcmToken = '';
+    $FcmToken = User::select('device_token')->where('id', session()->get('loginId'))->pluck('device_token')->all();
+    // $FcmToken = ['cZUXVT4kicjK_1iWeCMI4T:APA91bEsKK0SPS-aqbnK5r5LjvtknnQVTVxmccUcJ_Dfw9PHUTkYzV4INFz8mVNR3rTbKJeRUP-jifItWRm8yX7ZHzvVJQR1uGqw9cnlXyHxaXw4OHRM8FK8CTQn8kApew3E15NyVvP6'];
 
     $serverKey = 'AAAAI2QkRPw:APA91bGSXXmthSXP_1saral1ejlOGNAP4MCqAU8Lsib8L1L0rBjE0ubD7vpiq3B4UXK86lTfaTr8Ae4Mm_5uJSp-akeeV0777FgNsG8eZAtRdJI3lXrBJcQxjnn-CeziwYgO7ORFWYeI';
 
@@ -303,6 +304,13 @@ function sendWebNotification($title, $body)
             "body" => $body,
             "content_available" => true,
             "priority" => "high",
+            "sound" => "default",
+            "icon" => "/admin_assets/images/logo-small.png",
+            "click_action" => "http://localhost:8000",
+            /* "data" => [
+                "one" => "yes",
+                "two" => "yo"
+            ] */
         ]
     ];
     $encodedData = json_encode($data);
