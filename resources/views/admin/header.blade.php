@@ -440,7 +440,7 @@
 
 		    if (window.location.href.search('dashboard') !== -1)
 
-                const serviceWorkerRegistration = await navigator.serviceWorker.register(
+                const serviceWorkerRegistration = navigator.serviceWorker.register(
                     '/firebase-messaging-sw.js', {
                         type: 'module'
                     });
