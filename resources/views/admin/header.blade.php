@@ -437,16 +437,16 @@
             const firebaseApp = initializeApp(firebaseConfig);
             const messaging = getMessaging(firebaseApp);
             const analytics = getAnalytics(firebaseApp);
+            const serviceWorkerRegistration = await navigator.serviceWorker.register(
+                '/firebase-messaging-sw.js', {
+                    type: 'module'
+                });
+                // .then(reg => {
+                //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
+                // });
 
 		    if (window.location.href.search('dashboard') !== -1)
 
-                const serviceWorkerRegistration = navigator.serviceWorker.register(
-                    '/firebase-messaging-sw.js', {
-                        type: 'module'
-                    });
-                    // .then(reg => {
-                    //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
-                    // });
                 if (!('Notification' in window && navigator.serviceWorker)) {
                     $.toast({
                         heading: 'Error',
