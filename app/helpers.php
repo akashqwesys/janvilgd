@@ -289,10 +289,11 @@ function total_cart_item()
     return $total = DB::table('customer_cart')->select('id')->where('refCustomer_id', $customer->customer_id)->count();
 }
 
-function sendWebNotification($title, $body)
+function sendPushNotification($title, $body, $url = null)
 {
     $url = 'https://fcm.googleapis.com/fcm/send';
-    $FcmToken = User::select('device_token')->where('id', session()->get('loginId'))->pluck('device_token')->all();
+    $FcmToken = User::select('device_token')->where('user_type', 'MASTER_ADMIN')->pluck('device_token')->all();
+
     // $FcmToken = ['cZUXVT4kicjK_1iWeCMI4T:APA91bEsKK0SPS-aqbnK5r5LjvtknnQVTVxmccUcJ_Dfw9PHUTkYzV4INFz8mVNR3rTbKJeRUP-jifItWRm8yX7ZHzvVJQR1uGqw9cnlXyHxaXw4OHRM8FK8CTQn8kApew3E15NyVvP6'];
 
     $serverKey = 'AAAAI2QkRPw:APA91bGSXXmthSXP_1saral1ejlOGNAP4MCqAU8Lsib8L1L0rBjE0ubD7vpiq3B4UXK86lTfaTr8Ae4Mm_5uJSp-akeeV0777FgNsG8eZAtRdJI3lXrBJcQxjnn-CeziwYgO7ORFWYeI';
@@ -306,11 +307,10 @@ function sendWebNotification($title, $body)
             "priority" => "high",
             "sound" => "default",
             "icon" => "/admin_assets/images/logo-small.png",
-            "click_action" => "http://localhost:8000",
-            /* "data" => [
-                "one" => "yes",
-                "two" => "yo"
-            ] */
+            "click_action" => $url ?? url('/'),
+            "data" => [
+                "time" => date('d-m-Y H:i:s')
+            ]
         ]
     ];
     $encodedData = json_encode($data);
@@ -334,10 +334,10 @@ function sendWebNotification($title, $body)
     // Execute post
     $result = curl_exec($ch);
     if ($result === FALSE) {
-        die('Curl failed: ' . curl_error($ch));
+        // die('Curl failed: ' . curl_error($ch));
     }
     // Close connection
     curl_close($ch);
     // FCM response
-    dd($result);
+    // dd($result);
 }

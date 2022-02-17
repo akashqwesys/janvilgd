@@ -181,6 +181,7 @@ class CustomersController extends Controller {
                         'view' => 'emails.codeVerification_2'
                     ])
                 ); */
+            sendPushNotification('New Customer Added', 'New customer named "' . $request->name . '" was added by ' . session()->get('user_fullname'), url('/admin/customers?filter=unapproved'));
             activity($request, "inserted", 'customers', $customer->customer_id);
             // successOrErrorMessage("Data added Successfully", 'success');
             // return redirect('admin/customers');

@@ -44,7 +44,7 @@ const messaging = getMessaging(app);
     );
 }); */
 onBackgroundMessage(messaging, (payload) => {
-    console.log(payload);
+    // console.log(payload);
     // Customize notification here
     const notificationTitle = 'Hi there';
     const notificationOptions = {

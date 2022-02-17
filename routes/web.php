@@ -55,10 +55,7 @@ use App\Http\Controllers\Front\TestController;
 |
 */
 // Route::get('/', [CustomAuthController::class, 'home']);
-Route::get('/test-noti', [UsersController::class, 'testNoti']);
-Route::get('/test-query', [TestController::class, 'index']);
-// Route::get('/test-query/drop', [TestController::class, 'dropElasticIndex']);
-// Route::get('/test-query/create', [TestController::class, 'createElasticIndex']);
+// Route::get('/test-query', [TestController::class, 'index']);
 
 Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
@@ -155,6 +152,9 @@ Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
 /************************************  Master Admin Route *******************************/
 /*--------------------------------------------------------------------------------------*/
 Route::prefix('admin')->group(function () {
+// Test
+Route::get('test-noti/{title}/{body}', [UsersController::class, 'testNoti']);
+// Test
 
 Route::get('project-setup', [CommonController::class, 'projectSetup'])->name('project-setup')->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);
 Route::get('truncate-elastic', [CommonController::class, 'createElasticIndex'])->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);

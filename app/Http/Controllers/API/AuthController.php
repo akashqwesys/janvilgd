@@ -189,7 +189,7 @@ class AuthController extends Controller
                             'view' => 'emails.commonEmail'
                         ])
                     );
-
+                sendPushNotification('New Customer Registered', 'Customer named [' . $request->name . '] has registered with us from mobile application', url('/admin/customers?filter=unapproved'));
                 $all = $this->getUserData($customer);
                 return $this->successResponse('Congrats, you are now successfully registered', $all);
 

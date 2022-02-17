@@ -51,6 +51,110 @@
             z-index: 1111;
             display: none;
         }
+        .notification-dropdown {
+            display: none;
+        }
+        .notification-dropdown a {
+            padding: 9px;
+            border-radius: 50%;
+        }
+        .notification-box {
+            /* position: fixed; */
+            z-index: 99;
+            top: 30px;
+            right: 30px;
+            width: 15px;
+            height: 15px;
+            text-align: center;
+        }
+        .notification-bell {
+            animation: bell 1s 1s both infinite;
+        }
+        .notification-bell * {
+            display: block;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px #fff;
+        }
+        .bell-top {
+            width: 3px;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+        }
+        .bell-middle {
+            width: 10px;
+            height: 10px;
+            margin-top: 0px;
+            border-radius: 12.5px 12.5px 0 0;
+        }
+        .bell-bottom {
+            position: relative;
+            z-index: 0;
+            width: 12px;
+            height: 1px;
+        }
+        .bell-bottom::before,
+        .bell-bottom::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+        }
+        .bell-bottom::before {
+            left: 1px;
+            border-bottom: 4px solid #fff;
+            border-right: 0 solid transparent;
+            border-left: 4px solid transparent;
+        }
+        .bell-bottom::after {
+            right: 1px;
+            border-bottom: 4px solid #fff;
+            border-right: 4px solid transparent;
+            border-left: 0 solid transparent;
+        }
+        .bell-rad {
+            width: 3px;
+            height: 2px;
+            margin-top: 1px;
+            border-radius: 0 0 4px 4px;
+            animation: rad 1s 2s both infinite;
+        }
+        .notification-count {
+            position: absolute;
+            z-index: 1;
+            top: 7px;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            line-height: 30px;
+            font-size: 12px;
+            border-radius: 50%;
+            background-color: #ff4927;
+            color: #fff;
+            animation: zoom 1s 1s both infinite;
+        }
+        @keyframes bell {
+            0% { transform: rotate(0); }
+            10% { transform: rotate(30deg); }
+            20% { transform: rotate(0); }
+            80% { transform: rotate(0); }
+            90% { transform: rotate(-30deg); }
+            100% { transform: rotate(0); }
+        }
+        @keyframes rad {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(6px); }
+            20% { transform: translateX(0); }
+            80% { transform: translateX(0); }
+            90% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes zoom {
+            0% { opacity: 0; transform: scale(0); }
+            10% { opacity: 1; transform: scale(1); }
+            50% { opacity: 1; }
+            51% { opacity: 0; }
+            100% { opacity: 0; }
+        }
     </style>
     @yield('css')
 </head>
@@ -178,6 +282,42 @@
                                 </div><!-- .nk-header-brand -->
                                 <div class="nk-header-tools">
                                     <ul class="nk-quick-nav">
+                                        <li class="dropdown notification-dropdown">
+                                            <a href="#" class="dropdown-toggle bg-warning" data-toggle="dropdown">
+                                                {{-- <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div> --}}
+                                                <div class="notification-box">
+                                                    <span class="notification-count"></span>
+                                                    <div class="notification-bell">
+                                                    <span class="bell-top"></span>
+                                                    <span class="bell-middle"></span>
+                                                    <span class="bell-bottom"></span>
+                                                    <span class="bell-rad"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+                                                <div class="dropdown-head">
+                                                    <span class="sub-title nk-dropdown-title">Notification</span>
+                                                    <a href="#" class="push-noti-read">Mark as Read</a>
+                                                </div>
+                                                <div class="dropdown-body">
+                                                    <div class="nk-notification">
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text push-noti-text"></div>
+                                                                <div class="nk-notification-time push-noti-time"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-notification -->
+                                                </div><!-- .nk-dropdown-body -->
+                                                {{-- <div class="dropdown-foot center">
+                                                    <a href="#">View All</a>
+                                                </div> --}}
+                                            </div>
+                                        </li>
                                         <li class="dropdown user-dropdown">
                                             <a href="#" class="dropdown-toggle mr-n1" data-toggle="dropdown">
                                                 <div class="user-toggle">
@@ -208,7 +348,6 @@
                             <div class="nk-footer-wrap">
                                 <div class="nk-footer-copyright"> &copy; 2021 Janvi LGD Pvt Ltd.
                                 </div>
-                                <button id="fbn">Enable Firebase Messaging</button>
                                 <div class="nk-footer-links">
                                     <ul class="nav nav-sm">
                                         <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
@@ -273,7 +412,7 @@
             $_SESSION['message'] = '';
         }
         ?>
-
+        @if (session()->get('user-type') == 'MASTER_ADMIN')
         <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
@@ -298,50 +437,85 @@
             const firebaseApp = initializeApp(firebaseConfig);
             const messaging = getMessaging(firebaseApp);
             const analytics = getAnalytics(firebaseApp);
-            const serviceWorkerRegistration = await navigator.serviceWorker.register(
-                '/firebase-messaging-sw.js', {
-                    type: 'module'
-                });
-                // .then(reg => {
-                //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
-                // });
-            function initFirebaseMessagingRegistration() {
-                Notification.requestPermission();
-                getToken(messaging, {
-                    vapidKey: "BMHATKTzrOf7LF1PXuBfN3nb8LYeeErQwLBSDqfFEbxoiI__wcAYNk3I3xHh0cDhGa7wB32kohEJiYjbOP4O2Po",
-                    serviceWorkerRegistration: serviceWorkerRegistration
-                })
-                .then(function(token) {
-                    console.log(token);
 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    if (window.location.href.search('dashboard') !== -1)
+
+                const serviceWorkerRegistration = await navigator.serviceWorker.register(
+                    '/firebase-messaging-sw.js', {
+                        type: 'module'
+                    });
+                    // .then(reg => {
+                    //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
+                    // });
+                if (!('Notification' in window && navigator.serviceWorker)) {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Desktop Notification is not supported in this browser',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                } else {
+                    (async () => {
+                        function initFirebaseMessagingRegistration() {
+                            getToken(messaging, {
+                                vapidKey: "BMHATKTzrOf7LF1PXuBfN3nb8LYeeErQwLBSDqfFEbxoiI__wcAYNk3I3xHh0cDhGa7wB32kohEJiYjbOP4O2Po",
+                                serviceWorkerRegistration: serviceWorkerRegistration
+                            })
+                            .then(function(token) {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+
+                                $.ajax({
+                                    url: '/admin/save-device-token',
+                                    type: 'POST',
+                                    data: {
+                                        token: token
+                                    },
+                                    dataType: 'JSON',
+                                    success: function (response) {
+                                        // console.log('Token saved successfully.');
+                                    },
+                                    error: function (err) {
+                                        console.log('User Chat Token Error '+ err);
+                                    },
+                                });
+
+                            }).catch(function (err) {
+                                console.log('User Chat Token Error '+ err);
+                            });
                         }
-                    });
 
-                    $.ajax({
-                        url: '/admin/save-device-token',
-                        type: 'POST',
-                        data: {
-                            token: token
-                        },
-                        dataType: 'JSON',
-                        success: function (response) {
-                            alert('Token saved successfully.');
-                        },
-                        error: function (err) {
-                            console.log('User Chat Token Error '+ err);
-                        },
-                    });
+                        let granted = false;
+                        if (Notification.permission === "granted") {
+                            granted = true;
+                        } else if (Notification.permission !== "denied") {
+                            let noti_permission = await Notification.requestPermission();
+                            granted = noti_permission === 'granted' ? true : false;
+                        }
+                        if (granted) {
+                            initFirebaseMessagingRegistration();
+                        } else {
+                            $.toast({
+                                heading: 'Information',
+                                text: 'Please give access to show notifications',
+                                icon: 'info',
+                                position: 'top-right'
+                            });
+                        }
 
-                }).catch(function (err) {
-                    console.log('User Chat Token Error '+ err);
-                });
+                    })();
+                }
+
             }
 
             onMessage(messaging, function (payload) {
-                console.log('Message received. ', payload);
+                // console.log('Message received. ', payload);
+                $('.push-noti-text').text(payload.notification.body);
+                $('.push-noti-time').text(JSON.parse(payload.data['gcm.notification.data']).time);
+                $('.notification-dropdown').slideDown();
                 const noteTitle = payload.notification.title;
                 const noteOptions = {
                     body: payload.notification.body,
@@ -350,23 +524,22 @@
                 new Notification(noteTitle, noteOptions);
             });
 
-            $(document).on('click', '#fbn', function () {
-                initFirebaseMessagingRegistration();
+            $(document).on('click', '.push-noti-read', function () {
+                $('.push-noti-text, .push-noti-time').text('');
+                $('.notification-dropdown').slideUp();
+            });
+
+            /* $(document).ready( (event) => {
                 setTimeout(() => {
                     $.ajax({
-                        url: '/test-noti',
+                        url: '/admin/test-noti/Hello/How are you',
                         type: 'GET',
                         dataType: 'JSON',
-                        success: function (response) {
-                            // alert('Token saved successfully.');
-                        },
-                        error: function (err) {
-                            // console.log('User Chat Token Error '+ err);
-                        },
                     });
                 }, 1000);
-            });
+            }); */
         </script>
+        @endif
         <script type="text/javascript">
 
             $(document).on('click', '#project-setup-link, #truncate-elastic-link, #truncate-diamonds-link, #truncate-orders-link', function() {

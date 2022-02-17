@@ -376,6 +376,8 @@ class OrderController extends Controller
 
             DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
 
+            sendPushNotification('New Order Placed', $customer->name . ' has placed an order [#'. $order->order_id .'] for ' . count($d_ids) . ' diamonds', url('/admin/customers?filter=unapproved'));
+
             return $this->successResponse('Order placed successfully');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());

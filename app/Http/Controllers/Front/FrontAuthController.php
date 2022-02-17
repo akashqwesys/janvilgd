@@ -209,7 +209,7 @@ class FrontAuthController extends Controller
                                 'view' => 'emails.commonEmail'
                             ])
                         );
-
+                    sendPushNotification('New Customer Registered', 'Customer named ['.$request->name.'] has registered with us from website', url('/admin/customers?filter=unapproved'));
                     return response()->json(['success' => 1, 'message' => '<div class="alert alert-success"> <b> <div class="text-center">Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.</div> </b> </div> <div class="mt-4 text-center"><a href="/" class="btn btn-primary">Back to Home</a></div>']);
                 }
             } catch (\Exception $e) {

@@ -109,6 +109,7 @@ class UsersController extends Controller {
 
         $user->save();
 
+        sendPushNotification('New Employee Added', 'New employee named "'. $request->name .'" was added by ' . session()->get('user_fullname'), url('/admin/users'));
         activity($request, "inserted", 'users', $user->id);
         /* $admin_email = DB::table('settings')
             ->select('value')
@@ -353,9 +354,9 @@ class UsersController extends Controller {
         return response()->json(['Token saved successfully.']);
     }
 
-    public function testNoti()
+    public function testNoti($title, $body)
     {
-        sendWebNotification('Hi', 'Body 123');
+        sendPushNotification($title, $body);
     }
 
 }

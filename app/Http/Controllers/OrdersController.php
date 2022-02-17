@@ -584,6 +584,7 @@ class OrdersController extends Controller
             ]);
             // $Id = DB::getPdo()->lastInsertId();
             activity($request, "updated", 'orders', $request->id);
+            sendPushNotification('Invoice Status Updated', session()->get('user_fullname' . ' has updated status of order ID #' . $request->id . ' from ' . $exists->order_status_name . ' to '. $request->order_status_name), url('/admin/orders?filter=' . $request->order_status_name));
             successOrErrorMessage("Data updated Successfully", 'success');
         }
         return redirect('admin/orders/view/' . $request->id);
@@ -1270,6 +1271,8 @@ class OrdersController extends Controller
         DB::table('order_diamonds')->insert($od);
 
         DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
+
+        sendPushNotification('New Invoice Created', session()->get('user_fullname' . ' has created an invoice with order ID #' . $order->order_id ), url('/admin/orders?filter=UNPAID'));
         activity($request, "inserted", 'orders', $order->order_id);
 
         return response()->json(['success' => 1, 'message' => 'Order added successfully']);
@@ -1792,7 +1795,9 @@ class OrdersController extends Controller
         DB::table('order_diamonds')->insert($od);
 
         DB::table('customer_cart')->where('refCustomer_id', $customer->customer_id)->delete();
-        activity($request, "inserted", 'orders', $order->order_id);
+
+        sendPushNotification('Invoice Updated', session()->get('user_fullname' . ' has updated an invoice with order ID #' . $order->order_id), url('/admin/orders?filter=UNPAID'));
+        activity($request, "updated", 'orders', $order->order_id);
 
         return response()->json(['success' => 1, 'message' => 'Order updated successfully']);
     }
