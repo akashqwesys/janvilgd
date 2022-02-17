@@ -445,7 +445,7 @@
                 //     console.log(`Service Worker Registration (Scope: ${reg.scope})`);
                 // });
 
-		    if (window.location.href.search('dashboard') !== -1)
+		    if (window.location.href.search('dashboard') !== -1) {
 
                 if (!('Notification' in window && navigator.serviceWorker)) {
                     $.toast({
