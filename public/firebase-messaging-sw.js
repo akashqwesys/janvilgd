@@ -26,24 +26,7 @@ const app = initializeApp(firebaseConfig);
 
 const messaging = getMessaging(app);
 
-/* messaging.setBackgroundMessageHandler(function (payload) {
-    // console.log(
-    //     "[firebase-messaging-sw.js] Received background message ",
-    //     payload,
-    // );
-    // Customize notification here
-    const notificationTitle = "Background Message Title";
-    const notificationOptions = {
-        body: "Background Message body.",
-        icon: "/admin_assets/images/logo-small.png",
-    };
-
-    return self.registration.showNotification(
-        notificationTitle,
-        notificationOptions,
-    );
-}); */
-onBackgroundMessage(messaging, (payload) => {
+/* onBackgroundMessage(messaging, (payload) => {
     // console.log(payload);
     // Customize notification here
     const notificationTitle = 'Hi there';
@@ -53,4 +36,4 @@ onBackgroundMessage(messaging, (payload) => {
     };
 
     return self.registration.showNotification(notificationTitle, notificationOptions);
-});
+}); */

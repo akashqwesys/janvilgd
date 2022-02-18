@@ -298,7 +298,7 @@
                                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                                                 <div class="dropdown-head">
                                                     <span class="sub-title nk-dropdown-title">Notification</span>
-                                                    <a href="#" class="push-noti-read">Mark as Read</a>
+                                                    <a href="javascript:void(0);" class="push-noti-read">Mark as Read</a>
                                                 </div>
                                                 <div class="dropdown-body">
                                                     <div class="nk-notification">
