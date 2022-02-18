@@ -614,6 +614,7 @@ class DiamondController extends Controller
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->where('is_recommended', 1)
+            ->where('available_pcs', '<>', 0)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
             ->get();
@@ -1031,7 +1032,7 @@ class DiamondController extends Controller
                 DB::table('recently_view_diamonds')->insert($recent);
             }
         } else {
-            return $this->errorResponse('No such diamond found');
+            return $this->errorResponse('No such diamond found', 404);
         }
         customer_activity('viewed', $user->name . ' has seen a diamond (' . $barcode . ')', '/customer/single-diamonds/' . $barcode);
 

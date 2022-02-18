@@ -23,7 +23,9 @@ class InformativePagesController extends Controller {
     }
 
     public function save(Request $request) {
+        $last_id = DB::table('informative_pages')->select('informative_page_id')->orderBy('informative_page_id', 'desc')->pluck('informative_page_id')->first();
         $data_array=[
+            'informative_page_id' => $last_id + 1,
             'name' => $request->name,
             'content' => clean_html($request->content),
             'slug' => clean_string($request->slug),
@@ -39,9 +41,9 @@ class InformativePagesController extends Controller {
         }
 
         DB::table('informative_pages')->insert($data_array);
-        $Id = DB::getPdo()->lastInsertId();
+        // $Id = DB::getPdo()->lastInsertId();
 
-        activity($request,"inserted",'informative-pages',$Id);
+        activity($request,"inserted",'informative-pages', $last_id + 1);
         successOrErrorMessage("Data added Successfully", 'success');
         return redirect('admin/informative-pages');
     }
@@ -93,7 +95,8 @@ class InformativePagesController extends Controller {
         } */
         $data['title'] = 'Edit-Informative-Pages';
         $data['result'] = $result;
-        return view('admin.informativePages.edit2', ["data" => $data]);
+        // return view('admin.informativePages.edit2', ["data" => $data]);
+        return view('admin.informativePages.edit', ["data" => $data]);
     }
 
     public function update(Request $request) {

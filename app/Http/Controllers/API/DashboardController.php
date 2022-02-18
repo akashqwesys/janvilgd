@@ -61,6 +61,7 @@ class DashboardController extends Controller
             ->where('is_active', 1)
             ->where('is_deleted', 0)
             ->where('is_recommended', 1)
+            ->where('available_pcs', '<>', 0)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
             ->get();
