@@ -294,8 +294,6 @@ function sendPushNotification($title, $body, $url = null)
     $url = 'https://fcm.googleapis.com/fcm/send';
     $FcmToken = User::select('device_token')->where('user_type', 'MASTER_ADMIN')->pluck('device_token')->all();
 
-    // $FcmToken = ['cZUXVT4kicjK_1iWeCMI4T:APA91bEsKK0SPS-aqbnK5r5LjvtknnQVTVxmccUcJ_Dfw9PHUTkYzV4INFz8mVNR3rTbKJeRUP-jifItWRm8yX7ZHzvVJQR1uGqw9cnlXyHxaXw4OHRM8FK8CTQn8kApew3E15NyVvP6'];
-
     $serverKey = 'AAAAI2QkRPw:APA91bGSXXmthSXP_1saral1ejlOGNAP4MCqAU8Lsib8L1L0rBjE0ubD7vpiq3B4UXK86lTfaTr8Ae4Mm_5uJSp-akeeV0777FgNsG8eZAtRdJI3lXrBJcQxjnn-CeziwYgO7ORFWYeI';
 
     $data = [

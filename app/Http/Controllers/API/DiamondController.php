@@ -502,479 +502,6 @@ class DiamondController extends Controller
         ]);
     } */
 
-    public function detailshDiamondsOld($barcode)
-    {
-        $response_array=array();
-        $diamonds = DB::table('diamonds as d')
-            ->leftJoin('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
-            ->leftJoin('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-            ->leftJoin('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('d.diamond_id','d.total','d.name as diamond_name','d.barcode','d.rapaport_price','d.expected_polish_cts as carat','d.image', 'd.video_link', 'd.total as price','a.attribute_id', 'a.attribute_group_id', 'a.name', 'ag.name as ag_name', 'd.refCategory_id', 'd.available_pcs', 'da.value', 'a.sort_order', 'ag.is_fix')
-            ->where('d.barcode', $barcode)
-            // ->orderBy('a.attribute_group_id')
-            ->orderBy('ag.is_fix', 'desc')
-            ->orderBy('a.sort_order')
-            ->get();
-
-        if(!empty($diamonds) && isset($diamonds[0])){
-
-            $diamonds[0]->image = json_decode($diamonds[0]->image);
-            /* $a = [];
-            foreach ($diamonds[0]->image as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
-            }
-            $diamonds[0]->image = $a; */
-
-            $response_array['diamond_id'] = $diamonds[0]->diamond_id;
-            $response_array['total'] = $diamonds[0]->total;
-            $response_array['diamond_name'] = $diamonds[0]->diamond_name;
-            $response_array['barcode'] = $diamonds[0]->barcode;
-            $response_array['rapaport_price'] = $diamonds[0]->rapaport_price;
-            $response_array['carat'] = $diamonds[0]->carat;
-            $response_array['image'] = $diamonds[0]->image;
-            $response_array['video_link'] = $diamonds[0]->video_link;
-            $response_array['price'] = $diamonds[0]->price;
-            $response_array['attribute_id'] = $diamonds[0]->attribute_id;
-            $response_array['attribute_group_id'] = $diamonds[0]->attribute_group_id;
-            $response_array['name'] = $diamonds[0]->name;
-            $response_array['ag_name'] = $diamonds[0]->ag_name;
-            $response_array['refCategory_id'] = $diamonds[0]->refCategory_id;
-            $response_array['available_pcs'] = $diamonds[0]->available_pcs;
-            // $response_array['data']=$diamonds[0];
-
-            $response_array['attribute'] = [];
-            foreach ($diamonds as $value){
-                $newArray = array();
-                $newArray['ag_name'] = $value->ag_name;
-                $newArray['at_name'] = empty(trim($value->name)) ? $value->value : $value->name ;
-                $newArray['attribute_id'] = $value->attribute_id;
-                $newArray['sort_order'] = $value->sort_order;
-                $newArray['is_fix'] = $value->is_fix;
-                array_push($response_array['attribute'], $newArray);
-            }
-        }
-        if (!count($response_array)) {
-            return $this->errorResponse('No such diamond found');
-        }
-        else {
-            $recent=array();
-            $recent['refCustomer_id'] = Auth::id();
-            $recent['refDiamond_id'] =  $diamonds[0]->diamond_id;
-            $recent['barcode'] =  $diamonds[0]->barcode;
-            $recent['updated_at'] = date("Y-m-d H:i:s");
-            $recent['price'] = $response_array['price'];
-            $recent['carat'] = $response_array['carat'];
-            $recent['refAttribute_group_id'] = 0;
-            $recent['refAttribute_id'] = 0;
-
-            $shape = '-';
-            $cut = '-';
-            $color = '-';
-            $clarity = '-';
-            if(!empty($response_array['attribute'])){
-                foreach($response_array['attribute'] as $row){
-                    if($row['ag_name'] == "SHAPE"){
-                        $shape = $row['at_name'];
-                    }
-                    if($row['ag_name'] == "CUT"){
-                        $cut = $row['at_name'];
-                    }
-                    if($row['ag_name'] == "COLOR"){
-                        $color = $row['at_name'];
-                    }
-                    if($row['ag_name'] == "CLARITY"){
-                        $clarity = $row['at_name'];
-                    }
-                }
-            }
-            $recent['shape'] = $shape;
-            $recent['cut'] = $cut;
-            $recent['color'] = $color;
-            $recent['clarity'] = $clarity;
-
-            $exists = DB::table('recently_view_diamonds')
-                ->select('id')
-                ->where('refCustomer_id', $recent['refCustomer_id'])
-                ->where('refDiamond_id', $recent['refDiamond_id'])
-                ->first();
-            if ($exists) {
-                DB::table('recently_view_diamonds')
-                ->where('refCustomer_id', $recent['refCustomer_id'])
-                ->where('refDiamond_id', $recent['refDiamond_id'])
-                ->update([
-                    'updated_at' => $recent['updated_at']
-                ]);
-            } else {
-                DB::table('recently_view_diamonds')->insert($recent);
-            }
-        }
-
-        $recommended = DB::table('diamonds')
-            ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->where('is_recommended', 1)
-            ->where('available_pcs', '<>', 0)
-            ->orderBy('diamond_id', 'desc')
-            ->limit(5)
-            ->get();
-        foreach ($recommended as $v) {
-            $v->image = json_decode($v->image);
-            // $a = [];
-            // foreach ($v->image as $v1) {
-            //     $a[] = '/storage/other_images/' . $v1;
-            // }
-            // $v->image = $a;
-        }
-
-        $similar_ids = collect($response_array['attribute'])
-            ->whereIn('ag_name', ['COLOR', 'CUT', 'CLARITY', 'SHAPE'])
-            ->pluck('attribute_id')
-            ->all();
-        $raw_attr = null;
-        if (count($similar_ids)) {
-            $attr_to_send = [];
-            foreach ($similar_ids as $v) {
-                $raw_attr .= '"da"."refAttribute_id" = ' . $v . ' or ';
-                $attr_to_send['must'][] = [
-                    'nested' => [
-                        'query' => [
-                            'term' => [
-                                'attributes_id.attribute_id' => $v
-                            ]
-                        ],
-                        'path' => 'attributes_id'
-                    ]
-                ];
-            }
-            $all_conditions = [
-                [
-                    'bool' => $attr_to_send
-                ], [
-                    'bool' => [
-                        'must' => [
-                            ['term' => ['refCategory_id' => ['value' => $diamonds[0]->refCategory_id]]],
-                            [
-                                'range' => [
-                                    'expected_polish_cts' => [
-                                        'from' => floatval($diamonds[0]->carat - 0.001),
-                                        'to' => floatval($diamonds[0]->carat + 0.001)
-                                    ],
-                                ]
-                            ]
-                        ],
-                        'must_not' => [
-                            ['term' => ['diamond_id' => ['value' => $diamonds[0]->diamond_id]]],
-                        ]
-                    ]
-                ]
-            ];
-
-            $elastic_params = [
-                'index' => 'diamonds',
-                'body'  => [
-                    'size'  =>  5,
-                    'query' => [
-                        'bool' => [
-                            'must' => $all_conditions
-                        ]
-                    ]
-                ]
-            ];
-            $client = ClientBuilder::create()
-                ->setHosts(['localhost:9200'])
-                ->build();
-
-            $similar = $client->search($elastic_params);
-            $final_similar = [];
-            $not_ids = [];
-            $not_ids[] = $diamonds[0]->diamond_id;
-            foreach ($similar['hits']['hits'] as $v) {
-                $final_similar[] = $v;
-                $not_ids[] = $v['_source']['diamond_id'];
-            }
-            $limit = 5 - count($similar['hits']['hits']);
-            if ($limit > 0) {
-                $attr_to_send = [];
-                $i = 0;
-                foreach ($similar_ids as $v) {
-                    if ($i == 0) {
-                        $attr_to_send['should'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    } else {
-                        $attr_to_send['must'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    }
-                    $i++;
-                }
-                $all_conditions = [
-                    [
-                        'bool' => $attr_to_send
-                    ], [
-                        'bool' => [
-                            'must' => [
-                                ['term' => ['refCategory_id' => ['value' => $diamonds[0]->refCategory_id]]],
-                                [
-                                    'range' => [
-                                        'expected_polish_cts' => [
-                                            'from' => floatval($diamonds[0]->carat - 0.001),
-                                            'to' => floatval($diamonds[0]->carat + 0.001)
-                                        ],
-                                    ]
-                                ]
-                            ],
-                            'must_not' => [
-                                ['terms' => ['diamond_id' => $not_ids]],
-                            ]
-                        ]
-                    ]
-                ];
-                $elastic_params = [
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'size'  =>  $limit,
-                        'query' => [
-                            'bool' => [
-                                'must' => $all_conditions
-                            ]
-                        ]
-                    ]
-                ];
-                $similar = $client->search($elastic_params);
-                foreach ($similar['hits']['hits'] as $v) {
-                    $final_similar[] = $v;
-                }
-                $limit = $limit - count($similar['hits']['hits']);
-            }
-            if ($limit > 0) {
-                $attr_to_send = [];
-                $i = 0;
-                foreach ($similar_ids as $v) {
-                    if ($i % 1 == 0) {
-                        $attr_to_send['should'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    } else {
-                        $attr_to_send['must'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    }
-                    $i++;
-                }
-                $all_conditions = [
-                    [
-                        'bool' => $attr_to_send
-                    ], [
-                        'bool' => [
-                            'must' => [
-                                ['term' => ['refCategory_id' => ['value' => $diamonds[0]->refCategory_id]]],
-                                [
-                                    'range' => [
-                                        'expected_polish_cts' => [
-                                            'from' => floatval($diamonds[0]->carat - 0.001),
-                                            'to' => floatval($diamonds[0]->carat + 0.001)
-                                        ],
-                                    ]
-                                ]
-                            ],
-                            'must_not' => [
-                                ['terms' => ['diamond_id' => $not_ids]],
-                            ]
-                        ]
-                    ]
-                ];
-                $elastic_params = [
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'size'  =>  $limit,
-                        'query' => [
-                            'bool' => [
-                                'must' => $all_conditions
-                            ]
-                        ]
-                    ]
-                ];
-                $similar = $client->search($elastic_params);
-                foreach ($similar['hits']['hits'] as $v) {
-                    $final_similar[] = $v;
-                }
-                $limit = $limit - count($similar['hits']['hits']);
-            }
-            if ($limit > 0) {
-                $attr_to_send = [];
-                $i = 0;
-                foreach ($similar_ids as $v) {
-                    if ($i % 2 == 0) {
-                        $attr_to_send['should'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    } else {
-                        $attr_to_send['must'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    }
-                    $i++;
-                }
-                $all_conditions = [
-                    [
-                        'bool' => $attr_to_send
-                    ], [
-                        'bool' => [
-                            'must' => [
-                                ['term' => ['refCategory_id' => ['value' => $diamonds[0]->refCategory_id]]],
-                                [
-                                    'range' => [
-                                        'expected_polish_cts' => [
-                                            'from' => floatval($diamonds[0]->carat - 0.001),
-                                            'to' => floatval($diamonds[0]->carat + 0.001)
-                                        ],
-                                    ]
-                                ]
-                            ],
-                            'must_not' => [
-                                ['terms' => ['diamond_id' => $not_ids]],
-                            ]
-                        ]
-                    ]
-                ];
-                $elastic_params = [
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'size'  =>  $limit,
-                        'query' => [
-                            'bool' => [
-                                'must' => $all_conditions
-                            ]
-                        ]
-                    ]
-                ];
-                $similar = $client->search($elastic_params);
-                foreach ($similar['hits']['hits'] as $v) {
-                    $final_similar[] = $v;
-                }
-                $limit = $limit - count($similar['hits']['hits']);
-            }
-            if ($limit > 0) {
-                $attr_to_send = [];
-                $i = 0;
-                foreach ($similar_ids as $v) {
-                    if ($i % 3 == 0) {
-                        $attr_to_send['should'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    } else {
-                        $attr_to_send['must'][] = [
-                            'nested' => [
-                                'query' => [
-                                    'term' => [
-                                        'attributes_id.attribute_id' => $v
-                                    ]
-                                ],
-                                'path' => 'attributes_id'
-                            ]
-                        ];
-                    }
-                    $i++;
-                }
-                $all_conditions = [
-                    [
-                        'bool' => $attr_to_send
-                    ], [
-                        'bool' => [
-                            'must' => [
-                                ['term' => ['refCategory_id' => ['value' => $diamonds[0]->refCategory_id]]],
-                                [
-                                    'range' => [
-                                        'expected_polish_cts' => [
-                                            'from' => floatval($diamonds[0]->carat - 0.001),
-                                            'to' => floatval($diamonds[0]->carat + 0.001)
-                                        ],
-                                    ]
-                                ]
-                            ],
-                            'must_not' => [
-                                ['terms' => ['diamond_id' => $not_ids]],
-                            ]
-                        ]
-                    ]
-                ];
-                $elastic_params = [
-                    'index' => 'diamonds',
-                    'body'  => [
-                        'size'  =>  $limit,
-                        'query' => [
-                            'bool' => [
-                                'must' => $all_conditions
-                            ]
-                        ]
-                    ]
-                ];
-                $similar = $client->search($elastic_params);
-                foreach ($similar['hits']['hits'] as $v) {
-                    $final_similar[] = $v;
-                }
-                $limit = $limit - count($similar['hits']['hits']);
-            }
-        } else {
-            $final_similar = [];
-        }
-        $response_array['recommended'] = $recommended;
-        $response_array['similar'] = $final_similar;
-
-        return $this->successResponse('Success', $response_array);
-    }
-
     public function detailshDiamonds($barcode)
     {
         $user = Auth::user();
@@ -1041,43 +568,43 @@ class DiamondController extends Controller
             ->where('refCategory_id', $diamonds['refCategory_id'])
             ->increment('shape_cnt', 1);
 
-        DB::table('most_viewed_diamonds')
-            ->where('color', $diamonds['attributes']['COLOR'])
-            ->where('refCategory_id', $diamonds['refCategory_id'])
-            ->increment('color_cnt', 1);
-
-        DB::table('most_viewed_diamonds')
-            ->where('clarity', $diamonds['attributes']['CLARITY'])
-            ->where('refCategory_id', $diamonds['refCategory_id'])
-            ->increment('clarity_cnt', 1);
-
-        DB::table('most_viewed_diamonds')
-            ->where('cut', $diamonds['attributes']['CUT'])
-            ->where('refCategory_id', $diamonds['refCategory_id'])
-            ->increment('cut_cnt', 1);
-
-        $mvd_exists = DB::table('most_viewed_diamonds')
-            ->where('carat', $diamonds['expected_polish_cts'])
-            ->where('refCategory_id', $diamonds['refCategory_id'])
-            ->first();
-        if ($mvd_exists) {
             DB::table('most_viewed_diamonds')
+                ->where('color', $diamonds['attributes']['COLOR'])
+                ->where('refCategory_id', $diamonds['refCategory_id'])
+                ->increment('color_cnt', 1);
+
+            DB::table('most_viewed_diamonds')
+                ->where('clarity', $diamonds['attributes']['CLARITY'])
+                ->where('refCategory_id', $diamonds['refCategory_id'])
+                ->increment('clarity_cnt', 1);
+
+            DB::table('most_viewed_diamonds')
+                ->where('cut', $diamonds['attributes']['CUT'])
+                ->where('refCategory_id', $diamonds['refCategory_id'])
+                ->increment('cut_cnt', 1);
+
+            $mvd_exists = DB::table('most_viewed_diamonds')
                 ->where('carat', $diamonds['expected_polish_cts'])
                 ->where('refCategory_id', $diamonds['refCategory_id'])
-                ->increment('carat_cnt', 1);
-        } else {
-            DB::table('most_viewed_diamonds')
-            ->insert([
-                'refCategory_id' => $diamonds['refCategory_id'],
-                'carat' => $diamonds['expected_polish_cts'],
-                'shape_cnt' => 0,
-                'color_cnt' => 0,
-                'carat_cnt' => 1,
-                'clarity_cnt' => 0,
-                'cut_cnt' => 0,
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
+                ->first();
+            if ($mvd_exists) {
+                DB::table('most_viewed_diamonds')
+                    ->where('carat', $diamonds['expected_polish_cts'])
+                    ->where('refCategory_id', $diamonds['refCategory_id'])
+                    ->increment('carat_cnt', 1);
+            } else {
+                DB::table('most_viewed_diamonds')
+                ->insert([
+                    'refCategory_id' => $diamonds['refCategory_id'],
+                    'carat' => $diamonds['expected_polish_cts'],
+                    'shape_cnt' => 0,
+                    'color_cnt' => 0,
+                    'carat_cnt' => 1,
+                    'clarity_cnt' => 0,
+                    'cut_cnt' => 0,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
         } */
 
         DB::table('most_viewed_diamonds')
@@ -1462,6 +989,9 @@ class DiamondController extends Controller
         } else {
             $final_similar = [];
         }
+        // New Name
+        $diamonds['name'] = $diamonds['expected_polish_cts'] . ' CARAT ' . $diamonds['attributes']['SHAPE'] . ' LAB GROWN DIAMOND';
+
         $response_array['diamond'] = $diamonds;
         $response_array['recommended'] = $recommended;
         $response_array['similar'] = $final_similar;

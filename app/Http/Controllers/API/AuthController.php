@@ -26,7 +26,7 @@ class AuthController extends Controller
         try {
             $rules = [
                 'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'password' => ['required', 'between:6,15']
+                'password' => ['required'/* , 'between:6,15' */]
             ];
 
             $message = [
@@ -41,14 +41,27 @@ class AuthController extends Controller
                 return $this->errorResponse($validator->errors()->all()[0]);
             }
 
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
-                    ->where('email', strtolower($request->email))
-                    ->first();
-                $all = $this->getUserData($user);
-                return $this->successResponse('Logged in successfully', $all, 1);
+            $exists = DB::table('customer')
+                ->select('customer_id', 'email', 'verified_status', 'is_approved', 'is_active', 'password')
+                ->where('email', strtolower($request->email))
+                ->first();
+            if ($exists && Hash::check($request->password, $exists->password)) {
+                if ($exists->verified_status === 0) {
+                    return $this->errorResponse('Your account is not verified yet, please check your registered email inbox');
+                } else if ($exists->is_approved === 0) {
+                    return $this->errorResponse('Your account is not approved yet. You will get an approval email when your account is approved');
+                } else if ($exists->is_active === 0) {
+                    return $this->errorResponse('Your account is temporarily deactivated, please contact support team');
+                }
+                if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                    $user = Customers::select('customer_id', 'email', 'mobile', 'otp', 'otp_status', 'updated_at', 'name', 'refCity_id', 'address', 'pincode')
+                        ->where('email', strtolower($request->email))
+                        ->first();
+                    $all = $this->getUserData($user);
+                    return $this->successResponse('Logged in successfully', $all, 1);
+                }
             } else {
-                return $this->errorResponse('Invalid Credentials');
+                return $this->errorResponse('Your email address and password do not match. Please try again.');
             }
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
@@ -64,21 +77,21 @@ class AuthController extends Controller
                 'password' => ['required', 'between:6,15'],
                 'confirm_password' => ['required', 'same:password'],
                 'country_code' => ['required'],
-                'mobile' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
+                'mobile' => ['required', /* 'regex:/^[0-9]{8,11}$/ix' */ 'numeric'],
                 'address' => ['required'],
-                'country' => ['required', 'integer', 'exists:country,country_id'],
+                // 'country' => ['required', 'integer', 'exists:country,country_id'],
                 'state' => ['required', 'integer', 'exists:state,state_id'],
                 'city' => ['required', 'integer', 'exists:city,city_id'],
                 'pincode' => ['nullable', 'integer'],
                 'company_name' => ['required'],
                 'company_country_code' => ['required'],
-                'company_office_no' => ['required', 'regex:/^[0-9]{8,11}$/ix'],
+                'company_office_no' => ['required', /* 'regex:/^[0-9]{8,11}$/ix' */ 'numeric'],
                 'company_email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 // 1 - VAT, 2 - TIN, 3 - PAN, 4 - OTHERS
                 // 'company_id_type' => ['required', Rule::in([1, 2, 3, 4])],
-                'company_gst_pan' => ['required', 'between:5,15'],
+                'company_gst_pan' => ['required', 'between:8,15'],
                 'company_address' => ['required'],
-                'company_country' => ['required', 'integer', 'exists:country,country_id'],
+                // 'company_country' => ['required', 'integer', 'exists:country,country_id'],
                 'company_state' => ['required', 'integer', 'exists:state,state_id'],
                 'company_city' => ['required', 'integer', 'exists:city,city_id'],
                 'company_pincode' => ['required', 'integer'],
@@ -89,20 +102,20 @@ class AuthController extends Controller
                 'email.required' => 'Please enter email address',
                 'email.regex' => 'Please enter valid email address',
                 'mobile.required' => 'Please enter phone number',
-                'mobile.regex' => 'Please enter valid 10 digits phone number',
+                'mobile.numeric' => 'Please enter numbers only',
                 'password.required' => 'Please enter password',
                 'confirm_password.same' => 'Those password didn\'t match. Try again',
-                'country.required' => 'Please enter country',
-                'state.required' => 'Please enter state',
-                'city.required' => 'Please enter city',
+                'country.required' => 'Please select country',
+                'state.required' => 'Please select state',
+                'city.required' => 'Please select city',
                 'company_name.required' => 'Please enter your company name',
                 'company_office_no.required' => 'Please enter company office number',
                 'company_email.required' => 'Please enter company email address',
-                'company_gst_pan.required' => 'Please enter company GST or PAN',
+                'company_gst_pan.required' => 'Please enter company VAT or TIN or GST or PAN',
                 'company_address.required' => 'Please enter company address',
-                'company_country.required' => 'Please enter company country',
-                'company_state.required' => 'Please enter company state',
-                'company_city.required' => 'Please enter company city',
+                'company_country.required' => 'Please select company country',
+                'company_state.required' => 'Please select company state',
+                'company_city.required' => 'Please select company city',
                 'id_upload.required' => 'Please select ID proof'
             ];
 
@@ -190,8 +203,8 @@ class AuthController extends Controller
                         ])
                     );
                 sendPushNotification('New Customer Registered', 'Customer named [' . $request->name . '] has registered with us from mobile application', url('/admin/customers?filter=unapproved'));
-                $all = $this->getUserData($customer);
-                return $this->successResponse('Congrats, you are now successfully registered', $all);
+                // $all = $this->getUserData($customer);
+                return $this->successResponse('Congrats, you are on the way of successful registration. We have sent you an verification email. Please go through it to complete the process from your side.');
 
             }
         } catch (\Exception $e) {

@@ -35,8 +35,6 @@
     });
  });
  </script>
-
-
 @endsection
 @section('content')
 <div class="cart-page mb-5 mt-5">
@@ -134,15 +132,15 @@
                     </div>
                 </div>
 
-                {{-- <div class="card">
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="text-center mb-4">Shipping Info</h5>
-                        <p>Estimated ship date when ordered by 2 PM PT <span class="themecolor">{{ date(' dS F Y, l', strtotime(date('Y-m-d H:i:s') . ' + 15 days')) }}</span></p>
-                        <p>Contact us at 800.691.0952 to schedule Saturday delivery, hold at a FedEx location, or to inquire about available delivery options.</p>
-                        <h5>Need Help?</h5>
-                        <p class="themecolor">Chat now or call <a href="tel:8006910952">800.691.0952</a></p>
+                        <h5 class="text-center mb-4">Order Timeline</h5>
+                        <p><b>Loose Stones, Ready to Ship</b></p>
+                        <p>Item(s) will ship to you within 1-2 business working days.</p>
+                        <h6>Need Assistance?</h6>
+                        <p class="">Chat with us via WhatsApp or Call <a href="tel:+1-9122456789">+1-9122456789</a> ( USA ) / <a href="tel:+91-9714405421">+91-9714405421</a> ( INDIA )</p>
                     </div>
-                </div> --}}
+                </div>
             </div>
             <?php
             } else {

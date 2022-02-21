@@ -8,6 +8,8 @@ use App\Http\Controllers\API\DiamondController;
 use App\Http\Controllers\API\DropdownController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\ContactController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +75,9 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('my-orders', [OrderController::class, 'myOrders']);
     Route::post('order-details/{transaction_id}/{order_id}', [OrderController::class, 'myOrderDetails']);
     Route::post('save-order', [OrderController::class, 'saveMyOrder']);
+
+    // Contact
+    Route::post('contact-us', [ContactController::class, 'index']);
 
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);

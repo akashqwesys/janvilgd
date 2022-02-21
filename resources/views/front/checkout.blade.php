@@ -154,7 +154,7 @@
             <div class="col col-12 col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="text-center mb-4">Price Details</h5>
+                        <h5 class="text-center mb-4">Order Summary</h5>
                         <table class="table summary-table">
                             <tbody>
                                 <tr>

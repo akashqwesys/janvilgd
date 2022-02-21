@@ -3,7 +3,16 @@
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
 <style class="text/css">
-
+@media (min-width: 992px) {
+    .ps-lg-6 {
+        padding-left: 8rem !important;
+    }
+}
+@media (min-width: 768px) {
+    .ps-md-6 {
+        padding-left: 4rem;
+    }
+}
 </style>
 @endsection
 @section('content')
@@ -23,15 +32,49 @@
 </section>
 <div class="cart-page">
     <div class="container">
+        <div class="alert alert-info">
+            Note: Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+        </div>
         <div class="row">
-            <div class="col col-12 col-md-6">
+            <div class="col col-12 col-md-12">
                 <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <h5>Payment Options</h5>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h5>Payment Options</h5>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="ps-lg-6 ps-md-6 col-md-6 col-12 ">
+                                <h6> --------------- USA ---------------- </h6>
+                                <label> BANK NAME : JPMorgan Chase </label><br>
+                                <label> ACCOUNT NAME : JANVI LGD PRIVATE LIMITED </label><br>
+                                <label> ACCOUNT NUMBER : 8420108663 </label><br>
+                                <label> ROUTING NUMBER : 122333248 </label><br>
+                                <label> USA PAYMENT : WDBIU6S </label><br>
+                                <label> SHIFT CODE : CHASUS33XXX </label><br>
+                            </div>
+                            <div class="ps-lg-6 ps-md-6 col-md-6 col-12 ">
+                                <h6> --------------- INDIA ---------------- </h6>
+                                <label> BANK NAME : HDFC Bank </label><br>
+                                <label> ACCOUNT NAME : JANVI LGD PRIVATE LIMITED </label><br>
+                                <label> ACCOUNT NUMBER : 50200045669788 </label><br>
+                                <label> BRANCH NAME : Sachin </label><br>
+                                <label> IFSC CODE : HDFC0001706 </label><br>
+                                <label> SHIFT CODE : HDFCINBB </label><br>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                            <form method="post" action="/customer/save-order">
+                                @csrf
+                                <input type="hidden" name="token" value="{{ $tk }}">
+                                <button class="btn btn-primary" type="submit">CONFIRM ORDER</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col col-12 col-md-6">
+            {{-- <div class="col col-12 col-md-6">
                 <div class="card mb-4">
                     <div class="card-body text-center">
                         <form method="post" action="/customer/save-order">
@@ -41,7 +84,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

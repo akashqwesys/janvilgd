@@ -466,7 +466,7 @@ class OrdersController extends Controller
         $exists = DB::table('order_updates')
             ->select('order_status_name')
             ->where('refOrder_id', $request->id)
-            ->where('order_status_name', $request->order_status_name)
+            // ->where('order_status_name', $request->order_status_name)
             ->first();
         if ($exists && $exists->order_status_name == 'CANCELLED') {
             successOrErrorMessage("Cannot update the cancelled order status", 'error');
