@@ -65,6 +65,9 @@
         background-color: #D2AB66;
         border: 1px solid #D2AB66;
     }
+    .rs-scale {
+        width: 101%;
+    }
     .rs-tooltip {
         border: none;
     }
@@ -141,7 +144,22 @@
         text-align: right;
         color: #808080;
     }
-        /* .overlay {
+    @media (max-width: 576px) {
+        .range-sliders {
+            width: 98%;
+            padding: 0 3%;
+        }
+        .filter-text {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .w-sm-100 {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+    /* .overlay {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -255,7 +273,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                 </div>
             </div>
             <div class="search-diamond-view">
-                <div class="w-75 d-inline-block">
+                <div class=" d-inline-block">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="result-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="true">Results </button>
@@ -272,7 +290,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                         @endif
                     </ul>
                 </div>
-                <div class="float-right text-right">
+                <div class="w-sm-100 float-right text-right">
                     <div class="input-group">
                         <input type="text" class="form-control" id="myInput" placeholder="Search by Stock No">
                         <span class="input-group-text" id="myInput-search"><i class="fas fa-search"></i></span>

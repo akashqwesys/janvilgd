@@ -252,6 +252,9 @@ function nowGetDiamonds() {
 
 window.addEventListener('resize', function (event) {
     global_resize = true;
+    setTimeout(() => {
+        $('.rs-scale span:last-child').css('width','0px');
+    }, 50);
     // setTimeout(() => {
     //     global_resize = false;
     // }, 1000);
