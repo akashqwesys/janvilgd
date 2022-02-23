@@ -144,6 +144,9 @@
         text-align: right;
         color: #808080;
     }
+    .filter-btn {
+        text-align: center;
+    }
     @media (max-width: 576px) {
         .range-sliders {
             width: 98%;
@@ -156,6 +159,9 @@
         .w-sm-100 {
             width: 100%;
             margin-bottom: 10px;
+        }
+        .filter-btn {
+            text-align: left;
         }
     }
 
@@ -261,7 +267,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                     {!! $none_fix !!}
                     {{-- </div> --}}
                 </div>
-                <div class="filter-btn text-center">
+                <div class="filter-btn">
                     <button class="btn btn-primary" id="filter-toggle">Filters
                         <i class="fas fa-chevron-down ms-2"></i>
                     </button>
