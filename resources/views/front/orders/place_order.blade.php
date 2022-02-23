@@ -12,7 +12,16 @@
     .ps-md-6 {
         padding-left: 4rem;
     }
+    .v-sep {
+        border-right: 2px solid #dadada;
+    }
 }
+@media (max-width:767px) {
+    .mt--sm-3 {
+        margin-top: 2rem;
+    }
+}
+
 </style>
 @endsection
 @section('content')
@@ -40,7 +49,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 col-12 ">
+                            <div class="col-md-4 col-12 v-sep">
                                 <div class="text-center">
                                     <h5>Payment Method</h5>
                                     <hr>
@@ -48,7 +57,7 @@
                                 <h6><b>Direct Bank Transfer</b></h6>
                                 <div>Make your payment directly into our bank....</div>
                             </div>
-                            <div class="col-md-8 col-12 ">
+                            <div class="col-md-8 col-12 mt--sm-3">
                                 <h5 class="text-center">Bank Details</h5>
                                 <hr>
                                 <div class="row">
@@ -61,8 +70,8 @@
                                         <label> USA PAYMENT : WDBIU6S </label><br>
                                         <label> SHIFT CODE : CHASUS33XXX </label><br>
                                     </div>
-                                    <div class="col-md-6 col-12 mb-2">
-                                        <h6 class="mt-3">  <b>INDIA</b>  </h6>
+                                    <div class="col-md-6 col-12 mb-2 mt--sm-3">
+                                        <h6 class="">  <b>INDIA</b>  </h6>
                                         <label> BANK NAME : HDFC Bank </label><br>
                                         <label> ACCOUNT NAME : JANVI LGD PRIVATE LIMITED </label><br>
                                         <label> ACCOUNT NUMBER : 50200045669788 </label><br>
