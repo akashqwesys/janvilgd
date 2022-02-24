@@ -118,7 +118,7 @@ class OrderController extends Controller
                 // }
                 // $v->images = $a;
             }
-            $data = ['orders' => $orders, 'diamonds' => $final_d, 'status' => $order_updates];
+            $data = ['orders' => $orders, 'diamonds' => array_values($final_d), 'status' => $order_updates];
 
             return $this->successResponse('Success', $data);
         } catch (\Exception $e) {
