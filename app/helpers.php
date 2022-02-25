@@ -336,6 +336,13 @@ function sendPushNotification($title, $body, $url = null)
     }
     // Close connection
     curl_close($ch);
+
+    DB::table('notifications')->insert([
+        'title' => $title,
+        'body' => $body,
+        'url' => $url,
+        'status' => 0,
+    ]);
     // FCM response
     // dd($result);
 }

@@ -43,6 +43,7 @@ class ContactController extends Controller {
             $data_array['subject']=$request->txt_subject;
             $data_array['message']=$request->txt_msg;
             $data_array['date_added']=date('Y-m-d H:i:s');
+            $data_array['country_id'] = $request->country_code;
 
             sendPushNotification('New Inquiry', $request->txt_name . ' has sent an inquiry', url('/admin/inquiries'));
             DB::table('contact_req')->insert($data_array);

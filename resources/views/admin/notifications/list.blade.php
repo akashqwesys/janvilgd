@@ -20,7 +20,7 @@
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <div class="">
-                                        <h4 class="nk-block-title">Contact Inquiries List</h4>
+                                        <h4 class="nk-block-title">Notifications List</h4>
                                     </div>
                                 </div>
                             </div><!-- .nk-block-head-content -->
@@ -38,25 +38,21 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Mobile No</th>
-                                            <th>Email</th>
-                                            <th>Subject</th>
-                                            <th>Message</th>
+                                            <th>Title</th>
+                                            <th>Notifications</th>
+                                            <th>URL</th>
                                             <th>Placed on</th>
                                             {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($contacts as $c)
+                                        @foreach ($notifications as $n)
                                         <tr>
                                             <td> </td>
-                                            <td> {{ $c->name }} </td>
-                                            <td> {{ $c->country_code . ' - ' . $c->phone }} </td>
-                                            <td> {{ $c->email }} </td>
-                                            <td> {{ $c->subject }} </td>
-                                            <td><p> <?php echo wordwrap($c->message,150,"<br>\n"); ?> </p></td>
-                                            <td> {{ date('d-m-Y', strtotime($c->date_added)) }} </td>
+                                            <td> {{ $n->title }} </td>
+                                            <td> {{ $n->body }} </td>
+                                            <td> <a href="{{ $n->url }}" class="btn btn-xs btn-info" target="_blank"><em class="icon ni ni-eye-fill"></em></a> </td>
+                                            <td> {{ date('d-m-Y', strtotime($n->created_at)) }} </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

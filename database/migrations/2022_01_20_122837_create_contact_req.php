@@ -22,6 +22,7 @@ class CreateContactReq extends Migration
             $table->text('message');
             $table->dateTime('date_added');
             $table->timestamps();
+            $table->integer('country_id');
             $table->index('id');
         });
     }

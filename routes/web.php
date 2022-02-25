@@ -44,6 +44,8 @@ use App\Http\Controllers\ContactController as Inquiries;
 use App\Http\Controllers\DashboardController as AdminDashboard;
 
 use App\Http\Controllers\Front\TestController;
+use App\Http\Controllers\NotificationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -420,6 +422,10 @@ Route::post('customers/delete-addresses', [CustomersController::class, 'deleteAd
 /***************  Contact inquiries route *************/
 Route::get('inquiries', [Inquiries::class, 'index'])->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);
 /***************  Contact inquiries route end *************/
+
+/***************  Notifications route *************/
+Route::get('notifications', [NotificationController::class, 'index'])->middleware(['isLoggedIn',  'accessPermission', 'modifyPermission']);
+/***************  Notifications route end *************/
 
 /***************  Delivery-charges route *************/
 Route::get('delivery-charges', [DeliveryChargesController::class, 'index'])->middleware(['isLoggedIn','accessPermission']);

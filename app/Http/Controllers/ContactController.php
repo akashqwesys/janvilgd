@@ -17,9 +17,10 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $data['title'] = 'Inquiry List';
-        $contacts = DB::table('contact_req')
-            ->select('id', 'name', 'phone', 'email', 'subject', 'message', 'date_added')
-            ->orderBy('id', 'desc')
+        $contacts = DB::table('contact_req as cr')
+            ->join('country as c', 'cr.country_id', '=', 'c.country_id')
+            ->select('cr.id', 'cr.name', 'cr.phone', 'cr.email', 'cr.subject', 'cr.message', 'cr.date_added', 'c.country_code')
+            ->orderBy('cr.id', 'desc')
             ->get();
         return view('admin.contacts.list', compact('data', 'contacts'));
     }

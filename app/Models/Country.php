@@ -11,12 +11,13 @@ class Country extends Model
     protected $table='country';
     protected $primaryKey = 'country_id';
     protected $fillable = [
-        'country_id',  
-        'name',        
+        'country_id',
+        'name',
         'added_by',
         'is_active',
         'is_deleted' ,
         'date_added',
-        'date_updated'
-    ]; 
+        'date_updated',
+        'country_id'
+    ];
 }
