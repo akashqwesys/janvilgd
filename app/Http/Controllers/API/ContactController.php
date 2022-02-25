@@ -42,6 +42,7 @@ class ContactController extends Controller
         $data_array['message'] = $request->message;
         $data_array['date_added'] = date('Y-m-d H:i:s');
 
+        sendPushNotification('New Inquiry', $request->name . ' has sent an inquiry', url('/admin/inquiries'));
         DB::table('contact_req')->insert($data_array);
         $admin_email = DB::table('settings')
             ->select('value')

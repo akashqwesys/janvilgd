@@ -65,7 +65,7 @@ class UserController extends Controller
         try {
             $rules = [
                 'name' => ['required'],
-                'mobile' => ['regex:/^[0-9]{8,11}$/ix'],
+                'mobile' => ['nullable', 'regex:/^[0-9]{8,11}$/ix'],
                 'email' => ['regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
                 'address' => ['required'],
                 'country' => ['required_with:mobile', 'integer', 'exists:country,country_id'],
