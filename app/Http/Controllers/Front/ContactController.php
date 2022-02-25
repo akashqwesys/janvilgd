@@ -23,8 +23,8 @@ class ContactController extends Controller {
 
             $rules = [
                 'txt_name' => ['required'],
-                'txt_phone' => ['required'],
                 'txt_email' => ['required', 'email'],
+                'txt_phone' => ['required', 'numeric'],
                 'txt_msg' => ['required']
             ];
 
@@ -33,10 +33,10 @@ class ContactController extends Controller {
             $validator = Validator::make($request->all(), $rules, $message);
 
             if ($validator->fails()) {
-                return back()->with(['error' => 1, 'message' => $validator->errors()->all()[0]]);
+                return response()->json(['error' => 1, 'message' => $validator->errors()->all()[0]]);
             }
 
-            $data_array=array();
+            $data_array = array();
             $data_array['name']=$request->txt_name;
             $data_array['phone']=$request->txt_phone;
             $data_array['email']=$request->txt_email;
@@ -67,10 +67,11 @@ class ContactController extends Controller {
                         'view' => 'emails.inquiryEmail'
                         ])
                     );
-            return back()->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
+            return response()->json(['success' => 1, 'message' => 'Inquiry sent successfully']);
             // return redirect('/contact')->with(['success' => 1, 'message' => 'Inquiry sent successfully']);
             // successOrErrorMessage("Inquiry sent successfully", 'success');
         }
-        return redirect('/contact');
+        // return redirect('/contact');
+        return response()->json(['error' => 1, 'message' => 'Please enter Name']);
     }
 }

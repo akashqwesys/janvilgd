@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="og:type" content="website" />
 	<meta name="twitter:card" content="photo" />
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>@yield('title')</title>
 	<link rel="icon" type="image/png" sizes="32x32" href="/{{ check_host() }}assets/images/favicon-icon.png">
 
@@ -406,37 +407,36 @@ function init() {
 <script src="/{{ check_host() }}assets/js/custom.js"></script>
 <script src="{{ asset(check_host().'admin_assets/toast/jquery.toast.js') }}"></script>
 {{-- <script src="/{{ check_host() }}assets/build/js/intlTelInput.js"></script> --}}
-  <script>
+<script>
     var input = document.querySelector("#phone");
     var iti= window.intlTelInput(input, {
-      // allowDropdown: false,
-      // autoHideDialCode: false,
-    //   autoPlaceholder: "off",
-      // dropdownContainer: document.body,
-      // excludeCountries: ["us"],
-      // formatOnDisplay: false,
-      // geoIpLookup: function(callback) {
-      //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-      //     var countryCode = (resp && resp.country) ? resp.country : "";
-      //     callback(countryCode);
-      //   });
-      // },
-    //    hiddenInput: "full_number",
-    //    initialCountry: "auto",
-      // localizedCountries: { 'de': 'Deutschland' },
-    //    nationalMode: false,
-      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-      // placeholderNumberType: "MOBILE",
-      // preferredCountries: ['cn', 'jp'],
-    //    separateDialCode: true,
+		// allowDropdown: false,
+		// autoHideDialCode: false,
+		// autoPlaceholder: "off",
+		// dropdownContainer: document.body,
+		// excludeCountries: ["us"],
+		// formatOnDisplay: false,
+		// geoIpLookup: function(callback) {
+		// 	$.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+		// 		var countryCode = (resp && resp.country) ? resp.country : "";
+		// 		callback(countryCode);
+		// 	});
+		// },
+		// hiddenInput: "full_number",
+		// initialCountry: "auto",
+		// localizedCountries: { 'de': 'Deutschland' },
+		// nationalMode: false,
+		// onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+		// placeholderNumberType: "MOBILE",
+		// preferredCountries: ['cn', 'jp'],
+		// separateDialCode: true,
 
-
-	separateDialCode: true,
-	// preferredCountries:["in"],
-	hiddenInput: "full",
-//   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
-      utilsScript: "/{{ check_host() }}assets/build/js/utils.js"
-    });
+		separateDialCode: true,
+		// preferredCountries:["in"],
+		hiddenInput: "full",
+		//   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+		utilsScript: "/{{ check_host() }}assets/build/js/utils.js"
+	});
 
 	$("form").submit(function() {
 		var full_number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
@@ -448,56 +448,95 @@ function init() {
 	// });
 	// input.addEventListener("countrychange",function() {
 	// 	alert(iti.getSelectedCountryData());
-
 	// });
 
-  </script>
-
-<script>
-$(document).ready(function(){
-	AOS.init();
-	<?php
-		if (!isset($_SESSION['message'])) {
-			$_SESSION['message'] = '';
+	$(document).ready(function(){
+		AOS.init();
+		<?php
+			if (!isset($_SESSION['message'])) {
+				$_SESSION['message'] = '';
+			}
+		?>
+		if (<?php
+		if (!empty(session()->get('success'))) {
+			echo session()->get('success');
+		} else {
+			echo 0;
 		}
-	?>
-	if (<?php
-	if (!empty(session()->get('success'))) {
-		echo session()->get('success');
-	} else {
-		echo 0;
-	}
-	?> === 1)
-	{
-		$.toast({
-			heading: 'Success',
-			text: '<?php echo session()->get('message') ?>',
-			icon: 'success',
-			position: 'top-right'
+		?> === 1)
+		{
+			$.toast({
+				heading: 'Success',
+				text: '<?php echo session()->get('message') ?>',
+				icon: 'success',
+				position: 'top-right'
+			});
+			<?php session(['success' => 0]); ?>
+		}
+		$('ul.dropdown-menu li .active').removeClass('active');
+		$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+
+		$(window).scroll(function(){
+
+			if($(window).scrollTop() >= 60) {
+				$(".zoom img").css({
+					'transition': 'width 1s',
+					'width': '8rem'
+				});
+			}
+			if($(window).scrollTop() <= 50) {
+				$(".zoom img").css({
+					'transition': 'width 1s',
+					'width': '11rem'
+				});
+			}
+
 		});
-		<?php session(['success' => 0]); ?>
-	}
-	$('ul.dropdown-menu li .active').removeClass('active');
-	$('a[href="' + location.pathname + '"]').addClass('active').closest('li').addClass('active');
+	});
+	</script>
+	@if (request()->url() == url('/') . '/contact')
+	<script>
+	$(document).on('click', '#contact-submit-btn', function(e) {
+		e.preventDefault();
+		if ($('#fname').val() == '') {
 
-	$(window).scroll(function(){
-
-		if($(window).scrollTop() >= 60) {
-			$(".zoom img").css({
-				'transition': 'width 1s',
-				'width': '8rem'
-        	});
-        }
-		if($(window).scrollTop() <= 50) {
-			$(".zoom img").css({
-				'transition': 'width 1s',
-            	'width': '11rem'
-        	});
-        }
-
-    });
-});
-</script>
+		}
+		$.ajax({
+			type: "POST",
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			url: "/customer/contact",
+			data: {
+				'txt_name': $('#fname').val(),
+				'txt_phone': $('#phone').val(),
+				'country_code': $('#cs-fc').val(),
+				'txt_email': $('#email').val(),
+				'txt_subject': $('#subject').val(),
+				'txt_msg': $('#message').val()
+			},
+			success: function (res) {
+				if (res.success) {
+					$.toast({
+						heading: 'Success',
+						text: res.message,
+						icon: 'success',
+						position: 'top-right'
+					});
+					setTimeout(() => {
+						location.reload;
+					}, 2000);
+				} else {
+					$.toast({
+						heading: 'Error',
+						text: res.message,
+						icon: 'error',
+						position: 'top-right'
+					});
+				}
+			}
+		});
+	});
+	</script>
+	@endif
 
 @yield('js')
 </body>

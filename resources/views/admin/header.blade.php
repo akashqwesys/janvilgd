@@ -51,9 +51,9 @@
             z-index: 1111;
             display: none;
         }
-        .notification-dropdown {
+        /* .notification-dropdown {
             display: none;
-        }
+        } */
         .notification-dropdown a {
             padding: 9px;
             border-radius: 50%;
@@ -298,19 +298,22 @@
                                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
                                                 <div class="dropdown-head">
                                                     <span class="sub-title nk-dropdown-title">Notification</span>
-                                                    <a href="javascript:void(0);" class="push-noti-read">Mark as Read</a>
+                                                    <a href="/admin/notifications" class="push-noti-read">View All</a>
                                                 </div>
                                                 <div class="dropdown-body">
-                                                    <div class="nk-notification">
+                                                    <div class="nk-notification noti-prepend">
+                                                        @php $user_notifications = event_notifications(); @endphp
+                                                        @foreach ($user_notifications as $n)
                                                         <div class="nk-notification-item dropdown-inner">
                                                             <div class="nk-notification-icon">
                                                                 <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
                                                             </div>
                                                             <div class="nk-notification-content">
-                                                                <div class="nk-notification-text push-noti-text"></div>
-                                                                <div class="nk-notification-time push-noti-time"></div>
+                                                                <div class="nk-notification-text push-noti-text"><a class="p-0" href="{{ $n->url }}">{{ $n->body }}</a></div>
+                                                                <div class="nk-notification-time push-noti-time">{{ date('d/m/Y H:i:s', strtotime($n->created_at)) }}</div>
                                                             </div>
                                                         </div>
+                                                        @endforeach
                                                     </div><!-- .nk-notification -->
                                                 </div><!-- .nk-dropdown-body -->
                                                 {{-- <div class="dropdown-foot center">
@@ -513,9 +516,10 @@
 
             onMessage(messaging, function (payload) {
                 // console.log('Message received. ', payload);
-                $('.push-noti-text').text(payload.notification.body);
-                $('.push-noti-time').text(JSON.parse(payload.data['gcm.notification.data']).time);
-                $('.notification-dropdown').slideDown();
+                // $('.push-noti-text').text(payload.notification.body);
+                // $('.push-noti-time').text(JSON.parse(payload.data['gcm.notification.data']).time);
+                // $('.notification-dropdown').slideDown();
+                $('.noti-prepend').prepend('<div class="nk-notification-item dropdown-inner"> <div class="nk-notification-icon"> <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em> </div> <div class="nk-notification-content"> <div class="nk-notification-text push-noti-text"><a class="p-0" href="'+JSON.parse(payload.data['gcm.notification.data']).url+'">'+payload.notification.body+'</a></div> <div class="nk-notification-time push-noti-time">'+JSON.parse(payload.data['gcm.notification.data']).time+'</div> </div> </div>');
                 const noteTitle = payload.notification.title;
                 const noteOptions = {
                     body: payload.notification.body,
@@ -524,10 +528,10 @@
                 new Notification(noteTitle, noteOptions);
             });
 
-            $(document).on('click', '.push-noti-read', function () {
+            /* $(document).on('click', '.push-noti-read', function () {
                 $('.push-noti-text, .push-noti-time').text('');
                 $('.notification-dropdown').slideUp();
-            });
+            }); */
 
             /* $(document).ready( (event) => {
                 setTimeout(() => {
