@@ -449,7 +449,8 @@ function init() {
 	// input.addEventListener("countrychange",function() {
 	// 	alert(iti.getSelectedCountryData());
 	// });
-
+	</script>
+	<script>
 	$(document).ready(function(){
 		AOS.init();
 		<?php
