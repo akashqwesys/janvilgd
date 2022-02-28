@@ -53,7 +53,7 @@ class DropdownController extends Controller
             'whatsapp_india' => '+91-9714405421',
             'mobile_usa' => '+1-9122456789',
             'mobile_india' => '+91-9714405421',
-            'email' => 'support@janvilgd.com'
+            'email' => 'sales@janvilgd.com'
             /* 'state' => $state,
             'city' => $city */
         ];

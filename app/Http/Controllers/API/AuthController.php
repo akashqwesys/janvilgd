@@ -403,9 +403,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Auth::user()->tokens->each(function ($token, $key) {
+        /* Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
-        });
+        }); */
+        Auth::user()->token->revoke();
         return $this->successResponse('Logged out successfully');
     }
 }
