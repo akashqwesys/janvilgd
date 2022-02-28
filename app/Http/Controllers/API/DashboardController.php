@@ -14,6 +14,7 @@ use App\Mail\EmailVerification;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Elasticsearch\ClientBuilder;
 
 class DashboardController extends Controller
 {
@@ -36,7 +37,11 @@ class DashboardController extends Controller
             $v->image = $a;
         }
 
-        $latest = DB::table('diamonds as d')
+        $client = ClientBuilder::create()
+            ->setHosts(['localhost:9200'])
+            ->build();
+
+        /* $latest = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
             ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
@@ -47,14 +52,41 @@ class DashboardController extends Controller
             ->get();
         foreach ($latest as $v) {
             $v->image = json_decode($v->image);
-            /* $a = [];
-            foreach ($v->image as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
-            }
-            $v->image = $a; */
+            // $a = [];
+            // foreach ($v->image as $v1) {
+            //     $a[] = '/storage/other_images/' . $v1;
+            // }
+            // $v->image = $a;
+        } */
+
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'size'  =>  5,
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            // ['term' => ['is_recommended' => ['value' => 1]]],
+                            ['term' => ['refCategory_id' => ['value' => 3]]],
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    [
+                        'diamond_id' => ['order' => 'desc'],
+                    ],
+                ],
+            ]
+        ];
+
+        $latest = $client->search($elastic_params);
+        if ($latest['hits']['hits'] && count($latest['hits']['hits'])) {
+            $latest = $latest['hits']['hits'];
+        } else {
+            $latest = [];
         }
 
-        $recommended = DB::table('diamonds as d')
+        /* $recommended = DB::table('diamonds as d')
             // ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
             // ->join('attribute_groups as ag', 'da.refAttribute_id', '=', 'ag.attribute_group_id')
             ->select('diamond_id', 'name', 'expected_polish_cts as carat', 'rapaport_price as mrp', 'total as price', 'discount', 'image', 'barcode')
@@ -64,14 +96,27 @@ class DashboardController extends Controller
             ->where('available_pcs', '<>', 0)
             ->orderBy('diamond_id', 'desc')
             ->limit(5)
-            ->get();
-        foreach ($recommended as $v) {
-            $v->image = json_decode($v->image);
-            /* $a = [];
-            foreach ($v->image as $v1) {
-                $a[] = '/storage/other_images/' . $v1;
-            }
-            $v->image = $a; */
+            ->get(); */
+
+        $elastic_params = [
+            'index' => 'diamonds',
+            'body'  => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['is_recommended' => ['value' => 1]]],
+                            ['term' => ['refCategory_id' => ['value' => 3]]],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $recommended = $client->search($elastic_params);
+        if ($recommended['hits']['hits'] && count($recommended['hits']['hits'])) {
+            $recommended = $recommended['hits']['hits'];
+        } else {
+            $recommended = [];
         }
 
         $offer_sale = DB::table('settings')
