@@ -49,6 +49,11 @@ class DropdownController extends Controller
         $data = [
             'diamond_categories' => $categories,
             'country' => $country,
+            'whatsapp_usa' => '+1-9122456789',
+            'whatsapp_india' => '+91-9714405421',
+            'mobile_usa' => '+1-9122456789',
+            'mobile_india' => '+91-9714405421',
+            'email' => 'support@janvilgd.com'
             /* 'state' => $state,
             'city' => $city */
         ];
