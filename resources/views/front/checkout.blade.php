@@ -57,13 +57,13 @@
         </div>
         @else
         <div class="row">
-            <div class="col col-12 pb-3">
+            {{-- <div class="col col-12 pb-3">
                 <ul class="chekot-menu-list">
                     <li>Address</li>
                     <li>Payment</li>
                 </ul>
                 <!-- <h2>Select Address</h2> -->
-            </div>
+            </div> --}}
             <div class="col col-12 col-md-6">
                 <div class="accordion checkout-accordion" id="checkoutaccordion">
                     <div class="accordion-item">

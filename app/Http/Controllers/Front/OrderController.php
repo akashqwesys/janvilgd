@@ -172,14 +172,14 @@ class OrderController extends Controller {
                 <td class="text-end">$'. number_format($final_d[$i]['total'], 2, '.', ',') .'</td>
             </tr>';
         } */
-        $pdf = PDF::loadView('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
+        // $pdf = PDF::loadView('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
         $fileName =  $order_id . '.' . 'pdf';
         // $path = public_path('pdf/');
         // $pdf->save($path . '/' . $fileName);
         // $pdf = public_path('pdf/' . $fileName);
-        // return view('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
+        return view('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
         // return response()->download($pdf);
-        return $pdf->download($fileName);
+        // return $pdf->download($fileName);
     }
 
     // Create a function for converting the amount in words

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\DiscountsController;
@@ -143,7 +144,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Orders
     Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
     Route::get('customer/order-details/{transaction_id}/{order_id}', [OrderController::class, 'orderDetails']);
-    Route::post('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
+    Route::get('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
@@ -206,6 +207,17 @@ Route::post('blogs/delete', [BlogsController::class, 'delete'])->name('blogs.del
 Route::post('blogs/status', [BlogsController::class, 'status'])->name('blogs.status')->middleware(['isLoggedIn','modifyPermission']);
 //Route::post('/delete-blogs', [BlogsController::class, 'delete'])->name('blogs.delete')->middleware('isLoggedIn');
 /***************  Blogs route end *************/
+
+/***************  Media route *************/
+Route::get('media', [MediaController::class, 'index'])->middleware(['isLoggedIn','accessPermission']);
+Route::get('media/list', [MediaController::class, 'list'])->name('media.list')->middleware(['isLoggedIn','accessPermission']);
+Route::get('media/add', [MediaController::class, 'add'])->name('media.add')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('media/save', [MediaController::class, 'save'])->name('media.save')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('media/update', [MediaController::class, 'update'])->name('media.update')->middleware(['isLoggedIn','modifyPermission']);
+Route::get('media/edit/{id}', [MediaController::class, 'edit'])->name('media.edit')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('media/delete', [MediaController::class, 'delete'])->name('media.delete')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('media/status', [MediaController::class, 'status'])->name('media.status')->middleware(['isLoggedIn','modifyPermission']);
+/***************  Media route end *************/
 
 /***************  categories route *************/
 Route::get('categories', [CategoriesController::class, 'index'])->middleware(['isLoggedIn','accessPermission']);

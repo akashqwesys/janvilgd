@@ -10,7 +10,7 @@ use DB;
 class HomeController extends Controller
 {
     public function home(Request $request)
-    {        
+    {
         $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', 'index')->orWhere('slug', 'home')->first();
         if ($data) {
             return view('front.common', ["slug" => $data->slug, "data" => $data]);
@@ -26,11 +26,23 @@ class HomeController extends Controller
                 return redirect('/');
             }
         }
-        $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
-        if ($data) {
-            return view('front.common', ["slug" => $data->slug, "data" => $data]);
+        if ($request->slug == 'blog') {
+            $blogs = DB::table('blogs')
+                ->select('blog_id', 'title', 'image', 'video_link', 'description', 'slug')
+                ->get();
+            return view('front.blogs', ["data" => $blogs]);
+        } else if ($request->slug == 'events') {
+            $events = DB::table('events')
+                ->select('event_id', 'title', 'image', 'video_link', 'description', 'slug')
+                ->get();
+            return view('front.events', ["data" => $events]);
         } else {
-            return abort(404);
+            $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
+            if ($data) {
+                return view('front.common', ["slug" => $data->slug, "data" => $data]);
+            } else {
+                return abort(404);
+            }
         }
-    }   
+    }
 }

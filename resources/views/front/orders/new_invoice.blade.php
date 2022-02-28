@@ -91,6 +91,9 @@
         .w-120p {
             width: 120px;
         }
+        .w-48 {
+            width: 48%;
+        }
     </style>
 </head>
 
@@ -106,16 +109,17 @@
                             </div>
                         </td>
                         <td width="65%" class="va-middle">
-                            <div class="cs-center">
-                                <h6 class="mb-0">LAB GROWN DIAMONDS</h6>
+                            <div class="">
+                                <h6 class="mb-1">LAB GROWN DIAMONDS</h6>
+                                <p class=""><i>YOU WILL LOVE OUR DIAMONDS</i></p>
                             </div>
                         </td>
                         <td width="17%">
                             <table class="border-none td-pd-0">
                                 <tbody>
                                     <tr>
-                                        <td width="45%" class="text-end"><p>Invoice: </p></td>
-                                        <td><p>&nbsp;#{{ $order->order_id }}</p></td>
+                                        <td width="45%" class="text-end"><p><b>Invoice: </b> </p></td>
+                                        <td><p><b>&nbsp;#{{ $order->order_id }}</b></p></td>
                                     </tr>
                                     <tr>
                                         <td width="45%" class="text-end"><p>Date: </p></td>
@@ -132,11 +136,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="">
+        {{-- <div class="">
             <div class="love-dia">YOU WILL LOVE OUR DIAMONDS</div>
             <div class="invoice-title ml--5" style="">INVOICE</div>
             <div class="display-inline-block ml--5 bb-1 w-120p"> &nbsp;</div>
-        </div>
+        </div> --}}
         <div class="div-h6">
             <table class="border-none td-pd-0">
                 <tbody>
@@ -145,15 +149,14 @@
                             <div class="ps-1">
                                 <div><u>Bill To: </u></div>
                                 <div>
+                                    {{ $order->billing_company_name }} <br>
                                     <i class="fa fa-building"></i> {{ $order->billing_company_office_address }}
                                     {{ $order->billing_city . ' - ' . $order->billing_company_office_pincode }} <br>
                                     {{ $order->billing_state }}
                                 </div>
                                 <div>
+                                    <i class="fa fa-user"> </i>&nbsp;{{ $order->name }} -
                                     <i class="fa fa-phone-alt"> </i>&nbsp;{{ $order->billing_company_office_no }}
-                                </div>
-                                <div>
-                                    <i class="fa fa-user"> </i>&nbsp;{{ $order->name }}
                                 </div>
                             </div>
                         </td>
@@ -161,15 +164,14 @@
                             <div>
                                 <div><u>Ship To: </u></div>
                                 <div>
+                                    {{ $order->shipping_company_name }} <br>
                                     <i class="fa fa-building"></i> {{ $order->shipping_company_office_address }}
                                     {{ $order->shipping_city . ' - ' . $order->shipping_company_office_pincode }} <br>
                                     {{ $order->shipping_state }}
                                 </div>
                                 <div>
+                                    <i class="fa fa-user"> </i>&nbsp;{{ $order->name }} -
                                     <i class="fa fa-phone-alt"> </i>&nbsp;{{ $order->shipping_company_office_no }}
-                                </div>
-                                <div>
-                                    <i class="fa fa-user"> </i>&nbsp;{{ $order->name }}
                                 </div>
                             </div>
                         </td>
@@ -210,29 +212,32 @@
                     </tr>
                     @endfor
                     <tr>
-                        <td colspan="3" rowspan="6">
+                        <td colspan="6" rowspan="6">
                             <div class="div-h7 ps-1">
-                                <div class="">PAYMENT INFORMATION FOR INDIA</div>
-                                <div>
-                                    BANK NAME: HDFC BANK <br>
-                                    ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
-                                    ACCOUNT NUMBER: 50200045669788 <br>
-                                    BRANCH NAME : Sachin <br>
-                                    IFSC CODE: HDFC0001706 <br>
-                                    SHIFT CODE: HDFCINBB
+                                <div class="text-center">PAYMENT INFORMATION</div>
+                                <div class="w-48 display-inline-block">
+                                    <div class="">INDIA</div>
+                                    <div>----------------------------</div>
+                                    <div>
+                                        BANK NAME: HDFC BANK <br>
+                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
+                                        ACCOUNT NUMBER: 50200045669788 <br>
+                                        BRANCH NAME : Sachin <br>
+                                        IFSC CODE: HDFC0001706 <br>
+                                        SHIFT CODE: HDFCINBB
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td colspan="3" rowspan="6">
-                            <div class="div-h7">
-                                <div class="">PAYMENT INFORMATION FOR USA</div>
-                                <div>
-                                    BANK NAME: JPMORGAN CHASE <br>
-                                    ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
-                                    ACCOUNT NUMBER: 8420108663 <br>
-                                    ROUTING NUMBER: 122333248 <br>
-                                    USA PAYMENT: WDBIU6S <br>
-                                    SHIFT CODE: CHASUS33XXX
+                                <div class="w-48 display-inline-block">
+                                    <div class="">USA</div>
+                                    <div>----------------------------</div>
+                                    <div>
+                                        BANK NAME: JPMORGAN CHASE <br>
+                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
+                                        ACCOUNT NUMBER: 8420108663 <br>
+                                        ROUTING NUMBER: 122333248 <br>
+                                        USA PAYMENT: WDBIU6S <br>
+                                        SHIFT CODE: CHASUS33XXX
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -256,8 +261,8 @@
                         <td class="text-end">${{ number_format($order->delivery_charge_amount, 2, '.', ',') }}</td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="text-end">TOTAL AMOUNT</td>
-                        <td class="text-end">${{ number_format($order->total_paid_amount, 2, '.', ',') }}</td>
+                        <td colspan="4" class="text-end"><b>TOTAL AMOUNT</b></td>
+                        <td class="text-end"><b>${{ number_format($order->total_paid_amount, 2, '.', ',') }}</b></td>
                     </tr>
                 </tbody>
             </table>
@@ -329,7 +334,6 @@
             </div>
             <div class="bb-1"></div>
         </div>
-
     </div>
 
 </body>
