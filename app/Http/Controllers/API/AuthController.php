@@ -406,7 +406,7 @@ class AuthController extends Controller
         /* Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
         }); */
-        Auth::user()->token->revoke();
+        Auth::user()->token()->revoke();
         return $this->successResponse('Logged out successfully');
     }
 }
