@@ -72,13 +72,9 @@
                             </a>
                         </td>
                         <td>
-                            <h5>{{ $rv->carat . ' CT ' . explode(' ', $rv->diamond_name)[2] . ' DIAMOND - ' . $rv->ct_name }}</h5>
-
+                            <h5>{{ $rv->carat . ' CT ' . $rv->attributes['SHAPE'] . ' DIAMOND - ' . $rv->ct_name }}</h5>
                             <p class="">Stock No: {{ $rv->barcode }}</p>
-                            @php
-                                $name = explode('•', $rv->diamond_name);
-                            @endphp
-                            <p class="">{{ $name[1] . ' • ' . explode('::', $name[2])[0] }}</p>
+                            <p class="">{{ $rv->attributes['COLOR'] . ' Color • ' . $rv->attributes['CLARITY'] . ' Clarity' }}</p>
                             <h4 class="cart-price pt-3">${{number_format(round($rv->total, 2), 2, '.', ',')}}</h4>
                             {{-- @if ($rv->available_pcs == 1)
                             <p><span class="me-2"><img src="{{ asset(check_host().'assets/images') }}/Star.svg" class="star-img img-fluid"></span>Only One Available</p> --}}

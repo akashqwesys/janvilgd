@@ -1006,29 +1006,34 @@ class DiamondController extends Controller
         $diamonds = DB::table('customer_cart as c')
             ->join('diamonds as d', 'c.refDiamond_id', '=', 'd.diamond_id')
             ->join('categories as ct', 'd.refCategory_id', '=', 'ct.category_id')
-            ->select('d.diamond_id', 'd.total','d.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id', 'ct.name as ct_name')
+            ->join('diamonds_attributes as da', 'd.diamond_id', '=', 'da.refDiamond_id')
+            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
+            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
+            ->select('d.diamond_id', 'd.total','d.name as diamond_name', 'd.barcode', 'd.rapaport_price', 'd.expected_polish_cts as carat', 'd.image', 'd.video_link', 'd.total as price', 'd.rapaport_price as mrp', 'd.available_pcs', 'c.customer_cart_id', 'ct.name as ct_name', 'ag.name as ag_name', 'a.name as a_name')
             ->where('c.refCustomer_id', $customer_id)
+            ->whereIn('ag.name', ['COLOR', 'CLARITY', 'SHAPE'])
             ->get();
             // ->toArray();
 
-        if(!empty($diamonds[0]) && isset($diamonds[0])){
+        if(isset($diamonds[0]) && !empty($diamonds[0])){
             $subtotal = 0;
             $weight = 0;
             $rm_ids = [];
-            foreach ($diamonds as $value){
-                $value->image = json_decode($value->image);
-                /* $a = [];
-                foreach ($value->image as $v1) {
-                    $a[] = '/storage/other_images/' . $v1;
+            for ($i = 0; $i < count($diamonds); $i++) {
+                $attr[$diamonds[$i]->{'ag_name'}] = $diamonds[$i]->{'a_name'};
+                if (isset($diamonds[$i+1]->diamond_id) && $diamonds[$i+1]->diamond_id == $diamonds[$i]->diamond_id) {
+                    continue;
                 }
-                $value->image = $a; */
-                if ($value->available_pcs > 0) {
-                    $subtotal += $value->price;
-                    $weight += $value->carat;
+                $diamonds[$i]->attributes = $attr;
+                $diamonds[$i]->image = json_decode($diamonds[$i]->image);
+
+                if ($diamonds[$i]->available_pcs > 0) {
+                    $subtotal += $diamonds[$i]->price;
+                    $weight += $diamonds[$i]->carat;
                 } else {
-                    $rm_ids[] = $value->customer_cart_id;
+                    $rm_ids[] = $diamonds[$i]->customer_cart_id;
                 }
-                array_push($response_array, $value);
+                array_push($response_array, $diamonds[$i]);
             }
         }
 
