@@ -91,6 +91,7 @@ class SettingsController extends Controller {
         successOrErrorMessage("Data updated Successfully", 'success');
         return redirect('admin/settings');
     }
+
     public function delete(Request $request) {
         if (isset($request['table_id'])) {
 
@@ -112,6 +113,7 @@ class SettingsController extends Controller {
             return response()->json($data);
         }
     }
+
     public function status(Request $request) {
         if (isset($request['table_id'])) {
 

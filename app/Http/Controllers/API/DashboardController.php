@@ -123,10 +123,10 @@ class DashboardController extends Controller
             ->select('key', 'value', 'attachment')
             ->where('key', 'offer_sale')
             ->first();
-        if (empty($offer_sale->attachment)) {
+        $offer_sale->attachment = url('/') . '/storage/user_files/' . $offer_sale->attachment;
+        if ($offer_sale->value == 0) {
             $offer_sale = null;
         }
-        $offer_sale->attachment = url('/') . '/storage/user_files/' . $offer_sale->attachment;
         $data = [
             'sliders' => $sliders,
             'recommended' => $recommended,
