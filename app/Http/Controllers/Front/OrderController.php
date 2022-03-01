@@ -123,46 +123,19 @@ class OrderController extends Controller {
     {
         $customer = Auth::user();
         $order = DB::table('orders as o')
-            ->select('o.order_id', 'o.total_paid_amount', 'o.sub_total', 'o.discount_amount', 'o.delivery_charge_amount', 'o.refPayment_mode_id', 'o.payment_mode_name', 'o.refTransaction_id', 'o.refCustomer_company_id_billing', 'o.billing_company_name', 'o.billing_company_office_no', 'o.billing_company_office_email', 'o.billing_company_office_address', 'o.billing_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_billing") as "billing_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_billing") as "billing_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_billing") as "billing_country"'), 'o.billing_company_pan_gst_no', 'o.refCustomer_company_id_shipping', 'o.shipping_company_name', 'o.shipping_company_office_no', 'o.shipping_company_office_email', 'o.shipping_company_office_address', 'o.shipping_company_office_pincode', DB::raw('(select "name" from "city" where "city_id" = "o"."refCity_id_shipping") as "shipping_city"'), DB::raw('(select "name" from "state" where "state_id" = "o"."refState_id_shipping") as "shipping_state"'), DB::raw('(select "name" from "country" where "country_id" = "o"."refCountry_id_shipping") as "shipping_country"'), 'o.created_at', 'o.additional_discount', 'o.tax_name', 'o.tax_amount', 'o.order_status', 'o.due_date', 'o.name')
+            ->select('o.order_id', 'o.order_status')
             ->where('o.refCustomer_id', $customer->customer_id)
             ->where('o.order_id', $order_id)
             ->first();
-        /* $diamonds = DB::table('order_diamonds')
-            ->selectRaw('COUNT(order_diamond_id) as total_diamonds, SUM(expected_polish_cts) as total_carats')
-            ->where('refOrder_id', $order->order_id)
-            ->first(); */
-        $diamonds = DB::table('order_diamonds as od')
-            ->join('categories as c', 'od.refCategory_id', '=', 'c.category_id')
-            ->join('diamonds_attributes as da', 'od.refDiamond_id', '=', 'da.refDiamond_id')
-            ->join('attribute_groups as ag', 'da.refAttribute_group_id', '=', 'ag.attribute_group_id')
-            ->join('attributes as a', 'da.refAttribute_id', '=', 'a.attribute_id')
-            ->select('od.price', 'od.barcode', 'od.rapaport_price', 'od.new_discount', 'od.refDiamond_id', 'od.expected_polish_cts', 'ag.name as ag_name', 'a.name as a_name', 'c.name as cat_name')
-            ->where('od.refOrder_id', $order->order_id)
-            ->whereIn('ag.name', ['COLOR','CLARITY','SHAPE','CUT'])
-            ->get()
-            ->toArray();
-
-        $final_d = [];
-        foreach ($diamonds as $v_row) {
-            $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
-            $final_d[$v_row->refDiamond_id]['cat_name'] = $v_row->cat_name;
-            $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
-            $final_d[$v_row->refDiamond_id]['rapaport_price'] = $v_row->rapaport_price;
-            $final_d[$v_row->refDiamond_id]['discount'] = $v_row->new_discount * 100;
-            $final_d[$v_row->refDiamond_id]['total'] = $v_row->price;
-            $final_d[$v_row->refDiamond_id]['expected_polish_cts'] = $v_row->expected_polish_cts;
+        if ($order && $order->order_status == 'PAID') {
+            try {
+                return response()->download(storage_path('/app/public/invoices/order_invoice_' . $order_id . '.pdf'));
+            } catch (\Exception $e) {
+                abort(404);
+            }
+        } else {
+            abort(404);
         }
-        $final_d = array_values($final_d);
-        $tax = number_format(($order->sub_total - $order->discount_amount - ($order->additional_discount * $order->sub_total / 100)) * $order->tax_amount / 100, 2, '.', ',');
-
-        $pdf = PDF::loadView('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
-        $fileName =  'order_invoice_' . $order_id . '_' . date('d-m-Y') . '.pdf';
-        $path = public_path('pdf/');
-        $pdf->save($path . '/' . $fileName);
-        // $pdf = public_path('pdf/' . $fileName);
-        // return view('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
-        // return response()->download($pdf);
-        // return $pdf->download($fileName);
     }
 
     // Create a function for converting the amount in words

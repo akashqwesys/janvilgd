@@ -308,7 +308,7 @@ class FrontAuthController extends Controller
                 Mail::to($email)
                     ->send(
                         new EmailVerification([
-                            'subject' => 'Email Verification from Janvi LGD',
+                            'subject' => 'Password Recovery from Janvi LGD',
                             'name' => $email,
                             'otp' => $otp,
                             'link' => null,

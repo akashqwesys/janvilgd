@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
     Route::post('my-orders', [OrderController::class, 'myOrders']);
     Route::post('order-details/{transaction_id}/{order_id}', [OrderController::class, 'myOrderDetails']);
     Route::post('save-order', [OrderController::class, 'saveMyOrder']);
+    Route::get('my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
 
     // Contact
     Route::post('contact-us', [ContactController::class, 'index']);

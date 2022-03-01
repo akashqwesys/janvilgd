@@ -118,7 +118,7 @@ class OrderController extends Controller
                 // }
                 // $v->images = $a;
             }
-            $data = ['orders' => $orders, 'diamonds' => array_values($final_d), 'status' => $order_updates];
+            $data = ['orders' => $orders, 'diamonds' => array_values($final_d), 'status' => $order_updates, 'invoice' => '/my-orders/download-invoice/' . $order_id];
 
             return $this->successResponse('Success', $data);
         } catch (\Exception $e) {
@@ -381,6 +381,25 @@ class OrderController extends Controller
             return $this->successResponse('Order placed successfully');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function downloadInvoice(Request $request, $order_id)
+    {
+        $customer = Auth::user();
+        $order = DB::table('orders as o')
+            ->select('o.order_id', 'o.order_status')
+            ->where('o.refCustomer_id', $customer->customer_id)
+            ->where('o.order_id', $order_id)
+            ->first();
+        if ($order && $order->order_status == 'PAID') {
+            try {
+                return response()->download(storage_path('/app/public/invoices/order_invoice_' . $order_id . '.pdf'));
+            } catch (\Exception $e) {
+                abort(404);
+            }
+        } else {
+            abort(404);
         }
     }
 }

@@ -105,7 +105,7 @@
                     <tr>
                         <td width="18%" class="va-middle bg-lightgray">
                             <div class="text-center">
-                                <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="35" class="">
+                                {{-- <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="35" class=""> --}}
                             </div>
                         </td>
                         <td width="65%" class="va-middle">
@@ -189,12 +189,12 @@
                         <td class="text-center" width="80px">SHAPE</td>
                         <td class="text-center" width="25px">COLOR</td>
                         <td class="text-center" width="35px">CLARITY</td>
-                        <td class="text-center" width="70px">CUT</td>
+                        <td class="text-center" width="75px">CUT</td>
                         <td class="text-end" width="25px">WEIGHT</td>
                         <td class="text-end" width="70px">RAP</td>
                         <td class="text-end" width="40px">DISC</td>
-                        <td class="text-end" width="70px">$/CT</td>
-                        <td class="text-end" width="80px">AMT</td>
+                        <td class="text-end" width="65px">$/CT</td>
+                        <td class="text-end" width="75px">AMT</td>
                     </tr>
                     @for ($i = 0; $i < count($final_d); $i++)
                     <tr>
@@ -213,32 +213,44 @@
                     @endfor
                     <tr>
                         <td colspan="6" rowspan="6">
-                            <div class="div-h7 ps-1">
-                                <div class="text-center mb-3">PAYMENT INFORMATION</div>
-                                <div class="w-48 display-inline-block">
-                                    <div class="">INDIA</div>
-                                    <div>----------------------------</div>
-                                    <div>
-                                        BANK NAME: HDFC BANK <br>
-                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
-                                        ACCOUNT NUMBER: 50200045669788 <br>
-                                        BRANCH NAME : Sachin <br>
-                                        IFSC CODE: HDFC0001706 <br>
-                                        SHIFT CODE: HDFCINBB
-                                    </div>
-                                </div>
-                                <div class="w-48 display-inline-block">
-                                    <div class="">USA</div>
-                                    <div>----------------------------</div>
-                                    <div>
-                                        BANK NAME: JPMORGAN CHASE <br>
-                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
-                                        ACCOUNT NUMBER: 8420108663 <br>
-                                        ROUTING NUMBER: 122333248 <br>
-                                        USA PAYMENT: WDBIU6S <br>
-                                        SHIFT CODE: CHASUS33XXX
-                                    </div>
-                                </div>
+                            <div class="div-h6">
+                                <table class="border-none td-pd-0">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="text-center mb-1">PAYMENT INFORMATION</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <div class="ps-1">
+                                                    <div class=""><b>INDIA</b></div>
+                                                    <div class="div-h7">
+                                                        BANK NAME: HDFC BANK <br>
+                                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
+                                                        ACCOUNT NUMBER: 50200045669788 <br>
+                                                        BRANCH NAME : Sachin <br>
+                                                        IFSC CODE: HDFC0001706 <br>
+                                                        SHIFT CODE: HDFCINBB
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                    <div class=""><b>USA</b></div>
+                                                    <div class="div-h7">
+                                                        BANK NAME: JPMORGAN CHASE <br>
+                                                        ACCOUNT NAME: JANVI LGD PRIVATE LIMITED <br>
+                                                        ACCOUNT NUMBER: 8420108663 <br>
+                                                        ROUTING NUMBER: 122333248 <br>
+                                                        USA PAYMENT: WDBIU6S <br>
+                                                        SHIFT CODE: CHASUS33XXX
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </td>
                         <td colspan="4" class="text-end">SUBTOTAL</td>
@@ -279,7 +291,7 @@
                         </td>
                         <td class="ps-1">
                             <div class="text-center pt-2 bg-lightgray">
-                                <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="25" class="">
+                                {{-- <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="25" class=""> --}}
                             </div>
                             <div>
                                 <b>ADDRESS</b> <br>

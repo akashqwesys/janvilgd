@@ -52,7 +52,8 @@
                             </div>
                             @if ($orders[0]->order_status == 'PAID')
                             <div class="col-6 text-right">
-                                <button id="download-invoice" class="btn btn-primary" data-id="{{ $orders[0]->order_id }}">Download Invoice</button>
+                                {{-- <button id="download-invoice" class="btn btn-primary" data-id="{{ $orders[0]->order_id }}">Download Invoice</button> --}}
+                                <a id="download-invoice" class="btn btn-primary" href="/customer/my-orders/download-invoice/{{ $orders[0]->order_id }}" target="_blank">Download Invoice</a>
                             </div>
                             @endif
                         </div>
@@ -215,7 +216,7 @@ $(document).on('click', '.edit-btn', function () {
 $("#exampleModal").on('hidden.bs.modal', function(){
     $('div.errTxt').html('');
 });
-$(document).on('click', '#download-invoice', function() {
+/* $(document).on('click', '#download-invoice', function() {
     $('.cs-loader').show();
     $.ajax({
         type: 'post',
@@ -249,6 +250,6 @@ $(document).on('click', '#download-invoice', function() {
             $('.cs-loader').hide();
         }
     });
-});
+}); */
 </script>
 @endsection

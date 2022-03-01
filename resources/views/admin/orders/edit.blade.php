@@ -2,9 +2,30 @@
 @section('css')
 <link href="{{ asset(check_host().'admin_assets/datatable/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset(check_host().'admin_assets/datatable/dataTables.responsive.css')}}" rel="stylesheet" type="text/css">
+<style>
+    .spinner-border {
+        position: fixed;
+        top: 45%;
+        display: inline-block;
+        width: 6rem;
+        height: 6rem;
+        vertical-align: text-bottom;
+        border: 0.5em solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spinner-border .75s linear infinite;
+    }
+</style>
 @endsection
 @section('content')
-<div class="nk-content">
+<div id='append_loader' class="overlay">
+    <div class='d-flex justify-content-center' style="padding-top: 60%;">
+        <div class='spinner-border text-success' role='status'>
+            <span class='sr-only'>Loading...</span>
+        </div>
+    </div>
+</div>
+<div class="nk-content mt-5">
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
@@ -228,7 +249,7 @@
                             @if ($data['order_history'][$last_index]->order_status_name != 'CANCELLED')
                             <h3 class="nk-block-title page-title mt-5" >Add Order History</h3>
                             <hr>
-                            <form method="POST" action="{{route('orders.addOrderHistory')}}">
+                            <form method="POST" action="{{route('orders.addOrderHistory')}}" onsubmit="showLoader()">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data['result']->order_id }}">
                                 <div class="row g-3 align-center">
@@ -285,6 +306,9 @@
 @endsection
 @section('script')
 <script type="text/javascript">
+    function showLoader() {
+        $('#append_loader').show();
+    }
     $(document).on('click', '#acceptOrder, #declineOrder', function() {
         $('#order_status_name').val($(this).attr('data-value')).trigger('change');
         if ($(this).attr('id') == 'acceptOrder') {
