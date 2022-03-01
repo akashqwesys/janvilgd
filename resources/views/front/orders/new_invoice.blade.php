@@ -105,7 +105,7 @@
                     <tr>
                         <td width="18%" class="va-middle bg-lightgray">
                             <div class="text-center">
-                                {{-- <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="35" class=""> --}}
+                                <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="35" class="">
                             </div>
                         </td>
                         <td width="65%" class="va-middle">
@@ -291,7 +291,7 @@
                         </td>
                         <td class="ps-1">
                             <div class="text-center pt-2 bg-lightgray">
-                                {{-- <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="25" class=""> --}}
+                                <img src="{{ url('/') }}/assets/images/logo.png" alt="" height="25" class="">
                             </div>
                             <div>
                                 <b>ADDRESS</b> <br>
