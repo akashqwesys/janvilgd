@@ -4,58 +4,52 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Models\Media;
+use App\Models\Gallery;
 use DataTables;
 
-class MediaController extends Controller
+class GalleryController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'List-Media';
-        return view('admin.media.list', ["data" => $data]);
-    }
-
-    public function add()
-    {
-        $data['title'] = 'Add-media';
-        return view('admin.media.add', ["data" => $data]);
+        $data['title'] = 'List-Gallery';
+        return view('admin.gallery.list', ["data" => $data]);
     }
 
     public function save(Request $request)
     {
-        $imgData = array();
-        if ($request->hasfile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-            $request->file('image')->storeAs("public/other_images", $imageName);
-            // array_push($imgData, $imageName);
-        }
-        // $image=json_encode($imgData);
-
-        DB::table('media')->insert([
-            'title' => $request->title,
-            'image' => $imageName,
-            'video_link' => $request->video_link,
-            'description' => $request->description,
-            'slug' => clean_string($request->slug),
-            'added_by' => $request->session()->get('loginId'),
-            'is_active' => 1,
-            'is_deleted' => 0,
+        $request->validate([
+            'image' => 'array',
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $Id = DB::getPdo()->lastInsertId();
-        activity($request, "inserted", 'media', $Id);
+        $data = [];
+        foreach ($request->file('image') as $v) {
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $v->getClientOriginalName());
+            $v->storeAs("public/other_images", $imageName);
+            $data[] = [
+                'image' => $imageName,
+                'added_by' => $request->session()->get('loginId'),
+                'is_active' => 1,
+                'is_deleted' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ];
+        }
+
+        DB::table('galleries')->insert($data);
+        activity($request, "inserted", 'galleries', 0);
         successOrErrorMessage("Data added Successfully", 'success');
-        return redirect('admin/media');
+        return redirect('admin/gallery');
     }
 
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $data = Media::orderBy('media_id', 'desc')->get();
+            $data = Gallery::orderBy('gallery_id', 'desc')->get();
             return Datatables::of($data)
                 ->addColumn('index', '')
+                ->editColumn('image', function ($row) {
+                    return '<div> <img class="gallery-image" src="/storage/other_images/'.$row->image.'" height="70"></div>';
+                })
                 ->editColumn('created_at', function ($row) {
                     return date_formate($row->created_at);
                 })
@@ -85,7 +79,7 @@ class MediaController extends Controller
                         $str = '<em class="icon ni ni-check-thick"></em>';
                         $class = "btn-success";
                     }
-                    $actionBtn = '<a href="/admin/media/edit/' . $row->media_id . '" class="btn btn-xs btn-warning">&nbsp;<em class="icon ni ni-edit-fill"></em></a> <button class="btn btn-xs btn-danger delete_button" data-module="media" data-id="' . $row->media_id . '" data-table="media" data-wherefield="media_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->media_id . '" data-status="' . $row->is_active . '" data-table="media" data-wherefield="media_id" data-module="media">' . $str . '</button>';
+                    $actionBtn = '<button data-id="' . $row->gallery_id . '" class="btn btn-xs btn-warning edit-gallery">&nbsp;<em class="icon ni ni-edit-fill"></em></button> <button class="btn btn-xs btn-danger delete_button" data-module="galleries" data-id="' . $row->gallery_id . '" data-table="galleries" data-wherefield="gallery_id">&nbsp;<em class="icon ni ni-trash-fill"></em></button> <button class="btn btn-xs ' . $class . ' active_inactive_button" data-id="' . $row->gallery_id . '" data-status="' . $row->is_active . '" data-table="galleries" data-wherefield="gallery_id" data-module="galleries">' . $str . '</button>';
                     return $actionBtn;
                 })
                 ->escapeColumns([])
@@ -93,48 +87,30 @@ class MediaController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $result = DB::table('media')->where('media_id', $id)->first();
-        $data['title'] = 'Edit-Media';
-        $data['result'] = $result;
-        return view('admin.media.edit', ["data" => $data]);
-    }
-
     public function update(Request $request)
     {
-        $imgData = array();
-        if ($request->hasfile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-            $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
-            $request->file('image')->storeAs("public/other_images", $imageName);
-            $exist_file = DB::table('media')->where('media_id', $request->id)->first();
-            if ($exist_file) {
-                // $arr_imgs = json_decode($exist_file->image);
-                // if (count($arr_imgs)) {
-                // foreach ($arr_imgs as $v) {
-                unlink(base_path('/storage/app/public/other_images/' . $exist_file->image));
-                // }
-                // }
-            }
-            // array_push($imgData, $imageName);
-        }
-        // $image = json_encode($imgData);
+        // dd($request->all());
+        $request->validate([
+            'id' => 'integer',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-        DB::table('media')->where('media_id', $request->id)->update([
-            'title' => $request->title,
+        $exist_file = DB::table('galleries')->where('gallery_id', $request->id)->first();
+        if ($exist_file) {
+            unlink(base_path('/storage/app/public/other_images/' . $exist_file->image));
+        }
+
+        $imageName = time() . '_' . preg_replace('/\s+/', '_', $request->file('image')->getClientOriginalName());
+        $request->file('image')->storeAs("public/other_images", $imageName);
+
+        DB::table('galleries')->where('gallery_id', $request->id)->update([
             'image' => $imageName,
-            'video_link' => $request->video_link,
-            'description' => $request->description,
-            'slug' => clean_string($request->slug),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        activity($request, "updated", 'media', $request->id);
+        activity($request, "updated", 'galleries', $request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
-        return redirect('admin/media');
+        return redirect('admin/gallery');
     }
 
     public function delete(Request $request)

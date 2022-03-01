@@ -154,30 +154,13 @@ class OrderController extends Controller {
         }
         $final_d = array_values($final_d);
         $tax = number_format(($order->sub_total - $order->discount_amount - ($order->additional_discount * $order->sub_total / 100)) * $order->tax_amount / 100, 2, '.', ',');
-        // $amount_words = $this->numberToWords($order->total_paid_amount);
-        // $tax_words = $this->numberToWords($tax);
-        /* $html = null;
-        for ($i = 0; $i < count($final_d); $i++) {
-            $html .= '<tr>
-                <td class="text-center">'. $i+1 .'</td>
-                <td class="text-center">'. $final_d[$i]['barcode'] .'</td>
-                <td class="text-center">'. $final_d[$i]['attributes']['SHAPE'] .'</td>
-                <td class="text-center">'. $final_d[$i]['attributes']['COLOR'] .'</td>
-                <td class="text-center">'. $final_d[$i]['attributes']['CLARITY'] .'</td>
-                <td class="text-center">'.  '-' .'</td>
-                <td class="text-end">'. $final_d[$i]['expected_polish_cts'] .'</td>
-                <td class="text-end">$'. number_format($final_d[$i]['rapaport_price'], 2, '.', ',') .'</td>
-                <td class="text-end">'. $final_d[$i]['discount'] .'%</td>
-                <td class="text-end">$'. number_format($final_d[$i]['total'] / $final_d[$i]['expected_polish_cts'], 2, '.', ',') .'</td>
-                <td class="text-end">$'. number_format($final_d[$i]['total'], 2, '.', ',') .'</td>
-            </tr>';
-        } */
-        // $pdf = PDF::loadView('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
-        $fileName =  $order_id . '.' . 'pdf';
-        // $path = public_path('pdf/');
-        // $pdf->save($path . '/' . $fileName);
+
+        $pdf = PDF::loadView('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
+        $fileName =  'order_invoice_' . $order_id . '_' . date('d-m-Y') . '.pdf';
+        $path = public_path('pdf/');
+        $pdf->save($path . '/' . $fileName);
         // $pdf = public_path('pdf/' . $fileName);
-        return view('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
+        // return view('front.orders.new_invoice', compact('order', 'customer', 'diamonds', 'tax', 'final_d'));
         // return response()->download($pdf);
         // return $pdf->download($fileName);
     }

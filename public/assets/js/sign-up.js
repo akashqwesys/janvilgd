@@ -9,6 +9,23 @@ $.ajaxSetup({
 });
 $('#country_code, #country, #state, #city, #company_country_code, #company_country, #company_state, #company_city').select2();
 $('#select2-country_code-container').css('padding-left', '15px');
+
+$(document).on('change', '#mobile', function () {
+    if ($(this).val()) {
+        $('#country').val($('#country_code').val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#country').val($('#country_code').val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+
+$(document).on('change', '#company_office_no', function () {
+    if ($(this).val()) {
+        $('#company_country').val($('#company_country_code').val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
+    } else {
+        $('#company_country').val($('#company_country_code').val()).trigger('change').attr('disabled', false).parent().css('background', '#fff');
+    }
+});
+
 $(document).on('change', '#country_code', function () {
     if ($(this).val()) {
         $('#country').val($(this).val()).trigger('change').attr('disabled', true).parent().css('background', '#e9ecef');
@@ -34,35 +51,37 @@ $('#company_country_code').on('select2:open', function (e) {
     }, 10);
 });
 $(document).on('change', '#email, #mobile', function () {
-    $('.cs-loader').show();
-    $.ajax({
-        type: "POST",
-        url: "/checkEmailMobile",
-        data: {'name': $(this).val(), 'type': $(this).attr('id') == 'email' ? 2 : 1},
-        // cache: false,
-        context: this,
-        dataType: 'JSON',
-        success: function(response) {
-            $('.cs-loader').hide();
-            if(response.error) {
+    if ($(this).val()) {
+        $('.cs-loader').show();
+        $.ajax({
+            type: "POST",
+            url: "/checkEmailMobile",
+            data: {'name': $(this).val(), 'type': $(this).attr('id') == 'email' ? 2 : 1},
+            // cache: false,
+            context: this,
+            dataType: 'JSON',
+            success: function(response) {
+                $('.cs-loader').hide();
+                if(response.error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                    $(this).val('');
+                }
+            },
+            failure: function (response) {
                 $.toast({
                     heading: 'Error',
-                    text: response.message,
+                    text: 'Oops, something went wrong...!',
                     icon: 'error',
                     position: 'top-right'
                 });
-                $(this).val('');
             }
-        },
-        failure: function (response) {
-            $.toast({
-                heading: 'Error',
-                text: 'Oops, something went wrong...!',
-                icon: 'error',
-                position: 'top-right'
-            });
-        }
-    });
+        });
+    }
 });
 $(document).on('change', '#country', function () {
     if ($(this).val()) {
@@ -232,7 +251,7 @@ $("#msform").validate({
         password: { required: true, rangelength: [6, 15] },
         confirm_password: { required: true, equalTo: "#password" },
         // country_code: { required: true },
-        mobile: {/*required: true,*/ number: true, rangelength: [10,11]},
+        mobile: {/*required: true,*/ number: true, rangelength: [8,11]},
         address: {required: true, rangelength: [10,200]},
         country: {required: true},
         state: {required: true},
@@ -240,7 +259,7 @@ $("#msform").validate({
         pincode: { required: true, number: true},
         company_name: {required: true, minlength: 4, maxlength: 100},
         company_country_code: { required: true},
-        company_office_no: { required: true, rangelength: [10,11]},
+        company_office_no: { required: true, rangelength: [8,11]},
         company_email: {required: true, email: true},
         company_gst_pan: {required: true, minlength: 8},
         company_address: {required: true, rangelength: [10,200]},

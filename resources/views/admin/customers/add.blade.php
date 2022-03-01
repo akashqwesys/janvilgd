@@ -598,7 +598,7 @@
 
     $("#customerForm").validate({
         rules: {
-            mobile: { number:true, rangelength: [10,11]},
+            mobile: { number:true, rangelength: [8,11]},
             password: { required: true, rangelength: [6, 15] },
             confirm_password: { required: true, equalTo: "#password" },
             pincode: { required: true, number: true},

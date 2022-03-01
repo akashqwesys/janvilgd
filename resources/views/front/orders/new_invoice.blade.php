@@ -214,7 +214,7 @@
                     <tr>
                         <td colspan="6" rowspan="6">
                             <div class="div-h7 ps-1">
-                                <div class="text-center">PAYMENT INFORMATION</div>
+                                <div class="text-center mb-3">PAYMENT INFORMATION</div>
                                 <div class="w-48 display-inline-block">
                                     <div class="">INDIA</div>
                                     <div>----------------------------</div>

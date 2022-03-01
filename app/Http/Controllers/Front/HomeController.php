@@ -36,6 +36,16 @@ class HomeController extends Controller
                 ->select('event_id', 'title', 'image', 'video_link', 'description', 'slug')
                 ->get();
             return view('front.events', ["data" => $events]);
+        } else if ($request->slug == 'media') {
+            $media = DB::table('media')
+                ->select('media_id', 'title', 'image', 'video_link', 'description', 'slug')
+                ->get();
+            return view('front.media', ["data" => $media]);
+        } else if ($request->slug == 'gallery') {
+            $galleries = DB::table('galleries')
+                ->select('gallery_id', 'title', 'image')
+                ->get();
+            return view('front.gallery', ["data" => $galleries]);
         } else {
             $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
             if ($data) {

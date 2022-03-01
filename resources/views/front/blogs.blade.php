@@ -6,7 +6,7 @@
             <div class='container'>
                 <div class='section-content'>
                     <div>
-                        <h2 class='title bread-crumb-title'>Blog</h2>
+                        <h2 class='title bread-crumb-title'>Blogs</h2>
                     </div>
                 </div>
             </div>

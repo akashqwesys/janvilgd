@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\DiscountsController;
@@ -144,7 +145,7 @@ Route::group( ['middleware' => ['auth']], function () {
     // Orders
     Route::get('customer/my-orders', [OrderController::class, 'getMyOrders']);
     Route::get('customer/order-details/{transaction_id}/{order_id}', [OrderController::class, 'orderDetails']);
-    Route::get('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
+    Route::post('customer/my-orders/download-invoice/{order_id}', [OrderController::class, 'downloadInvoice']);
 
 });
 Route::get('pdf/preview', [HDiamond::class, 'pdfpreview']);
@@ -218,6 +219,15 @@ Route::get('media/edit/{id}', [MediaController::class, 'edit'])->name('media.edi
 Route::post('media/delete', [MediaController::class, 'delete'])->name('media.delete')->middleware(['isLoggedIn','modifyPermission']);
 Route::post('media/status', [MediaController::class, 'status'])->name('media.status')->middleware(['isLoggedIn','modifyPermission']);
 /***************  Media route end *************/
+
+/***************  Gallery route *************/
+Route::get('gallery', [GalleryController::class, 'index'])->middleware(['isLoggedIn','accessPermission']);
+Route::get('gallery/list', [GalleryController::class, 'list'])->name('gallery.list')->middleware(['isLoggedIn','accessPermission']);
+Route::post('gallery/save', [GalleryController::class, 'save'])->name('gallery.save')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('gallery/update', [GalleryController::class, 'update'])->name('gallery.update')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('gallery/delete', [GalleryController::class, 'delete'])->name('gallery.delete')->middleware(['isLoggedIn','modifyPermission']);
+Route::post('gallery/status', [GalleryController::class, 'status'])->name('gallery.status')->middleware(['isLoggedIn','modifyPermission']);
+/***************  Gallery route end *************/
 
 /***************  categories route *************/
 Route::get('categories', [CategoriesController::class, 'index'])->middleware(['isLoggedIn','accessPermission']);

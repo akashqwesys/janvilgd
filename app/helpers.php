@@ -69,6 +69,8 @@ function sendPushNotification($title, $body, $url = null)
         'body' => $body,
         'url' => $url,
         'status' => 0,
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s")
     ]);
     // FCM response
     // dd($result);
@@ -166,7 +168,7 @@ if (!function_exists('activity')) {
             $device = "mobile";
         }
 
-        if (in_array($module, ['modules', 'diamonds', 'customer_company_details', 'orders', 'customers'])) {
+        if (in_array($module, ['modules', 'diamonds', 'customer_company_details', 'orders', 'customers', 'galleries', 'media', 'blogs', 'events'])) {
             $module_id = 0;
             $module_name = $module;
         }

@@ -1,12 +1,12 @@
 @extends('front.layout_1')
-@section('title', 'Events')
+@section('title', 'Media')
 @section('content')
     <div class='content-wrapper'>
         <section class='media-section sub-header'>
             <div class='container'>
                 <div class='section-content'>
                     <div>
-                        <h2 class='title bread-crumb-title'>Events</h2>
+                        <h2 class='title bread-crumb-title'>Media</h2>
                     </div>
                 </div>
             </div>

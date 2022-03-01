@@ -1,4 +1,4 @@
-<?php if ($data['title'] == 'List-Media') {
+<?php if ($data['title'] == 'List-Gallery') {
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -18,13 +18,10 @@
                 "serverSide": true,
                 "pageLength": 10,
                 "paginationType": "full_numbers",
-                ajax: "{{ route('media.list') }}",
+                ajax: "{{ route('gallery.list') }}",
                 columns: [
                     {data: 'index', name: 'index'},
-                    {data: 'title', name: 'title'},
                     {data: 'image', name: 'image'},
-                    {data: 'video_link', name: 'video_link'},
-                    {data: 'slug', name: 'slug'},
                     {data: 'is_active', name: 'is_active',className: "is_active"},
                     {data: 'is_deleted', name: 'is_deleted',className: "is_deleted"},
                     {data: 'created_at', name: 'created_at'},
@@ -36,7 +33,7 @@
                     }
                 ],
                 "createdRow": function (row, data, dataIndex) {
-                    $(row).addClass('tr_'+data['media_id']);
+                    $(row).addClass('tr_'+data['gallery_id']);
                 }
             });
         });
@@ -61,7 +58,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('media.delete') }}",
+                    url: "{{ route('gallery.delete') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {
@@ -99,7 +96,7 @@
                 $.ajax({
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "{{ route('media.status') }}",
+                    url: "{{ route('gallery.status') }}",
                     data: data,
                     success: function (res) {
                         if (res.suceess) {

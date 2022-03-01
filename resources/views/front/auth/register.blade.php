@@ -133,7 +133,7 @@
                                             <select class="form-select" id="country" name="country" >
                                                 <option selected value="">Select Country</option>
                                                 @foreach ($country as $c)
-                                                <option value="{{ $c->country_id }}">{{ $c->name }}</option>
+                                                <option value="{{ $c->country_id }}" {{ set_selected(101, $c->country_id) }}>{{ $c->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -225,7 +225,7 @@
                                             <select class="form-select" id="company_country" name="company_country">
                                                 <option selected value="">Select Country</option>
                                                 @foreach ($country as $c)
-                                                    <option value="{{ $c->country_id }}">{{ $c->name }}</option>
+                                                    <option value="{{ $c->country_id }}" {{ set_selected(101, $c->country_id) }}>{{ $c->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

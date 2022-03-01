@@ -383,6 +383,8 @@
         @yield('script')
         @include('admin.designation.designation_list_js')
         @include('admin.blogs.list_js')
+        @include('admin.media.list_js')
+        @include('admin.gallery.list_js')
         @include('admin.categories.list_js')
         @include('admin.customerType.list_js')
         @include('admin.discount.list_js')
