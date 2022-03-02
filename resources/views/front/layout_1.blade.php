@@ -497,6 +497,11 @@ function init() {
 	</script>
 	@if (request()->url() == url('/') . '/contact')
 	<script>
+	document.addEventListener("visibilitychange", function() {
+		if (document.visibilityState === 'visible') {
+			location.reload();
+		}
+	});
 	$(document).on('click', '#contact-submit-btn', function(e) {
 		e.preventDefault();
 		if ($('#fname').val() == '') {

@@ -92,6 +92,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.1/js/all.min.js"></script>
     <script src="/admin_assets/toast/jquery.toast.js"></script>
     <script type="text/javascript">
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'visible') {
+                location.reload();
+            }
+        });
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')

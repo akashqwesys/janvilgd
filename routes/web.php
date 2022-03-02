@@ -65,6 +65,9 @@ Route::get('/home', [CustomAuthController::class, 'home']);
 Route::get('/access-denied', [CustomAuthController::class, 'accessDenied']);
 Route::get('/', [HomeController::class, 'home'])->name('front-home');
 Route::get('/{slug}', [HomeController::class, 'pages'])->name('front-pages');
+Route::get('/blog/{blog_id}/{blog_title}', [HomeController::class, 'blogDetail']);
+Route::get('/event/{event_id}/{event_title}', [HomeController::class, 'eventDetail']);
+Route::get('/media/{media_id}/{media_title}', [HomeController::class, 'mediaDetail']);
 Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
 
 // Route::post('customer/contact', [ContactController::class, 'index']);

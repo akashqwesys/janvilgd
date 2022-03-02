@@ -30,17 +30,17 @@ class HomeController extends Controller
             $blogs = DB::table('blogs')
                 ->select('blog_id', 'title', 'image', 'video_link', 'description', 'slug')
                 ->get();
-            return view('front.blogs', ["data" => $blogs]);
+            return view('front.blogs.blogs', ["data" => $blogs]);
         } else if ($request->slug == 'events') {
             $events = DB::table('events')
                 ->select('event_id', 'title', 'image', 'video_link', 'description', 'slug')
                 ->get();
-            return view('front.events', ["data" => $events]);
+            return view('front.events.events', ["data" => $events]);
         } else if ($request->slug == 'media') {
             $media = DB::table('media')
                 ->select('media_id', 'title', 'image', 'video_link', 'description', 'slug')
                 ->get();
-            return view('front.media', ["data" => $media]);
+            return view('front.media.media', ["data" => $media]);
         } else if ($request->slug == 'gallery') {
             $galleries = DB::table('galleries')
                 ->select('gallery_id', 'title', 'image')
@@ -54,5 +54,50 @@ class HomeController extends Controller
                 return abort(404);
             }
         }
+    }
+
+    public function blogDetail(Request $request, $blog_id, $blog_detail)
+    {
+        $data = DB::table('blogs')
+            ->select('blog_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('blog_id', $blog_id)
+            ->first();
+        $recent = DB::table('blogs')
+            ->select('blog_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('blog_id', '<>', $blog_id)
+            ->orderBy('blog_id', 'desc')
+            ->limit(5)
+            ->get();
+        return view('front.blogs.blogs-details', compact('data', 'recent'));
+    }
+
+    public function mediaDetail(Request $request, $media_id, $media_detail)
+    {
+        $data = DB::table('media')
+            ->select('media_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('media_id', $media_id)
+            ->first();
+        $recent = DB::table('media')
+            ->select('media_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('media_id', '<>', $media_id)
+            ->orderBy('media_id', 'desc')
+            ->limit(5)
+            ->get();
+        return view('front.media.media-details', compact('data', 'recent'));
+    }
+
+    public function eventDetail(Request $request, $event_id, $event_detail)
+    {
+        $data = DB::table('events')
+            ->select('event_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('event_id', $event_id)
+            ->first();
+        $recent = DB::table('events')
+            ->select('event_id', 'title', 'image', 'video_link', 'description', 'slug', 'created_at')
+            ->where('event_id', '<>', $event_id)
+            ->orderBy('event_id', 'desc')
+            ->limit(5)
+            ->get();
+        return view('front.events.events-details', compact('data', 'recent'));
     }
 }

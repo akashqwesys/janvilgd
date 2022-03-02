@@ -1,12 +1,12 @@
 @extends('front.layout_1')
-@section('title', 'Events')
+@section('title', 'Blog')
 @section('content')
     <div class='content-wrapper'>
         <section class='media-section sub-header'>
             <div class='container'>
                 <div class='section-content'>
                     <div>
-                        <h2 class='title bread-crumb-title'>Events</h2>
+                        <h2 class='title bread-crumb-title'>Blogs</h2>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                                     <h4 class="blog_title">{{ substr($d->title, 0, 35) }} {{ strlen($d->title) > 35 ? '...' : '' }}</h4>
                                     <p class="blog_desc">{{ substr($d->description, 0, 160) . '...' }}</p>
                                     <div class="text-center">
-                                        <a href="{{ $d->video_link }}" target="_blank" class='btn btn-primary'>Read More</a>
+                                        <a href="/blog/{{ $d->blog_id . '/' . str_replace(' ', '-', $d->title) }}" class='btn btn-primary'>Read More</a>
                                     </div>
                                 </div>
                             </div>
