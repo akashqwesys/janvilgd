@@ -572,12 +572,12 @@ class OrdersController extends Controller
                     $responses = $client->bulk($params);
                 }
             }
+            $customer = DB::table('orders')
+                ->select('refCustomer_id', 'name', 'email_id', 'refTransaction_id')
+                ->where('order_id', $request->id)
+                ->first();
             if ($request->order_status_name == 'PAID') {
                 $this->generateInvoice($request->id);
-                $customer = DB::table('orders')
-                    ->select('refCustomer_id', 'name', 'email_id')
-                    ->where('order_id', $request->id)
-                    ->first();
                 Mail::to($customer->email_id)
                     ->send(
                         new OrderPaid([
@@ -605,7 +605,14 @@ class OrdersController extends Controller
             ]);
             // $Id = DB::getPdo()->lastInsertId();
             activity($request, "updated", 'orders', $request->id);
+
+            // To Master Admin
             sendPushNotification('Invoice Status Updated', session()->get('user_fullname') . ' has updated status of order ID #' . $request->id . ' from ' . $exists->order_status_name . ' to '. $request->order_status_name, url('/admin/orders?filter=' . $request->order_status_name));
+
+            $device_token = DB::table('customer')->select('device_token')->where('customer_id', $customer->refCustomer_id)->pluck('device_token')->first();
+            // To Customer
+            sendPushNotification('Invoice Status Updated', 'Status of Order ID #' . $request->id . ' has updated from ' . $exists->order_status_name . ' to ' . $request->order_status_name, url('/customer/order-details/' . $customer->refTransaction_id . '/' . $request->id), [$device_token]);
+
             successOrErrorMessage("Data updated Successfully", 'success');
         }
         return redirect('admin/orders/view/' . $request->id);
@@ -1958,5 +1965,22 @@ class OrdersController extends Controller
         // return view('front.orders.new_invoice', compact('order', 'diamonds', 'tax', 'final_d'));
         // return response()->download($pdf);
         // return $pdf->download($fileName);
+    }
+
+    public function downloadInvoice(Request $request, $order_id)
+    {
+        $order = DB::table('orders as o')
+            ->select('o.order_id', 'o.order_status')
+            ->where('o.order_id', $order_id)
+            ->first();
+        if ($order && $order->order_status == 'PAID') {
+            try {
+                return response()->download(storage_path('/app/public/invoices/order_invoice_' . $order_id . '.pdf'));
+            } catch (\Exception $e) {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
     }
 }

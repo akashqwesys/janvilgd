@@ -330,7 +330,7 @@ class AuthController extends Controller
             return $this->errorResponse($validator->errors()->all()[0]);
         }
         $user = Customers::select('customer_id', 'name', 'mobile', 'email', 'otp', 'otp_status', 'updated_at', 'password')
-            ->where('email', $request['email'])
+            ->where('email', trim(strtolower($request['email'])))
             ->first();
         if ($user == null) {
             return $this->errorResponse('You have not registered with us yet');

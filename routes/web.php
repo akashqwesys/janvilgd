@@ -542,6 +542,7 @@ Route::get('orders/create-invoice', [OrdersController::class, 'createInvoice'])-
 Route::post('orders/save-invoice', [OrdersController::class, 'saveInvoice'])->middleware(['isLoggedIn','modifyPermission']);
 Route::get('orders/edit-invoice/{order_id}', [OrdersController::class, 'editInvoice'])->middleware(['isLoggedIn','modifyPermission']);
 Route::post('orders/update-invoice', [OrdersController::class, 'updateInvoice'])->middleware(['isLoggedIn','modifyPermission']);
+Route::get('orders/download-invoice/{order_id}', [OrdersController::class, 'downloadInvoice'])->middleware(['isLoggedIn', 'accessPermission']);
 
 Route::post('orders/list/customer-address', [OrdersController::class, 'customerAddress'])->name('orders.address')->middleware(['isLoggedIn']);
 Route::get('orders/getBarcodes', [OrdersController::class, 'getBarcodes'])->middleware(['isLoggedIn']);

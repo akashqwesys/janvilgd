@@ -27,10 +27,11 @@ class AddCustomerTable extends Migration
             $table->tinyInteger('restrict_transactions');
             $table->foreignId('added_by');
             $table->tinyInteger('is_active');
-            $table->tinyInteger('is_deleted');            
+            $table->tinyInteger('is_deleted');
             $table->dateTime('date_added');
-            $table->dateTime('date_updated');            
-            $table->timestamps();  
+            $table->dateTime('date_updated');
+            $table->string('device_token', 400)->nullable();
+            $table->timestamps();
         });
     }
 

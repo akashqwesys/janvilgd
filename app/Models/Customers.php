@@ -33,7 +33,8 @@ class Customers extends Authenticatable
         'verified_status',
         'is_approved',
         'approved_at',
-        'approved_by'
+        'approved_by',
+        'device_token'
     ];
 
     protected $protected = ['password'];

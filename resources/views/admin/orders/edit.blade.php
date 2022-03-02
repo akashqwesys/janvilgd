@@ -35,10 +35,7 @@
                             <h3 class="nk-block-title page-title" >View Order</h3>
                         </div>
                         <div class="col-md-5">
-                            @php
-                                $last_index = count($data['order_history']) - 1;
-                            @endphp
-                            @if ($data['order_history'][$last_index]->order_status_name == 'PENDING')
+                            @if ($data['result']->order_status == 'PENDING')
                             <div class="">
                                 <button class="btn btn-success mr-3" id="acceptOrder" data-value="UNPAID">ACCEPT</button>
                                 <button class="btn btn-danger" id="declineOrder" data-value="CANCELLED">DECLINE</button>
@@ -124,7 +121,18 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <h3 class="nk-block-title page-title" style="display: inline;">Order #{{$data['result']->order_id}}</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="nk-block-title page-title" style="display: inline;">Order #{{$data['result']->order_id}}</h3>
+                                </div>
+                                <div class="col-md-6">
+                                    @if ($data['result']->order_status == 'PAID')
+                                    <div class="text-right">
+                                        <a id="download-invoice" class="btn btn-primary" href="/admin/orders/download-invoice/{{ $data['result']->order_id }}" target="_blank">Download Invoice</a>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
                             <hr>
                             <table class="table dt-responsive nowrap table-bordered">
                                 <thead>
@@ -246,7 +254,7 @@
                                     @endif
                                 </tbody>
                             </table>
-                            @if ($data['order_history'][$last_index]->order_status_name != 'CANCELLED')
+                            @if ($data['result']->order_status != 'CANCELLED')
                             <h3 class="nk-block-title page-title mt-5" >Add Order History</h3>
                             <hr>
                             <form method="POST" action="{{route('orders.addOrderHistory')}}" onsubmit="showLoader()">

@@ -16,9 +16,11 @@ function event_notifications() {
     return $user_notifications;
 }
 
-function sendPushNotification($title, $body, $url = null)
+function sendPushNotification($title, $body, $url = null, $FcmToken = [])
 {
-    $FcmToken = User::select('device_token')->where('user_type', 'MASTER_ADMIN')->pluck('device_token')->all();
+    if (count($FcmToken) < 1) {
+        $FcmToken = User::select('device_token')->where('user_type', 'MASTER_ADMIN')->pluck('device_token')->all();
+    }
 
     $serverKey = 'AAAAI2QkRPw:APA91bGSXXmthSXP_1saral1ejlOGNAP4MCqAU8Lsib8L1L0rBjE0ubD7vpiq3B4UXK86lTfaTr8Ae4Mm_5uJSp-akeeV0777FgNsG8eZAtRdJI3lXrBJcQxjnn-CeziwYgO7ORFWYeI';
 
