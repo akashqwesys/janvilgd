@@ -58,10 +58,10 @@
 
                                 <div class="row g-3 align-center">
                                     <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        &nbsp;
-                                                    </div>
-                                                </div>
+                                        <div class="form-group">
+                                            &nbsp;
+                                        </div>
+                                    </div>
                                 <?php
                                 if (!empty($data['result']->image)) {
                                     $image = json_decode($data['result']->image);
@@ -106,10 +106,12 @@
                                             <label class="form-label float-md-right" for="description">Description:</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-8">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <textarea name="description" class="form-control form-control-sm" id="cf-default-textarea" placeholder="Enter description">{{ $data['result']->description }}</textarea>
+                                                <textarea id="summernote-basic-id" name="description">
+                                                    {!! $data['result']->description !!}
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -145,4 +147,11 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script type="text/javascript">
+    $('#summernote-basic-id').summernote({
+        height: 200
+    });
+</script>
 @endsection
