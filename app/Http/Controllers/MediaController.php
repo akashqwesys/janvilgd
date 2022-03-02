@@ -103,6 +103,13 @@ class MediaController extends Controller
 
     public function update(Request $request)
     {
+        $data = [
+            'title' => $request->title,
+            'video_link' => $request->video_link,
+            'description' => clean_html($request->description),
+            'slug' => clean_string($request->slug),
+            'date_updated' => date("Y-m-d H:i:s")
+        ];
         $imgData = array();
         if ($request->hasfile('image')) {
             $request->validate([
@@ -119,18 +126,12 @@ class MediaController extends Controller
                 // }
                 // }
             }
+            $data['image'] = $imageName;
             // array_push($imgData, $imageName);
         }
         // $image = json_encode($imgData);
 
-        DB::table('media')->where('media_id', $request->id)->update([
-            'title' => $request->title,
-            'image' => $imageName,
-            'video_link' => $request->video_link,
-            'description' => $request->description,
-            'slug' => clean_string($request->slug),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        DB::table('media')->where('media_id', $request->id)->update($data);
 
         activity($request, "updated", 'media', $request->id);
         successOrErrorMessage("Data updated Successfully", 'success');
