@@ -144,5 +144,11 @@
     <!-- JavaScript -->
     <script src="{{ asset(check_host().'admin_assets/assets/js/bundle.js?ver=1.9.2') }}"></script>
     <script src="{{ asset(check_host().'admin_assets/assets/js/scripts.js?ver=1.9.2') }}"></script>
-
+    <script>
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'visible') {
+                location.reload();
+            }
+        });
+    </script>
 </html>
