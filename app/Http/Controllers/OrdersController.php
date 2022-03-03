@@ -609,9 +609,9 @@ class OrdersController extends Controller
             // To Master Admin
             sendPushNotification('Invoice Status Updated', session()->get('user_fullname') . ' has updated status of order ID #' . $request->id . ' from ' . $exists->order_status_name . ' to '. $request->order_status_name, url('/admin/orders?filter=' . $request->order_status_name));
 
-            $device_token = DB::table('customer')->select('device_token')->where('customer_id', $customer->refCustomer_id)->pluck('device_token')->first();
             // To Customer
-            sendPushNotification('Invoice Status Updated', 'Status of Order ID #' . $request->id . ' has updated from ' . $exists->order_status_name . ' to ' . $request->order_status_name, url('/customer/order-details/' . $customer->refTransaction_id . '/' . $request->id), [$device_token]);
+            $device_token = DB::table('customer')->select('device_token')->where('customer_id', $customer->refCustomer_id)->pluck('device_token')->first();
+            sendPushNotification('Invoice Status Updated', 'Status of Order ID #' . $request->id . ' has updated from ' . $exists->order_status_name . ' to ' . $request->order_status_name, url('/customer/order-details/' . $customer->refTransaction_id . '/' . $request->id), [$device_token], 1, $customer->refCustomer_id);
 
             successOrErrorMessage("Data updated Successfully", 'success');
         }

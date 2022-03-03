@@ -26,7 +26,8 @@ class AuthController extends Controller
         try {
             $rules = [
                 'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix'],
-                'password' => ['required'/* , 'between:6,15' */]
+                'password' => ['required'/* , 'between:6,15' */],
+                'device_token' => ['required']
             ];
 
             $message = [
@@ -58,6 +59,8 @@ class AuthController extends Controller
                         ->where('email', strtolower($request->email))
                         ->first();
                     $all = $this->getUserData($user);
+                    $user->device_token = $request->device_token;
+                    $user->save();
                     return $this->successResponse('Logged in successfully', $all, 1);
                 }
             } else {

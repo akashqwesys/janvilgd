@@ -15,6 +15,7 @@ class NotificationController extends Controller
         $data['title'] = 'Notifications';
         $notifications = DB::table('notifications')
             ->select('id', 'title', 'body', 'url', 'status', 'created_at')
+            ->where('user_type', 0)
             ->orderBy('id', 'desc')
             ->get();
         return view('admin.notifications.list', compact('data', 'notifications'));

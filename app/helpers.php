@@ -16,7 +16,7 @@ function event_notifications() {
     return $user_notifications;
 }
 
-function sendPushNotification($title, $body, $url = null, $FcmToken = [])
+function sendPushNotification($title, $body, $url = null, $FcmToken = [], $user_type = 0, $user_id = 0)
 {
     if (count($FcmToken) < 1) {
         $FcmToken = User::select('device_token')->where('user_type', 'MASTER_ADMIN')->pluck('device_token')->all();
@@ -32,7 +32,7 @@ function sendPushNotification($title, $body, $url = null, $FcmToken = [])
             "content_available" => true,
             "priority" => "high",
             "sound" => "default",
-            "icon" => "/admin_assets/images/logo-small.png",
+            "icon" => url("/admin_assets/images/logo-small.png"),
             "click_action" => $url ?? url('/'),
             "data" => [
                 "url" => $url ?? url('/'),
@@ -71,6 +71,8 @@ function sendPushNotification($title, $body, $url = null, $FcmToken = [])
         'body' => $body,
         'url' => $url,
         'status' => 0,
+        'user_type' => $user_type,
+        'user_id' => $user_id,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
     ]);

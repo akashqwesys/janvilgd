@@ -19,6 +19,8 @@ class CreateNotificationsTable extends Migration
             $table->string('body');
             $table->string('url');
             $table->tinyInteger('status')->default(0)->comment('0-unread, 1-read');
+            $table->tinyInteger('user_type')->comment('0-employee, 1-customer');
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }
