@@ -9,7 +9,7 @@ use App\Http\Controllers\API\DropdownController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ContactController;
-
+use App\Http\Controllers\API\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +79,9 @@ Route::group(['middleware' => ['auth:customer-api']], function() {
 
     // Contact
     Route::post('contact-us', [ContactController::class, 'index']);
+
+    // Notification
+    Route::post('notifications', [NotificationController::class, 'index']);
 
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
