@@ -29,6 +29,7 @@ function sendPushNotification($title, $body, $url = null, $FcmToken = [], $user_
         "notification" => [
             "title" => $title,
             "body" => $body,
+            "android_channel_id" => "Janvi Lgd",
             "content_available" => true,
             "priority" => "high",
             "sound" => "default",
@@ -38,6 +39,10 @@ function sendPushNotification($title, $body, $url = null, $FcmToken = [], $user_
                 "url" => $url ?? url('/'),
                 "time" => date('d/m/Y H:i:s')
             ]
+        ],
+        "data" => [
+            "url" => $url ?? url('/'),
+            "time" => date('d/m/Y H:i:s')
         ]
     ];
     $encodedData = json_encode($data);
