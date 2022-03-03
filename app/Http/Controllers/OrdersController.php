@@ -611,7 +611,7 @@ class OrdersController extends Controller
 
             // To Customer
             $device_token = DB::table('customer')->select('device_token')->where('customer_id', $customer->refCustomer_id)->pluck('device_token')->first();
-            sendPushNotification('Invoice Status Updated', 'Status of Order ID #' . $request->id . ' has updated from ' . $exists->order_status_name . ' to ' . $request->order_status_name, url('/customer/order-details/' . $customer->refTransaction_id . '/' . $request->id), [$device_token], 1, $customer->refCustomer_id);
+            sendPushNotification('Invoice Status Updated', 'Status of Order ID #' . $request->id . ' has updated from ' . $exists->order_status_name . ' to ' . $request->order_status_name, url('/api/order-details/' . $customer->refTransaction_id . '/' . $request->id), [$device_token], 1, $customer->refCustomer_id);
 
             successOrErrorMessage("Data updated Successfully", 'success');
         }
