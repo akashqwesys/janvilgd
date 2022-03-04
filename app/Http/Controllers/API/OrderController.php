@@ -386,10 +386,10 @@ class OrderController extends Controller
 
     public function downloadInvoice(Request $request, $order_id)
     {
-        $customer = Auth::user();
+        // $customer = Auth::user();
         $order = DB::table('orders as o')
             ->select('o.order_id', 'o.order_status')
-            ->where('o.refCustomer_id', $customer->customer_id)
+            // ->where('o.refCustomer_id', $customer->customer_id)
             ->where('o.order_id', $order_id)
             ->first();
         if ($order && $order->order_status == 'PAID') {
