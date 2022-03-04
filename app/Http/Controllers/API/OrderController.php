@@ -118,7 +118,7 @@ class OrderController extends Controller
                 // }
                 // $v->images = $a;
             }
-            $data = ['orders' => $orders, 'diamonds' => array_values($final_d), 'status' => $order_updates, 'invoice' => '/my-orders/download-invoice/' . $order_id];
+            $data = ['orders' => $orders, 'diamonds' => array_values($final_d), 'status' => $order_updates, 'invoice' => url('/api/my-orders/download-invoice/' . $order_id)];
 
             return $this->successResponse('Success', $data);
         } catch (\Exception $e) {
