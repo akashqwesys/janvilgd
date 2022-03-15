@@ -90,6 +90,7 @@ class DiamondController extends Controller {
         $max = DB::table('diamonds')
             ->selectRaw('max("total") as "max_price", min("total") as "min_price", max("expected_polish_cts") as "max_carat", min("expected_polish_cts") as "min_carat"')
             ->where('refCategory_id', $category->category_id)
+            ->where('available_pcs', 1)
             ->first();
         if ($max) {
             $min_price = $max->min_price;
