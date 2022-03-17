@@ -45,7 +45,7 @@ class DropdownController extends Controller
             ->where('is_deleted', 0)
             ->orderBy('name', 'asc')
             ->get();
-
+        $url = url('/');
         $data = [
             'diamond_categories' => $categories,
             'country' => $country,
@@ -53,7 +53,14 @@ class DropdownController extends Controller
             'whatsapp_india' => '+91-9714405421',
             'mobile_usa' => '+1-9122456789',
             'mobile_india' => '+91-9714405421',
-            'email' => 'sales@janvilgd.com'
+            'email' => 'sales@janvilgd.com',
+            'about_us' => $url . '/about-us',
+            'contact_us' => $url . '/contact',
+            'copyrights' => $url,
+            'privacy_policy' => $url . '/privacy-policy',
+            'return_policy' => $url,
+            'terms_conditions' => $url . '/terms-conditions',
+            'business_policy' => $url,
             /* 'state' => $state,
             'city' => $city */
         ];
