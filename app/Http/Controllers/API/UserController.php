@@ -119,7 +119,7 @@ class UserController extends Controller
                 $customer->mobile = $request->mobile;
                 $customer->refCountry_id = $request->country ?? $request->country_code;
             }
-            // $customer->pincode = $request->pincode;
+            $customer->pincode = $request->pincode;
             $customer->refCity_id = $request->city;
             $customer->refState_id = $request->state;
             $customer->date_updated = date('Y-m-d H:i:s');
