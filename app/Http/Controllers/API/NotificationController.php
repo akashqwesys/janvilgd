@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         $data = DB::table('notifications')
-            ->select('id', 'title', 'body', 'created_at')
+            ->select('id', 'title', 'body', 'url', 'created_at')
             ->where('user_id', Auth::id())
             ->get();
         return $this->successResponse('Success', $data);
