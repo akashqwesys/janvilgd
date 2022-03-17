@@ -19,8 +19,7 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id));
-                    $("#copylink").val('<?php echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent(res.url);
                     $("#staticBackdrop").modal("show");
                    /* navigator.clipboard.writeText('<?php //echo url("customer/sharable-wishlist/"); ?>/'+res.link_id);
                    $.toast({

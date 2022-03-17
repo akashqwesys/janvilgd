@@ -1527,7 +1527,7 @@ class DiamondController extends Controller {
         if (!empty($result->original['data'])) {
             $data = array(
                 'suceess' => true,
-                'link_id'=> $result->original['data']
+                'url'=> $result->original['data']
             );
         } else {
             $data = array(
@@ -1543,7 +1543,7 @@ class DiamondController extends Controller {
         if (!empty($result->original['data'])) {
             $data = array(
                 'suceess' => true,
-                'link_id'=> $result->original['data']
+                'url'=> $result->original['data']
             );
         } else {
             $data = array(

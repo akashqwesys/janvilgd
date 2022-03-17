@@ -1120,7 +1120,7 @@ class DiamondController extends Controller
     {
         $diamond_id = DB::table('share_cart')->where('share_cart_id', $share_cart_id)->first();
         if(!empty($diamond_id)){
-            $dimond_id_1= json_decode($diamond_id->refDiamond_id);
+            $dimond_id_1 = json_decode($diamond_id->refDiamond_id);
             $client = ClientBuilder::create()
                 ->setHosts(['localhost:9200'])
                 ->build();
@@ -1397,7 +1397,7 @@ class DiamondController extends Controller
                 return $this->errorResponse('Sorry, we are not able to generate link');
             }
             customer_activity('shared', $user->name . ' has created a link to share cart', '/customer/sharable-cart/' . $Id);
-            return $this->successResponse('Success', $Id);
+            return $this->successResponse('Success', url('/customer/sharable-cart/' . $Id));
         } else {
             return $this->errorResponse('Your Cart is empty');
         }
@@ -1424,7 +1424,7 @@ class DiamondController extends Controller
                 return $this->errorResponse('Sorry, we are not able to generate link');
             }
             customer_activity('shared', $user->name . ' has created a link to share wishlist', '/customer/sharable-wishlist/' . $Id);
-            return $this->successResponse('Success', $Id);
+            return $this->successResponse('Success', url('/customer/sharable-wishlist/' . $Id));
         } else {
             return $this->errorResponse('Your Wishlist is empty');
         }

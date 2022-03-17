@@ -19,8 +19,8 @@
             success: function (res) {
                 $('.cs-loader').hide();
                 if (res.suceess==1) {
-                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id));
-                    $("#copylink").val('<?php echo url("customer/sharable-cart/"); ?>/'+res.link_id);
+                    $("#watsapplink").val("https://api.whatsapp.com/send?text="+encodeURIComponent(res.url));
+                    $("#copylink").val(res.url);
                     $("#staticBackdrop").modal("show");
                 }else{
                     $.toast({

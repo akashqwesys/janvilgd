@@ -96,7 +96,27 @@ class OrderController extends Controller
 
             $final_d = [];
             foreach ($diamonds as $v_row) {
-                $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
+                if ($v_row->{'ag_name'} == 'SHAPE') {
+                    if (in_array($v_row->{'a_name'}, ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Oval Brilliant', 'OV', 'Oval'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Cushion', 'CU'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Princess Cut', 'PR', 'Princess'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Princess_Cut.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Emerald', 'EM'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Emerald.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Marquise', 'MQ'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Marquise.svg';
+                    } else if (in_array($v_row->{'a_name'}, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
+                        $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
+                    }
+                } else {
+                    $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = $v_row->{'a_name'};
+                }
                 $final_d[$v_row->refDiamond_id]['cat_name'] = $v_row->cat_name;
                 $final_d[$v_row->refDiamond_id]['barcode'] = $v_row->barcode;
                 $final_d[$v_row->refDiamond_id]['rapaport_price'] = $v_row->rapaport_price;
