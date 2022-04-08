@@ -527,7 +527,7 @@ function init() {
 					});
                     $('#fname, #phone, #cs-fc, #email, #subject, #message').val('');
 					setTimeout(() => {
-						location.reload;
+						location.reload();
 					}, 2000);
 				} else {
 					$.toast({
