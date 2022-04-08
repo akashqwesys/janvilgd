@@ -333,7 +333,7 @@ function init() {
 							<ul class="list-unstyled footer-link mb-0">
 								@auth
 								<li class="item"><a href="/customer/my-account">My Account</a></li>
-								<li class="item"><a href="/order-details">Order Details</a></li>
+								<li class="item"><a href="/customer/my-orders">My Orders</a></li>
 								@endauth
 								@guest
 								<li class="item"><a href="/customer/login">Login</a></li>
@@ -504,9 +504,7 @@ function init() {
 	});
 	$(document).on('click', '#contact-submit-btn', function(e) {
 		e.preventDefault();
-		if ($('#fname').val() == '') {
-
-		}
+		// if ($('#fname').val() == '') {}
 		$.ajax({
 			type: "POST",
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -527,6 +525,7 @@ function init() {
 						icon: 'success',
 						position: 'top-right'
 					});
+                    $('#fname, #phone, #cs-fc, #email, #subject, #message').val('');
 					setTimeout(() => {
 						location.reload;
 					}, 2000);
