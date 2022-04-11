@@ -97,6 +97,7 @@ class OrderController extends Controller
             $final_d = [];
             foreach ($diamonds as $v_row) {
                 if ($v_row->{'ag_name'} == 'SHAPE') {
+                    $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}.'_WEB'] = $v_row->{'a_name'};
                     if (in_array($v_row->{'a_name'}, ['Round Brilliant', 'ROUND', 'RO', 'BR', 'Round'])) {
                         $final_d[$v_row->refDiamond_id]['attributes'][$v_row->{'ag_name'}] = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant.svg';
                     } else if (in_array($v_row->{'a_name'}, ['Oval Brilliant', 'OV', 'Oval'])) {

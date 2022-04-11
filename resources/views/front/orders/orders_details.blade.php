@@ -117,7 +117,7 @@
                                         <tr>
                                             <td>{{ $o['barcode'] }}</td>
                                             <td>{{ $o['cat_name'] }}</td>
-                                            <td>{{ $o['attributes']['SHAPE'] }}</td>
+                                            <td>{{ $o['attributes']['SHAPE_WEB'] }}</td>
                                             <td>{{ $o['expected_polish_cts'] }}</td>
                                             <td>{{ $o['attributes']['COLOR'] }}</td>
                                             <td>{{ $o['attributes']['CLARITY'] }}</td>
