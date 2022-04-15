@@ -157,6 +157,8 @@ class DiamondsController extends Controller {
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
+                                } else {
+                                    array_push($image, $row['main_pktno'] . '.jpg');
                                 }
                                 if (!empty($row['image_2'])) {
                                     array_push($image, $row['image_2']);
@@ -175,6 +177,7 @@ class DiamondsController extends Controller {
                                     'name' => $name,
                                     'barcode' => strval($row['barcode']),
                                     'packate_no' => strval($row['main_pktno']),
+                                    'packate_no_sort' => substr($row['main_pktno'], 3),
                                     'actual_pcs' => 0,
                                     'available_pcs' => 1,
                                     'makable_cts' => number_format($row['mkbl_cts'], 3, '.', ''),
@@ -281,7 +284,7 @@ class DiamondsController extends Controller {
                                                     $cut_grade = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -304,7 +307,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['cut'];
                                             }
                                         }
@@ -322,7 +325,7 @@ class DiamondsController extends Controller {
                                                     array_push($attr_group_array, $insert_array);
                                                     $location = 1;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -344,7 +347,7 @@ class DiamondsController extends Controller {
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['location'];
                                             }
                                         }
@@ -362,7 +365,7 @@ class DiamondsController extends Controller {
                                                     array_push($attr_group_array, $insert_array);
                                                     $shape = 1;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -384,7 +387,7 @@ class DiamondsController extends Controller {
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['shape'];
                                             }
                                         }
@@ -402,7 +405,7 @@ class DiamondsController extends Controller {
                                                     array_push($attr_group_array, $insert_array);
                                                     $clarity = 1;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -424,7 +427,7 @@ class DiamondsController extends Controller {
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $org_clarity;
                                             }
                                         }
@@ -442,7 +445,7 @@ class DiamondsController extends Controller {
                                                     array_push($attr_group_array, $insert_array);
                                                     $color = 1;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -464,7 +467,7 @@ class DiamondsController extends Controller {
                                                 $insert_array['value'] = 0;
                                                 array_push($attr_group_array, $insert_array);
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['color'];
                                             }
                                         }
@@ -478,6 +481,7 @@ class DiamondsController extends Controller {
                                         'barcode' => strval($row['barcode']),
                                         'barcode_search' => strval($row['barcode']),
                                         'packate_no' => strval($row['main_pktno']),
+                                        'packate_no_sort' => intval(substr($row['main_pktno'], 3)),
                                         'actual_pcs' => 0,
                                         'remarks' => strval($row['remarks']),
                                         'available_pcs' => 1,
@@ -512,6 +516,7 @@ class DiamondsController extends Controller {
                                         'barcode' => strval($row['barcode']),
                                         'barcode_search' => strval($row['barcode']),
                                         'packate_no' => strval($row['main_pktno']),
+                                        'packate_no_sort' => intval(substr($row['main_pktno'], 3)),
                                         'makable_cts' => number_format($row['mkbl_cts'], 3, '.', ''),
                                         'expected_polish_cts' => number_format($row['exp_pol_cts'], 2, '.', ''),
                                         'available_pcs' => 1,
@@ -621,6 +626,8 @@ class DiamondsController extends Controller {
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
+                                } else {
+                                    array_push($image, $row['pktno'] . '.jpg');
                                 }
                                 if (!empty($row['image_2'])) {
                                     array_push($image, $row['image_2']);
@@ -643,6 +650,7 @@ class DiamondsController extends Controller {
                                     'name' =>$name,
                                     'barcode' => strval($row['barcode']),
                                     'packate_no' => strval($row['pktno']),
+                                    'packate_no_sort' => intval(substr($row['pktno'], 3)),
                                     'available_pcs' => 1,
                                     'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
                                     'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
@@ -856,6 +864,7 @@ class DiamondsController extends Controller {
                                         'barcode' => strval($row['barcode']),
                                         'barcode_search' => strval($row['barcode']),
                                         'packate_no' => strval($row['pktno']),
+                                        'packate_no_sort' => intval(substr($row['pktno'], 3)),
                                         'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
                                         'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
                                         'rapaport_price' => $row['rap'],
@@ -886,6 +895,7 @@ class DiamondsController extends Controller {
                                         'barcode' => strval($row['barcode']),
                                         'barcode_search' => strval($row['barcode']),
                                         'packate_no' => strval($row['pktno']),
+                                        'packate_no_sort' => intval(substr($row['pktno'], 3)),
                                         'available_pcs' => 1,
                                         'makable_cts' => number_format($row['org_cts'], 3, '.', ''),
                                         'expected_polish_cts' => number_format($row['exp_pol'], 2, '.', ''),
@@ -1000,6 +1010,8 @@ class DiamondsController extends Controller {
                                 $image = array();
                                 if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
+                                } else {
+                                    array_push($image, $row['stock'] . '.jpg');
                                 }
                                 if (!empty($row['image_2'])) {
                                     array_push($image, $row['image_2']);
@@ -1018,6 +1030,7 @@ class DiamondsController extends Controller {
                                     'name' =>$name,
                                     'barcode' => $row['certificate'],
                                     'packate_no' => $row['stock'],
+                                    'packate_no_sort' => substr($row['stock'], 3),
                                     'available_pcs' => 1,
                                     'discount' => $row['discount_percent'],
                                     'expected_polish_cts' => number_format($row['weight'],2, '.', ''),
@@ -1194,7 +1207,7 @@ class DiamondsController extends Controller {
                                                     $location = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1217,7 +1230,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['location'];
                                             }
                                         }
@@ -1237,7 +1250,7 @@ class DiamondsController extends Controller {
                                                     $shape = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1260,7 +1273,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['shape'];
                                             }
                                         }
@@ -1279,7 +1292,7 @@ class DiamondsController extends Controller {
                                                     $clarity = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1302,7 +1315,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['clarity'];
                                             }
                                         }
@@ -1321,7 +1334,7 @@ class DiamondsController extends Controller {
                                                     $color = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1344,7 +1357,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['color'];
                                             }
                                         }
@@ -1363,7 +1376,7 @@ class DiamondsController extends Controller {
                                                     $cut_grade = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1386,7 +1399,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['cut'];
                                             }
                                         }
@@ -1405,7 +1418,7 @@ class DiamondsController extends Controller {
                                                     $polish = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1428,7 +1441,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['polish'];
                                             }
                                         }
@@ -1448,7 +1461,7 @@ class DiamondsController extends Controller {
                                                     $symmetry = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1471,7 +1484,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['symmetry'];
                                             }
                                         }
@@ -1491,7 +1504,7 @@ class DiamondsController extends Controller {
                                                     $lab = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1514,7 +1527,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['lab'];
                                             }
                                         }
@@ -1534,7 +1547,7 @@ class DiamondsController extends Controller {
                                                     $culet_size = 1;
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1557,7 +1570,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['culet_size'];
                                             }
                                         }
@@ -1578,7 +1591,7 @@ class DiamondsController extends Controller {
 
                                                     // $new_attributes_id[$atr_grp_row->attribute_group_id] = $atr_row->attribute_id;
                                                     $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $atr_row->attribute_id;
+                                                    $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($atr_row->attribute_id);
                                                     $new_attributes[$atr_grp_row->name] = $atr_row->name;
                                                 }
                                             }
@@ -1601,7 +1614,7 @@ class DiamondsController extends Controller {
                                                 array_push($attr_group_array, $insert_array);
                                                 // $new_attributes_id[$atr_grp_row->attribute_group_id] = $attr_id;
                                                 $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_group_id'] = $atr_grp_row->attribute_group_id;
-                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = $attr_id;
+                                                $new_attributes_id[$atr_grp_row->attribute_group_id]['attribute_id'] = intval($attr_id);
                                                 $new_attributes[$atr_grp_row->name] = $row['girdle_condition'];
                                             }
                                         }
@@ -1616,6 +1629,7 @@ class DiamondsController extends Controller {
                                         'barcode' => $row['certificate'],
                                         'barcode_search' => $row['certificate'],
                                         'packate_no' => $row['stock'],
+                                        'packate_no_sort' => floatval(substr($row['stock'], 3)),
                                         'actual_pcs' => 0,
                                         'available_pcs' => 1,
                                         'makable_cts' => 0,
@@ -1649,6 +1663,7 @@ class DiamondsController extends Controller {
                                         'barcode' => $row['certificate'],
                                         'barcode_search' => $row['certificate'],
                                         'packate_no' => $row['stock'],
+                                        'packate_no_sort' => floatval(substr($row['stock'], 3)),
                                         'makable_cts' => 0,
                                         'expected_polish_cts' => number_format($row['weight'], 2, '.', ''),
                                         'available_pcs' => 1,
@@ -1695,17 +1710,24 @@ class DiamondsController extends Controller {
                 unset($batch_row['diamonds_id']);
                 if($type=="create"){
                     $params["body"][]= [
-                            "create" => [
-                                "_index" => 'diamonds',
-                                "_id" => $id,
-                            ]
-                        ];
-                        $params["body"][]= $batch_row;
-                    if ($i % 1000 == 0) {
-                        $responses = $client->bulk($params);
-                        $params = ['body' => []];
-                        unset($responses);
-                    }
+                        "create" => [
+                            "_index" => 'diamonds',
+                            "_id" => $id,
+                        ]
+                    ];
+                } else {
+                    $params["body"][] = [
+                        "update" => [
+                            "_index" => 'diamonds',
+                            "_id" => $id,
+                        ]
+                    ];
+                }
+                $params["body"][]= $batch_row;
+                if ($i % 1000 == 0) {
+                    $responses = $client->bulk($params);
+                    $params = ['body' => []];
+                    unset($responses);
                 }
                 $i=$i+1;
             }
@@ -1714,9 +1736,44 @@ class DiamondsController extends Controller {
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
             }
-            $params = array();
+
+            sleep(2);
+            $all_conditions = [
+                [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['barcode' => ['value' => $batch_elastics[0]['barcode']]]]
+                        ]
+                    ]
+                ]
+            ];
+            $elastic_params = [
+                'index' => 'diamonds',
+                'body'  => [
+                    'query' => [
+                        'bool' => [
+                            'must' => $all_conditions
+                        ]
+                    ]
+                ]
+            ];
+            $search_first = $client->search($elastic_params);
+
+            if (isset($search_first['hits']['hits']) && count($search_first['hits']['hits']) == 0) {
+                $f_id = $batch_elastics[0]['diamonds_id'];
+                unset($batch_elastics[0]['type']);
+                unset($batch_elastics[0]['diamonds_id']);
+                $first_record = [
+                    'index' => 'diamonds',
+                    'id'    => $f_id,
+                    'body'  => $batch_elastics[0]
+                ];
+                $client->create($first_record);
+            }
+
+            /* $params = array();
             $params = ['body' => []];
-            $i=0;
+            $i=1;
             foreach($batch_elastics as $batch_row){
                 $type=$batch_row['type'];
                 $id=$batch_row['diamonds_id'];
@@ -1743,7 +1800,7 @@ class DiamondsController extends Controller {
             // Send the last batch if it exists
             if (!empty($params['body'])) {
                 $responses = $client->bulk($params);
-            }
+            } */
         }
 
         if (!empty($attr_group_array)) {
@@ -1871,7 +1928,7 @@ class DiamondsController extends Controller {
         $total = number_format($total, 2, ".", "");
         $discount=abs(($request->discount)/100);
 
-        $imgData = $request->image ? explode(',', $request->image) : [];
+        $imgData = $request->image ? explode(',', $request->image) : [$request->barcode . '.jpg'];
         /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -1891,6 +1948,7 @@ class DiamondsController extends Controller {
             'name' => $name,
             'barcode' => $request->barcode ?? 0,
             'packate_no' => $request->packate_no ?? 0,
+            'packate_no_sort' => $request->packate_no ? substr($request->packate_no, 3) : 0,
             'actual_pcs' => $request->actual_pcs ?? 0,
             'available_pcs' => $request->available_pcs ?? 0,
             'makable_cts' => $request->makable_cts ? number_format($request->makable_cts, 3, '.', '') : 0,
@@ -1955,6 +2013,7 @@ class DiamondsController extends Controller {
                 'barcode' => isset($request->barcode) ? $request->barcode : 0,
                 'barcode_search' => isset($request->barcode) ? $request->barcode : 0,
                 'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+                'packate_no_sort' => isset($request->packate_no) ? floatval(substr($request->packate_no, 3)) : 0,
                 'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
                 'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
                 'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
@@ -2270,7 +2329,7 @@ class DiamondsController extends Controller {
             $price_per_carat = number_format(($total / $request->expected_polish_cts), 2, '.', '');
         }
         $total = number_format($total, 2, ".", "");
-        $imgData = $request->image ? explode(',', $request->image) : [];
+        $imgData = $request->image ? explode(',', $request->image) : [$request->barcode . '.jpg'];
         /* if($request->hasfile('image')) {
             $request->validate([
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -2299,6 +2358,7 @@ class DiamondsController extends Controller {
             'name' => $name,
             'barcode' => isset($request->barcode) ? $request->barcode : 0,
             'packate_no' => isset($request->packate_no) ? $request->packate_no : 0,
+            'packate_no_sort' => isset($request->packate_no) ? substr($request->packate_no, 3) : 0,
             'actual_pcs' => isset($request->actual_pcs) ? $request->actual_pcs : 0,
             'available_pcs' => isset($request->available_pcs) ? $request->available_pcs : 0,
             'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,
@@ -2329,6 +2389,7 @@ class DiamondsController extends Controller {
                     'barcode' => $request->barcode ?? 0,
                     'barcode_search' => $request->barcode ?? 0,
                     'packate_no' => $request->packate_no ?? 0,
+                    'packate_no_sort' => isset($request->packate_no) ? floatval(substr($request->packate_no, 3)) : 0,
                     'actual_pcs' => $request->actual_pcs ?? 0,
                     'available_pcs' => $request->available_pcs ?? 0,
                     'makable_cts' => isset($request->makable_cts) ? number_format($request->makable_cts, 3, '.', '') : 0,

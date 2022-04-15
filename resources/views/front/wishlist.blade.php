@@ -75,7 +75,7 @@
                         <div class="card-body- p-1 text-center">
                             <div class=" mb-2">
                                 <a href="/customer/single-diamonds/{{$r['_source']['barcode']}}">
-                                    <img src="{{ count($r['_source']['image']) ? $r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
+                                    <img src="{{ count($r['_source']['image']) ? '/storage/diamond_images/'.$r['_source']['image'][0] : '/assets/images/No-Preview-Available.jpg' }}" alt="Diamond" class="w-100">
                                 </a>
                             </div>
                             <h5>{{ $r['_source']['expected_polish_cts'] . ' CT ' .  $r['_source']['attributes']['SHAPE'] . ' DIAMOND' }}</h5>

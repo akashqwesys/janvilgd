@@ -3087,6 +3087,9 @@ class CommonController extends Controller
                         "packate_no" => [
                             "type" => "text"
                         ],
+                        "packate_no_sort" => [
+                            "type" => "double"
+                        ],
                         "rapaport_price" => [
                             "type" => "double"
                         ],

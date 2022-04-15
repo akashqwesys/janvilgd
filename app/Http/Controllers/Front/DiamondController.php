@@ -1283,7 +1283,12 @@ class DiamondController extends Controller {
                                 [ 'term' => ['refCategory_id' => ['value' => intval($response['params']['category'])]]]
                             ]
                         ]
-                    ]
+                    ],
+                    'sort' => [
+                        [
+                            'packate_no_sort' => ['order' => 'asc'],
+                        ],
+                    ],
                 ]
             ];
             $data = $client->search($elastic_params);
