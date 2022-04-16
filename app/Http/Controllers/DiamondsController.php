@@ -1708,13 +1708,14 @@ class DiamondsController extends Controller {
                 $id=$batch_row['diamonds_id'];
                 unset($batch_row['type']);
                 unset($batch_row['diamonds_id']);
-                if($type=="create"){
-                    $params["body"][]= [
+                if($type=="create") {
+                    $params["body"][] = [
                         "create" => [
                             "_index" => 'diamonds',
                             "_id" => $id,
                         ]
                     ];
+                    $params["body"][] = $batch_row;
                 } else {
                     $params["body"][] = [
                         "update" => [
@@ -1722,8 +1723,10 @@ class DiamondsController extends Controller {
                             "_id" => $id,
                         ]
                     ];
+                    $params["body"][] = [
+                        "doc" => $batch_row
+                    ];
                 }
-                $params["body"][]= $batch_row;
                 if ($i % 1000 == 0) {
                     $responses = $client->bulk($params);
                     $params = ['body' => []];
