@@ -13,7 +13,7 @@
     var table_scroll = '.search-diamond-table .table-responsive';
     var global_data_offset = 0;
     var stop_on_change = 0;
-    var global_sort_column = 'barcode';
+    var global_sort_column = 'packate_no_sort';
     var global_sort_order = 'asc';
     var global_filter_data = [];
     var global_quick_call = 0;
@@ -319,7 +319,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <table class="table" id="result-table" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left sorting_asc sorting_yes" data-name="barcode" style="width: 8%">Stock No <img src="/admin_assets/images/sort_asc.png"></th>
+                                                        <th scope="col" class="text-left sorting sorting_yes" data-name="barcode" style="width: 8%">Stock No <img src="/admin_assets/images/sort_both.png"></th>
                                                         <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 10%">Shape <img src="/admin_assets/images/sort_both.png"></th>
                                                         @if ($category->slug == '4p-diamonds')
                                                         <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 11%">4P Weight <img src="/admin_assets/images/sort_both.png"></th>
