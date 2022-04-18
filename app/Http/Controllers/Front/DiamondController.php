@@ -1301,7 +1301,7 @@ class DiamondController extends Controller {
             $arr['category'] = $request->params['category'];
             $arr['category_slug'] = $request->params['category_slug'];
             $arr['gateway'] = 'web';
-            $arr['column'] = $request->params['column'] ?? 'barcode';
+            $arr['column'] = $request->params['column'] ?? 'packate_no_sort';
             $arr['asc_desc'] = $request->params['asc_desc'] ?? 'asc';
             $arr['search_barcode'] = null;
             $arr['export'] = 'export';
