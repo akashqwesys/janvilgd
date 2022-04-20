@@ -128,11 +128,11 @@
                             <div class="item" data-hash="slide1">
                                 <div class="carousel-slide-pic">
                                     <div class="slider-video">
-                                        @if(strpos($response['video_link'], 'http') !== 0)
+                                        {{-- @if(strpos($response['video_link'], 'http') !== 0)
                                         <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
-                                        @else
-                                        <iframe width="100%" height="100%" src="{{ $response['video_link'] }}"></iframe>
-                                        @endif
+                                        @else --}}
+                                        <iframe width="100%" height="100%" src="/storage/diamond_videos/{{ $response['video_link'] . '/' . $response['video_link'] . '.html'}}"></iframe>
+                                        {{-- @endif --}}
                                     </div>
                                 </div>
                             </div>
