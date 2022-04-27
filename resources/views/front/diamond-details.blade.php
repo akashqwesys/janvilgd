@@ -127,22 +127,8 @@
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
                         <div class="product--slider">
-                            @if($response['video_link'])
-                            <div class="item" data-hash="slide1">
-                                <div class="carousel-slide-pic">
-                                    <div class="slider-video">
-                                        {{-- @if(strpos($response['video_link'], 'http') !== 0)
-                                        <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
-                                        @else --}}
-                                        <iframe width="100%" height="100%" src="" id="myframe"></iframe>
-                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['barcode'] . '/' . $response['barcode'] . '.html'}}">
-                                        {{-- @endif --}}
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
                             @php
-                            $i=1;
+                            $i=0;
                             $image=($response['image']);
                             if(!empty($image)){
                                 foreach(($response['image']) as $rv) {
@@ -169,6 +155,20 @@
                                 @php
                             }
                             @endphp
+                            @if($response['video_link'])
+                            <div class="item" data-hash="slide{{ $i+1 }}">
+                                <div class="carousel-slide-pic">
+                                    <div class="slider-video">
+                                        {{-- @if(strpos($response['video_link'], 'http') !== 0)
+                                        <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
+                                        @else --}}
+                                        <iframe width="100%" height="100%" src="" id="myframe"></iframe>
+                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['barcode'] . '/' . $response['barcode'] . '.html'}}">
+                                        {{-- @endif --}}
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @if ($certificate)
                             <div>
                                 <div class="item" data-hash="slide{{ ++$i }}">
@@ -182,15 +182,6 @@
                             @endif
                         </div>
                         <div class="product--slider-thumb">
-                            @if($response['video_link'])
-                            <div>
-                                <div class="thumb">
-                                    <div class="thumb-pic">
-                                        <i id="load-iframe" class="fa fa-play-circle" style="font-size: 70px"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
                             @php
                             $i=0;
                             if(!empty($image)){
@@ -218,6 +209,15 @@
                                 @php
                             }
                             @endphp
+                            @if($response['video_link'])
+                            <div>
+                                <div class="thumb">
+                                    <div class="thumb-pic">
+                                        <i id="load-iframe" class="fa fa-play-circle" style="font-size: 70px"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             @if ($certificate)
                             <div>
                                 <div class="thumb">
