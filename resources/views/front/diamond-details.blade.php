@@ -129,12 +129,7 @@
             <div class="row">
                 <div class="col col-12 col-sm-12 col-md-6 col-lg-7">
                     <div class="product---slider">
-                        <div class="overlay cs-loader-video">
-                            <div class="overlay__inner">
-                            <div class="overlay__content"><img src='/assets/images/Janvi_Akashs_Logo_Loader_2.gif'></div>
-                            </div>
-                        </div>
-                        <div class="product--slider">
+                        <div class="product--slider" id="insert-loader">
                             @php
                             $i=0;
                             $image=($response['image']);
@@ -649,5 +644,10 @@
         document.getElementById('myframe').onload = function() {
             $('.cs-loader-video').hide();
         };
+        window.onload = function () {
+            setTimeout(() => {
+                $('#insert-loader').prepend('<div class="overlay cs-loader-video"> <div class="overlay__inner"> <div class="overlay__content"><img src="/assets/images/Janvi_Akashs_Logo_Loader_2.gif"></div> </div> </div>');
+            }, 1000);
+        }
     </script>
     @endsection
