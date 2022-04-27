@@ -70,6 +70,9 @@
     .fs-small {
         font-size: smaller;
     }
+    .fa-play-circle {
+        cursor: pointer;
+    }
 </style>
 @endsection
 @section('content')
@@ -131,7 +134,8 @@
                                         {{-- @if(strpos($response['video_link'], 'http') !== 0)
                                         <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
                                         @else --}}
-                                        <iframe width="100%" height="100%" src="/storage/diamond_videos/{{ $response['video_link'] . '/' . $response['video_link'] . '.html'}}"></iframe>
+                                        <iframe width="100%" height="100%" src="" id="myframe"></iframe>
+                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['video_link'] . '/' . $response['video_link'] . '.html'}}">
                                         {{-- @endif --}}
                                     </div>
                                 </div>
@@ -182,7 +186,7 @@
                             <div>
                                 <div class="thumb">
                                     <div class="thumb-pic">
-                                        <i class="fa fa-play-circle" style="font-size: 70px"></i>
+                                        <i id="load-iframe" class="fa fa-play-circle" style="font-size: 70px"></i>
                                     </div>
                                 </div>
                             </div>
@@ -630,5 +634,12 @@
 				}
 			});
 		});
+        $(document).on('click', '#load-iframe', function () {
+            $('.cs-loader').show();
+            $('iframe').attr('src', $('#iframe-src').val());
+        });
+        document.getElementById('myframe').onload = function() {
+            $('.cs-loader').hide();
+        };
     </script>
     @endsection
