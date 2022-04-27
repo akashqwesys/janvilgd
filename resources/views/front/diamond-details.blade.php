@@ -638,8 +638,10 @@
 			});
 		});
         $(document).on('click', '#load-iframe', function () {
-            $('.cs-loader-video').show();
-            $('iframe').attr('src', $('#iframe-src').val());
+            if ($('iframe').attr('src') == '') {
+                $('.cs-loader-video').show();
+                $('iframe').attr('src', $('#iframe-src').val());
+            }
         });
         document.getElementById('myframe').onload = function() {
             $('.cs-loader-video').hide();
