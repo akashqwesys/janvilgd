@@ -135,7 +135,7 @@
                                         <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
                                         @else --}}
                                         <iframe width="100%" height="100%" src="" id="myframe"></iframe>
-                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['video_link'] . '/' . $response['video_link'] . '.html'}}">
+                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['barcode'] . '/' . $response['barcode'] . '.html'}}">
                                         {{-- @endif --}}
                                     </div>
                                 </div>
