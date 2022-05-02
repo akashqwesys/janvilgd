@@ -158,7 +158,7 @@
                                 @php
                             }
                             @endphp
-                            @if($response['video_link'])
+                            @if ( file_exists( public_path('/storage/diamond_videos/'. $response['packate_no']) ) && is_dir( public_path('/storage/diamond_videos/'. $response['packate_no']) ) )
                             <div class="item" data-hash="slide{{ $i+1 }}">
                                 <div class="carousel-slide-pic">
                                     <div class="slider-video">
@@ -166,7 +166,7 @@
                                         <iframe width="100%" height="100%" src="http://{{ $response['video_link'] }}"></iframe>
                                         @else --}}
                                         <iframe width="100%" height="100%" src="" id="myframe"></iframe>
-                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['barcode'] . '/' . $response['barcode'] . '.html'}}">
+                                        <input id="iframe-src" type="hidden" value="/storage/diamond_videos/{{ $response['packate_no'] . '/' . $response['packate_no'] . '.html'}}">
                                         {{-- @endif --}}
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@
                                 @php
                             }
                             @endphp
-                            @if($response['video_link'])
+                            @if ( file_exists( public_path('/storage/diamond_videos/'. $response['packate_no']) ) && is_dir( public_path('/storage/diamond_videos/'. $response['packate_no']) ) )
                             <div>
                                 <div class="thumb">
                                     <div class="thumb-pic">

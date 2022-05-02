@@ -58,7 +58,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Culet Size',
             'Girdle Percent',
             'Girdle Condition',
-            // 'Measurements',
+            'Measurements',
             'Pavilion Depth',
             'Crown Height',
             'Crown Angle',
@@ -67,10 +67,7 @@ class DiamondExportPolish implements FromCollection, WithHeadings
             'Location',
             'Comment',
             'Video Link',
-            'image-1',
-            'image-2',
-            'image-3',
-            'image-4'
+            'image-1'
         ];
     }
 }

@@ -70,6 +70,9 @@ Route::get('/event/{event_id}/{event_title}', [HomeController::class, 'eventDeta
 Route::get('/media/{media_id}/{media_title}', [HomeController::class, 'mediaDetail']);
 Route::match(['get', 'post'], '/customer/contact', [ContactController::class, 'index']);
 
+Route::get('/d_v/{video}', [HDiamond::class, 'redirectVideos']);
+Route::get('/d_i/{image}', [HDiamond::class, 'redirectImages']);
+
 // Route::post('customer/contact', [ContactController::class, 'index']);
 
 // ---------------- Customer  --------------------

@@ -1424,7 +1424,7 @@ class DiamondController extends Controller {
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$for_discount);
 
                             $dummeyArray = array();
-                            $dummeyArray['BARCODE'] = $row['barcode'];
+                            $dummeyArray['BARCODE'] = $row['packate_no'];
                             $dummeyArray['Availability'] = $row['available_pcs'] == 1 ? 'YES' : 'NO';
                             $dummeyArray['SHAPE'] = $row['attributes']['SHAPE'];
                             $dummeyArray['Weight'] = $row['expected_polish_cts'];
@@ -1445,7 +1445,7 @@ class DiamondController extends Controller {
                             $dummeyArray['Culet Size'] = $row['attributes']['CULET SIZE'] ?? null;
                             $dummeyArray['Girdle Percent'] = $row['attributes']['GIRDLE PERCENT'] ?? null;
                             $dummeyArray['Girdle Condition'] = $row['attributes']['GRIDLE CONDITION'] ?? null;
-                            // $dummeyArray['Measurements'] = $row['attributes']['MEASUREMENTS'] ?? null;
+                            $dummeyArray['Measurements'] = $row['attributes']['MEASUREMENTS'] ?? null;
                             $dummeyArray['Pavilion Depth'] = $row['attributes']['PAVILION DEPTH'] ?? null;
                             $dummeyArray['Crown Height'] = $row['attributes']['CROWN HEIGHT'] ?? null;
                             $dummeyArray['Crown Angle'] = $row['attributes']['CROWN ANGLE'] ?? null;
@@ -1454,11 +1454,17 @@ class DiamondController extends Controller {
                             $dummeyArray['Location']=$row['attributes']['LOCATION'] ?? null;
                             $dummeyArray['Comment']=$row['attributes']['COMMENT'] ?? null;
 
-                            $dummeyArray['Video Link'] = $row['video_link'];
-                            $dummeyArray['image-1'] = $row['image'][0] ?? null;
-                            $dummeyArray['image-2'] = $row['image'][1] ?? null;
-                            $dummeyArray['image-3'] = $row['image'][2] ?? null;
-                            $dummeyArray['image-4'] = $row['image'][3] ?? null;
+                            if ( file_exists( public_path('/storage/diamond_videos/' . $row['packate_no']) ) ) {
+                                $dummeyArray['Video Link'] = url('/d_v/' . $row['packate_no'] . '.html');
+                            } else {
+                                $dummeyArray['Video Link'] = null;
+                            }
+
+                            if (count($row['image']) > 0 && file_exists( public_path('/storage/diamond_images/' . $row['image'][0]) ) ) {
+                                $dummeyArray['image-1'] =  url('/d_i/' . $row['image'][0]);
+                            } else {
+                                $dummeyArray['image-1'] = null;
+                            }
                             array_push($data, $dummeyArray);
                         }
                     }
@@ -1495,6 +1501,17 @@ class DiamondController extends Controller {
                 return response()->download($pdf);
             }
         }
+    }
+
+    public function redirectVideos($video)
+    {
+        $name = explode('.', $video);
+        return redirect('/storage/diamond_videos/' . $name[0] . '/' . $video);
+    }
+
+    public function redirectImages($image)
+    {
+        return redirect('/storage/diamond_images/' . $image);
     }
 
     public function pdfpreview()
