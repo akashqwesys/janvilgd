@@ -319,7 +319,7 @@ if (Session::has('loginId') && Session::has('user-type') && session('user-type')
                                             <table class="table" id="result-table" style="width: 100% !important;">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left sorting sorting_yes" data-name="barcode" style="width: 8%">Stock No <img src="/admin_assets/images/sort_both.png"></th>
+                                                        <th scope="col" class="text-left sorting sorting_yes" data-name="packate_no_sort" style="width: 8%">Stock No <img src="/admin_assets/images/sort_both.png"></th>
                                                         <th scope="col" class="text-center sorting sorting_yes" data-name="SHAPE" style="width: 10%">Shape <img src="/admin_assets/images/sort_both.png"></th>
                                                         @if ($category->slug == '4p-diamonds')
                                                         <th scope="col" class="text-center sorting sorting_yes" data-name="makable_cts" style="width: 11%">4P Weight <img src="/admin_assets/images/sort_both.png"></th>

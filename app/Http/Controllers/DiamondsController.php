@@ -53,7 +53,7 @@ class DiamondsController extends Controller {
                             if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                                 break;
                             }
-                            $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
+                            $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->where('is_deleted', 0)->first();
                             if (!empty($row['barcode'])) {
 
                                 $row['shape']=trim($row['shape']);
@@ -551,7 +551,7 @@ class DiamondsController extends Controller {
                             if (empty($row['barcode']) || $row['barcode'] == 'TOTAL' || $row['barcode'] == 'total' || $row['barcode'] == 'Total') {
                                 break;
                             }
-                            $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->first();
+                            $barcode = DB::table('diamonds')->where('barcode', $row['barcode'])->where('is_deleted', 0)->first();
                             if (!empty($row['barcode'])) {
                                 $row['shape']=trim($row['shape']);
                                 $row['location']=trim(str_replace(' ','', $row['location']));
@@ -931,7 +931,7 @@ class DiamondsController extends Controller {
                             if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
                                 break;
                             }
-                            $barcode = DB::table('diamonds')->where('barcode', $row['certificate'])->first();
+                            $barcode = DB::table('diamonds')->where('barcode', $row['stock'])->where('is_deleted', 0)->first();
                             if (!empty($row['stock'])) {
 
                                 $row['shape']=trim($row['shape']);
@@ -1028,7 +1028,7 @@ class DiamondsController extends Controller {
 
                                 $data_array = [
                                     'name' =>$name,
-                                    'barcode' => $row['certificate'],
+                                    'barcode' => $row['stock'],
                                     'packate_no' => $row['stock'],
                                     'packate_no_sort' => substr($row['stock'], 3),
                                     'available_pcs' => 1,
@@ -1627,8 +1627,8 @@ class DiamondsController extends Controller {
                                         'type'=>'update',
                                         'diamonds_id'=>'d_id_' . $Id,
                                         'name' => $name,
-                                        'barcode' => $row['certificate'],
-                                        'barcode_search' => $row['certificate'],
+                                        'barcode' => $row['stock'],
+                                        'barcode_search' => $row['stock'],
                                         'packate_no' => $row['stock'],
                                         'packate_no_sort' => floatval(substr($row['stock'], 3)),
                                         'actual_pcs' => 0,
@@ -1661,8 +1661,8 @@ class DiamondsController extends Controller {
                                         'weight_loss' => 0,
                                         'is_recommended' => 0,
                                         'name' => $name,
-                                        'barcode' => $row['certificate'],
-                                        'barcode_search' => $row['certificate'],
+                                        'barcode' => $row['stock'],
+                                        'barcode_search' => $row['stock'],
                                         'packate_no' => $row['stock'],
                                         'packate_no_sort' => floatval(substr($row['stock'], 3)),
                                         'makable_cts' => 0,

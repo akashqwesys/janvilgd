@@ -255,9 +255,9 @@ window.addEventListener('resize', function (event) {
     setTimeout(() => {
         $('.rs-scale span:last-child').css('width','0px');
     }, 50);
-    // setTimeout(() => {
-    //     global_resize = false;
-    // }, 1000);
+    setTimeout(() => {
+        global_resize = false;
+    }, 1000);
 }, true);
 
 function loadMoreData() {

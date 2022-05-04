@@ -1424,7 +1424,7 @@ class DiamondController extends Controller {
                             $total=abs($row['rapaport_price']*$row['expected_polish_cts']*$for_discount);
 
                             $dummeyArray = array();
-                            $dummeyArray['BARCODE'] = $row['packate_no'];
+                            $dummeyArray['BARCODE'] = $row['barcode'];
                             $dummeyArray['Availability'] = $row['available_pcs'] == 1 ? 'YES' : 'NO';
                             $dummeyArray['SHAPE'] = $row['attributes']['SHAPE'];
                             $dummeyArray['Weight'] = $row['expected_polish_cts'];
