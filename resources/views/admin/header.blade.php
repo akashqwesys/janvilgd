@@ -238,7 +238,7 @@
                                     @endforeach
                                     <li class="nk-menu-heading">
                                         <a href="/admin/truncate-diamonds">
-                                            <h6 class="overline-title text-primary-alt" id="truncate-diamonds-link"> Truncate PG Diamonds</h6>
+                                            <h6 class="overline-title text-primary-alt" id="truncate-diamonds-link"> Truncate All Diamonds</h6>
                                         </a>
                                     </li>
                                     @if (session()->get('user_email') == 'akash@qweysys.com')
