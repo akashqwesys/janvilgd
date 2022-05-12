@@ -3125,6 +3125,7 @@ class CommonController extends Controller
 
     public function truncateDiamonds()
     {
+        $this->createElasticIndex();
         DB::table('diamonds')->truncate();
         DB::table('diamonds_attributes')->truncate();
 
