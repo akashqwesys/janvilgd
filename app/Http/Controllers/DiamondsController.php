@@ -30,6 +30,8 @@ class DiamondsController extends Controller {
 
         $batch_elastics=array();
 
+        $deleted_ids = [];
+
         $res = Excel::toArray(new DiamondsImport, request()->file('file'));
 
         $attribute_groups = DB::table('attribute_groups')->where('is_active', 1)->where('refCategory_id', $request->refCategory_id)->where('is_deleted', 0)->get();
@@ -931,7 +933,14 @@ class DiamondsController extends Controller {
                             if (empty($row['stock']) || $row['stock'] == 'TOTAL' || $row['stock'] == 'total' || $row['stock'] == 'Total') {
                                 break;
                             }
+
                             $barcode = DB::table('diamonds')->where('barcode', $row['stock'])->where('is_deleted', 0)->first();
+
+                            if (($row['is_deleted'] == 1 || $row['is_deleted'] == '1') && $barcode) {
+                                $deleted_ids[] = $barcode->diamond_id;
+                                continue;
+                            }
+
                             if (!empty($row['stock'])) {
 
                                 $row['shape']=trim($row['shape']);
@@ -1813,6 +1822,20 @@ class DiamondsController extends Controller {
             {
                 DB::table('diamonds_attributes')->insert($new_record_chunk);
             }
+        }
+
+        if (count($deleted_ids)) {
+            $params = ['body' => []];
+            foreach ($deleted_ids as $id) {
+                $params["body"][] = [
+                    "delete" => [
+                        "_index" => 'diamonds',
+                        "_id" => 'd_id_' . $id,
+                    ]
+                ];
+            }
+            $client->bulk($params);
+            DB::table('diamonds')->whereIn('diamond_id', $deleted_ids)->update(['is_deleted' => 1, 'is_active' => 0]);
         }
 
         activity($request, "inserted", 'diamonds');
