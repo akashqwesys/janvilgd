@@ -78,7 +78,7 @@ class DiamondController extends Controller
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                 } else if (in_array($row_data->name, ['Oval Brilliant', 'OV', 'Oval'])) {
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
-                } else if (in_array($row_data->name, ['Cushion', 'CU'])) {
+                } else if (in_array($row_data->name, ['Cushion', 'CU', 'Cushion Modified Brilliant', 'Cushion Brilliant'])) {
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                 } else if (in_array($row_data->name, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
@@ -90,6 +90,8 @@ class DiamondController extends Controller
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
                 } else if (in_array($row_data->name, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                     $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                } else if (in_array($row_data->name, ['Radiant', 'RD'])) {
+                    $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = '/assets/images/d_images/Diamond_Shapes_Radiant_b.svg';
                 }
             } else {
                 $final_attribute_groups_with_att[$row_data->attribute_group_id]['attributes'][$temp_var]['image'] = $row_data->image == 0 ? null : $row_data->image;
@@ -122,7 +124,7 @@ class DiamondController extends Controller
                 } else if (in_array($v->name, ['Oval Brilliant', 'OV', 'Oval'])) {
                     $v->image = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
                     $v->image_g = '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant.svg';
-                } else if (in_array($v->name, ['Cushion', 'CU'])) {
+                } else if (in_array($v->name, ['Cushion', 'CU', 'Cushion Modified Brilliant', 'Cushion Brilliant'])) {
                     $v->image = '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                     $v->image_g = '/assets/images/d_images/Diamond_Shapes_Cushion.svg';
                 } else if (in_array($v->name, ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
@@ -140,6 +142,9 @@ class DiamondController extends Controller
                 } else if (in_array($v->name, ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                     $v->image = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
                     $v->image_g = '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant.svg';
+                } else if (in_array($v->name, ['Radiant', 'RD'])) {
+                    $v->image = '/assets/images/d_images/Diamond_Shapes_Radiant_b.svg';
+                    $v->image_g = '/assets/images/d_images/Diamond_Shapes_Radiant.svg';
                 }
             } else {
                 $v->image = $v->image == 0 ? null : $v->image;
@@ -338,7 +343,7 @@ class DiamondController extends Controller
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                 } else if (in_array($v['_source']['attributes']['SHAPE'], ['Oval Brilliant', 'OV', 'Oval'])) {
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
-                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Cushion', 'CU'])) {
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Cushion', 'CU', 'Cushion Modified Brilliant', 'Cushion Brilliant'])) {
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                 } else if (in_array($v['_source']['attributes']['SHAPE'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
@@ -350,6 +355,8 @@ class DiamondController extends Controller
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
                 } else if (in_array($v['_source']['attributes']['SHAPE'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                     $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                } else if (in_array($v['_source']['attributes']['SHAPE'], ['Radiant', 'RD'])) {
+                    $final_api[$i]['_source']['image'][] = $url.'/assets/images/d_images/Diamond_Shapes_Radiant_b.svg';
                 }
 
                 $final_api[$i]['_source']['discount'] = $v['_source']['discount'];
@@ -469,7 +476,7 @@ class DiamondController extends Controller
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Round_Brilliant_b.svg';
                 } else if (in_array($v->attributes['SHAPE'], ['Oval Brilliant', 'OV', 'Oval'])) {
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Oval_Brilliant_b.svg';
-                } else if (in_array($v->attributes['SHAPE'], ['Cushion', 'CU'])) {
+                } else if (in_array($v->attributes['SHAPE'], ['Cushion', 'CU', 'Cushion Modified Brilliant', 'Cushion Brilliant'])) {
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Cushion_b.svg';
                 } else if (in_array($v->attributes['SHAPE'], ['Pear Brilliant', 'PS', 'Pear', 'PEAR'])) {
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Pear_Brilliant_b.svg';
@@ -481,6 +488,8 @@ class DiamondController extends Controller
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Marquise_b.svg';
                 } else if (in_array($v->attributes['SHAPE'], ['Heart Brilliant', 'HS', 'Heart', 'HEART'])) {
                     $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Heart_Brilliant_b.svg';
+                } else if (in_array($v->attributes['SHAPE'], ['Radiant', 'RD'])) {
+                    $final_d[$i]['image'][] = $url . '/assets/images/d_images/Diamond_Shapes_Radiant_b.svg';
                 }
             } else {
                 $final_d[$i]['image'] = json_decode($v->image);
