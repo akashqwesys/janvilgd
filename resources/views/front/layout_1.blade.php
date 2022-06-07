@@ -446,10 +446,6 @@ function init() {
 		$("input[name='txt_phone[full]'").val(full_number);
 	});
 
-    $(document).on('click', '#whatsapp-inquiry', function() {
-        window.open('https://api.whatsapp.com/send?text=Hi&phone=+919714405421', '_blank');
-	});
-
 	// var iti = window.intlTelInput(input, {
 	// 	utilsScript: "../../build/js/utils.js?1638200991544" // just for formatting/placeholders etc
 	// });
@@ -458,6 +454,11 @@ function init() {
 	// });
 	</script>
 	<script>
+    setTimeout(() => {
+        $(document).on('click', '#whatsapp-inquiry', function() {
+            window.open('https://api.whatsapp.com/send?text=Hi&phone=+919714405421', '_blank');
+        });
+    }, 1000);
 	$(document).ready(function(){
 		AOS.init();
 		<?php
