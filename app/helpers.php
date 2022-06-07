@@ -110,7 +110,7 @@ if (!function_exists('successOrErrorMessage')) {
 function get_settings() {
     return DB::table('settings')
     ->select('key', 'value', 'attachment')
-    ->whereLike('key', 'contact_%')
+    ->whereRaw("key::text ilike 'contact_%'")
     ->get();
 }
 
