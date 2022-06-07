@@ -107,10 +107,17 @@ if (!function_exists('successOrErrorMessage')) {
     }
 }
 
-function get_settings() {
+function get_address_settings() {
     return DB::table('settings')
     ->select('key', 'value', 'attachment')
     ->whereRaw("key::text ilike 'contact_%'")
+    ->get();
+}
+
+function get_social_settings() {
+    return DB::table('settings')
+    ->select('key', 'value', 'attachment')
+    ->whereRaw("key::text ilike 'social_%'")
     ->get();
 }
 

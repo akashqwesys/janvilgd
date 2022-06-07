@@ -349,7 +349,7 @@ function init() {
 							<h4 class="title">Contact Us</h4>
 							<div class="footer-info">
 								<ul class="country_address_links">
-                                    <?php $get_settings = get_settings(); ?>
+                                    <?php $get_settings = get_address_settings(); ?>
 									<li>
 										<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
@@ -383,12 +383,12 @@ function init() {
 									</li>
                                     @endif
 								</ul>
-
+                                <?php $get_socials = get_social_settings(); ?>
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
-									<li class="link-item"><a href="https://www.facebook.com/" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="https://www.instagram.com/" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
-									<li class="link-item"><a href="javascript:;" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="{{ collect($get_socials)->where('key', 'social_facebook')->pluck('value')->first() }}" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="{{ collect($get_socials)->where('key', 'social_instagram')->pluck('value')->first() }}" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>
+									<li class="link-item"><a href="{{ collect($get_socials)->where('key', 'social_whatsapp')->pluck('value')->first() }}" target="_blank"><img src="/{{ check_host() }}assets/images/whatsapp.svg" class="img-fluid" ></a></li>
 								</ul>
 							</div>
 						</div>
