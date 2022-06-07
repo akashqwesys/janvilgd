@@ -265,7 +265,7 @@ function init() {
     @yield('content')
 
 	<div class="live-chat">
-		<button class="live-chat-btn" onclick="openForm()">
+		<button class="live-chat-btn" {{-- onclick="openForm()" --}} id="whatsapp-inquiry">
 			<img src="/{{ check_host() }}assets/images/chat_conversation.svg" alt="chat-icon" class="chat-icon img-fluid" >
 		</button>
 		<div class="chat-popup" id="myForm">
@@ -349,6 +349,7 @@ function init() {
 							<h4 class="title">Contact Us</h4>
 							<div class="footer-info">
 								<ul class="country_address_links">
+                                    <?php $get_settings = get_settings(); ?>
 									<li>
 										<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
@@ -357,28 +358,30 @@ function init() {
 										<div class="location-address">
 											<div class="location_inner">
 												<ul>
-													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
-													<li class="secondli">info@mywebsite.com</li>
-													<li class="thirdli">+1 (291) 939 9321</li>
+													<li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value') }}</li>
+													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value') }}</li>
+													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value') }}</li>
 												</ul>
 											</div>
 										</div>
 									</li>
+                                    @if ($usa_address = collect($get_settings)->where('key', 'contact_usa_address')->pluck('value'))
 									<li>
-									<span class="flag-icon">
+									    <span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
 										</span>
-										<span class="location">India</span>
+										<span class="location">USA</span>
 										<div class="location-address">
 											<div class="location_inner">
 												<ul>
-													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
-													<li class="secondli">info@mywebsite.com</li>
-													<li class="thirdli">+1 (291) 939 9321</li>
+													<li class="firstli">{{ $usa_address }}</li>
+													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value') }}</li>
+													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_usa_mobile')->pluck('value') }}</li>
 												</ul>
 											</div>
 										</div>
 									</li>
+                                    @endif
 								</ul>
 
 								<p class="social-media-link"><span>Connect With :</span></p>
@@ -441,6 +444,10 @@ function init() {
 	$("form").submit(function() {
 		var full_number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
 		$("input[name='txt_phone[full]'").val(full_number);
+	});
+
+    $(document).on('click', '#whatsapp-inquiry', function() {
+        window.open('https://api.whatsapp.com/send?text=Hi&phone=+919714405421', '_blank');
 	});
 
 	// var iti = window.intlTelInput(input, {

@@ -107,6 +107,13 @@ if (!function_exists('successOrErrorMessage')) {
     }
 }
 
+function get_settings() {
+    return DB::table('settings')
+    ->select('key', 'value', 'attachment')
+    ->whereLike('key', 'contact_%')
+    ->get();
+}
+
 function set_selected($desired_value, $new_value) {
     if ($desired_value == $new_value) {
         $str = ' selected="selected" ';

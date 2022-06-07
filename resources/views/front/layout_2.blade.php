@@ -375,7 +375,7 @@ $file = basename($_SERVER["SCRIPT_FILENAME"], '.php');
 				}
 			});
 		} else {
-
+            window.open('https://api.whatsapp.com/send?text=Hi&phone=+919714405421', '_blank');
 		}
 		// window.open('https://api.whatsapp.com/send?text="'+encodeURIComponent(123)+'"&phone=9876543210', '_blank');
 	});
