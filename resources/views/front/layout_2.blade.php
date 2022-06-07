@@ -220,37 +220,40 @@
 							<h4 class="title">Contact Us</h4>
 							<div class="footer-info">
 							<ul class="country_address_links">
-									<li>
-										<span class="flag-icon">
-											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
-										</span>
-										<span class="location">India</span>
-										<div class="location-address">
-											<div class="location_inner">
-												<ul>
-													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
-													<li class="secondli">info@mywebsite.com</li>
-													<li class="thirdli">+1 (291) 939 9321</li>
-												</ul>
-											</div>
-										</div>
-									</li>
-									<li>
-									<span class="flag-icon">
-											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
-										</span>
-										<span class="location">India</span>
-										<div class="location-address">
-											<div class="location_inner">
-												<ul>
-													<li class="firstli">9757 Aspen Lane South Richmond Hill, NY 11419</li>
-													<li class="secondli">info@mywebsite.com</li>
-													<li class="thirdli">+1 (291) 939 9321</li>
-												</ul>
-											</div>
-										</div>
-									</li>
-								</ul>
+                                <?php $get_settings = get_settings(); ?>
+                                <li>
+                                    <span class="flag-icon">
+                                        <img src="/{{ check_host() }}assets/images/india.png" alt="" >
+                                    </span>
+                                    <span class="location">India</span>
+                                    <div class="location-address">
+                                        <div class="location_inner">
+                                            <ul>
+                                                <li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value')->first() }}</li>
+                                                <li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+                                                <li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value')->first() }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                @if ($usa_address = collect($get_settings)->where('key', 'contact_usa_address')->pluck('value')->first())
+                                <li>
+                                    <span class="flag-icon">
+                                        <img src="/{{ check_host() }}assets/images/usa.png" alt="" >
+                                    </span>
+                                    <span class="location">USA</span>
+                                    <div class="location-address">
+                                        <div class="location_inner">
+                                            <ul>
+                                                <li class="firstli">{{ $usa_address }}</li>
+                                                <li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+                                                <li class="thirdli">{{ collect($get_settings)->where('key', 'contact_usa_mobile')->pluck('value')->first() }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+                            </ul>
 
 								<p class="social-media-link"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">

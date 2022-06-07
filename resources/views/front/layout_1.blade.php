@@ -358,14 +358,14 @@ function init() {
 										<div class="location-address">
 											<div class="location_inner">
 												<ul>
-													<li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value') }}</li>
-													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value') }}</li>
-													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value') }}</li>
+													<li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value')->first() }}</li>
+													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value')->first() }}</li>
 												</ul>
 											</div>
 										</div>
 									</li>
-                                    @if ($usa_address = collect($get_settings)->where('key', 'contact_usa_address')->pluck('value'))
+                                    @if ($usa_address = collect($get_settings)->where('key', 'contact_usa_address')->pluck('value')->first())
 									<li>
 									    <span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/usa.png" alt="" >
@@ -375,8 +375,8 @@ function init() {
 											<div class="location_inner">
 												<ul>
 													<li class="firstli">{{ $usa_address }}</li>
-													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value') }}</li>
-													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_usa_mobile')->pluck('value') }}</li>
+													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_usa_mobile')->pluck('value')->first() }}</li>
 												</ul>
 											</div>
 										</div>
