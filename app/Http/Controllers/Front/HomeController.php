@@ -46,6 +46,15 @@ class HomeController extends Controller
                 ->select('gallery_id', 'title', 'image')
                 ->get();
             return view('front.gallery', ["data" => $galleries]);
+        } else if ($request->slug == 'contact') {
+            $country = DB::table('country')
+                ->select('country_id', 'name', 'country_code', DB::raw("cast (country_code as integer) as cc"))
+                ->whereRaw('SUBSTRING(country_code, 1, 1) not in (\'+\',\'-\')')
+                ->where('is_active', 1)->where('is_deleted', 0)
+                ->orderBy('cc', 'asc')
+                ->get();
+            $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
+            return view('front.contact', ["data" => $data, 'country' => $country]);
         } else {
             $data = DB::table('informative_pages')->select('informative_page_id', 'name', 'content', 'slug', 'updated_by', 'is_active', 'date_updated')->where('slug', $request->slug)->first();
             if ($data) {

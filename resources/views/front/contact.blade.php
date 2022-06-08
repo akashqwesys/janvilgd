@@ -1,110 +1,76 @@
 @extends('front.layout_1')
 @section('title', 'Contact Us')
 @section('content')
-<section class="contact-section sub-header">
-    <div class="container">
-        <div class="section-content">
-            <div>
-                <h2 class="title bread-crumb-title">Contact Us</h2>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="contact-info-section">
-    <div class="container">
-        <div class="row">
-            <div class="col col-12 col-md-6">
-                <h2>Contact Details</h2>
-                @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-                @elseif (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('message') }}
-                </div>
-                @endif
-                <form class="contact-form" action="/customer/contact" method="POST">
-                    <div class="form-row">
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="txt_name" name="txt_name" placeholder="Name*" required>
+    <div class="content-wrapper contact-section">
+        <section>
+            <div class="container contact">
+                <div class="row">
+                    <div class="col-md-8 datadiv boxshadow">
+                        <div class="contact-form" action="/customer/contact" method="post">
+                            <h2 style="margin-bottom: 15px">Want us to contact you</h2>
+                            <p style="margin-bottom: 5px">Leave a message</p>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 mb-4"> <label class="control-label" for="name">Name</label>
+                                    <input type="text" class="form-control" id="fname" placeholder="Name" name="txt_name"
+                                        required="" /> </div>
+                                <div class="col-sm-12 col-md-6"> <label class="control-label" for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Email Address"
+                                        name="txt_email" required="" /> </div>
                             </div>
-                        </div>
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <input type="tel" class="form-control" id="txt_phone" name="txt_phone" placeholder="Phone No.*" required>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 mb-4"> <label class="control-label"
+                                        for="subject">Subject</label> <input type="text" class="form-control" id="subject"
+                                        placeholder="Subject" name="txt_subject" required="" /> </div>
+                                <div class="col-sm-12 col-md-6 mb-4"> <label class="control-label" for="phone">Phone
+                                        Number</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <select class="form-control form-select" id="cs-fc" name="country_code">
+                                                @foreach ($country as $c)
+                                                <option value="{{ $c->country_id }}" {{ $c->country_code == 91 ? 'selected' : '' }}> +{{ $c->country_code . ' (' . $c->name . ')'}} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6"> <input class="form-control" id="phone"
+                                                placeholder="Phone Number" name="txt_phone" type="tel" requird="" /> </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="txt_email" name="txt_email" placeholder="Email*" required>
+                            <div class="row">
+                                <div class="col-sm-12 mb-4"> <label class="control-label" for="message">I would like to
+                                        discuss</label>
+                                    <textarea class="form-control" rows="5" id="message" name="txt_msg" placeholder="Message" required=""></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="txt_subject" name="txt_subject" placeholder="Subject*">
-                            </div>
-                        </div>
-                        <div class="col col-12">
-                            <div class="form-group">
-                                <textarea class="form-control" id="txt_msg" name="txt_msg" placeholder="Message*" rows="5" required></textarea>
+                            <div class="row">
+                                <div class="col-sm-offset-2 col-sm-10"> <button id="contact-submit-btn" type="submit"
+                                        class="btn btn-default">Submit</button> </div>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
-            </div>
-            <div class="col col-12 col-md-6">
-                <div class="contact-content">
-                    <h2>Contact us</h2>
-                    <p class="description">
-                        Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas human.
-                    </p>
-                    <ul class="country_address_links">
-                        <li>
-                            <span class="flag-icon">
-                                <img src="assets/images/india.png" alt="" >
-                            </span>
-                            <span class="location">India</span>
-                            <div class="location-address">
-                                <div class="location_inner">
-                                    <p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-                                    <p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-                                    <p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-                                    <p><b>Working hours</b>Monday – Saturday:08AM – 22PM</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="flag-icon">
-                                <img src="assets/images/usa.png" alt="" >
-                            </span>
-                            <span class="location">USA</span>
-                            <div class="location-address">
-                                <div class="location_inner">
-                                    <p class="add"><span>Address :</span>It is a long edad fg fact that a reader will be distr</p>
-                                    <p class="mail"><span>Email :</span><a href="mailto:abc@gmail.com">abc@gmail.com</a></p>
-                                    <p class="phone"><span>Phone No. :</span><a href="tel:+91 4567890923">+91 4567890923</a></p>
-                                    <p><b>Working hours</b>Monday – Saturday:08AM – 22PM</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="col-md-4 infodiv boxshadow">
+                        <div class="contact-info">
+                            <h3>Contact Us</h3> <br />
+                            <?php $get_settings = get_address_settings(); ?>
+                            <ul>
+                                <li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value')->first() }}</li>
+                                <li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+                                <li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value')->first() }}</li>
+                            </ul>
+                            <br />
+                            <a class="btn" href="https://goo.gl/maps/PtNLVBLpCF4tSbnY7">
+                                <img src="assets/images/placeholder.png" width="40%" data-toggle="tooltip"
+                                    data-placement="top" title="" data-original-title="Click to view location" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </section>
     </div>
-</section>
-<section class="map-section pt-0 mb-5">
-    <div class="container">
-        <div class="row">
-            <div class="google-map">
-                <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=new%20york+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
-            </div>
-        </div>
-    </div>
-</section>
+    <script>
+        setTimeout(() => {
+            $('.select2.select2-container').remove();
+        }, 500);
+    </script>
 @endsection
