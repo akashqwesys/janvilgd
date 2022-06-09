@@ -225,7 +225,7 @@
                                     <span class="flag-icon">
                                         <img src="/{{ check_host() }}assets/images/india.png" alt="" >
                                     </span>
-                                    <span class="location">India</span>
+                                    <span class="location">Head Office - Surat</span>
                                     <div class="location-address">
                                         <div class="location_inner">
                                             <ul>
