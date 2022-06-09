@@ -1465,7 +1465,7 @@ class DiamondController extends Controller {
                             }
 
                             if (count($row['image']) > 0 && file_exists( public_path('/storage/diamond_images/' . $row['image'][0]) ) ) {
-                                $dummeyArray['image-1'] =  url('/d_v/' . $row['packate_no'] . '/' . $row['image'][0]);
+                                $dummeyArray['image-1'] =  url('/d_v/' . $row['image'][0]);
                             } else {
                                 $dummeyArray['image-1'] = null;
                             }
