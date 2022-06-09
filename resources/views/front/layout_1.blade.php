@@ -354,13 +354,28 @@ function init() {
 										<span class="flag-icon">
 											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
 										</span>
-										<span class="location">India</span>
+										<span class="location">Head Office - Surat</span>
 										<div class="location-address">
 											<div class="location_inner">
 												<ul>
 													<li class="firstli">{{ collect($get_settings)->where('key', 'contact_indian_address')->pluck('value')->first() }}</li>
 													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
 													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_indian_mobile')->pluck('value')->first() }}</li>
+												</ul>
+											</div>
+										</div>
+									</li>
+									<li>
+										<span class="flag-icon">
+											<img src="/{{ check_host() }}assets/images/india.png" alt="" >
+										</span>
+										<span class="location">Branch Office - Mumbai</span>
+										<div class="location-address">
+											<div class="location_inner">
+												<ul>
+													<li class="firstli">{{ collect($get_settings)->where('key', 'contact_mumbai_address')->pluck('value')->first() }}</li>
+													<li class="secondli">{{ collect($get_settings)->where('key', 'contact_email')->pluck('value')->first() }}</li>
+													<li class="thirdli">{{ collect($get_settings)->where('key', 'contact_mumbai_mobile')->pluck('value')->first() }}</li>
 												</ul>
 											</div>
 										</div>
@@ -384,7 +399,7 @@ function init() {
                                     @endif
 								</ul>
                                 <?php $get_socials = get_social_settings(); ?>
-								<p class="social-media-link"><span>Connect With :</span></p>
+								<p class="social-media-link mt-4"><span>Connect With :</span></p>
 								<ul class="list-unstyled social-link mb-0">
 									<li class="link-item"><a href="{{ collect($get_socials)->where('key', 'social_facebook')->pluck('value')->first() }}" target="_blank"><img src="/{{ check_host() }}assets/images/facebook.svg" class="img-fluid" ></a></li>
 									<li class="link-item"><a href="{{ collect($get_socials)->where('key', 'social_instagram')->pluck('value')->first() }}" target="_blank"><img src="/{{ check_host() }}assets/images/instagram.svg" class="img-fluid" ></a></li>

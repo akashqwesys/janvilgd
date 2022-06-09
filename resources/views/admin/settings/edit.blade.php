@@ -42,7 +42,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <div class="form-control-wrap">
-                                                <input type="text" class="form-control" name="value" id="value" placeholder="Enter value" required="" autocomplete="off" value="{{ $data['result']->value }}">
+                                                <input type="text" class="form-control" name="value" id="value" placeholder="Enter value"  autocomplete="off" value="{{ $data['result']->value }}">
                                             </div>
                                         </div>
                                     </div>
