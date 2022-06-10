@@ -1016,8 +1016,8 @@ class DiamondsController extends Controller {
                                 $total=abs($row['price']*$row['weight']*($row['discount_percent']-1));
                                 $total = number_format($total, 2, ".", "");
                                 $price_per_carat = number_format(($total / $row['weight']), 2, '.', '');
-                                $image = array();
-                                if (!empty($row['image_1'])) {
+                                $image = [$row['stock'] . '.jpg'];
+                                /* if (!empty($row['image_1'])) {
                                     array_push($image, $row['image_1']);
                                 } else {
                                     array_push($image, $row['stock'] . '.jpg');
@@ -1030,7 +1030,7 @@ class DiamondsController extends Controller {
                                 }
                                 if (!empty($row['image_4'])) {
                                     array_push($image, $row['image_4']);
-                                }
+                                } */
                                 $img_json = json_encode($image);
 
                                 $name=$row['weight'].' Carat '.$row['shape'].' Shape  • '.$row['color'].' Color  • '.$row['clarity'].' Clarity :: Polish Diamond';
