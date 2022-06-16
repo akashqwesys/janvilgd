@@ -5214,7 +5214,8 @@ label[for="id_upload"]:hover {
     align-items: center;
     margin: 10px 0;
     list-style: none;
-    line-height: 15px;
+    /* line-height: 15px; */
+    padding-right: 1rem;
 }
 
 .location_inner ul .firstli::before {
