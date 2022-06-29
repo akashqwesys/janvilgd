@@ -47,7 +47,7 @@
                 <table class="table" align="center">
                     <caption>
                         <div class=title-table>
-                            <img src="https://janvi.akashs.in/admin_assets/images/logo-dark.png">
+                            <img src="https://janvilgd.com/admin_assets/images/logo-dark.png">
                             <div class="h3">
                                 Diamonds List - {{ $category->name }}
                             </div>
