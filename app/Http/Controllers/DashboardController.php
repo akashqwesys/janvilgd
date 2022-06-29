@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;

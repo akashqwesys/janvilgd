@@ -6,7 +6,7 @@ use DB;
 use Hash;
 use Session;
 // use DataTables;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class CommonController extends Controller
 {

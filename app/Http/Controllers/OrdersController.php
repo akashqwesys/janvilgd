@@ -10,7 +10,7 @@ use App\Models\Order;
 use DataTables;
 use Excel;
 use App\Imports\DiamondsImport;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\Facades\Validator;
 use PDF;
 use Illuminate\Support\Facades\Mail;

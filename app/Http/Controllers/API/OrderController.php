@@ -15,7 +15,7 @@ use App\Mail\EmailVerification;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class OrderController extends Controller
 {

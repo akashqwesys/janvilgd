@@ -13,7 +13,7 @@ use Excel;
 use Batch;
 use App\Imports\RapaportImport;
 use App\Http\Controllers\API\DiamondController as APIDiamond;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class RapaortController extends Controller
 {

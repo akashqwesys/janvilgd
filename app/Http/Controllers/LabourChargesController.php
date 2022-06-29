@@ -9,7 +9,7 @@ use Session;
 use App\Models\LabourCharges;
 use App\Models\Diamonds;
 use DataTables;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class LabourChargesController extends Controller {
 

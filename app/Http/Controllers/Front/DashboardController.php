@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 // use App\Models\CustomerCompanyDetail;
 use DB;
 // use Carbon\Carbon;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class DashboardController extends Controller {
 

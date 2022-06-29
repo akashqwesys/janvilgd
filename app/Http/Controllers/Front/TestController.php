@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Diamonds;
 use App\Models\DiamondTemp;
 use DB;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 use Elasticsearch\Namespaces\SqlNamespace;
 
 class TestController extends Controller

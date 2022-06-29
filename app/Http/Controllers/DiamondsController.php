@@ -11,7 +11,7 @@ use DataTables;
 use Excel;
 use App\Imports\DiamondsImport;
 use App\Models\DiamondTemp;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
 
 ini_set('memory_limit', '-1');
 class DiamondsController extends Controller {
