@@ -3791,7 +3791,8 @@ class CommonController extends Controller
            return response()->json($data);
        }
    } */
-    public function delete_image(Request $request) {
+
+   public function delete_image(Request $request) {
         if (isset($_REQUEST['table_id'])) {
 
             $result = DB::table($_REQUEST['table'])->where($_REQUEST['wherefield'], $_REQUEST['table_id'])->first();
