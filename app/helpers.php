@@ -139,7 +139,7 @@ function set_cheked($desired_value, $new_value) {
 }
 
 function check_host() {
-    if (request()->getHost() == "127.0.0.1" || request()->getHost() == 'localhost') {
+    if (in_array(request()->getHost(), ['127.0.0.1', 'localhost', '139.59.7.171'])) {
         return '';
     } else {
         return 'public/';
